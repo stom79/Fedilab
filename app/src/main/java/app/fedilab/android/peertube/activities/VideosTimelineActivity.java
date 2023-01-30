@@ -145,7 +145,7 @@ public class VideosTimelineActivity extends BaseBarActivity {
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_delete) {
-            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(VideosTimelineActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(VideosTimelineActivity.this);
             builder.setTitle(R.string.delete_history);
             builder.setMessage(R.string.delete_history_confirm);
             builder.setIcon(android.R.drawable.ic_dialog_alert)

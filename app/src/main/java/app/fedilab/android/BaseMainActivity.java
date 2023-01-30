@@ -605,7 +605,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         popup.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_logout_account) {
-                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity);
                 alt_bld.setTitle(R.string.action_logout);
                 if (currentAccount.mastodon_account != null && currentAccount.instance != null) {
                     alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, currentAccount.mastodon_account.username, currentAccount.instance));
@@ -1567,7 +1567,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 itemShowDMs.setChecked(show_dms);
                 editor.apply();
             } else if (itemId == R.id.action_filter) {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(BaseMainActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(BaseMainActivity.this);
                 LayoutInflater inflater = getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.popup_filter_regex, new LinearLayout(BaseMainActivity.this), false);
                 dialogBuilder.setView(dialogView);
@@ -1888,7 +1888,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
-            AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(BaseMainActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(BaseMainActivity.this);
             alt_bld.setTitle(R.string.action_logout);
             alt_bld.setMessage(getString(R.string.logout_account_confirmation, account.mastodon_account.username, account.instance));
             alt_bld.setPositiveButton(R.string.action_logout, (dialog, id) -> {

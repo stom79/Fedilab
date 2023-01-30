@@ -109,7 +109,7 @@ public class PeertubeEditUploadActivity extends BaseBarActivity {
 
         binding.setUploadDelete.setOnClickListener(v -> {
             AlertDialog.Builder builderInner;
-            builderInner = new MaterialAlertDialogBuilder(PeertubeEditUploadActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+            builderInner = new MaterialAlertDialogBuilder(PeertubeEditUploadActivity.this);
             builderInner.setMessage(getString(R.string.delete_video_confirmation));
             builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
             builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {

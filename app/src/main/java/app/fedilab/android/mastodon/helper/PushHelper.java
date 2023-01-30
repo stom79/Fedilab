@@ -59,7 +59,7 @@ public class PushHelper {
                     Runnable myRunnable = () -> {
                         List<String> distributors = UnifiedPush.getDistributors(context, new ArrayList<>());
                         if (distributors.size() == 0) {
-                            AlertDialog.Builder alert = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+                            AlertDialog.Builder alert = new MaterialAlertDialogBuilder(context);
                             alert.setTitle(R.string.no_distributors_found);
                             final TextView message = new TextView(context);
                             String link = "https://fedilab.app/wiki/features/push-notifications/";
@@ -136,7 +136,7 @@ public class PushHelper {
             return;
         }
 
-        AlertDialog.Builder alert = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+        AlertDialog.Builder alert = new MaterialAlertDialogBuilder(context);
         alert.setTitle(R.string.select_distributors);
         String[] distributorsStr = distributors.toArray(new String[0]);
         alert.setSingleChoiceItems(distributorsStr, -1, (dialog, item) -> {

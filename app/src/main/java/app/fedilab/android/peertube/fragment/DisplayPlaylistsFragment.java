@@ -14,7 +14,7 @@ package app.fedilab.android.peertube.fragment;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
+
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.DataType.MY_CHANNELS;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
@@ -103,7 +103,7 @@ public class DisplayPlaylistsFragment extends Fragment {
         }
 
         binding.addNew.setOnClickListener(view -> {
-            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), dialogStyle());
+            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity());
             bindingAlert = AddPlaylistPeertubeBinding.inflate(getLayoutInflater());
             dialogBuilder.setView(bindingAlert.getRoot());
 

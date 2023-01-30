@@ -697,7 +697,7 @@ public class PinnedTimelineHelper {
                 itemShowDMs.setChecked(show_dms);
                 editor.apply();
             } else if (itemId == R.id.action_filter) {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
                 LayoutInflater inflater = activity.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.popup_filter_regex, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -886,7 +886,7 @@ public class PinnedTimelineHelper {
                     e.printStackTrace();
                 }
             } else if (itemId == R.id.action_any) {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
                 LayoutInflater inflater = activity.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.tags_any, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -915,7 +915,7 @@ public class PinnedTimelineHelper {
                 LayoutInflater inflater;
                 View dialogView;
                 AlertDialog alertDialog;
-                dialogBuilder = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+                dialogBuilder = new MaterialAlertDialogBuilder(activity);
                 inflater = activity.getLayoutInflater();
                 dialogView = inflater.inflate(R.layout.tags_all, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -944,7 +944,7 @@ public class PinnedTimelineHelper {
                 LayoutInflater inflater;
                 View dialogView;
                 AlertDialog alertDialog;
-                dialogBuilder = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+                dialogBuilder = new MaterialAlertDialogBuilder(activity);
                 inflater = activity.getLayoutInflater();
                 dialogView = inflater.inflate(R.layout.tags_all, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -973,7 +973,7 @@ public class PinnedTimelineHelper {
                 LayoutInflater inflater;
                 View dialogView;
                 AlertDialog alertDialog;
-                dialogBuilder = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+                dialogBuilder = new MaterialAlertDialogBuilder(activity);
                 inflater = activity.getLayoutInflater();
                 dialogView = inflater.inflate(R.layout.tags_name, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -1114,7 +1114,7 @@ public class PinnedTimelineHelper {
                     e.printStackTrace();
                 }
             } else if (itemId == R.id.action_exclude_visibility) {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
                 DialogBubbleExcludeVisibilityBinding dialogBinding = DialogBubbleExcludeVisibilityBinding.inflate(activity.getLayoutInflater());
                 dialogBuilder.setView(dialogBinding.getRoot());
                 dialogBuilder.setTitle(R.string.exclude_visibility);
@@ -1208,7 +1208,7 @@ public class PinnedTimelineHelper {
             } else if (itemId == R.id.action_reply_visibility) {
                 AlertDialog.Builder dialogBuilder;
                 AlertDialog alertDialog;
-                dialogBuilder = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+                dialogBuilder = new MaterialAlertDialogBuilder(activity);
                 DialogBubbleReplyVisibilityBinding dialogBinding = DialogBubbleReplyVisibilityBinding.inflate(activity.getLayoutInflater());
                 dialogBuilder.setView(dialogBinding.getRoot());
                 dialogBuilder.setTitle(R.string.reply_visibility);
@@ -1403,7 +1403,7 @@ public class PinnedTimelineHelper {
                 }
             });
             changes[0] = true;
-            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
             LayoutInflater inflater = activity.getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.tags_instance, new LinearLayout(activity), false);
             dialogBuilder.setView(dialogView);
@@ -1497,7 +1497,7 @@ public class PinnedTimelineHelper {
                 LayoutInflater inflater;
                 View dialogView;
                 AlertDialog alertDialog;
-                dialogBuilder = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+                dialogBuilder = new MaterialAlertDialogBuilder(activity);
                 inflater = activity.getLayoutInflater();
                 dialogView = inflater.inflate(R.layout.tags_name, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);
@@ -1527,7 +1527,7 @@ public class PinnedTimelineHelper {
                 alertDialog.show();
             } else if (itemId == R.id.action_nitter_manage_accounts) {
                 String accounts = remoteInstance.host;
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity, Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
                 LayoutInflater inflater = activity.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.tags_any, new LinearLayout(activity), false);
                 dialogBuilder.setView(dialogView);

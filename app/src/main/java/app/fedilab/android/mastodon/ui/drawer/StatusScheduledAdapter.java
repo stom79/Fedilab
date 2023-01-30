@@ -132,7 +132,7 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
 
         });
         holder.binding.delete.setOnClickListener(v -> {
-            AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+            AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context);
             unfollowConfirm.setMessage(context.getString(R.string.remove_scheduled));
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
             unfollowConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {

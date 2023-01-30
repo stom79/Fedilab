@@ -14,7 +14,7 @@ package app.fedilab.android.peertube.drawer;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
+
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.MUTE;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.REPLY;
 
@@ -163,7 +163,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 int itemId = item.getItemId();
                 MaterialAlertDialogBuilder builder;
                 if (itemId == R.id.action_delete) {
-                    builder = new MaterialAlertDialogBuilder(context, dialogStyle());
+                    builder = new MaterialAlertDialogBuilder(context);
                     builder.setTitle(R.string.delete_comment);
                     builder.setMessage(R.string.delete_comment_confirm);
                     builder.setIcon(android.R.drawable.ic_dialog_alert)
@@ -196,7 +196,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         allCommentRemoved.onAllCommentRemoved();
                     }
                 } else if (itemId == R.id.action_remove_comments) {
-                    builder = new MaterialAlertDialogBuilder(context, dialogStyle());
+                    builder = new MaterialAlertDialogBuilder(context);
                     builder.setTitle(R.string.delete_account_comment);
                     builder.setMessage(R.string.delete_account_comment_confirm);
                     builder.setIcon(android.R.drawable.ic_dialog_alert)

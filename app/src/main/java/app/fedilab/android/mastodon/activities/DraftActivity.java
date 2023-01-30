@@ -45,7 +45,6 @@ import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
-import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.drawer.StatusDraftAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
 
@@ -100,7 +99,7 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_delete) {
-            AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(DraftActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(DraftActivity.this);
             unfollowConfirm.setTitle(getString(R.string.delete_all));
             unfollowConfirm.setMessage(getString(R.string.remove_draft));
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());

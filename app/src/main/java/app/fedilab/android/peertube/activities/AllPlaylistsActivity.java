@@ -161,7 +161,7 @@ public class AllPlaylistsActivity extends BaseBarActivity implements PlaylistAda
     public void manageAlert(Playlist playlistParam) {
 
         playlistToEdit = playlistParam;
-        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(AllPlaylistsActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(AllPlaylistsActivity.this);
         bindingDialog = AddPlaylistPeertubeBinding.inflate(LayoutInflater.from(AllPlaylistsActivity.this), null, false);
         dialogBuilder.setView(bindingDialog.getRoot());
 

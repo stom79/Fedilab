@@ -113,7 +113,7 @@ public class ShowAccountActivity extends BaseBarActivity {
             PostActionsVM viewModel = new ViewModelProvider(ShowAccountActivity.this).get(PostActionsVM.class);
             viewModel.post(MUTE, accountAcct == null ? account.getUsername() + "@" + account.getHost() : accountAcct, null).observe(ShowAccountActivity.this, apiResponse -> manageVIewPostActions(MUTE, apiResponse));
         } else if (item.getItemId() == R.id.action_report) {
-            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(ShowAccountActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(ShowAccountActivity.this);
             LayoutInflater inflater1 = getLayoutInflater();
             View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(ShowAccountActivity.this), false);
             dialogBuilder.setView(dialogView);

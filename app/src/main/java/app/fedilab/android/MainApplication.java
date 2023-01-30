@@ -27,8 +27,6 @@ import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.material.color.DynamicColors;
-
 import net.gotev.uploadservice.UploadServiceConfig;
 import net.gotev.uploadservice.observer.request.GlobalRequestObserver;
 
@@ -54,14 +52,9 @@ public class MainApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(MainApplication.this);
         try {
             webView = new WebView(this);
         } catch (Exception ignored) {
-        }
-        boolean dynamicColor = sharedpreferences.getBoolean(getString(R.string.SET_DYNAMICCOLOR), false);
-        if (dynamicColor) {
-            DynamicColors.applyToActivitiesIfAvailable(this);
         }
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());

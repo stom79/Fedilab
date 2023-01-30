@@ -82,18 +82,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (getPreferenceScreen() == null) {
             Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
         }
-        ListPreference SET_THEME_BASE = findPreference(getString(R.string.SET_THEME_BASE));
-        if (SET_THEME_BASE != null) {
-            SET_THEME_BASE.getContext().setTheme(Helper.dialogStyle());
-        }
-        ListPreference SET_THEME_DEFAULT_LIGHT = findPreference(getString(R.string.SET_THEME_DEFAULT_LIGHT));
-        if (SET_THEME_DEFAULT_LIGHT != null) {
-            SET_THEME_DEFAULT_LIGHT.getContext().setTheme(Helper.dialogStyle());
-        }
-        ListPreference SET_THEME_DEFAULT_DARK = findPreference(getString(R.string.SET_THEME_DEFAULT_DARK));
-        if (SET_THEME_DEFAULT_DARK != null) {
-            SET_THEME_DEFAULT_DARK.getContext().setTheme(Helper.dialogStyle());
-        }
+
 
         Preference SET_CUSTOMIZE_LIGHT_COLORS_ACTION = findPreference(getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS_ACTION));
         if (SET_CUSTOMIZE_LIGHT_COLORS_ACTION != null) {
@@ -118,9 +107,8 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
 
         Preference SET_RESET_CUSTOM_COLOR = findPreference(getString(R.string.SET_RESET_CUSTOM_COLOR));
         if (SET_RESET_CUSTOM_COLOR != null) {
-            SET_RESET_CUSTOM_COLOR.getContext().setTheme(Helper.dialogStyle());
             SET_RESET_CUSTOM_COLOR.setOnPreferenceClickListener(preference -> {
-                AlertDialog.Builder resetConfirm = new MaterialAlertDialogBuilder(requireActivity(), Helper.dialogStyle());
+                AlertDialog.Builder resetConfirm = new MaterialAlertDialogBuilder(requireActivity());
                 resetConfirm.setMessage(getString(R.string.reset_color));
                 resetConfirm.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
                 resetConfirm.setPositiveButton(R.string.reset, (dialog, which) -> {

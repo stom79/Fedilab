@@ -93,7 +93,7 @@ public class ManageInstancesActivity extends BaseBarActivity implements AboutIns
     @SuppressLint("ApplySharedPref")
     private void showRadioButtonDialogFullInstances(Activity activity) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+        AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity);
         alt_bld.setTitle(R.string.instance_choice);
         String instance = HelperInstance.getLiveInstance(activity);
         final EditText input = new EditText(activity);

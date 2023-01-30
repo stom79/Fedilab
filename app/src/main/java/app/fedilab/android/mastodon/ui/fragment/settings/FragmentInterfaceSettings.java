@@ -66,7 +66,6 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
         }
         ListPreference SET_LOGO_LAUNCHER = findPreference(getString(R.string.SET_LOGO_LAUNCHER));
         if (SET_LOGO_LAUNCHER != null) {
-            SET_LOGO_LAUNCHER.getContext().setTheme(Helper.dialogStyle());
             SET_LOGO_LAUNCHER.setIcon(LogoHelper.getDrawable(SET_LOGO_LAUNCHER.getValue()));
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());

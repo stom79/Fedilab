@@ -237,7 +237,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else if (finalDoAction == ProfileActivity.action.UNFOLLOW) {
                     boolean confirm_unfollow = sharedpreferences.getBoolean(context.getString(R.string.SET_UNFOLLOW_VALIDATION), true);
                     if (confirm_unfollow) {
-                        AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+                        AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context);
                         unfollowConfirm.setTitle(context.getString(R.string.unfollow_confirm));
                         unfollowConfirm.setMessage(account.acct);
                         unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());

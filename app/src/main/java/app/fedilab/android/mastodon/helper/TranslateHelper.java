@@ -108,7 +108,7 @@ public class TranslateHelper {
                 }
                 j++;
             }
-            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
             builder.setTitle(context.getString(R.string.translate_in));
             builder.setItems(languagesArr, (dialogInterface, i) -> {
                 myTransL.translate(statusToTranslate, codesArr[i], params, new Results() {

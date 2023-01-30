@@ -100,7 +100,7 @@ public class BasePeertubeActivity extends BaseBarActivity {
         if (item.getItemId() == R.id.action_cast) {
             if (PeertubeBaseMainActivity.chromeCasts != null && PeertubeBaseMainActivity.chromeCasts.size() > 0) {
                 String[] chromecast_choice = new String[PeertubeBaseMainActivity.chromeCasts.size()];
-                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(this);
                 alt_bld.setTitle(R.string.chromecast_choice);
                 int i = 0;
                 for (ChromeCast cc : PeertubeBaseMainActivity.chromeCasts) {

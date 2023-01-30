@@ -49,7 +49,7 @@ public class SwitchAccountHelper {
             e.printStackTrace();
         }
 
-        AlertDialog.Builder builderSingle = new MaterialAlertDialogBuilder(activity, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+        AlertDialog.Builder builderSingle = new MaterialAlertDialogBuilder(activity);
         builderSingle.setTitle(activity.getString(R.string.list_of_accounts));
         if (accounts != null) {
             final OwnAccountsAdapter accountsListAdapter = new OwnAccountsAdapter(activity, accounts);

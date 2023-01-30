@@ -172,7 +172,7 @@ public class PeertubeRegisterFragment extends Fragment {
                             return;
                         }
 
-                        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireContext(), app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+                        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
                         dialogBuilder.setCancelable(false);
                         dialogBuilder.setPositiveButton(R.string.validate, (dialog, which) -> {
                             dialog.dismiss();

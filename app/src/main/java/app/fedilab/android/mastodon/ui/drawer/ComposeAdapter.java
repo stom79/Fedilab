@@ -1111,7 +1111,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         context.startActivity(intent);
                     });
                     composeAttachmentItemBinding.buttonDescription.setOnClickListener(v -> {
-                        AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+                        AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
                         builderInner.setTitle(R.string.upload_form_description);
                         PopupMediaDescriptionBinding popupMediaDescriptionBinding = PopupMediaDescriptionBinding.inflate(LayoutInflater.from(context), null, false);
                         builderInner.setView(popupMediaDescriptionBinding.getRoot());
@@ -1173,7 +1173,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
                     composeAttachmentItemBinding.buttonRemove.setOnClickListener(v -> {
-                        AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+                        AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
                         builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                         builderInner.setPositiveButton(R.string.delete, (dialog, which) -> {
                             attachmentList.remove(attachment);
@@ -1302,7 +1302,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.buttonMathsComposer.setVisibility(View.VISIBLE);
                 holder.binding.buttonMathsComposer.setOnClickListener(v -> {
                     int cursorPosition = holder.binding.content.getSelectionStart();
-                    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+                    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
                     Resources res = context.getResources();
                     String[] formatArr = res.getStringArray(R.array.SET_MATHS_FORMAT);
                     builder.setItems(formatArr, (dialogInterface, i) -> {
@@ -1333,7 +1333,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.binding.buttonLocalOnly.setVisibility(View.VISIBLE);
                 }
                 holder.binding.buttonTextFormat.setOnClickListener(v -> {
-                    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+                    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
                     builder.setTitle(context.getString(R.string.post_format));
                     Resources res = context.getResources();
                     String[] formatArr = res.getStringArray(R.array.SET_POST_FORMAT);
@@ -1358,7 +1358,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     builder.create().show();
                 });
                 holder.binding.buttonLocalOnly.setOnClickListener(v -> {
-                    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+                    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
                     builder.setTitle(context.getString(R.string.local_only));
                     Resources res = context.getResources();
                     boolean[] valArr = new boolean[]{false, true};
@@ -1674,7 +1674,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
                 builder.setTitle(context.getString(R.string.message_language));
 
                 builder.setSingleChoiceItems(languagesArr, selection, null);
@@ -1708,7 +1708,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @param position    - int position
      */
     private void displayPollPopup(ComposeViewHolder holder, Status statusDraft, int position) {
-        AlertDialog.Builder alertPoll = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+        AlertDialog.Builder alertPoll = new MaterialAlertDialogBuilder(context);
         alertPoll.setTitle(R.string.create_poll);
         ComposePollBinding composePollBinding = ComposePollBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);
         alertPoll.setView(composePollBinding.getRoot());
@@ -1951,7 +1951,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private void displayEmojiPicker(ComposeViewHolder holder, String instance) throws DBException {
 
-        final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+        final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
         int paddingPixel = 15;
         float density = context.getResources().getDisplayMetrics().density;
         int paddingDp = (int) (paddingPixel * density);

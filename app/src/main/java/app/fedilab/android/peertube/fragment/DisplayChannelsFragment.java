@@ -14,7 +14,7 @@ package app.fedilab.android.peertube.fragment;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
+
 import static app.fedilab.android.peertube.activities.PeertubeUploadActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
 
 import android.Manifest;
@@ -230,7 +230,7 @@ public class DisplayChannelsFragment extends Fragment implements ChannelListAdap
     public void manageAlert(ChannelParams oldChannelValues) {
 
 
-        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context, dialogStyle());
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context);
         bindingDialog = AddChannelPeertubeBinding.inflate(LayoutInflater.from(context), null, false);
         dialogBuilder.setView(bindingDialog.getRoot());
 

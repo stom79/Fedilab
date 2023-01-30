@@ -42,7 +42,6 @@ import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.RemoteInstance;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.exception.DBException;
-import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.itemtouchhelper.ItemTouchHelperAdapter;
 import app.fedilab.android.mastodon.helper.itemtouchhelper.ItemTouchHelperViewHolder;
 import app.fedilab.android.mastodon.helper.itemtouchhelper.OnStartDragListener;
@@ -185,7 +184,7 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         holder.binding.delete.setOnClickListener(v -> {
             if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
-                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context, Helper.dialogStyle());
+                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
                 String title = "";
                 String message = "";
                 alt_bld.setTitle(R.string.action_lists_delete);

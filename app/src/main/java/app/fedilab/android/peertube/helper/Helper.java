@@ -19,7 +19,6 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.mastodon.helper.Helper.dialogStyle;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 
 import android.Manifest;
@@ -555,7 +554,7 @@ public class Helper {
      * @param url     String download url
      */
     public static void manageDownloads(final Context context, final String url) {
-        final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context, dialogStyle());
+        final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
         final DownloadManager.Request request;
         try {
             request = new DownloadManager.Request(Uri.parse(url.trim()));
@@ -590,7 +589,7 @@ public class Helper {
      * @param currentAccount BaseAccount
      */
     public static void logoutCurrentUser(Activity activity, BaseAccount currentAccount) {
-        AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity, dialogStyle());
+        AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity);
         alt_bld.setTitle(R.string.action_logout);
         if (currentAccount.mastodon_account != null && currentAccount.mastodon_account.username != null && currentAccount.instance != null) {
             alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, currentAccount.mastodon_account.username, currentAccount.instance));

@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.fedilab.android.R;
-import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.PushHelper;
 import app.fedilab.android.mastodon.helper.settings.TimePreference;
 import app.fedilab.android.mastodon.helper.settings.TimePreferenceDialogFragment;
@@ -80,9 +79,6 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
 
 
         ListPreference SET_NOTIFICATION_TYPE = findPreference(getString(R.string.SET_NOTIFICATION_TYPE));
-        if (SET_NOTIFICATION_TYPE != null) {
-            SET_NOTIFICATION_TYPE.getContext().setTheme(Helper.dialogStyle());
-        }
         String[] notificationValues = getResources().getStringArray(R.array.SET_NOTIFICATION_TYPE_VALUE);
         if (SET_NOTIFICATION_TYPE != null && SET_NOTIFICATION_TYPE.getValue().equals(notificationValues[2])) {
             PreferenceCategory notification_sounds = findPreference("notification_sounds");
@@ -107,10 +103,6 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
             }
             return;
         } else if (SET_NOTIFICATION_TYPE != null && SET_NOTIFICATION_TYPE.getValue().equals(notificationValues[1])) {
-            ListPreference SET_NOTIFICATION_DELAY_VALUE = findPreference(getString(R.string.SET_NOTIFICATION_DELAY_VALUE));
-            if (SET_NOTIFICATION_DELAY_VALUE != null) {
-                SET_NOTIFICATION_DELAY_VALUE.getContext().setTheme(Helper.dialogStyle());
-            }
             ListPreference SET_PUSH_DISTRIBUTOR = findPreference("SET_PUSH_DISTRIBUTOR");
             if (SET_PUSH_DISTRIBUTOR != null) {
                 preferenceScreen.removePreferenceRecursively("SET_PUSH_DISTRIBUTOR");
@@ -122,7 +114,6 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
             }
             ListPreference SET_PUSH_DISTRIBUTOR = findPreference(getString(R.string.SET_PUSH_DISTRIBUTOR));
             if (SET_PUSH_DISTRIBUTOR != null) {
-                SET_PUSH_DISTRIBUTOR.getContext().setTheme(Helper.dialogStyle());
                 List<String> distributors = UnifiedPush.getDistributors(requireActivity(), new ArrayList<>());
                 SET_PUSH_DISTRIBUTOR.setValue(UnifiedPush.getDistributor(requireActivity()));
                 SET_PUSH_DISTRIBUTOR.setEntries(distributors.toArray(new String[0]));

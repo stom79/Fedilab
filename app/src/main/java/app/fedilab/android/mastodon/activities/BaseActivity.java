@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.color.DynamicColors;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.one.EmojiOneProvider;
 
@@ -53,6 +54,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         boolean patch_provider = true;
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         try {
@@ -142,6 +144,10 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
         super.onCreate(savedInstanceState);
+        boolean dynamicColor = sharedpreferences.getBoolean(getString(R.string.SET_DYNAMICCOLOR), false);
+        if (dynamicColor) {
+            DynamicColors.applyToActivityIfAvailable(this);
+        }
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
             ThemeHelper.adjustFontScale(this, getResources().getConfiguration());
         }

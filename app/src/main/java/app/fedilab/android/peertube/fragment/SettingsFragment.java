@@ -329,18 +329,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         //****** App theme *******
         final SharedPreferences sharedpref = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        ListPreference SET_THEME_BASE = findPreference(getString(R.string.SET_THEME_BASE));
-        if (SET_THEME_BASE != null) {
-            SET_THEME_BASE.getContext().setTheme(app.fedilab.android.mastodon.helper.Helper.dialogStyle());
-        }
-        ListPreference SET_THEME_DEFAULT_LIGHT = findPreference(getString(R.string.SET_THEME_DEFAULT_LIGHT));
-        if (SET_THEME_DEFAULT_LIGHT != null) {
-            SET_THEME_DEFAULT_LIGHT.getContext().setTheme(app.fedilab.android.mastodon.helper.Helper.dialogStyle());
-        }
-        ListPreference SET_THEME_DEFAULT_DARK = findPreference(getString(R.string.SET_THEME_DEFAULT_DARK));
-        if (SET_THEME_DEFAULT_DARK != null) {
-            SET_THEME_DEFAULT_DARK.getContext().setTheme(app.fedilab.android.mastodon.helper.Helper.dialogStyle());
-        }
 
 
         //****** Video mode *******

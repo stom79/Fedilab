@@ -121,7 +121,7 @@ public class CacheActivity extends BaseBarActivity {
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_clear) {
-            AlertDialog.Builder deleteConfirm = new MaterialAlertDialogBuilder(CacheActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder deleteConfirm = new MaterialAlertDialogBuilder(CacheActivity.this);
             deleteConfirm.setTitle(getString(R.string.delete_cache));
             deleteConfirm.setMessage(getString(R.string.delete_cache_message));
             deleteConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
@@ -131,7 +131,7 @@ public class CacheActivity extends BaseBarActivity {
                         size = size / 1000000.0f;
                     }
                     binding.fileCacheSize.setText(String.format("%s %s", String.format(Locale.getDefault(), "%.2f", size), getString(R.string.cache_units)));
-                    AlertDialog.Builder restartBuilder = new MaterialAlertDialogBuilder(CacheActivity.this, Helper.dialogStyle());
+                    AlertDialog.Builder restartBuilder = new MaterialAlertDialogBuilder(CacheActivity.this);
                     restartBuilder.setMessage(getString(R.string.restart_the_app));
                     restartBuilder.setNegativeButton(R.string.no, (dialogRestart, whichRestart) -> {
                         recreate();

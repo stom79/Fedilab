@@ -108,7 +108,7 @@ public class FragmentLoginPickInstancePeertube extends Fragment implements Insta
             itemsKeyLanguage = new String[languages.size()];
 
             binding.pickupLanguages.setOnClickListener(v -> {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireContext(), app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
 
                 int i = 0;
                 if (languages.size() > 0) {
@@ -175,7 +175,7 @@ public class FragmentLoginPickInstancePeertube extends Fragment implements Insta
 
 
             binding.pickupCategories.setOnClickListener(v -> {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireContext(), app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
                 int i = 0;
                 if (categories.size() > 0) {
                     Iterator<Map.Entry<Integer, String>> it = categories.entrySet().iterator();

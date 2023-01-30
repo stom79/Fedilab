@@ -129,7 +129,7 @@ public class AdminDomainBlockActivity extends BaseBarActivity {
             return true;
         } else if (itemId == R.id.action_delete) {
             if (adminDomainBlock.id != null) {
-                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(AdminDomainBlockActivity.this, Helper.dialogStyle());
+                AlertDialog.Builder builder = new MaterialAlertDialogBuilder(AdminDomainBlockActivity.this);
                 builder.setMessage(getString(R.string.unblock_domain_confirm, adminDomainBlock.domain));
                 builder
                         .setPositiveButton(R.string.unblock_domain, (dialog, which) -> {

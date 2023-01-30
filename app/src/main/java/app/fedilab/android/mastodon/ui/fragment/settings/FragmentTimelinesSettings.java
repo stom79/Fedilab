@@ -26,7 +26,6 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
-import app.fedilab.android.mastodon.helper.Helper;
 
 public class FragmentTimelinesSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -42,18 +41,11 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         addPreferencesFromResource(R.xml.pref_timelines);
         PreferenceScreen preferenceScreen = getPreferenceScreen();
-        ListPreference SET_LOAD_MEDIA_TYPE = findPreference(getString(R.string.SET_LOAD_MEDIA_TYPE));
-        if (SET_LOAD_MEDIA_TYPE != null) {
-            SET_LOAD_MEDIA_TYPE.getContext().setTheme(Helper.dialogStyle());
-        }
+
         ListPreference SET_TRANSLATOR = findPreference(getString(R.string.SET_TRANSLATOR));
-        if (SET_TRANSLATOR != null) {
-            SET_TRANSLATOR.getContext().setTheme(Helper.dialogStyle());
-        }
+
         ListPreference SET_TRANSLATOR_VERSION = findPreference(getString(R.string.SET_TRANSLATOR_VERSION));
-        if (SET_TRANSLATOR_VERSION != null) {
-            SET_TRANSLATOR_VERSION.getContext().setTheme(Helper.dialogStyle());
-        }
+
         EditTextPreference SET_TRANSLATOR_API_KEY = findPreference(getString(R.string.SET_TRANSLATOR_API_KEY));
         if (SET_TRANSLATOR != null && SET_TRANSLATOR.getValue().equals("FEDILAB")) {
             if (SET_TRANSLATOR_API_KEY != null) {

@@ -90,7 +90,7 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
             onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.action_unfollow && tag != null) {
-            AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(FollowedTagActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(FollowedTagActivity.this);
             alt_bld.setTitle(R.string.action_unfollow_tag);
             alt_bld.setMessage(R.string.action_unfollow_tag_confirm);
             alt_bld.setPositiveButton(R.string.unfollow, (dialog, id) -> {
@@ -122,7 +122,7 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
             AlertDialog alert = alt_bld.create();
             alert.show();
         } else if (item.getItemId() == R.id.action_follow_tag) {
-            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(FollowedTagActivity.this, Helper.dialogStyle());
+            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(FollowedTagActivity.this);
             PopupAddFollowedTagtBinding popupAddFollowedTagtBinding = PopupAddFollowedTagtBinding.inflate(getLayoutInflater());
             dialogBuilder.setView(popupAddFollowedTagtBinding.getRoot());
             popupAddFollowedTagtBinding.addTag.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});

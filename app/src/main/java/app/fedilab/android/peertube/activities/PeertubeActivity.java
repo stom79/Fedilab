@@ -679,7 +679,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     }
 
     private void reportAlert(RetrofitPeertubeAPI.ActionType type, AlertDialog alertDialog) {
-        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this);
         LayoutInflater inflater1 = getLayoutInflater();
         View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(PeertubeActivity.this), false);
         dialogBuilder.setView(dialogView);
@@ -879,7 +879,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         });
 
         binding.videoInformation.setOnClickListener(v -> {
-            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this);
 
             PopupVideoInfoPeertubeBinding videoInfo = PopupVideoInfoPeertubeBinding.inflate(getLayoutInflater());
 
@@ -1109,7 +1109,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 } else if (itemId == R.id.action_report) {
                     AlertDialog alertDialog;
                     AlertDialog.Builder dialogBuilder;
-                    dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+                    dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this);
                     LayoutInflater inflater1 = getLayoutInflater();
                     View dialogView = inflater1.inflate(R.layout.popup_report_choice, new LinearLayout(PeertubeActivity.this), false);
                     dialogBuilder.setView(dialogView);
@@ -1241,7 +1241,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (promptNSFW && peertube != null && peertube.isNsfw() && (nsfwAction.compareTo(Helper.BLUR) == 0 || nsfwAction.compareTo(Helper.DO_NOT_LIST) == 0)) {
             AlertDialog alertDialog;
             AlertDialog.Builder dialogBuilder;
-            dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+            dialogBuilder = new MaterialAlertDialogBuilder(PeertubeActivity.this);
             dialogBuilder.setTitle(R.string.nsfw_title_warning);
             dialogBuilder.setCancelable(false);
             dialogBuilder.setMessage(R.string.nsfw_message_warning);
@@ -2033,7 +2033,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             return;
         }
         if (apiResponse.getPlaylists() != null && apiResponse.getPlaylists().size() > 0) {
-            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(PeertubeActivity.this, app.fedilab.android.mastodon.helper.Helper.dialogStyle());
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(PeertubeActivity.this);
             builder.setTitle(R.string.modify_playlists);
 
             List<PlaylistData.Playlist> ownerPlaylists = apiResponse.getPlaylists();
