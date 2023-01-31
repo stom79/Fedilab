@@ -146,7 +146,15 @@ public class FragmentMastodonTag extends Fragment {
         });
         if (tags == null || tags.size() == 0) {
             if (requireActivity() instanceof SearchResultTabActivity) {
-                ((SearchResultTabActivity) requireActivity()).moveToAccount();
+                ((SearchResultTabActivity) requireActivity()).tagEmpty = true;
+                if (((SearchResultTabActivity) requireActivity()).accountEmpty != null) {
+                    if (((SearchResultTabActivity) requireActivity()).accountEmpty) {
+                        ((SearchResultTabActivity) requireActivity()).moveToMessage();
+                    } else {
+                        ((SearchResultTabActivity) requireActivity()).moveToAccount();
+                    }
+                }
+
             }
             binding.recyclerView.setVisibility(View.GONE);
             binding.noAction.setVisibility(View.VISIBLE);

@@ -70,6 +70,7 @@ public class SearchResultTabActivity extends BaseBarActivity {
     private String search;
     private ActivitySearchResultTabsBinding binding;
     private TabLayout.Tab initial;
+    public Boolean tagEmpty, accountEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -277,7 +278,15 @@ public class SearchResultTabActivity extends BaseBarActivity {
 
 
     public void moveToAccount() {
+        tagEmpty = null;
+        accountEmpty = null;
         binding.searchViewpager.setCurrentItem(1);
+    }
+
+    public void moveToMessage() {
+        tagEmpty = null;
+        accountEmpty = null;
+        binding.searchViewpager.setCurrentItem(2);
     }
 
     /**

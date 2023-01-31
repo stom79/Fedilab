@@ -36,6 +36,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
+import app.fedilab.android.mastodon.activities.SearchResultTabActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Accounts;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
@@ -223,9 +224,24 @@ public class FragmentMastodonAccount extends Fragment {
             router(true);
         });
         if (accounts == null || accounts.accounts == null || accounts.accounts.size() == 0) {
+            if (requireActivity() instanceof SearchResultTabActivity) {
+                ((SearchResultTabActivity) requireActivity()).accountEmpty = true;
+                if (((SearchResultTabActivity) requireActivity()).tagEmpty != null) {
+                    if (((SearchResultTabActivity) requireActivity()).tagEmpty) {
+                        ((SearchResultTabActivity) requireActivity()).moveToMessage();
+                    }
+                }
+            }
             binding.noAction.setVisibility(View.VISIBLE);
             binding.noActionText.setText(R.string.no_accounts);
             return;
+        }
+        if (requireActivity() instanceof SearchResultTabActivity) {
+            if (((SearchResultTabActivity) requireActivity()).tagEmpty != null) {
+                if (((SearchResultTabActivity) requireActivity()).tagEmpty) {
+                    ((SearchResultTabActivity) requireActivity()).moveToAccount();
+                }
+            }
         }
         binding.recyclerView.setVisibility(View.VISIBLE);
         if (accountAdapter != null && this.accounts != null) {
