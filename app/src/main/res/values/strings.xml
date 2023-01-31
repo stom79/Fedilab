@@ -2231,4 +2231,5 @@
 
     <string name="compose_shortcut_short_label1">Compose</string>
     <string name="toast_error_peertube_not_supported">Your Peertube is too old and cannot be supported by the app.</string>
+    <string name="otp_message">Two factor authentication token</string>
 </resources>

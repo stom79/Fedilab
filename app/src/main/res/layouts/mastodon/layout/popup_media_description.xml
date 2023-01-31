@@ -42,6 +42,7 @@
             android:layout_alignBottom="@+id/media_picture"
             android:layout_marginHorizontal="6dp"
             android:layout_marginTop="10dp"
+            android:textAlignment="textStart"
             android:inputType="textMultiLine|textCapSentences"
             android:minLines="3"
             app:layout_constraintEnd_toEndOf="parent"

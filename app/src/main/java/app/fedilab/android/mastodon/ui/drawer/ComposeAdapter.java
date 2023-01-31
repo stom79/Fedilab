@@ -1112,7 +1112,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     });
                     composeAttachmentItemBinding.buttonDescription.setOnClickListener(v -> {
                         AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
-                        builderInner.setTitle(R.string.upload_form_description);
+                       // builderInner.setTitle(R.string.upload_form_description);
                         PopupMediaDescriptionBinding popupMediaDescriptionBinding = PopupMediaDescriptionBinding.inflate(LayoutInflater.from(context), null, false);
                         builderInner.setView(popupMediaDescriptionBinding.getRoot());
 
