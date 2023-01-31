@@ -1,8 +1,9 @@
 package de.timfreiheit.mathjax.android;
 
 
+
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
+import android.app.Application;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
@@ -91,7 +92,7 @@ public class MathJaxView extends FrameLayout {
         }
     }
 
-    public static String getProcessName(Context context) {
+   /* public static String getProcessName(Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningAppProcessInfo processInfo : manager.getRunningAppProcesses()) {
             if (processInfo.pid == android.os.Process.myPid()) {
@@ -100,10 +101,16 @@ public class MathJaxView extends FrameLayout {
         }
 
         return null;
-    }
+    }*/
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     private void init(Context context, AttributeSet attrSet, MathJaxConfig config) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            String process = Application.getProcessName();
+            if (!context.getPackageName().equals(process))
+                WebView.setDataDirectorySuffix(process);
+        }
         mWebView = new WebView(context);
 
         int gravity = Gravity.START;
@@ -170,11 +177,7 @@ public class MathJaxView extends FrameLayout {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            String process = getProcessName(context);
-            if (!context.getPackageName().equals(process))
-                WebView.setDataDirectorySuffix(process);
-        }
+
     }
 
     /**

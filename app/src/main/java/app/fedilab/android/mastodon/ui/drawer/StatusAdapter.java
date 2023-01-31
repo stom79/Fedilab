@@ -2434,26 +2434,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public List<Attachment> getPreloadItems(int position) {
         List<Attachment> attachments = new ArrayList<>();
-        if (position == 0 && statusList.size() > 0) {
-            for (Status status : statusList.subList(0, 1)) {
-                Status statusToDeal = status.reblog != null ? status.reblog : status;
-                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
-                    attachments.addAll(statusToDeal.media_attachments);
-                }
-            }
-        } else if (position > 0 && position < (statusList.size() - 1)) {
-            for (Status status : statusList.subList(position - 1, position + 1)) {
-                Status statusToDeal = status.reblog != null ? status.reblog : status;
-                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
-                    attachments.addAll(statusToDeal.media_attachments);
-                }
-            }
-        } else {
-            for (Status status : statusList.subList(position, position)) {
-                Status statusToDeal = status.reblog != null ? status.reblog : status;
-                if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
-                    attachments.addAll(statusToDeal.media_attachments);
-                }
+        int max_size = statusList.size();
+        int siblings = 3;
+        int from = Math.max((position - siblings), 0);
+        if (from > max_size - 1) {
+            from = max_size - 1;
+        }
+        int to = Math.min(position + siblings, max_size - 1);
+        for (Status status : statusList.subList(from, to)) {
+            Status statusToDeal = status.reblog != null ? status.reblog : status;
+            if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+                attachments.addAll(statusToDeal.media_attachments);
             }
         }
         return attachments;
