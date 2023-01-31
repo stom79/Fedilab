@@ -698,6 +698,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 } else {
                     try {
                         BaseAccount account = new Account(activity).getUniqAccount(userIdIntent, instanceIntent);
+                        if (account == null) {
+                            return;
+                        }
                         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
                         headerMenuOpen = false;
                         String acct = "";
