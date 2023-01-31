@@ -421,7 +421,7 @@
     <string name="saving">Salvando…</string>
     <string name="image_saved">Imagem salva!</string>
     <string name="save_image_failed">Falha ao salvar imagem</string>
-    <string name="add_poll_item">Adicionar um item</string>
+    <string name="add_poll_item">Adicionar uma opção</string>
     <string name="mute_conversation">Silenciar conversação</string>
     <string name="unmute_conversation">Remover silenciar da conversação</string>
     <string name="toast_unmute_conversation">A conversação não está mais silenciada!</string>
@@ -905,4 +905,5 @@
     <string name="proxy_protocol_http">HTTP</string>
     <string name="set_maths_support">Escrever fórmula</string>
     <string name="show_privates">Mostrar mensagens diretas</string>
+    <string name="about_peertube">\"PeerTube é uma ferramenta para compartilhar vídeos online desenvolvida pela Framasoft, uma organização francesa sem fins lucrativos.…PeerTube permite que as plataformas sejam conectadas umas às outras, criando uma grande rede de plataformas autônomas e interconectadas.\"</string>
 </resources>
