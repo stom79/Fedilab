@@ -793,6 +793,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                     Request request = new Request.Builder()
                                             .url(potentialUrl)
                                             .build();
+                                    String finalPotentialUrl = potentialUrl;
                                     client.newCall(request).enqueue(new Callback() {
                                         @Override
                                         public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -869,6 +870,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
+                                            } else if (response.code() == 103) {
+                                                activity.runOnUiThread(() -> {
+                                                    Bundle b = new Bundle();
+                                                    b.putString(Helper.ARG_SHARE_DESCRIPTION, finalPotentialUrl);
+                                                    CrossActionHelper.doCrossShare(activity, b);
+                                                });
                                             } else {
                                                 activity.runOnUiThread(() -> Toasty.warning(activity, activity.getString(R.string.toast_error), Toast.LENGTH_LONG).show());
                                             }

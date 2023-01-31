@@ -959,14 +959,14 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         if (description != null && description.trim().length() > 0) {
             if (url != null && !description.contains(url)) {
-                statusList.get(position).text += url + "\n";
+                statusList.get(position).text += url + "\n>";
             }
-            statusList.get(position).text += ">" + description + "\n\n";
+            statusList.get(position).text += description + "\n\n";
         } else if (content != null && content.trim().length() > 0) {
             if (!content.contains(url)) {
-                statusList.get(position).text += url + "\n";
+                statusList.get(position).text += url + "\n>";
             }
-            statusList.get(position).text += ">" + content + "\n\n";
+            statusList.get(position).text += content + "\n\n";
         } else {
             statusList.get(position).text += url + "\n\n";
         }
