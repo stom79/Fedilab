@@ -421,7 +421,7 @@
     <string name="saving">Salvando…</string>
     <string name="image_saved">Imagem salva!</string>
     <string name="save_image_failed">Falha ao salvar imagem</string>
-    <string name="add_poll_item">Adicionar um item</string>
+    <string name="add_poll_item">Adicionar uma opção</string>
     <string name="mute_conversation">Silenciar conversação</string>
     <string name="unmute_conversation">Remover silenciar da conversação</string>
     <string name="toast_unmute_conversation">A conversação não está mais silenciada!</string>
