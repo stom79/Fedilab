@@ -981,4 +981,6 @@
     <string name="proxy_protocol">Protocolo</string>
     <string name="proxy_protocol_socks">SOCKS</string>
     <string name="about_peertube">\"PeerTube é unha ferramenta desenvolta por Framasoft (organización sen ánimo de lucro) para compartir vídeos en internet. PeerTube permite que unhas plataformas se conecten con outras, creando unha gran rede na que as partes son autónomas e están interconectadas.\"</string>
+    <string name="compose_shortcut_short_label1">Redactar</string>
+    <string name="toast_error_peertube_not_supported">O teu Peertube é demasiado antigo e non pode usarse coa app.</string>
 </resources>
