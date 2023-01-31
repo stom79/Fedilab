@@ -977,4 +977,8 @@
     <string name="filter_languages">Filtra is limbas</string>
     <string name="translate_in">Borta in</string>
     <string name="proxy_protocol_socks">SOCKS</string>
+    <string name="about_peertube">\"PeerTube est unu traste pro cumpartzire vìdeos in lìnia isvilupadu dae Framasoft, un\'organizatzione frantzesa chene punna de lucru.…PeerTube permitit a sas prataformas de si collegare s\'una cun s\'àtera, creende una rete manna de prataformas chi sunt siat autònomas siat connessas.\"</string>
+    <string name="compose_shortcut_short_label1">Cumpone</string>
+    <string name="toast_error_peertube_not_supported">Su PeerTube tuo est tropu betzu e non podet èssere suportadu dae s\'aplicatzione.</string>
+    <string name="otp_message">Getone de autenticatzione a duos fatores</string>
 </resources>
