@@ -905,4 +905,5 @@
     <string name="proxy_protocol_http">HTTP</string>
     <string name="set_maths_support">Escrever fórmula</string>
     <string name="show_privates">Mostrar mensagens diretas</string>
+    <string name="about_peertube">\"PeerTube é uma ferramenta para compartilhar vídeos online desenvolvida pela Framasoft, uma organização francesa sem fins lucrativos.…PeerTube permite que as plataformas sejam conectadas umas às outras, criando uma grande rede de plataformas autônomas e interconectadas.\"</string>
 </resources>
