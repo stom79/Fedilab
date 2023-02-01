@@ -90,17 +90,13 @@ public class FetchHomeWorker extends Worker {
     @Override
     public ListenableFuture<ForegroundInfo> getForegroundInfoAsync() {
         if (Build.VERSION.SDK_INT >= 26) {
-            String channelName = "Notifications";
-            String channelDescription = "Fetched notifications";
-            NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_LOW);
-            notifChannel.setDescription(channelDescription);
-            notifChannel.setSound(null, null);
-            notifChannel.setShowBadge(false);
-            notificationManager.createNotificationChannel(notifChannel);
-            if (notificationManager.getNotificationChannel("notifications") != null) {
-                notificationManager.deleteNotificationChannel("notifications");
-            }
-
+            String channelName = "Fetch Home";
+            String channelDescription = "Fetch home messages";
+            NotificationChannel fetchHomeChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_LOW);
+            fetchHomeChannel.setDescription(channelDescription);
+            fetchHomeChannel.setSound(null, null);
+            fetchHomeChannel.setShowBadge(false);
+            notificationManager.createNotificationChannel(fetchHomeChannel);
         }
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
         notificationBuilder.setSmallIcon(R.drawable.ic_notification)
@@ -115,20 +111,20 @@ public class FetchHomeWorker extends Worker {
     @NonNull
     private ForegroundInfo createForegroundInfo() {
         if (Build.VERSION.SDK_INT >= 26) {
-            String channelName = "Notifications";
-            String channelDescription = "Fetched notifications";
-            NotificationChannel notifChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_LOW);
-            notifChannel.setSound(null, null);
-            notifChannel.setShowBadge(false);
-            notifChannel.setDescription(channelDescription);
-            notificationManager.createNotificationChannel(notifChannel);
+            String channelName = "Fetch Home";
+            String channelDescription = "Fetch home messages";
+            NotificationChannel fetchHomeChannel = new NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_LOW);
+            fetchHomeChannel.setSound(null, null);
+            fetchHomeChannel.setShowBadge(false);
+            fetchHomeChannel.setDescription(channelDescription);
+            notificationManager.createNotificationChannel(fetchHomeChannel);
 
         }
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
         notificationBuilder.setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_launcher_foreground))
-                .setContentTitle(getApplicationContext().getString(R.string.notifications))
-                .setContentText(getApplicationContext().getString(R.string.fetch_notifications))
+                .setContentTitle(getApplicationContext().getString(R.string.fetch_home_messages))
+                .setContentText(getApplicationContext().getString(R.string.set_fetch_home))
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setSilent(true)
                 .setPriority(Notification.PRIORITY_LOW);
@@ -183,12 +179,7 @@ public class FetchHomeWorker extends Worker {
                                 statusCache.type = Timeline.TimeLineEnum.HOME;
                                 statusCache.status_id = status.id;
                                 try {
-                                    int inserted = statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
-                                    //We reached already cached messages
-                                    if (inserted == 0) {
-                                        canContinue = false;
-                                        break;
-                                    }
+                                    statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }
@@ -205,6 +196,12 @@ public class FetchHomeWorker extends Worker {
                     } else {
                         canContinue = false;
                     }
+                }
+                //Pause between calls (1 second)
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
                 call++;
             }

@@ -23,7 +23,6 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreference;
-import androidx.preference.SwitchPreferenceCompat;
 import androidx.work.WorkManager;
 
 import app.fedilab.android.R;
@@ -53,7 +52,7 @@ public class FragmentHomeCacheSettings extends PreferenceFragmentCompat implemen
             return;
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        SwitchPreferenceCompat SET_FETCH_HOME = findPreference(getString(R.string.SET_FETCH_HOME));
+        SwitchPreference SET_FETCH_HOME = findPreference(getString(R.string.SET_FETCH_HOME));
         if (SET_FETCH_HOME != null) {
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_FETCH_HOME) + MainActivity.currentUserID + MainActivity.currentInstance, false);
             SET_FETCH_HOME.setChecked(checked);
@@ -69,27 +68,29 @@ public class FragmentHomeCacheSettings extends PreferenceFragmentCompat implemen
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
-        if (key.compareToIgnoreCase(getString(R.string.SET_FETCH_HOME)) == 0) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            SwitchPreference SET_FETCH_HOME = findPreference(getString(R.string.SET_FETCH_HOME));
-            if (SET_FETCH_HOME != null) {
-                editor.putBoolean(getString(R.string.SET_FETCH_HOME) + MainActivity.currentUserID + MainActivity.currentInstance, SET_FETCH_HOME.isChecked());
-                editor.commit();
-                if (SET_FETCH_HOME.isChecked()) {
-                    FetchHomeWorker.setRepeatHome(requireActivity(), MainActivity.currentAccount);
-                } else {
-                    WorkManager.getInstance(requireActivity()).cancelAllWorkByTag(Helper.WORKER_REFRESH_HOME + MainActivity.currentUserID + MainActivity.currentInstance);
+        if (getActivity() != null) {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+            if (key.compareToIgnoreCase(getString(R.string.SET_FETCH_HOME)) == 0) {
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                SwitchPreference SET_FETCH_HOME = findPreference(getString(R.string.SET_FETCH_HOME));
+                if (SET_FETCH_HOME != null) {
+                    editor.putBoolean(getString(R.string.SET_FETCH_HOME) + MainActivity.currentUserID + MainActivity.currentInstance, SET_FETCH_HOME.isChecked());
+                    editor.commit();
+                    if (SET_FETCH_HOME.isChecked()) {
+                        FetchHomeWorker.setRepeatHome(requireActivity(), MainActivity.currentAccount);
+                    } else {
+                        WorkManager.getInstance(requireActivity()).cancelAllWorkByTag(Helper.WORKER_REFRESH_HOME + MainActivity.currentUserID + MainActivity.currentInstance);
+                    }
                 }
             }
-        }
-        if (key.compareToIgnoreCase(getString(R.string.SET_FETCH_HOME_DELAY_VALUE)) == 0) {
-            ListPreference SET_FETCH_HOME_DELAY_VALUE = findPreference(getString(R.string.SET_FETCH_HOME_DELAY_VALUE));
-            if (SET_FETCH_HOME_DELAY_VALUE != null) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_FETCH_HOME_DELAY_VALUE.getValue());
-                editor.commit();
-                FetchHomeWorker.setRepeatHome(requireActivity(), MainActivity.currentAccount);
+            if (key.compareToIgnoreCase(getString(R.string.SET_FETCH_HOME_DELAY_VALUE)) == 0) {
+                ListPreference SET_FETCH_HOME_DELAY_VALUE = findPreference(getString(R.string.SET_FETCH_HOME_DELAY_VALUE));
+                if (SET_FETCH_HOME_DELAY_VALUE != null) {
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_FETCH_HOME_DELAY_VALUE.getValue());
+                    editor.commit();
+                    FetchHomeWorker.setRepeatHome(requireActivity(), MainActivity.currentAccount);
+                }
             }
         }
     }

@@ -2236,4 +2236,10 @@
     <string name="compose_shortcut_short_label1">Compose</string>
     <string name="toast_error_peertube_not_supported">Your Peertube is too old and cannot be supported by the app.</string>
     <string name="otp_message">Two factor authentication token</string>
+
+    <string name="fetch_home_every">Fetch Home every</string>
+    <string name="type_of_home_delay_title">Home fetch time</string>
+    <string name="set_fetch_home">Automatically fetch home messages</string>
+    <string name="home_cache">Home cache</string>
+    <string name="fetch_home_messages">Fetch home messages</string>
 </resources>
