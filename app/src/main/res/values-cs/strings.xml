@@ -999,4 +999,5 @@
     <string name="following">Sledující</string>
     <string name="toast_error_peertube_not_supported">Vaše instance Peertube je příliš stará a nemůže být aplikací podporována.</string>
     <string name="compose_shortcut_short_label1">Vytváření</string>
+    <string name="otp_message">Token pro dvoufaktorovou autentizaci</string>
 </resources>
