@@ -20,7 +20,7 @@
             android:paddingVertical="12dp"
             android:text="@string/reports"
             android:textAlignment="textStart"
-            app:icon="@drawable/ic_baseline_navigate_next_24"
+            app:icon="@drawable/ic_navigate_next"
             app:iconGravity="end" />
 
         <com.google.android.material.button.MaterialButton
@@ -32,7 +32,7 @@
             android:paddingVertical="12dp"
             android:text="@string/accounts"
             android:textAlignment="textStart"
-            app:icon="@drawable/ic_baseline_navigate_next_24"
+            app:icon="@drawable/ic_navigate_next"
             app:iconGravity="end" />
 
         <com.google.android.material.button.MaterialButton
@@ -44,7 +44,7 @@
             android:paddingVertical="12dp"
             android:text="@string/blocked_domains"
             android:textAlignment="textStart"
-            app:icon="@drawable/ic_baseline_navigate_next_24"
+            app:icon="@drawable/ic_navigate_next"
             app:iconGravity="end" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
