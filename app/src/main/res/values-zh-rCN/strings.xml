@@ -987,4 +987,10 @@
     <string name="toast_error_peertube_not_supported">您的 Peertube 太旧，应用程序不支持。</string>
     <string name="customize_timelines">自定义时间线</string>
     <string name="also_followed_by">关注者：</string>
+    <string name="otp_message">双因素身份验证令牌</string>
+    <string name="set_fetch_home">自动获取主页消息</string>
+    <string name="home_cache">主页缓存</string>
+    <string name="fetch_home_messages">获取主页消息</string>
+    <string name="type_of_home_delay_title">主页获取延迟</string>
+    <string name="fetch_home_every">获取主页消息每隔</string>
 </resources>
