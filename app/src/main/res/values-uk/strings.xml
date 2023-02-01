@@ -581,4 +581,21 @@
     <string name="no_distributors_found">No distributors found!</string>
     <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
     <string name="select_distributors">Select a distributor</string>
+    <string name="account_approved">Обліковий запис затверджено</string>
+    <string name="admin_domainblock_domain">Блокування домену не перешкоджатиме створенню облікових записів у базі даних, але заднім числом автоматично застосовуватиме певні методи модерації до цих облікових записів.</string>
+    <string name="aggregate_notifications_summary">При ввімкненні застосунок згортає пов\'язані з ним сповіщення</string>
+    <string name="restart_the_app_theme">Для того, щоб зміни набули чинності, потрібно перезапустити застосунок.</string>
+    <string name="toast_token">Застосунок не зміг отримати токен</string>
+    <string name="restart_the_app">Перезапустити застосунок\?</string>
+    <string name="toast_error_fetch_message">Застосунок не знайшов віддалене повідомлення.</string>
+    <string name="set_extand_extra_features">Увімкнувши цю опцію, застосунок відображатиме додаткові функції. Ця функція передбачена для соціальних програм, таких як Pleroma, Akkoma або Glitch Social</string>
+    <string name="change_logo_description">Змінити логотип застосунку на вашому пристрої</string>
+    <string name="toast_error_peertube_not_supported">Ваш Peertube застарілий і не підтримується застосунком.</string>
+    <string name="my_app">Мій застосунок</string>
+    <string name="set_single_topbar">Якщо увімкнено, у застосунку буде лише одна смуга для часових шкал</string>
+    <string name="set_use_cache_indication">Часові шкали будуть кешуватися, щоб застосунок працював швидше.</string>
+    <string name="toast_error_add_to_list">Застосунку не вдалося додати обліковий запис до списку!</string>
+    <string name="toast_fetch_error">Застосунок не може знайти віддалені дані!</string>
+    <string name="set_remote_profile">Застосунок відображатиме профілі у відкритому доступі, щоб отримувати всі повідомлення. Взаємодія потребуватиме додаткового кроку для об\'єднання повідомлень.</string>
+    <string name="set_disable_release_notes_indication">Коли публікується нова версія, ви не отримаєте сповіщення в застосунку.</string>
 </resources>
