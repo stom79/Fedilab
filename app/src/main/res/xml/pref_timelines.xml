@@ -10,6 +10,12 @@
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
+        app:key="@string/SET_AUTO_FETCH_MISSING_MESSAGES"
+        app:singleLineTitle="false"
+        app:title="@string/auto_fetch_missing" />
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_EXPAND_CW"
         app:singleLineTitle="false"
         app:title="@string/expand_cw" />

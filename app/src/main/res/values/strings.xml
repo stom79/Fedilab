@@ -1476,6 +1476,7 @@
     <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
     <string name="SET_NOTIF_SILENT" translatable="false">SET_NOTIF_SILENT</string>
     <string name="SET_REMEMBER_POSITION" translatable="false">SET_REMEMBER_POSITION</string>
+    <string name="SET_AUTO_FETCH_MISSING_MESSAGES" translatable="false">SET_AUTO_FETCH_MISSING_MESSAGES</string>
     <string name="SET_EXPAND_CW" translatable="false">SET_EXPAND_CW</string>
     <string name="SET_DISPLAY_ALL_NOTIFICATIONS_TYPE" translatable="false">SET_DISPLAY_ALL_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXCLUDED_NOTIFICATIONS_TYPE" translatable="false">SET_EXCLUDED_NOTIFICATIONS_TYPE</string>
@@ -2242,4 +2243,5 @@
     <string name="set_fetch_home">Automatically fetch home messages</string>
     <string name="home_cache">Home cache</string>
     <string name="fetch_home_messages">Fetch home messages</string>
+    <string name="auto_fetch_missing">Automatically fetch missing messages</string>
 </resources>

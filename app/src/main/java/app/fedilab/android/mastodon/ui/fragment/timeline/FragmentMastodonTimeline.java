@@ -75,7 +75,7 @@ import es.dmoral.toasty.Toasty;
 
 public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.FetchMoreCallBack {
 
-
+    private boolean scrollingUp;
     private static final int PRELOAD_AHEAD_ITEMS = 10;
     public UpdateCounters update;
     private FragmentPaginationBinding binding;
@@ -506,9 +506,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             } else if (update != null && insertedStatus == 0 && direction == DIRECTION.REFRESH) {
                 update.onUpdate(0, timelineType, slug);
             }
-            if (direction == DIRECTION.TOP && fetchingMissing) {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+            boolean autofetch = sharedpreferences.getBoolean(getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
+            if (direction == DIRECTION.TOP && fetchingMissing && !autofetch) {
                 int position = getAbsolutePosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1));
-
                 if (position != -1) {
                     binding.recyclerView.scrollToPosition(position + 1);
                 }
@@ -656,7 +657,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-
+                    scrollingUp = dy > 0;
                     if (requireActivity() instanceof BaseMainActivity) {
                         if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
@@ -1226,6 +1227,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     public void onClickMaxId(String max_id, Status statusToUpdate) {
         max_id_fetch_more = max_id;
         route(DIRECTION.BOTTOM, true, statusToUpdate);
+    }
+
+    @Override
+    public void autoFetch(String min_id, String max_id, Status statusToUpdate) {
+        if (scrollingUp) {
+            min_id_fetch_more = min_id;
+            route(DIRECTION.TOP, true, statusToUpdate);
+        } else {
+            max_id_fetch_more = max_id;
+            route(DIRECTION.BOTTOM, true, statusToUpdate);
+        }
     }
 
     public enum DIRECTION {
