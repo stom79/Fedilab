@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_FETCH_HOME"
+        app:singleLineTitle="false"
+        app:title="@string/set_fetch_home" />
+
+    <ListPreference
+        app:defaultValue="60"
+        app:dependency="@string/SET_FETCH_HOME"
+        app:dialogTitle="@string/fetch_home_every"
+        app:entries="@array/set_notification_delay_values"
+        app:entryValues="@array/SET_NOTIFICATION_DELAYS_VALUES"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_FETCH_HOME_DELAY_VALUE"
+        app:summary="@string/set_push_notifications_delay"
+        app:title="@string/type_of_home_delay_title"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>

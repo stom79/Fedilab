@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fetch_home_every">Fetch Home every</string>
+    <string name="type_of_home_delay_title">Home fetch time</string>
+    <string name="set_fetch_home">Automatically fetch home messages</string>
+    <string name="home_cache">Home cache</string>
+</resources>

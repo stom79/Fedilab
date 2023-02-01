@@ -54,6 +54,14 @@
             app:popExitAnim="@anim/pop_exit" />
 
         <action
+            android:id="@+id/categories_to_home_cache"
+            app:destination="@id/FragmentHomeCacheSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
             android:id="@+id/categories_to_theming"
             app:destination="@id/FragmentThemingSettings"
             app:enterAnim="@anim/enter"
@@ -102,6 +110,11 @@
         android:id="@+id/FragmentPrivacySettings"
         android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentPrivacySettings"
         android:label="@string/action_privacy" />
+
+    <fragment
+        android:id="@+id/FragmentHomeCacheSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentHomeCacheSettings"
+        android:label="@string/home_cache" />
 
     <fragment
         android:id="@+id/FragmentThemingSettings"

@@ -827,6 +827,8 @@
     <string name="SET_PROXY_HOST" translatable="false">SET_PROXY_HOST</string>
     <string name="SET_PROXY_PORT" translatable="false">SET_PROXY_PORT</string>
     <string name="SET_DEFAULT_LOCALE_NEW" translatable="false">SET_DEFAULT_LOCALE_NEW</string>
+    <string name="SET_FETCH_HOME_DELAY_VALUE" translatable="false">SET_FETCH_HOME_DELAY_VALUE</string>
+
     <string name="SET_SEND_CRASH_REPORTS" translatable="false">SET_SEND_CRASH_REPORTS</string>
     <string name="SET_DISABLE_RELEASE_NOTES_ALERT" translatable="false">SET_DISABLE_RELEASE_NOTES_ALERT</string>
     <string name="SET_DISABLE_GIF" translatable="false">SET_DISABLE_GIF</string>
@@ -1431,6 +1433,7 @@
     <string name="SET_COMPOSE_LANGUAGE" translatable="false">SET_COMPOSE_LANGUAGE</string>
     <string name="SET_LOGO_LAUNCHER" translatable="false">SET_LOGO_LAUNCHER</string>
     <string name="SET_NOTIF_FOLLOW" translatable="false">SET_NOTIF_FOLLOW</string>
+    <string name="SET_FETCH_HOME" translatable="false">SET_FETCH_HOME</string>
     <string name="SET_NOTIF_MENTION" translatable="false">SET_NOTIF_MENTION</string>
     <string name="SET_NOTIF_SHARE" translatable="false">SET_NOTIF_SHARE</string>
     <string name="SET_NOTIF_FAVOURITE" translatable="false">SET_NOTIF_FAVOURITE</string>
@@ -1996,6 +1999,7 @@
     <string name="pref_category_key_interface" translatable="false">pref_category_interface</string>
     <string name="pref_category_key_compose" translatable="false">pref_category_compose</string>
     <string name="pref_category_key_privacy" translatable="false">pref_category_privacy</string>
+    <string name="pref_category_key_home_cache" translatable="false">pref_category_key_home_cache</string>
     <string name="pref_category_key_theming" translatable="false">pref_category_theming</string>
     <string name="pref_category_key_administration" translatable="false">pref_category_administration</string>
     <string name="pref_category_key_languages" translatable="false">pref_category_languages</string>

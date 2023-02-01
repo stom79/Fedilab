@@ -49,6 +49,13 @@
     <Preference
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:title="@string/home_cache"
+        app:icon="@drawable/ic_baseline_cached_24"
+        app:key="@string/pref_category_key_home_cache" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:title="@string/theming"
         app:icon="@drawable/ic_theming"
         app:key="@string/pref_category_key_theming" />

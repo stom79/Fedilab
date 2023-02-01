@@ -112,6 +112,15 @@ public class FragmentSettingsCategories extends PreferenceFragmentCompat {
             });
         }
 
+        Preference pref_category_key_home_cache = findPreference(getString(R.string.pref_category_key_home_cache));
+        if (pref_category_key_home_cache != null) {
+            pref_category_key_home_cache.setOnPreferenceClickListener(preference -> {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
+                navController.navigate(FragmentSettingsCategoriesDirections.Companion.categoriesToHomeCache());
+                return false;
+            });
+        }
+
         Preference pref_category_key_theming = findPreference(getString(R.string.pref_category_key_theming));
         if (pref_category_key_theming != null) {
             pref_category_key_theming.setOnPreferenceClickListener(preference -> {

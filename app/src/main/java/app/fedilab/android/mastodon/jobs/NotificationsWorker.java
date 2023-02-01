@@ -105,7 +105,7 @@ public class NotificationsWorker extends Worker {
     public Result doWork() {
         setForegroundAsync(createForegroundInfo());
         try {
-            List<BaseAccount> accounts = new Account(getApplicationContext()).getAll();
+            List<BaseAccount> accounts = new Account(getApplicationContext()).getCrossAccounts();
             for (BaseAccount account : accounts) {
                 try {
                     NotificationsHelper.task(getApplicationContext(), account.user_id + "@" + account.instance);
