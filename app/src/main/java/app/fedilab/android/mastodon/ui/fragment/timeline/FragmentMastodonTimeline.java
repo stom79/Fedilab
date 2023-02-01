@@ -507,8 +507,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 update.onUpdate(0, timelineType, slug);
             }
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-            boolean autofetch = sharedpreferences.getBoolean(getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
-            if (direction == DIRECTION.TOP && fetchingMissing && !autofetch) {
+            if (direction == DIRECTION.TOP && fetchingMissing) {
                 int position = getAbsolutePosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1));
                 if (position != -1) {
                     binding.recyclerView.scrollToPosition(position + 1);
@@ -657,7 +656,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    scrollingUp = dy > 0;
+                    scrollingUp = dy < 0;
                     if (requireActivity() instanceof BaseMainActivity) {
                         if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
