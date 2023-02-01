@@ -987,4 +987,5 @@
     <string name="about_peertube">\"PeerTube kar amacı gütmeyen bir Fransız kuruluşu olan Framasoft tarafından geliştirilen bir çevrim içi video paylaşım aracıdır.…PeerTube platformların birbirine bağlanmasına olanak tanıyarak hem özerk hem de birbirine bağlı büyük bir platform ağı oluşturur.\"</string>
     <string name="toast_error_peertube_not_supported">Peertube sürümünüz çok eski ve uygulama tarafından desteklenemiyor.</string>
     <string name="compose_shortcut_short_label1">Oluştur</string>
+    <string name="otp_message">İki aşamalı kimlik doğrulama belirteci</string>
 </resources>
