@@ -989,4 +989,11 @@
     <string name="about_peertube">\"PeerTube ist ein Tool zum Teilen von Online-Videos, das von Framasoft entwickelt wurde, einer französischen Non-Profit-Organisation....PeerTube ermöglicht es, Plattformen miteinander zu verbinden und so ein großes Netzwerk von Plattformen zu schaffen, die sowohl autonom als auch miteinander verbunden sind.\"</string>
     <string name="compose_shortcut_short_label1">Entwerfen</string>
     <string name="toast_error_peertube_not_supported">Ihr Peertube ist zu alt und wird von der App nicht unterstützt.</string>
+    <string name="set_fetch_home">Automatisch Beiträge der Startseite abrufen</string>
+    <string name="type_of_home_delay_title">Aktualisierungsintervall der Startseite</string>
+    <string name="auto_fetch_missing">Automatisch fehlende Beiträge der Startseite abrufen</string>
+    <string name="fetch_home_every">Startseite aktualisieren alle</string>
+    <string name="otp_message">Zwei-Faktor-Authentifizierungstoken</string>
+    <string name="home_cache">Cache der Startseite</string>
+    <string name="fetch_home_messages">Beiträge auf der Startseite abrufen</string>
 </resources>
