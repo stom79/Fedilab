@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 
 import app.fedilab.android.mastodon.helper.SpannableHelper;
+import de.timfreiheit.mathjax.android.MathJaxView;
 
 public class Status implements Serializable, Cloneable {
 
@@ -128,6 +129,7 @@ public class Status implements Serializable, Cloneable {
     public transient Spannable contentSpan;
     public transient Spannable contentSpoilerSpan;
     public transient Spannable contentTranslateSpan;
+    public transient MathJaxView mathJaxView;
 
     @Override
     public boolean equals(@Nullable Object obj) {

@@ -41,14 +41,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <de.timfreiheit.mathjax.android.MathJaxView
-                android:id="@+id/laTexView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:automaticLinebreaks="true"
-                app:input="TeX"
-                app:output="SVG" />
         </androidx.core.widget.NestedScrollView>
 
 

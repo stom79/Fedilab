@@ -20,6 +20,7 @@ import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
 import static app.fedilab.android.mastodon.activities.ComposeActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
+import static de.timfreiheit.mathjax.android.MathJaxConfig.Input.TeX;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -127,6 +128,8 @@ import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.imageeditor.EditImageActivity;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
+import de.timfreiheit.mathjax.android.MathJaxConfig;
+import de.timfreiheit.mathjax.android.MathJaxView;
 import es.dmoral.toasty.Toasty;
 
 
@@ -702,19 +705,26 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 Matcher mathsPatterns = Helper.mathsComposePattern.matcher((s.toString()));
                 if (mathsPatterns.find()) {
-                    if (holder.binding.laTexViewContainer.getVisibility() != View.VISIBLE) {
-                        holder.binding.laTexViewContainer.setVisibility(View.VISIBLE);
-
+                    if (holder.binding.laTexViewContainer.getChildCount() == 0) {
+                        MathJaxConfig mathJaxConfig = new MathJaxConfig();
+                        mathJaxConfig.setAutomaticLinebreaks(true);
+                        mathJaxConfig.setInput(TeX);
                         switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
                             case Configuration.UI_MODE_NIGHT_YES:
-                                holder.binding.laTexView.setTextColor("white");
+                                mathJaxConfig.setTextColor("white");
                                 break;
                             case Configuration.UI_MODE_NIGHT_NO:
-                                holder.binding.laTexView.setTextColor("black");
+                                mathJaxConfig.setTextColor("black");
                                 break;
                         }
+                        statusList.get(holder.getBindingAdapterPosition()).mathJaxView = new MathJaxView(context, mathJaxConfig);
+                        holder.binding.laTexViewContainer.addView(statusList.get(holder.getBindingAdapterPosition()).mathJaxView);
+                        holder.binding.laTexViewContainer.setVisibility(View.VISIBLE);
                     }
-                    holder.binding.laTexView.setInputText(s.toString());
+                    if (statusList.get(holder.getBindingAdapterPosition()).mathJaxView != null) {
+                        statusList.get(holder.getBindingAdapterPosition()).mathJaxView.setInputText(s.toString());
+                    }
+
                 } else {
                     holder.binding.laTexViewContainer.setVisibility(View.GONE);
                 }
