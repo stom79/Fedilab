@@ -28,6 +28,7 @@ import app.fedilab.android.databinding.DrawerCacheBinding;
 import app.fedilab.android.mastodon.client.entities.app.CacheAccount;
 import app.fedilab.android.mastodon.helper.CacheHelper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
+import app.fedilab.android.peertube.helper.Helper;
 
 
 public class CacheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -61,9 +62,17 @@ public class CacheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         CacheAccount cacheAccount = accountList.get(position);
         AccountCacheViewHolder holder = (AccountCacheViewHolder) viewHolder;
-        MastodonHelper.loadPPMastodon(holder.binding.pp, cacheAccount.account.mastodon_account);
-        holder.binding.acct.setText(String.format("@%s@%s", cacheAccount.account.mastodon_account.username, cacheAccount.account.instance));
-        holder.binding.displayName.setText(cacheAccount.account.mastodon_account.display_name);
+
+        if (cacheAccount.account.mastodon_account != null) {
+            MastodonHelper.loadPPMastodon(holder.binding.pp, cacheAccount.account.mastodon_account);
+            holder.binding.acct.setText(String.format("@%s@%s", cacheAccount.account.mastodon_account.username, cacheAccount.account.instance));
+            holder.binding.displayName.setText(cacheAccount.account.mastodon_account.display_name);
+        } else if (cacheAccount.account.peertube_account != null) {
+            Helper.loadAvatar(context, cacheAccount.account.peertube_account, holder.binding.pp);
+            holder.binding.acct.setText(String.format("@%s@%s", cacheAccount.account.peertube_account.getUsername(), cacheAccount.account.instance));
+            holder.binding.displayName.setText(cacheAccount.account.peertube_account.getDisplayName());
+        }
+
         CacheHelper.getTimelineValues(context, cacheAccount.account, countStatuses -> {
             if (countStatuses != null && countStatuses.size() == 3) {
                 holder.binding.homeCount.setText(String.valueOf(countStatuses.get(0)));

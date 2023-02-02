@@ -304,7 +304,7 @@ public class PinnedTimelineHelper {
             //Small hack to hide first tabs (they represent the item of the bottom menu)
             toRemove = itemToRemoveInBottomMenu(activity);
             for (int i = 0; i < (FedilabPageAdapter.BOTTOM_TIMELINE_COUNT - toRemove); i++) {
-                activityMainBinding.tabLayout.addTab(activityMainBinding.tabLayout.newTab());
+                activityMainBinding.tabLayout.addTab(activityMainBinding.tabLayout.newTab(), false);
                 ((ViewGroup) activityMainBinding.tabLayout.getChildAt(0)).getChildAt(i).setVisibility(View.GONE);
             }
         }
@@ -413,7 +413,7 @@ public class PinnedTimelineHelper {
                 //We be used to fetch position of tabs
                 String slug = pinnedTimeline.type.getValue() + (ident != null ? "|" + ident : "");
                 tab.setTag(slug);
-                activityMainBinding.tabLayout.addTab(tab);
+                activityMainBinding.tabLayout.addTab(tab, false);
                 pinnedTimelineVisibleList.add(pinnedTimeline);
             }
         }
