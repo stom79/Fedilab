@@ -1811,9 +1811,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
      * Allow to scroll to top for bottom navigation items
      */
     private void scrollToTop() {
-
+        int position = binding.tabLayout.getSelectedTabPosition();
         if (binding.viewPager.getAdapter() != null) {
-            Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, binding.tabLayout.getSelectedTabPosition());
+            Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, Math.max(position, 0));
             if (fragment instanceof FragmentMastodonTimeline) {
                 FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
                 fragmentMastodonTimeline.scrollToTop();
