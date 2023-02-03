@@ -906,4 +906,6 @@
     <string name="set_maths_support">Escrever fórmula</string>
     <string name="show_privates">Mostrar mensagens diretas</string>
     <string name="about_peertube">\"PeerTube é uma ferramenta para compartilhar vídeos online desenvolvida pela Framasoft, uma organização francesa sem fins lucrativos.…PeerTube permite que as plataformas sejam conectadas umas às outras, criando uma grande rede de plataformas autônomas e interconectadas.\"</string>
+    <string name="toast_error_peertube_not_supported">Seu Peertube é muito antigo e não é suportado pelo aplicativo.</string>
+    <string name="otp_message">Token de autenticação de dois fatores</string>
 </resources>
