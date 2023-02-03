@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 9;
+    public static final int DB_VERSION = 10;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -92,6 +92,15 @@ public class Sqlite extends SQLiteOpenHelper {
     public static final String TABLE_BOOKMARKED_INSTANCES = "BOOKMARKED_INSTANCES";
     public static final String COL_ABOUT = "ABOUT";
     public static final String COL_USER_INSTANCE = "USER_INSTANCE";
+
+    //Home fetch logs
+    public static final String TABLE_HOME_FETCH_LOGS = "TABLE_HOME_FETCH_LOGS";
+    public static final String COL_INSERTED = "INSERTED";
+    public static final String COL_UPDATED = "UPDATED";
+    public static final String COL_FAILED = "FAILED";
+    public static final String COL_FREQUENCY = "FREQUENCY";
+    public static final String COL_FETCHED_COUNT = "FETCHED_COUNT";
+
 
     private static final String CREATE_TABLE_USER_ACCOUNT = "CREATE TABLE " + TABLE_USER_ACCOUNT + " ("
             + COL_USER_ID + " TEXT NOT NULL, "
@@ -192,8 +201,8 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_USER_ID + " TEXT NOT NULL, "
             + COL_TYPE + " TEXT NOT NULL, "
             + COL_MUTED_ACCOUNTS + " TEXT)";
-    public static SQLiteDatabase db;
-    private static Sqlite sInstance;
+
+
     private final String CREATE_TABLE_STORED_INSTANCES = "CREATE TABLE "
             + TABLE_BOOKMARKED_INSTANCES + "("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -201,6 +210,22 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_USER_ID + " TEXT NOT NULL, "
             + COL_ABOUT + " TEXT NOT NULL, "
             + COL_USER_INSTANCE + " TEXT NOT NULL)";
+
+
+    private static final String CREATE_TABLE_HOME_FETCH_LOGS = "CREATE TABLE IF NOT EXISTS " + TABLE_HOME_FETCH_LOGS + " ("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_INSTANCE + " TEXT NOT NULL, "
+            + COL_USER_ID + " TEXT NOT NULL, "
+            + COL_FETCHED_COUNT + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_INSERTED + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_UPDATED + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_FAILED + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_FREQUENCY + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_CREATED_AT + " TEXT NOT NULL)";
+
+    public static SQLiteDatabase db;
+    private static Sqlite sInstance;
+
 
     public Sqlite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -229,6 +254,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_DOMAINS_TRACKING);
         db.execSQL(CREATE_TABLE_MUTED);
         db.execSQL(CREATE_TABLE_STORED_INSTANCES);
+        db.execSQL(CREATE_TABLE_HOME_FETCH_LOGS);
     }
 
     @Override
@@ -257,6 +283,8 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL(CREATE_TABLE_MUTED);
             case 8:
                 db.execSQL(CREATE_TABLE_STORED_INSTANCES);
+            case 9:
+                db.execSQL(CREATE_TABLE_HOME_FETCH_LOGS);
             default:
                 break;
         }

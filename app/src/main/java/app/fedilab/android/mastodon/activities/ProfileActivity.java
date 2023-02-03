@@ -836,6 +836,10 @@ public class ProfileActivity extends BaseActivity {
                 pinnedTimeline.type = Timeline.TimeLineEnum.REMOTE;
                 pinnedTimeline.position = pinned.pinnedTimelines.size();
                 pinned.pinnedTimelines.add(pinnedTimeline);
+                if (pinned.instance == null || pinned.user_id == null) {
+                    pinned.instance = MainActivity.currentInstance;
+                    pinned.user_id = MainActivity.currentUserID;
+                }
                 Pinned finalPinned = pinned;
                 boolean finalPresent = present;
                 new Thread(() -> {

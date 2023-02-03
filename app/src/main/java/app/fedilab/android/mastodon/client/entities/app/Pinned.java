@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.sqlite.Sqlite;
@@ -104,8 +103,8 @@ public class Pinned implements Serializable {
             throw new DBException("db is null. Wrong initialization.");
         }
         ContentValues values = new ContentValues();
-        values.put(Sqlite.COL_INSTANCE, BaseMainActivity.currentInstance);
-        values.put(Sqlite.COL_USER_ID, BaseMainActivity.currentUserID);
+        values.put(Sqlite.COL_INSTANCE, pinned.instance);
+        values.put(Sqlite.COL_USER_ID, pinned.user_id);
         values.put(Sqlite.COL_PINNED_TIMELINES, mastodonPinnedTimelinesToStringStorage(pinned.pinnedTimelines));
         values.put(Sqlite.COL_CREATED_AT, Helper.dateToString(new Date()));
         //Inserts pinned

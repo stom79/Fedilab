@@ -233,6 +233,10 @@ public class HashTagActivity extends BaseActivity {
                         tagTimeline.any.add(stripTag.trim());
                         pinnedTimeline.tagTimeline = tagTimeline;
                         pinned.pinnedTimelines.add(pinnedTimeline);
+                        if (pinned.instance == null || pinned.user_id == null) {
+                            pinned.instance = MainActivity.currentInstance;
+                            pinned.user_id = MainActivity.currentUserID;
+                        }
                         if (update) {
                             new Pinned(HashTagActivity.this).updatePinned(pinned);
                         } else {

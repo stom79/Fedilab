@@ -28,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.DrawerReorderBinding;
 import app.fedilab.android.mastodon.activities.ReorderTimelinesActivity;
 import app.fedilab.android.mastodon.client.entities.app.BottomMenu;
@@ -100,6 +101,8 @@ public class ReorderBottomMenuAdapter extends RecyclerView.Adapter<RecyclerView.
 
         holder.binding.hide.setOnClickListener(v -> {
             bottomMenu.bottom_menu.get(position).visible = !bottomMenu.bottom_menu.get(position).visible;
+            bottomMenu.user_id = MainActivity.currentUserID;
+            bottomMenu.instance = MainActivity.currentInstance;
             if (bottomMenu.bottom_menu.get(position).visible) {
                 holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_24);
             } else {

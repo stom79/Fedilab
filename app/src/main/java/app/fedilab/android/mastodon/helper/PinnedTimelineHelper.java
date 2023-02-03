@@ -277,6 +277,7 @@ public class PinnedTimelineHelper {
                         pinnedTimeline.position = pinnedAll.pinnedTimelines.size();
                         pinnedTimeline.mastodonList = mastodonList;
                         pinnedAll.pinnedTimelines.add(pinnedTimeline);
+
                         try {
                             boolean exist = new Pinned(activity).pinnedExist(pinnedAll);
                             if (exist) {

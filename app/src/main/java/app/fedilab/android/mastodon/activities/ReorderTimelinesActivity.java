@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityReorderTabsBinding;
 import app.fedilab.android.databinding.PopupSearchInstanceBinding;
 import app.fedilab.android.mastodon.client.entities.app.BottomMenu;
@@ -261,7 +262,10 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                                     pinnedTimeline.type = Timeline.TimeLineEnum.REMOTE;
                                     pinnedTimeline.position = pinned.pinnedTimelines.size();
                                     pinned.pinnedTimelines.add(pinnedTimeline);
-
+                                    if (pinned.user_id == null || pinned.instance == null) {
+                                        pinned.user_id = MainActivity.currentUserID;
+                                        pinned.instance = MainActivity.currentInstance;
+                                    }
                                     if (update) {
                                         try {
                                             new Pinned(ReorderTimelinesActivity.this).updatePinned(pinned);

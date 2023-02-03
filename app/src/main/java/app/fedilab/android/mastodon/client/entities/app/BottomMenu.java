@@ -166,8 +166,8 @@ public class BottomMenu implements Serializable {
             throw new DBException("db is null. Wrong initialization.");
         }
         ContentValues values = new ContentValues();
-        values.put(Sqlite.COL_INSTANCE, BaseMainActivity.currentInstance);
-        values.put(Sqlite.COL_USER_ID, BaseMainActivity.currentUserID);
+        values.put(Sqlite.COL_INSTANCE, bottomMenu.instance);
+        values.put(Sqlite.COL_USER_ID, bottomMenu.user_id);
         values.put(Sqlite.COL_BOTTOM_MENU, menuItemListToStringStorage(bottomMenu.bottom_menu));
         //Inserts bottom
         try {

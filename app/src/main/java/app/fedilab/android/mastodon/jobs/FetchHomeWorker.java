@@ -46,6 +46,7 @@ import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.HomeFetchLog;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -163,6 +164,10 @@ public class FetchHomeWorker extends Worker {
             int call = 0;
             String max_id = null;
             MastodonTimelinesService mastodonTimelinesService = init(account.instance);
+            int inserted = 0;
+            int updated = 0;
+            int failed = 0;
+            int count = 0;
             while (canContinue && call < max_calls) {
                 Call<List<Status>> homeCall = mastodonTimelinesService.getHome(account.token, account.instance, max_id, null, status_per_page, null);
                 if (homeCall != null) {
@@ -170,6 +175,7 @@ public class FetchHomeWorker extends Worker {
                     if (homeResponse.isSuccessful()) {
                         List<Status> statusList = homeResponse.body();
                         if (statusList != null && statusList.size() > 0) {
+                            count += statusList.size();
                             for (Status status : statusList) {
                                 StatusCache statusCacheDAO = new StatusCache(getApplicationContext());
                                 StatusCache statusCache = new StatusCache();
@@ -179,9 +185,16 @@ public class FetchHomeWorker extends Worker {
                                 statusCache.type = Timeline.TimeLineEnum.HOME;
                                 statusCache.status_id = status.id;
                                 try {
-                                    statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
+                                    int val = statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
+                                    if (val == 1) {
+                                        inserted++;
+                                    }
+                                    if (val == 0) {
+                                        updated++;
+                                    }
                                 } catch (DBException e) {
                                     e.printStackTrace();
+                                    failed++;
                                 }
                             }
                             Pagination pagination = MastodonHelper.getPagination(homeResponse.headers());
@@ -205,7 +218,20 @@ public class FetchHomeWorker extends Worker {
                 }
                 call++;
             }
-
+            HomeFetchLog homeFetchLog = new HomeFetchLog();
+            homeFetchLog.user_id = account.user_id;
+            homeFetchLog.instance = account.instance;
+            String frequency = prefs.getString(context.getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + account.user_id + account.instance, "60");
+            homeFetchLog.frequency = Integer.parseInt(frequency);
+            homeFetchLog.fetched_count = count;
+            homeFetchLog.inserted = inserted;
+            homeFetchLog.updated = updated;
+            homeFetchLog.failed = failed;
+            try {
+                new HomeFetchLog(context).insert(homeFetchLog);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
         }
     }
 
