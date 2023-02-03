@@ -81,8 +81,8 @@ public class FetchHomeWorker extends Worker {
         WorkManager.getInstance(context).cancelAllWorkByTag(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String value = prefs.getString(context.getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + account.user_id + account.instance, "60");
-        PeriodicWorkRequest notificationPeriodic = new PeriodicWorkRequest.Builder(NotificationsWorker.class, Long.parseLong(value), TimeUnit.MINUTES)
-                .addTag(Helper.WORKER_REFRESH_NOTIFICATION)
+        PeriodicWorkRequest notificationPeriodic = new PeriodicWorkRequest.Builder(FetchHomeWorker.class, Long.parseLong(value), TimeUnit.MINUTES)
+                .addTag(Helper.WORKER_REFRESH_HOME)
                 .build();
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance, ExistingPeriodicWorkPolicy.REPLACE, notificationPeriodic);
     }
@@ -194,7 +194,7 @@ public class FetchHomeWorker extends Worker {
                                     }
                                 } catch (DBException e) {
                                     e.printStackTrace();
-                                    failed++;
+                                    failed = -1;
                                 }
                             }
                             Pagination pagination = MastodonHelper.getPagination(homeResponse.headers());
@@ -202,13 +202,18 @@ public class FetchHomeWorker extends Worker {
                                 max_id = pagination.max_id;
                             } else {
                                 canContinue = false;
+                                failed = 4;
                             }
                         } else {
+                            failed = 3;
                             canContinue = false;
                         }
                     } else {
                         canContinue = false;
+                        failed = 2;
                     }
+                } else {
+                    failed = 1;
                 }
                 //Pause between calls (1 second)
                 try {
