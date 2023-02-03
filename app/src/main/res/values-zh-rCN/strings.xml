@@ -993,4 +993,5 @@
     <string name="fetch_home_messages">获取主页消息</string>
     <string name="type_of_home_delay_title">主页获取延迟</string>
     <string name="fetch_home_every">获取主页消息每隔</string>
+    <string name="auto_fetch_missing">自动获取缺失的消息</string>
 </resources>
