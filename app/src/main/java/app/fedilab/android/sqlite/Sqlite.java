@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 10;
+    public static final int DB_VERSION = 9;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -212,17 +212,6 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_USER_INSTANCE + " TEXT NOT NULL)";
 
 
-    private static final String CREATE_TABLE_HOME_FETCH_LOGS = "CREATE TABLE IF NOT EXISTS " + TABLE_HOME_FETCH_LOGS + " ("
-            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COL_INSTANCE + " TEXT NOT NULL, "
-            + COL_USER_ID + " TEXT NOT NULL, "
-            + COL_FETCHED_COUNT + " INTEGER NOT NULL DEFAULT 0, "
-            + COL_INSERTED + " INTEGER NOT NULL DEFAULT 0, "
-            + COL_UPDATED + " INTEGER NOT NULL DEFAULT 0, "
-            + COL_FAILED + " INTEGER NOT NULL DEFAULT 0, "
-            + COL_FREQUENCY + " INTEGER NOT NULL DEFAULT 0, "
-            + COL_CREATED_AT + " TEXT NOT NULL)";
-
     public static SQLiteDatabase db;
     private static Sqlite sInstance;
 
@@ -254,7 +243,6 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_DOMAINS_TRACKING);
         db.execSQL(CREATE_TABLE_MUTED);
         db.execSQL(CREATE_TABLE_STORED_INSTANCES);
-        db.execSQL(CREATE_TABLE_HOME_FETCH_LOGS);
     }
 
     @Override
@@ -283,8 +271,6 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL(CREATE_TABLE_MUTED);
             case 8:
                 db.execSQL(CREATE_TABLE_STORED_INSTANCES);
-            case 9:
-                db.execSQL(CREATE_TABLE_HOME_FETCH_LOGS);
             default:
                 break;
         }

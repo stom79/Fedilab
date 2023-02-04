@@ -23,8 +23,10 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreference;
+import androidx.work.Data;
 import androidx.work.WorkManager;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -70,6 +72,10 @@ public class FragmentHomeCacheSettings extends PreferenceFragmentCompat implemen
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (getActivity() != null) {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+            Data inputData = new Data.Builder()
+                    .putString(Helper.ARG_INSTANCE, BaseMainActivity.currentInstance)
+                    .putString(Helper.ARG_USER_ID, BaseMainActivity.currentUserID)
+                    .build();
             if (key.compareToIgnoreCase(getString(R.string.SET_FETCH_HOME)) == 0) {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 SwitchPreference SET_FETCH_HOME = findPreference(getString(R.string.SET_FETCH_HOME));
@@ -77,7 +83,7 @@ public class FragmentHomeCacheSettings extends PreferenceFragmentCompat implemen
                     editor.putBoolean(getString(R.string.SET_FETCH_HOME) + MainActivity.currentUserID + MainActivity.currentInstance, SET_FETCH_HOME.isChecked());
                     editor.commit();
                     if (SET_FETCH_HOME.isChecked()) {
-                        FetchHomeWorker.setRepeatHome(requireActivity(), MainActivity.currentAccount);
+                        FetchHomeWorker.setRepeatHome(requireActivity(), MainActivity.currentAccount, inputData);
                     } else {
                         WorkManager.getInstance(requireActivity()).cancelAllWorkByTag(Helper.WORKER_REFRESH_HOME + MainActivity.currentUserID + MainActivity.currentInstance);
                     }
@@ -89,7 +95,7 @@ public class FragmentHomeCacheSettings extends PreferenceFragmentCompat implemen
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_FETCH_HOME_DELAY_VALUE.getValue());
                     editor.commit();
-                    FetchHomeWorker.setRepeatHome(requireActivity(), MainActivity.currentAccount);
+                    FetchHomeWorker.setRepeatHome(requireActivity(), MainActivity.currentAccount, inputData);
                 }
             }
         }

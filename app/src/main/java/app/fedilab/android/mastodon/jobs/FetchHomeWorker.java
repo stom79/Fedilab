@@ -46,7 +46,6 @@ import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
-import app.fedilab.android.mastodon.client.entities.app.HomeFetchLog;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -77,12 +76,13 @@ public class FetchHomeWorker extends Worker {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    public static void setRepeatHome(Context context, BaseAccount account) {
+    public static void setRepeatHome(Context context, BaseAccount account, Data inputData) {
         WorkManager.getInstance(context).cancelAllWorkByTag(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String value = prefs.getString(context.getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + account.user_id + account.instance, "60");
         PeriodicWorkRequest notificationPeriodic = new PeriodicWorkRequest.Builder(FetchHomeWorker.class, Long.parseLong(value), TimeUnit.MINUTES)
-                .addTag(Helper.WORKER_REFRESH_HOME)
+                .setInputData(inputData)
+                .addTag(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance)
                 .build();
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance, ExistingPeriodicWorkPolicy.REPLACE, notificationPeriodic);
     }
@@ -135,10 +135,15 @@ public class FetchHomeWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+
         setForegroundAsync(createForegroundInfo());
+
+        String instance = getInputData().getString(Helper.ARG_INSTANCE);
+        String userId = getInputData().getString(Helper.ARG_USER_ID);
+
         try {
-            List<BaseAccount> accounts = new Account(getApplicationContext()).getCrossAccounts();
-            for (BaseAccount account : accounts) {
+            BaseAccount account = new Account(getApplicationContext()).getUniqAccount(userId, instance);
+            if (account != null) {
                 try {
                     fetchHome(getApplicationContext(), account);
                 } catch (IOException e) {
@@ -164,18 +169,13 @@ public class FetchHomeWorker extends Worker {
             int call = 0;
             String max_id = null;
             MastodonTimelinesService mastodonTimelinesService = init(account.instance);
-            int inserted = 0;
-            int updated = 0;
-            int failed = 0;
-            int count = 0;
             while (canContinue && call < max_calls) {
-                Call<List<Status>> homeCall = mastodonTimelinesService.getHome(account.token, account.instance, max_id, null, status_per_page, null);
+                Call<List<Status>> homeCall = mastodonTimelinesService.getHome(account.token, max_id, null, null, status_per_page, null);
                 if (homeCall != null) {
                     Response<List<Status>> homeResponse = homeCall.execute();
                     if (homeResponse.isSuccessful()) {
                         List<Status> statusList = homeResponse.body();
                         if (statusList != null && statusList.size() > 0) {
-                            count += statusList.size();
                             for (Status status : statusList) {
                                 StatusCache statusCacheDAO = new StatusCache(getApplicationContext());
                                 StatusCache statusCache = new StatusCache();
@@ -185,16 +185,9 @@ public class FetchHomeWorker extends Worker {
                                 statusCache.type = Timeline.TimeLineEnum.HOME;
                                 statusCache.status_id = status.id;
                                 try {
-                                    int val = statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
-                                    if (val == 1) {
-                                        inserted++;
-                                    }
-                                    if (val == 0) {
-                                        updated++;
-                                    }
+                                    statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
                                 } catch (DBException e) {
                                     e.printStackTrace();
-                                    failed = -1;
                                 }
                             }
                             Pagination pagination = MastodonHelper.getPagination(homeResponse.headers());
@@ -202,18 +195,13 @@ public class FetchHomeWorker extends Worker {
                                 max_id = pagination.max_id;
                             } else {
                                 canContinue = false;
-                                failed = 4;
                             }
                         } else {
-                            failed = 3;
                             canContinue = false;
                         }
                     } else {
                         canContinue = false;
-                        failed = 2;
                     }
-                } else {
-                    failed = 1;
                 }
                 //Pause between calls (1 second)
                 try {
@@ -222,20 +210,6 @@ public class FetchHomeWorker extends Worker {
                     e.printStackTrace();
                 }
                 call++;
-            }
-            HomeFetchLog homeFetchLog = new HomeFetchLog();
-            homeFetchLog.user_id = account.user_id;
-            homeFetchLog.instance = account.instance;
-            String frequency = prefs.getString(context.getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + account.user_id + account.instance, "60");
-            homeFetchLog.frequency = Integer.parseInt(frequency);
-            homeFetchLog.fetched_count = count;
-            homeFetchLog.inserted = inserted;
-            homeFetchLog.updated = updated;
-            homeFetchLog.failed = failed;
-            try {
-                new HomeFetchLog(context).insert(homeFetchLog);
-            } catch (DBException e) {
-                e.printStackTrace();
             }
         }
     }
