@@ -1069,7 +1069,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         //Button sizes depending of the defined scale
         float normalSize = Helper.convertDpToPixel(28, context);
-
         holder.binding.actionButtonReply.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.requestLayout();
@@ -1081,6 +1080,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonBoost.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonFavorite.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonBookmark.setImageSize((int) (normalSize * scaleIcon));
+
 
         holder.binding.statusAddCustomEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.statusAddCustomEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);

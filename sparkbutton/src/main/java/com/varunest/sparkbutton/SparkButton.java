@@ -194,6 +194,11 @@ public class SparkButton extends FrameLayout implements View.OnClickListener {
 
     public void setImageSize(@Px int imageSize) {
         this.imageSize = imageSize;
+        if (imageView != null) {
+            imageView.getLayoutParams().width = imageSize;
+            imageView.getLayoutParams().height = imageSize;
+            imageView.requestLayout();
+        }
     }
 
     public @ColorInt
