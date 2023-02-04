@@ -983,4 +983,11 @@
     <string name="about_peertube">\"PeerTube é unha ferramenta desenvolta por Framasoft (organización sen ánimo de lucro) para compartir vídeos en internet. PeerTube permite que unhas plataformas se conecten con outras, creando unha gran rede na que as partes son autónomas e están interconectadas.\"</string>
     <string name="compose_shortcut_short_label1">Redactar</string>
     <string name="toast_error_peertube_not_supported">O teu Peertube é demasiado antigo e non pode usarse coa app.</string>
+    <string name="otp_message">Token do segundo factor de autenticación</string>
+    <string name="fetch_home_every">Actualizar Inicio cada</string>
+    <string name="set_fetch_home">Actualizar automáticamente mensaxes de inicio</string>
+    <string name="type_of_home_delay_title">Intervalo de actualización</string>
+    <string name="home_cache">Caché do Inicio</string>
+    <string name="fetch_home_messages">Obter mensaxes</string>
+    <string name="auto_fetch_missing">Obter automáticamente as mensaxes que faltan</string>
 </resources>

@@ -1000,4 +1000,10 @@
     <string name="toast_error_peertube_not_supported">Vaše instance Peertube je příliš stará a nemůže být aplikací podporována.</string>
     <string name="compose_shortcut_short_label1">Vytváření</string>
     <string name="otp_message">Token pro dvoufaktorovou autentizaci</string>
+    <string name="fetch_home_every">Načíst Domov každých</string>
+    <string name="home_cache">Cache pro Domov</string>
+    <string name="type_of_home_delay_title">Čas načtení Domova</string>
+    <string name="set_fetch_home">Automaticky načítat domácí zprávy</string>
+    <string name="fetch_home_messages">Načíst domácí zprávy</string>
+    <string name="auto_fetch_missing">Automaticky načítat chybějící zprávy</string>
 </resources>

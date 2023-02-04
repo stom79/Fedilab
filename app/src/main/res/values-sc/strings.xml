@@ -981,4 +981,10 @@
     <string name="compose_shortcut_short_label1">Cumpone</string>
     <string name="toast_error_peertube_not_supported">Su PeerTube tuo est tropu betzu e non podet èssere suportadu dae s\'aplicatzione.</string>
     <string name="otp_message">Getone de autenticatzione a duos fatores</string>
+    <string name="fetch_home_messages">Recùpera is messàgios de sa lìnia printzipale</string>
+    <string name="auto_fetch_missing">Recùpera in automàticu is messàgios chi mancant</string>
+    <string name="fetch_home_every">Recùpera sa lìnia printzipale cada</string>
+    <string name="home_cache">Memòria temporànea lìnia printzipale</string>
+    <string name="type_of_home_delay_title">Tempus de recùperu de sa lìnia printzipale</string>
+    <string name="set_fetch_home">Recùpera in automàticu is messàgios de sa lìnia printzipale</string>
 </resources>

@@ -988,4 +988,10 @@
     <string name="toast_error_peertube_not_supported">Peertube sürümünüz çok eski ve uygulama tarafından desteklenemiyor.</string>
     <string name="compose_shortcut_short_label1">Oluştur</string>
     <string name="otp_message">İki aşamalı kimlik doğrulama belirteci</string>
+    <string name="fetch_home_every">Ana sayfayı alma sıklığı</string>
+    <string name="type_of_home_delay_title">Ana sayfa alma zamanı</string>
+    <string name="set_fetch_home">Ana sayfa mesajlarını otomatik olarak al</string>
+    <string name="home_cache">Ana sayfa önbelleği</string>
+    <string name="auto_fetch_missing">Eksik mesajları otomatik olarak al</string>
+    <string name="fetch_home_messages">Ana sayfa mesajlarını al</string>
 </resources>
