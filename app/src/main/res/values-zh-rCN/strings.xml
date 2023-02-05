@@ -854,7 +854,7 @@
     <string name="toast_unpin">消息不再置顶！</string>
     <string name="toast_pin">消息已置顶</string>
     <string name="staff">职员</string>
-    <string name="approved">得到正式认可的</string>
+    <string name="approved">已批准</string>
     <string name="approve">批准</string>
     <string name="set_unlisted_replies">不公开回复</string>
     <string name="max_indentation_thread">同主题帖子中最大缩进</string>
