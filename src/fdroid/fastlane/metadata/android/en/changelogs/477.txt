@@ -9,6 +9,7 @@ Added:
 
 Fixed:
 - Dynamic color for Android 12+
+- Missing media description for previews
 - Fix a crash when replying
 - Fix button size not changed
 - Forward tags in replies

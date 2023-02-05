@@ -2259,6 +2259,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if ((!fullAttachement || statusToDeal.sensitive) && !singleImage) {
             layoutMediaBinding.count.setText(String.format(Locale.getDefault(), "%d/%d", mediaPosition, statusToDeal.media_attachments.size()));
         }
+        if (attachment.description != null && attachment.description.trim().length() > 0) {
+            layoutMediaBinding.media.setContentDescription(attachment.description.trim());
+        }
         String finalUrl;
         if (attachment.url == null) {
             finalUrl = attachment.remote_url;
