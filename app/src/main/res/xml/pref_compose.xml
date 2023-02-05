@@ -13,6 +13,14 @@
         app:singleLineTitle="false"
         app:summary="@string/set_capitalize_indication"
         app:title="@string/set_capitalize" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_MENTIONS_AT_TOP"
+        app:singleLineTitle="false"
+        app:summary="@string/set_mention_at_top_indication"
+        app:title="@string/set_mention_at_top" />
     <!--
     <SwitchPreferenceCompat
         app:defaultValue="false"

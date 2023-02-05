@@ -1390,6 +1390,8 @@
 
     <string name="SET_DISABLE_ANIMATED_EMOJI" translatable="false">SET_DISABLE_ANIMATED_EMOJI</string>
     <string name="SET_CAPITALIZE" translatable="false">SET_CAPITALIZE</string>
+    <string name="SET_MENTIONS_AT_TOP" translatable="false">SET_MENTIONS_AT_TOP</string>
+
     <string name="SET_THEME_BASE" translatable="false">SET_THEME_BASE</string>
     <string name="SET_DYNAMICCOLOR" translatable="false">SET_DYNAMICCOLOR</string>
     <string name="SET_CARDVIEW" translatable="false">SET_CARDVIEW</string>
@@ -2244,4 +2246,7 @@
     <string name="home_cache">Home cache</string>
     <string name="fetch_home_messages">Fetch home messages</string>
     <string name="auto_fetch_missing">Automatically fetch missing messages</string>
+
+    <string name="set_mention_at_top">Mentions at the top</string>
+    <string name="set_mention_at_top_indication">When replying mentions will all be added to the beginning of the message</string>
 </resources>

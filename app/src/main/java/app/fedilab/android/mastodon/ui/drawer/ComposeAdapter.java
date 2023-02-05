@@ -314,8 +314,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             //Put other accounts mentioned at the bottom
             boolean capitalize = sharedpreferences.getBoolean(context.getString(R.string.SET_CAPITALIZE), true);
+            boolean mentionsAtTop = sharedpreferences.getBoolean(context.getString(R.string.SET_MENTIONS_AT_TOP), false);
+
             if (inReplyToUser != null) {
-                if (capitalize) {
+                if (capitalize && !mentionsAtTop) {
                     statusDraft.text = inReplyToUser.acct.startsWith("@") ? inReplyToUser.acct + "\n" : "@" + inReplyToUser.acct + "\n";
                 } else {
                     statusDraft.text = inReplyToUser.acct.startsWith("@") ? inReplyToUser.acct + " " : "@" + inReplyToUser.acct + " ";
@@ -324,7 +326,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.content.setText(statusDraft.text);
             statusDraft.cursorPosition = statusDraft.text.length();
             if (statusDraft.mentions.size() > 1) {
-                statusDraft.text += "\n";
+                if (!mentionsAtTop) {
+                    statusDraft.text += "\n";
+                }
                 for (int i = 1; i < statusDraft.mentions.size(); i++) {
                     String tootTemp = String.format("@%s ", statusDraft.mentions.get(i).acct);
                     statusDraft.text = String.format("%s ", (statusDraft.text + tootTemp.trim()));
@@ -1575,8 +1579,18 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     currentCursorPosition = holder.getLayoutPosition();
                 }
             });
+            boolean capitalize = sharedpreferences.getBoolean(context.getString(R.string.SET_CAPITALIZE), true);
+            boolean mentionsAtTop = sharedpreferences.getBoolean(context.getString(R.string.SET_MENTIONS_AT_TOP), false);
             if (statusDraft.cursorPosition <= holder.binding.content.length()) {
-                holder.binding.content.setSelection(statusDraft.cursorPosition);
+                if (!mentionsAtTop) {
+                    holder.binding.content.setSelection(statusDraft.cursorPosition);
+                } else {
+                    if (capitalize && !statusDraft.text.endsWith("\n")) {
+                        statusDraft.text += "\n";
+                        holder.binding.content.setText(statusDraft.text);
+                    }
+                    holder.binding.content.setSelection(holder.binding.content.getText().length());
+                }
             }
             if (statusDraft.setCursorToEnd) {
                 statusDraft.setCursorToEnd = false;
