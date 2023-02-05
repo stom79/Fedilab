@@ -237,7 +237,7 @@ public class FragmentLoginMain extends Fragment {
                     }
                 });
             } else if (itemId == R.id.action_import_data) {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                     permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 } else {
                     proceed();

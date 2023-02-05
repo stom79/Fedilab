@@ -265,7 +265,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                         .setClearViewsEnabled(true)
                         .setTransparencyEnabled(true)
                         .build();
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                     if (ContextCompat.checkSelfPermission(EditImageActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
                             PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(EditImageActivity.this,

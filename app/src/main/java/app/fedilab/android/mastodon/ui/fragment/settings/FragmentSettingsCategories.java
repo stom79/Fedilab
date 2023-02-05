@@ -154,7 +154,7 @@ public class FragmentSettingsCategories extends PreferenceFragmentCompat {
         Preference pref_export_settings = findPreference(getString(R.string.pref_export_settings));
         if (pref_export_settings != null) {
             pref_export_settings.setOnPreferenceClickListener(preference -> {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                     permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 } else {
                     try {

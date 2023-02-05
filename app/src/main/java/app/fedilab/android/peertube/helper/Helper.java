@@ -821,7 +821,7 @@ public class Helper {
 
     public static void requestPermissionAndProceed(Activity activity, PermissionGranted permissionGranted) {
         if (Build.VERSION.SDK_INT >= 23) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                 if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, app.fedilab.android.mastodon.helper.Helper.EXTERNAL_STORAGE_REQUEST_CODE_MEDIA_SAVE);
                 } else {
