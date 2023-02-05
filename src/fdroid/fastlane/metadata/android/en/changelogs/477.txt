@@ -11,4 +11,5 @@ Fixed:
 - Dynamic color for Android 12+
 - Fix a crash when replying
 - Fix button size not changed
+- Forward tags in replies
 - Some crashes

@@ -1311,6 +1311,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ComposeViewHolder holder = (ComposeViewHolder) viewHolder;
             boolean extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
             boolean mathsComposer = sharedpreferences.getBoolean(context.getString(R.string.SET_MATHS_COMPOSER), true);
+            boolean forwardTag = sharedpreferences.getBoolean(context.getString(R.string.SET_FORWARD_TAGS_IN_REPLY), true);
+
 
             if (mathsComposer) {
                 holder.binding.buttonMathsComposer.setVisibility(View.VISIBLE);
@@ -1596,6 +1598,31 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 statusDraft.setCursorToEnd = false;
                 holder.binding.content.setSelection(holder.binding.content.getText().length());
             }
+            if (forwardTag && position > 0 && statusDraft.text != null && !statusDraft.text.contains("#")) {
+                Status status = statusList.get(position - 1).reblog == null ? statusList.get(position - 1) : statusList.get(position - 1).reblog;
+                if (status.tags != null && status.tags.size() > 0) {
+                    statusDraft.text += "\n\n";
+                    int lenght = 0;
+                    for (Tag tag : status.tags) {
+                        statusDraft.text += "#" + tag.name + " ";
+                        lenght += ("#" + tag.name + " ").length();
+                    }
+                    holder.binding.content.setText(statusDraft.text);
+                    statusDraft.cursorPosition = statusDraft.text.length() - lenght - 3;
+                    statusDraft.setCursorToEnd = false;
+                    holder.binding.content.setSelection(statusDraft.text.length() - lenght - 3);
+                }
+            } else if (forwardTag && position > 0 && statusDraft.text != null && statusDraft.text.contains("#")) {
+                Status status = statusList.get(position - 1).reblog == null ? statusList.get(position - 1) : statusList.get(position - 1).reblog;
+                int lenght = 0;
+                for (Tag tag : status.tags) {
+                    lenght += ("#" + tag.name + " ").length();
+                }
+                statusDraft.cursorPosition = statusDraft.text.length() - lenght - 3;
+                statusDraft.setCursorToEnd = false;
+                holder.binding.content.setSelection(statusDraft.text.length() - lenght - 3);
+            }
+
             if (statusDraft.spoiler_text != null) {
                 holder.binding.contentSpoiler.setText(statusDraft.spoiler_text);
                 holder.binding.contentSpoiler.setSelection(holder.binding.contentSpoiler.getText().length());
