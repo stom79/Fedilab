@@ -355,7 +355,7 @@ public class HashTagActivity extends BaseActivity {
                 pin.setIcon(R.drawable.tag_pin_off);
                 pin.setTitle(getString(R.string.unpin_tag));
             } else {
-                pin.setTitle(getString(R.string.unpin_tag));
+                pin.setTitle(getString(R.string.pin_tag));
                 pin.setIcon(R.drawable.tag_pin);
             }
         } else {
