@@ -1111,15 +1111,23 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         int ressource = R.drawable.ic_baseline_public_24;
+        holder.binding.visibility.setContentDescription(context.getString(R.string.v_public));
+        holder.binding.visibilitySmall.setContentDescription(context.getString(R.string.v_public));
         switch (status.visibility) {
             case "unlisted":
+                holder.binding.visibility.setContentDescription(context.getString(R.string.v_unlisted));
+                holder.binding.visibilitySmall.setContentDescription(context.getString(R.string.v_unlisted));
                 ressource = R.drawable.ic_baseline_lock_open_24;
                 break;
             case "private":
                 ressource = R.drawable.ic_baseline_lock_24;
+                holder.binding.visibility.setContentDescription(context.getString(R.string.v_private));
+                holder.binding.visibilitySmall.setContentDescription(context.getString(R.string.v_private));
                 break;
             case "direct":
                 ressource = R.drawable.ic_baseline_mail_24;
+                holder.binding.visibility.setContentDescription(context.getString(R.string.v_direct));
+                holder.binding.visibilitySmall.setContentDescription(context.getString(R.string.v_direct));
                 break;
         }
 
@@ -1277,6 +1285,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.actionButtonBoost.setVisibility(View.GONE);
                 break;
         }
+
         //--- MAIN CONTENT ---
         holder.binding.statusContent.setText(
                 statusToDeal.getSpanContent(context,
