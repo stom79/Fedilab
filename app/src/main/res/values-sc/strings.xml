@@ -987,4 +987,6 @@
     <string name="home_cache">Memòria temporànea lìnia printzipale</string>
     <string name="type_of_home_delay_title">Tempus de recùperu de sa lìnia printzipale</string>
     <string name="set_fetch_home">Recùpera in automàticu is messàgios de sa lìnia printzipale</string>
+    <string name="set_mention_at_top">Mentovos in pitzos</string>
+    <string name="set_mention_at_top_indication">Rispondende, is mentovos s\'ant a annànghere a su cumintzu de su messàgiu</string>
 </resources>

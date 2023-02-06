@@ -942,7 +942,7 @@
     <string name="type_of_notifications_delay_title">通知获取时间</string>
     <string name="set_dynamic_color_indication">与您个人壁纸的配色方案色调一致。</string>
     <string name="type_default_theme_light">默认浅色主题</string>
-    <string name="set_cardview">高架卡</string>
+    <string name="set_cardview">悬浮卡片</string>
     <string name="set_customize_light">自定义浅色主题</string>
     <string name="set_customize_light_indication">允许为浅色主题自定义消息中的一些元素。</string>
     <string name="set_customize_dark">自定义深色主题</string>
@@ -994,4 +994,6 @@
     <string name="type_of_home_delay_title">主页获取延迟</string>
     <string name="fetch_home_every">获取主页消息每隔</string>
     <string name="auto_fetch_missing">自动获取缺失的消息</string>
+    <string name="set_mention_at_top">置顶提及</string>
+    <string name="set_mention_at_top_indication">回复时提及将全部添加到消息的开头</string>
 </resources>

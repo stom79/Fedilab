@@ -1006,4 +1006,6 @@
     <string name="set_fetch_home">Automaticky načítat domácí zprávy</string>
     <string name="fetch_home_messages">Načíst domácí zprávy</string>
     <string name="auto_fetch_missing">Automaticky načítat chybějící zprávy</string>
+    <string name="set_mention_at_top">Zmínky nahoře</string>
+    <string name="set_mention_at_top_indication">Při odpovídání budou zmínky vždy přidány na začátek zprávy</string>
 </resources>

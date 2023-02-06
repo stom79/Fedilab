@@ -994,4 +994,6 @@
     <string name="home_cache">Ana sayfa önbelleği</string>
     <string name="auto_fetch_missing">Eksik mesajları otomatik olarak al</string>
     <string name="fetch_home_messages">Ana sayfa mesajlarını al</string>
+    <string name="set_mention_at_top">Bahsedilenler üstte</string>
+    <string name="set_mention_at_top_indication">Yanıtlarken, bahsedenlerin tümü mesajın başına eklenecektir</string>
 </resources>
