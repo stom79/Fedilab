@@ -2251,4 +2251,9 @@
 
     <string name="set_mention_at_top">Mentions at the top</string>
     <string name="set_mention_at_top_indication">When replying mentions will all be added to the beginning of the message</string>
+
+
+    <string name="number_of_media">Number of media</string>
+    <string name="number_of_replies">Number of replies</string>
+    <string name="update_date">Update date</string>
 </resources>

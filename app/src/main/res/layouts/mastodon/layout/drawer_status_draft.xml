@@ -50,6 +50,7 @@
                 android:id="@+id/number_of_messages"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/number_of_replies"
                 android:layout_weight="2"
                 android:drawablePadding="5dp"
                 app:drawableStartCompat="@drawable/ic_baseline_message_24" />
@@ -58,6 +59,7 @@
                 android:id="@+id/number_of_media"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/number_of_media"
                 android:layout_weight="2"
                 android:drawablePadding="5dp"
                 app:drawableStartCompat="@drawable/ic_baseline_perm_media_24" />
@@ -66,6 +68,7 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/update_date"
                 android:layout_weight="1"
                 android:drawablePadding="5dp"
                 app:drawableStartCompat="@drawable/ic_baseline_access_time_24" />
