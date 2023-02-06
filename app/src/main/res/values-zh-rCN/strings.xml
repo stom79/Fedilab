@@ -994,4 +994,6 @@
     <string name="type_of_home_delay_title">主页获取延迟</string>
     <string name="fetch_home_every">获取主页消息每隔</string>
     <string name="auto_fetch_missing">自动获取缺失的消息</string>
+    <string name="set_mention_at_top">置顶提及</string>
+    <string name="set_mention_at_top_indication">回复时提及将全部添加到消息的开头</string>
 </resources>
