@@ -49,6 +49,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -1506,6 +1507,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.buttonCloseAttachmentPanel.setOnClickListener(v -> holder.binding.attachmentChoicesPanel.setVisibility(View.GONE));
             holder.binding.buttonVisibility.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.VISIBLE);
+                holder.binding.visibilityGroup.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
                 holder.binding.buttonVisibility.setChecked(false);
             });
             holder.binding.buttonCloseVisibilityPanel.setOnClickListener(v -> holder.binding.visibilityPanel.setVisibility(View.GONE));
