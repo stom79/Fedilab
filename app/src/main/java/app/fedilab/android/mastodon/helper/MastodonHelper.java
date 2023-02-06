@@ -130,8 +130,12 @@ public class MastodonHelper {
      * @return Pagination
      */
     public static Pagination getPagination(Headers headers) {
-        String link = headers.get("Link");
+
         Pagination pagination = new Pagination();
+        if (headers == null) {
+            return pagination;
+        }
+        String link = headers.get("Link");
         if (link != null) {
             Pattern patternMaxId = Pattern.compile("max_id=([0-9a-zA-Z]+).*");
             Matcher matcherMaxId = patternMaxId.matcher(link);

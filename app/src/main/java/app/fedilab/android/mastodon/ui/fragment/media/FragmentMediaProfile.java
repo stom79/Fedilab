@@ -96,7 +96,9 @@ public class FragmentMediaProfile extends Fragment {
                         accountsVM.getAccountStatuses(tempInstance, null, accountId, null, null, null, null, null, true, false, MastodonHelper.statusesPerCall(requireActivity()))
                                 .observe(getViewLifecycleOwner(), statuses -> initializeStatusesCommonView(statuses));
                     } else {
-                        Toasty.error(requireActivity(), getString(R.string.toast_fetch_error), Toasty.LENGTH_LONG).show();
+                        if (isAdded() && !requireActivity().isFinishing()) {
+                            Toasty.error(requireActivity(), getString(R.string.toast_fetch_error), Toasty.LENGTH_LONG).show();
+                        }
                     }
                 }
             });

@@ -2137,7 +2137,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     //We hide the button
                     status.isFetchMore = false;
                     String fromId;
-                    if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                    if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
                         fromId = statusList.get(holder.getBindingAdapterPosition()).id;
                     } else {
                         fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
@@ -2158,7 +2158,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         statusIdMin = status.id;
                     }
                 }
-                if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
                     statusIdMax = statusList.get(holder.getBindingAdapterPosition()).id;
                 } else {
                     statusIdMax = statusList.get(holder.getBindingAdapterPosition() - 1).id;
@@ -2470,6 +2470,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public List<Attachment> getPreloadItems(int position) {
         List<Attachment> attachments = new ArrayList<>();
         int max_size = statusList.size();
+        if (max_size == 0) {
+            return attachments;
+        }
         int siblings = 3;
         int from = Math.max((position - siblings), 0);
         if (from > max_size - 1) {
@@ -2646,7 +2649,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         status.isFetchMore = false;
                         notifyItemChanged(holder.getBindingAdapterPosition());
                         String fromId;
-                        if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                        if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
                             fromId = statusList.get(holder.getBindingAdapterPosition()).id;
                         } else {
                             fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
@@ -2664,7 +2667,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             minId = status.id;
                         }
                     }
-                    if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                    if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
                         maxId = statusList.get(holder.getBindingAdapterPosition()).id;
                     } else {
                         maxId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
@@ -2702,7 +2705,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     //We hide the button
                     status.isFetchMore = false;
                     String fromId;
-                    if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                    if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
                         fromId = statusList.get(holder.getBindingAdapterPosition()).id;
                     } else {
                         fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
