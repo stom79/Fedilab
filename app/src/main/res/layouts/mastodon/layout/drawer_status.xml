@@ -57,6 +57,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/status_boost_icon"
+                android:contentDescription="@string/reblog"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
@@ -64,6 +65,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/status_booster_avatar"
+                android:contentDescription="@string/profile_picture"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:scaleType="centerInside"
@@ -114,6 +116,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:scaleType="centerInside"
+                        android:contentDescription="@string/profile_picture"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -139,6 +142,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="6dp"
+                            android:contentDescription="@string/reply"
                             android:src="@drawable/ic_baseline_reply_16"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -152,6 +156,7 @@
                             android:layout_marginStart="6dp"
                             android:src="@drawable/ic_baseline_android_24"
                             android:visibility="gone"
+                            android:contentDescription="@string/bot"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             tools:visibility="visible" />
@@ -178,6 +183,7 @@
                             android:id="@+id/visibility_small"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
+                            android:contentDescription="@string/visibility"
                             android:layout_marginEnd="5dp"
                             android:src="@drawable/ic_baseline_public_24" />
 
@@ -211,6 +217,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/pinned"
                 android:src="@drawable/ic_baseline_push_pin_24"
                 android:visibility="gone" />
 
@@ -357,6 +364,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:adjustViewBounds="true"
+                    android:contentDescription="@string/card_picture"
                     android:padding="1dp"
                     android:scaleType="centerCrop"
                     android:visibility="gone"
@@ -375,6 +383,7 @@
                         android:adjustViewBounds="true"
                         android:padding="1dp"
                         android:scaleType="centerCrop"
+                        android:contentDescription="@string/card_picture"
                         android:visibility="gone"
                         tools:src="@tools:sample/backgrounds/scenic"
                         tools:visibility="visible" />
@@ -531,6 +540,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/repeat_info"
+                    android:contentDescription="@string/reblog"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="12dp"
@@ -554,6 +564,7 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/fav_info"
                     android:layout_width="20dp"
+                    android:contentDescription="@string/favourite"
                     android:layout_height="20dp"
                     android:layout_marginStart="12dp"
                     app:srcCompat="@drawable/ic_star_outline" />
@@ -573,6 +584,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/visibility"
+                android:contentDescription="@string/visibility"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="12dp"
