@@ -39,12 +39,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/remove"
-        style="@style/Widget.Material3.Button.OutlinedButton"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_margin="6dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
+        android:contentDescription="@string/delete_field"
         android:padding="0dp"
         android:textColor="?colorError"
         app:icon="@drawable/ic_compose_attachment_remove"
