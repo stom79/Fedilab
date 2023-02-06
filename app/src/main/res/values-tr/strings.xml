@@ -996,4 +996,9 @@
     <string name="fetch_home_messages">Ana sayfa mesajlarını al</string>
     <string name="set_mention_at_top">Bahsedilenler üstte</string>
     <string name="set_mention_at_top_indication">Yanıtlarken, bahsedenlerin tümü mesajın başına eklenecektir</string>
+    <string name="card_picture">Kart resmi</string>
+    <string name="number_of_media">Medya sayısı</string>
+    <string name="number_of_replies">Yanıt sayısı</string>
+    <string name="pinned">Sabitlendi</string>
+    <string name="update_date">Güncelleme tarihi</string>
 </resources>
