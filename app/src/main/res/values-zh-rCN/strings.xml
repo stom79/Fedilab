@@ -942,7 +942,7 @@
     <string name="type_of_notifications_delay_title">通知获取时间</string>
     <string name="set_dynamic_color_indication">与您个人壁纸的配色方案色调一致。</string>
     <string name="type_default_theme_light">默认浅色主题</string>
-    <string name="set_cardview">高架卡</string>
+    <string name="set_cardview">悬浮卡片</string>
     <string name="set_customize_light">自定义浅色主题</string>
     <string name="set_customize_light_indication">允许为浅色主题自定义消息中的一些元素。</string>
     <string name="set_customize_dark">自定义深色主题</string>
