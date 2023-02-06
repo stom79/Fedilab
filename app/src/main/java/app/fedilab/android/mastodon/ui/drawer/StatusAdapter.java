@@ -39,8 +39,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -138,6 +140,7 @@ import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.helper.BlurHashDecoder;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.GlideApp;
 import app.fedilab.android.mastodon.helper.GlideFocus;
@@ -2211,13 +2214,24 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
         RequestBuilder<Drawable> requestBuilder;
         GlideRequests glideRequests = GlideApp.with(context);
+        Bitmap placeholder = null;
+        if (attachment.blurhash != null) {
+            placeholder = new BlurHashDecoder().decode(attachment.blurhash, 32, 32, 1f);
+        }
         if (!isSensitive || expand_media) {
             requestBuilder = glideRequests.asDrawable();
             if (!fullAttachement) {
+                if (placeholder != null) {
+                    requestBuilder = requestBuilder.placeholder(new BitmapDrawable(context.getResources(), placeholder));
+                }
                 requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
                 requestBuilder = requestBuilder.dontAnimate();
             } else {
-                requestBuilder = requestBuilder.placeholder(R.color.transparent_grey);
+                if (placeholder != null) {
+                    requestBuilder = requestBuilder.placeholder(new BitmapDrawable(context.getResources(), placeholder));
+                } else {
+                    requestBuilder = requestBuilder.placeholder(R.color.transparent_grey);
+                }
                 requestBuilder = requestBuilder.dontAnimate();
                 requestBuilder = requestBuilder.apply(new RequestOptions().override((int) mediaW, (int) mediaH));
                 requestBuilder = requestBuilder.fitCenter();
