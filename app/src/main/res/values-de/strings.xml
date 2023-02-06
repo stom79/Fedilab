@@ -996,4 +996,6 @@
     <string name="otp_message">Zwei-Faktor-Authentifizierungstoken</string>
     <string name="home_cache">Cache der Startseite</string>
     <string name="fetch_home_messages">Beiträge auf der Startseite abrufen</string>
+    <string name="set_mention_at_top">Erwähnungen am Anfang</string>
+    <string name="set_mention_at_top_indication">Beim Antworten werden alle Erwähnungen dem Anfang des Beitrags hinzugefügt</string>
 </resources>
