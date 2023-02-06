@@ -48,23 +48,30 @@
                 android:layout_marginHorizontal="6dp"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-                app:layout_constraintBottom_toTopOf="@id/description"
+                app:layout_constraintBottom_toTopOf="@id/description_container"
                 app:layout_constraintTop_toTopOf="@id/background_image"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Instance" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/description"
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/description_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="6dp"
-                android:layout_marginTop="6dp"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toTopOf="@id/version"
-                app:layout_constraintTop_toBottomOf="@id/name"
-                tools:maxLines="6"
-                tools:text="@tools:sample/lorem/random" />
+                app:layout_constraintTop_toBottomOf="@id/name">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:layout_marginTop="6dp"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    tools:maxLines="6"
+                    tools:text="@tools:sample/lorem/random" />
+            </androidx.core.widget.NestedScrollView>
+
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/version"
@@ -74,7 +81,7 @@
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
                 app:layout_constraintBottom_toTopOf="@id/uri"
-                app:layout_constraintTop_toBottomOf="@id/description"
+                app:layout_constraintTop_toBottomOf="@id/description_container"
                 tools:text="4.0" />
 
             <com.google.android.material.button.MaterialButton
@@ -106,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="name,description,version,uri,contact"
+                app:constraint_referenced_ids="name,description_container,version,uri,contact"
                 tools:visibility="visible" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
