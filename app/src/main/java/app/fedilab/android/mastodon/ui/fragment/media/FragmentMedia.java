@@ -105,13 +105,9 @@ public class FragmentMedia extends Fragment {
                 enableSliding(true);
             }
         });
-        binding.mediaPicture.setOnClickListener(v -> {
-            ((MediaActivity) requireActivity()).toogleFullScreen();
-        });
+        binding.mediaPicture.setOnClickListener(v -> ((MediaActivity) requireActivity()).toogleFullScreen());
 
-        binding.mediaVideo.setOnClickListener(v -> {
-            ((MediaActivity) requireActivity()).toogleFullScreen();
-        });
+        binding.mediaVideo.setOnClickListener(v -> ((MediaActivity) requireActivity()).toogleFullScreen());
 
         String type = attachment.type;
         String preview_url = attachment.preview_url;

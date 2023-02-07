@@ -1537,7 +1537,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
         popup.setOnDismissListener(menu1 -> {
             if (binding.viewPager.getAdapter() != null) {
-                Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, binding.tabLayout.getSelectedTabPosition());
+                int tabPosition = binding.tabLayout.getSelectedTabPosition();
+                Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, Math.max(tabPosition, 0));
                 if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
                     FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
                     fragmentMastodonTimeline.refreshAllAdapters();
@@ -1634,7 +1635,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
     public void refreshFragment() {
         if (binding.viewPager.getAdapter() != null) {
-            Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, binding.tabLayout.getSelectedTabPosition());
+            int position = binding.tabLayout.getSelectedTabPosition();
+            Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, Math.max(position, 0));
             if (fragment instanceof FragmentNotificationContainer) {
                 FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
                 fragTransaction.detach(fragment).commit();
