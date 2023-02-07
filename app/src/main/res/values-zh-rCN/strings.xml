@@ -996,4 +996,9 @@
     <string name="auto_fetch_missing">自动获取缺失的消息</string>
     <string name="set_mention_at_top">置顶提及</string>
     <string name="set_mention_at_top_indication">回复时提及将全部添加到消息的开头</string>
+    <string name="pinned">已置顶</string>
+    <string name="card_picture">卡片图像</string>
+    <string name="number_of_replies">回复数</string>
+    <string name="update_date">更新日期</string>
+    <string name="number_of_media">媒体数</string>
 </resources>
