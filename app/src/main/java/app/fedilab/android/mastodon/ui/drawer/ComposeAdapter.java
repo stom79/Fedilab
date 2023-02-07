@@ -1589,7 +1589,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (!mentionsAtTop) {
                     holder.binding.content.setSelection(statusDraft.cursorPosition);
                 } else {
-                    if (capitalize && !statusDraft.text.endsWith("\n")) {
+                    if (capitalize && statusDraft.text != null && !statusDraft.text.endsWith("\n")) {
                         statusDraft.text += "\n";
                         holder.binding.content.setText(statusDraft.text);
                     }
