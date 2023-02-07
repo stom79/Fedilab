@@ -2257,14 +2257,19 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
 
         LinearLayout.LayoutParams lp;
+        int defaultHeight = (int) Helper.convertDpToPixel(200, context);
+        if (measuredWidth > 0) {
+            defaultHeight = (int) (measuredWidth * 3) / 4;
+        }
         if (fullAttachement && mediaH > 0 && (!statusToDeal.sensitive || expand_media)) {
             lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
             layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
         } else {
             if (singleImage) {
-                lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) Helper.convertDpToPixel(200, context));
+                lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, defaultHeight);
             } else {
-                lp = new LinearLayout.LayoutParams((int) Helper.convertDpToPixel(200, context), (int) Helper.convertDpToPixel(200, context));
+                //noinspection SuspiciousNameCombination
+                lp = new LinearLayout.LayoutParams(defaultHeight, defaultHeight);
             }
             layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
