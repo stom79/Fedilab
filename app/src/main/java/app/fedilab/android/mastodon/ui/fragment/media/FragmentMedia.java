@@ -132,6 +132,7 @@ public class FragmentMedia extends Fragment {
         binding.pbarInf.setScaleY(1f);
         binding.pbarInf.setIndeterminate(true);
         binding.loader.setVisibility(View.VISIBLE);
+        scheduleStartPostponedTransition(binding.mediaPicture);
         if (Helper.isValidContextForGlide(requireActivity()) && isAdded()) {
             Glide.with(requireActivity())
                     .asBitmap()
@@ -144,7 +145,7 @@ public class FragmentMedia extends Fragment {
                                         return;
                                     }
                                     binding.mediaPicture.setImageBitmap(resource);
-                                    scheduleStartPostponedTransition(binding.mediaPicture);
+
                                     if (attachment.type.equalsIgnoreCase("image") && !attachment.url.toLowerCase().endsWith(".gif")) {
                                         binding.mediaPicture.setVisibility(View.VISIBLE);
                                         final Handler handler = new Handler();
