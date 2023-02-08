@@ -1008,4 +1008,9 @@
     <string name="auto_fetch_missing">Automaticky načítat chybějící zprávy</string>
     <string name="set_mention_at_top">Zmínky nahoře</string>
     <string name="set_mention_at_top_indication">Při odpovídání budou zmínky vždy přidány na začátek zprávy</string>
+    <string name="pinned">Připnuto</string>
+    <string name="number_of_media">Počet médií</string>
+    <string name="number_of_replies">Počet odpovědí</string>
+    <string name="update_date">Datum aktualizace</string>
+    <string name="card_picture">Obrázek karty</string>
 </resources>

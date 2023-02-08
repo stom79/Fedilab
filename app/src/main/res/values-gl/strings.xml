@@ -990,4 +990,11 @@
     <string name="home_cache">Caché do Inicio</string>
     <string name="fetch_home_messages">Obter mensaxes</string>
     <string name="auto_fetch_missing">Obter automáticamente as mensaxes que faltan</string>
+    <string name="pinned">Fixada</string>
+    <string name="card_picture">Imaxe de perfil</string>
+    <string name="number_of_replies">Número de respostas</string>
+    <string name="set_mention_at_top_indication">Se as mencións nas respostas serán engadidas ao comezo da mensaxe</string>
+    <string name="set_mention_at_top">Mencións na parte superior</string>
+    <string name="number_of_media">Número de multimedia</string>
+    <string name="update_date">Data de actualización</string>
 </resources>

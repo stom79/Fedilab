@@ -17,7 +17,7 @@
     <string name="password">Contrasenya</string>
     <string name="email">Adreça electrònica</string>
     <string name="accounts">Comptes</string>
-    <string name="toots">Brams</string>
+    <string name="toots">Tuts</string>
     <string name="tags">Etiquetes</string>
     <string name="save">Desa</string>
     <string name="instance">Instància</string>
@@ -67,7 +67,7 @@
     <string name="favourite_add">Voleu afegir aquesta publicació als teus preferits\?</string>
     <string name="favourite_remove">Voleu suprimir aquesta publicació dels teus preferits\?</string>
     <string name="reblog_add">Voleu impulsar aquesta publicació\?</string>
-    <string name="reblog_remove">Desdifondre el bram\?</string>
+    <string name="reblog_remove">Voleu desfer l\'impuls\?</string>
     <string name="more_action_1">Silencia</string>
     <string name="more_action_2">Bloca</string>
     <string name="more_action_3">Denuncia</string>
@@ -122,7 +122,7 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">S\'ha produït un error en seleccionar el mèdia!</string>
     <string name="toot_delete_media">Vols suprimir aquest mèdia?</string>
-    <string name="toot_error_no_content">El bram és buit!</string>
+    <string name="toot_error_no_content">El tut és buit!</string>
     <string name="toot_sent">S\'ha enviat el bram!</string>
     <string name="toot_sensitive">És contingut sensible?</string>
     <string name="no_draft">No hi ha esborranys!</string>
@@ -791,4 +791,15 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="joined">Inscrit</string>
     <string name="max_indentation_thread">Sagnat màxim en els fils</string>
     <string name="email_user">Notificar a l\'usuari/a per correu electrònic</string>
+    <string name="notif_sign_up">Un usuari s\'ha registrat</string>
+    <string name="_new">Nou</string>
+    <string name="about_peertube">\"PeerTube és una eina per compartir vídeos en línia desenvolupada per Framasoft, una organització sense ànim de lucre francesa.…PeerTube permet connectar plataformes entre si, creant una gran xarxa de plataformes que són alhora autònomes i interconnectades.\"</string>
+    <string name="set_display_translate_indication">Mostrar sempre el botó de traducció</string>
+    <string name="poll_type_single">Opció única</string>
+    <string name="pinned">Fixat</string>
+    <string name="proxy_protocol">Protocol</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="poll_type_multiple">Opcions múltiples</string>
+    <string name="muted_menu_home">Pàgina d\'usuàries silenciades</string>
+    <string name="show_privates">Mostrar missatges directes</string>
 </resources>
