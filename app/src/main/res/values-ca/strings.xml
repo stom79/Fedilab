@@ -800,4 +800,6 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="proxy_protocol">Protocol</string>
     <string name="proxy_protocol_http">HTTP</string>
     <string name="poll_type_multiple">Opcions múltiples</string>
+    <string name="muted_menu_home">Pàgina d\'usuàries silenciades</string>
+    <string name="show_privates">Mostrar missatges directes</string>
 </resources>
