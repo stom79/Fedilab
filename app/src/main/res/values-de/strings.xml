@@ -998,4 +998,9 @@
     <string name="fetch_home_messages">Beiträge auf der Startseite abrufen</string>
     <string name="set_mention_at_top">Erwähnungen am Anfang</string>
     <string name="set_mention_at_top_indication">Beim Antworten werden alle Erwähnungen dem Anfang des Beitrags hinzugefügt</string>
+    <string name="number_of_media">Medienanzahl</string>
+    <string name="number_of_replies">Anzahl von Antworten</string>
+    <string name="update_date">Datum der Aktualisierung</string>
+    <string name="pinned">Angeheftet</string>
+    <string name="card_picture">Bild der Karte</string>
 </resources>
