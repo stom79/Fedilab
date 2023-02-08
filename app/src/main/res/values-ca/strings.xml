@@ -791,4 +791,13 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="joined">Inscrit</string>
     <string name="max_indentation_thread">Sagnat màxim en els fils</string>
     <string name="email_user">Notificar a l\'usuari/a per correu electrònic</string>
+    <string name="notif_sign_up">Un usuari s\'ha registrat</string>
+    <string name="_new">Nou</string>
+    <string name="about_peertube">\"PeerTube és una eina per compartir vídeos en línia desenvolupada per Framasoft, una organització sense ànim de lucre francesa.…PeerTube permet connectar plataformes entre si, creant una gran xarxa de plataformes que són alhora autònomes i interconnectades.\"</string>
+    <string name="set_display_translate_indication">Mostrar sempre el botó de traducció</string>
+    <string name="poll_type_single">Opció única</string>
+    <string name="pinned">Fixat</string>
+    <string name="proxy_protocol">Protocol</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="poll_type_multiple">Opcions múltiples</string>
 </resources>
