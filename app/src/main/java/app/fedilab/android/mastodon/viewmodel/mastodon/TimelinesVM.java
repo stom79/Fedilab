@@ -15,6 +15,9 @@ package app.fedilab.android.mastodon.viewmodel.mastodon;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -968,11 +971,16 @@ public class TimelinesVM extends AndroidViewModel {
         public List<String> excludeVisibilities;
         public String replyVisibility;
 
-        public TimelineParams(@NonNull Timeline.TimeLineEnum timeLineEnum, @Nullable FragmentMastodonTimeline.DIRECTION timelineDirection, @Nullable String ident) {
+        public TimelineParams(Context context, @NonNull Timeline.TimeLineEnum timeLineEnum, @Nullable FragmentMastodonTimeline.DIRECTION timelineDirection, @Nullable String ident) {
             if (type != Timeline.TimeLineEnum.REMOTE) {
                 instance = MainActivity.currentInstance;
                 token = MainActivity.currentToken;
                 userId = MainActivity.currentUserID;
+                if (instance == null || userId == null) {
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    instance = sharedpreferences.getString(PREF_USER_INSTANCE, null);
+                    userId = sharedpreferences.getString(PREF_USER_ID, null);
+                }
             }
             type = timeLineEnum;
             direction = timelineDirection;

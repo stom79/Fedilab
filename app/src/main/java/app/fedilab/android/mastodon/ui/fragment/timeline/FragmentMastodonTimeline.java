@@ -757,7 +757,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             return;
         }
         //Initialize with default params
-        TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(timelineType, direction, ident);
+        TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(requireActivity(), timelineType, direction, ident);
         timelineParams.limit = MastodonHelper.statusesPerCall(requireActivity());
         if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP || direction == DIRECTION.FETCH_NEW) {
             timelineParams.maxId = null;

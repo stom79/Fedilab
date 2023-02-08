@@ -124,7 +124,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
 
-        TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(Timeline.TimeLineEnum.NOTIFICATION, direction, null);
+        TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(requireActivity(), Timeline.TimeLineEnum.NOTIFICATION, direction, null);
         timelineParams.limit = MastodonHelper.notificationsPerCall(requireActivity());
         if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
             timelineParams.maxId = null;

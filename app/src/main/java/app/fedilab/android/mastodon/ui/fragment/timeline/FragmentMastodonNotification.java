@@ -314,7 +314,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         mLayoutManager = new LinearLayoutManager(requireActivity());
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(notificationAdapter);
-
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -390,7 +389,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
 
-        TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(Timeline.TimeLineEnum.NOTIFICATION, direction, null);
+        TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(requireActivity(), Timeline.TimeLineEnum.NOTIFICATION, direction, null);
         timelineParams.limit = MastodonHelper.notificationsPerCall(requireActivity());
         if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
             timelineParams.maxId = null;
@@ -406,6 +405,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         timelineParams.excludeType = getExcludeType();
         timelineParams.fetchingMissing = fetchingMissing;
+
         if (useCache && direction != FragmentMastodonTimeline.DIRECTION.SCROLL_TOP && direction != FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
             getCachedNotifications(direction, fetchingMissing, timelineParams);
         } else {
