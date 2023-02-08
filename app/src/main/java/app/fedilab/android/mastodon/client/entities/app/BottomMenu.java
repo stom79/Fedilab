@@ -111,7 +111,7 @@ public class BottomMenu implements Serializable {
     }
 
     public static ItemMenuType getType(BottomMenu bottomMenu, int position) {
-        if (bottomMenu == null || bottomMenu.bottom_menu == null || bottomMenu.bottom_menu.size() < position) {
+        if (bottomMenu == null || bottomMenu.bottom_menu == null || bottomMenu.bottom_menu.size() <= position) {
             return null;
         }
         return bottomMenu.bottom_menu.get(position).item_menu_type;

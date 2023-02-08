@@ -2777,16 +2777,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 context.startActivity(intent, options.toBundle());
             });
             holder.bindingArt.artMedia.setOnClickListener(v -> {
-                Intent mediaIntent = new Intent(context, MediaActivity.class);
-                Bundle b = new Bundle();
-                b.putInt(Helper.ARG_MEDIA_POSITION, 1);
-                ArrayList<Attachment> attachments = new ArrayList<>();
-                attachments.add(status.art_attachment);
-                b.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
-                mediaIntent.putExtras(b);
-                ActivityOptionsCompat options = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation((Activity) context, holder.bindingArt.artMedia, status.art_attachment.url);
-                context.startActivity(mediaIntent, options.toBundle());
+                if (status.art_attachment != null) {
+                    Intent mediaIntent = new Intent(context, MediaActivity.class);
+                    Bundle b = new Bundle();
+                    b.putInt(Helper.ARG_MEDIA_POSITION, 1);
+                    ArrayList<Attachment> attachments = new ArrayList<>();
+                    attachments.add(status.art_attachment);
+                    b.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
+                    mediaIntent.putExtras(b);
+                    ActivityOptionsCompat options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation((Activity) context, holder.bindingArt.artMedia, status.art_attachment.url);
+                    context.startActivity(mediaIntent, options.toBundle());
+                } else {
+                    Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                }
             });
             holder.bindingArt.bottomBanner.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ContextActivity.class);

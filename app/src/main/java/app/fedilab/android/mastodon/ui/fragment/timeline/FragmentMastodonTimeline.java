@@ -753,7 +753,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void routeCommon(DIRECTION direction, boolean fetchingMissing, Status status) {
-        if (binding == null || getActivity() == null || !isAdded()) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         //Initialize with default params
@@ -964,7 +964,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void route(DIRECTION direction, boolean fetchingMissing, Status statusToUpdate) {
-        if (binding == null || getActivity() == null || !isAdded()) {
+        if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         // --- HOME TIMELINE ---
@@ -1083,7 +1083,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                                     initializeStatusesCommonView(otherStatuses);
                                                 }));
                             } else {
-                                Toasty.error(requireActivity(), getString(R.string.toast_fetch_error), Toasty.LENGTH_LONG).show();
+                                if (isAdded() && !requireActivity().isFinishing()) {
+                                    Toasty.error(requireActivity(), getString(R.string.toast_fetch_error), Toasty.LENGTH_LONG).show();
+                                }
                             }
                         }
                     });
