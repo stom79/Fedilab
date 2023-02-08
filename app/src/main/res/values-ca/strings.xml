@@ -17,7 +17,7 @@
     <string name="password">Contrasenya</string>
     <string name="email">Adreça electrònica</string>
     <string name="accounts">Comptes</string>
-    <string name="toots">Brams</string>
+    <string name="toots">Tuts</string>
     <string name="tags">Etiquetes</string>
     <string name="save">Desa</string>
     <string name="instance">Instància</string>
@@ -67,7 +67,7 @@
     <string name="favourite_add">Voleu afegir aquesta publicació als teus preferits\?</string>
     <string name="favourite_remove">Voleu suprimir aquesta publicació dels teus preferits\?</string>
     <string name="reblog_add">Voleu impulsar aquesta publicació\?</string>
-    <string name="reblog_remove">Desdifondre el bram\?</string>
+    <string name="reblog_remove">Voleu desfer l\'impuls\?</string>
     <string name="more_action_1">Silencia</string>
     <string name="more_action_2">Bloca</string>
     <string name="more_action_3">Denuncia</string>
@@ -122,7 +122,7 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">S\'ha produït un error en seleccionar el mèdia!</string>
     <string name="toot_delete_media">Vols suprimir aquest mèdia?</string>
-    <string name="toot_error_no_content">El bram és buit!</string>
+    <string name="toot_error_no_content">El tut és buit!</string>
     <string name="toot_sent">S\'ha enviat el bram!</string>
     <string name="toot_sensitive">És contingut sensible?</string>
     <string name="no_draft">No hi ha esborranys!</string>
