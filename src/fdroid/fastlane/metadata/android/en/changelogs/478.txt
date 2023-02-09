@@ -5,6 +5,8 @@ Added:
 
 Changed:
 - Media heights now use the screen size
+- Reduce size of emoji when text size is increased
+- Update available languages in picker
 
 Fixed:
 - Forwarded tags are added back after being deleted

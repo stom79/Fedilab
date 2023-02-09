@@ -30,7 +30,7 @@ import app.fedilab.android.mastodon.client.entities.api.Status;
 
 
 public class CustomEmoji extends ReplacementSpan {
-    private final float scale;
+    private float scale;
     private final WeakReference<View> viewWeakReference;
     private Drawable imageDrawable;
     private boolean callbackCalled;
@@ -40,6 +40,9 @@ public class CustomEmoji extends ReplacementSpan {
         this.viewWeakReference = viewWeakReference;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         scale = sharedpreferences.getFloat(mContext.getString(R.string.SET_FONT_SCALE), 1.1f);
+        if (scale > 1.3f) {
+            scale = 1.3f;
+        }
         callbackCalled = false;
     }
 

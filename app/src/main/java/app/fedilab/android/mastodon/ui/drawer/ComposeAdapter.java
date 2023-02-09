@@ -1695,7 +1695,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (statusDraft.language == null || statusDraft.language.isEmpty()) {
                 String currentCode = sharedpreferences.getString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, Locale.getDefault().getLanguage());
-                if (currentCode == null || currentCode.isEmpty()) {
+                if (currentCode.isEmpty()) {
                     currentCode = "EN";
                 }
                 statusDraft.language = currentCode;

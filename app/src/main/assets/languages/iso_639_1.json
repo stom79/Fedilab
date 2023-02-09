@@ -381,7 +381,7 @@
   },
   {
     "code": "lo",
-    "language": "ພາສາ"
+    "language": "ລາວ"
   },
   {
     "code": "lt",
@@ -726,5 +726,109 @@
   {
     "code": "zu",
     "language": "isiZulu"
+  },
+  {
+    "code": "ast",
+    "language": "Asturianu"
+  },
+  {
+    "code": "ckb",
+    "language": "سۆرانی"
+  },
+  {
+    "code": "cnr",
+    "language": "crnogorski"
+  },
+  {
+    "code": "jbo",
+    "language": "la .lojban."
+  },
+  {
+    "code": "kab",
+    "language": "Taqbaylit"
+  },
+  {
+    "code": "kmr",
+    "language": "Kurmancî"
+  },
+  {
+    "code": "ldn",
+    "language": "Láadan"
+  },
+  {
+    "code": "lfn",
+    "language": "lingua franca nova"
+  },
+  {
+    "code": "sco",
+    "language": "Scots"
+  },
+  {
+    "code": "sma",
+    "language": "Åarjelsaemien Gïele"
+  },
+  {
+    "code": "smj",
+    "language": "Julevsámegiella"
+  },
+  {
+    "code": "szl",
+    "language": "ślůnsko godka"
+  },
+  {
+    "code": "tai",
+    "language": "ภาษาไท or ภาษาไต"
+  },
+  {
+    "code": "tok",
+    "language": "toki pona"
+  },
+  {
+    "code": "zba",
+    "language": "باليبلن"
+  },
+  {
+    "code": "zgh",
+    "language": "ⵜⴰⵎⴰⵣⵉⵖⵜ"
+  },
+  {
+    "code": "en-GB",
+    "language": "English (British)"
+  },
+  {
+    "code": "es-AR",
+    "language": "Español (Argentina)"
+  },
+  {
+    "code": "es-MX",
+    "language": "Español (México)"
+  },
+  {
+    "code": "fr-QC",
+    "language": "Français (Canadien)"
+  },
+  {
+    "code": "pt-BR",
+    "language": "Português (Brasil)"
+  },
+  {
+    "code": "pt-PT",
+    "language": "Português (Portugal)"
+  },
+  {
+    "code": "sr-Latn",
+    "language": "Srpski (latinica)"
+  },
+  {
+    "code": "zh-CN",
+    "language": "简体中文"
+  },
+  {
+    "code": "zh-HK",
+    "language": "繁體中文（香港）"
+  },
+  {
+    "code": "zh-TW",
+    "language": "繁體中文（臺灣）"
   }
 ]
