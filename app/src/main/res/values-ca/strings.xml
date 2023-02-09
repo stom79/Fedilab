@@ -393,7 +393,7 @@
     <string name="settings_category_notif_categories">Categories</string>
     <string name="move_timeline">Mou la pissarra</string>
     <string name="hide_timeline">Amaga la pissarra</string>
-    <string name="reorder_timelines">Reordenar pissarres</string>
+    <string name="reorder_timelines">Ordenar pissarres</string>
     <string name="reorder_list_deleted">Llista eliminada definitivament</string>
     <string name="reorder_instance_removed">La instància s\'ha deixat de seguir</string>
     <string name="reorder_tag_removed">L\'etiqueta ja no està fixada</string>
@@ -413,7 +413,7 @@
     <string name="saving">Desant…</string>
     <string name="image_saved">Imatge desada amb èxit!</string>
     <string name="save_image_failed">No s\'ha pogut desar la imatge</string>
-    <string name="add_poll_item">Afegeix un ítem a l\'enquesta</string>
+    <string name="add_poll_item">Afegir una opció</string>
     <string name="mute_conversation">Silenciar conversa</string>
     <string name="unmute_conversation">Desilenciar conversa</string>
     <string name="toast_unmute_conversation">La conversa ja no està silenciada!</string>
@@ -530,7 +530,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="make_an_action">Endega un acció</string>
     <string name="translation">Traducció</string>
     <string name="text_color_title">Color del text</string>
-    <string name="text_color">Canvia el color del text en les publicacions</string>
+    <string name="text_color">Canviar el color del text en les publicacions</string>
     <string name="pref_custom_theme">Usa un tema personalitzat</string>
     <string name="theming">Gestió de temes</string>
     <string name="data_export_theme">S\'ha exportat el tema</string>
@@ -712,7 +712,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="aggregate_notifications_summary">Quan s\'activa, l\'aplicació aplega les notificacions relacionades</string>
     <string name="display_media_notification">Mostra mèdia en les notificacions</string>
     <string name="type_of_notifications">Tipus de notificacions</string>
-    <string name="type_of_notifications_title">Trieu el tipus de notificació</string>
+    <string name="type_of_notifications_title">Triar el tipus de notificació</string>
     <string name="display">Aspecte</string>
     <string name="admin_scope">Sóc una moderadora</string>
     <string name="most_recent">Més recent</string>
@@ -757,7 +757,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="set_live_translate_title">Tradueix missatges</string>
     <string name="set_live_translate">Força que la traducció sigui a una llengua concreta. Escull el primer valor per a posar-ho en la configuració del dispositiu</string>
     <string name="approve">Aprovar</string>
-    <string name="pref_theme_base_summary">Tria si la base del tema ha de ser fosca o clara</string>
+    <string name="pref_theme_base_summary">Triar si la base del tema ha de ser fosca o clara</string>
     <string name="filter">Filtre</string>
     <string name="status">Estatus</string>
     <string name="bottom_menu">Menú inferior</string>
@@ -791,8 +791,8 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="joined">Inscrit</string>
     <string name="max_indentation_thread">Sagnat màxim en els fils</string>
     <string name="email_user">Notificar a l\'usuari/a per correu electrònic</string>
-    <string name="notif_sign_up">Un usuari s\'ha registrat</string>
-    <string name="_new">Nou</string>
+    <string name="notif_sign_up">S\'ha registrat una usuària</string>
+    <string name="_new">Nova</string>
     <string name="about_peertube">\"PeerTube és una eina per compartir vídeos en línia desenvolupada per Framasoft, una organització sense ànim de lucre francesa.…PeerTube permet connectar plataformes entre si, creant una gran xarxa de plataformes que són alhora autònomes i interconnectades.\"</string>
     <string name="set_display_translate_indication">Mostrar sempre el botó de traducció</string>
     <string name="poll_type_single">Opció única</string>
@@ -802,4 +802,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="poll_type_multiple">Opcions múltiples</string>
     <string name="muted_menu_home">Pàgina d\'usuàries silenciades</string>
     <string name="show_privates">Mostrar missatges directes</string>
+    <string name="notif_update_push">Un missatge que havies difós ha estat editat</string>
+    <string name="notif_report">Una usuària ha denunciat</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
 </resources>
