@@ -1,1 +1,0 @@
-- Corrigidos alguns bugs relatados.

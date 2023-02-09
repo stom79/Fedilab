@@ -1,2 +1,0 @@
-- Résolution de quelques bugs
-- Possibilité de partager avec l'application

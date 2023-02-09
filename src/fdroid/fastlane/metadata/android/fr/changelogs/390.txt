@@ -1,5 +1,0 @@
-Nouvelle version de Fedilab avec de nouvelles fonctionnalités.
--Vous pouvez maintenant composer des fils.
--Voir le fil complet pendant que vous répondez
--Support du cache
--Nouveau design

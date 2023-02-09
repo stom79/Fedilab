@@ -1,7 +1,0 @@
-Ajouté :
-- Désactiver les compteurs dans les paramètres
-Résolu :
-- Messages dupliqués depuis le cache
-- Notifications en double
-- Brouillons pas automatiquement supprimés
-- Message pas retirés du cache après suppression

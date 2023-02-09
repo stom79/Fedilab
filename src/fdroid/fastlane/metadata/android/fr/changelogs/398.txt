@@ -1,6 +1,0 @@
-- Poursuite de l'amélioration du défilement
-- Défiler vers le haut (re-sélection de la barre du haut) récupérera les nouveaux messages et défilera ensuite vers le haut.
-- Retrait du point de focalisation pour s'adapter aux aperçus des médias.
-- Réparation de l'impossibilité de partager avec un compte
-- Réparation du thème sombre
-- Réparation des couleurs de certains boutons

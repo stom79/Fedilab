@@ -1,3 +1,0 @@
-- Algumas correcções de bugs
-
-- Melhorar as linhas de tempo fixadas

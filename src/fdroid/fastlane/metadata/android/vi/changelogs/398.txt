@@ -1,6 +1,0 @@
-- Tiếp tục cải thiện hành vi cuộn
-- Cuộn lên đầu (chọn lại tab) sẽ tìm nạp các tin nhắn mới và sau đó cuộn lên trên cùng
-- Xóa điểm lấy nét để xem trước phương tiện phù hợp
-- Sửa lỗi không thể chia sẻ với một tài khoản
-- Sửa chủ đề màu đen
-- Sửa một số màu nút

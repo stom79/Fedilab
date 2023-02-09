@@ -1,4 +1,0 @@
-- Nouveau mécanisme de cache
-- Le cache peut être désactivé dans les paramètres
-- Ajout de compteurs pour les nouveaux messages
-- Quelques réparations.

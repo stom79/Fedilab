@@ -1,3 +1,0 @@
-- Fehlerkorrektur für Beiträge die Medien enthalten
-- Ladeverhalten der Thumbnails einstellen: Immer/Nur WLAN/Fragen
-- Einige andere kleine Korrekturen

@@ -1,1 +1,0 @@
-- Oprava některých nahlášených chyb.

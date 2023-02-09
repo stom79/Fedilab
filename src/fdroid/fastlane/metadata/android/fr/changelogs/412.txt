@@ -1,5 +1,0 @@
-- Réparation de la publication de message avec média
-- Résolution du problème d'encodage avec les descriptions de médias
-- Réparation de la recherche d'étiquettes Friendica
-- Réparation de la rédaction
-- D'autres petites réparations
