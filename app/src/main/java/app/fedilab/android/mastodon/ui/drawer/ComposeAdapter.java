@@ -1612,7 +1612,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 statusDraft.setCursorToEnd = false;
                 holder.binding.content.setSelection(holder.binding.content.getText().length());
             }
-            if (forwardTag && position > 0 && statusDraft.text != null && !statusDraft.text.contains("#")) {
+            if (forwardTag && position > 0 && statusDraft.text != null && !statusDraft.text.contains("#") && !statusList.get(position).tagAdded) {
+                statusList.get(position).tagAdded = true;
                 Status status = statusList.get(position - 1).reblog == null ? statusList.get(position - 1) : statusList.get(position - 1).reblog;
                 if (status.tags != null && status.tags.size() > 0) {
                     statusDraft.text += "\n\n";
@@ -1626,8 +1627,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     statusDraft.setCursorToEnd = false;
                     holder.binding.content.setSelection(statusDraft.text.length() - lenght - 3);
                 }
-            } else if (forwardTag && position > 0 && statusDraft.text != null && statusDraft.text.contains("#")) {
+            } else if (forwardTag && position > 0 && statusDraft.text != null && statusDraft.text.contains("#") && !statusList.get(position).tagAdded) {
                 Status status = statusList.get(position - 1).reblog == null ? statusList.get(position - 1) : statusList.get(position - 1).reblog;
+                statusList.get(position).tagAdded = true;
                 int lenght = 0;
                 for (Tag tag : status.tags) {
                     lenght += ("#" + tag.name + " ").length();
