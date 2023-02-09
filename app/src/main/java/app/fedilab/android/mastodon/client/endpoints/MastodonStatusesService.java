@@ -318,4 +318,18 @@ public interface MastodonStatusesService {
             @Header("Authorization") String token,
             @Path("id") String id
     );
+
+    @POST("statuses/{id}/react/{name}")
+    Call<Void> addReaction(
+            @Header("Authorization") String app_token,
+            @Path("id") String id,
+            @Path("name") String name
+    );
+
+    @POST("statuses/{id}/unreact/{name}")
+    Call<Void> removeReaction(
+            @Header("Authorization") String app_token,
+            @Path("id") String id,
+            @Path("name") String name
+    );
 }

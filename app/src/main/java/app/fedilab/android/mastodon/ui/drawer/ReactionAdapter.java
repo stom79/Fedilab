@@ -34,6 +34,7 @@ import app.fedilab.android.mastodon.client.entities.api.Reaction;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AnnouncementsVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
 import app.fedilab.android.mastodon.viewmodel.pleroma.ActionsVM;
 
 
@@ -46,18 +47,29 @@ public class ReactionAdapter extends RecyclerView.Adapter<ReactionAdapter.Reacti
     private final List<Reaction> reactions;
     private final String announcementId;
     private final boolean statusReaction;
+    private final boolean isPleroma;
     private Context context;
+
+
+    ReactionAdapter(String announcementId, List<Reaction> reactions, boolean statusReaction, boolean isPleroma) {
+        this.reactions = reactions;
+        this.announcementId = announcementId;
+        this.statusReaction = statusReaction;
+        this.isPleroma = isPleroma;
+    }
 
     ReactionAdapter(String announcementId, List<Reaction> reactions, boolean statusReaction) {
         this.reactions = reactions;
         this.announcementId = announcementId;
         this.statusReaction = statusReaction;
+        this.isPleroma = true;
     }
 
     ReactionAdapter(String announcementId, List<Reaction> reactions) {
         this.reactions = reactions;
         this.announcementId = announcementId;
         this.statusReaction = false;
+        this.isPleroma = true;
     }
 
     @NonNull
@@ -101,7 +113,7 @@ public class ReactionAdapter extends RecyclerView.Adapter<ReactionAdapter.Reacti
                 }
                 notifyItemChanged(position);
             });
-        } else {
+        } else if (isPleroma) {
             ActionsVM actionVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
             holder.binding.reactionContainer.setOnClickListener(v -> {
                 if (reaction.me) {
@@ -110,6 +122,20 @@ public class ReactionAdapter extends RecyclerView.Adapter<ReactionAdapter.Reacti
                     reaction.count -= 1;
                 } else {
                     actionVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcementId, reaction.name);
+                    reaction.me = true;
+                    reaction.count += 1;
+                }
+                notifyItemChanged(position);
+            });
+        } else {
+            StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
+            holder.binding.reactionContainer.setOnClickListener(v -> {
+                if (reaction.me) {
+                    statusesVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcementId, reaction.name);
+                    reaction.me = false;
+                    reaction.count -= 1;
+                } else {
+                    statusesVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcementId, reaction.name);
                     reaction.me = true;
                     reaction.count += 1;
                 }
