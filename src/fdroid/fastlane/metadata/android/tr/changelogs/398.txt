@@ -1,6 +1,0 @@
-- Kaydırma davranışının iyileştirilmesine devam edildi
-- En üste kaydırma (sekme yeniden seçimi) yeni mesajları getirir ve ardından en üste kaydırır
-- Sığdırma medya ön izlemesi için odak noktasını kaldır
-- Tek bir hesapla paylaşılamaması düzeltildi
-- Siyah tema düzeltildi
-- Bazı düğme renkleri düzeltildi

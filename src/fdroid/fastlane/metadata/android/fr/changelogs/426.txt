@@ -1,9 +1,0 @@
-Ajouté :
-- 2 nouveaux thèmes clairs
-- Fonctionnalités de modération
-
-Résolu :
-- Filtres non-fonctionnels
-- Plantages avec les tendances
-- Contenu effacé lors de l'envoi de messages (mentions)
-- Autres corrections de bugs

@@ -1,4 +1,0 @@
-Ajouté :
-- Silencer/désilencer les comptes dans la timeline accueil depuis leurs messages ou leurs profils
-- Ajouter tout les utilisateurs d'une liste à "Silencer sur l'accueil" en un clic
-- Afficher/gérer les utilisateurs silencés sur l'accueil

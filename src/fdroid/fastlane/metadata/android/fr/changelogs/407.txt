@@ -1,9 +1,0 @@
-Ajouté :
-- Paramètre pour mettre tous les fils en haut (désactivé par défaut)
-- Paramètre pour afficher les fils en listes (désactivé par défaut)
-- Affichage de compteurs pour favoris/reblog dans les fils (désactivé par défaut)
-
-Résolu :
-- Problème de visibilité lors des réponses
-- Problèmes de thème lors de la rédaction
-- Quelques plantages

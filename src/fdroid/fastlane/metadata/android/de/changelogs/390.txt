@@ -1,5 +1,0 @@
-Neue Version von Fedilab mit neuen Features:
-- Du kannst jetzt Threads erstellen,
-- den ganzen Thread beim Antworten sehen.
-- Cache-Support
-- Neues Design

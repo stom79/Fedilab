@@ -1,5 +1,0 @@
-- Amélioration de la vitesse de chargement pour les instances Nitter
-- Possibilité d'éditer les comptes Nitter avec un appui long sur les onglets
-- Résolution des problèmes de pagination sur les fils épinglés
-- Réparation de quelques plantages
-- Résolution de la visibilité lors de l'affichage des compteurs

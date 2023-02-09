@@ -1,5 +1,0 @@
-- Résolution d'un problème du fil principal avec le cache
-- Les fils Nitter utilisent l'instance personnalisée depuis les paramètres
-- Résolution de problèmes Nitter (RT seulement)
-- N'accepte plus les certificats invalides des URLs onion (Google)
-- Résolution de quelques plantages

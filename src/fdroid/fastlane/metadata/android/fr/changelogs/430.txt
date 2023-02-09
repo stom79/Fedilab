@@ -1,5 +1,0 @@
-Ajouté :
-- Visiter les profils sans être authentifié / Autoriser l'affichage de tous leurs messages
-
-Corrigé :
-- L'enregistrement des médias échoue sur certains appareils
