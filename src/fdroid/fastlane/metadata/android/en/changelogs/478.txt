@@ -6,5 +6,6 @@ Changed:
 - Media heights now use the screen size
 
 Fixed:
+- Forwarded tags are added back after being deleted
 - TalkBack issues
 - Some crashes
