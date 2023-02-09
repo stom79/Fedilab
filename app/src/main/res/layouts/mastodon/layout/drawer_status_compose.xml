@@ -77,7 +77,7 @@
             android:focusable="true"
             android:gravity="top|start"
             android:inputType="textMultiLine|textCapSentences"
-            android:minLines="8"
+            android:minLines="10"
             app:layout_constraintEnd_toStartOf="@id/button_emoji"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/content_spoiler" />

@@ -119,6 +119,7 @@ import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.CamelTag;
 import app.fedilab.android.mastodon.client.entities.app.Languages;
 import app.fedilab.android.mastodon.client.entities.app.Quotes;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
@@ -818,13 +819,24 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else if (matcherTag.matches()) {
                     String searchGroup = matcherTag.group(3);
                     if (searchGroup != null) {
+                        List<String> camelTags = new CamelTag(context).getBy(searchGroup);
                         searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, searchGroup, null,
                                 "hashtags", false, true, false, 0,
                                 null, null, 10).observe((LifecycleOwner) context,
                                 results -> {
-                                    if (results == null) {
+                                    if (results == null || results.hashtags == null || results.hashtags.size() == 0) {
                                         return;
                                     }
+                                    if (camelTags != null && camelTags.size() > 0) {
+                                        for (String camelTag : camelTags) {
+                                            Tag tag = new Tag();
+                                            tag.name = camelTag;
+                                            if (!results.hashtags.contains(tag)) {
+                                                results.hashtags.add(0, tag);
+                                            }
+                                        }
+                                    }
+
                                     int currentCursorPosition = holder.binding.content.getSelectionStart();
                                     TagsSearchAdapter tagsSearchAdapter = new TagsSearchAdapter(context, results.hashtags);
                                     holder.binding.content.setThreshold(1);

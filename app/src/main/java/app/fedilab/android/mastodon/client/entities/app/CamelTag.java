@@ -73,7 +73,7 @@ public class CamelTag {
         return cursorToTag(c);
     }
 
-    private boolean tagExists(String name) throws DBException {
+    public boolean tagExists(String name) throws DBException {
         Cursor c = db.query(Sqlite.TABLE_CACHE_TAGS, null, Sqlite.COL_TAG + " = \"" + name + "\"", null, null, null, null, null);
         boolean isPresent = (c != null && c.getCount() > 0);
         assert c != null;
@@ -95,6 +95,20 @@ public class CamelTag {
         try {
             db.update(Sqlite.TABLE_CACHE_TAGS, values, Sqlite.COL_TAG + " = ?", new String[]{oldTag});
         } catch (Exception ignored) {
+        }
+    }
+
+    /**
+     * Returns all tags in db
+     *
+     * @return string tags List<String>
+     */
+    public List<String> getAll() {
+        try {
+            Cursor c = db.query(Sqlite.TABLE_CACHE_TAGS, null, null, null, null, null, Sqlite.COL_TAG + " ASC", null);
+            return cursorToTag(c);
+        } catch (Exception e) {
+            return null;
         }
     }
 

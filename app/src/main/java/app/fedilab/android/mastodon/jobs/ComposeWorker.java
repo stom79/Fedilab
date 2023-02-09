@@ -234,6 +234,7 @@ public class ComposeWorker extends Worker {
                 if (statuses.get(i).local_only) {
                     statuses.get(i).text += " \uD83D\uDC41";
                 }
+                //Record tags
                 if (statuses.get(i).text != null && statuses.get(i).text.length() > 0) {
                     Matcher matcher = Helper.hashtagPattern.matcher(statuses.get(i).text);
                     while (matcher.find()) {
