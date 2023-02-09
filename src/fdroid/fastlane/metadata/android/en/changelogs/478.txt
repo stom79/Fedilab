@@ -1,6 +1,7 @@
 Added:
-- Camel case tags (automatically recorded when composing)
-- Manage tags (add new ones) when composing (main top right menu)
+- Support camel case tags (automatically recorded when composing)
+- Manage tags when composing (top right menu)
+- Custom tabs (default: enabled)
 
 Changed:
 - Media heights now use the screen size

@@ -76,6 +76,8 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.browser.customtabs.CustomTabColorSchemeParams;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -646,16 +648,29 @@ public class Helper {
         if (url == null) {
             return;
         }
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
-            url = "http://" + url;
-        }
-        intent.setData(Uri.parse(url));
-        try {
-            context.startActivity(intent);
-        } catch (Exception e) {
-            Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean customTab = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOM_TABS), true);
+        if (customTab) {
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            int colorInt = ThemeHelper.getAttColor(context, R.attr.statusBar);
+            CustomTabColorSchemeParams defaultColors = new CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(colorInt)
+                    .build();
+            builder.setDefaultColorSchemeParams(defaultColors);
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(context, Uri.parse(url));
+        } else {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
+                url = "http://" + url;
+            }
+            intent.setData(Uri.parse(url));
+            try {
+                context.startActivity(intent);
+            } catch (Exception e) {
+                Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+            }
         }
     }
 
