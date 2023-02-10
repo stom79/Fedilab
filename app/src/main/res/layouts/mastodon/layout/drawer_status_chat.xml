@@ -30,6 +30,20 @@
         tools:text="@tools:sample/full_names" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
+        android:gravity="end"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/user_pp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/user_pp"
+        app:layout_constraintTop_toBottomOf="@+id/user_name"
+        tools:text="@tools:sample/date/ddmmyy" />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/message_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -99,5 +113,19 @@
             app:layout_constraintStart_toEndOf="@id/media3"
             app:layout_constraintTop_toBottomOf="@id/media2"
             tools:src="@tools:sample/backgrounds/scenic" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/more_media"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#88000000"
+            android:gravity="center"
+            android:scaleType="centerCrop"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/media4"
+            app:layout_constraintTop_toTopOf="@+id/media4"
+            tools:text="+7 more media" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
