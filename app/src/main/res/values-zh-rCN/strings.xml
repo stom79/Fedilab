@@ -60,7 +60,7 @@
     <string name="scheduled_toots">定时消息</string>
     <string name="disclaimer_full">以下信息可能无法完整反映用户的个人资料。</string>
     <string name="insert_emoji">插入表情符号</string>
-    <string name="no_emoji">该应用程序暂时不收集自定义表情符号。</string>
+    <string name="no_emoji">应用暂时未收集自定义表情符号。</string>
     <string name="logout_account_confirmation">您确定要注销@%1$s@%2$s 吗？</string>
     <!-- Status -->
     <string name="no_status">没有要显示的消息</string>
@@ -74,7 +74,7 @@
     <string name="more_action_4">删除</string>
     <string name="more_action_5">复制</string>
     <string name="more_action_6">分享</string>
-    <string name="more_action_7">提到</string>
+    <string name="more_action_7">提及</string>
     <string name="more_action_8">定时静音</string>
     <string name="more_action_9">删除并重新起草</string>
     <string-array name="more_action_confirm">
@@ -129,9 +129,9 @@
     <!-- Instance -->
     <string name="instance_no_description">没有可用的描述！</string>
     <!-- About -->
-    <string name="about_vesrion">发行版 %1$s</string>
-    <string name="about_developer">开发商：</string>
-    <string name="about_license">许可：</string>
+    <string name="about_vesrion">发行版本 %1$s</string>
+    <string name="about_developer">开发者：</string>
+    <string name="about_license">许可证：</string>
     <string name="about_license_action">GNU GPL V3</string>
     <string name="about_code">源代码： </string>
     <string name="about_thekinrar">搜索实例：</string>
@@ -159,7 +159,7 @@
 \n 点击此处取消帐号静音。</string>
     <!-- Notifications -->
     <string name="no_notifications">没有可显示的通知</string>
-    <string name="notif_mention">提到你</string>
+    <string name="notif_mention">提及了您</string>
     <string name="notif_status">写了一条新消息</string>
     <string name="notif_reblog">转发了你的状态</string>
     <string name="notif_favourite">喜欢你的状态</string>
@@ -182,7 +182,7 @@
     <string name="toast_favourite">该消息已添加到您的收藏夹！</string>
     <string name="toast_unfavourite">该消息已从您的收藏夹中删除！</string>
     <string name="toast_error">哎呀！发生错误！</string>
-    <string name="toast_code_error">发生错误！该实例未返回授权码！</string>
+    <string name="toast_code_error">发生错误！实例未返回授权码！</string>
     <string name="toast_error_instance">实例域名似乎无效！</string>
     <string name="toast_error_loading_account">在帐号之间切换时发生错误！</string>
     <string name="toast_error_search">搜索时出错！</string>
@@ -194,7 +194,7 @@
     <string name="set_notif_follow">当有人关注你时通知</string>
     <string name="set_notif_follow_share">当有人提升您的地位时通知</string>
     <string name="set_notif_follow_add">当有人收藏您的状态时通知</string>
-    <string name="set_notif_follow_mention">当有人提到你时通知</string>
+    <string name="set_notif_follow_mention">当有人提及你时通知</string>
     <string name="set_notif_follow_poll">投票结束时通知</string>
     <string name="set_notif_status">通知新职位</string>
     <string name="set_share_validation">转发前显示确认对话框</string>
@@ -242,7 +242,7 @@
     <string name="keywords_header_custom_sharing">关键词</string>
     <string name="keywords_hint_custom_sharing">关键字…</string>
     <!-- ACTIVITY CACHE -->
-    <string name="v_public">公开</string>
+    <string name="v_public">公共</string>
     <string name="v_unlisted">不公开</string>
     <string name="v_private">私密</string>
     <string name="v_direct">私信</string>
@@ -283,17 +283,17 @@
     <string name="filters">过滤器</string>
     <string name="action_filters_empty_content">无过滤器可显示。您可以通过点击“+”按钮创建一个。</string>
     <string name="filter_keyword">关键字或词组</string>
-    <string name="context_home">主页时间轴</string>
-    <string name="context_public">公共时间表</string>
+    <string name="context_home">主页时间线</string>
+    <string name="context_public">公共时间线</string>
     <string name="context_notification">通知</string>
     <string name="context_conversation">对话</string>
     <string name="filter_keyword_explanations">无论文本中的大小写或消息的内容警告都会被匹配</string>
     <string name="context_drop">放下而不是隐藏</string>
     <string name="context_drop_explanations">过滤后的消息将不可逆转地消失，即使过滤器稍后被删除</string>
     <string name="context_whole_word_explanations">当关键字或短语仅为字母数字时，只有在匹配整个单词时才会应用</string>
-    <string name="context_whole_word">整个词</string>
-    <string name="filter_context">过滤上下文</string>
-    <string name="filter_context_explanations">应应用过滤器的一个或多个上下文</string>
+    <string name="context_whole_word">全词匹配</string>
+    <string name="filter_context">过滤背景</string>
+    <string name="filter_context_explanations">一个或多个应适用于过滤器的背景</string>
     <string name="filter_expire">过期于</string>
     <string name="action_filter_delete">删除过滤器？</string>
     <string name="action_update_filter">更新过滤器</string>
@@ -364,7 +364,7 @@
     <string name="change_tag_column">更改列名</string>
     <string name="misskey_instance">Misskey 实例</string>
     <string name="trending">热门</string>
-    <string name="local">当地的</string>
+    <string name="local">本地</string>
     <string name="category">类别</string>
     <string name="description">描述</string>
     <string name="share">分享</string>
@@ -377,7 +377,7 @@
     <string name="action_logout_account">登出帐号</string>
     <string name="all">全部</string>
     <string name="copy_link">复制链接</string>
-    <string name="calls_blocked">应用程序阻止的 http 调用</string>
+    <string name="calls_blocked">应用阻止的 http 调用</string>
     <string name="list_of_blocked_domains">被屏蔽的调用列表</string>
     <string name="submit">提交</string>
     <string name="filter_timeline_with_a_tag">使用标签过滤时间线</string>
@@ -463,18 +463,18 @@
     <string name="suspended">已吊销</string>
     <string name="permissions">权限</string>
     <string name="disable">停用</string>
-    <string name="silence">沉默</string>
+    <string name="silence">禁言</string>
     <string name="account">帐号</string>
-    <string name="unsilence">撤消沉默</string>
+    <string name="unsilence">撤消禁言</string>
     <string name="undisable">撤消禁用</string>
     <string name="suspend">吊销</string>
     <string name="unsuspend">撤消吊销</string>
     <string name="audio">声音的</string>
     <string name="voice_message">语音留言</string>
-    <string name="set_enable_time_slot_indication">在时间段内，应用程序将发送通知。您可以使用右侧的微调器反转（即：静音）此时间段。</string>
-    <string name="set_fit_preview_indication">预览不会在时间轴中被裁剪</string>
+    <string name="set_enable_time_slot_indication">在时间段内，应用将发送通知。您可以使用右侧的微调器反转（即：静音）此时间段。</string>
+    <string name="set_fit_preview_indication">预览不会在时间线中被裁剪</string>
     <string name="set_capitalize_indication">在提及后自动插入换行符以将第一个字母大写</string>
-    <string name="settings_title_custom_sharing_indication">允许内容创建者将状态分享到他们的 RSS 提要</string>
+    <string name="settings_title_custom_sharing_indication">允许内容创作者将状态分享到他们的 RSS 订阅源中</string>
     <string name="compose">撰写</string>
     <string name="select">选择</string>
     <string name="add_instances">添加实例</string>
@@ -505,7 +505,7 @@
     </string-array>
     <string name="poll_duplicated_entry">您的投票不能有重复的选项！</string>
     <string name="set_clear_cache_exit">离开时清除缓存</string>
-    <string name="set_clear_cache_exit_indication">离开应用程序时，缓存（媒体、缓存消息、来自内置浏览器的数据）将自动清除。</string>
+    <string name="set_clear_cache_exit_indication">离开应用时，缓存（媒体、缓存消息、来自内置浏览器的数据）将自动清除。</string>
     <string name="unfollow_confirm">您要取消关注此帐号吗？</string>
     <string name="set_unfollow_validation">取消关注前显示确认对话框</string>
     <string name="replace_medium">Medium</string>
@@ -552,12 +552,12 @@
     <string name="no_instance_reccord">此实例在 https://instances.social 上不可用</string>
     <string name="display_full_link">显示完整链接</string>
     <string name="share_link">分享链接</string>
-    <string name="open_other_app">使用其他应用程序打开</string>
+    <string name="open_other_app">使用其他应用打开</string>
     <string name="check_redirect">检查重定向</string>
     <string name="no_redirect">此 URL 不重定向</string>
     <string name="redirect_detected">%1$s \n\n重定向到\n\n %2$s</string>
     <string name="set_utm_parameters">删除 UTM 参数</string>
-    <string name="set_utm_parameters_indication">在访问链接之前，该应用程序会自动从 URL 中删除 UTM 参数。</string>
+    <string name="set_utm_parameters_indication">在访问链接之前，应用会自动从 URL 中删除 UTM 参数。</string>
     <string name="talking_about">%d 人正在讨论</string>
     <string name="twitter_accounts">Twitter 帐号（来自 Nitter）</string>
     <string name="list_of_twitter_accounts">Twitter 用户名空格分隔</string>
@@ -590,7 +590,7 @@
     <string name="set_remove_left_margin">删除时间线中的左边距以使消息更紧凑</string>
     <string name="set_translator">翻译器</string>
     <string name="api_key">翻译器 API 密钥</string>
-    <string name="set_extand_extra_features">通过启用该选项，该应用程序将显示额外的功能。此功能适用于 Pleroma、Akkoma 或 Glitch Social 等社交软件</string>
+    <string name="set_extand_extra_features">通过启用该选项，该应用将显示额外的功能。此功能适用于 Pleroma、Akkoma 或 Glitch Social 等社交软件</string>
     <string name="notification_sounds">通知声音</string>
     <string name="disable_notifications">禁用通知</string>
     <string name="pref_theme_base_summary">选择主题的底色是深色还是浅色</string>
@@ -641,20 +641,20 @@
     <string name="confirmed">已确认</string>
     <string name="recent_ip">近期IP</string>
     <string name="restart">重启</string>
-    <string name="restart_the_app_theme">您应该重新启动应用程序以应用更改。</string>
+    <string name="restart_the_app_theme">您应该重新启动应用以应用更改。</string>
     <string name="set_language_picker_title">选择器中的语言</string>
     <string name="set_language_picker">允许在撰写消息时减少选择器中的语言列表。</string>
     <string name="keep_notifications">保留通知</string>
     <string name="set_notif_update">通知更新</string>
     <string name="set_notif_user_sign_up">新注册（监察员）</string>
-    <string name="toast_error_fetch_message">该应用程序未找到远程消息。</string>
+    <string name="toast_error_fetch_message">应用未找到远程消息。</string>
     <string name="blocked_domains">已屏蔽域名</string>
     <string name="domain">域名</string>
     <string name="default_system_language">使用默认系统语言</string>
-    <string name="set_display_counters_description">将在选项卡时间轴中显示新消息的气泡计数器</string>
+    <string name="set_display_counters_description">将在选项卡时间线中显示新消息的气泡计数器</string>
     <string name="full_date_edited">%1$s 编辑了 %2$s</string>
     <string name="set_unlisted_replies_indication">它只涉及“公共”回复。启用后，您的回复将自动具有“不公开”可见性，而不是“公开”</string>
-    <string name="account_unsilenced">帐号取消静音</string>
+    <string name="account_unsilenced">帐号取消禁言</string>
     <string name="account_silenced">帐号被禁言</string>
     <string name="filtered_by">已过滤：%1$s</string>
     <string name="severity">严重程度</string>
@@ -680,7 +680,7 @@
     <string name="pickup_logo">选择一个图标</string>
     <string name="load_settings">加载导出的设置</string>
     <string name="set_single_topbar_title">单操作栏</string>
-    <string name="set_single_topbar">启用后，该应用程序将只有一个时间轴栏</string>
+    <string name="set_single_topbar">启用后，应用将只有一个时间线栏</string>
     <string name="set_display_counter">显示消息计数器</string>
     <string name="display_options">显示选项</string>
     <string name="set_display_counters">显示计数器</string>
@@ -692,7 +692,7 @@
     <string name="private_comment">私人评论</string>
     <string name="admin_domainblock_private_comment">评论此域名限制供监察员内部使用。</string>
     <string name="type_default_theme_dark">默认深色主题</string>
-    <string name="set_cardview_indication">启用后，时间轴中的项目将具有阴影和高程。</string>
+    <string name="set_cardview_indication">启用后，时间线中的项目将具有阴影和高程。</string>
     <string name="version">版本</string>
     <string name="icons_visibility_summary">您可以安全地将这些图标隐藏在底部以获得更多空间。它们也在子菜单中。</string>
     <string name="icons_extra_features">附加功能的图标</string>
@@ -704,14 +704,14 @@
     <string name="set_use_cache">使用缓存</string>
     <string name="action_pinned_delete">删除固定的时间线？</string>
     <string name="domains">域名</string>
-    <string name="admin_domainblock_domain">此域名屏蔽不会阻止在数据库中创建帐号条目，但会追溯并自动对这些帐号应用特定的审核方法。</string>
+    <string name="admin_domainblock_domain">域名屏蔽不会阻止在数据库中创建帐号条目，但会追溯并自动对这些帐号应用特定的审核方法。</string>
     <string name="following">正在关注</string>
     <string name="set_remote_profile_title">远程配置文件</string>
     <string name="unpin_timeline_description">您确定取消固定该时间线吗？</string>
     <string name="open_with_account">用另一个帐号打开</string>
     <string name="reject_media">拒绝媒体</string>
     <string name="reject_reports">拒绝举报</string>
-    <string name="admin_domainblock_severity">沉默将使该帐号的帖子对任何未关注它们的人都是不可见的。吊销将删除帐号的所有内容、媒体和个人资料数据。如果您只想拒绝媒体文件，请勿使用。</string>
+    <string name="admin_domainblock_severity">禁言将使该帐号的帖子对任何未关注它们的人都是不可见的。吊销将删除帐号的所有内容、媒体和个人资料数据。如果您只想拒绝媒体文件，请勿使用。</string>
     <string name="admin_reject_media">拒绝媒体文件</string>
     <string name="admin_domainblock_reject_media">忽略来自该域名的所有举报。与吊销无关</string>
     <string name="admin_reject_reports">拒绝举报</string>
@@ -728,7 +728,7 @@
     <string name="report_val_more4">该问题不属于其他类别</string>
     <string name="export_settings">导出设置</string>
     <string name="set_timelines_in_a_list_title">列表中的时间线</string>
-    <string name="set_use_cache_indication">时间线将被缓存，因此应用程序会更快。</string>
+    <string name="set_use_cache_indication">时间线将被缓存，因此应用会更快。</string>
     <string name="load_media_type_title">加载媒体缩略图</string>
     <string name="display_media">展示媒体</string>
     <string name="cached_messages">缓存消息</string>
@@ -736,7 +736,7 @@
     <string name="aggregate_notifications_summary">开启时，应用会收起相关通知</string>
     <string name="display_media_notification">在通知中显示媒体</string>
     <string name="change_logo">更改图标</string>
-    <string name="change_logo_description">更改设备上应用程序的图标</string>
+    <string name="change_logo_description">更改设备上应用的图标</string>
     <string name="action_unpin">取消置顶消息</string>
     <string name="set_live_translate_title">翻译信息</string>
     <string name="set_live_translate">强制翻译成特定语言。选择第一个值以重置为设备设置</string>
@@ -748,7 +748,7 @@
     <string name="joined">已加入</string>
     <string name="warn">警告</string>
     <string name="list_reported_statuses">已举报状态</string>
-    <string name="silenced">已沉默</string>
+    <string name="silenced">已禁言</string>
     <string name="user">用户</string>
     <string name="moderator">监察员</string>
     <string name="assign_to_me">分配给我</string>
@@ -758,7 +758,7 @@
     <string name="account_disabled">帐号已禁用</string>
     <string name="report">举报</string>
     <string name="state">状态</string>
-    <string name="restart_the_app">重启应用程序？</string>
+    <string name="restart_the_app">重启应用？</string>
     <string name="action_unfollow_tag">取消关注标签</string>
     <string name="action_unfollow_tag_confirm">您确定要取消关注此标签吗？</string>
     <string name="unfollow">取消关注</string>
@@ -776,14 +776,14 @@
     <string name="hide_completely_description">完全隐藏过滤后的内容，表现得好像不存在一样</string>
     <string name="context_home_list">主页和列表</string>
     <string name="title">标题</string>
-    <string name="toast_fetch_error">该应用程序找不到远程数据！</string>
+    <string name="toast_fetch_error">应用找不到远程数据！</string>
     <string name="notif_submitted_report">提交举报</string>
     <string name="notif_reported">发送举报</string>
     <string name="unblock_domain">取消屏蔽域名</string>
     <string name="no_blocked_domains">您没有屏蔽域名</string>
     <string name="unblock_domain_confirm">您确定取消屏蔽 %1$s 吗？</string>
     <string name="action_privacy_policy">隐私政策</string>
-    <string name="unpin_timeline">删除固定的时间轴？</string>
+    <string name="unpin_timeline">删除固定的时间线？</string>
     <string name="unconfirmed">未确认</string>
     <string name="report_indication_title_status">告诉我们这个帖子是怎么回事</string>
     <string name="administrator">管理员</string>
@@ -798,7 +798,7 @@
     <string name="resolved">解决</string>
     <string name="account_suspended">帐号已吊销</string>
     <string name="write_the_tag_to_follow">写下要关注的标签</string>
-    <string name="_new">新</string>
+    <string name="_new">新增</string>
     <string name="replace_reddit_description">为 Reddit 使用替代前端</string>
     <string name="replace_reddit_host">Reddit 前端域名</string>
     <string name="replace_reddit">Reddit</string>
@@ -820,14 +820,14 @@
     <string name="set_discoverable_content">帐号可发现</string>
     <string name="files_cache_size">文件缓存大小</string>
     <string name="import_settings">导入设置</string>
-    <string name="display_timelines">显示时间表</string>
+    <string name="display_timelines">显示时间线</string>
     <string name="fetch_notifications">获取通知</string>
     <string name="view_the_original_message">打开原始消息</string>
-    <string name="remember_position">记住时间轴位置</string>
+    <string name="remember_position">记住时间线位置</string>
     <string name="display_media_notification_summary">将显示转发和收藏通知中的媒体</string>
-    <string name="Suggestions">建议</string>
+    <string name="Suggestions">推荐</string>
     <string name="v_list">列表</string>
-    <string name="set_remote_profile">该应用程序将公开显示配置文件以获取所有消息。交互将需要一个额外的步骤来联合消息。</string>
+    <string name="set_remote_profile">应用将公开显示配置文件以获取所有消息。交互将需要一个额外的步骤来联合消息。</string>
     <string name="local_only">仅限本地</string>
     <string name="set_pixelfed_presentation">用于媒体的 Pixelfed 演示文稿</string>
     <string name="set_display_compact_buttons">紧凑操作按钮</string>
@@ -960,11 +960,11 @@
     <string name="put_all_accounts_in_home_muted">主页时间线的所有帐号都将被静音。</string>
     <string name="mute_them_all">全部静音</string>
     <string name="import_data">导入数据</string>
-    <string name="group_reblogs">在主页时间线中群组转发</string>
+    <string name="group_reblogs">在主页时间线中聚合转发</string>
     <string name="manage_accounts">管理帐号</string>
     <string name="set_remove_left_margin_title">删除左边距</string>
     <string name="translator">翻译器</string>
-    <string name="set_translator_version">译者版</string>
+    <string name="set_translator_version">翻译器版本</string>
     <string name="set_extand_extra_features_title">额外功能</string>
     <string name="icons_visibility">图标可见性</string>
     <string name="set_display_quote_indication">显示“引用”按钮</string>
@@ -975,16 +975,16 @@
     <string name="self">自己</string>
     <string name="boost_original_date">显示转发的原始日期</string>
     <string name="set_disable_release_notes">禁用发行说明</string>
-    <string name="set_disable_release_notes_indication">发布新版本时，您不会在应用程序内部收到提醒。</string>
+    <string name="set_disable_release_notes_indication">发布新版本时，您不会在应用内部收到提醒。</string>
     <string name="formula">公式</string>
-    <string name="set_maths_support">写公式</string>
+    <string name="set_maths_support">撰写公式</string>
     <string name="maths_format">数学格式</string>
     <string name="hide_single_media_with_card">有链接预览时隐藏单个媒体</string>
     <string name="action_change_subscribed_language">更改订阅的语言</string>
     <string name="filter_languages">过滤语言</string>
     <string name="translate_in">翻译成</string>
     <string name="compose_shortcut_short_label1">撰写</string>
-    <string name="toast_error_peertube_not_supported">您的 Peertube 太旧，应用程序不支持。</string>
+    <string name="toast_error_peertube_not_supported">您的 Peertube 太旧，应用不支持。</string>
     <string name="customize_timelines">自定义时间线</string>
     <string name="also_followed_by">关注者：</string>
     <string name="otp_message">双因素身份验证令牌</string>
@@ -993,7 +993,7 @@
     <string name="fetch_home_messages">获取主页消息</string>
     <string name="type_of_home_delay_title">主页获取延迟</string>
     <string name="fetch_home_every">获取主页消息每隔</string>
-    <string name="auto_fetch_missing">自动获取缺失的消息</string>
+    <string name="auto_fetch_missing">自动获取缺失消息</string>
     <string name="set_mention_at_top">置顶提及</string>
     <string name="set_mention_at_top_indication">回复时提及将全部添加到消息的开头</string>
     <string name="pinned">已置顶</string>
