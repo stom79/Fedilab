@@ -274,7 +274,7 @@
     <string name="toast_instance_unavailable">在此实例上未找到时间线！</string>
     <string name="follow_instance">关注实例</string>
     <string name="toast_instance_already_added">您已经关注了这个实例！</string>
-    <string name="action_partnership">伙伴关系</string>
+    <string name="action_partnership">合作伙伴</string>
     <string name="hide_boost">隐藏来自 %s 的转发</string>
     <string name="endorse">个人资料上的功能</string>
     <string name="show_boost">显示来自 %s 的转发</string>
@@ -573,12 +573,12 @@
     <string name="set_video_cache">以 MB 为单位的视频缓存，零表示没有缓存。</string>
     <string name="set_watermark">水印</string>
     <string name="set_watermark_indication">自动在图片底部添加水印。可以为每个帐号自定义文本。</string>
-    <string name="no_distributors_found">没有找到经销商！</string>
+    <string name="no_distributors_found">没有找到分发器！</string>
     <string name="no_distributors_explanation">您需要一个分发器来接收推送通知。
 \n您可以在 %1$s 找到更多详细信息。
 \n
 \n您也可以在设置中禁用推送通知以忽略该消息。</string>
-    <string name="select_distributors">选择分销商</string>
+    <string name="select_distributors">选择分发器</string>
     <string name="show_anyway">仍然显示</string>
     <string name="toast_bookmark">该消息已添加到您的书签！</string>
     <string name="icon_size">图标尺寸</string>
@@ -667,7 +667,7 @@
     <string name="report_val4">这是另一回事</string>
     <string name="not_valid_list_name">列表名称无效！</string>
     <string name="no_account_in_list">找不到此列表的帐号！</string>
-    <string name="scheduled">已定时</string>
+    <string name="scheduled">定时</string>
     <string name="notification_remove_from_cache">通知已从缓存中删除。</string>
     <string name="report_1_unfollow">您正在关注此帐号。要在您的主页中不再看到他们的帖子，请取消关注他们。</string>
     <string name="notif_display_updates_from_people">来自人们的更新</string>
@@ -1001,4 +1001,8 @@
     <string name="number_of_replies">回复数</string>
     <string name="update_date">更新日期</string>
     <string name="number_of_media">媒体数</string>
+    <string name="tags_renamed">该标签已更改！</string>
+    <string name="tags_deleted">该标签已删除！</string>
+    <string name="tags_stored">该标签已储存！</string>
+    <string name="manage_tags">管理标签</string>
 </resources>
