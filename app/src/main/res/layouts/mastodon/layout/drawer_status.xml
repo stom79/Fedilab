@@ -455,24 +455,17 @@
             android:orientation="vertical"
             android:visibility="gone" />
 
-        <HorizontalScrollView
-            android:id="@+id/attachments_list_container"
+
+        <include
+            android:id="@+id/media"
+            layout="@layout/layout_drawer_attachments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
-            android:visibility="gone">
+            android:visibility="gone" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/attachments_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="3dp"
-                android:scrollbars="horizontal" />
-
-        </HorizontalScrollView>
 
         <include
             android:id="@+id/poll"

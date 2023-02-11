@@ -17,6 +17,7 @@ package app.fedilab.android.mastodon.ui.drawer;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -80,6 +81,23 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         holder.binding.date.setTextColor(ThemeHelper.getAttColor(context, textColor));
         holder.binding.messageContent.setTextColor(ThemeHelper.getAttColor(context, textColor));
         holder.binding.userName.setTextColor(ThemeHelper.getAttColor(context, textColor));
+
+        if (status.media_attachments != null && status.media_attachments.size() > 0) {
+            holder.binding.media.container.setVisibility(View.VISIBLE);
+            if (status.media_attachments.size() == 1) {
+
+            } else if (status.media_attachments.size() == 2) {
+
+            } else if (status.media_attachments.size() == 3) {
+
+            } else if (status.media_attachments.size() == 4) {
+
+            } else {
+
+            }
+        } else {
+            holder.binding.media.container.setVisibility(View.GONE);
+        }
     }
 
     @Override
