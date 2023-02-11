@@ -197,6 +197,9 @@
             android:name=".mastodon.activities.ContextActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
+            android:name=".mastodon.activities.DirectMessageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
             android:name=".mastodon.activities.DraftActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity

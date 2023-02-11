@@ -1029,6 +1029,8 @@
     <string name="SET_DYNAMICCOLOR" translatable="false">SET_DYNAMICCOLOR</string>
     <string name="SET_CARDVIEW" translatable="false">SET_CARDVIEW</string>
     <string name="SET_CUSTOMIZE_LIGHT_COLORS" translatable="false">SET_CUSTOMIZE_LIGHT_COLORS</string>
+    <string name="SET_CHAT_FOR_CONVERSATION" translatable="false">SET_CHAT_FOR_CONVERSATION</string>
+
     <string name="SET_CUSTOMIZE_LIGHT_COLORS_ACTION" translatable="false">SET_CUSTOMIZE_LIGHT_COLORS_ACTION</string>
     <string name="SET_CUSTOMIZE_DARK_COLORS" translatable="false">SET_CUSTOMIZE_DARK_COLORS</string>
     <string name="SET_CUSTOMIZE_DARK_COLORS_ACTION" translatable="false">SET_CUSTOMIZE_DARK_COLORS_ACTION</string>
