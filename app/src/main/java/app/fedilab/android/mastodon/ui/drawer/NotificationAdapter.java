@@ -402,7 +402,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderStatus.bindingNotification.status.mainContainer.setAlpha(.7f);
                 boolean displayMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_MEDIA_NOTIFICATION), true);
                 if (!displayMedia) {
-                    holderStatus.bindingNotification.status.attachmentsListContainer.setVisibility(View.GONE);
+                    holderStatus.bindingNotification.status.media.mediaContainer.setVisibility(View.GONE);
                     holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.GONE);
                 }
                 String title = "";

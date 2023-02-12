@@ -1,75 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/media_container"
+    android:layout_height="300dp">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
+    <include
+        android:id="@+id/media1_container"
+        layout="@layout/layout_media"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_margin="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/media3_container"
+        app:layout_constraintEnd_toStartOf="@+id/media2_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/media1"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"
-            tools:src="@tools:sample/backgrounds/scenic" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/media2"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_marginStart="6dp"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"
-            tools:src="@tools:sample/backgrounds/scenic" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
+    <include
+        android:id="@+id/media2_container"
+        layout="@layout/layout_media"
+        android:layout_width="0dp"
+        android:layout_margin="1dp"
         android:layout_height="0dp"
-        android:layout_marginTop="6dp"
-        android:layout_weight="1">
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/media4_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/media1_container"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/media3"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"
-            tools:src="@tools:sample/backgrounds/scenic" />
+    <include
+        android:id="@+id/media3_container"
+        layout="@layout/layout_media"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/media4_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/media1_container" />
 
-        <RelativeLayout
-            android:id="@+id/media4_container"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_marginStart="6dp"
-            android:layout_weight="1">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/media4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/backgrounds/scenic" />
+    <include
+        android:id="@+id/media4_container"
+        layout="@layout/layout_media"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/media3_container"
+        app:layout_constraintTop_toBottomOf="@id/media2_container" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/more_media"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#88000000"
-                android:gravity="center"
-                android:scaleType="centerCrop"
-                android:textColor="@color/white"
-                tools:text="+7 more media" />
-
-        </RelativeLayout>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/more_media"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#88000000"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/media4_container"
+        app:layout_constraintTop_toTopOf="@+id/media4_container"
+        tools:text="+7 more media" />
+</androidx.constraintlayout.widget.ConstraintLayout>
