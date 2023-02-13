@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.18.0",
+    "code": "478",
+    "note": "Added:\n- Support camel case tags (automatically recorded when composing)\n- Manage tags when composing (top right menu)\n- Custom tabs (default: enabled)\n\nChanged:\n- Media heights now use the screen size\n- Remove horizontal scroll for media\n- Reduce size of emoji when text size is increased\n- Update available languages in picker\n\nFixed:\n- Forwarded tags are added back after being deleted\n- TalkBack issues\n- Some crashes"
+  },
+  {
     "version": "3.17.0",
     "code": "477",
     "note": "Added:\n- Peertube 2FA support\n- Cache home in background (default disabled -> New settings category and per account) / change frequency\n- Auto-fetch missing messages for the Home (default disabled -> in Settings - Timelines)\n- Automatically switch between tabs when searching\n- More deep links detection\n- Allow to group mentions at the top (default: disabled)\n\n\nFixed:\n- Dynamic color for Android 12+\n- Missing media description for previews\n- Fix a crash when replying\n- Fix button size not changed\n- Forward tags in replies\n- Media cannot be downloaded or shared with Android 10\n- Some crashes"
