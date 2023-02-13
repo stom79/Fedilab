@@ -54,6 +54,7 @@ import app.fedilab.android.mastodon.activities.MediaActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.MediaHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
@@ -213,6 +214,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                         new WeakReference<>(holder.binding.messageContent),
                         () -> mRecyclerView.post(() -> notifyItemChanged(holder.getBindingAdapterPosition()))),
                 TextView.BufferType.SPANNABLE);
+        holder.binding.messageContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
         if (measuredWidth <= 0 && status.media_attachments != null && status.media_attachments.size() > 0) {
             holder.binding.media.mediaContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -227,13 +229,19 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         holder.binding.date.setText(Helper.longDateToString(status.created_at));
         //Owner account
         int textColor;
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         if (status.account.id.equals(MainActivity.currentUserID)) {
             holder.binding.mainContainer.setBackgroundResource(R.drawable.bubble_right_tail);
             textColor = R.attr.colorOnPrimary;
+            layoutParams.setMargins((int) Helper.convertDpToPixel(50, context), (int) Helper.convertDpToPixel(12, context), 0, 0);
+
         } else {
             holder.binding.mainContainer.setBackgroundResource(R.drawable.bubble_left_tail);
+            layoutParams.setMargins(0, (int) Helper.convertDpToPixel(12, context), (int) Helper.convertDpToPixel(50, context), 0);
             textColor = R.attr.colorOnSecondary;
         }
+        holder.binding.mainContainer.setLayoutParams(layoutParams);
         holder.binding.date.setTextColor(ThemeHelper.getAttColor(context, textColor));
         holder.binding.messageContent.setTextColor(ThemeHelper.getAttColor(context, textColor));
         holder.binding.userName.setTextColor(ThemeHelper.getAttColor(context, textColor));

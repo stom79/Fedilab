@@ -137,7 +137,7 @@ import es.dmoral.toasty.Toasty;
 
 public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int searchDeep = 15;
-    private static final int TYPE_COMPOSE = 1;
+    public static final int TYPE_COMPOSE = 1;
     public static boolean autocomplete = false;
     public static String[] ALPHA = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
             "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "!", ",", "?",

@@ -16,8 +16,12 @@ package app.fedilab.android.mastodon.activities;
 
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.mastodon.activities.ComposeActivity.PICK_MEDIA;
 
+import android.content.ClipData;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,9 +29,11 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -46,7 +52,7 @@ public class DirectMessageActivity extends BaseActivity implements FragmentMasto
     public static boolean expand;
     public static boolean displayCW;
 
-    Fragment currentFragment;
+    FragmentMastodonDirectMessage currentFragment;
     private Status firstMessage;
     private String remote_instance;
 
@@ -88,7 +94,7 @@ public class DirectMessageActivity extends BaseActivity implements FragmentMasto
         bundle.putString(Helper.ARG_REMOTE_INSTANCE, remote_instance);
         FragmentMastodonDirectMessage FragmentMastodonDirectMessage = new FragmentMastodonDirectMessage();
         FragmentMastodonDirectMessage.firstMessage = this;
-        currentFragment = Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, FragmentMastodonDirectMessage, bundle, null, null);
+        currentFragment = (FragmentMastodonDirectMessage) Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, FragmentMastodonDirectMessage, bundle, null, null);
         StatusesVM timelinesVM = new ViewModelProvider(DirectMessageActivity.this).get(StatusesVM.class);
         timelinesVM.getStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, focusedStatus.id).observe(DirectMessageActivity.this, status -> {
             if (status != null) {
@@ -113,6 +119,24 @@ public class DirectMessageActivity extends BaseActivity implements FragmentMasto
         });
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        List<Uri> uris = new ArrayList<>();
+        if (requestCode >= PICK_MEDIA && resultCode == RESULT_OK) {
+            ClipData clipData = data.getClipData();
+            if (clipData != null) {
+                for (int i = 0; i < clipData.getItemCount(); i++) {
+                    ClipData.Item item = clipData.getItemAt(i);
+                    uris.add(item.getUri());
+                }
+            } else {
+                uris.add(data.getData());
+            }
+            currentFragment.addAttachment(uris);
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
