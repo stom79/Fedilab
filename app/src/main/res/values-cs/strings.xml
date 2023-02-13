@@ -1013,4 +1013,8 @@
     <string name="number_of_replies">Počet odpovědí</string>
     <string name="update_date">Datum aktualizace</string>
     <string name="card_picture">Obrázek karty</string>
+    <string name="tags_renamed">Tag byl změněn!</string>
+    <string name="tags_deleted">Tag byl odstraněn!</string>
+    <string name="tags_stored">Tag byl uložen!</string>
+    <string name="manage_tags">Spravovat tagy</string>
 </resources>

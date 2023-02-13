@@ -1003,4 +1003,8 @@
     <string name="update_date">Datum der Aktualisierung</string>
     <string name="pinned">Angeheftet</string>
     <string name="card_picture">Bild der Karte</string>
+    <string name="tags_stored">Der Hashtag wurde gespeichert!</string>
+    <string name="tags_renamed">Der Hashtag wurde geändert!</string>
+    <string name="tags_deleted">Der Hashtag wurde entfernt!</string>
+    <string name="manage_tags">Hashtags verwalten</string>
 </resources>
