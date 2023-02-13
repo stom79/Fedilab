@@ -29,7 +29,7 @@ import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
-import app.fedilab.android.databinding.FragmentPaginationBinding;
+import app.fedilab.android.databinding.FragmentDirectMessageBinding;
 import app.fedilab.android.mastodon.client.entities.api.Context;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -41,7 +41,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
 
 
     public FirstMessage firstMessage;
-    private FragmentPaginationBinding binding;
+    private FragmentDirectMessageBinding binding;
     private StatusesVM statusesVM;
     private List<Status> statuses;
     private StatusDirectMessageAdapter statusDirectMessageAdapter;
@@ -66,7 +66,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
         if (focusedStatus == null) {
             getChildFragmentManager().beginTransaction().remove(this).commit();
         }
-        binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        binding = FragmentDirectMessageBinding.inflate(inflater, container, false);
         statusesVM = new ViewModelProvider(FragmentMastodonDirectMessage.this).get(StatusesVM.class);
         binding.recyclerView.setNestedScrollingEnabled(true);
         this.statuses = new ArrayList<>();

@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -236,6 +237,10 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         holder.binding.date.setTextColor(ThemeHelper.getAttColor(context, textColor));
         holder.binding.messageContent.setTextColor(ThemeHelper.getAttColor(context, textColor));
         holder.binding.userName.setTextColor(ThemeHelper.getAttColor(context, textColor));
+        holder.binding.userName.setText(
+                status.account.getSpanDisplayName(context,
+                        new WeakReference<>(holder.binding.userName)),
+                TextView.BufferType.SPANNABLE);
 
         if (status.media_attachments != null && status.media_attachments.size() > 0) {
             holder.binding.media.mediaContainer.setVisibility(View.VISIBLE);
@@ -245,7 +250,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             if (measuredWidth > 0) {
                 defaultHeight = (int) (measuredWidth * 3) / 4;
             }
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, defaultHeight);
+            LinearLayoutCompat.LayoutParams lp = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, defaultHeight);
             holder.binding.media.mediaContainer.setLayoutParams(lp);
             if (status.media_attachments.size() == 1) {
                 holder.binding.media.media1Container.mediaRoot.setVisibility(View.VISIBLE);
