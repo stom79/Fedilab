@@ -522,10 +522,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.quotedMessage.cardviewContainer.setVisibility(View.GONE);
         }
 
-        if (currentAccount != null && currentAccount.api == Account.API.PLEROMA) {
+        if (currentAccount != null && currentAccount.api == Account.API.PLEROMA || status.reactions != null) {
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && status.pleroma.emoji_reactions.size() > 0) {
                 holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions, true);
+                holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
+                LinearLayoutManager layoutManager
+                        = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+                holder.binding.layoutReactions.reactionsView.setLayoutManager(layoutManager);
+            } else if (status.reactions != null && status.reactions.size() > 0) {
+                holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
+                ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.reactions, true, false);
                 holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
                 LinearLayoutManager layoutManager
                         = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
@@ -542,33 +549,57 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }).setOnEmojiClickListener((emoji, imageView) -> {
                             String emojiStr = imageView.getUnicode();
                             boolean alreadyAdded = false;
-                            if (status.pleroma == null || status.pleroma.emoji_reactions == null) {
-                                return;
-                            }
-                            for (Reaction reaction : status.pleroma.emoji_reactions) {
-                                if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
-                                    alreadyAdded = true;
-                                    reaction.count = (reaction.count - 1);
-                                    if (reaction.count == 0) {
-                                        status.pleroma.emoji_reactions.remove(reaction);
+                            if (status.pleroma != null && status.pleroma.emoji_reactions != null) {
+                                for (Reaction reaction : status.pleroma.emoji_reactions) {
+                                    if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
+                                        alreadyAdded = true;
+                                        reaction.count = (reaction.count - 1);
+                                        if (reaction.count == 0) {
+                                            status.pleroma.emoji_reactions.remove(reaction);
+                                        }
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                        break;
                                     }
-                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                                    break;
                                 }
-                            }
-                            if (!alreadyAdded) {
-                                Reaction reaction = new Reaction();
-                                reaction.me = true;
-                                reaction.count = 1;
-                                reaction.name = emojiStr;
-                                status.pleroma.emoji_reactions.add(0, reaction);
-                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                            }
-                            ActionsVM actionVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
-                            if (alreadyAdded) {
-                                actionVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                            } else {
-                                actionVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                                if (!alreadyAdded) {
+                                    Reaction reaction = new Reaction();
+                                    reaction.me = true;
+                                    reaction.count = 1;
+                                    reaction.name = emojiStr;
+                                    status.pleroma.emoji_reactions.add(0, reaction);
+                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                }
+                                ActionsVM actionVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
+                                if (alreadyAdded) {
+                                    actionVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                                } else {
+                                    actionVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                                }
+                            } else if (status.reactions != null) {
+                                for (Reaction reaction : status.reactions) {
+                                    if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
+                                        alreadyAdded = true;
+                                        reaction.count = (reaction.count - 1);
+                                        if (reaction.count == 0) {
+                                            status.reactions.remove(reaction);
+                                        }
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                        break;
+                                    }
+                                }
+                                if (!alreadyAdded) {
+                                    Reaction reaction = new Reaction();
+                                    reaction.me = true;
+                                    reaction.count = 1;
+                                    reaction.name = emojiStr;
+                                    status.reactions.add(0, reaction);
+                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                }
+                                if (alreadyAdded) {
+                                    statusesVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                                } else {
+                                    statusesVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                                }
                             }
                         })
                         .build(holder.binding.layoutReactions.fakeEdittext);
@@ -594,32 +625,61 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         String url = emojis.get(BaseMainActivity.currentInstance).get(index).url;
                         String static_url = emojis.get(BaseMainActivity.currentInstance).get(index).static_url;
                         boolean alreadyAdded = false;
-                        for (Reaction reaction : status.pleroma.emoji_reactions) {
-                            if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
-                                alreadyAdded = true;
-                                reaction.count = (reaction.count - 1);
-                                if (reaction.count == 0) {
-                                    status.pleroma.emoji_reactions.remove(reaction);
+                        if (status.pleroma != null && status.pleroma.emoji_reactions != null) {
+                            for (Reaction reaction : status.pleroma.emoji_reactions) {
+                                if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
+                                    alreadyAdded = true;
+                                    reaction.count = (reaction.count - 1);
+                                    if (reaction.count == 0) {
+                                        status.pleroma.emoji_reactions.remove(reaction);
+                                    }
+                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                    break;
                                 }
-                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                                break;
                             }
-                        }
-                        if (!alreadyAdded) {
-                            Reaction reaction = new Reaction();
-                            reaction.me = true;
-                            reaction.count = 1;
-                            reaction.name = emojiStr;
-                            reaction.url = url;
-                            reaction.static_url = static_url;
-                            status.pleroma.emoji_reactions.add(0, reaction);
-                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                        }
-                        ActionsVM actionsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
-                        if (alreadyAdded) {
-                            actionsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                        } else {
-                            actionsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                            if (!alreadyAdded) {
+                                Reaction reaction = new Reaction();
+                                reaction.me = true;
+                                reaction.count = 1;
+                                reaction.name = emojiStr;
+                                reaction.url = url;
+                                reaction.static_url = static_url;
+                                status.pleroma.emoji_reactions.add(0, reaction);
+                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                            }
+                            ActionsVM actionsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
+                            if (alreadyAdded) {
+                                actionsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                            } else {
+                                actionsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                            }
+                        } else if (status.reactions != null) {
+                            for (Reaction reaction : status.reactions) {
+                                if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
+                                    alreadyAdded = true;
+                                    reaction.count = (reaction.count - 1);
+                                    if (reaction.count == 0) {
+                                        status.reactions.remove(reaction);
+                                    }
+                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                    break;
+                                }
+                            }
+                            if (!alreadyAdded) {
+                                Reaction reaction = new Reaction();
+                                reaction.me = true;
+                                reaction.count = 1;
+                                reaction.name = emojiStr;
+                                reaction.url = url;
+                                reaction.static_url = static_url;
+                                status.reactions.add(0, reaction);
+                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                            }
+                            if (alreadyAdded) {
+                                statusesVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                            } else {
+                                statusesVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+                            }
                         }
                     });
                     gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);

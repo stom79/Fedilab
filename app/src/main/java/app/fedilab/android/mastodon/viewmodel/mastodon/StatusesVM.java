@@ -1292,4 +1292,48 @@ public class StatusesVM extends AndroidViewModel {
         }).start();
         return voidMutableLiveData;
     }
+
+    /**
+     * React to a status with an emoji.
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @param id       Local ID of an announcement
+     * @param name     Unicode emoji, or shortcode of custom emoji
+     */
+    public void addReaction(@NonNull String instance, String token, @NonNull String id, @NonNull String name) {
+        MastodonStatusesService mastodonStatusesService = init(instance);
+        new Thread(() -> {
+            Call<Void> addReactionCall = mastodonStatusesService.addReaction(token, id, name);
+            if (addReactionCall != null) {
+                try {
+                    addReactionCall.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * Undo a react emoji to a status.
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @param id       Local ID of an announcement
+     * @param name     Unicode emoji, or shortcode of custom emoji
+     */
+    public void removeReaction(@NonNull String instance, String token, @NonNull String id, @NonNull String name) {
+        MastodonStatusesService mastodonStatusesService = init(instance);
+        new Thread(() -> {
+            Call<Void> removeReactionCall = mastodonStatusesService.removeReaction(token, id, name);
+            if (removeReactionCall != null) {
+                try {
+                    removeReactionCall.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
 }

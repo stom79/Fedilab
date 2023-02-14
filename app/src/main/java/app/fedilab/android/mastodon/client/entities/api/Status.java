@@ -109,6 +109,8 @@ public class Status implements Serializable, Cloneable {
     public boolean cached = false;
     @SerializedName("is_maths")
     public Boolean isMaths;
+    @SerializedName("reactions")
+    public List<Reaction> reactions;
 
     public Attachment art_attachment;
     public boolean isExpended = false;
