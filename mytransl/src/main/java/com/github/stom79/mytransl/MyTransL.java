@@ -28,8 +28,9 @@ public class MyTransL {
     public static String TAG = "MyTrans_TAG";
     private static MyTransL myTransL;
     private static String libretranslateDomain;
+    private static String lingvaDomain;
     private final translatorEngine te;
-    private String yandexAPIKey, deeplAPIKey, systranAPIKey, libreTranslateAPIKey;
+    private String yandexAPIKey, deeplAPIKey, systranAPIKey, libreTranslateAPIKey, lingvaAPIKey;
     private int timeout = 30;
     private boolean obfuscation = false;
 
@@ -44,13 +45,23 @@ public class MyTransL {
     }
 
     /**
-     * Allows to get the current locale of the device
+     * Allows to get the current domain for libre translate
      *
      * @return locale String
      */
     public static String getLibreTranslateUrl() {
         return "https://" + libretranslateDomain + "/translate?";
     }
+
+    /**
+     * Allows to get the current domain for lingva
+     *
+     * @return locale String
+     */
+    public static String getLingvaUrl() {
+        return "https://" + lingvaDomain + "/api/v1/";
+    }
+
 
     /**
      * Allows to get the current locale of the device
@@ -110,12 +121,29 @@ public class MyTransL {
         MyTransL.libretranslateDomain = libretranslateDomain;
     }
 
+
+    public String getingvaDomain() {
+        return lingvaDomain;
+    }
+
+    public void setLingvaDomain(String lingvaDomain) {
+        MyTransL.lingvaDomain = lingvaDomain;
+    }
+
     public String getLibreTranslateAPIKey() {
         return libreTranslateAPIKey;
     }
 
     public void setLibreTranslateAPIKey(String libreTranslateAPIKey) {
         this.libreTranslateAPIKey = libreTranslateAPIKey;
+    }
+
+    public String getLingvaAPIKey() {
+        return lingvaAPIKey;
+    }
+
+    public void setLingvaAPIKey(String lingvaAPIKey) {
+        this.lingvaAPIKey = lingvaAPIKey;
     }
 
     /**
@@ -144,7 +172,8 @@ public class MyTransL {
         YANDEX,
         DEEPL,
         SYSTRAN,
-        LIBRETRANSLATE
+        LIBRETRANSLATE,
+        LINGVA
     }
 
 }

@@ -318,13 +318,12 @@ public class Translate {
     }
 
     /***
-     * Method to parse result coming from the Deepl translator
-     * More about Deepl translate API - https://www.deepl.com/api-reference.html
+     * Method to parse result coming from the Libre Translate
      * @param response String - Response of the engine translator
      * @param listener - Results Listener
      */
     public void parseLibreTranslateResult(String response, Results listener) {
-        translate.setTranslatorEngine(MyTransL.translatorEngine.DEEPL);
+        translate.setTranslatorEngine(MyTransL.translatorEngine.LIBRETRANSLATE);
         try {
             JSONObject translationJson = new JSONObject(response);
             //Retrieves the translated content
@@ -338,6 +337,26 @@ public class Translate {
         }
     }
 
+
+    /***
+     * Method to parse result coming from the Lingva
+     * @param response String - Response of the engine translator
+     * @param listener - Results Listener
+     */
+    public void parseLingvaResult(String response, Results listener) {
+        translate.setTranslatorEngine(MyTransL.translatorEngine.LINGVA);
+        try {
+            JSONObject translationJson = new JSONObject(response);
+            //Retrieves the translated content
+            translate.setTranslatedContent(translationJson.getString("translation"));
+            //Retrieves the initial language
+            translate.setInitialLanguage(initialLanguage);
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+            HttpsConnectionException httpsConnectionException = new HttpsConnectionException(-1, e1.getMessage());
+            listener.onFail(httpsConnectionException);
+        }
+    }
 
     /***
      * Method to parse result coming from the Deepl translator

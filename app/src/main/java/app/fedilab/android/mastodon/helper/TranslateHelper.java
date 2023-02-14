@@ -49,6 +49,8 @@ public class TranslateHelper {
         MyTransL.translatorEngine et;
         if (translator.compareToIgnoreCase("FEDILAB") == 0) {
             et = MyTransL.translatorEngine.LIBRETRANSLATE;
+        } else if (translator.compareToIgnoreCase("LINGVA") == 0) {
+            et = MyTransL.translatorEngine.LINGVA;
         } else {
             et = MyTransL.translatorEngine.DEEPL;
         }
@@ -60,6 +62,8 @@ public class TranslateHelper {
         params.setSource_lang("auto");
         if (translator.compareToIgnoreCase("FEDILAB") == 0) {
             myTransL.setLibretranslateDomain("translate.fedilab.app");
+        } else if (translator.compareToIgnoreCase("LINGVA") == 0) {
+            myTransL.setLibretranslateDomain("lingva.ml");
         } else {
             String translatorVersion = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_VERSION), "PRO");
             params.setPro(translatorVersion.equals("PRO"));

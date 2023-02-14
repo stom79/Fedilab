@@ -146,6 +146,10 @@ public class TransAsync {
                     e.printStackTrace();
                 }
                 str_response = new Client().post(MyTransL.getLibreTranslateUrl(), this.timeout, params);
+            } else if (te == MyTransL.translatorEngine.LINGVA) {
+                String key = MyTransL.getInstance(te).getLibreTranslateAPIKey();
+                String lingvaURL = MyTransL.getLingvaUrl() + this.params.getSource_lang() + "/" + toLanguage + "/" + contentToSend;
+                str_response = new Client().get(lingvaURL, this.timeout);
             }
         } catch (IOException | NoSuchAlgorithmException | KeyManagementException err) {
             this.e = new HttpsConnectionException(-1, err.getMessage());
@@ -167,6 +171,8 @@ public class TransAsync {
                 translate.parseSystranlResult(result, listener);
             } else if (this.te == MyTransL.translatorEngine.LIBRETRANSLATE) {
                 translate.parseLibreTranslateResult(result, listener);
+            } else if (this.te == MyTransL.translatorEngine.LINGVA) {
+                translate.parseLingvaResult(result, listener);
             }
             //Obfuscation if asked
             if (obfuscation) {
