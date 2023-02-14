@@ -1,4 +1,4 @@
 Added:
-- Add Lingva translator
+- Add Lingva translator (Settings > Timelines)
 - Add support for Nyastodon-style emoji reactions (skyevg)
 - Add chat view for DM (default: disable / Settings > Timelines)

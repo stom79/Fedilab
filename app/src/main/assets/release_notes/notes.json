@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.18.1",
+    "code": "479",
+    "note": "Added:\n- Add Lingva translator (Settings > Timelines)\n- Add support for Nyastodon-style emoji reactions (skyevg)\n- Add chat view for DM (default: disable / Settings > Timelines)"
+  },
+  {
     "version": "3.18.0",
     "code": "478",
     "note": "Added:\n- Support camel case tags (automatically recorded when composing)\n- Manage tags when composing (top right menu)\n- Custom tabs (default: enabled)\n\nChanged:\n- Media heights now use the screen size\n- Remove horizontal scroll for media\n- Reduce size of emoji when text size is increased\n- Update available languages in picker\n\nFixed:\n- Forwarded tags are added back after being deleted\n- TalkBack issues\n- Some crashes"
