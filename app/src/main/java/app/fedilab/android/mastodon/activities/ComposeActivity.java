@@ -399,6 +399,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             } else {
                 Toasty.info(ComposeActivity.this, getString(R.string.toot_error_no_content), Toasty.LENGTH_SHORT).show();
             }
+        } else if (item.getItemId() == R.id.action_tags) {
+            TagCacheActivity tagCacheActivity = new TagCacheActivity();
+            tagCacheActivity.show(getSupportFragmentManager(), null);
         }
         return true;
     }

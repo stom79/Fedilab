@@ -1,4 +1,0 @@
-- Neuer Cache-Mechanismus
-- Cache kann in den Einstellungen deaktiviert werden
-- Hinzufügen von Zählern für neue Nachrichten
-- Einige Korrekturen.

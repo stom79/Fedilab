@@ -47,6 +47,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerConversationBinding;
 import app.fedilab.android.databinding.ThumbnailBinding;
 import app.fedilab.android.mastodon.activities.ContextActivity;
+import app.fedilab.android.mastodon.activities.DirectMessageActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Conversation;
@@ -210,15 +211,26 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         //--- DATE ---
         holder.binding.lastMessageDate.setText(Helper.dateDiff(context, conversation.last_status.created_at));
 
+        boolean chatMode = sharedpreferences.getBoolean(context.getString(R.string.SET_CHAT_FOR_CONVERSATION), true);
         holder.binding.statusContent.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ContextActivity.class);
+            Intent intent;
+            if (chatMode) {
+                intent = new Intent(context, DirectMessageActivity.class);
+            } else {
+                intent = new Intent(context, ContextActivity.class);
+            }
             intent.putExtra(Helper.ARG_STATUS, conversation.last_status);
             context.startActivity(intent);
         });
 
         holder.binding.attachmentsListContainer.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                Intent intent = new Intent(context, ContextActivity.class);
+                Intent intent;
+                if (chatMode) {
+                    intent = new Intent(context, DirectMessageActivity.class);
+                } else {
+                    intent = new Intent(context, ContextActivity.class);
+                }
                 intent.putExtra(Helper.ARG_STATUS, conversation.last_status);
                 context.startActivity(intent);
             }

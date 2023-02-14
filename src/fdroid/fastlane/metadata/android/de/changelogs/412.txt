@@ -1,5 +1,0 @@
-- Korrektur der Beitragsnachricht mit Medien
-- Kodierungsproblem bei Medienbeschreibungen behoben
-- Behebung der Friendica-Tag-Suche
-- Korrekturen beim Verfassen
-- Einige andere kleine Korrekturen

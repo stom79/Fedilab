@@ -126,8 +126,10 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        if (attachments == null || attachments.size() == 0)
+        if (attachments == null || attachments.size() == 0) {
             finish();
+            return;
+        }
 
         setTitle("");
 

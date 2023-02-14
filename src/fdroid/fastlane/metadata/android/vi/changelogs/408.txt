@@ -1,5 +1,0 @@
-- Cải thiện tốc độ cho các phiên bản Nitter
-- Cho phép chỉnh sửa tài khoản Nitter bằng cách nhấn và giữ các tab
-- Khắc phục sự cố phân trang với các mốc thời gian được ghim
-- Sửa một số lỗi
-- Khắc phục khả năng hiển thị khi hiển thị quầy

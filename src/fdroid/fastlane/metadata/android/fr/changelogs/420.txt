@@ -1,2 +1,0 @@
-- Edition des messages (si votre instance supporte cette fonctionnalité)
-- Quelques résolutions

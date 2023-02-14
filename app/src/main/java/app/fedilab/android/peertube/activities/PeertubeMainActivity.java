@@ -166,7 +166,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         badgeCount = 0;
         headerMenuOpen = false;
         binding.navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        startInForeground();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
@@ -377,7 +377,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         peertubeInformation.setPrivacies(new LinkedHashMap<>());
         peertubeInformation.setPlaylistPrivacies(new LinkedHashMap<>());
         peertubeInformation.setTranslations(new LinkedHashMap<>());
-        startInForeground();
+
 
         //noinspection ConstantConditions
         if (BuildConfig.FLAVOR.compareTo("playstore") == 0) {
@@ -417,10 +417,13 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
     private void startInForeground() {
         Intent notificationIntent = new Intent(this, RetrieveInfoService.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(notificationIntent);
-        } else {
-            startService(notificationIntent);
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(notificationIntent);
+            } else {
+                startService(notificationIntent);
+            }
+        } catch (Exception ignored) {
         }
     }
 

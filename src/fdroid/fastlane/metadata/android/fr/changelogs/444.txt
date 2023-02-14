@@ -1,4 +1,0 @@
-Ajouté :
-- Afficher tous les messages d'une enfilade depuis l'instance distante (si possible)
-* Seulement pour les messages publiques des instances utilisant l'API Mastodon
-* Un bouton dédié est affiché en haut à droite quand les conditions sont remplies.

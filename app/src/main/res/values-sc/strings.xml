@@ -989,4 +989,12 @@
     <string name="set_fetch_home">Recùpera in automàticu is messàgios de sa lìnia printzipale</string>
     <string name="set_mention_at_top">Mentovos in pitzos</string>
     <string name="set_mention_at_top_indication">Rispondende, is mentovos s\'ant a annànghere a su cumintzu de su messàgiu</string>
+    <string name="tags_deleted">S\'eticheta est istada bogada!</string>
+    <string name="tags_stored">S\'eticheta est istada archiviada!</string>
+    <string name="manage_tags">Amministra is etichetas</string>
+    <string name="pinned">Apicadu</string>
+    <string name="number_of_media">Nùmeru de mèdios</string>
+    <string name="tags_renamed">S\'eticheta est istada modificada!</string>
+    <string name="number_of_replies">Nùmeru de rispostas</string>
+    <string name="update_date">Data de atualizatzione</string>
 </resources>

@@ -21,4 +21,10 @@
         android:icon="@drawable/ic_baseline_schedule_send_24"
         android:title="@string/schedule"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_tags"
+        android:icon="@drawable/ic_tl_tag"
+        android:title="@string/manage_tags"
+        app:showAsAction="never" />
+
 </menu>

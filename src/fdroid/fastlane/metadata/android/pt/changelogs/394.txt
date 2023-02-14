@@ -1,1 +1,0 @@
-‐ Correcção de crashes para algumas instâncias do pleroma

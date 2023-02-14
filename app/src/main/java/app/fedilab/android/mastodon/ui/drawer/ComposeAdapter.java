@@ -119,6 +119,7 @@ import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.CamelTag;
 import app.fedilab.android.mastodon.client.entities.app.Languages;
 import app.fedilab.android.mastodon.client.entities.app.Quotes;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
@@ -136,7 +137,7 @@ import es.dmoral.toasty.Toasty;
 
 public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int searchDeep = 15;
-    private static final int TYPE_COMPOSE = 1;
+    public static final int TYPE_COMPOSE = 1;
     public static boolean autocomplete = false;
     public static String[] ALPHA = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
             "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "!", ",", "?",
@@ -818,13 +819,24 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else if (matcherTag.matches()) {
                     String searchGroup = matcherTag.group(3);
                     if (searchGroup != null) {
+                        List<String> camelTags = new CamelTag(context).getBy(searchGroup);
                         searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, searchGroup, null,
                                 "hashtags", false, true, false, 0,
                                 null, null, 10).observe((LifecycleOwner) context,
                                 results -> {
-                                    if (results == null) {
+                                    if (results == null || results.hashtags == null || results.hashtags.size() == 0) {
                                         return;
                                     }
+                                    if (camelTags != null && camelTags.size() > 0) {
+                                        for (String camelTag : camelTags) {
+                                            Tag tag = new Tag();
+                                            tag.name = camelTag;
+                                            if (!results.hashtags.contains(tag)) {
+                                                results.hashtags.add(0, tag);
+                                            }
+                                        }
+                                    }
+
                                     int currentCursorPosition = holder.binding.content.getSelectionStart();
                                     TagsSearchAdapter tagsSearchAdapter = new TagsSearchAdapter(context, results.hashtags);
                                     holder.binding.content.setThreshold(1);
@@ -1312,7 +1324,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ComposeViewHolder holder = (ComposeViewHolder) viewHolder;
             boolean extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
             boolean mathsComposer = sharedpreferences.getBoolean(context.getString(R.string.SET_MATHS_COMPOSER), true);
-            boolean forwardTag = sharedpreferences.getBoolean(context.getString(R.string.SET_FORWARD_TAGS_IN_REPLY), true);
+            boolean forwardTag = sharedpreferences.getBoolean(context.getString(R.string.SET_FORWARD_TAGS_IN_REPLY), false);
 
 
             if (mathsComposer) {
@@ -1600,7 +1612,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 statusDraft.setCursorToEnd = false;
                 holder.binding.content.setSelection(holder.binding.content.getText().length());
             }
-            if (forwardTag && position > 0 && statusDraft.text != null && !statusDraft.text.contains("#")) {
+            if (forwardTag && position > 0 && statusDraft.text != null && !statusDraft.text.contains("#") && !statusList.get(position).tagAdded) {
+                statusList.get(position).tagAdded = true;
                 Status status = statusList.get(position - 1).reblog == null ? statusList.get(position - 1) : statusList.get(position - 1).reblog;
                 if (status.tags != null && status.tags.size() > 0) {
                     statusDraft.text += "\n\n";
@@ -1614,8 +1627,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     statusDraft.setCursorToEnd = false;
                     holder.binding.content.setSelection(statusDraft.text.length() - lenght - 3);
                 }
-            } else if (forwardTag && position > 0 && statusDraft.text != null && statusDraft.text.contains("#")) {
+            } else if (forwardTag && position > 0 && statusDraft.text != null && statusDraft.text.contains("#") && !statusList.get(position).tagAdded) {
                 Status status = statusList.get(position - 1).reblog == null ? statusList.get(position - 1) : statusList.get(position - 1).reblog;
+                statusList.get(position).tagAdded = true;
                 int lenght = 0;
                 for (Tag tag : status.tags) {
                     lenght += ("#" + tag.name + " ").length();
@@ -1633,7 +1647,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             holder.binding.sensitiveMedia.setChecked(statusDraft.sensitive);
             holder.binding.content.addTextChangedListener(initializeTextWatcher(holder));
-            holder.binding.buttonPoll.setOnClickListener(v -> displayPollPopup(holder, statusDraft, position));
             holder.binding.buttonPoll.setOnClickListener(v -> displayPollPopup(holder, statusDraft, position));
             if (instanceInfo == null) {
                 return;
@@ -1681,7 +1694,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (statusDraft.language == null || statusDraft.language.isEmpty()) {
                 String currentCode = sharedpreferences.getString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, Locale.getDefault().getLanguage());
-                if (currentCode == null || currentCode.isEmpty()) {
+                if (currentCode.isEmpty()) {
                     currentCode = "EN";
                 }
                 statusDraft.language = currentCode;

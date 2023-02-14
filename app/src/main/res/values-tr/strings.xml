@@ -1001,4 +1001,8 @@
     <string name="number_of_replies">Yanıt sayısı</string>
     <string name="pinned">Sabitlendi</string>
     <string name="update_date">Güncelleme tarihi</string>
+    <string name="tags_renamed">Etiket değiştirildi!</string>
+    <string name="tags_deleted">Etiket kaldırıldı!</string>
+    <string name="tags_stored">Etiket kaydedildi!</string>
+    <string name="manage_tags">Etiketleri yönet</string>
 </resources>

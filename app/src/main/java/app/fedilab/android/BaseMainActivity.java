@@ -478,7 +478,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                     if (!activity.isDestroyed() && !activity.isFinishing() && url != null) {
                                         if (url.trim().isEmpty()) {
                                             BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(activity)
-                                                    .setLabel(account.peertube_account.getAcct())
+                                                    .setLabel(acct)
                                                     .setAvatarSize(120)
                                                     .setTextSize(30)
                                                     .toSquare()

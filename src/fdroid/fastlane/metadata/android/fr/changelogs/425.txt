@@ -1,9 +1,0 @@
-Changé :
-- Les étiquettes sont classés par ordre de popularité dans la recherche
-
-Résolu :
-- Impossible d'obtenir l'ID du client sur certains appareils
-- Les messages/notifications n'étaient pas affichés correctement
-- Notifications non-reçues
-- Friendica : problèmes avec les mentions et les étiquettes (ouvre le navigateur)
-- Amélioration du partage

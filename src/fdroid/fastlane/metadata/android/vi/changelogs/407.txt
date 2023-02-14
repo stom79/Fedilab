@@ -1,9 +1,0 @@
-Thêm:
-- Cài đặt để đặt tất cả các mốc thời gian ở trên cùng (mặc định bị tắt)
-- Cài đặt hiển thị mốc thời gian trong danh sách (mặc định bị tắt)
-- Hiển thị bộ đếm cho fav / reblog trong dòng thời gian (mặc định bị vô hiệu hóa)
-
-Đã sửa:
-- Vấn đề hiển thị khi trả lời
-- Một số vấn đề về chủ đề khi sáng tác
-- Một số sự cố

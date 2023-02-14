@@ -206,4 +206,8 @@
     <color name="solarized_md_theme_dark_surfaceTint">#BBD144</color>
     <color name="solarized_md_theme_dark_outlineVariant">#46483B</color>
     <color name="solarized_md_theme_dark_scrim">#000000</color>
+
+
+    <color name="chat_other_background">#E0E0E0</color>
+
 </resources>

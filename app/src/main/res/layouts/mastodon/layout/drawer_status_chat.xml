@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainContainer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/fab_margin"
+    android:layout_marginTop="12dp"
+    android:background="@drawable/bubble_right_tail"
+    android:padding="12dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/user_pp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/user_name"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="0dp"
+        android:layout_marginEnd="6dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/user_pp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/full_names" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="6dp"
+        android:gravity="end"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/user_pp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/user_pp"
+        app:layout_constraintTop_toBottomOf="@+id/user_name"
+        tools:text="@tools:sample/date/ddmmyy" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/message_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="6dp"
+        android:maxLines="10"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/user_pp"
+        tools:text="@tools:sample/lorem/random" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/message_content">
+
+
+        <include
+            android:id="@+id/poll"
+            layout="@layout/layout_poll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp" />
+
+        <include
+            android:layout_marginTop="10dp"
+            android:id="@+id/media"
+            layout="@layout/layout_drawer_attachments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

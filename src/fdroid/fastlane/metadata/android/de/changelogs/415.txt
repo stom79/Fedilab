@@ -1,2 +1,0 @@
-Behoben:
-- Fehler beim Anhängen von Medien an eine Antwort

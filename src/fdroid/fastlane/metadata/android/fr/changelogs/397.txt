@@ -1,1 +1,0 @@
-- Résolutions de certains bugs signalés.

@@ -1,5 +1,0 @@
-Nova versión de Fedilab con novas funcións.
-- Agora podes escribir fíos
-- Ver o fío completo ao responder
-- Soporte para caché
-- Novo deseño

@@ -1,6 +1,0 @@
-Changé :
-- Retrait de la carte de présentation
-- Couleur des liens pour le thème Sombre
-
-Résolu :
-- Crash lors du changement de thème

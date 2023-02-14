@@ -1,5 +1,0 @@
-Nová verze aplikace Fedilab s novými funkcemi.
-- Nyní můžete vytvářet vlákna
-- Při odpovídání vidíte celé vlákno
-- Podpora cache
-- Nový design

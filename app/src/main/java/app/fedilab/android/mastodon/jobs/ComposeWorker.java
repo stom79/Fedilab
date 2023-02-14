@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -57,6 +58,7 @@ import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.CamelTag;
 import app.fedilab.android.mastodon.client.entities.app.PostState;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -228,19 +230,38 @@ public class ComposeWorker extends Worker {
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intentBD);
                     return;
                 }
-                String language = sharedPreferences.getString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + dataPost.userId + dataPost.instance, null);
                 if (statuses.get(i).local_only) {
                     statuses.get(i).text += " \uD83D\uDC41";
+                }
+                //Record tags
+                if (statuses.get(i).text != null && statuses.get(i).text.length() > 0) {
+                    Matcher matcher = Helper.hashtagPattern.matcher(statuses.get(i).text);
+                    while (matcher.find()) {
+                        int matchStart = matcher.start(1);
+                        int matchEnd = matcher.end();
+                        //Get cached tags
+                        if (matchStart >= 0 && matchEnd < statuses.get(i).text.length()) {
+                            String tag = statuses.get(i).text.substring(matchStart, matchEnd);
+                            tag = tag.replace("#", "");
+                            if (tag.length() > 0) {
+                                try {
+                                    new CamelTag(context).insert(tag);
+                                } catch (DBException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 if (dataPost.scheduledDate == null) {
                     if (dataPost.statusEditId == null) {
                         statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), language, statuses.get(i).quote_id, statuses.get(i).content_type);
+                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), statuses.get(i).language, statuses.get(i).quote_id, statuses.get(i).content_type);
                     } else { //Status is edited
                         statusCall = mastodonStatusesService.updateStatus(null, dataPost.token, dataPost.statusEditId, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
                                 poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive,
-                                statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), language,
+                                statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), statuses.get(i).language,
                                 media_edit_id, media_edit_description, media_edit_focus);
                     }
                     try {

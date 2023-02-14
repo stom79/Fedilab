@@ -118,6 +118,8 @@ public class Status implements Serializable, Cloneable {
     public transient boolean isFetchMore = false;
     public transient PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
     public boolean isChecked = false;
+    //When forwarding tags
+    public boolean tagAdded = false;
     public String translationContent;
     public boolean translationShown;
     public boolean mathsShown = false;

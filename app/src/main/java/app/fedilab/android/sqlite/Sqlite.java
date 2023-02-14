@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 9;
+    public static final int DB_VERSION = 10;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -94,12 +94,15 @@ public class Sqlite extends SQLiteOpenHelper {
     public static final String COL_USER_INSTANCE = "USER_INSTANCE";
 
     //Home fetch logs
-    public static final String TABLE_HOME_FETCH_LOGS = "TABLE_HOME_FETCH_LOGS";
+    public static final String TABLE_HOME_FETCH_LOGS = "HOME_FETCH_LOGS";
     public static final String COL_INSERTED = "INSERTED";
     public static final String COL_UPDATED = "UPDATED";
     public static final String COL_FAILED = "FAILED";
     public static final String COL_FREQUENCY = "FREQUENCY";
     public static final String COL_FETCHED_COUNT = "FETCHED_COUNT";
+
+    public static final String TABLE_CACHE_TAGS = "CACHE_TAGS";
+    public static final String COL_TAG = "TAG";
 
 
     private static final String CREATE_TABLE_USER_ACCOUNT = "CREATE TABLE " + TABLE_USER_ACCOUNT + " ("
@@ -211,6 +214,10 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_ABOUT + " TEXT NOT NULL, "
             + COL_USER_INSTANCE + " TEXT NOT NULL)";
 
+    private final String CREATE_TABLE_CACHE_TAGS = "CREATE TABLE "
+            + TABLE_CACHE_TAGS + "("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_TAG + " TEXT NOT NULL)";
 
     public static SQLiteDatabase db;
     private static Sqlite sInstance;
@@ -243,6 +250,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_DOMAINS_TRACKING);
         db.execSQL(CREATE_TABLE_MUTED);
         db.execSQL(CREATE_TABLE_STORED_INSTANCES);
+        db.execSQL(CREATE_TABLE_CACHE_TAGS);
     }
 
     @Override
@@ -271,6 +279,8 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL(CREATE_TABLE_MUTED);
             case 8:
                 db.execSQL(CREATE_TABLE_STORED_INSTANCES);
+            case 9:
+                db.execSQL(CREATE_TABLE_CACHE_TAGS);
             default:
                 break;
         }

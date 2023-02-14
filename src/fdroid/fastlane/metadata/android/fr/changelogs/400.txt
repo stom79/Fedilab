@@ -1,9 +1,0 @@
-Ajouté :
-- Possibilité de définir le nombre de caractère maximum quand il n'est pas détecté (dans à propos de l'instance)
-- Ajout du sélecteur d’émoji one lors de la rédaction (doit être activé dans les paramètres)
-- Ajout des notes de changement de version et la possibilité de les traduire
-
-Résolu :
-- Emojis personnalisé de Friendica non-affichés
-- Appui long pour stocker les médias
-- Quelques corrections de bugs

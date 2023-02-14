@@ -1,2 +1,0 @@
-- Birkaç hata düzeltmesi
-- Sabitlenmiş zaman çizelgeleri iyileştirildi

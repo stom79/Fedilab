@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/media_container"
+    android:layout_height="300dp">
+
+    <include
+        android:id="@+id/media1_container"
+        layout="@layout/layout_media"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/media3_container"
+        app:layout_constraintEnd_toStartOf="@+id/media2_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/media2_container"
+        layout="@layout/layout_media"
+        android:layout_width="0dp"
+        android:layout_margin="1dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/media4_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/media1_container"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/media3_container"
+        layout="@layout/layout_media"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        tools:visibility="visible"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/media4_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/media1_container" />
+
+
+    <include
+        android:id="@+id/media4_container"
+        layout="@layout/layout_media"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        tools:visibility="visible"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/media3_container"
+        app:layout_constraintTop_toBottomOf="@id/media1_container" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/more_media"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:visibility="visible"
+        android:background="#88000000"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/media4_container"
+        app:layout_constraintTop_toTopOf="@+id/media4_container"
+        tools:text="+7 more media" />
+</androidx.constraintlayout.widget.ConstraintLayout>

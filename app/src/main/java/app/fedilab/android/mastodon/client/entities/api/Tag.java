@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -41,5 +43,14 @@ public class Tag implements Serializable {
             }
         }
         return weight;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean same = false;
+        if (obj instanceof Tag) {
+            same = this.name.equals(((Tag) obj).name);
+        }
+        return same;
     }
 }

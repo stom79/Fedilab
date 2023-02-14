@@ -25,6 +25,7 @@ import static app.fedilab.android.activities.LoginActivity.softwareLogin;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -43,9 +44,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.browser.customtabs.CustomTabColorSchemeParams;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -60,6 +64,7 @@ import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.InstanceSocial;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
+import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.helper.ZipHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AppsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.InstanceSocialVM;
@@ -214,6 +219,10 @@ public class FragmentLoginMain extends Fragment {
         menuInflater.inflate(R.menu.main_login, popupMenu.getMenu());
         MenuItem adminTabItem = popupMenu.getMenu().findItem(R.id.action_request_admin);
         adminTabItem.setChecked(requestedAdmin);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean customTab = sharedpreferences.getBoolean(getString(R.string.SET_CUSTOM_TABS), true);
+        popupMenu.getMenu().findItem(R.id.action_custom_tabs).setChecked(customTab);
+
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_proxy) {
@@ -242,6 +251,13 @@ public class FragmentLoginMain extends Fragment {
                 } else {
                     proceed();
                 }
+            } else if (itemId == R.id.action_custom_tabs) {
+                boolean newValue = !item.isChecked();
+                item.setChecked(newValue);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putBoolean(getString(R.string.SET_CUSTOM_TABS), newValue);
+                editor.apply();
+                return false;
             }
             return false;
         });
@@ -291,13 +307,26 @@ public class FragmentLoginMain extends Fragment {
                 client_idLogin = app.client_id;
                 client_secretLogin = app.client_secret;
                 String redirectUrl = MastodonHelper.authorizeURL(currentInstanceLogin, client_idLogin, requestedAdmin);
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setData(Uri.parse(redirectUrl));
-                try {
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                boolean customTab = sharedpreferences.getBoolean(getString(R.string.SET_CUSTOM_TABS), true);
+                if (customTab) {
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    int colorInt = ThemeHelper.getAttColor(requireActivity(), R.attr.statusBar);
+                    CustomTabColorSchemeParams defaultColors = new CustomTabColorSchemeParams.Builder()
+                            .setToolbarColor(colorInt)
+                            .build();
+                    builder.setDefaultColorSchemeParams(defaultColors);
+                    CustomTabsIntent customTabsIntent = builder.build();
+                    customTabsIntent.launchUrl(requireActivity(), Uri.parse(redirectUrl));
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setData(Uri.parse(redirectUrl));
+                    try {
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                    }
                 }
             } else {
                 Toasty.error(requireActivity(), getString(R.string.client_error), Toasty.LENGTH_SHORT).show();

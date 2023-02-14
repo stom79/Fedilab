@@ -18,11 +18,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.preference.EditTextPreference;
+import androidx.preference.MultiSelectListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
+import java.util.List;
+import java.util.Set;
+
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
+import app.fedilab.android.mastodon.client.entities.app.Languages;
 
 public class FragmentComposeSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -40,6 +45,40 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
             String val = sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT), null));
             SET_WATERMARK_TEXT.setText(val);
         }
+
+        MultiSelectListPreference SET_SELECTED_LANGUAGE = findPreference(getString(R.string.SET_SELECTED_LANGUAGE));
+        if (SET_SELECTED_LANGUAGE != null) {
+
+            Set<String> storedLanguages = sharedPreferences.getStringSet(getString(R.string.SET_SELECTED_LANGUAGE), null);
+
+            String[] selectedValue = new String[0];
+            if (storedLanguages != null && storedLanguages.size() > 0) {
+                if (storedLanguages.size() == 1 && storedLanguages.toArray()[0] == null) {
+                    sharedPreferences.edit().remove(getString(R.string.SET_SELECTED_LANGUAGE)).commit();
+                } else {
+                    selectedValue = storedLanguages.toArray(new String[0]);
+                }
+            }
+            List<Languages.Language> languages = Languages.get(requireActivity());
+            if (languages != null) {
+                String[] codesArr = new String[languages.size()];
+                String[] languagesArr = new String[languages.size()];
+                int i = 0;
+                for (Languages.Language language : languages) {
+                    codesArr[i] = language.code;
+                    languagesArr[i] = language.language;
+                    i++;
+                }
+                SET_SELECTED_LANGUAGE.setEntries(languagesArr);
+                SET_SELECTED_LANGUAGE.setEntryValues(codesArr);
+                if (selectedValue.length > 0) {
+                    SET_SELECTED_LANGUAGE.setDefaultValue(selectedValue);
+                }
+            }
+
+        }
+
+
     }
 
     @Override

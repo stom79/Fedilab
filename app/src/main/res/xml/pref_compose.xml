@@ -47,8 +47,6 @@
         app:title="@string/set_unlisted_replies" />
 
     <MultiSelectListPreference
-        app:entries="@array/SET_SELECTED_LANGUAGE_VALUES"
-        app:entryValues="@array/SET_SELECTED_LANGUAGE_ENTRIES"
         app:iconSpaceReserved="false"
         app:key="@string/SET_SELECTED_LANGUAGE"
         app:summary="@string/set_language_picker"
