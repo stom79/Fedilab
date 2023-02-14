@@ -1904,4 +1904,5 @@
 
     <string name="translator_domain">Translator domain</string>
     <string name="chat_timeline_for_direct">Chat timeline for direct messages</string>
+    <string name="more_media">%1$s more media</string>
 </resources>

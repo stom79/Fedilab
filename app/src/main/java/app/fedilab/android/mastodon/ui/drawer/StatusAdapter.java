@@ -1482,16 +1482,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         holder.binding.media.media3Container.mediaRoot.setVisibility(View.VISIBLE);
                         holder.binding.media.media4Container.mediaRoot.setVisibility(View.VISIBLE);
                         holder.binding.media.moreMedia.setVisibility(View.VISIBLE);
+                        holder.binding.media.moreMedia.setText(context.getString(R.string.more_media, "+" + (statusToDeal.media_attachments.size() - 4)));
                     }
                 }
                 for (Attachment attachment : statusToDeal.media_attachments) {
 
-                    if (fullAttachement) {
-
-                    }
                     LayoutMediaBinding layoutMediaBinding = null;
-
-
                     if ((fullAttachement && (!statusToDeal.sensitive || expand_media))) {
                         layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context));
                         holder.binding.mediaContainer.addView(layoutMediaBinding.getRoot());
@@ -1524,13 +1520,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                         loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, mediaW, mediaH, ratio, statusToDeal, attachment);
 
-                    } else {
-                        if (layoutMediaBinding != null) {
-                            loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, -1.f, statusToDeal, attachment);
-                        }
+                    } else if (layoutMediaBinding != null) {
+                        loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, -1.f, statusToDeal, attachment);
                     }
-
-
                     mediaPosition++;
                 }
                 if (!fullAttachement || statusToDeal.sensitive) {
@@ -1622,7 +1614,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 for (Poll.PollItem pollItem : statusToDeal.poll.options) {
                     @NonNull LayoutPollItemBinding pollItemBinding = LayoutPollItemBinding.inflate(inflater, holder.binding.poll.rated, true);
-                    double value = ((double) (pollItem.votes_count * 100) / (double) statusToDeal.poll.voters_count);
+                    double value = Math.ceil((pollItem.votes_count * 100) / (double) statusToDeal.poll.voters_count);
                     pollItemBinding.pollItemPercent.setText(String.format("%s %%", (int) value));
                     pollItemBinding.pollItemText.setText(
                             pollItem.getSpanTitle(context, statusToDeal,
