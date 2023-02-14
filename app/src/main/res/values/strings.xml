@@ -1901,4 +1901,6 @@
     <string name="tags_deleted">The tag has been removed!</string>
     <string name="tags_stored">he tag has been stored!</string>
     <string name="manage_tags">Manage tags</string>
+
+    <string name="translator_domain">Translator domain</string>
 </resources>
