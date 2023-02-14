@@ -1005,4 +1005,5 @@
     <string name="tags_deleted">Etiket kaldırıldı!</string>
     <string name="tags_stored">Etiket kaydedildi!</string>
     <string name="manage_tags">Etiketleri yönet</string>
+    <string name="translator_domain">Çevirmen etki alanı</string>
 </resources>
