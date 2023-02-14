@@ -211,7 +211,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         //--- DATE ---
         holder.binding.lastMessageDate.setText(Helper.dateDiff(context, conversation.last_status.created_at));
 
-        boolean chatMode = sharedpreferences.getBoolean(context.getString(R.string.SET_CHAT_FOR_CONVERSATION), true);
+        boolean chatMode = sharedpreferences.getBoolean(context.getString(R.string.SET_CHAT_FOR_CONVERSATION), false);
         holder.binding.statusContent.setOnClickListener(v -> {
             Intent intent;
             if (chatMode) {

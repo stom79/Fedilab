@@ -32,6 +32,12 @@
         app:singleLineTitle="false"
         app:title="@string/group_reblogs" />
     <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CHAT_FOR_CONVERSATION"
+        app:singleLineTitle="false"
+        app:title="@string/chat_timeline_for_direct" />
+    <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_BOOST_ORIGINAL_DATE"
