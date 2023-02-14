@@ -64,7 +64,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/message_content">
 
+
         <include
+            android:id="@+id/poll"
+            layout="@layout/layout_poll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp" />
+
+        <include
+            android:layout_marginTop="10dp"
             android:id="@+id/media"
             layout="@layout/layout_drawer_attachments"
             android:layout_width="match_parent"

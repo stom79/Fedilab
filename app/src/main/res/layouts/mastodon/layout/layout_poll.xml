@@ -67,6 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.7"
+                android:id="@+id/refresh"
                 android:text="@string/tap_here_to_refresh_poll"
                 tools:ignore="HardcodedText" />
 

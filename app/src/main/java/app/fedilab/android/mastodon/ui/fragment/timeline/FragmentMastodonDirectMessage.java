@@ -37,10 +37,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -68,12 +73,15 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ComposeAttachmentItemBinding;
+import app.fedilab.android.databinding.ComposePollBinding;
+import app.fedilab.android.databinding.ComposePollItemBinding;
 import app.fedilab.android.databinding.FragmentDirectMessageBinding;
 import app.fedilab.android.databinding.PopupMediaDescriptionBinding;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Context;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
+import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -84,6 +92,7 @@ import app.fedilab.android.mastodon.jobs.ComposeWorker;
 import app.fedilab.android.mastodon.services.ThreadMessageService;
 import app.fedilab.android.mastodon.ui.drawer.StatusDirectMessageAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
+import es.dmoral.toasty.Toasty;
 
 
 public class FragmentMastodonDirectMessage extends Fragment {
@@ -155,7 +164,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
             statusesVM.getContext(user_instance, user_token, focusedStatus.id)
                     .observe(getViewLifecycleOwner(), this::initializeContextView);
         }
-
+        binding.buttonCloseAttachmentPanel.setOnClickListener(v -> binding.attachmentChoicesPanel.setVisibility(View.GONE));
         statusCompose = new Status();
         binding.buttonAttach.setOnClickListener(v -> {
 
@@ -176,6 +185,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
             binding.attachmentChoicesPanel.setVisibility(View.VISIBLE);
             binding.buttonAttach.setChecked(false);
         });
+        binding.buttonPoll.setOnClickListener(v -> displayPollPopup());
         binding.buttonAttachAudio.setOnClickListener(v -> {
             binding.attachmentChoicesPanel.setVisibility(View.GONE);
             pickupMedia(ComposeActivity.mediaType.AUDIO);
@@ -195,6 +205,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
 
         binding.sendButton.setOnClickListener(v -> {
             statusCompose.submitted = true;
+            statusCompose.text = binding.text.getText().toString();
             onSubmit(prepareDraft(statusCompose, MainActivity.currentInstance, MainActivity.currentUserID));
         });
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
@@ -300,30 +311,266 @@ public class FragmentMastodonDirectMessage extends Fragment {
         return statusDraftDB;
     }
 
-    private Status initiliazeStatus() {
-        Status status = new Status();
+    /**
+     * Display the popup to attach a poll to message
+     */
+    private void displayPollPopup() {
+        AlertDialog.Builder alertPoll = new MaterialAlertDialogBuilder(requireActivity());
+        alertPoll.setTitle(R.string.create_poll);
+        ComposePollBinding composePollBinding = ComposePollBinding.inflate(LayoutInflater.from(requireActivity()), new LinearLayout(requireActivity()), false);
+        alertPoll.setView(composePollBinding.getRoot());
+        int max_entry = 4;
+        int max_length = 25;
+        final int[] pollCountItem = {2};
+
+        if (instanceInfo != null && instanceInfo.configuration != null && instanceInfo.configuration.pollsConf != null) {
+            max_entry = instanceInfo.configuration.pollsConf.max_options;
+            max_length = instanceInfo.configuration.pollsConf.max_option_chars;
+        } else if (instanceInfo != null && instanceInfo.poll_limits != null) {
+            max_entry = instanceInfo.poll_limits.max_options;
+            max_length = instanceInfo.poll_limits.max_option_chars;
+        }
+        InputFilter[] fArray = new InputFilter[1];
+        fArray[0] = new InputFilter.LengthFilter(max_length);
+        composePollBinding.option1.text.setFilters(fArray);
+        composePollBinding.option1.textLayout.setHint(getString(R.string.poll_choice_s, 1));
+        composePollBinding.option2.text.setFilters(fArray);
+        composePollBinding.option2.textLayout.setHint(getString(R.string.poll_choice_s, 2));
+        composePollBinding.option1.buttonRemove.setVisibility(View.GONE);
+        composePollBinding.option2.buttonRemove.setVisibility(View.GONE);
+        int finalMax_entry = max_entry;
+        composePollBinding.buttonAddOption.setOnClickListener(v -> {
+            if (pollCountItem[0] < finalMax_entry) {
+                ComposePollItemBinding composePollItemBinding = ComposePollItemBinding.inflate(LayoutInflater.from(composePollBinding.optionsList.getContext()), composePollBinding.optionsList, false);
+                if (composePollBinding.pollType.getCheckedButtonId() == R.id.poll_type_multiple)
+                    composePollItemBinding.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_multiple);
+                composePollItemBinding.text.setFilters(fArray);
+                composePollItemBinding.textLayout.setHint(getString(R.string.poll_choice_s, (pollCountItem[0] + 1)));
+                LinearLayoutCompat viewItem = composePollItemBinding.getRoot();
+                composePollBinding.optionsList.addView(composePollItemBinding.getRoot());
+                composePollItemBinding.buttonRemove.setOnClickListener(view -> {
+                    composePollBinding.optionsList.removeView(viewItem);
+                    pollCountItem[0]--;
+                    if (pollCountItem[0] >= finalMax_entry) {
+                        composePollBinding.buttonAddOption.setVisibility(View.GONE);
+                    } else {
+                        composePollBinding.buttonAddOption.setVisibility(View.VISIBLE);
+                    }
+                    int childCount = composePollBinding.optionsList.getChildCount();
+                    for (int i = 0; i < childCount; i++) {
+                        AppCompatEditText title = (composePollBinding.optionsList.getChildAt(i)).findViewById(R.id.text);
+                        title.setHint(getString(R.string.poll_choice_s, i + 1));
+                    }
+
+                });
+            }
+            pollCountItem[0]++;
+            if (pollCountItem[0] >= finalMax_entry) {
+                composePollBinding.buttonAddOption.setVisibility(View.GONE);
+            } else {
+                composePollBinding.buttonAddOption.setVisibility(View.VISIBLE);
+            }
+
+        });
+
+
+        ArrayAdapter<CharSequence> pollduration = ArrayAdapter.createFromResource(requireActivity(),
+                R.array.poll_duration, android.R.layout.simple_spinner_dropdown_item);
+        composePollBinding.pollDuration.setAdapter(pollduration);
+        composePollBinding.pollDuration.setSelection(4);
+        if (statusCompose != null && statusCompose.poll != null && statusCompose.poll.options != null) {
+            int i = 1;
+            for (Poll.PollItem pollItem : statusCompose.poll.options) {
+                if (i == 1) {
+                    if (statusCompose.poll.multiple)
+                        composePollBinding.option1.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_multiple);
+                    if (pollItem.title != null)
+                        composePollBinding.option1.text.setText(pollItem.title);
+                } else if (i == 2) {
+                    if (statusCompose.poll.multiple)
+                        composePollBinding.option2.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_multiple);
+                    if (pollItem.title != null)
+                        composePollBinding.option2.text.setText(pollItem.title);
+                } else {
+
+                    ComposePollItemBinding composePollItemBinding = ComposePollItemBinding.inflate(LayoutInflater.from(requireActivity()), new LinearLayout(requireActivity()), false);
+                    if (composePollBinding.pollType.getCheckedButtonId() == R.id.poll_type_multiple)
+                        composePollItemBinding.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_multiple);
+                    else
+                        composePollItemBinding.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_single);
+
+                    composePollItemBinding.text.setFilters(fArray);
+                    composePollItemBinding.textLayout.setHint(getString(R.string.poll_choice_s, (pollCountItem[0] + 1)));
+                    composePollItemBinding.text.setText(pollItem.title);
+                    composePollBinding.optionsList.addView(composePollItemBinding.getRoot());
+                    composePollItemBinding.buttonRemove.setOnClickListener(view -> {
+                        composePollBinding.optionsList.removeView(view);
+                        pollCountItem[0]--;
+                    });
+                    pollCountItem[0]++;
+                }
+                i++;
+            }
+            if (statusCompose.poll.options.size() >= max_entry) {
+                composePollBinding.buttonAddOption.setVisibility(View.GONE);
+            }
+            switch (statusCompose.poll.expire_in) {
+                case 300:
+                    composePollBinding.pollDuration.setSelection(0);
+                    break;
+                case 1800:
+                    composePollBinding.pollDuration.setSelection(1);
+                    break;
+                case 3600:
+                    composePollBinding.pollDuration.setSelection(2);
+                    break;
+                case 21600:
+                    composePollBinding.pollDuration.setSelection(3);
+                    break;
+                case 86400:
+                    composePollBinding.pollDuration.setSelection(4);
+                    break;
+                case 259200:
+                    composePollBinding.pollDuration.setSelection(5);
+                    break;
+                case 604800:
+                    composePollBinding.pollDuration.setSelection(6);
+                    break;
+            }
+            if (statusCompose.poll.multiple)
+                composePollBinding.pollType.check(R.id.poll_type_multiple);
+            else
+                composePollBinding.pollType.check(R.id.poll_type_single);
+
+
+        }
+        alertPoll.setNegativeButton(R.string.delete, (dialog, whichButton) -> {
+            if (statusCompose != null && statusCompose.poll != null) statusCompose.poll = null;
+            buttonState();
+            dialog.dismiss();
+        });
+        alertPoll.setPositiveButton(R.string.save, null);
+        final AlertDialog alertPollDiaslog = alertPoll.create();
+        alertPollDiaslog.setOnShowListener(dialog -> {
+            composePollBinding.pollType.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+                if (isChecked) {
+                    if (checkedId == R.id.poll_type_single) {
+                        if (statusCompose != null && statusCompose.poll != null)
+                            statusCompose.poll.multiple = false;
+                        for (int i = 0; i < composePollBinding.optionsList.getChildCount(); i++) {
+                            ComposePollItemBinding child = ComposePollItemBinding.bind(composePollBinding.optionsList.getChildAt(i));
+                            child.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_single);
+                        }
+                    } else if (checkedId == R.id.poll_type_multiple) {
+                        if (statusCompose != null && statusCompose.poll != null)
+                            statusCompose.poll.multiple = true;
+                        for (int i = 0; i < composePollBinding.optionsList.getChildCount(); i++) {
+                            ComposePollItemBinding child = ComposePollItemBinding.bind(composePollBinding.optionsList.getChildAt(i));
+                            child.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_multiple);
+                        }
+                    }
+                }
+            });
+            Button b = alertPollDiaslog.getButton(AlertDialog.BUTTON_POSITIVE);
+            b.setOnClickListener(view1 -> {
+                int poll_duration_pos = composePollBinding.pollDuration.getSelectedItemPosition();
+
+                int selected_poll_type_id = composePollBinding.pollType.getCheckedButtonId();
+                String choice1 = composePollBinding.option1.text.getText().toString().trim();
+                String choice2 = composePollBinding.option2.text.getText().toString().trim();
+
+                if (choice1.isEmpty() && choice2.isEmpty()) {
+                    Toasty.error(requireActivity(), getString(R.string.poll_invalid_choices), Toasty.LENGTH_SHORT).show();
+                } else if (statusCompose != null) {
+                    statusCompose.poll = new Poll();
+                    statusCompose.poll.multiple = selected_poll_type_id == R.id.poll_type_multiple;
+                    int expire;
+                    switch (poll_duration_pos) {
+                        case 0:
+                            expire = 300;
+                            break;
+                        case 1:
+                            expire = 1800;
+                            break;
+                        case 2:
+                            expire = 3600;
+                            break;
+                        case 3:
+                            expire = 21600;
+                            break;
+                        case 4:
+                            expire = 86400;
+                            break;
+                        case 5:
+                            expire = 259200;
+                            break;
+                        case 6:
+                            expire = 604800;
+                            break;
+                        default:
+                            expire = 864000;
+                    }
+                    statusCompose.poll.expire_in = expire;
+                    List<Poll.PollItem> pollItems = new ArrayList<>();
+                    int childCount = composePollBinding.optionsList.getChildCount();
+                    for (int i = 0; i < childCount; i++) {
+                        Poll.PollItem pollItem = new Poll.PollItem();
+                        AppCompatEditText title = (composePollBinding.optionsList.getChildAt(i)).findViewById(R.id.text);
+                        pollItem.title = title.getText().toString();
+                        pollItems.add(pollItem);
+                    }
+                    List<String> options = new ArrayList<>();
+                    boolean doubleTitle = false;
+                    for (Poll.PollItem po : pollItems) {
+                        if (!options.contains(po.title.trim())) {
+                            options.add(po.title.trim());
+                        } else {
+                            doubleTitle = true;
+                        }
+                    }
+                    if (!doubleTitle) {
+                        statusCompose.poll.options = pollItems;
+                        dialog.dismiss();
+                    } else {
+                        Toasty.error(requireActivity(), getString(R.string.poll_duplicated_entry), Toasty.LENGTH_SHORT).show();
+                    }
+                }
+                binding.buttonPoll.setVisibility(View.VISIBLE);
+                buttonState();
+            });
+        });
+
+        alertPollDiaslog.show();
+    }
+
+
+    private void initiliazeStatus() {
+        statusCompose = new Status();
+        binding.text.setText("");
+        binding.attachmentsListContainer.removeAllViews();
         if (statuses != null && statuses.size() > 0) {
+            binding.recyclerView.scrollToPosition(statuses.size() - 1);
             Status lastStatus = statuses.get(statuses.size() - 1);
-            status.in_reply_to_id = lastStatus.id;
-            status.visibility = "direct";
-            status.mentions = new ArrayList<>();
+            statusCompose.in_reply_to_id = lastStatus.id;
+            statusCompose.visibility = "direct";
+            statusCompose.mentions = new ArrayList<>();
             if (lastStatus.account.acct != null && currentAccount.mastodon_account != null && !lastStatus.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
                 Mention mention = new Mention();
                 mention.acct = "@" + lastStatus.account.acct;
                 mention.url = lastStatus.account.url;
                 mention.username = lastStatus.account.username;
-                status.mentions.add(mention);
+                statusCompose.mentions.add(mention);
             }
             //There are other mentions to
             if (lastStatus.mentions != null && lastStatus.mentions.size() > 0) {
                 for (Mention mentionTmp : lastStatus.mentions) {
                     if (currentAccount.mastodon_account != null && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
-                        status.mentions.add(mentionTmp);
+                        statusCompose.mentions.add(mentionTmp);
                     }
                 }
             }
         }
-        return status;
+        manageMentions(statusCompose);
     }
 
     /**
@@ -353,7 +600,6 @@ public class FragmentMastodonDirectMessage extends Fragment {
                 }
             }
             binding.text.setText(statusCompose.text);
-            statusCompose.cursorPosition = statusCompose.text.length();
             if (statusCompose.mentions.size() > 1) {
                 if (!mentionsAtTop) {
                     statusCompose.text += "\n";
@@ -366,7 +612,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
             binding.text.setText(statusCompose.text);
             binding.text.requestFocus();
             binding.text.post(() -> {
-                binding.text.setSelection(statusCompose.cursorPosition); //Put cursor at the end
+                binding.text.setSelection(statusCompose.text.length()); //Put cursor at the end
             });
         } else {
             binding.text.requestFocus();
@@ -685,10 +931,9 @@ public class FragmentMastodonDirectMessage extends Fragment {
         statuses.addAll(0, context.ancestors);
         statusDirectMessageAdapter.notifyItemRangeInserted(0, statusPosition);
         statuses.addAll(statusPosition + 1, context.descendants);
-        initiliazeStatus();
         statusDirectMessageAdapter.notifyItemRangeInserted(statusPosition + 1, context.descendants.size());
         binding.swipeContainer.setRefreshing(false);
-        binding.recyclerView.scrollToPosition(statusPosition);
+        initiliazeStatus();
     }
 
     public interface FirstMessage {

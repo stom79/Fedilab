@@ -77,6 +77,8 @@ android {
                     'src/main/res/menus/peertube',
                     'src/main/res/menus',
 
+                    'src/main/res/values',
+
                     'src/main/res'
             ]
         }

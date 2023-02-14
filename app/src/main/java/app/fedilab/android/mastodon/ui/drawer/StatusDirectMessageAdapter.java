@@ -21,20 +21,29 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,20 +53,25 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.DrawerStatusChatBinding;
 import app.fedilab.android.databinding.LayoutMediaBinding;
+import app.fedilab.android.databinding.LayoutPollItemBinding;
 import app.fedilab.android.mastodon.activities.MediaActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
+import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.MediaHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
+import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
 
 public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -81,7 +95,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                                             StatusChatViewHolder holder,
                                             RecyclerView.Adapter<RecyclerView.ViewHolder> adapter,
                                             int mediaPosition, float mediaW, float mediaH, float ratio,
-                                            Status statusToDeal, Attachment attachment) {
+                                            Status status, Attachment attachment) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
         boolean long_press_media = sharedpreferences.getBoolean(context.getString(R.string.SET_LONG_PRESS_STORE_MEDIA), false);
@@ -96,9 +110,9 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
         float focusX = 0.f;
         float focusY = 0.f;
-        if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
-            focusX = statusToDeal.media_attachments.get(0).meta.focus.x;
-            focusY = statusToDeal.media_attachments.get(0).meta.focus.y;
+        if (status.media_attachments.get(0).meta != null && status.media_attachments.get(0).meta.focus != null) {
+            focusX = status.media_attachments.get(0).meta.focus.x;
+            focusY = status.media_attachments.get(0).meta.focus.y;
         }
         if (attachment.description != null && attachment.description.trim().length() > 0) {
             layoutMediaBinding.media.setContentDescription(attachment.description.trim());
@@ -132,22 +146,22 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             layoutMediaBinding.viewDescription.setVisibility(View.GONE);
         }
 
-        RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, statusToDeal.sensitive, false);
-        if (!statusToDeal.sensitive || expand_media) {
+        RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, status.sensitive, false);
+        if (!status.sensitive || expand_media) {
             layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
         } else {
             layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
         }
         requestBuilder.load(attachment.preview_url).into(layoutMediaBinding.media);
-        if (statusToDeal.sensitive) {
+        if (status.sensitive) {
             Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, ThemeHelper.getAttColor(context, R.attr.colorError));
         } else {
             Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.white);
         }
 
         layoutMediaBinding.media.setOnClickListener(v -> {
-            if (statusToDeal.sensitive && !expand_media) {
-                statusToDeal.sensitive = false;
+            if (status.sensitive && !expand_media) {
+                status.sensitive = false;
                 int position = holder.getBindingAdapterPosition();
                 adapter.notifyItemChanged(position);
 
@@ -157,7 +171,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                         }
 
                         public void onFinish() {
-                            statusToDeal.sensitive = true;
+                            status.sensitive = true;
                             adapter.notifyItemChanged(position);
                         }
                     }.start();
@@ -167,15 +181,15 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             Intent mediaIntent = new Intent(context, MediaActivity.class);
             Bundle b = new Bundle();
             b.putInt(Helper.ARG_MEDIA_POSITION, mediaPosition);
-            b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
+            b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
             mediaIntent.putExtras(b);
             ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
+                    .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, status.media_attachments.get(0).url);
             // start the new activity
             context.startActivity(mediaIntent, options.toBundle());
         });
         layoutMediaBinding.viewHide.setOnClickListener(v -> {
-            statusToDeal.sensitive = !statusToDeal.sensitive;
+            status.sensitive = !status.sensitive;
             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
         });
 
@@ -208,7 +222,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
         StatusChatViewHolder holder = (StatusChatViewHolder) viewHolder;
         Status status = statusList.get(position);
-
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         holder.binding.messageContent.setText(
                 status.getSpanContent(context,
                         new WeakReference<>(holder.binding.messageContent),
@@ -228,23 +242,190 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         MastodonHelper.loadPPMastodon(holder.binding.userPp, status.account);
         holder.binding.date.setText(Helper.longDateToString(status.created_at));
         //Owner account
-        int textColor;
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         if (status.account.id.equals(MainActivity.currentUserID)) {
             holder.binding.mainContainer.setBackgroundResource(R.drawable.bubble_right_tail);
-            textColor = R.attr.colorOnPrimary;
-            layoutParams.setMargins((int) Helper.convertDpToPixel(50, context), (int) Helper.convertDpToPixel(12, context), 0, 0);
 
+            layoutParams.setMargins((int) Helper.convertDpToPixel(50, context), (int) Helper.convertDpToPixel(12, context), 0, 0);
+            holder.binding.date.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            holder.binding.messageContent.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            holder.binding.userName.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
         } else {
             holder.binding.mainContainer.setBackgroundResource(R.drawable.bubble_left_tail);
             layoutParams.setMargins(0, (int) Helper.convertDpToPixel(12, context), (int) Helper.convertDpToPixel(50, context), 0);
-            textColor = R.attr.colorOnSecondary;
+            holder.binding.date.setTextColor(ContextCompat.getColor(context, R.color.black));
+            holder.binding.messageContent.setTextColor(ContextCompat.getColor(context, R.color.black));
+            holder.binding.userName.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
         holder.binding.mainContainer.setLayoutParams(layoutParams);
-        holder.binding.date.setTextColor(ThemeHelper.getAttColor(context, textColor));
-        holder.binding.messageContent.setTextColor(ThemeHelper.getAttColor(context, textColor));
-        holder.binding.userName.setTextColor(ThemeHelper.getAttColor(context, textColor));
+
+        final float scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.1f);
+        if (status.poll != null && status.poll.options != null) {
+
+            holder.binding.poll.pollInfo.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            holder.binding.poll.refresh.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
+            if (status.poll.voted || status.poll.expired) {
+                holder.binding.poll.submitVote.setVisibility(View.GONE);
+                holder.binding.poll.rated.setVisibility(View.VISIBLE);
+                holder.binding.poll.multipleChoice.setVisibility(View.GONE);
+                holder.binding.poll.singleChoiceRadioGroup.setVisibility(View.GONE);
+                int greaterValue = 0;
+                for (Poll.PollItem pollItem : status.poll.options) {
+                    if (pollItem.votes_count > greaterValue)
+                        greaterValue = pollItem.votes_count;
+                }
+                holder.binding.poll.rated.removeAllViews();
+                List<Integer> ownvotes = status.poll.own_votes;
+                int j = 0;
+                if (status.poll.voters_count == 0 && status.poll.votes_count > 0) {
+                    status.poll.voters_count = status.poll.votes_count;
+                }
+                LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+                for (Poll.PollItem pollItem : status.poll.options) {
+                    @NonNull LayoutPollItemBinding pollItemBinding = LayoutPollItemBinding.inflate(inflater, holder.binding.poll.rated, true);
+                    double value = ((double) (pollItem.votes_count * 100) / (double) status.poll.voters_count);
+                    pollItemBinding.pollItemPercent.setText(String.format("%s %%", (int) value));
+                    pollItemBinding.pollItemText.setText(
+                            pollItem.getSpanTitle(context, status,
+                                    new WeakReference<>(pollItemBinding.pollItemText)),
+                            TextView.BufferType.SPANNABLE);
+                    pollItemBinding.pollItemPercent.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+                    pollItemBinding.pollItemText.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+                    pollItemBinding.pollItemValue.setProgress((int) value);
+                    if (pollItem.votes_count == greaterValue) {
+                        pollItemBinding.pollItemPercent.setTypeface(null, Typeface.BOLD);
+                        pollItemBinding.pollItemText.setTypeface(null, Typeface.BOLD);
+                    }
+                    if (ownvotes != null && ownvotes.contains(j)) {
+                        Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_check_24);
+                        assert img != null;
+                        img.setColorFilter(ThemeHelper.getAttColor(context, R.attr.colorPrimary), PorterDuff.Mode.SRC_IN);
+                        img.setBounds(0, 0, (int) (20 * scale + 0.5f), (int) (20 * scale + 0.5f));
+                        pollItemBinding.pollItemText.setCompoundDrawables(null, null, img, null);
+                    }
+                    j++;
+                }
+            } else {
+
+                if (status.poll.voters_count == 0 && status.poll.votes_count > 0) {
+                    status.poll.voters_count = status.poll.votes_count;
+                }
+                holder.binding.poll.rated.setVisibility(View.GONE);
+                holder.binding.poll.submitVote.setVisibility(View.VISIBLE);
+                if (status.poll.multiple) {
+                    if ((holder.binding.poll.multipleChoice).getChildCount() > 0)
+                        (holder.binding.poll.multipleChoice).removeAllViews();
+                    for (Poll.PollItem pollOption : status.poll.options) {
+                        CheckBox cb = new CheckBox(context);
+                        cb.setText(
+                                pollOption.getSpanTitle(context, status,
+                                        new WeakReference<>(cb)),
+                                TextView.BufferType.SPANNABLE);
+                        holder.binding.poll.multipleChoice.addView(cb);
+                        cb.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+                    }
+                    holder.binding.poll.multipleChoice.setVisibility(View.VISIBLE);
+                    holder.binding.poll.singleChoiceRadioGroup.setVisibility(View.GONE);
+                } else {
+                    if ((holder.binding.poll.singleChoiceRadioGroup).getChildCount() > 0)
+                        (holder.binding.poll.singleChoiceRadioGroup).removeAllViews();
+                    for (Poll.PollItem pollOption : status.poll.options) {
+                        RadioButton rb = new RadioButton(context);
+                        rb.setText(
+                                pollOption.getSpanTitle(context, status,
+                                        new WeakReference<>(rb)),
+                                TextView.BufferType.SPANNABLE);
+                        rb.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+                        holder.binding.poll.singleChoiceRadioGroup.addView(rb);
+                    }
+                    holder.binding.poll.singleChoiceRadioGroup.setVisibility(View.VISIBLE);
+                    holder.binding.poll.multipleChoice.setVisibility(View.GONE);
+                }
+                holder.binding.poll.submitVote.setVisibility(View.VISIBLE);
+                holder.binding.poll.submitVote.setOnClickListener(v -> {
+                    int[] choice;
+                    if (status.poll.multiple) {
+                        ArrayList<Integer> choices = new ArrayList<>();
+                        int choicesCount = holder.binding.poll.multipleChoice.getChildCount();
+                        for (int i1 = 0; i1 < choicesCount; i1++) {
+                            if (holder.binding.poll.multipleChoice.getChildAt(i1) != null && holder.binding.poll.multipleChoice.getChildAt(i1) instanceof CheckBox) {
+                                if (((CheckBox) holder.binding.poll.multipleChoice.getChildAt(i1)).isChecked()) {
+                                    choices.add(i1);
+                                }
+                            }
+                        }
+                        choice = new int[choices.size()];
+                        Iterator<Integer> iterator = choices.iterator();
+                        for (int i1 = 0; i1 < choice.length; i1++) {
+                            choice[i1] = iterator.next();
+                        }
+                        if (choice.length == 0)
+                            return;
+                    } else {
+                        choice = new int[1];
+                        choice[0] = -1;
+                        int choicesCount = holder.binding.poll.singleChoiceRadioGroup.getChildCount();
+                        for (int i1 = 0; i1 < choicesCount; i1++) {
+                            if (holder.binding.poll.singleChoiceRadioGroup.getChildAt(i1) != null && holder.binding.poll.singleChoiceRadioGroup.getChildAt(i1) instanceof RadioButton) {
+                                if (((RadioButton) holder.binding.poll.singleChoiceRadioGroup.getChildAt(i1)).isChecked()) {
+                                    choice[0] = i1;
+                                }
+                            }
+                        }
+                        if (choice[0] == -1)
+                            return;
+                    }
+                    //Vote on the poll
+
+                    statusesVM.votePoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.poll.id, choice)
+                            .observe((LifecycleOwner) context, poll -> {
+                                if (poll != null) {
+                                    int i = 0;
+                                    for (Poll.PollItem item : status.poll.options) {
+                                        if (item.span_title != null) {
+                                            poll.options.get(i).span_title = item.span_title;
+                                        } else {
+                                            poll.options.get(i).span_title = new SpannableString(item.title);
+                                        }
+                                        i++;
+                                    }
+                                    status.poll = poll;
+                                    notifyItemChanged(holder.getBindingAdapterPosition());
+                                }
+                            });
+
+                });
+            }
+            holder.binding.poll.refreshPoll.setOnClickListener(v -> statusesVM.getPoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.poll.id)
+                    .observe((LifecycleOwner) context, poll -> {
+                        if (poll != null) {
+                            //Store span elements
+                            int i = 0;
+                            for (Poll.PollItem item : status.poll.options) {
+                                if (item.span_title != null) {
+                                    poll.options.get(i).span_title = item.span_title;
+                                } else {
+                                    poll.options.get(i).span_title = new SpannableString(item.title);
+                                }
+                                i++;
+                            }
+                            status.poll = poll;
+                            notifyItemChanged(holder.getBindingAdapterPosition());
+                        }
+                    }));
+            holder.binding.poll.pollContainer.setVisibility(View.VISIBLE);
+            String pollInfo = context.getResources().getQuantityString(R.plurals.number_of_voters, status.poll.voters_count, status.poll.voters_count);
+            if (status.poll.expired) {
+                pollInfo += " - " + context.getString(R.string.poll_finish_at, MastodonHelper.dateToStringPoll(status.poll.expires_at));
+            } else {
+                pollInfo += " - " + context.getString(R.string.poll_finish_in, MastodonHelper.dateDiffPoll(context, status.poll.expires_at));
+            }
+            holder.binding.poll.pollInfo.setText(pollInfo);
+        } else {
+            holder.binding.poll.pollContainer.setVisibility(View.GONE);
+        }
         holder.binding.userName.setText(
                 status.account.getSpanDisplayName(context,
                         new WeakReference<>(holder.binding.userName)),
