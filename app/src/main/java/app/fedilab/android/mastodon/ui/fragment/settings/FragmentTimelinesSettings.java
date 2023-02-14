@@ -47,12 +47,18 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
         ListPreference SET_TRANSLATOR_VERSION = findPreference(getString(R.string.SET_TRANSLATOR_VERSION));
 
         EditTextPreference SET_TRANSLATOR_API_KEY = findPreference(getString(R.string.SET_TRANSLATOR_API_KEY));
-        if (SET_TRANSLATOR != null && SET_TRANSLATOR.getValue().equals("FEDILAB")) {
+        EditTextPreference SET_TRANSLATOR_DOMAIN = findPreference(getString(R.string.SET_TRANSLATOR_DOMAIN));
+        if (SET_TRANSLATOR != null && !SET_TRANSLATOR.getValue().equals("DEEPL")) {
             if (SET_TRANSLATOR_API_KEY != null) {
                 preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_API_KEY");
             }
             if (SET_TRANSLATOR_VERSION != null) {
                 preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_VERSION");
+            }
+        }
+        if (SET_TRANSLATOR != null && !SET_TRANSLATOR.getValue().equals("LINGVA")) {
+            if (SET_TRANSLATOR_DOMAIN != null) {
+                preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_DOMAIN");
             }
         }
         SwitchPreferenceCompat SET_DISPLAY_BOOKMARK = findPreference(getString(R.string.SET_DISPLAY_BOOKMARK));

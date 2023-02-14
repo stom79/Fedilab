@@ -796,6 +796,7 @@
 
     <string-array name="set_translator_values" translatable="false">
         <item>Fedilab</item>
+        <item>Lingva</item>
         <item>DeepL</item>
     </string-array>
     <string-array name="set_translator_version_values">
@@ -805,6 +806,7 @@
 
     <string-array name="SET_TRANSLATOR_VALUES" translatable="false">
         <item>FEDILAB</item>
+        <item>LINGVA</item>
         <item>DEEPL</item>
     </string-array>
 
@@ -1097,6 +1099,8 @@
     <string name="SET_POST_FORMAT" translatable="false">SET_POST_FORMAT</string>
     <string name="SET_COMPOSE_LOCAL_ONLY" translatable="false">SET_COMPOSE_LOCAL_ONLY</string>
 
+    <string name="SET_TRANSLATOR_HOST_LINGVA" translatable="false">lingva.ml</string>
+    <string name="SET_TRANSLATOR_DOMAIN" translatable="false">SET_TRANSLATOR_DOMAIN</string>
     <string name="SET_TRANSLATOR" translatable="false">SET_TRANSLATOR</string>
     <string name="SET_TRANSLATOR_VERSION" translatable="false">SET_TRANSLATOR_VERSION</string>
 

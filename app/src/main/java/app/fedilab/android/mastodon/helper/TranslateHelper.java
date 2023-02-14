@@ -63,7 +63,11 @@ public class TranslateHelper {
         if (translator.compareToIgnoreCase("FEDILAB") == 0) {
             myTransL.setLibretranslateDomain("translate.fedilab.app");
         } else if (translator.compareToIgnoreCase("LINGVA") == 0) {
-            myTransL.setLibretranslateDomain("lingva.ml");
+            String host = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_DOMAIN), context.getString(R.string.SET_TRANSLATOR_HOST_LINGVA));
+            if (host == null || host.trim().isEmpty()) {
+                host = context.getString(R.string.SET_TRANSLATOR_HOST_LINGVA);
+            }
+            myTransL.setLingvaDomain(host);
         } else {
             String translatorVersion = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_VERSION), "PRO");
             params.setPro(translatorVersion.equals("PRO"));

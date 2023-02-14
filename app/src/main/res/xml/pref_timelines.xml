@@ -93,6 +93,13 @@
         app:key="@string/SET_TRANSLATOR_API_KEY"
         app:title="@string/api_key"
         app:useSimpleSummaryProvider="true" />
+    <EditTextPreference
+        app:defaultValue="lingva.ml"
+        app:dependency="@string/SET_TRANSLATOR"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRANSLATOR_DOMAIN"
+        app:title="@string/translator_domain"
+        app:useSimpleSummaryProvider="true" />
     <ListPreference
         app:defaultValue="PRO"
         app:dialogTitle="@string/version"
