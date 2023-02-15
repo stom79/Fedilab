@@ -1007,4 +1007,7 @@
     <string name="tags_renamed">Der Hashtag wurde geändert!</string>
     <string name="tags_deleted">Der Hashtag wurde entfernt!</string>
     <string name="manage_tags">Hashtags verwalten</string>
+    <string name="translator_domain">Domain des Übersetzungsdienstes</string>
+    <string name="chat_timeline_for_direct">Chat-Timeline für Direktnachrichten</string>
+    <string name="more_media">%1$s mehr Medien</string>
 </resources>

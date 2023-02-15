@@ -1017,4 +1017,5 @@
     <string name="tags_deleted">Tag byl odstraněn!</string>
     <string name="tags_stored">Tag byl uložen!</string>
     <string name="manage_tags">Spravovat tagy</string>
+    <string name="translator_domain">Doména překladače</string>
 </resources>
