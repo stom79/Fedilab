@@ -814,11 +814,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (statusToDeal.card.width > statusToDeal.card.height) {
                 holder.binding.cardImageHorizontal.setVisibility(View.VISIBLE);
                 holder.binding.cardImageVertical.setVisibility(View.GONE);
-                Glide.with(context).load(statusToDeal.card.image).into(holder.binding.cardImageHorizontal);
+                Glide.with(holder.itemView.getContext()).load(statusToDeal.card.image).into(holder.binding.cardImageHorizontal);
             } else {
                 holder.binding.cardImageHorizontal.setVisibility(View.GONE);
                 holder.binding.cardImageVertical.setVisibility(View.VISIBLE);
-                Glide.with(context).load(statusToDeal.card.image).into(holder.binding.cardImageVertical);
+                Glide.with(holder.itemView.getContext()).load(statusToDeal.card.image).into(holder.binding.cardImageVertical);
             }
             holder.binding.cardTitle.setText(statusToDeal.card.title);
             holder.binding.cardDescription.setText(statusToDeal.card.description);
@@ -2643,7 +2643,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
 
         mRecyclerView = recyclerView;
@@ -2729,6 +2729,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (viewHolder.getItemViewType() == STATUS_HIDDEN) {
             return;
         }
+        context = viewHolder.itemView.getContext();
         Status status = statusList.get(position);
         if (viewHolder.getItemViewType() == STATUS_VISIBLE) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;

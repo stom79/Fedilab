@@ -16,7 +16,6 @@ package app.fedilab.android.mastodon.ui.fragment.media;
 
 
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -131,16 +130,16 @@ public class FragmentMedia extends Fragment {
         scheduleStartPostponedTransition(binding.mediaPicture);
         if (Helper.isValidContextForGlide(requireActivity()) && isAdded()) {
             Glide.with(requireActivity())
-                    .asBitmap()
+                    .asDrawable()
                     .dontTransform()
                     .load(preview_url).into(
-                            new CustomTarget<Bitmap>() {
+                            new CustomTarget<Drawable>() {
                                 @Override
-                                public void onResourceReady(@NonNull final Bitmap resource, Transition<? super Bitmap> transition) {
+                                public void onResourceReady(@NonNull final Drawable resource, Transition<? super Drawable> transition) {
                                     if (binding == null || !isAdded() || getActivity() == null) {
                                         return;
                                     }
-                                    binding.mediaPicture.setImageBitmap(resource);
+                                    binding.mediaPicture.setImageDrawable(resource);
 
                                     if (attachment.type.equalsIgnoreCase("image") && !attachment.url.toLowerCase().endsWith(".gif")) {
                                         binding.mediaPicture.setVisibility(View.VISIBLE);
@@ -148,17 +147,17 @@ public class FragmentMedia extends Fragment {
                                         handler.postDelayed(() -> {
                                             if (isAdded() && Helper.isValidContextForGlide(requireActivity())) {
                                                 Glide.with(requireActivity())
-                                                        .asBitmap()
+                                                        .asDrawable()
                                                         .dontTransform()
                                                         .load(url).into(
-                                                                new CustomTarget<Bitmap>() {
+                                                                new CustomTarget<Drawable>() {
                                                                     @Override
-                                                                    public void onResourceReady(@NonNull final Bitmap resource, Transition<? super Bitmap> transition) {
+                                                                    public void onResourceReady(@NonNull final Drawable resource, Transition<? super Drawable> transition) {
                                                                         if (binding == null || !isAdded() || getActivity() == null) {
                                                                             return;
                                                                         }
                                                                         binding.loader.setVisibility(View.GONE);
-                                                                        binding.mediaPicture.setImageBitmap(resource);
+                                                                        binding.mediaPicture.setImageDrawable(resource);
                                                                         binding.mediaPicture.setZoomable(true);
                                                                     }
 
