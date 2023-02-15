@@ -139,6 +139,7 @@ public class FragmentMedia extends Fragment {
                                     if (binding == null || !isAdded() || getActivity() == null) {
                                         return;
                                     }
+                                    binding.mediaPicture.setZoomable(true);
                                     binding.mediaPicture.setImageDrawable(resource);
 
                                     if (attachment.type.equalsIgnoreCase("image") && !attachment.url.toLowerCase().endsWith(".gif")) {
