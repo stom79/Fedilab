@@ -547,7 +547,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
     private void initiliazeStatus() {
         statusCompose = new Status();
         binding.text.setText("");
-        binding.attachmentsListContainer.removeAllViews();
+        binding.attachmentsList.removeAllViews();
         if (statuses != null && statuses.size() > 0) {
             binding.recyclerView.scrollToPosition(statuses.size() - 1);
             Status lastStatus = statuses.get(statuses.size() - 1);
