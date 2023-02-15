@@ -1018,4 +1018,6 @@
     <string name="tags_stored">Tag byl uložen!</string>
     <string name="manage_tags">Spravovat tagy</string>
     <string name="translator_domain">Doména překladače</string>
+    <string name="chat_timeline_for_direct">Chatová časová osa pro přímé zprávy</string>
+    <string name="more_media">dalších %1$s médií</string>
 </resources>
