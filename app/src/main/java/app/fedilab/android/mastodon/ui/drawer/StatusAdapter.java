@@ -1451,7 +1451,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
             } else {
                 int mediaPosition = 1;
-                if (!fullAttachement) {
+                if (!fullAttachement || statusToDeal.sensitive) {
                     int defaultHeight = (int) Helper.convertDpToPixel(300, context);
                     if (measuredWidth > 0) {
                         defaultHeight = (int) (measuredWidth * 3) / 4;
@@ -1550,7 +1550,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                     mediaPosition++;
                 }
-                if (!fullAttachement || statusToDeal.sensitive) {
+                if (!fullAttachement || (statusToDeal.sensitive && !expand_media)) {
                     holder.binding.mediaContainer.setVisibility(View.GONE);
                     holder.binding.media.mediaContainer.setVisibility(View.VISIBLE);
                 } else {
@@ -2359,7 +2359,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         if (!isSensitive || expand_media) {
             requestBuilder = glideRequests.asDrawable();
-            if (!fullAttachement) {
+            if (!fullAttachement || isSensitive) {
                 if (placeholder != null) {
                     requestBuilder = requestBuilder.placeholder(new BitmapDrawable(context.getResources(), placeholder));
                 }
