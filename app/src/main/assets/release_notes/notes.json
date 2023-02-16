@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.18.2",
+    "code": "480",
+    "note": "Changed:\n- First media layout will depend of its ratio\n\nFixed:\n- Impossible to add media with the chat view\n- Chat view limited in chars\n- Freezes / bad behaviors due to the new media presentation"
+  },
+  {
     "version": "3.18.1",
     "code": "479",
     "note": "Added:\n- Add Lingva translator (Settings > Timelines)\n- Add support for Nyastodon-style emoji reactions (skyevg)\n- Add chat view for DM (default: disable / Settings > Timelines)"
