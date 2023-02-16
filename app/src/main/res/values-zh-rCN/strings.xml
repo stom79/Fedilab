@@ -173,14 +173,14 @@
     <string name="client_error">无法获取客户端 ID！</string>
     <string name="toast_block">帐号被屏蔽了！</string>
     <string name="toast_unblock">帐号不再被屏蔽！</string>
-    <string name="toast_mute">该帐号已被静音！</string>
-    <string name="toast_unmute">该帐号不再被静音！</string>
-    <string name="toast_follow">该帐号被关注了！</string>
+    <string name="toast_mute">此帐号已被静音！</string>
+    <string name="toast_unmute">此帐号不再被静音！</string>
+    <string name="toast_follow">此帐号已被关注！</string>
     <string name="toast_unfollow">帐号不再关注！</string>
     <string name="toast_reblog">消息被转发了！</string>
-    <string name="toast_unreblog">该消息不再被转发！</string>
-    <string name="toast_favourite">该消息已添加到您的收藏夹！</string>
-    <string name="toast_unfavourite">该消息已从您的收藏夹中删除！</string>
+    <string name="toast_unreblog">此消息不再被转发！</string>
+    <string name="toast_favourite">此消息已添加到您的收藏夹！</string>
+    <string name="toast_unfavourite">此消息已从您的收藏夹中删除！</string>
     <string name="toast_error">哎呀！发生错误！</string>
     <string name="toast_code_error">发生错误！实例未返回授权码！</string>
     <string name="toast_error_instance">实例域名似乎无效！</string>
@@ -256,7 +256,7 @@
     <string name="action_lists_add_to">添加到列表中</string>
     <string name="action_lists_delete">删除列表</string>
     <string name="action_lists_title_placeholder">新列表标题</string>
-    <string name="action_lists_add_user">该帐号已添加到列表中！</string>
+    <string name="action_lists_add_user">此帐号已添加到列表中！</string>
     <string name="action_lists_empty">您还没有任何列表！</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s 已移至 %2$s</string>
@@ -580,13 +580,13 @@
 \n您也可以在设置中禁用推送通知以忽略该消息。</string>
     <string name="select_distributors">选择分发器</string>
     <string name="show_anyway">仍然显示</string>
-    <string name="toast_bookmark">该消息已添加到您的书签！</string>
+    <string name="toast_bookmark">此消息已添加到您的书签！</string>
     <string name="icon_size">图标尺寸</string>
     <string name="toots_visibility_title">默认情况下消息的可见性：</string>
-    <string name="toast_unbookmark">该消息已从您的书签中删除！</string>
+    <string name="toast_unbookmark">此消息已从您的书签中删除！</string>
     <string name="show_privates">显示私信</string>
     <string name="order_lists">排序列表</string>
-    <string name="admin_domainblock_reject_reports">忽略来自该域名的所有举报。与吊销无关</string>
+    <string name="admin_domainblock_reject_reports">忽略来自此域名的所有举报。与吊销无关</string>
     <string name="set_remove_left_margin">删除时间线中的左边距以使消息更紧凑</string>
     <string name="set_translator">翻译器</string>
     <string name="api_key">翻译器 API 密钥</string>
@@ -662,7 +662,7 @@
     <string name="mute_home">静音于主页</string>
     <string name="category_music">音乐</string>
     <string name="replace_twitter_description">为 Twitter 使用替代前端</string>
-    <string name="instance_not_valid">该实例似乎无效！</string>
+    <string name="instance_not_valid">此实例似乎无效！</string>
     <string name="instance_health_uptime">正常运行时间：%,.2f %%</string>
     <string name="report_val4">这是另一回事</string>
     <string name="not_valid_list_name">列表名称无效！</string>
@@ -711,9 +711,9 @@
     <string name="open_with_account">用另一个帐号打开</string>
     <string name="reject_media">拒绝媒体</string>
     <string name="reject_reports">拒绝举报</string>
-    <string name="admin_domainblock_severity">禁言将使该帐号的帖子对任何未关注它们的人都是不可见的。吊销将删除帐号的所有内容、媒体和个人资料数据。如果您只想拒绝媒体文件，请勿使用。</string>
+    <string name="admin_domainblock_severity">禁言将使此帐号的帖子对任何未关注它们的人都是不可见的。吊销将删除帐号的所有内容、媒体和个人资料数据。如果您只想拒绝媒体文件，请勿使用。</string>
     <string name="admin_reject_media">拒绝媒体文件</string>
-    <string name="admin_domainblock_reject_media">忽略来自该域名的所有举报。与吊销无关</string>
+    <string name="admin_domainblock_reject_media">忽略来自此域名的所有举报。与吊销无关</string>
     <string name="admin_reject_reports">拒绝举报</string>
     <string name="saved_changes">更改已保存！</string>
     <string name="create_domain_block">创建域名屏蔽</string>
@@ -725,7 +725,7 @@
     <string name="light_custom_colors">浅色 - 自定义颜色</string>
     <string name="set_accounts_page">每次加载的帐号数</string>
     <string name="set_notifications_page">每次加载的通知数</string>
-    <string name="report_val_more4">该问题不属于其他类别</string>
+    <string name="report_val_more4">此问题不属于其他类别</string>
     <string name="export_settings">导出设置</string>
     <string name="set_timelines_in_a_list_title">列表中的时间线</string>
     <string name="set_use_cache_indication">时间线将被缓存，因此应用会更快。</string>
@@ -880,12 +880,12 @@
     <string name="proxy_protocol">协议</string>
     <string name="proxy_protocol_http">HTTP</string>
     <string name="proxy_protocol_socks">SOCKS</string>
-    <string name="report_more_remote">该帐号来自另一台服务器。也向那里发送举报的匿名副本？</string>
+    <string name="report_more_remote">此帐号来自另一台服务器。也向那里发送举报的匿名副本？</string>
     <string name="report_sent">举报已发送！</string>
     <string name="dont_have_an_account">没有帐号？</string>
     <string name="channel_notif_signup">新注册</string>
     <string name="notif_report">用户发送举报</string>
-    <string name="cannot_be_empty">该字段不能为空！</string>
+    <string name="cannot_be_empty">此字段不能为空！</string>
     <string name="data_export_settings">设置已导出</string>
     <string name="data_export_settings_success">设置已成功导出</string>
     <string name="data_import_settings_success">设置已成功导入</string>
@@ -1001,9 +1001,9 @@
     <string name="number_of_replies">回复数</string>
     <string name="update_date">更新日期</string>
     <string name="number_of_media">媒体数</string>
-    <string name="tags_renamed">该标签已更改！</string>
-    <string name="tags_deleted">该标签已删除！</string>
-    <string name="tags_stored">该标签已储存！</string>
+    <string name="tags_renamed">此标签已更改！</string>
+    <string name="tags_deleted">此标签已删除！</string>
+    <string name="tags_stored">此标签已储存！</string>
     <string name="manage_tags">管理标签</string>
     <string name="translator_domain">翻译器域名</string>
     <string name="chat_timeline_for_direct">私信的聊天时间线</string>
