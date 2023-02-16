@@ -40,6 +40,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
@@ -494,8 +495,23 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                 holder.binding.media.moreMedia.setVisibility(View.GONE);
             } else if (status.media_attachments.size() == 3) {
                 holder.binding.media.media1Container.mediaRoot.setVisibility(View.VISIBLE);
-                holder.binding.media.media2Container.mediaRoot.setVisibility(View.GONE);
-                holder.binding.media.media3Container.mediaRoot.setVisibility(View.VISIBLE);
+                if (status.media_attachments.get(0).meta != null && status.media_attachments.get(0).meta.small.width < status.media_attachments.get(0).meta.small.height) {
+                    ConstraintSet constraintSet = new ConstraintSet();
+                    constraintSet.clone(holder.binding.media.mediaContainer);
+                    constraintSet.connect(holder.binding.media.media4Container.getRoot().getId(), ConstraintSet.START, holder.binding.media.media1Container.getRoot().getId(), ConstraintSet.END);
+                    constraintSet.connect(holder.binding.media.media4Container.getRoot().getId(), ConstraintSet.TOP, holder.binding.media.media2Container.getRoot().getId(), ConstraintSet.BOTTOM);
+                    constraintSet.applyTo(holder.binding.media.mediaContainer);
+                    holder.binding.media.media2Container.mediaRoot.setVisibility(View.VISIBLE);
+                    holder.binding.media.media3Container.mediaRoot.setVisibility(View.GONE);
+                } else {
+                    ConstraintSet constraintSet = new ConstraintSet();
+                    constraintSet.clone(holder.binding.media.mediaContainer);
+                    constraintSet.connect(holder.binding.media.media4Container.getRoot().getId(), ConstraintSet.START, holder.binding.media.media3Container.getRoot().getId(), ConstraintSet.END);
+                    constraintSet.connect(holder.binding.media.media4Container.getRoot().getId(), ConstraintSet.TOP, holder.binding.media.media1Container.getRoot().getId(), ConstraintSet.BOTTOM);
+                    constraintSet.applyTo(holder.binding.media.mediaContainer);
+                    holder.binding.media.media2Container.mediaRoot.setVisibility(View.GONE);
+                    holder.binding.media.media3Container.mediaRoot.setVisibility(View.VISIBLE);
+                }
                 holder.binding.media.media4Container.mediaRoot.setVisibility(View.VISIBLE);
                 holder.binding.media.moreMedia.setVisibility(View.GONE);
             } else if (status.media_attachments.size() == 4) {
@@ -517,7 +533,11 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                 if (mediaPosition == 1) {
                     layoutMediaBinding = holder.binding.media.media1Container;
                 } else if (mediaPosition == 2 && status.media_attachments.size() == 3) {
-                    layoutMediaBinding = holder.binding.media.media3Container;
+                    if (status.media_attachments.get(0).meta != null && status.media_attachments.get(0).meta.small.width < status.media_attachments.get(0).meta.small.height) {
+                        layoutMediaBinding = holder.binding.media.media2Container;
+                    } else {
+                        layoutMediaBinding = holder.binding.media.media3Container;
+                    }
                 } else if (mediaPosition == 2) {
                     layoutMediaBinding = holder.binding.media.media2Container;
                 } else if (mediaPosition == 3 && status.media_attachments.size() == 3) {
@@ -530,8 +550,6 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                 if (layoutMediaBinding != null) {
                     loadAndAddAttachment(context, layoutMediaBinding, holder, this, mediaPosition, -1.f, -1.f, -1.f, status, attachment);
                 }
-
-
                 mediaPosition++;
             }
         } else {

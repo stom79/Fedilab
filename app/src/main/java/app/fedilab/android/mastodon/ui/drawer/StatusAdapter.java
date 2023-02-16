@@ -1472,8 +1472,23 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         holder.binding.media.moreMedia.setVisibility(View.GONE);
                     } else if (statusToDeal.media_attachments.size() == 3) {
                         holder.binding.media.media1Container.mediaRoot.setVisibility(View.VISIBLE);
-                        holder.binding.media.media2Container.mediaRoot.setVisibility(View.GONE);
-                        holder.binding.media.media3Container.mediaRoot.setVisibility(View.VISIBLE);
+                        if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.small.width < statusToDeal.media_attachments.get(0).meta.small.height) {
+                            ConstraintSet constraintSet = new ConstraintSet();
+                            constraintSet.clone(holder.binding.media.mediaContainer);
+                            constraintSet.connect(holder.binding.media.media4Container.getRoot().getId(), ConstraintSet.START, holder.binding.media.media1Container.getRoot().getId(), ConstraintSet.END);
+                            constraintSet.connect(holder.binding.media.media4Container.getRoot().getId(), ConstraintSet.TOP, holder.binding.media.media2Container.getRoot().getId(), ConstraintSet.BOTTOM);
+                            constraintSet.applyTo(holder.binding.media.mediaContainer);
+                            holder.binding.media.media2Container.mediaRoot.setVisibility(View.VISIBLE);
+                            holder.binding.media.media3Container.mediaRoot.setVisibility(View.GONE);
+                        } else {
+                            ConstraintSet constraintSet = new ConstraintSet();
+                            constraintSet.clone(holder.binding.media.mediaContainer);
+                            constraintSet.connect(holder.binding.media.media4Container.getRoot().getId(), ConstraintSet.START, holder.binding.media.media3Container.getRoot().getId(), ConstraintSet.END);
+                            constraintSet.connect(holder.binding.media.media4Container.getRoot().getId(), ConstraintSet.TOP, holder.binding.media.media1Container.getRoot().getId(), ConstraintSet.BOTTOM);
+                            constraintSet.applyTo(holder.binding.media.mediaContainer);
+                            holder.binding.media.media2Container.mediaRoot.setVisibility(View.GONE);
+                            holder.binding.media.media3Container.mediaRoot.setVisibility(View.VISIBLE);
+                        }
                         holder.binding.media.media4Container.mediaRoot.setVisibility(View.VISIBLE);
                         holder.binding.media.moreMedia.setVisibility(View.GONE);
                     } else if (statusToDeal.media_attachments.size() == 4) {
@@ -1501,7 +1516,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         if (mediaPosition == 1) {
                             layoutMediaBinding = holder.binding.media.media1Container;
                         } else if (mediaPosition == 2 && statusToDeal.media_attachments.size() == 3) {
-                            layoutMediaBinding = holder.binding.media.media3Container;
+                            if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.small.width < statusToDeal.media_attachments.get(0).meta.small.height) {
+                                layoutMediaBinding = holder.binding.media.media2Container;
+                            } else {
+                                layoutMediaBinding = holder.binding.media.media3Container;
+                            }
                         } else if (mediaPosition == 2) {
                             layoutMediaBinding = holder.binding.media.media2Container;
                         } else if (mediaPosition == 3 && statusToDeal.media_attachments.size() == 3) {
