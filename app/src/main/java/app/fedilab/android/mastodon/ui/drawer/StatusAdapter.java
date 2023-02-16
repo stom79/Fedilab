@@ -1426,7 +1426,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onGlobalLayout() {
                     holder.binding.mediaContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    measuredWidth = holder.binding.mediaContainer.getWidth();
+                    if (fullAttachement) {
+                        measuredWidth = holder.binding.mediaContainer.getWidth();
+                    } else {
+                        measuredWidth = holder.binding.media.mediaContainer.getWidth();
+                    }
                     if (adapter != null && statusList != null) {
                         adapter.notifyItemChanged(0, statusList.size());
                     }
