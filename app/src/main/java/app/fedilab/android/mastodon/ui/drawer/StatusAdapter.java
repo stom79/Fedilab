@@ -1360,27 +1360,33 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusContent.setMaxLines(truncate_toots_size);
             holder.binding.statusContent.setEllipsize(TextUtils.TruncateAt.END);
 
-            holder.binding.statusContent.post(() -> {
-                if (holder.binding.statusContent.getLineCount() > truncate_toots_size) {
-                    holder.binding.toggleTruncate.setVisibility(View.VISIBLE);
-                    if (statusToDeal.isTruncated) {
-                        holder.binding.toggleTruncate.setText(R.string.display_toot_truncate);
-                        holder.binding.toggleTruncate.setCompoundDrawables(null, null, ContextCompat.getDrawable(context, R.drawable.ic_display_more), null);
-                    } else {
-                        holder.binding.toggleTruncate.setText(R.string.hide_toot_truncate);
-                        holder.binding.toggleTruncate.setCompoundDrawables(null, null, ContextCompat.getDrawable(context, R.drawable.ic_display_less), null);
+            holder.binding.statusContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    if (holder.binding.statusContent.getLineCount() > 1) {
+                        holder.binding.statusContent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        if (holder.binding.statusContent.getLineCount() > truncate_toots_size) {
+                            holder.binding.toggleTruncate.setVisibility(View.VISIBLE);
+                            if (statusToDeal.isTruncated) {
+                                holder.binding.toggleTruncate.setText(R.string.display_toot_truncate);
+                                holder.binding.toggleTruncate.setCompoundDrawables(null, null, ContextCompat.getDrawable(context, R.drawable.ic_display_more), null);
+                            } else {
+                                holder.binding.toggleTruncate.setText(R.string.hide_toot_truncate);
+                                holder.binding.toggleTruncate.setCompoundDrawables(null, null, ContextCompat.getDrawable(context, R.drawable.ic_display_less), null);
+                            }
+                            holder.binding.toggleTruncate.setOnClickListener(v -> {
+                                statusToDeal.isTruncated = !statusToDeal.isTruncated;
+                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                            });
+                            if (statusToDeal.isTruncated) {
+                                holder.binding.statusContent.setMaxLines(truncate_toots_size);
+                            } else {
+                                holder.binding.statusContent.setMaxLines(9999);
+                            }
+                        } else {
+                            holder.binding.toggleTruncate.setVisibility(View.GONE);
+                        }
                     }
-                    holder.binding.toggleTruncate.setOnClickListener(v -> {
-                        statusToDeal.isTruncated = !statusToDeal.isTruncated;
-                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                    });
-                    if (statusToDeal.isTruncated) {
-                        holder.binding.statusContent.setMaxLines(5);
-                    } else {
-                        holder.binding.statusContent.setMaxLines(9999);
-                    }
-                } else {
-                    holder.binding.toggleTruncate.setVisibility(View.GONE);
                 }
             });
         } else {

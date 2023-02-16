@@ -51,10 +51,26 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="6dp"
         android:layout_marginTop="6dp"
-        android:maxLines="10"
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintTop_toBottomOf="@+id/user_pp"
         tools:text="@tools:sample/lorem/random" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/toggle_truncate"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableEnd="@drawable/ic_display_more"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="@string/display_toot_truncate"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/message_content"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -62,7 +78,7 @@
         android:layout_marginTop="6dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/message_content">
+        app:layout_constraintTop_toBottomOf="@id/toggle_truncate">
 
 
         <include

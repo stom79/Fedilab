@@ -27,6 +27,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -259,6 +260,44 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             holder.binding.userName.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
         holder.binding.mainContainer.setLayoutParams(layoutParams);
+
+        int truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
+        if (truncate_toots_size > 0) {
+            holder.binding.messageContent.setMaxLines(truncate_toots_size);
+            holder.binding.messageContent.setEllipsize(TextUtils.TruncateAt.END);
+
+            holder.binding.messageContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    if (holder.binding.messageContent.getLineCount() > 1) {
+                        holder.binding.messageContent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        if (holder.binding.messageContent.getLineCount() > truncate_toots_size) {
+                            holder.binding.toggleTruncate.setVisibility(View.VISIBLE);
+                            if (status.isTruncated) {
+                                holder.binding.toggleTruncate.setText(R.string.display_toot_truncate);
+                                holder.binding.toggleTruncate.setCompoundDrawables(null, null, ContextCompat.getDrawable(context, R.drawable.ic_display_more), null);
+                            } else {
+                                holder.binding.toggleTruncate.setText(R.string.hide_toot_truncate);
+                                holder.binding.toggleTruncate.setCompoundDrawables(null, null, ContextCompat.getDrawable(context, R.drawable.ic_display_less), null);
+                            }
+                            holder.binding.toggleTruncate.setOnClickListener(v -> {
+                                status.isTruncated = !status.isTruncated;
+                                notifyItemChanged(holder.getBindingAdapterPosition());
+                            });
+                            if (status.isTruncated) {
+                                holder.binding.messageContent.setMaxLines(truncate_toots_size);
+                            } else {
+                                holder.binding.messageContent.setMaxLines(9999);
+                            }
+                        } else {
+                            holder.binding.toggleTruncate.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            });
+        } else {
+            holder.binding.toggleTruncate.setVisibility(View.GONE);
+        }
 
         final float scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.1f);
         if (status.poll != null && status.poll.options != null) {
