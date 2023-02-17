@@ -242,7 +242,7 @@
     <string name="keywords_header_custom_sharing">关键词</string>
     <string name="keywords_hint_custom_sharing">关键字…</string>
     <!-- ACTIVITY CACHE -->
-    <string name="v_public">公共</string>
+    <string name="v_public">公开</string>
     <string name="v_unlisted">不公开</string>
     <string name="v_private">私密</string>
     <string name="v_direct">私信</string>
@@ -653,7 +653,7 @@
     <string name="default_system_language">使用默认系统语言</string>
     <string name="set_display_counters_description">将在选项卡时间线中显示新消息的气泡计数器</string>
     <string name="full_date_edited">%1$s 编辑了 %2$s</string>
-    <string name="set_unlisted_replies_indication">它只涉及“公共”回复。启用后，您的回复将自动具有“不公开”可见性，而不是“公开”</string>
+    <string name="set_unlisted_replies_indication">它只涉及“公开”回复。启用后，您的回复将自动具有“不公开”可见性，而不是“公开”</string>
     <string name="account_unsilenced">帐号取消禁言</string>
     <string name="account_silenced">帐号被禁言</string>
     <string name="filtered_by">已过滤：%1$s</string>
