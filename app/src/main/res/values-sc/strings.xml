@@ -997,4 +997,7 @@
     <string name="tags_renamed">S\'eticheta est istada modificada!</string>
     <string name="number_of_replies">Nùmeru de rispostas</string>
     <string name="update_date">Data de atualizatzione</string>
+    <string name="translator_domain">Domìniu de su tradutore</string>
+    <string name="chat_timeline_for_direct">Cronologia de sa tzarrada pro messàgios diretos</string>
+    <string name="more_media">%1$s àteros mèdios</string>
 </resources>
