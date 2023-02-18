@@ -221,7 +221,7 @@
     <string name="settings_time_from">Between</string>
     <string name="settings_time_to">and</string>
     <string name="embedded_browser">Use the built-in browser</string>
-    <string name="custom_tabs">Custom tabs</string>
+    <string name="custom_tabs">In-app browser</string>
     <string name="expand_cw">Automatically expand cw</string>
     <string name="set_led_colour">Set LED colour:</string>
     <string-array name="led_colours">
@@ -1899,7 +1899,7 @@
 
     <string name="tags_renamed">The tag has been changed!</string>
     <string name="tags_deleted">The tag has been removed!</string>
-    <string name="tags_stored">he tag has been stored!</string>
+    <string name="tags_stored">The tag has been stored!</string>
     <string name="manage_tags">Manage tags</string>
 
     <string name="translator_domain">Translator domain</string>
