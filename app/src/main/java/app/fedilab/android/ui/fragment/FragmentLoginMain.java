@@ -226,8 +226,7 @@ public class FragmentLoginMain extends Fragment {
         popupMenu.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_proxy) {
-                Intent intent = new Intent(requireActivity(), ProxyActivity.class);
-                startActivity(intent);
+                (new ProxyActivity()).show(requireActivity().getSupportFragmentManager(), null);
             } else if (itemId == R.id.action_request_admin) {
 
                 item.setChecked(!item.isChecked());

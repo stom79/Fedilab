@@ -657,7 +657,7 @@ public class PinnedTimelineHelper {
             itemFilter.setTitle(show_filtered);
         }
         popup.setOnDismissListener(menu1 -> {
-            if (activityMainBinding.viewPager.getAdapter() != null) {
+            if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
                 Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
                 if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
                     FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
@@ -830,19 +830,21 @@ public class PinnedTimelineHelper {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(activity.getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
                     editor.commit();
-                    Fragment fragmentMastodonTimeline = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
-                    if (fragmentMastodonTimeline instanceof FragmentMastodonTimeline && fragmentMastodonTimeline.isVisible()) {
-                        FragmentTransaction fragTransaction = activity.getSupportFragmentManager().beginTransaction();
-                        fragTransaction.detach(fragmentMastodonTimeline).commit();
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
-                        bundle.putSerializable(Helper.ARG_TAG_TIMELINE, tagTimeline);
-                        bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
-                        fragmentMastodonTimeline.setArguments(bundle);
-                        FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
-                        fragTransaction2.attach(fragmentMastodonTimeline);
-                        fragTransaction2.commit();
-                        ((FragmentMastodonTimeline) fragmentMastodonTimeline).recreate();
+                    if (activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
+                        Fragment fragmentMastodonTimeline = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                        if (fragmentMastodonTimeline instanceof FragmentMastodonTimeline && fragmentMastodonTimeline.isVisible()) {
+                            FragmentTransaction fragTransaction = activity.getSupportFragmentManager().beginTransaction();
+                            fragTransaction.detach(fragmentMastodonTimeline).commit();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
+                            bundle.putSerializable(Helper.ARG_TAG_TIMELINE, tagTimeline);
+                            bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
+                            fragmentMastodonTimeline.setArguments(bundle);
+                            FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
+                            fragTransaction2.attach(fragmentMastodonTimeline);
+                            fragTransaction2.commit();
+                            ((FragmentMastodonTimeline) fragmentMastodonTimeline).recreate();
+                        }
                     }
                 }
             }
@@ -1058,19 +1060,21 @@ public class PinnedTimelineHelper {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(activity.getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
                     editor.commit();
-                    Fragment fragmentMastodonTimeline = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
-                    if (fragmentMastodonTimeline instanceof FragmentMastodonTimeline && fragmentMastodonTimeline.isVisible()) {
-                        FragmentTransaction fragTransaction = activity.getSupportFragmentManager().beginTransaction();
-                        fragTransaction.detach(fragmentMastodonTimeline).commit();
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.BUBBLE);
-                        bundle.putSerializable(Helper.ARG_BUBBLE_TIMELINE, bubbleTimeline);
-                        bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
-                        fragmentMastodonTimeline.setArguments(bundle);
-                        FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
-                        fragTransaction2.attach(fragmentMastodonTimeline);
-                        fragTransaction2.commit();
-                        ((FragmentMastodonTimeline) fragmentMastodonTimeline).recreate();
+                    if (activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
+                        Fragment fragmentMastodonTimeline = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                        if (fragmentMastodonTimeline instanceof FragmentMastodonTimeline && fragmentMastodonTimeline.isVisible()) {
+                            FragmentTransaction fragTransaction = activity.getSupportFragmentManager().beginTransaction();
+                            fragTransaction.detach(fragmentMastodonTimeline).commit();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.BUBBLE);
+                            bundle.putSerializable(Helper.ARG_BUBBLE_TIMELINE, bubbleTimeline);
+                            bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
+                            fragmentMastodonTimeline.setArguments(bundle);
+                            FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
+                            fragTransaction2.attach(fragmentMastodonTimeline);
+                            fragTransaction2.commit();
+                            ((FragmentMastodonTimeline) fragmentMastodonTimeline).recreate();
+                        }
                     }
                 }
             }
@@ -1301,7 +1305,7 @@ public class PinnedTimelineHelper {
             } catch (DBException e) {
                 e.printStackTrace();
             }
-            if (activityMainBinding.viewPager.getAdapter() != null) {
+            if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
                 Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
                 if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
                     fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
@@ -1349,7 +1353,7 @@ public class PinnedTimelineHelper {
                 int finalOffSetPosition1 = offSetPosition;
                 item.setOnMenuItemClickListener(item1 -> {
                     FragmentMastodonTimeline fragmentMastodonTimeline = null;
-                    if (activityMainBinding.viewPager.getAdapter() != null) {
+                    if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
                         Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
                         if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
                             fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
@@ -1442,7 +1446,7 @@ public class PinnedTimelineHelper {
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
-                if (activityMainBinding.viewPager.getAdapter() != null) {
+                if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
                     Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
                     if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
                         fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
@@ -1551,7 +1555,7 @@ public class PinnedTimelineHelper {
                     } catch (DBException e) {
                         e.printStackTrace();
                     }
-                    if (activityMainBinding.viewPager.getAdapter() != null) {
+                    if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
                         Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
                         if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
                             fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
