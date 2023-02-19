@@ -22,6 +22,8 @@ public class PushSubscription {
     public String id;
     @SerializedName("endpoint")
     public String endpoint;
+    @SerializedName("policy")
+    public String policy;
     @SerializedName("alerts")
     public Alerts alerts;
     @SerializedName("server_key")

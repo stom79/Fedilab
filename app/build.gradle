@@ -144,9 +144,9 @@ dependencies {
     implementation "ch.acra:acra-limiter:5.9.3"
     implementation "ch.acra:acra-dialog:5.9.6"
     implementation "com.madgag.spongycastle:bctls-jdk15on:1.58.0.0"
-    implementation 'com.github.UnifiedPush:android-connector:2.0.1'
+    implementation 'com.github.UnifiedPush:android-connector:2.1.1'
    // implementation 'com.github.UnifiedPush:android-foss_embedded_fcm_distributor:1.0.0-beta1'
-    playstoreImplementation('com.github.UnifiedPush:android-embedded_fcm_distributor:2.1.3') {
+    playstoreImplementation('com.github.UnifiedPush:android-embedded_fcm_distributor:2.2.0') {
         exclude group: 'com.google.firebase', module: 'firebase-core'
         exclude group: 'com.google.firebase', module: 'firebase-analytics'
         exclude group: 'com.google.firebase', module: 'firebase-measurement-connector'
@@ -191,17 +191,8 @@ dependencies {
     playstoreImplementation "androidx.mediarouter:mediarouter:1.3.0"
     playstoreImplementation 'com.google.android.gms:play-services-cast-framework:21.0.1'
 
-    playstoreImplementation "com.google.android.gms:play-services-cast-tv:19.0.1"
-    playstoreImplementation "com.google.android.gms:play-services-cast:21.0.1"
-    playstoreImplementation "androidx.mediarouter:mediarouter:1.3.0"
-    playstoreImplementation 'com.google.android.gms:play-services-cast-framework:21.0.1'
 
     //----> Other flavors
-    fdroidImplementation 'su.litvak.chromecast:api-v2:0.11.3'
-    fdroidImplementation 'com.fasterxml.jackson.core:jackson-core:2.12.0'
-    fdroidImplementation 'org.slf4j:slf4j-simple:1.7.30'
-    fdroidImplementation 'com.github.evozi:Cyanea:1.0.7'
-
     fdroidImplementation 'su.litvak.chromecast:api-v2:0.11.3'
     fdroidImplementation 'com.fasterxml.jackson.core:jackson-core:2.12.0'
     fdroidImplementation 'org.slf4j:slf4j-simple:1.7.30'

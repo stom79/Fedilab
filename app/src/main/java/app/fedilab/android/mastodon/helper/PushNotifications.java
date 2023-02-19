@@ -95,7 +95,7 @@ public class PushNotifications {
                     notif_status,
                     notif_updates,
                     notif_signup,
-                    notif_report);
+                    notif_report, "all");
             if (pushSubscriptionCall != null) {
                 try {
                     Response<PushSubscription> pushSubscriptionResponse = pushSubscriptionCall.execute();
