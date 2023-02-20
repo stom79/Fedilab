@@ -214,7 +214,7 @@
     <string name="settings_time_from">Zwischen</string>
     <string name="settings_time_to">und</string>
     <string name="embedded_browser">Benutze internen Browser</string>
-    <string name="custom_tabs">Mit internem Browser öffnen</string>
+    <string name="custom_tabs">In-App-Browser</string>
     <string name="expand_cw">Inhaltswarnungen (CW) automatisch einblenden</string>
     <string name="set_led_colour">LED Farbe auswählen:</string>
     <string-array name="led_colours">
