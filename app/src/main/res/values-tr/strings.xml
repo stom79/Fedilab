@@ -211,7 +211,7 @@
     <string name="settings_time_from">Arasında</string>
     <string name="settings_time_to">ila</string>
     <string name="embedded_browser">Gömülü tarayıcıyı kullan</string>
-    <string name="custom_tabs">Özel sekmeler</string>
+    <string name="custom_tabs">Uygulama içi tarayıcı</string>
     <string name="expand_cw">cw\'yi otomatik aç</string>
     <string name="set_led_colour">LED rengini ayarla:</string>
     <string-array name="led_colours">
