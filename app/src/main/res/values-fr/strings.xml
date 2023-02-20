@@ -691,7 +691,7 @@
     <string name="set_discoverable_content">Compte trouvable</string>
     <string name="notification_sounds">Sons des notifications</string>
     <string name="pref_theme_base_summary">Choisissez si la base du thème devrait être sombre ou clair</string>
-    <string name="pref_contributor_summary">Choisir un thème fait par les contributeurs</string>
+    <string name="pref_contributor_summary">Choisir un thème conçu par les contributeur·rice·s</string>
     <string name="toast_bookmark">Le message a été ajouté à vos marque-pages !</string>
     <string name="set_display_bookmark_indication">Toujours afficher le bouton marque-page</string>
     <string name="report_val3">Elle viole les règles du serveur</string>
@@ -983,4 +983,11 @@
     <string name="proxy_protocol">Protocole</string>
     <string name="proxy_protocol_http">HTTP</string>
     <string name="proxy_protocol_socks">SOCKS</string>
+    <string name="manage_tags">Gérer les tags</string>
+    <string name="pinned">Épinglé</string>
+    <string name="update_date">Date de mise à jour</string>
+    <string name="otp_message">Jeton d’authentification à deux facteurs</string>
+    <string name="auto_fetch_missing">Récupérer automatiquement les messages manquants</string>
+    <string name="number_of_media">Nombre de médias</string>
+    <string name="number_of_replies">Nombre de réponses</string>
 </resources>
