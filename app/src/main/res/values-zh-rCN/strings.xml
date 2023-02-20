@@ -211,7 +211,7 @@
     <string name="settings_time_from">之间</string>
     <string name="settings_time_to">和</string>
     <string name="embedded_browser">使用内置浏览器</string>
-    <string name="custom_tabs">自定义标签</string>
+    <string name="custom_tabs">内置浏览器</string>
     <string name="expand_cw">自动展开cw</string>
     <string name="set_led_colour">设置 LED 颜色：</string>
     <string-array name="led_colours">
