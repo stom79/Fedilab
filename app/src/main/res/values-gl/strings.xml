@@ -211,7 +211,7 @@
     <string name="settings_time_from">Entre</string>
     <string name="settings_time_to">e</string>
     <string name="embedded_browser">Utilizar o navegador incluído</string>
-    <string name="custom_tabs">Pestana personalizadas</string>
+    <string name="custom_tabs">Navegador incluído</string>
     <string name="expand_cw">Expandir automáticamente CW</string>
     <string name="set_led_colour">Cor do LED:</string>
     <string-array name="led_colours">
