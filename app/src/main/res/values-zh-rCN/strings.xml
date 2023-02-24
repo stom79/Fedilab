@@ -692,7 +692,7 @@
     <string name="private_comment">私人评论</string>
     <string name="admin_domainblock_private_comment">评论此域名限制供监察员内部使用。</string>
     <string name="type_default_theme_dark">默认深色主题</string>
-    <string name="set_cardview_indication">启用后，时间线中的项目将具有阴影和高程。</string>
+    <string name="set_cardview_indication">启用后，时间线中的项目将具有阴影和高度</string>
     <string name="version">版本</string>
     <string name="icons_visibility_summary">您可以安全地将这些图标隐藏在底部以获得更多空间。它们也在子菜单中。</string>
     <string name="icons_extra_features">附加功能的图标</string>
