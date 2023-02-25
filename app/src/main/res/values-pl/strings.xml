@@ -1009,4 +1009,8 @@
     <string name="put_all_accounts_in_home_muted">Wszystkie konta zostaną wyciszone dla osi czasu Home.</string>
     <string name="mute_them_all">Wycisz je wszystkie</string>
     <string name="set_translator_version">Wersja tłumacza</string>
+    <string name="pickup_logo">Wybierz logo</string>
+    <string name="admin_reject_obfuscate">Ukryj nazwę domeny</string>
+    <string name="admin_domainblock_reject_obfuscate">Częściowo ukryj nazwę domeny na liście, jeśli włączone jest reklamowanie listy ograniczeń domen</string>
+    <string name="set_unlisted_replies_indication">Dotyczy to tylko \"publicznych\" odpowiedzi. Po włączeniu twoje odpowiedzi będą automatycznie mieć widoczność \"niepubliczna\", zamiast \"publiczna\"</string>
 </resources>
