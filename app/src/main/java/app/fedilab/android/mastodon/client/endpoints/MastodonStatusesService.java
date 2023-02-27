@@ -92,9 +92,9 @@ public interface MastodonStatusesService {
             @Field("spoiler_text") String spoiler_text,
             @Field("visibility") String visibility,
             @Field("language") String language,
-            @Field("media_attributes[id][]") List<String> media_id,
-            @Field("media_attributes[description][]") List<String> media_description,
-            @Field("media_attributes[focus][]") List<String> focus
+            @Field("media_attributes[][id]") List<String> media_id,
+            @Field("media_attributes[][description]") List<String> media_description,
+            @Field("media_attributes[][focus]") List<String> focus
     );
 
     //Post a scheduled status
