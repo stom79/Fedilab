@@ -61,6 +61,14 @@
         app:summary="@string/set_watermark_indication"
         app:title="@string/set_watermark" />
 
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_MANDATORY_ALT_TEXT"
+        app:singleLineTitle="false"
+        app:summary="@string/set_alt_text_mandatory_description"
+        app:title="@string/set_alt_text_mandatory" />
+
     <EditTextPreference
         app:dependency="@string/SET_WATERMARK"
         app:key="@string/SET_WATERMARK_TEXT"

@@ -1,9 +1,11 @@
 Added:
+- Settings compose: don't send media if there are no description (default: disabled)
 
 Changed:
 - Align media with text (left margin enabled)
 
 Fixed:
 - Media previews remain the same when sharing
+- Accessibility (larger fonts): profiles/DM/
 - Cross replies: Wrong visibility with the selected account
 - Several crashes

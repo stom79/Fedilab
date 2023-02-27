@@ -213,7 +213,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (statusDraft == null) {
             statusDraft = ComposeAdapter.prepareDraft(statusList, composeAdapter, account.instance, account.user_id);
         }
-        if (canBeSent(statusDraft)) {
+        if (canBeSent(statusDraft) != 0) {
             if (promptSaveDraft) {
                 AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(ComposeActivity.this);
                 alt_bld.setMessage(R.string.save_draft);
@@ -394,8 +394,10 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             if (statusDraft == null) {
                 statusDraft = ComposeAdapter.prepareDraft(statusList, composeAdapter, account.instance, account.user_id);
             }
-            if (canBeSent(statusDraft)) {
+            if (canBeSent(statusDraft) == 1) {
                 MediaHelper.scheduleMessage(ComposeActivity.this, date -> storeDraft(true, date));
+            } else if (canBeSent(statusDraft) == -1) {
+                Toasty.warning(ComposeActivity.this, getString(R.string.toot_error_no_media_description), Toasty.LENGTH_SHORT).show();
             } else {
                 Toasty.info(ComposeActivity.this, getString(R.string.toot_error_no_content), Toasty.LENGTH_SHORT).show();
             }
@@ -829,7 +831,18 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 statusDraft.user_id = account.user_id;
             }
 
-            if (!canBeSent(statusDraft)) {
+            if (canBeSent(statusDraft) != 1) {
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    if (canBeSent(statusDraft) == -1) {
+                        Toasty.warning(ComposeActivity.this, getString(R.string.toot_error_no_media_description), Toasty.LENGTH_SHORT).show();
+                    } else {
+                        Toasty.info(ComposeActivity.this, getString(R.string.toot_error_no_content), Toasty.LENGTH_SHORT).show();
+                    }
+                    statusDrafts.get(statusDrafts.size() - 1).submitted = false;
+                    composeAdapter.notifyItemChanged(statusList.size() - 1);
+                };
+                mainHandler.post(myRunnable);
                 return;
             }
             if (statusDraft.id > 0) {
@@ -915,22 +928,35 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     }
 
 
-    private boolean canBeSent(StatusDraft statusDraft) {
+    private int canBeSent(StatusDraft statusDraft) {
         if (statusDraft == null) {
-            return false;
+            return 0;
+        }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean checkAlt = sharedpreferences.getBoolean(getString(R.string.SET_MANDATORY_ALT_TEXT), false);
+        if (checkAlt) {
+            for (Status status : statusDraft.statusDraftList) {
+                if (status.media_attachments != null && status.media_attachments.size() > 0) {
+                    for (Attachment attachment : status.media_attachments) {
+                        if (attachment.description == null || attachment.description.trim().isEmpty()) {
+                            return -1;
+                        }
+                    }
+                }
+            }
         }
         List<Status> statuses = statusDraft.statusDraftList;
         if (statuses == null || statuses.size() == 0) {
-            return false;
+            return 0;
         }
         Status statusCheck = statuses.get(0);
         if (statusCheck == null) {
-            return false;
+            return 0;
         }
         return (statusCheck.text != null && statusCheck.text.trim().length() != 0)
                 || (statusCheck.media_attachments != null && statusCheck.media_attachments.size() != 0)
                 || statusCheck.poll != null
-                || (statusCheck.spoiler_text != null && statusCheck.spoiler_text.trim().length() != 0);
+                || (statusCheck.spoiler_text != null && statusCheck.spoiler_text.trim().length() != 0) ? 1 : 0;
     }
 
 

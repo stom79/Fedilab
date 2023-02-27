@@ -868,13 +868,14 @@
     <string name="SET_DISPLAY_EMOJI" translatable="false">SET_DISPLAY_EMOJI</string>
     <string name="SET_AGGREGATE_NOTIFICATION" translatable="false">SET_AGGREGATE_NOTIFICATION</string>
     <string name="SET_DISPLAY_MEDIA_NOTIFICATION" translatable="false">SET_DISPLAY_MEDIA_NOTIFICATION</string>
-    x
+
 
     <string name="SET_DISPLAY_CARD" translatable="false">SET_DISPLAY_CARD</string>
     <string name="SET_DISPLAY_VIDEO_PREVIEWS" translatable="false">SET_DISPLAY_VIDEO_PREVIEWS</string>
     <string name="SET_NOTIFICATION_ACTION" translatable="false">SET_NOTIFICATION_ACTION</string>
     <string name="SET_FEATURED_TAGS" translatable="false">SET_FEATURED_TAGS</string>
     <string name="SET_FEATURED_TAG_ACTION" translatable="false">SET_FEATURED_TAG_ACTION</string>
+    <string name="SET_MANDATORY_ALT_TEXT" translatable="false">SET_MANDATORY_ALT_TEXT</string>
     <string name="SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL" translatable="false">SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL</string>
     <string name="SET_TRANSLATE_VALUES_RESET" translatable="false">SET_TRANSLATE_VALUES_RESET</string>
     <string-array name="SET_TRANSLATE_ENTRIES" translatable="false">
@@ -1905,4 +1906,8 @@
     <string name="translator_domain">Translator domain</string>
     <string name="chat_timeline_for_direct">Chat timeline for direct messages</string>
     <string name="more_media">%1$s more media</string>
+    <string name="set_alt_text_mandatory">Mandatory media descriptions</string>
+
+    <string name="set_alt_text_mandatory_description">The message will not be sent if a description is missing with a media</string>
+    <string name="toot_error_no_media_description">There are missing media descriptions</string>
 </resources>
