@@ -71,6 +71,7 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -1084,7 +1085,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         if ((attachment.type != null && attachment.type.toLowerCase().startsWith("image")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("image"))) {
                             Glide.with(composeAttachmentItemBinding.preview.getContext())
                                     .load(attachmentPath)
-                                    //.diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                                     .skipMemoryCache(true)
                                     .into(composeAttachmentItemBinding.preview);
                         } else if ((attachment.type != null && attachment.type.toLowerCase().startsWith("video")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("video"))) {
