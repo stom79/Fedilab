@@ -1,0 +1,8 @@
+Added:
+
+Changed:
+- Align media with text (left margin enabled)
+
+Fixed:
+- Media previews remain the same when sharing
+- Several crashes

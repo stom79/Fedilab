@@ -446,9 +446,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             LinearLayoutCompat.MarginLayoutParams pmc = (LinearLayoutCompat.MarginLayoutParams) holder.binding.mediaContainer.getLayoutParams();
             pmc.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.mediaContainer.setLayoutParams(pmc);
-            LinearLayoutCompat.MarginLayoutParams pal = (LinearLayoutCompat.MarginLayoutParams) holder.binding.media.mediaContainer.getLayoutParams();
+            LinearLayoutCompat.MarginLayoutParams pal = (LinearLayoutCompat.MarginLayoutParams) holder.binding.mediaCroppedContainer.getLayoutParams();
             pal.setMarginStart((int) Helper.convertDpToPixel(6, context));
-            holder.binding.media.mediaContainer.setLayoutParams(pal);
+            holder.binding.mediaCroppedContainer.setLayoutParams(pal);
             LinearLayoutCompat.MarginLayoutParams pp = (LinearLayoutCompat.MarginLayoutParams) holder.binding.poll.pollContainer.getLayoutParams();
             pp.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.poll.pollContainer.setLayoutParams(pp);

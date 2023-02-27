@@ -457,15 +457,21 @@
             android:visibility="gone" />
 
 
-        <include
-            android:id="@+id/media"
-            layout="@layout/layout_drawer_attachments"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/media_cropped_container"
             android:layout_marginStart="48dp"
             android:layout_marginTop="6dp"
-            android:layout_marginEnd="6dp"
-            android:visibility="gone" />
+            android:layout_marginEnd="6dp">
+
+            <include
+                android:id="@+id/media"
+                layout="@layout/layout_drawer_attachments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
         <include
