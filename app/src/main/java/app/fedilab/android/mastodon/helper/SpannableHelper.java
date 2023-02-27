@@ -303,10 +303,15 @@ public class SpannableHelper {
             end = start + newUrl.length();
             url = newUrl;
         }
-        if (url.length() > 30 && (validUrl || url.startsWith("gimini://"))) {
-            newUrl = url.substring(0, 30);
-            newUrl += "…";
-            content.replace(start, end, newUrl);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean truncate = sharedpreferences.getBoolean(context.getString(R.string.SET_TRUNCATE_LINKS), true);
+        if (truncate) {
+            int truncateValue = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_LINKS_MAX), 30);
+            if (url.length() > truncateValue && (validUrl || url.startsWith("gimini://"))) {
+                newUrl = url.substring(0, truncateValue);
+                newUrl += "…";
+                content.replace(start, end, newUrl);
+            }
         }
         int matchEnd = validUrl ? start + newUrl.length() : end;
 

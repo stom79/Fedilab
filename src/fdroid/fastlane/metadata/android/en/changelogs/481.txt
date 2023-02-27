@@ -1,5 +1,7 @@
 Added:
 - Settings compose: don't send media if there are no description (default: disabled)
+- Settings Timelines: Enable/Disable truncate links
+- Allow to set max link length (20 - 150 chars)
 
 Changed:
 - Align media with text (left margin enabled)
@@ -7,6 +9,6 @@ Changed:
 Fixed:
 - Media previews remain the same when sharing
 - Edit media description not working
-- Accessibility (larger fonts): profiles/DM/
+- Accessibility (larger fonts): profiles/DM
 - Cross replies: Wrong visibility with the selected account
 - Several crashes

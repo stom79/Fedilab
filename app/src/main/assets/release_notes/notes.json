@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.19.0",
+    "code": "481",
+    "note": "Added:\n- Settings compose: don't send media if there are no description (default: disabled)\n- Settings Timelines: Enable/Disable truncate links\n- Allow to set max link length (20 - 150 chars)\n\nChanged:\n- Align media with text (left margin enabled)\n\nFixed:\n- Media previews remain the same when sharing\n- Edit media description not working\n- Accessibility (larger fonts): profiles/DM\n- Cross replies: Wrong visibility with the selected account\n- Several crashes"
+  },
+  {
     "version": "3.18.2",
     "code": "480",
     "note": "Changed:\n- First media layout will depend of its ratio\n\nFixed:\n- Impossible to add media with the chat view\n- Chat view limited in chars\n- Freezes / bad behaviors due to the new media presentation"

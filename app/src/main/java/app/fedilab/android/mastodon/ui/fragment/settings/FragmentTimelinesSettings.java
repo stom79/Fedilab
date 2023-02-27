@@ -61,6 +61,7 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
                 preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_DOMAIN");
             }
         }
+
         SwitchPreferenceCompat SET_DISPLAY_BOOKMARK = findPreference(getString(R.string.SET_DISPLAY_BOOKMARK));
         if (SET_DISPLAY_BOOKMARK != null) {
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, true);
@@ -77,6 +78,7 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, false);
             SET_PIXELFED_PRESENTATION.setChecked(checked);
         }
+
     }
 
     @Override

@@ -45,6 +45,23 @@
         app:title="@string/boost_original_date" />
 
     <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRUNCATE_LINKS"
+        app:singleLineTitle="false"
+        app:title="@string/truncate_links" />
+
+    <androidx.preference.SeekBarPreference
+        android:defaultValue="30"
+        android:max="150"
+        app:dependency="@string/SET_TRUNCATE_LINKS"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRUNCATE_LINKS_MAX"
+        app:min="20"
+        app:showSeekBarValue="true"
+        app:singleLineTitle="false"
+        app:title="@string/truncate_links_max" />
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_HIDE_SINGLE_MEDIA_WITH_CARD"
@@ -205,6 +222,7 @@
 
     <androidx.preference.SeekBarPreference
         android:defaultValue="40"
+        app:min="10"
         android:max="80"
         app:iconSpaceReserved="false"
         app:key="@string/SET_STATUSES_PER_CALL"
@@ -213,6 +231,7 @@
 
     <androidx.preference.SeekBarPreference
         android:defaultValue="40"
+        app:min="10"
         android:max="80"
         app:iconSpaceReserved="false"
         app:key="@string/SET_ACCOUNTS_PER_CALL"
@@ -221,6 +240,7 @@
 
     <androidx.preference.SeekBarPreference
         android:defaultValue="30"
+        app:min="10"
         android:max="30"
         app:iconSpaceReserved="false"
         app:key="@string/SET_NOTIFICATIONS_PER_CALL"

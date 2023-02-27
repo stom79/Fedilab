@@ -1125,6 +1125,9 @@
     <string name="SET_EXPAND_MEDIA" translatable="false">SET_EXPAND_MEDIA</string>
     <string name="SET_GROUP_REBLOGS" translatable="false">SET_GROUP_REBLOGS</string>
     <string name="SET_BOOST_ORIGINAL_DATE" translatable="false">SET_BOOST_ORIGINAL_DATE</string>
+    <string name="SET_TRUNCATE_LINKS" translatable="false">SET_TRUNCATE_LINKS</string>
+    <string name="SET_TRUNCATE_LINKS_MAX" translatable="false">SET_TRUNCATE_LINKS_MAX</string>
+
     <string name="SET_HIDE_SINGLE_MEDIA_WITH_CARD" translatable="false">SET_HIDE_SINGLE_MEDIA_WITH_CARD</string>
     <string name="SET_LIVE_TRANSLATE_MULTIPLE" translatable="false">SET_LIVE_TRANSLATE_MULTIPLE</string>
     <string name="SET_TRUNCATE_TOOTS_SIZE" translatable="false">SET_TRUNCATE_TOOTS_SIZE</string>
@@ -1910,4 +1913,7 @@
 
     <string name="set_alt_text_mandatory_description">The message will not be sent if a description is missing with a media</string>
     <string name="toot_error_no_media_description">There are missing media descriptions</string>
+
+    <string name="truncate_links">Truncate links</string>
+    <string name="truncate_links_max">Max chars in links</string>
 </resources>
