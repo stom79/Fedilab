@@ -218,7 +218,7 @@
     <string name="settings_time_from">Mezi</string>
     <string name="settings_time_to">a</string>
     <string name="embedded_browser">Použít vestavěný prohlížeč</string>
-    <string name="custom_tabs">Uživatelské záložky</string>
+    <string name="custom_tabs">Prohlížeč v aplikaci</string>
     <string name="expand_cw">Automaticky ukázat cw</string>
     <string name="set_led_colour">Barva LED:</string>
     <string-array name="led_colours">

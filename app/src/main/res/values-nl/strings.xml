@@ -987,4 +987,12 @@
     <string name="translate_in">Vertaal in</string>
     <string name="poll_type_multiple">Meedere keuzes</string>
     <string name="action_change_subscribed_language">Wijzig geabonneerde talen</string>
+    <string name="manage_tags">Beheer tags</string>
+    <string name="tags_renamed">De tag is veranderd!</string>
+    <string name="tags_deleted">De tag is verwijderd!</string>
+    <string name="tags_stored">De tag is opgeslagen!</string>
+    <string name="more_media">%1$s meer media</string>
+    <string name="chat_timeline_for_direct">Chat tijdlijn voor privéberichten</string>
+    <string name="number_of_replies">Aantal reacties</string>
+    <string name="update_date">Update datum</string>
 </resources>
