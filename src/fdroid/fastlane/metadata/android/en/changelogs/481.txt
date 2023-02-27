@@ -5,4 +5,5 @@ Changed:
 
 Fixed:
 - Media previews remain the same when sharing
+- Cross replies: Wrong visibility with the selected account
 - Several crashes

@@ -180,10 +180,10 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         return "public";
     }
 
-    public static String getVisibility(String defaultVisibility) {
+    public static String getVisibility(BaseAccount account, String defaultVisibility) {
         int tootVisibility = visibilityToNumber(defaultVisibility);
-        if (currentAccount != null && currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
-            int userVisibility = visibilityToNumber(currentAccount.mastodon_account.source.privacy);
+        if (account != null && account.mastodon_account != null && account.mastodon_account.source != null) {
+            int userVisibility = visibilityToNumber(account.mastodon_account.source.privacy);
             if (tootVisibility > userVisibility) {
                 return visibilityToString(userVisibility);
             } else {
@@ -475,12 +475,15 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             statusReplyId = b.getString(Helper.ARG_STATUS_REPLY_ID);
             statusMention = (Status) b.getSerializable(Helper.ARG_STATUS_MENTION);
             account = (BaseAccount) b.getSerializable(Helper.ARG_ACCOUNT);
+            if (account == null) {
+                account = currentAccount;
+            }
             editMessageId = b.getString(Helper.ARG_EDIT_STATUS_ID, null);
             instance = b.getString(Helper.ARG_INSTANCE, null);
             token = b.getString(Helper.ARG_TOKEN, null);
             visibility = b.getString(Helper.ARG_VISIBILITY, null);
             if (visibility == null && statusReply != null) {
-                visibility = getVisibility(statusReply.visibility);
+                visibility = getVisibility(account, statusReply.visibility);
             } else if (visibility == null && currentAccount != null && currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
                 visibility = currentAccount.mastodon_account.source.privacy;
             }
@@ -606,7 +609,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             //We change order for mentions
             //At first place the account that has been mentioned if it's not our
             statusDraftList.get(0).mentions = new ArrayList<>();
-            if (statusReply.account.acct != null && currentAccount.mastodon_account != null && !statusReply.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+            if (statusReply.account.acct != null && account.mastodon_account != null && !statusReply.account.acct.equalsIgnoreCase(account.mastodon_account.acct)) {
                 Mention mention = new Mention();
                 mention.acct = "@" + statusReply.account.acct;
                 mention.url = statusReply.account.url;
@@ -618,7 +621,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             //There are other mentions to
             if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
                 for (Mention mentionTmp : statusReply.mentions) {
-                    if (statusReply.account.acct != null && !mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && currentAccount.mastodon_account != null && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+                    if (statusReply.account.acct != null && !mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && account.mastodon_account != null && !mentionTmp.acct.equalsIgnoreCase(account.mastodon_account.acct)) {
                         statusDraftList.get(0).mentions.add(mentionTmp);
                     }
                 }
