@@ -38,6 +38,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -292,6 +294,19 @@ public class ProfileActivity extends BaseActivity {
         binding.accountViewpager.setAdapter(fedilabProfileTLPageAdapter);
         binding.accountViewpager.setOffscreenPageLimit(3);
         binding.accountViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.accountTabLayout));
+
+
+        float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
+
+        binding.accountTabLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                binding.accountTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                ViewGroup.LayoutParams params = binding.accountTabLayout.getLayoutParams();
+                params.height = (int) (binding.accountTabLayout.getHeight() * scale);
+                binding.accountTabLayout.setLayoutParams(params);
+            }
+        });
         binding.accountTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -344,7 +359,6 @@ public class ProfileActivity extends BaseActivity {
         //Load header
         MastodonHelper.loadProfileMediaMastodon(ProfileActivity.this, binding.bannerPp, account, MastodonHelper.MediaAccountType.HEADER);
         //Redraws icon for locked accounts
-        final float scale = getResources().getDisplayMetrics().density;
         if (account.locked) {
             Drawable img = ContextCompat.getDrawable(ProfileActivity.this, R.drawable.ic_baseline_lock_24);
             assert img != null;
