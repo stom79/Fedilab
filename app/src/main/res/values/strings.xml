@@ -1065,7 +1065,7 @@
 
 
     <string name="SET_DEFAULT_THEME" translatable="false">SYSTEM</string>
-
+    <string name="SET_AUTO_PLAY_GIG_MEDIA" translatable="false">SET_AUTO_PLAY_GIG_MEDIA</string>
     <string name="SET_FULL_PREVIEW" translatable="false">SET_FULL_PREVIEW</string>
     <string name="SET_SHARE_DETAILS" translatable="false">SET_SHARE_DETAILS</string>
     <string name="SET_CUSTOM_SHARING" translatable="false">SET_CUSTOM_SHARING</string>
@@ -1926,4 +1926,5 @@
     <string name="set_alt_text_mandatory_description_warn">If there are missing media a dialog will be displayed with the ability to send the message without media description</string>
     <string name="send_anyway">Send anyway</string>
     <string name="set_remove_battery">Ignore battery optimizations</string>
+    <string name="set_autoplay_gif">Autoplay animated media</string>
 </resources>

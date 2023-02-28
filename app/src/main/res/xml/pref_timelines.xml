@@ -200,12 +200,21 @@
         app:key="@string/SET_FULL_PREVIEW"
         app:singleLineTitle="false"
         app:title="@string/set_fit_preview" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_AUTO_PLAY_GIG_MEDIA"
+        app:singleLineTitle="false"
+        app:title="@string/set_autoplay_gif" />
+
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_DISABLE_GIF"
         app:singleLineTitle="false"
         app:title="@string/set_disable_gif" />
+
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"

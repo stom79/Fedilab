@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.19.1",
+    "code": "482",
+    "note": "Added:\n- Settings compose: display a dialog to warn if there are missing media description (default disabled)\n- Settings > Notification:  disable battery optimization\n- Settings > Timelines: AutoPlay gif media (default: enabled)\n\nFixed:\n- Fix an issue with cache and fetch more\n- Cache view with large fonts\n- Bad behaviors with truncated messages"
+  },
+  {
     "version": "3.19.0",
     "code": "481",
     "note": "Added:\n- Settings compose: don't send media if there are no description (default: disabled)\n- Settings Timelines: Enable/Disable truncate links\n- Allow to set max link length (20 - 150 chars)\n\nChanged:\n- Align media with text (left margin enabled)\n\nFixed:\n- Media previews remain the same when sharing\n- Edit media description not working\n- Accessibility (larger fonts): profiles/DM\n- Cross replies: Wrong visibility with the selected account\n- Several crashes"

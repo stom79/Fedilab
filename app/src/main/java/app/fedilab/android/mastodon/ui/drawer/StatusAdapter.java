@@ -44,6 +44,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -91,6 +92,12 @@ import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.stom79.mytransl.MyTransL;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -141,6 +148,7 @@ import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.BlurHashDecoder;
+import app.fedilab.android.mastodon.helper.CacheDataSourceFactory;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.GlideApp;
 import app.fedilab.android.mastodon.helper.GlideFocus;
@@ -1438,6 +1446,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
             } else {
                 int mediaPosition = 1;
+                boolean autoplaygif = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_PLAY_GIG_MEDIA), true);
                 if (!fullAttachement || statusToDeal.sensitive) {
                     int defaultHeight = (int) Helper.convertDpToPixel(300, context);
                     if (measuredWidth > 0) {
@@ -1530,10 +1539,72 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 ratio = measuredWidth > 0 ? measuredWidth / mediaW : 1.0f;
                             }
                         }
-                        loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, mediaW, mediaH, ratio, statusToDeal, attachment);
+                        if (autoplaygif && attachment.type.equalsIgnoreCase("gifv")) {
+
+                            layoutMediaBinding.media.setVisibility(View.GONE);
+                            layoutMediaBinding.mediaVideo.setVisibility(View.VISIBLE);
+                            LinearLayout.LayoutParams lp;
+                            if (fullAttachement && mediaH > 0 && (!statusToDeal.sensitive || expand_media)) {
+                                lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
+                            } else {
+                                lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                            }
+                            layoutMediaBinding.mediaVideo.setLayoutParams(lp);
+
+
+                            layoutMediaBinding.mediaVideo.onResume();
+                            Uri uri = Uri.parse(attachment.url);
+                            int video_cache = sharedpreferences.getInt(context.getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
+                            ProgressiveMediaSource videoSource;
+                            MediaItem mediaItem = new MediaItem.Builder().setUri(uri).build();
+                            if (video_cache == 0) {
+                                DataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context);
+                                videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
+                                        .createMediaSource(mediaItem);
+                            } else {
+                                CacheDataSourceFactory cacheDataSourceFactory = new CacheDataSourceFactory(context);
+                                videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
+                                        .createMediaSource(mediaItem);
+                            }
+                            ExoPlayer player = new ExoPlayer.Builder(context).build();
+                            player.setRepeatMode(Player.REPEAT_MODE_ONE);
+                            layoutMediaBinding.mediaVideo.setPlayer(player);
+                            player.setMediaSource(videoSource);
+                            player.prepare();
+                            player.setPlayWhenReady(true);
+                        } else {
+                            loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, mediaW, mediaH, ratio, statusToDeal, attachment);
+                        }
 
                     } else if (layoutMediaBinding != null) {
-                        loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, -1.f, statusToDeal, attachment);
+                        if (autoplaygif && attachment.type.equalsIgnoreCase("gifv")) {
+                            layoutMediaBinding.media.setVisibility(View.GONE);
+                            layoutMediaBinding.mediaVideo.setVisibility(View.VISIBLE);
+                            layoutMediaBinding.mediaVideo.onResume();
+                            Uri uri = Uri.parse(attachment.url);
+                            int video_cache = sharedpreferences.getInt(context.getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
+                            ProgressiveMediaSource videoSource;
+                            MediaItem mediaItem = new MediaItem.Builder().setUri(uri).build();
+                            if (video_cache == 0) {
+                                DataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context);
+                                videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
+                                        .createMediaSource(mediaItem);
+                            } else {
+                                CacheDataSourceFactory cacheDataSourceFactory = new CacheDataSourceFactory(context);
+                                videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
+                                        .createMediaSource(mediaItem);
+                            }
+                            ExoPlayer player = new ExoPlayer.Builder(context).build();
+                            player.setRepeatMode(Player.REPEAT_MODE_ONE);
+                            layoutMediaBinding.mediaVideo.setPlayer(player);
+                            player.setMediaSource(videoSource);
+                            player.prepare();
+                            player.setPlayWhenReady(true);
+
+                        } else {
+                            loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, -1.f, statusToDeal, attachment);
+                        }
+
                     }
                     mediaPosition++;
                 }
@@ -2391,7 +2462,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
-
+        layoutMediaBinding.media.setVisibility(View.VISIBLE);
+        layoutMediaBinding.mediaVideo.setVisibility(View.GONE);
+        layoutMediaBinding.mediaVideo.onPause();
         layoutMediaBinding.media.setLayoutParams(lp);
 
         float focusX = 0.f;

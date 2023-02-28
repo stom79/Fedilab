@@ -1,9 +1,7 @@
 Added:
 - Settings compose: display a dialog to warn if there are missing media description (default disabled)
 - Settings > Notification:  disable battery optimization
-
-Changed:
--
+- Settings > Timelines: AutoPlay gif media (default: enabled)
 
 Fixed:
 - Fix an issue with cache and fetch more
