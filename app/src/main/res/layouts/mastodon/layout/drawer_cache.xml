@@ -40,17 +40,18 @@
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/label_home_timeline_cache_count"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:checked="true"
         android:text="@string/messages_in_cache_for_home"
+        app:layout_constraintEnd_toStartOf="@+id/home_count"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pp" />
+        app:layout_constraintTop_toBottomOf="@+id/acct" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/home_count"
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
@@ -62,17 +63,18 @@
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/label_timelines_cache_count"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:checked="true"
         android:text="@string/messages_in_cache_for_other_timelines"
+        app:layout_constraintEnd_toStartOf="@+id/other_count"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/label_home_timeline_cache_count" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/other_count"
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
@@ -84,17 +86,18 @@
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/label_drafts_count"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:checked="false"
         android:text="@string/messages_stored_in_drafts"
+        app:layout_constraintEnd_toStartOf="@id/draft_count"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/label_timelines_cache_count" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/draft_count"
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
@@ -102,5 +105,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/label_drafts_count"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/label_drafts_count"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="49" />
 </androidx.constraintlayout.widget.ConstraintLayout>

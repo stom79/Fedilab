@@ -6,4 +6,4 @@ Changed:
 -
 
 Fixed:
--
+- Cache view with large fonts
