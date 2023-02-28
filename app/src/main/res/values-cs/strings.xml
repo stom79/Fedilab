@@ -1020,4 +1020,9 @@
     <string name="translator_domain">Doména překladače</string>
     <string name="chat_timeline_for_direct">Chatová časová osa pro přímé zprávy</string>
     <string name="more_media">dalších %1$s médií</string>
+    <string name="toot_error_no_media_description">Chybí popis médií</string>
+    <string name="truncate_links">Zkracovat odkazy</string>
+    <string name="set_alt_text_mandatory">Povinný popis médií</string>
+    <string name="set_alt_text_mandatory_description">Zpráva se neodešle, pokud u médií chybí popis</string>
+    <string name="truncate_links_max">Max. počet znaků v odkazech</string>
 </resources>
