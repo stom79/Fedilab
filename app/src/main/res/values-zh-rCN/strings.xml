@@ -1008,4 +1008,9 @@
     <string name="translator_domain">翻译器域名</string>
     <string name="chat_timeline_for_direct">私信的聊天时间线</string>
     <string name="more_media">更多 %1$s 个媒体</string>
+    <string name="toot_error_no_media_description">缺少媒体描述</string>
+    <string name="set_alt_text_mandatory">强制性媒体描述</string>
+    <string name="set_alt_text_mandatory_description">如果媒体缺少描述，则不会发送消息</string>
+    <string name="truncate_links_max">链接的最大字符数</string>
+    <string name="truncate_links">截断链接</string>
 </resources>
