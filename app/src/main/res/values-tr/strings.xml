@@ -1008,4 +1008,9 @@
     <string name="translator_domain">Çevirmen etki alanı</string>
     <string name="chat_timeline_for_direct">Doğrudan mesajlar için sohbet zaman çizelgesi</string>
     <string name="more_media">%1$s daha fazla medya</string>
+    <string name="toot_error_no_media_description">Eksik medya açıklamaları var</string>
+    <string name="set_alt_text_mandatory_description">Bir medya ile birlikte bir açıklama eksikse mesaj gönderilmeyecektir</string>
+    <string name="set_alt_text_mandatory">Zorunlu medya açıklamaları</string>
+    <string name="truncate_links">Bağlantıları kırp</string>
+    <string name="truncate_links_max">Bağlantılardaki en fazla karakter sayısı</string>
 </resources>
