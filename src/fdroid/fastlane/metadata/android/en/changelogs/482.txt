@@ -7,3 +7,4 @@ Changed:
 
 Fixed:
 - Cache view with large fonts
+- Bad behaviors with truncated messages
