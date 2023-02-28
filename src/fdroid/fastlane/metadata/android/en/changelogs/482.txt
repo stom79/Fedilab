@@ -1,10 +1,11 @@
 Added:
 - Settings compose: display a dialog to warn if there are missing media description (default disabled)
-
+- Settings > Notification:  disable battery optimization
 
 Changed:
 -
 
 Fixed:
+- Fix an issue with cache and fetch more
 - Cache view with large fonts
 - Bad behaviors with truncated messages

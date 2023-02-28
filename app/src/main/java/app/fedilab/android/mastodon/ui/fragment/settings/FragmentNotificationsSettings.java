@@ -14,12 +14,16 @@ package app.fedilab.android.mastodon.ui.fragment.settings;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static android.content.Context.POWER_SERVICE;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
@@ -118,6 +122,28 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
                 SET_PUSH_DISTRIBUTOR.setValue(UnifiedPush.getDistributor(requireActivity()));
                 SET_PUSH_DISTRIBUTOR.setEntries(distributors.toArray(new String[0]));
                 SET_PUSH_DISTRIBUTOR.setEntryValues(distributors.toArray(new String[0]));
+            }
+        }
+
+        Preference SET_KEY_IGNORE_BATTERY_OPTIMIZATIONS = findPreference(getString(R.string.SET_KEY_IGNORE_BATTERY_OPTIMIZATIONS));
+        if (SET_KEY_IGNORE_BATTERY_OPTIMIZATIONS != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PowerManager pm = (PowerManager) requireActivity().getSystemService(POWER_SERVICE);
+                String packageName = requireActivity().getPackageName();
+                if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                    SET_KEY_IGNORE_BATTERY_OPTIMIZATIONS.setOnPreferenceClickListener(preference -> {
+                        Intent intent = new Intent();
+                        String packageName1 = requireActivity().getPackageName();
+                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                        intent.setData(Uri.parse("package:" + packageName1));
+                        startActivity(intent);
+                        return false;
+                    });
+                } else {
+                    preferenceScreen.removePreferenceRecursively(getString(R.string.SET_KEY_IGNORE_BATTERY_OPTIMIZATIONS));
+                }
+            } else {
+                preferenceScreen.removePreferenceRecursively(getString(R.string.SET_KEY_IGNORE_BATTERY_OPTIMIZATIONS));
             }
         }
 

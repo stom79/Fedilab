@@ -33,6 +33,11 @@
             app:key="@string/SET_PUSH_DISTRIBUTOR"
             app:title="@string/push_distributors"
             app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_KEY_IGNORE_BATTERY_OPTIMIZATIONS"
+            app:title="@string/set_remove_battery" />
     </PreferenceCategory>
 
 

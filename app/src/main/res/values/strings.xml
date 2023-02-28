@@ -840,6 +840,8 @@
     <string name="SET_NOTIFICATION_TYPE" translatable="false">SET_NOTIFICATION_TYPE</string>
     <string name="SET_LOAD_MEDIA_TYPE" translatable="false">SET_LOAD_MEDIA_TYPE</string>
     <string name="SET_NOTIFICATION_DELAY_VALUE" translatable="false">SET_NOTIFICATION_DELAY_VALUE</string>
+    <string name="SET_KEY_IGNORE_BATTERY_OPTIMIZATIONS" translatable="false">SET_KEY_IGNORE_BATTERY_OPTIMIZATIONS</string>
+
     <string name="SET_PUSH_DISTRIBUTOR" translatable="false">SET_PUSH_DISTRIBUTOR</string>
     <string-array name="SET_NOTIFICATION_TYPE_VALUE" translatable="false">
         <item>PUSH_NOTIFICATIONS</item>
@@ -1923,4 +1925,5 @@
     <string name="set_alt_text_mandatory_warn">Warn only</string>
     <string name="set_alt_text_mandatory_description_warn">If there are missing media a dialog will be displayed with the ability to send the message without media description</string>
     <string name="send_anyway">Send anyway</string>
+    <string name="set_remove_battery">Ignore battery optimizations</string>
 </resources>

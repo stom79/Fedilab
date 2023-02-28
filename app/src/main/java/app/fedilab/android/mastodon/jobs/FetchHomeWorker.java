@@ -169,6 +169,8 @@ public class FetchHomeWorker extends Worker {
             int call = 0;
             String max_id = null;
             MastodonTimelinesService mastodonTimelinesService = init(account.instance);
+            int insertValue = 0;
+            StatusCache lastStatusCache = null;
             while (canContinue && call < max_calls) {
                 Call<List<Status>> homeCall = mastodonTimelinesService.getHome(account.token, max_id, null, null, status_per_page, null);
                 if (homeCall != null) {
@@ -184,12 +186,14 @@ public class FetchHomeWorker extends Worker {
                                 statusCache.status = status;
                                 statusCache.type = Timeline.TimeLineEnum.HOME;
                                 statusCache.status_id = status.id;
+                                lastStatusCache = statusCache;
                                 try {
-                                    statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
+                                    insertValue = statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }
                             }
+
                             Pagination pagination = MastodonHelper.getPagination(homeResponse.headers());
                             if (pagination.max_id != null) {
                                 max_id = pagination.max_id;
@@ -210,6 +214,17 @@ public class FetchHomeWorker extends Worker {
                     e.printStackTrace();
                 }
                 call++;
+            }
+            //insertValue is for last status and equals zero if updated or 1 if inserted
+            if (lastStatusCache != null && insertValue == 1) { //Last inserted message was not in cache.
+                StatusCache statusCacheDAO = new StatusCache(getApplicationContext());
+                lastStatusCache.status.isFetchMore = true;
+                lastStatusCache.status.positionFetchMore = Status.PositionFetchMore.TOP;
+                try {
+                    statusCacheDAO.updateIfExists(lastStatusCache);
+                } catch (DBException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
