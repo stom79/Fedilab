@@ -1,0 +1,9 @@
+Added:
+- Settings compose: display a dialog to warn if there are missing media description (default disabled)
+
+
+Changed:
+-
+
+Fixed:
+-

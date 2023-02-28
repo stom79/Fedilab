@@ -398,6 +398,20 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 MediaHelper.scheduleMessage(ComposeActivity.this, date -> storeDraft(true, date));
             } else if (canBeSent(statusDraft) == -1) {
                 Toasty.warning(ComposeActivity.this, getString(R.string.toot_error_no_media_description), Toasty.LENGTH_SHORT).show();
+            } else if (canBeSent(statusDraft) == -2) {
+                Toasty.warning(ComposeActivity.this, getString(R.string.toot_error_no_media_description), Toasty.LENGTH_SHORT).show();
+                MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+                materialAlertDialogBuilder.setMessage(R.string.toot_error_no_media_description);
+                materialAlertDialogBuilder.setPositiveButton(R.string.send_anyway, (dialog, id) -> {
+                    MediaHelper.scheduleMessage(ComposeActivity.this, date -> storeDraft(true, date));
+                    dialog.dismiss();
+
+                });
+                materialAlertDialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> {
+                    dialog.cancel();
+                });
+                AlertDialog alert = materialAlertDialogBuilder.create();
+                alert.show();
             } else {
                 Toasty.info(ComposeActivity.this, getString(R.string.toot_error_no_content), Toasty.LENGTH_SHORT).show();
             }
@@ -831,11 +845,24 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 statusDraft.user_id = account.user_id;
             }
 
-            if (canBeSent(statusDraft) != 1) {
+            if (canBeSent(statusDraft) != 1 && sendMessage) {
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> {
                     if (canBeSent(statusDraft) == -1) {
                         Toasty.warning(ComposeActivity.this, getString(R.string.toot_error_no_media_description), Toasty.LENGTH_SHORT).show();
+                    } else if (canBeSent(statusDraft) == -2) {
+                        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(this);
+                        materialAlertDialogBuilder.setMessage(R.string.toot_error_no_media_description);
+                        materialAlertDialogBuilder.setPositiveButton(R.string.send_anyway, (dialog, id) -> {
+                            sendMessage(true, scheduledDate);
+                            dialog.dismiss();
+
+                        });
+                        materialAlertDialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> {
+                            dialog.cancel();
+                        });
+                        AlertDialog alert = materialAlertDialogBuilder.create();
+                        alert.show();
                     } else {
                         Toasty.info(ComposeActivity.this, getString(R.string.toot_error_no_content), Toasty.LENGTH_SHORT).show();
                     }
@@ -845,86 +872,89 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 mainHandler.post(myRunnable);
                 return;
             }
-            if (statusDraft.id > 0) {
+            sendMessage(sendMessage, scheduledDate);
+        }).start();
+    }
+
+    private void sendMessage(boolean sendMessage, String scheduledDate) {
+        if (statusDraft.id > 0) {
+            try {
+                new StatusDraft(ComposeActivity.this).updateStatusDraft(statusDraft);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                statusDraft.id = new StatusDraft(ComposeActivity.this).insertStatusDraft(statusDraft);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }
+        //Only one single message scheduled
+        if (sendMessage && scheduledDate != null && statusDraft.statusDraftList.size() > 1) {
+            //Schedule a thread
+            SimpleDateFormat sdf = new SimpleDateFormat(Helper.SCHEDULE_DATE_FORMAT, Locale.getDefault());
+            Date date;
+            try {
+                date = sdf.parse(scheduledDate);
+                long delayToPass = 0;
+                if (date != null) {
+                    delayToPass = (date.getTime() - new Date().getTime());
+                }
+                Data inputData = new Data.Builder()
+                        .putString(Helper.ARG_INSTANCE, currentInstance)
+                        .putString(Helper.ARG_TOKEN, BaseMainActivity.currentToken)
+                        .putString(Helper.ARG_USER_ID, BaseMainActivity.currentUserID)
+                        .putLong(Helper.ARG_STATUS_DRAFT_ID, statusDraft.id)
+                        .build();
+
+                OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(ScheduleThreadWorker.class)
+                        .setInputData(inputData)
+                        .addTag(Helper.WORKER_SCHEDULED_STATUSES)
+                        .setInitialDelay(delayToPass, TimeUnit.MILLISECONDS)
+                        .build();
+                WorkManager.getInstance(ComposeActivity.this).enqueue(oneTimeWorkRequest);
+                statusDraft.workerUuid = oneTimeWorkRequest.getId();
+                statusDraft.scheduled_at = date;
                 try {
                     new StatusDraft(ComposeActivity.this).updateStatusDraft(statusDraft);
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    Toasty.info(ComposeActivity.this, getString(R.string.toot_scheduled), Toasty.LENGTH_LONG).show();
+                    finish();
+                };
+                mainHandler.post(myRunnable);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        } else if (sendMessage) {
+            int mediaCount = 0;
+            for (Status status : statusDraft.statusDraftList) {
+                mediaCount += status.media_attachments != null ? status.media_attachments.size() : 0;
+            }
+            if (mediaCount > 0) {
+                Data inputData = new Data.Builder()
+                        .putString(Helper.ARG_STATUS_DRAFT_ID, String.valueOf(statusDraft.id))
+                        .putString(Helper.ARG_INSTANCE, instance)
+                        .putString(Helper.ARG_TOKEN, token)
+                        .putString(Helper.ARG_EDIT_STATUS_ID, editMessageId)
+                        .putString(Helper.ARG_USER_ID, account.user_id)
+                        .putString(Helper.ARG_SCHEDULED_DATE, scheduledDate).build();
+                OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ComposeWorker.class)
+                        .setInputData(inputData)
+                        .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+                        .build();
+                WorkManager.getInstance(ComposeActivity.this).enqueue(request);
+
             } else {
-                try {
-                    statusDraft.id = new StatusDraft(ComposeActivity.this).insertStatusDraft(statusDraft);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
+                new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate, editMessageId);
             }
-            //Only one single message scheduled
-            if (sendMessage && scheduledDate != null && statusDraft.statusDraftList.size() > 1) {
-                //Schedule a thread
-                SimpleDateFormat sdf = new SimpleDateFormat(Helper.SCHEDULE_DATE_FORMAT, Locale.getDefault());
-                Date date;
-                try {
-                    date = sdf.parse(scheduledDate);
-                    long delayToPass = 0;
-                    if (date != null) {
-                        delayToPass = (date.getTime() - new Date().getTime());
-                    }
-                    Data inputData = new Data.Builder()
-                            .putString(Helper.ARG_INSTANCE, currentInstance)
-                            .putString(Helper.ARG_TOKEN, BaseMainActivity.currentToken)
-                            .putString(Helper.ARG_USER_ID, BaseMainActivity.currentUserID)
-                            .putLong(Helper.ARG_STATUS_DRAFT_ID, statusDraft.id)
-                            .build();
-
-                    OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(ScheduleThreadWorker.class)
-                            .setInputData(inputData)
-                            .addTag(Helper.WORKER_SCHEDULED_STATUSES)
-                            .setInitialDelay(delayToPass, TimeUnit.MILLISECONDS)
-                            .build();
-                    WorkManager.getInstance(ComposeActivity.this).enqueue(oneTimeWorkRequest);
-                    statusDraft.workerUuid = oneTimeWorkRequest.getId();
-                    statusDraft.scheduled_at = date;
-                    try {
-                        new StatusDraft(ComposeActivity.this).updateStatusDraft(statusDraft);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                    Runnable myRunnable = () -> {
-                        Toasty.info(ComposeActivity.this, getString(R.string.toot_scheduled), Toasty.LENGTH_LONG).show();
-                        finish();
-                    };
-                    mainHandler.post(myRunnable);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-            } else if (sendMessage) {
-                int mediaCount = 0;
-                for (Status status : statusDraft.statusDraftList) {
-                    mediaCount += status.media_attachments != null ? status.media_attachments.size() : 0;
-                }
-                if (mediaCount > 0) {
-                    Data inputData = new Data.Builder()
-                            .putString(Helper.ARG_STATUS_DRAFT_ID, String.valueOf(statusDraft.id))
-                            .putString(Helper.ARG_INSTANCE, instance)
-                            .putString(Helper.ARG_TOKEN, token)
-                            .putString(Helper.ARG_EDIT_STATUS_ID, editMessageId)
-                            .putString(Helper.ARG_USER_ID, account.user_id)
-                            .putString(Helper.ARG_SCHEDULED_DATE, scheduledDate).build();
-                    OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ComposeWorker.class)
-                            .setInputData(inputData)
-                            .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
-                            .build();
-                    WorkManager.getInstance(ComposeActivity.this).enqueue(request);
-
-                } else {
-                    new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate, editMessageId);
-                }
-                finish();
-            }
-
-        }).start();
+            finish();
+        }
     }
 
 
@@ -934,12 +964,13 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean checkAlt = sharedpreferences.getBoolean(getString(R.string.SET_MANDATORY_ALT_TEXT), false);
+        boolean warnOnly = sharedpreferences.getBoolean(getString(R.string.SET_MANDATORY_ALT_TEXT_WARN), false);
         if (checkAlt) {
             for (Status status : statusDraft.statusDraftList) {
                 if (status.media_attachments != null && status.media_attachments.size() > 0) {
                     for (Attachment attachment : status.media_attachments) {
                         if (attachment.description == null || attachment.description.trim().isEmpty()) {
-                            return -1;
+                            return warnOnly ? -2 : -1;
                         }
                     }
                 }

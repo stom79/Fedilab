@@ -876,6 +876,8 @@
     <string name="SET_FEATURED_TAGS" translatable="false">SET_FEATURED_TAGS</string>
     <string name="SET_FEATURED_TAG_ACTION" translatable="false">SET_FEATURED_TAG_ACTION</string>
     <string name="SET_MANDATORY_ALT_TEXT" translatable="false">SET_MANDATORY_ALT_TEXT</string>
+    <string name="SET_MANDATORY_ALT_TEXT_WARN" translatable="false">SET_MANDATORY_ALT_TEXT_WARN</string>
+
     <string name="SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL" translatable="false">SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL</string>
     <string name="SET_TRANSLATE_VALUES_RESET" translatable="false">SET_TRANSLATE_VALUES_RESET</string>
     <string-array name="SET_TRANSLATE_ENTRIES" translatable="false">
@@ -1916,4 +1918,9 @@
 
     <string name="truncate_links">Truncate links</string>
     <string name="truncate_links_max">Max chars in links</string>
+
+
+    <string name="set_alt_text_mandatory_warn">Warn only</string>
+    <string name="set_alt_text_mandatory_description_warn">If there are missing media a dialog will be displayed with the ability to send the message without media description</string>
+    <string name="send_anyway">Send anyway</string>
 </resources>
