@@ -1009,4 +1009,9 @@
     <string name="truncate_links_max">Máximo de caract. nas ligazóns</string>
     <string name="set_alt_text_mandatory">Descrición obrigatoria do multimedia</string>
     <string name="truncate_links">Acurtar ligazóns</string>
+    <string name="send_anyway">Enviar así</string>
+    <string name="set_alt_text_mandatory_description_warn">Se falta a descrición do elemento multimedia aparecerá un aviso coa posibilidade de enviar a mensaxe sen a descrición</string>
+    <string name="set_alt_text_mandatory_warn">Só avisar</string>
+    <string name="set_autoplay_gif">Reprodución autom. do multimedia</string>
+    <string name="set_remove_battery">Ignorar optimizacións da batería</string>
 </resources>
