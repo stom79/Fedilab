@@ -1025,4 +1025,8 @@
     <string name="set_alt_text_mandatory">Povinný popis médií</string>
     <string name="set_alt_text_mandatory_description">Zpráva se neodešle, pokud u médií chybí popis</string>
     <string name="truncate_links_max">Max. počet znaků v odkazech</string>
+    <string name="set_autoplay_gif">Automaticky přehrávat animace</string>
+    <string name="set_alt_text_mandatory_warn">Jen varovat</string>
+    <string name="send_anyway">Přesto odeslat</string>
+    <string name="set_remove_battery">Ignorovat bateriové optimalizace</string>
 </resources>
