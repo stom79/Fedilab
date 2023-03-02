@@ -1013,4 +1013,9 @@
     <string name="set_alt_text_mandatory">Zorunlu medya açıklamaları</string>
     <string name="truncate_links">Bağlantıları kırp</string>
     <string name="truncate_links_max">Bağlantılardaki en fazla karakter sayısı</string>
+    <string name="set_alt_text_mandatory_description_warn">Eksik medya varsa, mesajı medya açıklaması olmadan gönderme olanağı sunan bir iletişim kutusu görüntülenecektir</string>
+    <string name="set_remove_battery">Pil iyileştirmelerini yoksay</string>
+    <string name="set_autoplay_gif">Canlandırmalı medyayı otomatik oynat</string>
+    <string name="send_anyway">Yine de gönder</string>
+    <string name="set_alt_text_mandatory_warn">Yalnızca uyar</string>
 </resources>

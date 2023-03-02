@@ -1013,4 +1013,9 @@
     <string name="set_alt_text_mandatory_description">如果媒体缺少描述，则不会发送消息</string>
     <string name="truncate_links_max">链接的最大字符数</string>
     <string name="truncate_links">截断链接</string>
+    <string name="send_anyway">仍然发送</string>
+    <string name="set_alt_text_mandatory_warn">仅警告</string>
+    <string name="set_alt_text_mandatory_description_warn">如果缺少媒体，将显示一个对话框，以发送没有媒体描述的消息</string>
+    <string name="set_remove_battery">忽略电池优化</string>
+    <string name="set_autoplay_gif">自动播放动画媒体</string>
 </resources>
