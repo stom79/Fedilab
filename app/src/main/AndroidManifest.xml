@@ -25,6 +25,8 @@
     <application
         android:name="app.fedilab.android.MainApplication"
         android:allowBackup="false"
+        android:dataExtractionRules="@xml/extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
         android:configChanges="orientation|screenSize"
         android:icon="@mipmap/ic_launcher_bubbles"
         android:label="@string/app_name"
