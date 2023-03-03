@@ -679,13 +679,14 @@ public class TimelinesVM extends AndroidViewModel {
     public LiveData<List<MastodonList>> getLists(@NonNull String instance, String token) {
         mastodonListListMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(instance);
-        List<MastodonList> mastodonListList = new ArrayList<>();
         new Thread(() -> {
+            List<MastodonList> mastodonListList = null;
             Call<List<MastodonList>> getListsCall = mastodonTimelinesService.getLists(token);
             if (getListsCall != null) {
                 try {
                     Response<List<MastodonList>> getListsResponse = getListsCall.execute();
                     if (getListsResponse.isSuccessful()) {
+                        mastodonListList = new ArrayList<>();
                         List<MastodonList> mastodonLists = getListsResponse.body();
                         if (mastodonLists != null) {
                             mastodonListList.addAll(mastodonLists);
@@ -696,7 +697,8 @@ public class TimelinesVM extends AndroidViewModel {
                 }
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            Runnable myRunnable = () -> mastodonListListMutableLiveData.setValue(mastodonListList);
+            List<MastodonList> finalMastodonListList = mastodonListList;
+            Runnable myRunnable = () -> mastodonListListMutableLiveData.setValue(finalMastodonListList);
             mainHandler.post(myRunnable);
         }).start();
         return mastodonListListMutableLiveData;

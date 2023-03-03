@@ -243,9 +243,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             if (b != null) {
                 if (b.getBoolean(Helper.RECEIVE_REDRAW_TOPBAR, false)) {
                     List<MastodonList> mastodonLists = (List<MastodonList>) b.getSerializable(Helper.RECEIVE_MASTODON_LIST);
-                    if (mastodonLists != null && mastodonLists.size() == 0) {
-                        mastodonLists = null;
-                    }
                     redrawPinned(mastodonLists);
                 }
                 if (b.getBoolean(Helper.RECEIVE_REDRAW_BOTTOM, false)) {
@@ -1227,12 +1224,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, null);
                             //Fetch remote lists for the authenticated account and update them
                             new ViewModelProvider(BaseMainActivity.this).get(TimelinesVM.class).getLists(currentInstance, currentToken)
-                                    .observe(this, mastodonLists -> {
-                                        if (mastodonLists != null && mastodonLists.size() == 0) {
-                                            mastodonLists = null;
-                                        }
-                                                PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, mastodonLists);
-                                            }
+                                    .observe(this, mastodonLists ->
+                                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, mastodonLists)
                                     );
                         });
 
