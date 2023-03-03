@@ -1015,4 +1015,9 @@
     <string name="truncate_links_max">Maximale Buchstabenanzahl in Links</string>
     <string name="set_alt_text_mandatory">Verpflichtende Medienbeschreibungen</string>
     <string name="set_alt_text_mandatory_description">Der Beitrag wird nicht versendet, wenn die Beschreibung für Medien fehlt</string>
+    <string name="set_alt_text_mandatory_warn">Nur Warnen</string>
+    <string name="set_alt_text_mandatory_description_warn">Wenn Medien fehlen, wird ein Dialog mit der Möglichkeit angezeigt, die Nachricht ohne Medienbeschreibung zu senden</string>
+    <string name="send_anyway">Trotzdem versenden</string>
+    <string name="set_autoplay_gif">Animierte Medien automatisch wiedergeben</string>
+    <string name="set_remove_battery">Batterie-Optimierungen ignorieren</string>
 </resources>
