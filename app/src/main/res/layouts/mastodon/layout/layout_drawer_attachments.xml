@@ -6,9 +6,9 @@
     android:id="@+id/media_container"
     android:layout_height="300dp">
 
-    <include
+
+    <RelativeLayout
         android:id="@+id/media1_container"
-        layout="@layout/layout_media"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="1dp"
@@ -17,9 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
+    <RelativeLayout
         android:id="@+id/media2_container"
-        layout="@layout/layout_media"
         android:layout_width="0dp"
         android:layout_margin="1dp"
         android:layout_height="0dp"
@@ -30,9 +29,8 @@
         app:layout_constraintStart_toEndOf="@id/media1_container"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
+    <RelativeLayout
         android:id="@+id/media3_container"
-        layout="@layout/layout_media"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="1dp"
@@ -44,9 +42,8 @@
         app:layout_constraintTop_toBottomOf="@+id/media1_container" />
 
 
-    <include
+    <RelativeLayout
         android:id="@+id/media4_container"
-        layout="@layout/layout_media"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="1dp"
