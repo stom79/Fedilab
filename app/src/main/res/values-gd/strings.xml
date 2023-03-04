@@ -230,7 +230,6 @@
     <string name="undo">Neo-dhèan</string>
     <string name="gnu_instance">Ionstans GNU</string>
     <string name="category_music">Ceòl</string>
-    <string name="also_favourite_by"></string>
     <string name="blocked_domains">Àrainnean bacte</string>
     <string name="muted_menu_home">Cleachdaichean mùchte na dachaighe</string>
     <string name="settings_custom_sharing_url">An t-URL co-roinnidh gnàthaichte agad…</string>
@@ -296,7 +295,6 @@
     <string name="label_filter">Criathrag</string>
     <string name="category_activism">Iomairteachd</string>
     <string name="category_games">Geamaireachd</string>
-    <string name="account_created_message"></string>
     <string name="save_changes">Sàbhail na h-atharraichean</string>
     <string name="show_privates">Sell na teachdaireachdan dìreach</string>
     <string name="set_led_colour">Suidhich dath an LED:</string>
