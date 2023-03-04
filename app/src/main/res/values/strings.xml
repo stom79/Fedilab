@@ -1645,6 +1645,8 @@
         <item>u+1f6a9</item>
     </string-array>
     <string name="pref_category_key_account" translatable="false">pref_category_account</string>
+    <string name="pref_category_show_data" translatable="false">pref_category_show_data</string>
+
     <string name="pref_category_key_timeline" translatable="false">pref_category_timeline</string>
     <string name="pref_category_key_notifications" translatable="false">pref_category_notifications</string>
     <string name="pref_category_key_interface" translatable="false">pref_category_interface</string>
@@ -1927,4 +1929,6 @@
     <string name="send_anyway">Send anyway</string>
     <string name="set_remove_battery">Ignore battery optimizations</string>
     <string name="set_autoplay_gif">Autoplay animated media</string>
+    <string name="no_cached_messages">No Home cached messages!</string>
+    <string name="check_home_cache">Check Home cache</string>
 </resources>

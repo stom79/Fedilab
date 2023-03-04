@@ -15,10 +15,12 @@ package app.fedilab.android.mastodon.ui.fragment.settings;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.preference.ListPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
@@ -29,6 +31,7 @@ import androidx.work.WorkManager;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.mastodon.activities.CheckHomeCacheActivity;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.jobs.FetchHomeWorker;
 import es.dmoral.toasty.Toasty;
@@ -64,6 +67,15 @@ public class FragmentHomeCacheSettings extends PreferenceFragmentCompat implemen
         if (SET_FETCH_HOME_DELAY_VALUE != null) {
             String timeRefresh = sharedpreferences.getString(getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + MainActivity.currentUserID + MainActivity.currentInstance, "60");
             SET_FETCH_HOME_DELAY_VALUE.setValue(timeRefresh);
+        }
+
+
+        Preference pref_category_show_data = findPreference(getString(R.string.pref_category_show_data));
+        if (pref_category_show_data != null) {
+            pref_category_show_data.setOnPreferenceClickListener(preference -> {
+                startActivity(new Intent(requireActivity(), CheckHomeCacheActivity.class));
+                return false;
+            });
         }
     }
 

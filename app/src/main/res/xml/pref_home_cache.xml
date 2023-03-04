@@ -23,4 +23,11 @@
         app:title="@string/type_of_home_delay_title"
         app:useSimpleSummaryProvider="true" />
 
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/check_home_cache"
+        app:icon="@drawable/baseline_show_chart_24"
+        app:iconSpaceReserved="false"
+        app:key="@string/pref_category_show_data" />
 </PreferenceScreen>

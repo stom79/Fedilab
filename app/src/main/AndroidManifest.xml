@@ -265,7 +265,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_about"
             android:theme="@style/AppThemeBar" />
-
+        <activity
+            android:name=".mastodon.activities.CheckHomeCacheActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/home_cache"
+            android:theme="@style/AppThemeBar" />
         <activity
             android:name=".mastodon.activities.admin.AdminDomainBlockActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

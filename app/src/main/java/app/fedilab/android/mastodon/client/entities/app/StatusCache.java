@@ -230,6 +230,28 @@ public class StatusCache {
     }
 
     /**
+     * get all cache messages for home
+     *
+     * @param baseAccount Status {@link BaseAccount}
+     * @return List<Status>
+     * @throws DBException Exception
+     */
+    public List<Status> getHome(BaseAccount baseAccount) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        String selection = Sqlite.COL_INSTANCE + "='" + baseAccount.instance + "' AND " + Sqlite.COL_USER_ID + "= '" + baseAccount.user_id + "' AND " + Sqlite.COL_SLUG + "= '" + Timeline.TimeLineEnum.HOME.getValue() + "' ";
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + " ASC", null);
+            return cursorToListOfStatuses(c);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
      * count messages for other timelines
      *
      * @param baseAccount Status {@link BaseAccount}
