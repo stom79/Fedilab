@@ -1931,4 +1931,5 @@
     <string name="set_autoplay_gif">Autoplay animated media</string>
     <string name="no_cached_messages">No Home cached messages!</string>
     <string name="check_home_cache">Check Home cache</string>
+    <string name="messages">%1$d cached messages</string>
 </resources>

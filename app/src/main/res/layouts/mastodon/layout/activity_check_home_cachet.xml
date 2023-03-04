@@ -25,8 +25,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:indeterminate="true" />
+
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
