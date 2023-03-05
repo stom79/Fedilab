@@ -15,15 +15,15 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM.sortAsc;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.annotation.Nullable;
 
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.MarkerView;
@@ -40,6 +40,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,6 +59,8 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
 
     private ActivityCheckHomeCachetBinding binding;
     private List<Status> statuses;
+
+    private List<Status> statusesDay;
     private ArrayList<String> xVals;
 
     @Override
@@ -74,67 +77,101 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
             finish();
             return;
         }
+        drawCacheGraph(range.ALL);
+        binding.chartToggle.setOnCheckedChangeListener((compoundButton, checked) -> drawCacheGraph(checked ? range.DAY : range.ALL));
+    }
 
+    private void drawCacheGraph(range myRange) {
+        binding.chartContainer.setVisibility(View.GONE);
+        binding.progress.setVisibility(View.VISIBLE);
         new Thread(() -> {
             try {
-                statuses = new StatusCache(this).getHome(MainActivity.currentAccount);
-                if (statuses == null || statuses.size() < 2) {
+                if (myRange == range.ALL) {
+                    if (statuses == null) {
+                        statuses = new StatusCache(this).getHome(MainActivity.currentAccount);
+                        sortAsc(statuses);
+                    }
+                } else if (myRange == range.DAY) {
+                    if (statusesDay == null) {
+                        statusesDay = new ArrayList<>();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.add(Calendar.DAY_OF_YEAR, -1);
+                        for (Status status : statuses) {
+                            if (status.created_at.after(calendar.getTime())) {
+                                statusesDay.add(status);
+                            }
+                        }
+                    }
+                }
+                if ((statuses == null || statuses.size() < 2) && myRange == range.ALL) {
                     runOnUiThread(() -> binding.noAction.setVisibility(View.VISIBLE));
                     return;
                 }
+                if ((statusesDay == null || statusesDay.size() < 2) && myRange == range.DAY) {
+                    runOnUiThread(() -> binding.noAction.setVisibility(View.VISIBLE));
+                    return;
+                }
+
+                List<Status> statusToAnalyse = new ArrayList<>();
+                if (myRange == range.ALL) {
+                    statusToAnalyse.addAll(statuses);
+                } else {
+                    statusToAnalyse.addAll(statusesDay);
+                }
+                Date firstMessageDate = statusToAnalyse.get(0).created_at;
+                Date lastMessageDate = statusToAnalyse.get(statusToAnalyse.size() - 1).created_at;
+                long diff = lastMessageDate.getTime() - firstMessageDate.getTime();
+                int numberOfHour = (int) Math.ceil((double) diff / (1000 * 60 * 60));
+                List<GraphElement> graphElements = new ArrayList<>();
+                xVals = new ArrayList<>();
+                String xDateH;
+                SimpleDateFormat df;
+                String xDateD;
+                String xDate;
+                for (int i = 0; i < numberOfHour; i++) {
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(firstMessageDate);
+                    calendar.add(Calendar.HOUR, i);
+
+                    xDateH = new SimpleDateFormat("hh", Locale.getDefault()).format(calendar.getTime());
+                    df = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+                    xDateD = df.format(calendar.getTime());
+                    xDate = xDateD + " " + String.format(Locale.getDefault(), "%sh", xDateH);
+                    xVals.add(xDate);
+                    GraphElement graphElement = new GraphElement();
+                    graphElement.dateLabel = xDate;
+                    int count = 0;
+                    for (Status status : statusToAnalyse) {
+                        xDateH = new SimpleDateFormat("hh", Locale.getDefault()).format(status.created_at);
+                        df = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+                        xDateD = df.format(status.created_at.getTime());
+                        xDate = xDateD + " " + String.format(Locale.getDefault(), "%sh", xDateH);
+                        if (xDate.equalsIgnoreCase(graphElement.dateLabel)) {
+                            count++;
+                        }
+                    }
+                    graphElement.count = count;
+                    graphElements.add(graphElement);
+                }
+
                 runOnUiThread(() -> {
 
                     binding.progress.setVisibility(View.GONE);
-                    binding.chart.setVisibility(View.VISIBLE);
-                    binding.chart.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                        @Override
-                        public void onGlobalLayout() {
-                            binding.chart.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            int height = (binding.chart.getWidth());
-                            LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
-                            binding.chart.setLayoutParams(params);
-                            binding.chart.setVisibility(View.VISIBLE);
-                        }
-                    });
-                    xVals = new ArrayList<>();
-                    String xDate;
-                    int inc = 0;
+                    binding.chartContainer.setVisibility(View.VISIBLE);
+
                     //We loop through cache
                     List<Entry> statusEntry = new ArrayList<>();
-                    int index = 0;
-                    for (Status status : statuses) {
-                        //We aggregate message in same hour range
-                        boolean sameHourRange = true;
-                        int count = 0;
-                        while (inc < statuses.size() && sameHourRange) {
-                            Calendar currentStatusDate = Calendar.getInstance();
-                            currentStatusDate.setTime(statuses.get(inc).created_at);
-                            String xDateH = new SimpleDateFormat("hh", Locale.getDefault()).format(statuses.get(inc).created_at);
-                            SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
-                            String xDateD = df.format(statuses.get(inc).created_at);
-                            xDate = xDateD + " " + String.format(Locale.getDefault(), "%sh", xDateH);
-                            if (inc + 1 < statuses.size()) {
-                                Calendar nextStatusDate = Calendar.getInstance();
-                                nextStatusDate.setTime(statuses.get(inc + 1).created_at);
-                                if (currentStatusDate.get(Calendar.HOUR) != nextStatusDate.get(Calendar.HOUR)) {
-                                    sameHourRange = false;
-                                    statusEntry.add(new Entry(index, count));
-                                    index++;
-                                    xVals.add(xDate);
-                                } else {
-                                    count++;
-                                }
-                            } else { //Last item
-                                count++;
-                                statusEntry.add(new Entry(index, count));
-                                xVals.add(xDate);
-                            }
-                            inc++;
-                        }
+
+                    int inc = 0;
+                    for (GraphElement ge : graphElements) {
+                        statusEntry.add(new Entry(inc, ge.count));
+                        inc++;
                     }
                     List<ILineDataSet> dataSets = new ArrayList<>();
-
                     LineDataSet dataStatus = new LineDataSet(statusEntry, getString(R.string.cached_messages));
+                    dataStatus.setColor(ThemeHelper.getAttColor(this, R.attr.colorPrimary));
+                    dataStatus.setFillColor(ThemeHelper.getAttColor(this, R.attr.colorPrimary));
                     dataStatus.setDrawValues(false);
                     dataStatus.setDrawFilled(true);
                     dataStatus.setDrawCircles(false);
@@ -153,7 +190,6 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                                 return "";
                         }
                     };
-
                     binding.chart.setExtraBottomOffset(80);
                     //  binding.chart.getXAxis().setGranularity(1f);
                     binding.chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -184,9 +220,35 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                 throw new RuntimeException(e);
             }
         }).start();
-
     }
 
+    public enum range {
+        ALL,
+        DAY
+    }
+
+    public static class GraphElement {
+        String dateLabel;
+        int count;
+
+        @Override
+        public boolean equals(@Nullable Object obj) {
+            boolean same = false;
+            if (obj instanceof GraphElement) {
+                same = this.dateLabel.equals(((GraphElement) obj).dateLabel);
+            }
+            return same;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public class CustomMarkerView extends MarkerView {
 
@@ -214,20 +276,11 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
         public MPPointF getOffset() {
             if (mOffset == null) {
                 // center the marker horizontally and vertically
-                mOffset = new MPPointF(-(getWidth() / 2), -getHeight());
+                mOffset = new MPPointF(-(int) (getWidth() / 2), -getHeight());
             }
 
             return mOffset;
         }
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
