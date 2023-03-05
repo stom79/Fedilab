@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.client.endpoints.MastodonTimelinesService;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.Status;
@@ -48,6 +49,7 @@ import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
+import app.fedilab.android.mastodon.client.entities.app.TimelineCacheLogs;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
@@ -161,16 +163,21 @@ public class FetchHomeWorker extends Worker {
                 .getDefaultSharedPreferences(context);
         boolean fetch_home = prefs.getBoolean(context.getString(R.string.SET_FETCH_HOME) + account.user_id + account.instance, false);
 
+        boolean failed = false;
+        int fetched = 0, inserted = 0, updated = 0, frequency = 0;
+        String timeRefresh = prefs.getString(context.getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + MainActivity.currentUserID + MainActivity.currentInstance, "60");
+        try {
+            frequency = Integer.parseInt(timeRefresh);
+        } catch (Exception ignored) {
+        }
         if (fetch_home) {
-            int max_calls = 5;
-            int status_per_page = 80;
+            int max_calls = 10;
+            int status_per_page = 40;
             //Browse last 400 home messages
             boolean canContinue = true;
             int call = 0;
             String max_id = null;
             MastodonTimelinesService mastodonTimelinesService = init(account.instance);
-            int insertValue = 0;
-            StatusCache lastStatusCache = null;
             while (canContinue && call < max_calls) {
                 Call<List<Status>> homeCall = mastodonTimelinesService.getHome(account.token, max_id, null, null, status_per_page, null);
                 if (homeCall != null) {
@@ -178,6 +185,7 @@ public class FetchHomeWorker extends Worker {
                     if (homeResponse.isSuccessful()) {
                         List<Status> statusList = homeResponse.body();
                         if (statusList != null && statusList.size() > 0) {
+                            fetched += statusList.size();
                             for (Status status : statusList) {
                                 StatusCache statusCacheDAO = new StatusCache(getApplicationContext());
                                 StatusCache statusCache = new StatusCache();
@@ -186,9 +194,13 @@ public class FetchHomeWorker extends Worker {
                                 statusCache.status = status;
                                 statusCache.type = Timeline.TimeLineEnum.HOME;
                                 statusCache.status_id = status.id;
-                                lastStatusCache = statusCache;
                                 try {
-                                    insertValue = statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
+                                    int insertOrUpdate = statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
+                                    if (insertOrUpdate == 1) {
+                                        inserted++;
+                                    } else {
+                                        updated++;
+                                    }
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }
@@ -205,27 +217,36 @@ public class FetchHomeWorker extends Worker {
                         }
                     } else {
                         canContinue = false;
+                        failed = true;
                     }
+                } else {
+                    canContinue = false;
+                    failed = true;
                 }
                 //Pause between calls (1 second)
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 call++;
             }
-            //insertValue is for last status and equals zero if updated or 1 if inserted
-            if (lastStatusCache != null && insertValue == 1) { //Last inserted message was not in cache.
-                StatusCache statusCacheDAO = new StatusCache(getApplicationContext());
-                lastStatusCache.status.isFetchMore = true;
-                lastStatusCache.status.positionFetchMore = Status.PositionFetchMore.TOP;
-                try {
-                    statusCacheDAO.updateIfExists(lastStatusCache);
-                } catch (DBException e) {
-                    throw new RuntimeException(e);
-                }
+            TimelineCacheLogs timelineCacheLogs = new TimelineCacheLogs();
+            timelineCacheLogs.frequency = frequency;
+            timelineCacheLogs.fetched = fetched;
+            timelineCacheLogs.failed = failed ? 1 : 0;
+            timelineCacheLogs.updated = updated;
+            timelineCacheLogs.inserted = inserted;
+            timelineCacheLogs.slug = Timeline.TimeLineEnum.HOME.getValue();
+            timelineCacheLogs.type = Timeline.TimeLineEnum.HOME;
+            timelineCacheLogs.user_id = account.user_id;
+            timelineCacheLogs.instance = account.instance;
+            try {
+                new TimelineCacheLogs(context).insert(timelineCacheLogs);
+            } catch (DBException e) {
+                throw new RuntimeException(e);
             }
+
         }
     }
 

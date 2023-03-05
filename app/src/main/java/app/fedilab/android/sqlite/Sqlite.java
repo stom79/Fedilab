@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 10;
+    public static final int DB_VERSION = 11;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -99,10 +99,12 @@ public class Sqlite extends SQLiteOpenHelper {
     public static final String COL_UPDATED = "UPDATED";
     public static final String COL_FAILED = "FAILED";
     public static final String COL_FREQUENCY = "FREQUENCY";
-    public static final String COL_FETCHED_COUNT = "FETCHED_COUNT";
+    public static final String COL_FETCHED = "FETCHED";
 
     public static final String TABLE_CACHE_TAGS = "CACHE_TAGS";
     public static final String COL_TAG = "TAG";
+
+    public static final String TABLE_TIMELINE_CACHE_LOGS = "TIMELINE_CACHE_LOGS";
 
 
     private static final String CREATE_TABLE_USER_ACCOUNT = "CREATE TABLE " + TABLE_USER_ACCOUNT + " ("
@@ -219,6 +221,21 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COL_TAG + " TEXT NOT NULL)";
 
+    private final String CREATE_TABLE_TIMELINE_CACHE_LOGS = "CREATE TABLE "
+            + TABLE_TIMELINE_CACHE_LOGS + "("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_INSTANCE + " TEXT NOT NULL, "
+            + COL_USER_ID + " TEXT NOT NULL, "
+            + COL_FETCHED + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_INSERTED + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_UPDATED + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_FAILED + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_FREQUENCY + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_SLUG + " TEXT NOT NULL, "
+            + COL_TYPE + " TEXT NOT NULL, "
+            + COL_CREATED_AT + " TEXT NOT NULL)";
+
+
     public static SQLiteDatabase db;
     private static Sqlite sInstance;
 
@@ -251,6 +268,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_MUTED);
         db.execSQL(CREATE_TABLE_STORED_INSTANCES);
         db.execSQL(CREATE_TABLE_CACHE_TAGS);
+        db.execSQL(CREATE_TABLE_TIMELINE_CACHE_LOGS);
     }
 
     @Override
@@ -281,6 +299,8 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL(CREATE_TABLE_STORED_INSTANCES);
             case 9:
                 db.execSQL(CREATE_TABLE_CACHE_TAGS);
+            case 10:
+                db.execSQL(CREATE_TABLE_TIMELINE_CACHE_LOGS);
             default:
                 break;
         }
