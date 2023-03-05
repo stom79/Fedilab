@@ -92,7 +92,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                         sortAsc(statuses);
                     }
                 } else if (myRange == range.DAY) {
-                    if (statusesDay == null) {
+                    if (statusesDay == null && statuses != null) {
                         statusesDay = new ArrayList<>();
                         Calendar calendar = Calendar.getInstance();
                         calendar.add(Calendar.DAY_OF_YEAR, -1);
@@ -134,7 +134,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                     calendar.setTime(firstMessageDate);
                     calendar.add(Calendar.HOUR, i);
 
-                    xDateH = new SimpleDateFormat("hh", Locale.getDefault()).format(calendar.getTime());
+                    xDateH = new SimpleDateFormat("HH", Locale.getDefault()).format(calendar.getTime());
                     df = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
                     xDateD = df.format(calendar.getTime());
                     xDate = xDateD + " " + String.format(Locale.getDefault(), "%sh", xDateH);
@@ -143,7 +143,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                     graphElement.dateLabel = xDate;
                     int count = 0;
                     for (Status status : statusToAnalyse) {
-                        xDateH = new SimpleDateFormat("hh", Locale.getDefault()).format(status.created_at);
+                        xDateH = new SimpleDateFormat("HH", Locale.getDefault()).format(status.created_at);
                         df = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
                         xDateD = df.format(status.created_at.getTime());
                         xDate = xDateD + " " + String.format(Locale.getDefault(), "%sh", xDateH);
@@ -266,7 +266,9 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
         // content (user-interface)
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
-            tvContent.setText(getString(R.string.messages, (int) e.getY()) + "\r\n" + xVals.get((int) e.getX()));
+            if (xVals.size() > (int) e.getX()) {
+                tvContent.setText(getString(R.string.messages, (int) e.getY()) + "\r\n" + xVals.get((int) e.getX()));
+            }
 
             // this will perform necessary layouting
             super.refreshContent(e, highlight);
