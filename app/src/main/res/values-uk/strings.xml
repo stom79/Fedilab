@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_about">Про додаток</string>
+    <string name="action_about">Про застосунок</string>
     <string name="action_about_instance">Про екземпляр</string>
     <string name="action_privacy">Політики конфіденційності</string>
     <string name="action_cache">Кеш</string>
