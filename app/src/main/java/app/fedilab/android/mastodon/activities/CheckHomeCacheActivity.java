@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.mastodon.helper.Helper.dateDiffFull;
 import static app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM.sortAsc;
 
 import android.content.Context;
@@ -24,10 +25,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -49,6 +57,7 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityCheckHomeCachetBinding;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
+import app.fedilab.android.mastodon.client.entities.app.TimelineCacheLogs;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import es.dmoral.toasty.Toasty;
@@ -59,9 +68,14 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
 
     private ActivityCheckHomeCachetBinding binding;
     private List<Status> statuses;
-
+    private List<TimelineCacheLogs> timelineCacheLogsList;
     private List<Status> statusesDay;
+    private List<TimelineCacheLogs> timelineCacheLogsDayList;
     private ArrayList<String> xVals;
+
+    private ArrayList<String> xVals2;
+
+    private List<TimelineCacheLogs> timelineCacheLogsListToAnalyse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +92,16 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
             return;
         }
         drawCacheGraph(range.ALL);
-        binding.chartToggle.setOnCheckedChangeListener((compoundButton, checked) -> drawCacheGraph(checked ? range.DAY : range.ALL));
+        drawCacheLogsGraph(range.ALL);
+        binding.chartToggle.setOnCheckedChangeListener((compoundButton, checked) -> {
+            drawCacheGraph(checked ? range.DAY : range.ALL);
+            drawCacheLogsGraph(checked ? range.DAY : range.ALL);
+        });
     }
 
     private void drawCacheGraph(range myRange) {
-        binding.chartContainer.setVisibility(View.GONE);
         binding.progress.setVisibility(View.VISIBLE);
+        binding.chartToggle.setEnabled(false);
         new Thread(() -> {
             try {
                 if (myRange == range.ALL) {
@@ -104,11 +122,11 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                     }
                 }
                 if ((statuses == null || statuses.size() < 2) && myRange == range.ALL) {
-                    runOnUiThread(() -> binding.noAction.setVisibility(View.VISIBLE));
+                    runOnUiThread(() -> binding.chartToggle.setEnabled(true));
                     return;
                 }
                 if ((statusesDay == null || statusesDay.size() < 2) && myRange == range.DAY) {
-                    runOnUiThread(() -> binding.noAction.setVisibility(View.VISIBLE));
+                    runOnUiThread(() -> binding.chartToggle.setEnabled(true));
                     return;
                 }
 
@@ -156,9 +174,8 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                 }
 
                 runOnUiThread(() -> {
-
+                    binding.chartToggle.setEnabled(true);
                     binding.progress.setVisibility(View.GONE);
-                    binding.chartContainer.setVisibility(View.VISIBLE);
 
                     //We loop through cache
                     List<Entry> statusEntry = new ArrayList<>();
@@ -215,7 +232,171 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
 
 
             } catch (DBException | NegativeArraySizeException e) {
-                binding.noAction.setVisibility(View.VISIBLE);
+                Toasty.error(this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                throw new RuntimeException(e);
+            }
+        }).start();
+    }
+
+
+    private void drawCacheLogsGraph(range myRange) {
+        binding.progress2.setVisibility(View.VISIBLE);
+        new Thread(() -> {
+            xVals2 = new ArrayList<>();
+            try {
+                if (myRange == range.ALL) {
+                    if (timelineCacheLogsList == null) {
+                        timelineCacheLogsList = new TimelineCacheLogs(this).getHome(MainActivity.currentAccount);
+                    }
+                } else if (myRange == range.DAY) {
+                    if (timelineCacheLogsDayList == null && timelineCacheLogsList != null) {
+                        timelineCacheLogsDayList = new ArrayList<>();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.add(Calendar.DAY_OF_YEAR, -1);
+                        for (TimelineCacheLogs timelineCacheLogs : timelineCacheLogsList) {
+                            if (timelineCacheLogs.created_at.after(calendar.getTime())) {
+                                timelineCacheLogsDayList.add(timelineCacheLogs);
+                            }
+                        }
+                    }
+                }
+                if ((timelineCacheLogsList == null || timelineCacheLogsList.size() < 2) && myRange == range.ALL) {
+                    return;
+                }
+                if ((timelineCacheLogsDayList == null || timelineCacheLogsDayList.size() < 2) && myRange == range.DAY) {
+                    return;
+                }
+
+                timelineCacheLogsListToAnalyse = new ArrayList<>();
+                if (myRange == range.ALL) {
+                    timelineCacheLogsListToAnalyse.addAll(timelineCacheLogsList);
+                } else {
+                    timelineCacheLogsListToAnalyse.addAll(timelineCacheLogsDayList);
+                }
+                List<BarEntry> failEntry = new ArrayList<>();
+                List<Entry> updateEntry = new ArrayList<>();
+                List<Entry> insertEntry = new ArrayList<>();
+                List<Entry> frequencyEntry = new ArrayList<>();
+                List<Entry> fetchedEntry = new ArrayList<>();
+                int inc = 0;
+                for (TimelineCacheLogs timelineCacheLogs : timelineCacheLogsListToAnalyse) {
+                    //X-Axis
+                    SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+                    String xDate = df.format(timelineCacheLogs.created_at);
+                    xVals2.add(xDate);
+                    //Entries
+                    failEntry.add(new BarEntry(inc, timelineCacheLogs.failed));
+                    updateEntry.add(new Entry(inc, timelineCacheLogs.updated));
+                    insertEntry.add(new Entry(inc, timelineCacheLogs.inserted));
+                    frequencyEntry.add(new Entry(inc, timelineCacheLogs.frequency));
+                    fetchedEntry.add(new Entry(inc, timelineCacheLogs.fetched));
+                    inc++;
+                }
+
+
+                runOnUiThread(() -> {
+                    binding.progress2.setVisibility(View.GONE);
+
+                    LineData lineData = new LineData();
+                    BarData barDataFailed = new BarData();
+
+                    BarDataSet dataFailed = new BarDataSet(failEntry, getString(R.string.fails));
+                    LineDataSet dataNewMessage = new LineDataSet(insertEntry, getString(R.string.new_messages));
+                    LineDataSet dataUpdatedMessage = new LineDataSet(updateEntry, getString(R.string.updated_messages));
+                    LineDataSet dataFrequency = new LineDataSet(frequencyEntry, getString(R.string.frequency_minutes));
+                    LineDataSet dataFetched = new LineDataSet(fetchedEntry, getString(R.string.total_fetched));
+
+                    dataFailed.setColor(ContextCompat.getColor(CheckHomeCacheActivity.this, R.color.errorColor));
+                    dataFailed.setDrawValues(false);
+                    dataFailed.setAxisDependency(YAxis.AxisDependency.RIGHT);
+                    barDataFailed.addDataSet(dataFailed);
+
+                    dataNewMessage.setColor(ContextCompat.getColor(CheckHomeCacheActivity.this, R.color.decoration_1));
+                    dataNewMessage.setFillColor(ContextCompat.getColor(CheckHomeCacheActivity.this, R.color.transparent));
+                    dataNewMessage.setDrawValues(false);
+                    dataNewMessage.setDrawFilled(true);
+                    dataNewMessage.setDrawCircles(false);
+                    dataNewMessage.setDrawCircleHole(false);
+                    dataNewMessage.setAxisDependency(YAxis.AxisDependency.LEFT);
+                    dataNewMessage.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                    lineData.addDataSet(dataNewMessage);
+
+                    dataUpdatedMessage.setColor(ContextCompat.getColor(CheckHomeCacheActivity.this, R.color.decoration_2));
+                    dataUpdatedMessage.setFillColor(ContextCompat.getColor(CheckHomeCacheActivity.this, R.color.transparent));
+                    dataUpdatedMessage.setDrawValues(false);
+                    dataUpdatedMessage.setDrawFilled(true);
+                    dataUpdatedMessage.setDrawCircles(false);
+                    dataUpdatedMessage.setDrawCircleHole(false);
+                    dataUpdatedMessage.setAxisDependency(YAxis.AxisDependency.LEFT);
+                    dataUpdatedMessage.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                    lineData.addDataSet(dataUpdatedMessage);
+
+                    dataFrequency.setColor(ContextCompat.getColor(CheckHomeCacheActivity.this, R.color.decoration_3));
+                    dataFrequency.setFillColor(ContextCompat.getColor(CheckHomeCacheActivity.this, R.color.transparent));
+                    dataFrequency.setDrawValues(false);
+                    dataFrequency.setDrawFilled(true);
+                    dataFrequency.setDrawCircles(false);
+                    dataFrequency.setDrawCircleHole(false);
+                    dataFrequency.setAxisDependency(YAxis.AxisDependency.LEFT);
+                    dataFrequency.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                    lineData.addDataSet(dataFrequency);
+
+
+                    dataFetched.setColor(ContextCompat.getColor(CheckHomeCacheActivity.this, R.color.decoration_4));
+                    dataFetched.setFillColor(ContextCompat.getColor(CheckHomeCacheActivity.this, R.color.transparent));
+                    dataFetched.setDrawValues(false);
+                    dataFetched.setDrawFilled(true);
+                    dataFetched.setDrawCircles(false);
+                    dataFetched.setDrawCircleHole(false);
+                    dataFetched.setAxisDependency(YAxis.AxisDependency.LEFT);
+                    dataFetched.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                    lineData.addDataSet(dataFetched);
+
+
+                    CombinedData data = new CombinedData();
+                    data.setData(barDataFailed);
+                    data.setData(lineData);
+
+
+                    binding.chart2.setData(data);
+                    IndexAxisValueFormatter formatter = new IndexAxisValueFormatter() {
+                        @Override
+                        public String getFormattedValue(float value) {
+                            if (value < xVals2.size()) {
+                                return xVals2.get((int) value);
+                            } else
+                                return "";
+                        }
+                    };
+                    binding.chart2.setExtraBottomOffset(80);
+                    //  binding.chart.getXAxis().setGranularity(1f);
+                    binding.chart2.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                    binding.chart2.getXAxis().setLabelRotationAngle(-45f);
+                    binding.chart2.getXAxis().setValueFormatter(formatter);
+                    binding.chart2.getXAxis().setEnabled(true);
+                    binding.chart2.getXAxis().setTextColor(ThemeHelper.getAttColor(CheckHomeCacheActivity.this, R.attr.colorOnBackground));
+                    binding.chart2.getAxisLeft().setTextColor(ThemeHelper.getAttColor(CheckHomeCacheActivity.this, R.attr.colorOnBackground));
+                    binding.chart2.getAxisRight().setTextColor(ThemeHelper.getAttColor(CheckHomeCacheActivity.this, R.attr.colorOnBackground));
+                    binding.chart2.getLegend().setTextColor(ThemeHelper.getAttColor(CheckHomeCacheActivity.this, R.attr.colorOnBackground));
+                    binding.chart2.getAxisLeft().setAxisMinimum(0f);
+                    binding.chart2.getAxisRight().setAxisMinimum(0f);
+                    binding.chart2.getXAxis().setLabelCount(10, true);
+                    binding.chart2.getLegend().setEnabled(true);
+                    binding.chart2.getLegend().setOrientation(Legend.LegendOrientation.HORIZONTAL);
+                    binding.chart2.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+                    binding.chart2.getLegend().setDrawInside(false);
+                    binding.chart2.getLegend().setWordWrapEnabled(true);
+                    binding.chart2.setTouchEnabled(true);
+                    Description description = binding.chart2.getDescription();
+                    description.setEnabled(true);
+                    CustomMarkerView2 mv = new CustomMarkerView2(CheckHomeCacheActivity.this, R.layout.custom_marker_view_layout);
+                    binding.chart2.setMarkerView(mv);
+
+                    binding.chart2.invalidate();
+                });
+
+
+            } catch (DBException | NegativeArraySizeException e) {
                 Toasty.error(this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                 throw new RuntimeException(e);
             }
@@ -226,6 +407,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
         ALL,
         DAY
     }
+
 
     public static class GraphElement {
         String dateLabel;
@@ -268,6 +450,53 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
         public void refreshContent(Entry e, Highlight highlight) {
             if (xVals.size() > (int) e.getX()) {
                 tvContent.setText(getString(R.string.messages, (int) e.getY()) + "\r\n" + xVals.get((int) e.getX()));
+            }
+
+            // this will perform necessary layouting
+            super.refreshContent(e, highlight);
+        }
+
+        @Override
+        public MPPointF getOffset() {
+            if (mOffset == null) {
+                // center the marker horizontally and vertically
+                mOffset = new MPPointF(-(int) (getWidth() / 2), -getHeight());
+            }
+
+            return mOffset;
+        }
+
+    }
+
+
+    public class CustomMarkerView2 extends MarkerView {
+
+        private final TextView tvContent;
+        private MPPointF mOffset;
+
+        public CustomMarkerView2(Context context, int layoutResource) {
+            super(context, layoutResource);
+
+            // find your layout components
+            tvContent = findViewById(R.id.tvContent);
+        }
+
+        // callbacks everytime the MarkerView is redrawn, can be used to update the
+        // content (user-interface)
+        @Override
+        public void refreshContent(Entry e, Highlight highlight) {
+            if (xVals2.size() > (int) e.getX()) {
+                if (timelineCacheLogsListToAnalyse != null && (int) e.getX() < timelineCacheLogsListToAnalyse.size()) {
+                    String text = getString(R.string.fail_count, timelineCacheLogsListToAnalyse.get((int) e.getX()).failed) + "\r\n";
+                    text += getString(R.string.fetched_count, timelineCacheLogsListToAnalyse.get((int) e.getX()).fetched) + "\r\n";
+                    text += getString(R.string.inserted_count, timelineCacheLogsListToAnalyse.get((int) e.getX()).inserted) + "\r\n";
+                    text += getString(R.string.updated_count, timelineCacheLogsListToAnalyse.get((int) e.getX()).updated) + "\r\n";
+                    text += getString(R.string.frequency_count_minutes, timelineCacheLogsListToAnalyse.get((int) e.getX()).frequency) + "\r\n\r\n";
+                    text += dateDiffFull(timelineCacheLogsListToAnalyse.get((int) e.getX()).created_at);
+                    tvContent.setText(text);
+                } else {
+                    tvContent.setText(getString(R.string.messages, (int) e.getY()) + "\r\n" + xVals2.get((int) e.getX()));
+                }
             }
 
             // this will perform necessary layouting

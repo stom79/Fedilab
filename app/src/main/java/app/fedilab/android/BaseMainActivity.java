@@ -164,6 +164,7 @@ import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
+import app.fedilab.android.mastodon.client.entities.app.TimelineCacheLogs;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -350,6 +351,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
                 //Delete cache older than 7 days
                 new StatusCache(activity).deleteForAllAccountAfter7Days();
+                new TimelineCacheLogs(activity).deleteForAllAccountAfter7Days();
             } catch (DBException e) {
                 e.printStackTrace();
             }

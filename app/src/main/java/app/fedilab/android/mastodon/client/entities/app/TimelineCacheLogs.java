@@ -83,7 +83,7 @@ public class TimelineCacheLogs {
         }
         String selection = Sqlite.COL_INSTANCE + "='" + baseAccount.instance + "' AND " + Sqlite.COL_USER_ID + "= '" + baseAccount.user_id + "' AND " + Sqlite.COL_SLUG + "= '" + Timeline.TimeLineEnum.HOME.getValue() + "' ";
         try {
-            Cursor c = db.query(Sqlite.TABLE_TIMELINE_CACHE_LOGS, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + " ASC", null);
+            Cursor c = db.query(Sqlite.TABLE_TIMELINE_CACHE_LOGS, null, selection, null, null, null, Sqlite.COL_ID + " ASC", null);
             return cursorToListOfStatuses(c);
         } catch (Exception e) {
             e.printStackTrace();
