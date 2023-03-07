@@ -112,11 +112,14 @@ public class Status implements Serializable, Cloneable {
     @SerializedName("reactions")
     public List<Reaction> reactions;
 
+
+    public boolean isFetchMore = false;
+    public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
+
     public Attachment art_attachment;
     public boolean isExpended = false;
     public boolean isTruncated = true;
-    public transient boolean isFetchMore = false;
-    public transient PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
+
     public boolean isChecked = false;
     //When forwarding tags
     public boolean tagAdded = false;

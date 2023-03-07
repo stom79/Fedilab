@@ -109,7 +109,7 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
     private static void addFetchMore(List<Status> statusList, List<Status> timelineStatuses, TimelineParams timelineParams) throws DBException {
-        if (statusList != null && statusList.size() > 0 && timelineStatuses != null && timelineStatuses.size() > 0) {
+        if (statusList != null && statusList.size() > 1 && timelineStatuses != null && timelineStatuses.size() > 0) {
             sortDesc(statusList);
             if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
@@ -132,7 +132,7 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
     private static void addFetchMoreConversation(List<Conversation> conversationList, List<Conversation> timelineConversations, TimelineParams timelineParams) throws DBException {
-        if (conversationList != null && conversationList.size() > 0 && timelineConversations != null && timelineConversations.size() > 0) {
+        if (conversationList != null && conversationList.size() > 1 && timelineConversations != null && timelineConversations.size() > 0) {
             sortDescConv(conversationList);
             if (timelineParams.direction == FragmentMastodonTimeline.DIRECTION.REFRESH || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || timelineParams.direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
                 //When refreshing/scrolling to TOP, if last statuses fetched has a greater id from newest in cache, there is potential hole
