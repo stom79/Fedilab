@@ -173,8 +173,7 @@ public class FetchHomeWorker extends Worker {
         if (fetch_home) {
             int max_calls = 10;
             int status_per_page = 40;
-            int insertValue = 0;
-            StatusCache lastStatusCache = null;
+            int insertValue;
             //Browse last 400 home messages
             boolean canContinue = true;
             int call = 0;
@@ -196,7 +195,6 @@ public class FetchHomeWorker extends Worker {
                                 statusCache.status = status;
                                 statusCache.type = Timeline.TimeLineEnum.HOME;
                                 statusCache.status_id = status.id;
-                                lastStatusCache = statusCache;
                                 try {
                                     insertValue = statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
                                     if (insertValue == 1) {
@@ -248,17 +246,6 @@ public class FetchHomeWorker extends Worker {
                 new TimelineCacheLogs(context).insert(timelineCacheLogs);
             } catch (DBException e) {
                 throw new RuntimeException(e);
-            }
-            //insertValue is for last status and equals zero if updated or 1 if inserted
-            if (lastStatusCache != null && insertValue == 1) { //Last inserted message was not in cache.
-                StatusCache statusCacheDAO = new StatusCache(getApplicationContext());
-                lastStatusCache.status.isFetchMore = true;
-                lastStatusCache.status.positionFetchMore = Status.PositionFetchMore.TOP;
-                try {
-                    statusCacheDAO.updateIfExists(lastStatusCache);
-                } catch (DBException e) {
-                    throw new RuntimeException(e);
-                }
             }
         }
     }

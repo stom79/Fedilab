@@ -113,8 +113,8 @@ public class Status implements Serializable, Cloneable {
     public List<Reaction> reactions;
 
 
-    public boolean isFetchMore = false;
-    public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
+    public transient boolean isFetchMore = false;
+    public transient PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
 
     public Attachment art_attachment;
     public boolean isExpended = false;
