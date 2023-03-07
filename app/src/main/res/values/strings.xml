@@ -1932,4 +1932,18 @@
     <string name="no_cached_messages">No Home cached messages!</string>
     <string name="check_home_cache">Check Home cache</string>
     <string name="messages">%1$d cached messages</string>
+
+    <string name="chart_home_cache_logs">Home cache logs</string>
+    <string name="chart_home_cache">Home cache records per hour</string>
+    <string name="last_24_h">Last 24 hours</string>
+    <string name="fails">Fails</string>
+    <string name="new_messages">New messages</string>
+    <string name="updated_messages">Updated messages</string>
+    <string name="frequency_minutes">Frequency (minutes)</string>
+    <string name="total_fetched">Total of fetched messages</string>
+    <string name="fail_count">%d fails</string>
+    <string name="fetched_count">%d fetched messages</string>
+    <string name="inserted_count">%d new messages</string>
+    <string name="updated_count">%d updated messages</string>
+    <string name="frequency_count_minutes">%d frequency (minutes)</string>
 </resources>
