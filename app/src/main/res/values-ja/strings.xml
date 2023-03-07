@@ -207,7 +207,7 @@
     <string name="settings_time_from">開始</string>
     <string name="settings_time_to">終了</string>
     <string name="embedded_browser">アプリ内ブラウザを使用する</string>
-    <string name="custom_tabs">カスタムタブ</string>
+    <string name="custom_tabs">アプリ内ブラウザー(カスタムタブ)</string>
     <string name="expand_cw">CWを自動的に展開する</string>
     <string name="set_led_colour">LEDの色:</string>
     <string-array name="led_colours">
@@ -1000,4 +1000,14 @@
     <string name="maths_format">数式のフォーマット</string>
     <string name="boost_original_date">ブーストされた日時の代わりにブーストされた投稿の作成日時を表示する</string>
     <string name="set_disable_release_notes_indication">新しいバージョンのアプリがインストールされた後に、アプリ内で更新履歴が表示されなくなります。</string>
+    <string name="set_alt_text_mandatory_description_warn">メディアの説明がない場合、ダイアログが表示されてそこからそのまま投稿することができます</string>
+    <string name="toot_error_no_media_description">メディアの説明がありません</string>
+    <string name="truncate_links">リンクの省略</string>
+    <string name="truncate_links_max">リンクの最大文字数</string>
+    <string name="set_alt_text_mandatory">メディアの説明を必須にする</string>
+    <string name="set_remove_battery">バッテリーの最適化を無視する</string>
+    <string name="send_anyway">無視して送信</string>
+    <string name="set_alt_text_mandatory_description">メディアの説明がない投稿は送信されません</string>
+    <string name="set_alt_text_mandatory_warn">警告のみ</string>
+    <string name="set_autoplay_gif">アニメーションメディアを自動再生する</string>
 </resources>
