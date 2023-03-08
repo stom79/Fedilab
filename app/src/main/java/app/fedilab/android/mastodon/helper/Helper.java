@@ -1654,6 +1654,16 @@ public class Helper {
         }
     }
 
+
+    public static String dateDiffFullShort(Date dateToot) {
+        SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
+        try {
+            return df.format(dateToot);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     /**
      * Makes the tvDate TextView field clickable, and displays the absolute date & time of a toot
      * for 5 seconds.

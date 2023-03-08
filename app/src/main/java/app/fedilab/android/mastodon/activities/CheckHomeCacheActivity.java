@@ -16,6 +16,7 @@ package app.fedilab.android.mastodon.activities;
 
 
 import static app.fedilab.android.mastodon.helper.Helper.dateDiffFull;
+import static app.fedilab.android.mastodon.helper.Helper.dateDiffFullShort;
 import static app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM.sortAsc;
 
 import android.content.Context;
@@ -281,8 +282,8 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                 int inc = 0;
                 for (TimelineCacheLogs timelineCacheLogs : timelineCacheLogsListToAnalyse) {
                     //X-Axis
-                    SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
-                    String xDate = df.format(timelineCacheLogs.created_at);
+                    //X-Axis
+                    String xDate = dateDiffFullShort(timelineCacheLogs.created_at);
                     xVals2.add(xDate);
                     //Entries
                     failEntry.add(new BarEntry(inc, timelineCacheLogs.failed));

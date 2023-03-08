@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.client.endpoints.MastodonTimelinesService;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.Status;
@@ -165,7 +164,7 @@ public class FetchHomeWorker extends Worker {
 
         boolean failed = false;
         int fetched = 0, inserted = 0, updated = 0, frequency = 0;
-        String timeRefresh = prefs.getString(context.getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + MainActivity.currentUserID + MainActivity.currentInstance, "60");
+        String timeRefresh = prefs.getString(context.getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + account.user_id + account.instance, "60");
         try {
             frequency = Integer.parseInt(timeRefresh);
         } catch (Exception ignored) {
