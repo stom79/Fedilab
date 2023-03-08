@@ -1029,4 +1029,19 @@
     <string name="set_alt_text_mandatory_warn">Jen varovat</string>
     <string name="send_anyway">Přesto odeslat</string>
     <string name="set_remove_battery">Ignorovat bateriové optimalizace</string>
+    <string name="messages">%1$d cachovaných zpráv</string>
+    <string name="no_cached_messages">Žádné cachované domovské zprávy!</string>
+    <string name="chart_home_cache">Záznamy domovské cache za hodinu</string>
+    <string name="updated_count">%d aktualizovaných zpráv</string>
+    <string name="chart_home_cache_logs">Záznamy domovské cache</string>
+    <string name="last_24_h">Posledních 24 hodin</string>
+    <string name="fails">Selhání</string>
+    <string name="updated_messages">Aktualizované zprávy</string>
+    <string name="inserted_count">%d nových zpráv</string>
+    <string name="new_messages">Nové zprávy</string>
+    <string name="frequency_minutes">Frekvence (minuty)</string>
+    <string name="fail_count">%d selhání</string>
+    <string name="fetched_count">%d načtených zpráv</string>
+    <string name="total_fetched">Celkem načtených zpráv</string>
+    <string name="frequency_count_minutes">%d frekvence (minuty)</string>
 </resources>
