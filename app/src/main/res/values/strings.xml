@@ -1946,4 +1946,5 @@
     <string name="inserted_count">%d new messages</string>
     <string name="updated_count">%d updated messages</string>
     <string name="frequency_count_minutes">%d frequency (minutes)</string>
+    <string name="follows_you">Follows you</string>
 </resources>
