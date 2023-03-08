@@ -1,0 +1,17 @@
+Added:
+- "Follows you" indicator in accounts list
+- Settings compose: display a dialog to warn if there are missing media description (default: disabled)
+- Settings > Cache:  disable battery optimization
+- Settings > Cache - Add charts to check cache logs
+- Settings > Timelines: AutoPlay gif media (default: enabled)
+
+Changed:
+- Improve detections of gap in timelines
+- Improve media description
+- Chat view by default
+- Chat view add an indicator for messages when not direct
+
+Fixed:
+- Fix an issue with cache and fetch more
+- Cache view with large fonts
+- Bad behaviors with truncated messages
