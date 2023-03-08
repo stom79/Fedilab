@@ -74,6 +74,19 @@
             app:layout_constraintTop_toBottomOf="@id/display_name"
             tools:text="\@username@instance.test" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/follow_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/blue_border"
+            android:text="@string/follows_you"
+            android:textColor="?colorPrimary"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avatar"
+            tools:visibility="visible" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/bio"
             android:layout_width="match_parent"
@@ -82,7 +95,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            app:layout_constraintTop_toBottomOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@id/follow_indicator"
             tools:text="@tools:sample/lorem/random" />
 
         <com.google.android.material.button.MaterialButtonToggleGroup

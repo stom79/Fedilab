@@ -143,7 +143,11 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 accountViewHolder.binding.followAction.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorPrimary)));
             }
 
-
+            if (account.relationShip.followed_by) {
+                accountViewHolder.binding.followIndicator.setVisibility(View.VISIBLE);
+            } else {
+                accountViewHolder.binding.followIndicator.setVisibility(View.GONE);
+            }
             if (account.relationShip.blocking) {
                 accountViewHolder.binding.block.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorError)));
                 accountViewHolder.binding.block.setIconResource(R.drawable.ic_baseline_lock_open_24);
