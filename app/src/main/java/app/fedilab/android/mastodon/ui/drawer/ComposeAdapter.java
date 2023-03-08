@@ -31,9 +31,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,7 +56,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -72,9 +69,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -1147,24 +1143,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         popupMediaDescriptionBinding.mediaDescription.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1500)});
                         popupMediaDescriptionBinding.mediaDescription.requestFocus();
                         Glide.with(popupMediaDescriptionBinding.mediaPicture.getContext())
-                                .asBitmap()
                                 .load(attachmentPath)
-                                .into(new CustomTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                                        popupMediaDescriptionBinding.mediaPicture.setImageBitmap(resource);
-                                    }
-
-                                    @Override
-                                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                                    }
-
-                                    @Override
-                                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                                        super.onLoadFailed(errorDrawable);
-                                    }
-                                });
+                                .apply(new RequestOptions().transform(new RoundedCorners(30)))
+                                .into(popupMediaDescriptionBinding.mediaPicture);
                         builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                         if (attachment.description != null) {
                             popupMediaDescriptionBinding.mediaDescription.setText(attachment.description);
