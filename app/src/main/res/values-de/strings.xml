@@ -1020,4 +1020,18 @@
     <string name="send_anyway">Trotzdem versenden</string>
     <string name="set_autoplay_gif">Animierte Medien automatisch wiedergeben</string>
     <string name="set_remove_battery">Batterie-Optimierungen ignorieren</string>
+    <string name="chart_home_cache_logs">Zwischenspeicher-Logs der Startseite</string>
+    <string name="frequency_minutes">Frequenz (Minuten)</string>
+    <string name="total_fetched">Insgesamt abgerufene Beiträge</string>
+    <string name="frequency_count_minutes">%d Frequenz (Minuten)</string>
+    <string name="last_24_h">Letzte 24 Stunden</string>
+    <string name="fetched_count">%d abgerufene Beiträge</string>
+    <string name="check_home_cache">Überprüfe Zwischenspeicher der Startseite</string>
+    <string name="fails">Fehlversuche</string>
+    <string name="new_messages">Neue Beiträge</string>
+    <string name="updated_messages">Aktualisierte Beiträge</string>
+    <string name="fail_count">%d Fehlversuche</string>
+    <string name="updated_count">%d aktualisierte Beiträge</string>
+    <string name="messages">%1$d zwischengespeicherte Beiträge</string>
+    <string name="inserted_count">%d neue Beiträge</string>
 </resources>

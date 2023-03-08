@@ -1018,4 +1018,20 @@
     <string name="set_autoplay_gif">Canlandırmalı medyayı otomatik oynat</string>
     <string name="send_anyway">Yine de gönder</string>
     <string name="set_alt_text_mandatory_warn">Yalnızca uyar</string>
+    <string name="messages">%1$d önbelleğe alınan mesaj</string>
+    <string name="chart_home_cache">Saat başına ana sayfa önbelleği kayıtları</string>
+    <string name="last_24_h">Son 24 saat</string>
+    <string name="fails">Başarısız</string>
+    <string name="total_fetched">Alınan mesajların toplamı</string>
+    <string name="fail_count">%d başarısız</string>
+    <string name="fetched_count">%d alınan mesaj</string>
+    <string name="inserted_count">%d yeni mesaj</string>
+    <string name="updated_count">%d güncellenen mesaj</string>
+    <string name="frequency_count_minutes">%d sıklık (dakika)</string>
+    <string name="new_messages">Yeni mesajlar</string>
+    <string name="check_home_cache">Ana sayfa önbelleğini denetle</string>
+    <string name="frequency_minutes">Sıklık (dakika)</string>
+    <string name="no_cached_messages">Ana sayfa önbelleğine alınan mesaj yok!</string>
+    <string name="chart_home_cache_logs">Ana sayfa önbelleği günlükleri</string>
+    <string name="updated_messages">Güncellenen mesajlar</string>
 </resources>
