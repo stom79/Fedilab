@@ -2420,7 +2420,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             fromId = status.id;
                         }
-                        fetchMoreCallBack.onClickMinId(fromId, status);
+                        fetchMoreCallBack.onClickMinId(fromId);
                     }
                 });
                 drawerFetchMoreBinding.fetchMoreMax.setOnClickListener(v -> {
@@ -2432,7 +2432,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else {
                         fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
                     }
-                    fetchMoreCallBack.onClickMaxId(fromId, status);
+                    fetchMoreCallBack.onClickMaxId(fromId);
                     adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                 });
             } else {
@@ -2968,7 +2968,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             } else {
                                 fromId = status.id;
                             }
-                            fetchMoreCallBack.onClickMinId(fromId, status);
+                            fetchMoreCallBack.onClickMinId(fromId);
                         }
                     });
                     holder.bindingFilteredHide.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
@@ -2981,7 +2981,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
                         }
-                        fetchMoreCallBack.onClickMaxId(fromId, status);
+                        fetchMoreCallBack.onClickMaxId(fromId);
 
                     });
                 } else {
@@ -3025,7 +3025,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             fromId = status.id;
                         }
-                        fetchMoreCallBack.onClickMinId(fromId, status);
+                        fetchMoreCallBack.onClickMinId(fromId);
                     }
                 });
                 holder.bindingFiltered.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
@@ -3037,7 +3037,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else {
                         fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
                     }
-                    fetchMoreCallBack.onClickMaxId(fromId, status);
+                    fetchMoreCallBack.onClickMaxId(fromId);
                     notifyItemChanged(holder.getBindingAdapterPosition());
                 });
             } else {
@@ -3158,9 +3158,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     public interface FetchMoreCallBack {
-        void onClickMinId(String min_id, Status statusToUpdate);
+        void onClickMinId(String min_id);
 
-        void onClickMaxId(String max_id, Status statusToUpdate);
+        void onClickMaxId(String max_id);
 
         void autoFetch(String min_id, String max_id, Status status);
     }

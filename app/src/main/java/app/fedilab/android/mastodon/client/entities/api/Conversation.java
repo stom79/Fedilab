@@ -29,12 +29,12 @@ public class Conversation {
     public List<Account> accounts;
     @SerializedName("last_status")
     public Status last_status;
-    public transient boolean isFetchMore = false;
+    public boolean isFetchMore = false;
     @SerializedName("cached")
     public boolean cached = false;
 
 
-    public transient PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
+    public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
 
     @Override
     public boolean equals(@Nullable Object obj) {

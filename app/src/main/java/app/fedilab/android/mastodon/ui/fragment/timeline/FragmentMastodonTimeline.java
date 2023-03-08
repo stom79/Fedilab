@@ -176,7 +176,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         }
     };
-    private ViewPreloadSizeProvider<Attachment> preloadSizeProvider;
     private boolean checkRemotely;
     private String accountIDInRemoteInstance;
     private boolean isViewInitialized;
@@ -196,7 +195,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String publicTrendsDomain;
     private int lockForResumeCall;
     private boolean isNotPinnedTimeline;
-    private int extraCalls;
+
 
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
@@ -342,7 +341,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //Only fragment in main view pager should not have the view initialized
         //AND Only the first fragment will initialize its view
         flagLoading = false;
-        extraCalls = -1;
 
     }
 
@@ -486,7 +484,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             } else if (update != null && insertedStatus == 0 && direction == DIRECTION.REFRESH) {
                 update.onUpdate(0, timelineType, slug);
             }
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
             if (direction == DIRECTION.TOP && fetchingMissing && canScroll) {
                 int position = getAbsolutePosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1));
                 if (position != -1) {
@@ -506,26 +503,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (search != null) {
                 offset += MastodonHelper.SEARCH_PER_CALL;
             }
-            int sizeBeforeFilter = 0;
-            int filteredMessage = 0;
-            int requestedMessages = MastodonHelper.statusesPerCall(requireActivity());
-            sizeBeforeFilter = fetched_statuses.statuses.size();
-            for (Status status : fetched_statuses.statuses) {
-                if (status.filteredByApp != null) {
-                    filteredMessage++;
-                }
-            }
-            //TODO: keep for an improvement in beta
-            /*
-            int displayedMessages = sizeBeforeFilter - filteredMessage;
-            if(displayedMessages < 5 && extraCalls < 8) {
-                router(direction);
-                if(extraCalls == -1) {
-                    extraCalls = 1;
-                } else {
-                    extraCalls++;
-                }
-            }*/
         } else if (direction == DIRECTION.BOTTOM) {
             flagLoading = true;
         }
@@ -625,7 +602,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
 
-        preloadSizeProvider = new ViewPreloadSizeProvider<>();
+        ViewPreloadSizeProvider<Attachment> preloadSizeProvider = new ViewPreloadSizeProvider<>();
         RecyclerViewPreloader<Attachment> preloader =
                 new RecyclerViewPreloader<>(
                         GlideApp.with(this), statusAdapter, preloadSizeProvider, PRELOAD_AHEAD_ITEMS);
@@ -652,7 +629,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                 flagLoading = true;
                                 binding.loadingNextElements.setVisibility(View.VISIBLE);
                                 router(DIRECTION.BOTTOM);
-                                extraCalls = -1;
                             }
                         } else {
                             binding.loadingNextElements.setVisibility(View.GONE);
@@ -662,7 +638,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
                             router(DIRECTION.TOP);
-                            extraCalls = -1;
                         }
                     }
                 }
@@ -724,7 +699,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      *
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
-    private void routeCommon(DIRECTION direction, boolean fetchingMissing, Status status) {
+    private void routeCommon(DIRECTION direction, boolean fetchingMissing) {
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
@@ -881,9 +856,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         } else {
                             dealWithPagination(statusesCachedTop, DIRECTION.TOP, fetchingMissing, true);
                             //Also check remotely to detect potential holes
-                            if (fetchingMissing) {
-                                getLiveStatus(direction, true, timelineParams, false);
-                            }
+                            getLiveStatus(direction, true, timelineParams, false);
                         }
 
                     });
@@ -929,34 +902,26 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
     }
 
-    /**
-     * Router for timelines
-     *
-     * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
-     */
-    private void route(DIRECTION direction, boolean fetchingMissing) {
-        route(direction, fetchingMissing, null);
-    }
 
     /**
      * Router for timelines
      *
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
-    private void route(DIRECTION direction, boolean fetchingMissing, Status statusToUpdate) {
+    private void route(DIRECTION direction, boolean fetchingMissing) {
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
         // --- HOME TIMELINE ---
         if (timelineType == Timeline.TimeLineEnum.HOME) {
             //for more visibility it's done through loadHomeStrategy method
-            routeCommon(direction, fetchingMissing, statusToUpdate);
+            routeCommon(direction, fetchingMissing);
         } else if (timelineType == Timeline.TimeLineEnum.LOCAL) { //LOCAL TIMELINE
-            routeCommon(direction, fetchingMissing, statusToUpdate);
+            routeCommon(direction, fetchingMissing);
         } else if (timelineType == Timeline.TimeLineEnum.PUBLIC) { //PUBLIC TIMELINE
-            routeCommon(direction, fetchingMissing, statusToUpdate);
+            routeCommon(direction, fetchingMissing);
         } else if (timelineType == Timeline.TimeLineEnum.BUBBLE) { //BUBBLE TIMELINE
-            routeCommon(direction, fetchingMissing, statusToUpdate);
+            routeCommon(direction, fetchingMissing);
         } else if (timelineType == Timeline.TimeLineEnum.REMOTE) { //REMOTE TIMELINE
             //NITTER TIMELINES
             if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
@@ -1025,12 +990,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             });
                 }
             } else { //Other remote timelines
-                routeCommon(direction, fetchingMissing, statusToUpdate);
+                routeCommon(direction, fetchingMissing);
             }
         } else if (timelineType == Timeline.TimeLineEnum.LIST) { //LIST TIMELINE
-            routeCommon(direction, fetchingMissing, statusToUpdate);
+            routeCommon(direction, fetchingMissing);
         } else if (timelineType == Timeline.TimeLineEnum.TAG || timelineType == Timeline.TimeLineEnum.ART) { //TAG TIMELINE
-            routeCommon(direction, fetchingMissing, statusToUpdate);
+            routeCommon(direction, fetchingMissing);
         } else if (timelineType == Timeline.TimeLineEnum.ACCOUNT_TIMELINE) { //PROFILE TIMELINES
             String tempToken;
             String tempInstance;
@@ -1198,26 +1163,26 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     @Override
-    public void onClickMinId(String min_id, Status statusToUpdate) {
+    public void onClickMinId(String min_id) {
         //Fetch more has been pressed
         min_id_fetch_more = min_id;
-        route(DIRECTION.TOP, true, statusToUpdate);
+        route(DIRECTION.TOP, true);
     }
 
     @Override
-    public void onClickMaxId(String max_id, Status statusToUpdate) {
+    public void onClickMaxId(String max_id) {
         max_id_fetch_more = max_id;
-        route(DIRECTION.BOTTOM, true, statusToUpdate);
+        route(DIRECTION.BOTTOM, true);
     }
 
     @Override
     public void autoFetch(String min_id, String max_id, Status statusToUpdate) {
         if (scrollingUp) {
             min_id_fetch_more = min_id;
-            route(DIRECTION.TOP, true, statusToUpdate);
+            route(DIRECTION.TOP, true);
         } else {
             max_id_fetch_more = max_id;
-            route(DIRECTION.BOTTOM, true, statusToUpdate);
+            route(DIRECTION.BOTTOM, true);
         }
     }
 
