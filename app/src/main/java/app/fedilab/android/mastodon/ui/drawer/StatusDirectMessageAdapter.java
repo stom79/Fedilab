@@ -260,6 +260,26 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         }
         MastodonHelper.loadPPMastodon(holder.binding.userPp, status.account);
         holder.binding.date.setText(Helper.longDateToString(status.created_at));
+
+        if (status.visibility.equalsIgnoreCase("direct")) {
+            holder.binding.visibility.setVisibility(View.GONE);
+        } else {
+            int ressource = R.drawable.ic_baseline_public_24;
+            holder.binding.visibility.setContentDescription(context.getString(R.string.v_public));
+            switch (status.visibility) {
+                case "unlisted":
+                    holder.binding.visibility.setContentDescription(context.getString(R.string.v_unlisted));
+                    ressource = R.drawable.ic_baseline_lock_open_24;
+                    break;
+                case "private":
+                    ressource = R.drawable.ic_baseline_lock_24;
+                    holder.binding.visibility.setContentDescription(context.getString(R.string.v_private));
+                    break;
+            }
+            holder.binding.visibility.setImageResource(ressource);
+            holder.binding.visibility.setVisibility(View.VISIBLE);
+        }
+
         //Owner account
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -270,12 +290,14 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             holder.binding.date.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
             holder.binding.messageContent.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
             holder.binding.userName.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            Helper.changeDrawableColor(context, holder.binding.visibility, ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
         } else {
             holder.binding.mainContainer.setBackgroundResource(R.drawable.bubble_left_tail);
             layoutParams.setMargins(0, (int) Helper.convertDpToPixel(12, context), (int) Helper.convertDpToPixel(50, context), 0);
             holder.binding.date.setTextColor(ContextCompat.getColor(context, R.color.black));
             holder.binding.messageContent.setTextColor(ContextCompat.getColor(context, R.color.black));
             holder.binding.userName.setTextColor(ContextCompat.getColor(context, R.color.black));
+            Helper.changeDrawableColor(context, holder.binding.visibility, R.color.black);
         }
         holder.binding.mainContainer.setLayoutParams(layoutParams);
 
