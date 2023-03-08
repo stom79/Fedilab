@@ -4,6 +4,7 @@ Added:
 - Settings > Cache:  disable battery optimization
 - Settings > Cache - Add charts to check cache logs
 - Settings > Timelines: AutoPlay gif media (default: enabled)
+- Google: Automatic backup of data and settings
 
 Changed:
 - Improve detections of gap in timelines

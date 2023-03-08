@@ -658,7 +658,12 @@ public class Helper {
                     .build();
             builder.setDefaultColorSchemeParams(defaultColors);
             CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(context, Uri.parse(url));
+            try {
+                customTabsIntent.launchUrl(context, Uri.parse(url));
+            } catch (Exception e) {
+                Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+            }
+
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

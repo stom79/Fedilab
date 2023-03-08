@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.20.0",
+    "code": "483",
+    "note": "Added:\n- \"Follows you\" indicator in accounts list\n- Settings compose: display a dialog to warn if there are missing media description (default: disabled)\n- Settings > Cache:  disable battery optimization\n- Settings > Cache - Add charts to check cache logs\n- Settings > Timelines: AutoPlay gif media (default: enabled)\n- Google: Automatic backup of data and settings\n\nChanged:\n- Improve detections of gap in timelines\n- Improve media description\n- Chat view by default\n- Chat view add an indicator for messages when not direct\n\nFixed:\n- Fix an issue with cache and fetch more\n- Cache view with large fonts\n- Bad behaviors with truncated messages"
+  },
+  {
     "version": "3.19.1",
     "code": "482",
     "note": "Added:\n- Settings compose: display a dialog to warn if there are missing media description (default disabled)\n- Settings > Notification:  disable battery optimization\n- Settings > Timelines: AutoPlay gif media (default: enabled)\n\nFixed:\n- Fix an issue with cache and fetch more\n- Cache view with large fonts\n- Bad behaviors with truncated messages"
