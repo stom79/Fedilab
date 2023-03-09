@@ -985,7 +985,27 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private"))) {
                     return true;
                 }
-                CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, null, statusToDeal);
+                boolean needToWarnForMissingDescription = false;
+                if (warnNoMedia && statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+                    for (Attachment attachment : statusToDeal.media_attachments) {
+                        if (attachment.description == null || attachment.description.trim().length() == 0) {
+                            needToWarnForMissingDescription = true;
+                            break;
+                        }
+                    }
+                }
+                if (needToWarnForMissingDescription) {
+                    AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
+                    alt_bld.setMessage(context.getString(R.string.reblog_missing_description));
+                    alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
+                        CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, null, statusToDeal);
+                    });
+                    alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                    AlertDialog alert = alt_bld.create();
+                    alert.show();
+                } else {
+                    CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, null, statusToDeal);
+                }
                 return true;
             });
             holder.binding.actionButtonBoost.setOnClickListener(v -> {
