@@ -1034,4 +1034,6 @@
     <string name="updated_count">%d aktualisierte Beiträge</string>
     <string name="messages">%1$d zwischengespeicherte Beiträge</string>
     <string name="inserted_count">%d neue Beiträge</string>
+    <string name="follows_you">Folgt dir</string>
+    <string name="toast_error_media">Medien können nicht geladen werden!</string>
 </resources>
