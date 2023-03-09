@@ -43,6 +43,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -245,6 +246,7 @@ public class ZipHelper {
             for (Map.Entry<String, ?> entry : entries.entrySet()) {
                 Object v = entry.getValue();
                 String key = entry.getKey();
+
                 if (v instanceof Boolean)
                     prefEdit.putBoolean(key, ((Boolean) v).booleanValue());
                 else if (v instanceof Float)
@@ -255,6 +257,12 @@ public class ZipHelper {
                     prefEdit.putLong(key, ((Long) v).longValue());
                 else if (v instanceof String)
                     prefEdit.putString(key, ((String) v));
+                else if (v instanceof HashSet) {
+                    try {
+                        prefEdit.putStringSet(key, (HashSet<String>) v);
+                    } catch (Exception ignored) {
+                    }
+                }
             }
 
             prefEdit.commit();
