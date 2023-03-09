@@ -1014,4 +1014,23 @@
     <string name="set_alt_text_mandatory_warn">Só avisar</string>
     <string name="set_autoplay_gif">Reprodución autom. do multimedia</string>
     <string name="set_remove_battery">Ignorar optimizacións da batería</string>
+    <string name="check_home_cache">Comprobar caché de Inicio</string>
+    <string name="new_messages">Novas mensaxes</string>
+    <string name="updated_messages">Mensaxes actualizadas</string>
+    <string name="frequency_minutes">Frecuencia (minutos)</string>
+    <string name="fail_count">%d fallos</string>
+    <string name="fetched_count">%d mensaxes obtidas</string>
+    <string name="inserted_count">%d novas mensaxes</string>
+    <string name="frequency_count_minutes">%d frecuencia (minutos)</string>
+    <string name="follows_you">Séguete</string>
+    <string name="last_24_h">Últimas 24 horas</string>
+    <string name="messages">%1$d mensaxes na memoria</string>
+    <string name="chart_home_cache_logs">Rexistro da caché de Inicio</string>
+    <string name="updated_count">%d mensaxes actualizadas</string>
+    <string name="chart_home_cache">Rexistros na caché de Inicio por hora</string>
+    <string name="fails">Falla</string>
+    <string name="total_fetched">Total de mensaxes obtidas</string>
+    <string name="no_cached_messages">Non hai mensaxes na caché de Inicio!</string>
+    <string name="toast_error_media">Non se puido cargar o multimedia!</string>
+    <string name="load_media_remotely">Cargar multimedia remoto</string>
 </resources>
