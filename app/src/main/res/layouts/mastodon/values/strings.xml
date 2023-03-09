@@ -2,5 +2,4 @@
 <resources>
 
 
-    <string name="fetch_remote_media">Automatically fetch remote media when they are not available</string>
 </resources>
