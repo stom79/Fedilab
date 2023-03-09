@@ -3,7 +3,7 @@ Added:
 - Add a settings to automatically fetch remote media when it fails (default: disabled)
 
 Changed:
-
+- Warn when there are missing descriptions enabled by default
 
 Fixed:
 - Some settings not properly restored (multiple choices)

@@ -963,8 +963,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             return 0;
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean checkAlt = sharedpreferences.getBoolean(getString(R.string.SET_MANDATORY_ALT_TEXT), false);
-        boolean warnOnly = sharedpreferences.getBoolean(getString(R.string.SET_MANDATORY_ALT_TEXT_WARN), false);
+        boolean checkAlt = sharedpreferences.getBoolean(getString(R.string.SET_MANDATORY_ALT_TEXT), true);
+        boolean warnOnly = sharedpreferences.getBoolean(getString(R.string.SET_MANDATORY_ALT_TEXT_WARN), true);
         if (checkAlt) {
             for (Status status : statusDraft.statusDraftList) {
                 if (status.media_attachments != null && status.media_attachments.size() > 0) {

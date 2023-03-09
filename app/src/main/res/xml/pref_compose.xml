@@ -67,7 +67,7 @@
         app:useSimpleSummaryProvider="true" />
 
     <SwitchPreferenceCompat
-        app:defaultValue="false"
+        app:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_MANDATORY_ALT_TEXT"
         app:singleLineTitle="false"
@@ -75,7 +75,7 @@
         app:title="@string/set_alt_text_mandatory" />
 
     <SwitchPreferenceCompat
-        app:defaultValue="false"
+        app:defaultValue="true"
         app:dependency="@string/SET_MANDATORY_ALT_TEXT"
         app:iconSpaceReserved="false"
         app:key="@string/SET_MANDATORY_ALT_TEXT_WARN"
