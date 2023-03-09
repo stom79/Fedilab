@@ -78,11 +78,7 @@ public class InstanceSocialVM extends AndroidViewModel {
                     InstanceSocial filtered = new InstanceSocial();
                     filtered.instances = new ArrayList<>();
                     if (instanceSocial != null && instanceSocial.instances != null) {
-                        for (InstanceSocial.Instance instance : instanceSocial.instances) {
-                            if (instance.up) {
-                                filtered.instances.add(instance);
-                            }
-                        }
+                        filtered.instances.addAll(instanceSocial.instances);
                     }
                     Runnable myRunnable = () -> instanceSocialMutableLiveData.setValue(filtered);
                     mainHandler.post(myRunnable);
