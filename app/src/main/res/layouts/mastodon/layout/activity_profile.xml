@@ -320,6 +320,18 @@
                             android:visibility="gone" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/account_requested_by"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginEnd="3dp"
+                            android:background="@drawable/red_border"
+                            android:singleLine="true"
+                            android:text="@string/requested_by"
+                            android:textColor="?colorError"
+                            android:visibility="gone" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/account_follow_request"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

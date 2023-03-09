@@ -1,9 +1,11 @@
 Added:
 - Add a button to fetch remote media when it fails
 - Add a settings to automatically fetch remote media when it fails (default: disabled)
+- Display on profiles & list of accounts if users have requested to follow you
 
 Changed:
 - Warn when there are missing descriptions enabled by default
 
 Fixed:
 - Some settings not properly restored (multiple choices)
+- Cancel a follow request

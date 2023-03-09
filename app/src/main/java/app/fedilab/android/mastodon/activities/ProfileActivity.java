@@ -625,18 +625,18 @@ public class ProfileActivity extends BaseActivity {
                 binding.accountFollow.setContentDescription(getString(R.string.action_disabled));
             }
 
-            if (relationship.requested) {
-                binding.accountFollowRequest.setVisibility(View.VISIBLE);
-                binding.accountFollow.setIconResource(R.drawable.ic_baseline_hourglass_full_24);
-                binding.accountFollow.setVisibility(View.VISIBLE);
-                binding.accountFollow.setContentDescription(getString(R.string.follow_request));
-                doAction = action.UNFOLLOW;
-            }
+
             if (relationship.followed_by) {
                 binding.accountFollowedBy.setVisibility(View.VISIBLE);
             } else {
                 binding.accountFollowedBy.setVisibility(View.GONE);
             }
+            if (relationship.requested_by) {
+                binding.accountRequestedBy.setVisibility(View.VISIBLE);
+            } else {
+                binding.accountRequestedBy.setVisibility(View.GONE);
+            }
+            binding.accountFollowRequest.setVisibility(View.GONE);
             if (relationship.following) {
                 binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_remove_24);
                 binding.accountFollow.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(this, R.attr.colorError)));
@@ -649,12 +649,20 @@ public class ProfileActivity extends BaseActivity {
                 doAction = action.UNBLOCK;
                 binding.accountFollow.setVisibility(View.VISIBLE);
                 binding.accountFollow.setContentDescription(getString(R.string.action_unblock));
+            } else if (relationship.requested) {
+                binding.accountFollowRequest.setVisibility(View.VISIBLE);
+                binding.accountFollow.setIconResource(R.drawable.ic_baseline_hourglass_full_24);
+                binding.accountFollow.setVisibility(View.VISIBLE);
+                binding.accountFollow.setContentDescription(getString(R.string.follow_request));
+                doAction = action.UNFOLLOW;
             } else {
                 binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
                 doAction = action.FOLLOW;
                 binding.accountFollow.setVisibility(View.VISIBLE);
                 binding.accountFollow.setContentDescription(getString(R.string.action_follow));
             }
+
+
             //The value for account is from same server so id can be used
 
             if (account.id.equals(currentAccount.user_id)) {

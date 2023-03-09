@@ -32,6 +32,9 @@ public class RelationShip {
     public boolean followed_by;
     @SerializedName("blocking")
     public boolean blocking;
+
+    @SerializedName("requested_by")
+    public boolean requested_by;
     @SerializedName("blocked_by")
     public boolean blocked_by;
     @SerializedName("muting")
