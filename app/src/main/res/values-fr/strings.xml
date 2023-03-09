@@ -215,7 +215,7 @@
     <string name="settings_time_from">Entre</string>
     <string name="settings_time_to">et</string>
     <string name="embedded_browser">Utiliser le navigateur intégré</string>
-    <string name="custom_tabs">Onglets personnalisés</string>
+    <string name="custom_tabs">Navigateur intégré</string>
     <string name="expand_cw">Afficher automatiquement le contenu masqué</string>
     <string name="set_led_colour">Couleur de la LED :</string>
     <string-array name="led_colours">
@@ -990,4 +990,28 @@
     <string name="auto_fetch_missing">Récupérer automatiquement les messages manquants</string>
     <string name="number_of_media">Nombre de médias</string>
     <string name="number_of_replies">Nombre de réponses</string>
+    <string name="fetch_home_messages">Récupérer les messages du fil principal</string>
+    <string name="set_fetch_home">Récupérer automatiquement les messages du fil principal</string>
+    <string name="home_cache">Cache du fil principal</string>
+    <string name="toast_error_peertube_not_supported">Votre Peertube est trop ancien et ne peut pas être pris en charge par l’application.</string>
+    <string name="set_mention_at_top">Mentions en haut</string>
+    <string name="check_home_cache">Vérifier le cache du fil principal</string>
+    <string name="messages">%1$d messages en cache</string>
+    <string name="last_24_h">Dernières 24 heures</string>
+    <string name="fails">Échecs</string>
+    <string name="new_messages">Nouveaux messages</string>
+    <string name="total_fetched">Total des messages récupérés</string>
+    <string name="inserted_count">%d nouveaux messages</string>
+    <string name="fail_count">%d échecs</string>
+    <string name="hide_single_media_with_card">Masquer les médias simples lorsqu’il y a un aperçu du lien</string>
+    <string name="tags_renamed">L’étiquette a été modifiée !</string>
+    <string name="translator_domain">Domaine de traduction</string>
+    <string name="follows_you">Vous suit</string>
+    <string name="set_mention_at_top_indication">Lorsque vous répondez, les mentions seront toutes ajoutées au début du message</string>
+    <string name="set_alt_text_mandatory_warn">Avertir seulement</string>
+    <string name="send_anyway">Envoyer quand-même</string>
+    <string name="truncate_links">Tronquer les liens</string>
+    <string name="truncate_links_max">Nombre maximal de caractères dans les liens</string>
+    <string name="set_remove_battery">Ignorer les optimisations de batterie</string>
+    <string name="set_autoplay_gif">Lecture automatique des médias animés</string>
 </resources>
