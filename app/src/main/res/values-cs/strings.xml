@@ -1044,4 +1044,8 @@
     <string name="fetched_count">%d načtených zpráv</string>
     <string name="total_fetched">Celkem načtených zpráv</string>
     <string name="frequency_count_minutes">%d frekvence (minuty)</string>
+    <string name="follows_you">Sleduje vás</string>
+    <string name="toast_error_media">Média nelze načíst!</string>
+    <string name="load_media_remotely">Načítat média vzdáleně</string>
+    <string name="fetch_remote_media">Automaticky načítat vzdálená média, pokud nejsou k dispozici</string>
 </resources>
