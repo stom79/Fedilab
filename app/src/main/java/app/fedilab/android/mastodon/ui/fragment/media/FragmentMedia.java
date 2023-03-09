@@ -39,6 +39,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -56,6 +57,7 @@ import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.helper.CacheDataSourceFactory;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
+import es.dmoral.toasty.Toasty;
 
 
 public class FragmentMedia extends Fragment {
@@ -184,6 +186,14 @@ public class FragmentMedia extends Fragment {
                                 @Override
                                 public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                     scheduleStartPostponedTransition(binding.mediaPicture);
+                                    Toasty.error(requireActivity(), getString(R.string.toast_error_media), Toasty.LENGTH_SHORT).show();
+                                    binding.loadRemote.setVisibility(View.VISIBLE);
+                                    binding.loadRemote.setOnClickListener(v -> {
+                                        binding.loadRemote.setVisibility(View.GONE);
+                                        binding.loader.setVisibility(View.GONE);
+                                        Glide.with(requireActivity())
+                                                .load(attachment.remote_url).into(binding.mediaPicture);
+                                    });
                                 }
 
                                 @Override
@@ -245,6 +255,20 @@ public class FragmentMedia extends Fragment {
         player.setMediaSource(videoSource);
         player.prepare();
         player.setPlayWhenReady(true);
+        player.addListener(new Player.Listener() {
+            @Override
+            public void onPlayerError(@NonNull PlaybackException error) {
+                Player.Listener.super.onPlayerError(error);
+                Toasty.error(requireActivity(), getString(R.string.toast_error_media), Toasty.LENGTH_SHORT).show();
+                binding.loadRemote.setVisibility(View.VISIBLE);
+                binding.loadRemote.setOnClickListener(v -> {
+                    binding.loadRemote.setVisibility(View.GONE);
+                    binding.loader.setVisibility(View.GONE);
+                    loadVideo(attachment.remote_url, type);
+                });
+            }
+
+        });
     }
 
     @Override

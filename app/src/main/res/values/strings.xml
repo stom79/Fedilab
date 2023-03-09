@@ -1947,4 +1947,7 @@
     <string name="updated_count">%d updated messages</string>
     <string name="frequency_count_minutes">%d frequency (minutes)</string>
     <string name="follows_you">Follows you</string>
+
+    <string name="load_media_remotely">Load media remotely</string>
+    <string name="toast_error_media">Media cannot be loaded!</string>
 </resources>
