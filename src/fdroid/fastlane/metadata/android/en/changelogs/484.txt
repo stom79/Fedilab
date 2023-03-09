@@ -2,6 +2,7 @@ Added:
 - Add a button to fetch remote media when it fails
 - Add a settings to automatically fetch remote media when it fails (default: disabled)
 - Display on profiles & list of accounts if users have requested to follow you
+- Warn before boosting a message having no media description (default: enabled)
 
 Changed:
 - Warn when there are missing descriptions enabled by default

@@ -71,6 +71,8 @@
     <string name="favourite_add">Add this message to your favourites?</string>
     <string name="favourite_remove">Remove this message from your favourites?</string>
     <string name="reblog_add">Boost this message?</string>
+    <string name="warn_boost_no_media_description">Warn if message has no media description before boosting</string>
+    <string name="reblog_missing_description">This message has missing media description. Are you sure to boost it?</string>
     <string name="reblog_remove">Unboost this message?</string>
     <string name="more_action_1">Mute</string>
     <string name="more_action_2">Block</string>
@@ -1096,6 +1098,8 @@
     <string name="SET_FILTER_REGEX_LOCAL" translatable="false">SET_FILTER_REGEX_LOCAL</string>
     <string name="SET_FILTER_REGEX_PUBLIC" translatable="false">SET_FILTER_REGEX_PUBLIC</string>
     <string name="SET_NOTIF_VALIDATION" translatable="false">SET_NOTIF_VALIDATION</string>
+    <string name="SET_MANDATORY_ALT_TEXT_FOR_BOOSTS" translatable="false">SET_MANDATORY_ALT_TEXT_FOR_BOOSTS</string>
+
     <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
     <string name="SET_PIXELFED_PRESENTATION" translatable="false">SET_PIXELFED_PRESENTATION</string>
     <string name="SET_DISPLAY_QUOTES" translatable="false">SET_DISPLAY_QUOTES</string>

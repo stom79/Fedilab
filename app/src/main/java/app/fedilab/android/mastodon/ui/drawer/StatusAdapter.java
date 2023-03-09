@@ -428,6 +428,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean originalDateForBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_BOOST_ORIGINAL_DATE), true);
         boolean hideSingleMediaWithCard = sharedpreferences.getBoolean(context.getString(R.string.SET_HIDE_SINGLE_MEDIA_WITH_CARD), false);
         boolean autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
+        boolean warnNoMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_MANDATORY_ALT_TEXT_FOR_BOOSTS), true);
 
 
         if (compactButtons) {
@@ -988,12 +989,26 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return true;
             });
             holder.binding.actionButtonBoost.setOnClickListener(v -> {
-                if (confirmBoost) {
+                boolean needToWarnForMissingDescription = false;
+                if (warnNoMedia && statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+                    for (Attachment attachment : statusToDeal.media_attachments) {
+                        if (attachment.description == null || attachment.description.trim().length() == 0) {
+                            needToWarnForMissingDescription = true;
+                            break;
+                        }
+                    }
+                }
+                if (confirmBoost || needToWarnForMissingDescription) {
                     AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
+
                     if (statusToDeal.reblogged) {
                         alt_bld.setMessage(context.getString(R.string.reblog_remove));
                     } else {
-                        alt_bld.setMessage(context.getString(R.string.reblog_add));
+                        if (!needToWarnForMissingDescription) {
+                            alt_bld.setMessage(context.getString(R.string.reblog_add));
+                        } else {
+                            alt_bld.setMessage(context.getString(R.string.reblog_missing_description));
+                        }
                     }
                     alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
                         if (remote) {

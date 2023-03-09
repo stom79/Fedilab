@@ -88,6 +88,12 @@
         app:singleLineTitle="false"
         app:title="@string/set_share_validation" />
     <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_MANDATORY_ALT_TEXT_FOR_BOOSTS"
+        app:singleLineTitle="false"
+        app:title="@string/warn_boost_no_media_description" />
+    <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_DISPLAY_BOOKMARK"
