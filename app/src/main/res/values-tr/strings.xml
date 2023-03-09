@@ -1035,4 +1035,10 @@
     <string name="chart_home_cache_logs">Ana sayfa önbelleği günlükleri</string>
     <string name="updated_messages">Güncellenen mesajlar</string>
     <string name="follows_you">Sizi takip ediyor</string>
+    <string name="fetch_remote_media">Bulunamadıklarında uzaktaki medyayı otomatik olarak getir</string>
+    <string name="toast_error_media">Medya yüklenemiyor!</string>
+    <string name="requested_by">Sizi takip etmek istedi</string>
+    <string name="load_media_remotely">Medyayı uzaktan yükle</string>
+    <string name="warn_boost_no_media_description">Arttırmadan önce mesajın medya açıklaması yoksa uyar</string>
+    <string name="reblog_missing_description">Bu mesajın medya açıklaması eksik. Arttırmak istediğinizden emin misiniz\?</string>
 </resources>
