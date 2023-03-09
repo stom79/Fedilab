@@ -1471,7 +1471,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 boolean autoplaygif = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_PLAY_GIG_MEDIA), true);
                 if (!fullAttachement || statusToDeal.sensitive) {
                     int defaultHeight = (int) Helper.convertDpToPixel(300, context);
-                    if (measuredWidth > 0) {
+                    int orientation = context.getResources().getConfiguration().orientation;
+                    if (orientation == Configuration.ORIENTATION_PORTRAIT && measuredWidth > 0) {
                         defaultHeight = (int) (measuredWidth * 3) / 4;
                     }
                     LinearLayoutCompat.LayoutParams lp = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, defaultHeight);

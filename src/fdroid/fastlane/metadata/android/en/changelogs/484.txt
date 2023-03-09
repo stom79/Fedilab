@@ -9,3 +9,4 @@ Changed:
 Fixed:
 - Some settings not properly restored (multiple choices)
 - Cancel a follow request
+- Media with a lot of height in landscape
