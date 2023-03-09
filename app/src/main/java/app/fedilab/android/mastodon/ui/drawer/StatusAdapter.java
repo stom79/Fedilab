@@ -1631,8 +1631,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             int finalMediaPosition = mediaPosition;
                             layoutMediaBinding.mediaVideo.setOnClickListener(v -> {
                                 final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
-                                if (status.sensitive && !expand_media) {
-                                    status.sensitive = false;
+                                if (statusToDeal.sensitive && !expand_media) {
+                                    statusToDeal.sensitive = false;
                                     int position = holder.getBindingAdapterPosition();
                                     adapter.notifyItemChanged(position);
 
@@ -1642,7 +1642,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             }
 
                                             public void onFinish() {
-                                                status.sensitive = true;
+                                                statusToDeal.sensitive = true;
                                                 adapter.notifyItemChanged(position);
                                             }
                                         }.start();
@@ -1652,15 +1652,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 Intent mediaIntent = new Intent(context, MediaActivity.class);
                                 Bundle b = new Bundle();
                                 b.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
-                                b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
+                                b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
                                 mediaIntent.putExtras(b);
                                 ActivityOptionsCompat options = ActivityOptionsCompat
-                                        .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, status.media_attachments.get(0).url);
+                                        .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
                                 // start the new activity
                                 context.startActivity(mediaIntent, options.toBundle());
                             });
                             layoutMediaBinding.viewHide.setOnClickListener(v -> {
-                                status.sensitive = !status.sensitive;
+                                statusToDeal.sensitive = !statusToDeal.sensitive;
                                 adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                             });
                         } else {
@@ -1695,8 +1695,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             int finalMediaPosition = mediaPosition;
                             layoutMediaBinding.mediaVideo.setOnClickListener(v -> {
                                 final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
-                                if (status.sensitive && !expand_media) {
-                                    status.sensitive = false;
+                                if (statusToDeal.sensitive && !expand_media) {
+                                    statusToDeal.sensitive = false;
                                     int position = holder.getBindingAdapterPosition();
                                     adapter.notifyItemChanged(position);
 
@@ -1706,7 +1706,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             }
 
                                             public void onFinish() {
-                                                status.sensitive = true;
+                                                statusToDeal.sensitive = true;
                                                 adapter.notifyItemChanged(position);
                                             }
                                         }.start();
@@ -1716,15 +1716,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 Intent mediaIntent = new Intent(context, MediaActivity.class);
                                 Bundle b = new Bundle();
                                 b.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
-                                b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
+                                b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
                                 mediaIntent.putExtras(b);
                                 ActivityOptionsCompat options = ActivityOptionsCompat
-                                        .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, status.media_attachments.get(0).url);
+                                        .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
                                 // start the new activity
                                 context.startActivity(mediaIntent, options.toBundle());
                             });
                             layoutMediaBinding.viewHide.setOnClickListener(v -> {
-                                status.sensitive = !status.sensitive;
+                                statusToDeal.sensitive = !statusToDeal.sensitive;
                                 adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                             });
                         } else {
