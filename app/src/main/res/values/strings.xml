@@ -1127,6 +1127,8 @@
     <string name="SET_DISPLAY_ALL_NOTIFICATIONS_TYPE" translatable="false">SET_DISPLAY_ALL_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXCLUDED_NOTIFICATIONS_TYPE" translatable="false">SET_EXCLUDED_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXPAND_MEDIA" translatable="false">SET_EXPAND_MEDIA</string>
+    <string name="SET_FETCH_REMOTE_MEDIA" translatable="false">SET_FETCH_REMOTE_MEDIA</string>
+
     <string name="SET_GROUP_REBLOGS" translatable="false">SET_GROUP_REBLOGS</string>
     <string name="SET_BOOST_ORIGINAL_DATE" translatable="false">SET_BOOST_ORIGINAL_DATE</string>
     <string name="SET_TRUNCATE_LINKS" translatable="false">SET_TRUNCATE_LINKS</string>

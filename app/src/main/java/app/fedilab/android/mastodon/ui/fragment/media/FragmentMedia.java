@@ -186,14 +186,24 @@ public class FragmentMedia extends Fragment {
                                 @Override
                                 public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                     scheduleStartPostponedTransition(binding.mediaPicture);
-                                    Toasty.error(requireActivity(), getString(R.string.toast_error_media), Toasty.LENGTH_SHORT).show();
-                                    binding.loadRemote.setVisibility(View.VISIBLE);
-                                    binding.loadRemote.setOnClickListener(v -> {
+                                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                                    boolean autofetch = sharedpreferences.getBoolean(getString(R.string.SET_FETCH_REMOTE_MEDIA), false);
+                                    if (autofetch) {
                                         binding.loadRemote.setVisibility(View.GONE);
                                         binding.loader.setVisibility(View.GONE);
                                         Glide.with(requireActivity())
                                                 .load(attachment.remote_url).into(binding.mediaPicture);
-                                    });
+                                    } else {
+                                        Toasty.error(requireActivity(), getString(R.string.toast_error_media), Toasty.LENGTH_SHORT).show();
+                                        binding.loadRemote.setVisibility(View.VISIBLE);
+                                        binding.loadRemote.setOnClickListener(v -> {
+                                            binding.loadRemote.setVisibility(View.GONE);
+                                            binding.loader.setVisibility(View.GONE);
+                                            Glide.with(requireActivity())
+                                                    .load(attachment.remote_url).into(binding.mediaPicture);
+                                        });
+                                    }
+
                                 }
 
                                 @Override
@@ -259,13 +269,21 @@ public class FragmentMedia extends Fragment {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
                 Player.Listener.super.onPlayerError(error);
-                Toasty.error(requireActivity(), getString(R.string.toast_error_media), Toasty.LENGTH_SHORT).show();
-                binding.loadRemote.setVisibility(View.VISIBLE);
-                binding.loadRemote.setOnClickListener(v -> {
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                boolean autofetch = sharedpreferences.getBoolean(getString(R.string.SET_FETCH_REMOTE_MEDIA), false);
+                if (autofetch) {
                     binding.loadRemote.setVisibility(View.GONE);
                     binding.loader.setVisibility(View.GONE);
                     loadVideo(attachment.remote_url, type);
-                });
+                } else {
+                    Toasty.error(requireActivity(), getString(R.string.toast_error_media), Toasty.LENGTH_SHORT).show();
+                    binding.loadRemote.setVisibility(View.VISIBLE);
+                    binding.loadRemote.setOnClickListener(v -> {
+                        binding.loadRemote.setVisibility(View.GONE);
+                        binding.loader.setVisibility(View.GONE);
+                        loadVideo(attachment.remote_url, type);
+                    });
+                }
             }
 
         });

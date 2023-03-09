@@ -26,6 +26,12 @@
         app:singleLineTitle="false"
         app:title="@string/expand_image" />
     <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_FETCH_REMOTE_MEDIA"
+        app:singleLineTitle="false"
+        app:title="@string/fetch_remote_media" />
+    <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_GROUP_REBLOGS"
