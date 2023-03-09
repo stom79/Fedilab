@@ -1018,4 +1018,23 @@
     <string name="set_alt_text_mandatory_description_warn">如果缺少媒体，将显示一个对话框，以发送没有媒体描述的消息</string>
     <string name="set_remove_battery">忽略电池优化</string>
     <string name="set_autoplay_gif">自动播放动画媒体</string>
+    <string name="messages">%1$d 缓存消息</string>
+    <string name="chart_home_cache">每小时主页缓存记录数</string>
+    <string name="last_24_h">最近24小时</string>
+    <string name="fails">失败</string>
+    <string name="new_messages">新消息</string>
+    <string name="frequency_minutes">频率（分钟）</string>
+    <string name="total_fetched">已获取消息总数</string>
+    <string name="fail_count">%d 失败</string>
+    <string name="frequency_count_minutes">%d 频率（分钟）</string>
+    <string name="updated_messages">已更新消息</string>
+    <string name="updated_count">%d 已更新消息</string>
+    <string name="follows_you">关注了您</string>
+    <string name="check_home_cache">检查主页缓存</string>
+    <string name="no_cached_messages">无主页缓存消息！</string>
+    <string name="chart_home_cache_logs">主页缓存日志</string>
+    <string name="fetched_count">%d 已获取消息</string>
+    <string name="inserted_count">%d 新消息</string>
+    <string name="load_media_remotely">远程加载媒体</string>
+    <string name="toast_error_media">无法加载媒体！</string>
 </resources>
