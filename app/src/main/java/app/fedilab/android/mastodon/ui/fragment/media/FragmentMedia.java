@@ -236,7 +236,7 @@ public class FragmentMedia extends Fragment {
     }
 
     private void loadVideo(String url, String type) {
-        if (binding == null || !isAdded() || getActivity() == null) {
+        if (binding == null || !isAdded() || getActivity() == null || url == null) {
             return;
         }
         binding.pbarInf.setIndeterminate(false);
