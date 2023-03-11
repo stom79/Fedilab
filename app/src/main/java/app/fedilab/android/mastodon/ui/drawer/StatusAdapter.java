@@ -120,6 +120,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.DrawerFetchMoreBinding;
+import app.fedilab.android.databinding.DrawerMessageFetchingBinding;
 import app.fedilab.android.databinding.DrawerStatusArtBinding;
 import app.fedilab.android.databinding.DrawerStatusBinding;
 import app.fedilab.android.databinding.DrawerStatusFilteredBinding;
@@ -1621,12 +1622,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
                                         .createMediaSource(mediaItem);
                             }
-                            ExoPlayer player = new ExoPlayer.Builder(context).build();
-                            player.setRepeatMode(Player.REPEAT_MODE_ONE);
-                            layoutMediaBinding.mediaVideo.setPlayer(player);
-                            player.setMediaSource(videoSource);
-                            player.prepare();
-                            player.setPlayWhenReady(true);
+                            try {
+                                ExoPlayer player = new ExoPlayer.Builder(context).build();
+                                player.setRepeatMode(Player.REPEAT_MODE_ONE);
+                                layoutMediaBinding.mediaVideo.setPlayer(player);
+                                player.setMediaSource(videoSource);
+                                player.prepare();
+                                player.setPlayWhenReady(true);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
                             int finalMediaPosition = mediaPosition;
                             layoutMediaBinding.mediaVideo.setOnClickListener(v -> {
@@ -1686,12 +1691,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
                                         .createMediaSource(mediaItem);
                             }
-                            ExoPlayer player = new ExoPlayer.Builder(context).build();
-                            player.setRepeatMode(Player.REPEAT_MODE_ONE);
-                            layoutMediaBinding.mediaVideo.setPlayer(player);
-                            player.setMediaSource(videoSource);
-                            player.prepare();
-                            player.setPlayWhenReady(true);
+                            try {
+                                ExoPlayer player = new ExoPlayer.Builder(context).build();
+                                player.setRepeatMode(Player.REPEAT_MODE_ONE);
+                                layoutMediaBinding.mediaVideo.setPlayer(player);
+                                player.setMediaSource(videoSource);
+                                player.prepare();
+                                player.setPlayWhenReady(true);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             int finalMediaPosition = mediaPosition;
                             layoutMediaBinding.mediaVideo.setOnClickListener(v -> {
                                 final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
@@ -2447,6 +2456,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 drawerFetchMoreBinding.fetchMoreMin.setOnClickListener(v -> {
                     status.isFetchMore = false;
+                    status.isFetching = true;
                     int position = holder.getBindingAdapterPosition();
                     adapter.notifyItemChanged(position);
                     if (position < statusList.size() - 1) {
@@ -2456,25 +2466,27 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             fromId = status.id;
                         }
-                        fetchMoreCallBack.onClickMinId(fromId);
+                        fetchMoreCallBack.onClickMinId(fromId, status);
                     }
                 });
                 drawerFetchMoreBinding.fetchMoreMax.setOnClickListener(v -> {
                     //We hide the button
                     status.isFetchMore = false;
+                    status.isFetching = true;
                     String fromId;
                     if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
                         fromId = statusList.get(holder.getBindingAdapterPosition()).id;
                     } else {
                         fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
                     }
-                    fetchMoreCallBack.onClickMaxId(fromId);
+                    fetchMoreCallBack.onClickMaxId(fromId, status);
                     adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                 });
             } else {
                 holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
                 holder.binding.fetchMoreContainerTop.setVisibility(View.GONE);
                 status.isFetchMore = false;
+                status.isFetching = true;
                 int position = holder.getBindingAdapterPosition();
                 String statusIdMin = null, statusIdMax;
                 if (position < statusList.size() - 1) {
@@ -2490,6 +2502,23 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     statusIdMax = statusList.get(holder.getBindingAdapterPosition() - 1).id;
                 }
                 fetchMoreCallBack.autoFetch(statusIdMin, statusIdMax, status);
+                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+            }
+        } else if (status.isFetching) {
+            DrawerMessageFetchingBinding drawerMessageFetchingBinding = DrawerMessageFetchingBinding.inflate(LayoutInflater.from(context));
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            drawerMessageFetchingBinding.fetchingContainer.setLayoutParams(lp);
+            drawerMessageFetchingBinding.fetchingProgress.getIndeterminateDrawable().setColorFilter(ThemeHelper.getAttColor(context, R.attr.colorPrimary), PorterDuff.Mode.SRC_IN);
+            if (status.positionFetchMore == Status.PositionFetchMore.BOTTOM) {
+                holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
+                holder.binding.fetchMoreContainerTop.setVisibility(View.VISIBLE);
+                holder.binding.fetchMoreContainerTop.removeAllViews();
+                holder.binding.fetchMoreContainerTop.addView(drawerMessageFetchingBinding.getRoot());
+            } else {
+                holder.binding.fetchMoreContainerBottom.setVisibility(View.VISIBLE);
+                holder.binding.fetchMoreContainerTop.setVisibility(View.GONE);
+                holder.binding.fetchMoreContainerBottom.removeAllViews();
+                holder.binding.fetchMoreContainerBottom.addView(drawerMessageFetchingBinding.getRoot());
             }
         } else {
             holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
@@ -2996,6 +3025,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
                     holder.bindingFilteredHide.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
                         status.isFetchMore = false;
+                        status.isFetching = true;
                         notifyItemChanged(holder.getBindingAdapterPosition());
                         if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
                             String fromId;
@@ -3004,12 +3034,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             } else {
                                 fromId = status.id;
                             }
-                            fetchMoreCallBack.onClickMinId(fromId);
+                            fetchMoreCallBack.onClickMinId(fromId, status);
                         }
                     });
                     holder.bindingFilteredHide.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
                         //We hide the button
                         status.isFetchMore = false;
+                        status.isFetching = true;
                         notifyItemChanged(holder.getBindingAdapterPosition());
                         String fromId;
                         if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
@@ -3017,11 +3048,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
                         }
-                        fetchMoreCallBack.onClickMaxId(fromId);
+                        fetchMoreCallBack.onClickMaxId(fromId, status);
 
                     });
                 } else {
                     status.isFetchMore = false;
+                    status.isFetching = true;
                     String minId = null, maxId;
                     if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
                         if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
@@ -3053,6 +3085,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
                 holder.bindingFiltered.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
                     status.isFetchMore = false;
+                    status.isFetching = true;
                     notifyItemChanged(holder.getBindingAdapterPosition());
                     if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
                         String fromId;
@@ -3061,19 +3094,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             fromId = status.id;
                         }
-                        fetchMoreCallBack.onClickMinId(fromId);
+                        fetchMoreCallBack.onClickMinId(fromId, status);
                     }
                 });
                 holder.bindingFiltered.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
                     //We hide the button
                     status.isFetchMore = false;
+                    status.isFetching = true;
                     String fromId;
                     if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
                         fromId = statusList.get(holder.getBindingAdapterPosition()).id;
                     } else {
                         fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
                     }
-                    fetchMoreCallBack.onClickMaxId(fromId);
+                    fetchMoreCallBack.onClickMaxId(fromId, status);
                     notifyItemChanged(holder.getBindingAdapterPosition());
                 });
             } else {
@@ -3194,9 +3228,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     public interface FetchMoreCallBack {
-        void onClickMinId(String min_id);
+        void onClickMinId(String min_id, Status fetchStatus);
 
-        void onClickMaxId(String max_id);
+        void onClickMaxId(String max_id, Status fetchStatus);
 
         void autoFetch(String min_id, String max_id, Status status);
     }

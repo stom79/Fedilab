@@ -434,9 +434,16 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      *
      * @param fetched_statuses Statuses
      */
-    private synchronized void dealWithPagination(Statuses fetched_statuses, DIRECTION direction, boolean fetchingMissing, boolean canScroll) {
+    private synchronized void dealWithPagination(Statuses fetched_statuses, DIRECTION direction, boolean fetchingMissing, boolean canScroll, Status fetchStatus) {
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
+        }
+        if (fetchStatus != null) {
+            int position = getPosition(fetchStatus);
+            if (position >= 0 && position < timelineStatuses.size()) {
+                timelineStatuses.get(position).isFetching = false;
+                statusAdapter.notifyItemChanged(position);
+            }
         }
         binding.swipeContainer.setRefreshing(false);
         binding.loadingNextElements.setVisibility(View.GONE);
@@ -509,7 +516,15 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (direction == DIRECTION.SCROLL_TOP) {
             new Handler().postDelayed(() -> binding.recyclerView.scrollToPosition(0), 200);
         }
+    }
 
+    /**
+     * Update view and pagination when scrolling down
+     *
+     * @param fetched_statuses Statuses
+     */
+    private synchronized void dealWithPagination(Statuses fetched_statuses, DIRECTION direction, boolean fetchingMissing, boolean canScroll) {
+        dealWithPagination(fetched_statuses, direction, fetchingMissing, canScroll, null);
     }
 
     /**
@@ -902,13 +917,21 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
     }
 
-
     /**
      * Router for timelines
      *
      * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
      */
     private void route(DIRECTION direction, boolean fetchingMissing) {
+        route(direction, fetchingMissing, null);
+    }
+
+    /**
+     * Router for timelines
+     *
+     * @param direction - DIRECTION null if first call, then is set to TOP or BOTTOM depending of scroll
+     */
+    private void route(DIRECTION direction, boolean fetchingMissing, Status fetchStatus) {
         if (binding == null || !isAdded() || getActivity() == null) {
             return;
         }
@@ -933,14 +956,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             });
                 } else if (direction == DIRECTION.BOTTOM) {
                     timelinesVM.getNitter(pinnedTimeline.remoteInstance.host, max_id)
-                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true));
+                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
                 } else if (direction == DIRECTION.TOP) {
                     flagLoading = false;
                 } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                     timelinesVM.getNitter(pinnedTimeline.remoteInstance.host, null)
                             .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                 if (statusAdapter != null) {
-                                    dealWithPagination(statusesRefresh, direction, true, true);
+                                    dealWithPagination(statusesRefresh, direction, true, true, fetchStatus);
                                 } else {
                                     initializeStatusesCommonView(statusesRefresh);
                                 }
@@ -956,14 +979,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                 } else if (direction == DIRECTION.BOTTOM) {
                     timelinesVM.getMisskey(remoteInstance, max_id, MastodonHelper.statusesPerCall(requireActivity()))
-                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true));
+                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
                 } else if (direction == DIRECTION.TOP) {
                     flagLoading = false;
                 } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                     timelinesVM.getMisskey(remoteInstance, null, MastodonHelper.statusesPerCall(requireActivity()))
                             .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                 if (statusAdapter != null) {
-                                    dealWithPagination(statusesRefresh, direction, true, true);
+                                    dealWithPagination(statusesRefresh, direction, true, true, fetchStatus);
                                 } else {
                                     initializeStatusesCommonView(statusesRefresh);
                                 }
@@ -976,14 +999,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                 } else if (direction == DIRECTION.BOTTOM) {
                     timelinesVM.getPeertube(remoteInstance, String.valueOf(timelineStatuses.size()), MastodonHelper.statusesPerCall(requireActivity()))
-                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true));
+                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
                 } else if (direction == DIRECTION.TOP) {
                     flagLoading = false;
                 } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                     timelinesVM.getPeertube(remoteInstance, null, MastodonHelper.statusesPerCall(requireActivity()))
                             .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                 if (statusAdapter != null) {
-                                    dealWithPagination(statusesRefresh, direction, true, true);
+                                    dealWithPagination(statusesRefresh, direction, true, true, fetchStatus);
                                 } else {
                                     initializeStatusesCommonView(statusesRefresh);
                                 }
@@ -1065,7 +1088,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             } else if (direction == DIRECTION.BOTTOM) {
                 accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, max_id, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true));
+                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
             } else {
                 flagLoading = false;
             }
@@ -1090,7 +1113,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                 Statuses statuses = new Statuses();
                                 statuses.statuses = results.statuses;
                                 statuses.pagination = new Pagination();
-                                dealWithPagination(statuses, direction, false, true);
+                                dealWithPagination(statuses, direction, false, true, fetchStatus);
                             }
                         });
             } else {
@@ -1115,7 +1138,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
             } else if (direction == DIRECTION.BOTTOM) {
                 accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, max_id)
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true));
+                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
             } else {
                 flagLoading = false;
             }
@@ -1125,7 +1148,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
             } else if (direction == DIRECTION.BOTTOM) {
                 accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), max_id, null, null)
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true));
+                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
             } else {
                 flagLoading = false;
             }
@@ -1135,7 +1158,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
             } else if (direction == DIRECTION.BOTTOM) {
                 timelinesVM.getStatusTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, max_id, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true));
+                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
             } else {
                 flagLoading = false;
             }
@@ -1145,7 +1168,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
             } else if (direction == DIRECTION.BOTTOM) {
                 timelinesVM.getStatusTrends(null, publicTrendsDomain, max_id, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true));
+                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
             } else {
                 flagLoading = false;
             }
@@ -1163,26 +1186,26 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     @Override
-    public void onClickMinId(String min_id) {
+    public void onClickMinId(String min_id, Status fetchStatus) {
         //Fetch more has been pressed
         min_id_fetch_more = min_id;
         route(DIRECTION.TOP, true);
     }
 
     @Override
-    public void onClickMaxId(String max_id) {
+    public void onClickMaxId(String max_id, Status fetchStatus) {
         max_id_fetch_more = max_id;
-        route(DIRECTION.BOTTOM, true);
+        route(DIRECTION.BOTTOM, true, fetchStatus);
     }
 
     @Override
-    public void autoFetch(String min_id, String max_id, Status statusToUpdate) {
+    public void autoFetch(String min_id, String max_id, Status fetchStatus) {
         if (scrollingUp) {
             min_id_fetch_more = min_id;
-            route(DIRECTION.TOP, true);
+            route(DIRECTION.TOP, true, fetchStatus);
         } else {
             max_id_fetch_more = max_id;
-            route(DIRECTION.BOTTOM, true);
+            route(DIRECTION.BOTTOM, true, fetchStatus);
         }
     }
 
