@@ -257,8 +257,10 @@ public class FragmentMedia extends Fragment {
                     .createMediaSource(mediaItem);
         }
         player = new ExoPlayer.Builder(requireActivity()).build();
-        if (type.equalsIgnoreCase("gifv"))
+        if (type.equalsIgnoreCase("gifv")) {
             player.setRepeatMode(Player.REPEAT_MODE_ONE);
+            binding.mediaVideo.setUseController(false);
+        }
         binding.mediaVideo.setPlayer(player);
         binding.loader.setVisibility(View.GONE);
         binding.mediaPicture.setVisibility(View.GONE);
