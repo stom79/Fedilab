@@ -2,7 +2,7 @@ Added:
 - Visual indicator when fetching missing messages
 
 Changed:
+- Maths formula aligned to the left
 
 Fixed:
-
 - Some crashes

@@ -866,8 +866,10 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     } else {
                         Toasty.info(ComposeActivity.this, getString(R.string.toot_error_no_content), Toasty.LENGTH_SHORT).show();
                     }
-                    statusDrafts.get(statusDrafts.size() - 1).submitted = false;
-                    composeAdapter.notifyItemChanged(statusList.size() - 1);
+                    if (statusDrafts.size() > 0) {
+                        statusDrafts.get(statusDrafts.size() - 1).submitted = false;
+                        composeAdapter.notifyItemChanged(statusList.size() - 1);
+                    }
                 };
                 mainHandler.post(myRunnable);
                 return;
@@ -967,7 +969,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         boolean warnOnly = sharedpreferences.getBoolean(getString(R.string.SET_MANDATORY_ALT_TEXT_WARN), true);
         if (checkAlt) {
             for (Status status : statusDraft.statusDraftList) {
-                if (status.media_attachments != null && status.media_attachments.size() > 0) {
+                if (status != null && status.media_attachments != null && status.media_attachments.size() > 0) {
                     for (Attachment attachment : status.media_attachments) {
                         if (attachment.description == null || attachment.description.trim().isEmpty()) {
                             return warnOnly ? -2 : -1;

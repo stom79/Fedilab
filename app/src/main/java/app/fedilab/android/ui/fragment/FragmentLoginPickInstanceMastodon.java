@@ -90,6 +90,9 @@ public class FragmentLoginPickInstanceMastodon extends Fragment implements Insta
         binding.regCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (requireActivity().isFinishing() || !isAdded()) {
+                    return;
+                }
                 if (itemA[position].compareTo("custom") != 0) {
                     JoinInstancesVM joinInstancesVM = new ViewModelProvider(requireActivity()).get(JoinInstancesVM.class);
                     joinInstancesVM.getInstances(itemA[position]).observe(requireActivity(), instances -> {
