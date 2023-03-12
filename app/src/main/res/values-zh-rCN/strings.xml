@@ -118,7 +118,7 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">选择媒体时出错！</string>
     <string name="toot_delete_media">删除此媒体？</string>
-    <string name="toot_error_no_content">你的消息是空的！</string>
+    <string name="toot_error_no_content">您的消息是空的！</string>
     <string name="toot_sent">消息已发送！</string>
     <string name="toot_sensitive">敏感内容？</string>
     <string name="no_draft">没有草稿！</string>
@@ -161,10 +161,10 @@
     <string name="no_notifications">没有可显示的通知</string>
     <string name="notif_mention">提及了您</string>
     <string name="notif_status">写了一条新消息</string>
-    <string name="notif_reblog">转发了你的状态</string>
-    <string name="notif_favourite">喜欢你的状态</string>
-    <string name="notif_follow">关注了你</string>
-    <string name="notif_follow_request">请求关注你</string>
+    <string name="notif_reblog">转发了您的状态</string>
+    <string name="notif_favourite">喜欢您的状态</string>
+    <string name="notif_follow">关注了您</string>
+    <string name="notif_follow_request">请求关注您</string>
     <string name="delete_notification_ask_all">删除所有通知？</string>
     <string name="delete_notification_all">所有通知已删除！</string>
     <!-- HEADER -->
@@ -191,10 +191,10 @@
     <!-- Settings -->
     <string name="set_toots_page">每次加载的消息数</string>
     <string name="set_disable_gif">禁用 GIF 头像</string>
-    <string name="set_notif_follow">当有人关注你时通知</string>
+    <string name="set_notif_follow">当有人关注您时通知</string>
     <string name="set_notif_follow_share">当有人提升您的地位时通知</string>
     <string name="set_notif_follow_add">当有人收藏您的状态时通知</string>
-    <string name="set_notif_follow_mention">当有人提及你时通知</string>
+    <string name="set_notif_follow_mention">当有人提及您时通知</string>
     <string name="set_notif_follow_poll">投票结束时通知</string>
     <string name="set_notif_status">通知新职位</string>
     <string name="set_share_validation">转发前显示确认对话框</string>
@@ -630,12 +630,12 @@
     <string name="followers_only">仅限关注者</string>
     <string name="report_val_more3">您知道它违反了特定规则</string>
     <string name="report_1_mute_title">静音 %1$s</string>
-    <string name="report_1_mute">你不会看到他们的帖子。他们仍然可以关注您并查看您的帖子，并且不会知道他们已被静音。</string>
+    <string name="report_1_mute">您不会看到他们的帖子。他们仍然可以关注您并查看您的帖子，并且不会知道他们已被静音。</string>
     <string name="delete_notification_all_warning">您确定要删除所有通知吗？它无法撤消。</string>
     <string name="about_mastodon">“Mastodon 不是像 Twitter 或 Facebook 这样的单一网站，它是由不同组织和个人运营的数千个社区组成的网络，提供无缝的社交媒体体验。”</string>
     <string name="notif_display_favourites">收藏夹</string>
     <string name="profiled_updated">个人资料已更新！</string>
-    <string name="msg_save_image">你想退出而不保存图像吗？</string>
+    <string name="msg_save_image">您想退出而不保存图像吗？</string>
     <string name="mark_resolved">标记为已解决</string>
     <string name="account_rejected">帐号被拒绝</string>
     <string name="confirmed">已确认</string>
@@ -812,7 +812,7 @@
     <string name="stop_recording">停止录音</string>
     <string name="report_title">举报 %1$s</string>
     <string name="report_1_block_title">屏蔽 %1$s</string>
-    <string name="report_1_block">你不会看到他们的帖子。他们将无法看到您的帖子或关注您。他们将能够知道他们被屏蔽了。</string>
+    <string name="report_1_block">您不会看到他们的帖子。他们将无法看到您的帖子或关注您。他们将能够知道他们被屏蔽了。</string>
     <string name="mark_all_as_read">将所有通知标记为已读</string>
     <string name="display_all_categories">显示所有类别</string>
     <string name="notif_display_follows">关注</string>
@@ -837,7 +837,7 @@
     <string name="is_up">在线！</string>
     <string name="is_down">离线！</string>
     <string name="report_val1">我不喜欢</string>
-    <string name="report_val_more1">这不是你想看到的</string>
+    <string name="report_val_more1">这不是您想看到的</string>
     <string name="report_1_title">不想看到这个？</string>
     <string name="notif_display_poll_results">投票结果</string>
     <string name="my_account">我的帐号</string>
@@ -858,7 +858,7 @@
     <string name="approve">批准</string>
     <string name="set_unlisted_replies">不公开回复</string>
     <string name="max_indentation_thread">同主题帖子中最大缩进</string>
-    <string name="action_followed_tag_empty">你没有关注任何标签！</string>
+    <string name="action_followed_tag_empty">您没有关注任何标签！</string>
     <string name="type_of_notifications_title">选择通知类型</string>
     <string name="pref_contributor">贡献者的主题</string>
     <string name="poll_type">投票类型：</string>
@@ -903,7 +903,7 @@
     <string name="report_more">您认为我们还应该知道什么吗？</string>
     <string name="report_more_additional">补充评论</string>
     <string name="report_more_forward">转发给 %1$s</string>
-    <string name="invite_join_the_fediverse">你好！我们邀请您加入 Fediverse。</string>
+    <string name="invite_join_the_fediverse">您好！我们邀请您加入 Fediverse。</string>
     <string name="about_peertube">“PeerTube 是由法国非营利组织 Framasoft 开发的在线视频共享工具......PeerTube 允许平台相互连接，创建一个既自治又相互关联的平台大网络。”</string>
     <string name="notif_display_reblogs">转发</string>
     <string name="interactions">互动</string>
@@ -1039,4 +1039,6 @@
     <string name="toast_error_media">无法加载媒体！</string>
     <string name="requested_by">请求关注您</string>
     <string name="fetch_remote_media">当远程媒体不可用时自动获取</string>
+    <string name="warn_boost_no_media_description">如果消息在转发前没有媒体描述，则发出警告</string>
+    <string name="reblog_missing_description">此消息缺少媒体描述。您确定要转发它吗？</string>
 </resources>
