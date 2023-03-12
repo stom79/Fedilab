@@ -1,0 +1,8 @@
+Added:
+- Visual indicator when fetching missing messages
+
+Changed:
+
+Fixed:
+
+- Some crashes
