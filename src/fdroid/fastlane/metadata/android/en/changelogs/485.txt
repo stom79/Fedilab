@@ -5,4 +5,5 @@ Changed:
 - Maths formula aligned to the left
 
 Fixed:
+- Fix an issue with Nitter and some URLs
 - Some crashes
