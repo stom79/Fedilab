@@ -1041,4 +1041,6 @@
     <string name="fetch_remote_media">当远程媒体不可用时自动获取</string>
     <string name="warn_boost_no_media_description">如果消息在转发前没有媒体描述，则发出警告</string>
     <string name="reblog_missing_description">此消息缺少媒体描述。您确定要转发它吗？</string>
+    <string name="add_description">添加描述</string>
+    <string name="fetching_messages">获取消息中</string>
 </resources>
