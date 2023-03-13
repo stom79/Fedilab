@@ -4,6 +4,7 @@ Added:
 
 Changed:
 - Maths formula aligned to the left
+- Faster access to delete all notifications
 
 Fixed:
 - Fix an issue with Nitter and some URLs

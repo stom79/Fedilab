@@ -27,12 +27,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 
@@ -93,23 +91,7 @@ public class FragmentNotificationContainer extends Fragment {
             dialogBuilder.setView(dialogView.getRoot());
 
 
-            dialogView.clearAllNotif.setOnClickListener(v1 -> {
-                AlertDialog.Builder db = new MaterialAlertDialogBuilder(requireActivity());
-                db.setTitle(R.string.delete_notification_ask_all);
-                db.setMessage(R.string.delete_notification_all_warning);
-                db.setPositiveButton(R.string.delete_all, (dialog, id) -> {
-                    changes.set(true);
-                    NotificationsVM notificationsVM = new ViewModelProvider(FragmentNotificationContainer.this).get(NotificationsVM.class);
-                    notificationsVM.clearNotification(BaseMainActivity.currentUserID, BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
-                            .observe(getViewLifecycleOwner(), unused -> {
-                                Toasty.info(requireActivity(), R.string.delete_notification_all, Toasty.LENGTH_LONG).show();
-                            });
-                    dialog.dismiss();
-                });
-                db.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
-                AlertDialog alertDialog = db.create();
-                alertDialog.show();
-            });
+
 
             boolean displayAllCategory = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_ALL_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, false);
             dialogView.displayAllCategories.setChecked(displayAllCategory);
@@ -204,18 +186,27 @@ public class FragmentNotificationContainer extends Fragment {
                 }
             });
 
-            dialogView.more.setOnClickListener(v1 -> {
-                if (dialogView.clearAllNotif.getVisibility() == View.VISIBLE) {
-                    dialogView.clearAllNotif.setVisibility(View.GONE);
-                    ((MaterialButton) v1).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_expand_more_24, requireContext().getTheme()));
-                } else {
-                    dialogView.clearAllNotif.setVisibility(View.VISIBLE);
-                    ((MaterialButton) v1).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_expand_less_24, requireContext().getTheme()));
-                }
-            });
             dialogBuilder.setOnDismissListener(dialogInterface -> doAction(changes.get(), excludedCategoriesList));
             dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
             AlertDialog alertDialog = dialogBuilder.create();
+            dialogView.clearAllNotif.setOnClickListener(v1 -> {
+                AlertDialog.Builder db = new MaterialAlertDialogBuilder(requireActivity());
+                db.setTitle(R.string.delete_notification_ask_all);
+                db.setMessage(R.string.delete_notification_all_warning);
+                db.setPositiveButton(R.string.delete_all, (dialog, id) -> {
+                    changes.set(true);
+                    NotificationsVM notificationsVM = new ViewModelProvider(FragmentNotificationContainer.this).get(NotificationsVM.class);
+                    notificationsVM.clearNotification(BaseMainActivity.currentUserID, BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
+                            .observe(getViewLifecycleOwner(), unused -> {
+                                Toasty.info(requireActivity(), R.string.delete_notification_all, Toasty.LENGTH_LONG).show();
+                            });
+                    dialog.dismiss();
+                    alertDialog.dismiss();
+                });
+                db.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                AlertDialog alertDialogDb = db.create();
+                alertDialogDb.show();
+            });
             alertDialog.show();
         });
 

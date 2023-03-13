@@ -128,9 +128,8 @@
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/more"
-            style="@style/Widget.Material3.Button.TextButton"
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -138,18 +137,16 @@
             android:text="@string/more_actions"
             android:textAllCaps="false"
             android:textColor="?colorError"
-            app:icon="@drawable/ic_baseline_expand_more_24"
-            app:iconTint="?colorError"
-            app:rippleColor="?colorError" />
+            android:background="@drawable/red_border" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/clear_all_notif"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:text="@string/clear_all_notif"
             android:textColor="?colorError"
-            android:visibility="gone"
             app:icon="@drawable/ic_baseline_delete_24"
             app:iconTint="?colorError"
             app:rippleColor="?colorError"
