@@ -534,7 +534,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                 holder.binding.media.moreMedia.setVisibility(View.GONE);
             } else if (status.media_attachments.size() == 3) {
                 holder.binding.media.media1Container.setVisibility(View.VISIBLE);
-                if (status.media_attachments.get(0).meta != null && status.media_attachments.get(0).meta.small.width < status.media_attachments.get(0).meta.small.height) {
+                if (status.media_attachments.get(0).meta != null && status.media_attachments.get(0).meta.getSmall().width < status.media_attachments.get(0).meta.getSmall().height) {
                     ConstraintSet constraintSet = new ConstraintSet();
                     constraintSet.clone(holder.binding.media.mediaContainer);
                     constraintSet.connect(holder.binding.media.media4Container.getId(), ConstraintSet.START, holder.binding.media.media1Container.getId(), ConstraintSet.END);
@@ -594,7 +594,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                 if (mediaPosition == 1) {
                     holder.binding.media.media1Container.addView(layoutMediaBinding.getRoot());
                 } else if (mediaPosition == 2 && status.media_attachments.size() == 3) {
-                    if (status.media_attachments.get(0).meta != null && status.media_attachments.get(0).meta.small.width < status.media_attachments.get(0).meta.small.height) {
+                    if (status.media_attachments.get(0).meta != null && status.media_attachments.get(0).meta.getSmall().width < status.media_attachments.get(0).meta.getSmall().height) {
                         holder.binding.media.media2Container.addView(layoutMediaBinding.getRoot());
                     } else {
                         holder.binding.media.media3Container.addView(layoutMediaBinding.getRoot());

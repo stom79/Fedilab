@@ -1527,7 +1527,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         holder.binding.media.moreMedia.setVisibility(View.GONE);
                     } else if (statusToDeal.media_attachments.size() == 3) {
                         holder.binding.media.media1Container.setVisibility(View.VISIBLE);
-                        if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.small != null && statusToDeal.media_attachments.get(0).meta.small.width < statusToDeal.media_attachments.get(0).meta.small.height) {
+                        if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.getSmall() != null && statusToDeal.media_attachments.get(0).meta.getSmall().width < statusToDeal.media_attachments.get(0).meta.getSmall().height) {
                             ConstraintSet constraintSet = new ConstraintSet();
                             constraintSet.clone(holder.binding.media.mediaContainer);
                             constraintSet.connect(holder.binding.media.media4Container.getId(), ConstraintSet.START, holder.binding.media.media1Container.getId(), ConstraintSet.END);
@@ -1570,7 +1570,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         if (mediaPosition == 1) {
                             holder.binding.media.media1Container.addView(layoutMediaBinding.getRoot());
                         } else if (mediaPosition == 2 && statusToDeal.media_attachments.size() == 3) {
-                            if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.small != null && statusToDeal.media_attachments.get(0).meta.small.width < statusToDeal.media_attachments.get(0).meta.small.height) {
+                            if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.getSmall() != null && statusToDeal.media_attachments.get(0).meta.getSmall().width < statusToDeal.media_attachments.get(0).meta.getSmall().height) {
                                 holder.binding.media.media2Container.addView(layoutMediaBinding.getRoot());
                             } else {
                                 holder.binding.media.media3Container.addView(layoutMediaBinding.getRoot());
@@ -1590,9 +1590,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         float ratio = 1.0f;
                         float mediaH = -1.0f;
                         float mediaW = -1.0f;
-                        if (attachment.meta != null && attachment.meta.small != null) {
-                            mediaH = attachment.meta.small.height;
-                            mediaW = attachment.meta.small.width;
+                        if (attachment.meta != null && attachment.meta.getSmall() != null) {
+                            mediaH = attachment.meta.getSmall().height;
+                            mediaW = attachment.meta.getSmall().width;
                             if (mediaW != 0) {
                                 ratio = measuredWidth > 0 ? measuredWidth / mediaW : 1.0f;
                             }
@@ -2628,7 +2628,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         float focusX = 0.f;
         float focusY = 0.f;
-        if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.small != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
+        if (statusToDeal.media_attachments.get(0).meta != null && statusToDeal.media_attachments.get(0).meta.getSmall() != null && statusToDeal.media_attachments.get(0).meta.focus != null) {
             focusX = statusToDeal.media_attachments.get(0).meta.focus.x;
             focusY = statusToDeal.media_attachments.get(0).meta.focus.y;
         }
@@ -2905,9 +2905,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         int mediaH = 0;
         int mediaW = 0;
-        if (attachment.meta != null && attachment.meta.small != null) {
-            mediaH = attachment.meta.small.height;
-            mediaW = attachment.meta.small.width;
+        if (attachment.meta != null && attachment.meta.getSmall() != null) {
+            mediaH = attachment.meta.getSmall().height;
+            mediaW = attachment.meta.getSmall().width;
         }
         return prepareRequestBuilder(context, attachment, mediaW, mediaH, focusX, focusY, attachment.sensitive, timelineType == Timeline.TimeLineEnum.ART).load(attachment);
     }
@@ -3127,10 +3127,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
             }
             if (status.art_attachment != null) {
-                if (status.art_attachment.meta != null && status.art_attachment.meta.small != null) {
+                if (status.art_attachment.meta != null && status.art_attachment.meta.getSmall() != null) {
                     ConstraintLayout.LayoutParams lp;
-                    float mediaH = status.art_attachment.meta.small.height;
-                    float mediaW = status.art_attachment.meta.small.width;
+                    float mediaH = status.art_attachment.meta.getSmall().height;
+                    float mediaW = status.art_attachment.meta.getSmall().width;
                     float ratio = measuredWidthArt > 0 ? measuredWidthArt / mediaW : 1.0f;
                     lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
                     holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);

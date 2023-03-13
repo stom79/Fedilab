@@ -73,6 +73,16 @@ public class Attachment implements Serializable {
         public MediaData original;
         @SerializedName("small")
         public MediaData small;
+
+        public MediaData getSmall() {
+            if (small != null) {
+                return small;
+            } else if (original != null) {
+                return original;
+            } else {
+                return null;
+            }
+        }
     }
 
     public static class Focus implements Serializable {

@@ -390,8 +390,8 @@ public class MediaHelper {
         int maxHeight = RelativeLayout.LayoutParams.WRAP_CONTENT;
         if (attachmentList != null && attachmentList.size() > 0) {
             for (Attachment attachment : attachmentList) {
-                if (attachment.meta != null && attachment.meta.small != null && attachment.meta.small.height > maxHeight) {
-                    maxHeight = (int) Helper.convertDpToPixel(attachment.meta.small.height, context);
+                if (attachment.meta != null && attachment.meta.getSmall() != null && attachment.meta.getSmall().height > maxHeight) {
+                    maxHeight = (int) Helper.convertDpToPixel(attachment.meta.getSmall().height, context);
                 }
             }
         }

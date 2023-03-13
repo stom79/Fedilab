@@ -9,4 +9,5 @@ Changed:
 Fixed:
 - Fix an issue with Nitter and some URLs
 - Fix an issue when entering a Peertube instance
+- Fix jumps with Akkoma/Pleroma when media preview size is not set
 - Some crashes
