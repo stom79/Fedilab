@@ -7,4 +7,5 @@ Changed:
 
 Fixed:
 - Fix an issue with Nitter and some URLs
+- Fix an issue when entering a Peertube instance
 - Some crashes
