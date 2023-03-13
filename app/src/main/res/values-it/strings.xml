@@ -164,7 +164,7 @@
     <!-- Notifications -->
     <string name="no_notifications">Nessuna notifica da visualizzare</string>
     <string name="notif_mention">ti ha menzionato</string>
-    <string name="notif_status">scrivi un nuovo messaggio</string>
+    <string name="notif_status">ha scritto un nuovo messaggio</string>
     <string name="notif_reblog">ha ricondiviso il tuo stato</string>
     <string name="notif_favourite">ha messo tra i preferiti il tuo stato</string>
     <string name="notif_follow">ti segue</string>

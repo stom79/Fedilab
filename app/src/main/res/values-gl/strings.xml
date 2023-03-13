@@ -1033,4 +1033,8 @@
     <string name="no_cached_messages">Non hai mensaxes na caché de Inicio!</string>
     <string name="toast_error_media">Non se puido cargar o multimedia!</string>
     <string name="load_media_remotely">Cargar multimedia remoto</string>
+    <string name="reblog_missing_description">A esta mensaxe fáltalle a descrición do multimedia. Así a todo, queres promovela\?</string>
+    <string name="requested_by">Solicitou seguirte</string>
+    <string name="warn_boost_no_media_description">Avisar de publicar de que o multimedia non inclúe descrición</string>
+    <string name="fetch_remote_media">Baixar automáticamente multimedia remoto cando non estivese dispoñible</string>
 </resources>

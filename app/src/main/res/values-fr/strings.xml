@@ -1014,4 +1014,14 @@
     <string name="truncate_links_max">Nombre maximal de caractères dans les liens</string>
     <string name="set_remove_battery">Ignorer les optimisations de batterie</string>
     <string name="set_autoplay_gif">Lecture automatique des médias animés</string>
+    <string name="frequency_minutes">Fréquence (minutes)</string>
+    <string name="warn_boost_no_media_description">Avertir si le message n’a pas de description de média avant de le booster</string>
+    <string name="reblog_missing_description">La description du média de ce message est manquante. Êtes-vous sûr de vouloir le booster \?</string>
+    <string name="fetch_remote_media">Récupérer automatiquement les médias distants lorsqu’ils ne sont pas disponibles</string>
+    <string name="toast_error_media">Le média ne peut pas être chargé !</string>
+    <string name="load_media_remotely">Charger les médias distants</string>
+    <string name="toot_error_no_media_description">Une description de média est manquante</string>
+    <string name="set_alt_text_mandatory_description">Le message ne sera pas publié si le média n’est pas accompagné d’une description</string>
+    <string name="set_alt_text_mandatory">Description obligatoire pour les médias</string>
+    <string name="requested_by">A demandé de vous suivre</string>
 </resources>

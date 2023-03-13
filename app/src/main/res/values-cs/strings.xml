@@ -1048,4 +1048,6 @@
     <string name="toast_error_media">Média nelze načíst!</string>
     <string name="load_media_remotely">Načítat média vzdáleně</string>
     <string name="fetch_remote_media">Automaticky načítat vzdálená média, pokud nejsou k dispozici</string>
+    <string name="reblog_missing_description">U této zprávy chybí popis médií. Opravdu ji chcete boostnout\?</string>
+    <string name="warn_boost_no_media_description">Varovat před boostnutím, pokud zpráva nemá popis médií</string>
 </resources>
