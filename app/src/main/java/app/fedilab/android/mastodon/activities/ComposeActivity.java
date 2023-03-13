@@ -858,7 +858,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                             dialog.dismiss();
 
                         });
-                        materialAlertDialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> {
+                        materialAlertDialogBuilder.setNegativeButton(R.string.add_description, (dialog, id) -> {
+                            composeAdapter.openMissingDescription();
                             dialog.cancel();
                         });
                         AlertDialog alert = materialAlertDialogBuilder.create();

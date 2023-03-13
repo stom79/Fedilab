@@ -1959,4 +1959,5 @@
     <string name="toast_error_media">Media cannot be loaded!</string>
     <string name="fetch_remote_media">Automatically fetch remote media when they are not available</string>
     <string name="fetching_messages">Fetching messages</string>
+    <string name="add_description">Add a description</string>
 </resources>

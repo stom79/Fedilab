@@ -1,5 +1,6 @@
 Added:
 - Visual indicator when fetching missing messages
+- Open media description when it is missing in the warning dialog
 
 Changed:
 - Maths formula aligned to the left

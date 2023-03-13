@@ -169,6 +169,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<Emoji> emojisList = new ArrayList<>();
     private boolean unlisted_changed = false;
 
+    private RecyclerView mRecyclerView;
+
     public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, Account mentionedAccount, String visibility, String editMessageId) {
         this.statusList = statusList;
         this.statusCount = statusCount;
@@ -1134,34 +1136,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         intent.putExtras(b);
                         context.startActivity(intent);
                     });
-                    composeAttachmentItemBinding.buttonDescription.setOnClickListener(v -> {
-                        AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
-                       // builderInner.setTitle(R.string.upload_form_description);
-                        PopupMediaDescriptionBinding popupMediaDescriptionBinding = PopupMediaDescriptionBinding.inflate(LayoutInflater.from(context), null, false);
-                        builderInner.setView(popupMediaDescriptionBinding.getRoot());
-
-                        popupMediaDescriptionBinding.mediaDescription.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1500)});
-                        popupMediaDescriptionBinding.mediaDescription.requestFocus();
-                        Glide.with(popupMediaDescriptionBinding.mediaPicture.getContext())
-                                .load(attachmentPath)
-                                .apply(new RequestOptions().transform(new RoundedCorners(30)))
-                                .into(popupMediaDescriptionBinding.mediaPicture);
-                        builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                        if (attachment.description != null) {
-                            popupMediaDescriptionBinding.mediaDescription.setText(attachment.description);
-                            popupMediaDescriptionBinding.mediaDescription.setSelection(popupMediaDescriptionBinding.mediaDescription.getText().length());
-                        }
-                        builderInner.setPositiveButton(R.string.validate, (dialog, which) -> {
-                            attachment.description = popupMediaDescriptionBinding.mediaDescription.getText().toString();
-                            displayAttachments(holder, position, finalMediaPosition);
-                            dialog.dismiss();
-                        });
-                        AlertDialog alertDialog = builderInner.create();
-                        Objects.requireNonNull(alertDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                        alertDialog.show();
-                        popupMediaDescriptionBinding.mediaDescription.requestFocus();
-
-                    });
+                    composeAttachmentItemBinding.buttonDescription.setOnClickListener(v -> openDescription(holder, attachment, position, finalMediaPosition));
 
                     composeAttachmentItemBinding.buttonOrderUp.setOnClickListener(v -> {
                         if (finalMediaPosition > 0 && attachmentList.size() > 1) {
@@ -1229,6 +1204,66 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.sensitiveMedia.setVisibility(View.GONE);
         }
         buttonState(holder);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
+    }
+
+
+    public void openMissingDescription() {
+        int position = 0;
+        if (mRecyclerView == null) {
+            return;
+        }
+        for (Status status : statusList) {
+            if (getItemViewType(position) == TYPE_COMPOSE) {
+                if (status != null && status.media_attachments != null && status.media_attachments.size() > 0) {
+                    int mediaPosition = 0;
+                    for (Attachment attachment : status.media_attachments) {
+                        if (attachment.description == null || attachment.description.trim().isEmpty()) {
+                            ComposeViewHolder composeViewHolder = (ComposeViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+                            openDescription(composeViewHolder, attachment, position, mediaPosition);
+                            return;
+                        }
+                        mediaPosition++;
+                    }
+                }
+            }
+            position++;
+        }
+    }
+
+
+    private void openDescription(ComposeViewHolder holder, Attachment attachment, int messagePosition, int mediaPosition) {
+        String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;
+        AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
+        // builderInner.setTitle(R.string.upload_form_description);
+        PopupMediaDescriptionBinding popupMediaDescriptionBinding = PopupMediaDescriptionBinding.inflate(LayoutInflater.from(context), null, false);
+        builderInner.setView(popupMediaDescriptionBinding.getRoot());
+
+        popupMediaDescriptionBinding.mediaDescription.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1500)});
+        popupMediaDescriptionBinding.mediaDescription.requestFocus();
+        Glide.with(popupMediaDescriptionBinding.mediaPicture.getContext())
+                .load(attachmentPath)
+                .apply(new RequestOptions().transform(new RoundedCorners(30)))
+                .into(popupMediaDescriptionBinding.mediaPicture);
+        builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+        if (attachment.description != null) {
+            popupMediaDescriptionBinding.mediaDescription.setText(attachment.description);
+            popupMediaDescriptionBinding.mediaDescription.setSelection(popupMediaDescriptionBinding.mediaDescription.getText().length());
+        }
+        builderInner.setPositiveButton(R.string.validate, (dialog, which) -> {
+            attachment.description = popupMediaDescriptionBinding.mediaDescription.getText().toString();
+            displayAttachments(holder, messagePosition, mediaPosition);
+            dialog.dismiss();
+        });
+        AlertDialog alertDialog = builderInner.create();
+        Objects.requireNonNull(alertDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        alertDialog.show();
+        popupMediaDescriptionBinding.mediaDescription.requestFocus();
     }
 
     /**
