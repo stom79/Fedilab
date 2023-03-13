@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.20.2",
+    "code": "485",
+    "note": "Added:\n- Visual indicator when fetching missing messages\n- Open media description when it is missing from the warning dialog\n\nChanged:\n- Maths formula aligned to the left\n- Faster access to delete all notifications\n\nFixed:\n- Fix an issue with Nitter and some URLs\n- Fix refresh issue with notifications\n- Fix an issue when entering a Peertube instance\n- Fix jumps with Akkoma/Pleroma when media preview size is not set\n- Some crashes"
+  },
+  {
     "version": "3.20.1",
     "code": "484",
     "note": "Added:\n- Add a button to fetch remote media when it fails\n- Add a settings to automatically fetch remote media when it fails (default: disabled)\n- Display on profiles & list of accounts if users have requested to follow you\n- Warn before boosting a message having no media descriptions (default: enabled)\n\nChanged:\n- Warn when there are missing descriptions enabled by default\n\nFixed:\n- Some settings not properly restored (multiple choices)\n- Cancel a follow request\n- Media with a lot of height in landscape\n- Some crashes"

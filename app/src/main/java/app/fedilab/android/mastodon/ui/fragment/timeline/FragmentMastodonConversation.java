@@ -17,6 +17,7 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,6 +106,9 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
             } else {
                 route(null, false);
             }
+        }
+        if (conversationList != null && conversationList.size() > 0) {
+            route(FragmentMastodonTimeline.DIRECTION.FETCH_NEW, true);
         }
     }
 
@@ -209,11 +213,11 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         } else if (direction == FragmentMastodonTimeline.DIRECTION.TOP) {
             timelinesVM.getConversations(conversationList, timelineParams)
                     .observe(getViewLifecycleOwner(), conversationsTop -> dealWithPagination(conversationsTop, FragmentMastodonTimeline.DIRECTION.TOP, fetchingMissing, conversationToUpdate));
-        } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
+        } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
             timelinesVM.getConversations(conversationList, timelineParams)
                     .observe(getViewLifecycleOwner(), conversationsRefresh -> {
                         if (conversationAdapter != null) {
-                            dealWithPagination(conversationsRefresh, FragmentMastodonTimeline.DIRECTION.REFRESH, true, conversationToUpdate);
+                            dealWithPagination(conversationsRefresh, direction, true, conversationToUpdate);
                         } else {
                             initializeConversationCommonView(conversationsRefresh);
                         }
@@ -416,7 +420,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
             flagLoading = true;
         }
         if (direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
-            binding.recyclerView.scrollToPosition(0);
+            new Handler().postDelayed(() -> binding.recyclerView.scrollToPosition(0), 200);
         }
     }
 
@@ -481,7 +485,11 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
 
 
     public void scrollToTop() {
-        binding.recyclerView.scrollToPosition(0);
+        if (binding != null) {
+            binding.swipeContainer.setRefreshing(true);
+            flagLoading = false;
+            route(FragmentMastodonTimeline.DIRECTION.SCROLL_TOP, true);
+        }
     }
 
     @Override

@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +111,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private LinearLayoutManager mLayoutManager;
     private NotificationTypeEnum notificationType;
     private boolean aggregateNotification;
+
     private final BroadcastReceiver receive_refresh = new BroadcastReceiver() {
 
         @Override
@@ -475,11 +477,11 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         } else if (direction == FragmentMastodonTimeline.DIRECTION.TOP) {
             notificationsVM.getNotifications(notificationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notificationsTop -> dealWithPagination(notificationsTop, FragmentMastodonTimeline.DIRECTION.TOP, fetchingMissing, notificationToUpdate));
-        } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
+        } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
             notificationsVM.getNotifications(notificationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notificationsRefresh -> {
                         if (notificationAdapter != null) {
-                            dealWithPagination(notificationsRefresh, FragmentMastodonTimeline.DIRECTION.REFRESH, true, notificationToUpdate);
+                            dealWithPagination(notificationsRefresh, direction, true, notificationToUpdate);
                         } else {
                             initializeNotificationView(notificationsRefresh);
                         }
@@ -532,7 +534,11 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     }
 
     public void scrollToTop() {
-        binding.recyclerView.scrollToPosition(0);
+        if (binding != null) {
+            binding.swipeContainer.setRefreshing(true);
+            flagLoading = false;
+            route(FragmentMastodonTimeline.DIRECTION.SCROLL_TOP, true);
+        }
     }
 
 
@@ -618,7 +624,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             flagLoading = true;
         }
         if (direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
-            binding.recyclerView.scrollToPosition(0);
+            new Handler().postDelayed(() -> binding.recyclerView.scrollToPosition(0), 200);
         }
     }
 
