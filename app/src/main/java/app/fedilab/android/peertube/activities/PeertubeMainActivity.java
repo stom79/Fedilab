@@ -162,7 +162,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         Intent intentActvity = getIntent();
         if (intentActvity != null) {
             Bundle extras = intentActvity.getExtras();
-            String userIdIntent, instanceIntent, urlOfMessage;
             if (extras != null && extras.containsKey(app.fedilab.android.mastodon.helper.Helper.ARG_PEERTUBE_NAV_REMOTE)) {
                 if (extras.getBoolean(app.fedilab.android.mastodon.helper.Helper.ARG_PEERTUBE_NAV_REMOTE)) {
                     typeOfConnection = PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT;
@@ -226,7 +225,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             } catch (DBException e) {
                 e.printStackTrace();
             }
-            if (currentAccount != null && currentAccount.mastodon_account != null) {
+            if (currentAccount != null && currentAccount.mastodon_account != null && typeOfConnection != TypeOfConnection.REMOTE_ACCOUNT) {
                 //It is a Mastodon User
                 Intent myIntent = new Intent(PeertubeMainActivity.this, MainActivity.class);
                 startActivity(myIntent);
@@ -244,22 +243,42 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.peertube_account.getUsername(), currentAccount.instance));
-                if (currentAccount.peertube_account.getDisplayName() == null || currentAccount.peertube_account.getDisplayName().isEmpty()) {
-                    currentAccount.peertube_account.setDisplayName(currentAccount.peertube_account.getAcct());
-                }
-                headerMainBinding.accountName.setText(currentAccount.peertube_account.getDisplayName());
-                float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
-                headerMainBinding.accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-                headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-                app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
-                headerMainBinding.backgroundImage.setAlpha(0.5f);
-                headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
-                headerMainBinding.changeAccount.setOnClickListener(v -> {
+                if (typeOfConnection == TypeOfConnection.REMOTE_ACCOUNT) {
+                    headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.mastodon_account.username, currentAccount.instance));
+                    if (currentAccount.mastodon_account.display_name == null || currentAccount.mastodon_account.display_name.isEmpty()) {
+                        currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
+                    }
+                    headerMainBinding.accountName.setText(currentAccount.mastodon_account.display_name);
+                    float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
+                    headerMainBinding.accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
+                    headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
+                    app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
+                    headerMainBinding.backgroundImage.setAlpha(0.5f);
+                    headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
+                    headerMainBinding.changeAccount.setOnClickListener(v -> {
 
-                    headerMenuOpen = !headerMenuOpen;
-                    manageDrawerMenu(PeertubeMainActivity.this, binding.drawerNavView, headerMainBinding);
-                });
+                        headerMenuOpen = !headerMenuOpen;
+                        manageDrawerMenu(PeertubeMainActivity.this, binding.drawerNavView, headerMainBinding);
+                    });
+                } else {
+                    headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.peertube_account.getUsername(), currentAccount.instance));
+                    if (currentAccount.peertube_account.getDisplayName() == null || currentAccount.peertube_account.getDisplayName().isEmpty()) {
+                        currentAccount.peertube_account.setDisplayName(currentAccount.peertube_account.getAcct());
+                    }
+                    headerMainBinding.accountName.setText(currentAccount.peertube_account.getDisplayName());
+                    float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
+                    headerMainBinding.accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
+                    headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
+                    app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
+                    headerMainBinding.backgroundImage.setAlpha(0.5f);
+                    headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
+                    headerMainBinding.changeAccount.setOnClickListener(v -> {
+
+                        headerMenuOpen = !headerMenuOpen;
+                        manageDrawerMenu(PeertubeMainActivity.this, binding.drawerNavView, headerMainBinding);
+                    });
+                }
+
                 if (Helper.isLoggedIn()) {
                     binding.navView.inflateMenu(R.menu.bottom_nav_menu_connected_peertube);
                     refreshToken();
