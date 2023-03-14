@@ -15,6 +15,9 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.currentToken;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,10 +27,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityStatusInfoBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
@@ -50,6 +54,9 @@ public class StatusInfoActivity extends BaseActivity {
     private boolean flagLoading;
     private Status status;
 
+    private boolean checkRemotely;
+    private String instance, token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,20 +69,41 @@ public class StatusInfoActivity extends BaseActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         accountList = new ArrayList<>();
+        checkRemotely = false;
         Bundle b = getIntent().getExtras();
         if (b != null) {
             type = (typeOfInfo) b.getSerializable(Helper.ARG_TYPE_OF_INFO);
             status = (Status) b.getSerializable(Helper.ARG_STATUS);
+            checkRemotely = b.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
         }
         if (type == null || status == null) {
             finish();
             return;
         }
+
+        token = currentToken;
+        instance = currentInstance;
+        if (checkRemotely) {
+            try {
+                URL url = new URL(status.uri);
+                instance = url.getHost();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            token = null;
+            if (instance != null && instance.equalsIgnoreCase(currentInstance)) {
+                checkRemotely = false;
+                instance = currentInstance;
+                token = currentToken;
+            }
+        }
+
         flagLoading = false;
         max_id = null;
+        setTitle("");
         binding.title.setText(type == typeOfInfo.BOOSTED_BY ? R.string.boosted_by : R.string.favourited_by);
         StatusesVM statusesVM = new ViewModelProvider(StatusInfoActivity.this).get(StatusesVM.class);
-        accountAdapter = new AccountAdapter(accountList);
+        accountAdapter = new AccountAdapter(accountList, false, checkRemotely ? instance : null);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(StatusInfoActivity.this);
         binding.lvAccounts.setLayoutManager(mLayoutManager);
         binding.lvAccounts.setAdapter(accountAdapter);
@@ -92,9 +120,9 @@ public class StatusInfoActivity extends BaseActivity {
                             flagLoading = true;
                             binding.loadingNextAccounts.setVisibility(View.VISIBLE);
                             if (type == typeOfInfo.BOOSTED_BY) {
-                                statusesVM.rebloggedBy(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, max_id, null, null).observe(StatusInfoActivity.this, accounts -> manageView(accounts));
+                                statusesVM.rebloggedBy(instance, token, status.id, max_id, null, null).observe(StatusInfoActivity.this, accounts -> manageView(accounts));
                             } else if (type == typeOfInfo.LIKED_BY) {
-                                statusesVM.favouritedBy(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, max_id, null, null).observe(StatusInfoActivity.this, accounts -> manageView(accounts));
+                                statusesVM.favouritedBy(instance, token, status.id, max_id, null, null).observe(StatusInfoActivity.this, accounts -> manageView(accounts));
                             }
                         }
                     } else {
@@ -104,9 +132,9 @@ public class StatusInfoActivity extends BaseActivity {
             }
         });
         if (type == typeOfInfo.BOOSTED_BY) {
-            statusesVM.rebloggedBy(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null, null, null).observe(StatusInfoActivity.this, this::manageView);
+            statusesVM.rebloggedBy(instance, token, status.id, null, null, null).observe(StatusInfoActivity.this, this::manageView);
         } else if (type == typeOfInfo.LIKED_BY) {
-            statusesVM.favouritedBy(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null, null, null).observe(StatusInfoActivity.this, this::manageView);
+            statusesVM.favouritedBy(instance, token, status.id, null, null, null).observe(StatusInfoActivity.this, this::manageView);
         }
     }
 
@@ -114,7 +142,9 @@ public class StatusInfoActivity extends BaseActivity {
         binding.loadingNextAccounts.setVisibility(View.GONE);
         if (accountList != null && accounts != null && accounts.accounts != null) {
             int position = this.accountList.size();
-            fetchRelationShip(accounts.accounts, position);
+            if (!checkRemotely) {
+                fetchRelationShip(accounts.accounts, position);
+            }
             int startId = 0;
             //There are some statuses present in the timeline
             if (accountList.size() > 0) {
@@ -133,7 +163,7 @@ public class StatusInfoActivity extends BaseActivity {
             ids.add(account.id);
         }
         AccountsVM accountsVM = new ViewModelProvider(StatusInfoActivity.this).get(AccountsVM.class);
-        accountsVM.getRelationships(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, ids)
+        accountsVM.getRelationships(instance, token, ids)
                 .observe(StatusInfoActivity.this, relationShips -> {
                     if (relationShips != null) {
                         for (RelationShip relationShip : relationShips) {

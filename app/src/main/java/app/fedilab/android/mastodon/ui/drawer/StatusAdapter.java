@@ -1758,56 +1758,22 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         holder.binding.statusContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
         holder.binding.reblogInfo.setOnClickListener(v -> {
-            if (remote) {
-                Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
-                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
-                        .observe((LifecycleOwner) context, results -> {
-                            if (results != null && results.statuses != null && results.statuses.size() > 0) {
-                                Status fetchedStatus = results.statuses.get(0);
-                                if (fetchedStatus.reblogs_count > 0) {
-                                    Intent intent = new Intent(context, StatusInfoActivity.class);
-                                    intent.putExtra(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.BOOSTED_BY);
-                                    intent.putExtra(Helper.ARG_STATUS, fetchedStatus);
-                                    context.startActivity(intent);
-                                }
-                            } else {
-                                Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
-                            }
-                        });
-            } else {
-                if (statusToDeal.reblogs_count > 0) {
-                    Intent intent = new Intent(context, StatusInfoActivity.class);
-                    intent.putExtra(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.BOOSTED_BY);
-                    intent.putExtra(Helper.ARG_STATUS, statusToDeal);
-                    context.startActivity(intent);
-                }
+            if (statusToDeal.reblogs_count > 0) {
+                Intent intent = new Intent(context, StatusInfoActivity.class);
+                intent.putExtra(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.BOOSTED_BY);
+                intent.putExtra(Helper.ARG_STATUS, statusToDeal);
+                intent.putExtra(Helper.ARG_CHECK_REMOTELY, remote);
+                context.startActivity(intent);
             }
         });
 
         holder.binding.favouriteInfo.setOnClickListener(v -> {
-            if (remote) {
-                Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
-                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
-                        .observe((LifecycleOwner) context, results -> {
-                            if (results != null && results.statuses != null && results.statuses.size() > 0) {
-                                Status fetchedStatus = results.statuses.get(0);
-                                if (fetchedStatus.favourites_count > 0) {
-                                    Intent intent = new Intent(context, StatusInfoActivity.class);
-                                    intent.putExtra(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.LIKED_BY);
-                                    intent.putExtra(Helper.ARG_STATUS, fetchedStatus);
-                                    context.startActivity(intent);
-                                }
-                            } else {
-                                Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
-                            }
-                        });
-            } else {
-                if (statusToDeal.favourites_count > 0) {
-                    Intent intent = new Intent(context, StatusInfoActivity.class);
-                    intent.putExtra(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.LIKED_BY);
-                    intent.putExtra(Helper.ARG_STATUS, statusToDeal);
-                    context.startActivity(intent);
-                }
+            if (statusToDeal.favourites_count > 0) {
+                Intent intent = new Intent(context, StatusInfoActivity.class);
+                intent.putExtra(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.LIKED_BY);
+                intent.putExtra(Helper.ARG_STATUS, statusToDeal);
+                intent.putExtra(Helper.ARG_CHECK_REMOTELY, remote);
+                context.startActivity(intent);
             }
         });
 

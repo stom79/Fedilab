@@ -1,7 +1,6 @@
 Added:
-- Check remotely following/followers from profiles
-
-Changed:
+- Display all following/followers lists from remote profiles
+- Display all accounts that boosted/fav from a remote message
 
 Fixed:
 - Fix a crash with auto-fetch messages
