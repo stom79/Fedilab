@@ -656,6 +656,15 @@ public class Helper {
         return typeOfConnection == PeertubeMainActivity.TypeOfConnection.NORMAL;
     }
 
+    /**
+     * Some actions like following writing comment can be performed with remote accounts
+     *
+     * @return boolean
+     */
+    public static boolean canMakeAction() {
+        return (isLoggedIn() || typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT);
+    }
+
 
     public static String getToken(Context context) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);

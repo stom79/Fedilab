@@ -99,6 +99,11 @@
                         android:icon="@drawable/ic_baseline_cached_24"
                         android:title="@string/action_cache" />
                     <item
+                        android:id="@+id/nav_peertube"
+                        android:icon="@drawable/baseline_ondemand_video_24"
+                        android:title="Peertube"
+                        tools:ignore="HardcodedText" />
+                    <item
                         android:id="@+id/nav_about"
                         android:icon="@drawable/ic_baseline_info_24"
                         android:title="@string/action_about" />

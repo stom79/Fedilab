@@ -229,6 +229,55 @@
                                     app:drawableTopCompat="@drawable/ic_baseline_thumb_down_alt_24"
                                     tools:ignore="HardcodedText" />
 
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/peertube_reblog"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:drawablePadding="5dp"
+                                    android:gravity="center_horizontal"
+                                    android:text="0"
+                                    android:visibility="gone"
+                                    app:drawableTopCompat="@drawable/ic_baseline_repeat_24"
+                                    tools:ignore="HardcodedText" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/peertube_favorite"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:drawablePadding="5dp"
+                                    android:gravity="center_horizontal"
+                                    android:text="0"
+                                    android:visibility="gone"
+                                    app:drawableTopCompat="@drawable/ic_baseline_star_24"
+                                    tools:ignore="HardcodedText" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/peertube_bookmark"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:drawablePadding="5dp"
+                                    android:gravity="center_horizontal"
+                                    android:text=""
+                                    android:visibility="gone"
+                                    app:drawableTopCompat="@drawable/ic_baseline_bookmark_24"
+                                    tools:ignore="HardcodedText" />
+
+
                                 <ImageView
                                     android:id="@+id/peertube_playlist"
                                     android:layout_width="wrap_content"

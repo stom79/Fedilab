@@ -1352,6 +1352,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (id == R.id.nav_cache) {
                 Intent intent = new Intent(BaseMainActivity.this, CacheActivity.class);
                 startActivity(intent);
+            } else if (id == R.id.nav_peertube) {
+                Intent intent = new Intent(BaseMainActivity.this, PeertubeMainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(Helper.ARG_PEERTUBE_NAV_REMOTE, true);
+                intent.putExtras(bundle);
+                startActivity(intent);
             } else if (id == R.id.nav_about_instance) {
                 (new InstanceActivity()).show(getSupportFragmentManager(), null);
             }

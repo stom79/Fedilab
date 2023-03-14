@@ -17,11 +17,13 @@ package app.fedilab.android.peertube.activities;
 import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.ADD_COMMENT;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.RATEVIDEO;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.REPLY;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.REPORT_ACCOUNT;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.REPORT_VIDEO;
+import static app.fedilab.android.peertube.helper.Helper.canMakeAction;
 import static app.fedilab.android.peertube.helper.Helper.getAttColor;
 import static app.fedilab.android.peertube.helper.Helper.isLoggedIn;
 import static app.fedilab.android.peertube.helper.Helper.loadAvatar;
@@ -111,6 +113,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoSize;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+import com.varunest.sparkbutton.SparkButton;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -124,13 +127,16 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.BasePeertubeActivity;
 import app.fedilab.android.databinding.ActivityPeertubeBinding;
 import app.fedilab.android.databinding.PopupVideoInfoPeertubeBinding;
+import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.CacheDataSourceFactory;
+import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.MenuItemVideo;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
@@ -198,6 +204,8 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private boolean isRemote;
     private boolean willPlayFromIntent;
 
+    private Status status;
+
     public static void hideKeyboard(Activity activity) {
         if (activity != null && activity.getWindow() != null) {
             activity.getWindow().getDecorView();
@@ -218,24 +226,24 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         max_id = "0";
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
         String token = sharedpreferences.getString(PREF_USER_TOKEN, null);
-        if (Helper.isLoggedIn() && !sepiaSearch) {
+        if (Helper.canMakeAction() && !sepiaSearch) {
             BaseAccount account = null;
             try {
                 account = new app.fedilab.android.mastodon.client.entities.app.Account(PeertubeActivity.this).getAccountByToken(token);
             } catch (DBException e) {
                 e.printStackTrace();
             }
-            if (account != null) {
+            if (account != null && account.peertube_account != null) {
                 loadAvatar(PeertubeActivity.this, account.peertube_account, binding.myPp);
+            } else if (account != null && account.mastodon_account != null) {
+                app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeActivity.this, binding.myPp, account);
             }
         }
         isRemote = false;
 
-
         fullScreenMode = false;
         initialOrientation = getResources().getConfiguration().orientation;
         if (Helper.isTablet(PeertubeActivity.this)) {
-
             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     0,
@@ -276,6 +284,13 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
         if (Helper.isLoggedIn()) {
             binding.peertubePlaylist.setVisibility(View.VISIBLE);
+        } else if (typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
+            binding.peertubeLikeCount.setVisibility(View.GONE);
+            binding.peertubeDislikeCount.setVisibility(View.GONE);
+            binding.peertubePlaylist.setVisibility(View.GONE);
+            binding.peertubeReblog.setVisibility(View.VISIBLE);
+            binding.peertubeFavorite.setVisibility(View.VISIBLE);
+            binding.peertubeBookmark.setVisibility(View.VISIBLE);
         }
 
         binding.peertubeDescriptionMore.setOnClickListener(v -> {
@@ -289,7 +304,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 }
             }
         });
-        if (!Helper.isLoggedIn() || sepiaSearch) {
+        if (!Helper.canMakeAction() || sepiaSearch) {
             binding.writeCommentContainer.setVisibility(View.GONE);
         }
         playInMinimized = sharedpreferences.getBoolean(getString(R.string.set_video_minimize_choice), true);
@@ -397,7 +412,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             openFullscreenDialog();
         }
         binding.postCommentButton.setOnClickListener(v -> {
-            if (Helper.isLoggedIn() && !sepiaSearch) {
+            if (canMakeAction() && !sepiaSearch) {
                 openPostComment(null, 0);
             } else {
                 if (sepiaSearch) {
@@ -489,6 +504,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         return comments;
     }
 
+
     @Override
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -573,6 +589,15 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     }
 
     private void playVideo() {
+        if (status == null && typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
+            app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM searchVM = new ViewModelProvider(PeertubeActivity.this).get(app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM.class);
+            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, videoUuid, null, "statuses", false, true, false, 0, null, null, 1)
+                    .observe(PeertubeActivity.this, results -> {
+                        if (results != null && results.statuses != null && results.statuses.size() > 0) {
+                            status = results.statuses.get(0);
+                        }
+                    });
+        }
         if (player != null) {
             player.release();
             player = new ExoPlayer.Builder(PeertubeActivity.this).build();
@@ -862,7 +887,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         PlaylistsVM viewModel = new ViewModelProvider(this).get(PlaylistsVM.class);
         viewModel.videoExists(videoIds).observe(this, this::manageVIewPlaylist);
 
-        if (!Helper.isLoggedIn() || sepiaSearch) {
+        if (!Helper.canMakeAction() || sepiaSearch) {
             binding.writeCommentContainer.setVisibility(View.GONE);
         }
 
@@ -1002,6 +1027,147 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 }
             }
         });
+
+        binding.peertubeReblog.setOnClickListener(v -> {
+            if (status != null) {
+                boolean confirmBoost = sharedpreferences.getBoolean(getString(R.string.SET_NOTIF_VALIDATION), true);
+                StatusesVM statusesVM = new ViewModelProvider(PeertubeActivity.this).get(StatusesVM.class);
+                if (confirmBoost) {
+                    AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(this);
+                    if (status.reblogged) {
+                        alt_bld.setMessage(getString(R.string.reblog_remove));
+                    } else {
+                        alt_bld.setMessage(getString(R.string.reblog_add));
+                    }
+                    alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
+                        if (status.reblogged) {
+                            statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                                    .observe(PeertubeActivity.this, _status -> {
+                                        if (_status != null) {
+                                            status = _status;
+                                        }
+                                        manageVIewPostActionsMastodon(status);
+                                    });
+                        } else {
+                            ((SparkButton) v).playAnimation();
+                            statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null)
+                                    .observe(PeertubeActivity.this, _status -> {
+                                        if (_status != null) {
+                                            status = _status;
+                                        }
+                                        manageVIewPostActionsMastodon(status);
+                                    });
+                        }
+                        dialog.dismiss();
+                    });
+                    alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                    AlertDialog alert = alt_bld.create();
+                    alert.show();
+                } else {
+                    if (status.reblogged) {
+                        statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                                .observe(PeertubeActivity.this, _status -> {
+                                    if (_status != null) {
+                                        status = _status;
+                                    }
+                                    manageVIewPostActionsMastodon(status);
+                                });
+                    } else {
+                        ((SparkButton) v).playAnimation();
+                        statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null)
+                                .observe(PeertubeActivity.this, _status -> {
+                                    if (_status != null) {
+                                        status = _status;
+                                    }
+                                    manageVIewPostActionsMastodon(status);
+                                });
+                    }
+                }
+            }
+        });
+
+        binding.peertubeFavorite.setOnClickListener(v -> {
+            if (status != null) {
+                boolean confirmFav = sharedpreferences.getBoolean(getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
+                StatusesVM statusesVM = new ViewModelProvider(PeertubeActivity.this).get(StatusesVM.class);
+                if (confirmFav) {
+                    AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(PeertubeActivity.this);
+                    if (status.favourited) {
+                        alt_bld.setMessage(getString(R.string.favourite_remove));
+                    } else {
+                        alt_bld.setMessage(getString(R.string.favourite_add));
+                    }
+                    alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
+                        if (status.favourited) {
+                            statusesVM.unFavourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                                    .observe(PeertubeActivity.this, _status -> {
+                                        if (_status != null) {
+                                            status = _status;
+                                        }
+                                        manageVIewPostActionsMastodon(status);
+                                    });
+                        } else {
+                            ((SparkButton) v).playAnimation();
+                            statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                                    .observe(PeertubeActivity.this, _status -> {
+                                        if (_status != null) {
+                                            status = _status;
+                                        }
+                                        manageVIewPostActionsMastodon(status);
+                                    });
+                        }
+                        dialog.dismiss();
+                    });
+                    alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                    AlertDialog alert = alt_bld.create();
+                    alert.show();
+                } else {
+                    if (status.favourited) {
+                        statusesVM.unFavourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                                .observe(PeertubeActivity.this, _status -> {
+                                    if (_status != null) {
+                                        status = _status;
+                                    }
+                                    manageVIewPostActionsMastodon(status);
+                                });
+                    } else {
+                        ((SparkButton) v).playAnimation();
+                        statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                                .observe(PeertubeActivity.this, _status -> {
+                                    if (_status != null) {
+                                        status = _status;
+                                    }
+                                    manageVIewPostActionsMastodon(status);
+                                });
+                    }
+                }
+            }
+        });
+
+        binding.peertubeBookmark.setOnClickListener(v -> {
+            if (status != null) {
+                StatusesVM statusesVM = new ViewModelProvider(PeertubeActivity.this).get(StatusesVM.class);
+                if (status.bookmarked) {
+                    statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                            .observe(PeertubeActivity.this, _status -> {
+                                if (_status != null) {
+                                    status = _status;
+                                }
+                                manageVIewPostActionsMastodon(status);
+                            });
+                } else {
+                    ((SparkButton) v).playAnimation();
+                    statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                            .observe(PeertubeActivity.this, _status -> {
+                                if (_status != null) {
+                                    status = _status;
+                                }
+                                manageVIewPostActionsMastodon(status);
+                            });
+                }
+            }
+        });
+
         binding.peertubeDislikeCount.setOnClickListener(v -> {
             if (isLoggedIn() && !sepiaSearch) {
                 String newState = peertube.getMyRating().equals("dislike") ? "none" : "dislike";
@@ -1127,6 +1293,58 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     }
 
 
+    public void manageVIewPostActionsMastodon(Status status) {
+        if (status != null) {
+            this.status = status;
+            changeColorMastodon();
+            binding.peertubeFavorite.setText(String.valueOf(status.favourites_count));
+            binding.peertubeReblog.setText(String.valueOf(status.reblogs_count));
+        } else {
+            Toasty.error(PeertubeActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
+        }
+    }
+
+
+    private void changeColorMastodon() {
+        Drawable reblog = ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_repeat_24);
+        Drawable favorite = ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_star_24);
+        Drawable bookmark = ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_bookmark_24);
+
+        int color = getAttColor(this, android.R.attr.colorControlNormal);
+
+        if (reblog != null) {
+            reblog.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            DrawableCompat.setTint(reblog, color);
+        }
+        if (favorite != null) {
+            favorite.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            DrawableCompat.setTint(favorite, color);
+        }
+
+        if (bookmark != null) {
+            bookmark.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            DrawableCompat.setTint(bookmark, color);
+        }
+
+        if (reblog != null && status.reblogged) {
+            reblog.setColorFilter(getResources().getColor(R.color.boost_icon), PorterDuff.Mode.SRC_ATOP);
+            DrawableCompat.setTint(reblog, getResources().getColor(R.color.boost_icon));
+        }
+        if (favorite != null && status.favourited) {
+            favorite.setColorFilter(getResources().getColor(R.color.marked_icon), PorterDuff.Mode.SRC_ATOP);
+            DrawableCompat.setTint(favorite, getResources().getColor(R.color.marked_icon));
+        }
+
+        if (bookmark != null && status.bookmarked) {
+            bookmark.setColorFilter(getResources().getColor(R.color.marked_icon), PorterDuff.Mode.SRC_ATOP);
+            DrawableCompat.setTint(bookmark, getResources().getColor(R.color.marked_icon));
+        }
+
+        binding.peertubeReblog.setCompoundDrawablesWithIntrinsicBounds(null, reblog, null, null);
+        binding.peertubeFavorite.setCompoundDrawablesWithIntrinsicBounds(null, favorite, null, null);
+        binding.peertubeBookmark.setCompoundDrawablesWithIntrinsicBounds(null, bookmark, null, null);
+    }
+
     /**
      * Manage video to play with different factors
      *
@@ -1203,14 +1421,14 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
     private void fetchComments() {
         if (peertube.isCommentsEnabled()) {
-            if (Helper.isLoggedIn()) {
+            if (Helper.canMakeAction()) {
                 binding.postCommentButton.setVisibility(View.VISIBLE);
             } else {
                 binding.postCommentButton.setVisibility(View.GONE);
             }
             CommentVM commentViewModel = new ViewModelProvider(PeertubeActivity.this).get(CommentVM.class);
             commentViewModel.getThread(sepiaSearch ? peertubeInstance : null, videoUuid, max_id).observe(PeertubeActivity.this, this::manageVIewComment);
-            if (Helper.isLoggedIn() && !sepiaSearch) {
+            if (Helper.canMakeAction() && !sepiaSearch) {
                 binding.writeCommentContainer.setVisibility(View.VISIBLE);
             }
             binding.peertubeComments.setVisibility(View.VISIBLE);
@@ -1765,7 +1983,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
 
     private void sendComment(Comment comment, int position) {
-        if (Helper.isLoggedIn() && !sepiaSearch) {
+        if (Helper.canMakeAction() && !sepiaSearch) {
             if (comment == null) {
                 String commentStr = binding.addCommentWrite.getText() != null ? binding.addCommentWrite.getText().toString() : "";
                 if (commentStr.trim().length() > 0) {
@@ -1857,7 +2075,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             public void onAnimationEnd(Animation animation) {
                 binding.peertubeInformationContainer.setVisibility(View.GONE);
                 InputMethodManager inputMethodManager =
-                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 inputMethodManager.toggleSoftInputFromWindow(
                         binding.addCommentWrite.getApplicationWindowToken(),
                         InputMethodManager.SHOW_FORCED, 0);

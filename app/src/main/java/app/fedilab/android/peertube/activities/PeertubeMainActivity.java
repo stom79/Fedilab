@@ -158,6 +158,17 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         super.onCreate(savedInstanceState);
         binding = super.binding;
 
+
+        Intent intentActvity = getIntent();
+        if (intentActvity != null) {
+            Bundle extras = intentActvity.getExtras();
+            String userIdIntent, instanceIntent, urlOfMessage;
+            if (extras != null && extras.containsKey(app.fedilab.android.mastodon.helper.Helper.ARG_PEERTUBE_NAV_REMOTE)) {
+                if (extras.getBoolean(app.fedilab.android.mastodon.helper.Helper.ARG_PEERTUBE_NAV_REMOTE)) {
+                    typeOfConnection = PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT;
+                }
+            }
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -274,7 +285,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 if (typeOfConnection == TypeOfConnection.SURFING) {
                     switchDialog(PeertubeMainActivity.this, false);
                 } else {
-                    if (Helper.isLoggedIn()) {
+                    if (Helper.canMakeAction()) {
                         intent = new Intent(PeertubeMainActivity.this, AccountActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
@@ -571,6 +582,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
         MenuItem incognitoItem = menu.findItem(R.id.action_incognito);
         switch (typeOfConnection) {
+            case REMOTE_ACCOUNT:
             case NORMAL:
                 if (Helper.isLoggedIn()) {
                     incognitoItem.setVisible(true);
@@ -729,7 +741,8 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
     public enum TypeOfConnection {
         NORMAL,
-        SURFING
+        SURFING,
+        REMOTE_ACCOUNT
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {

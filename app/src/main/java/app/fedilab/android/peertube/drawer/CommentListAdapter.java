@@ -297,7 +297,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             holder.binding.postReplyButton.setVisibility(View.GONE);
         }
         holder.binding.postReplyButton.setOnClickListener(v -> {
-            if (Helper.isLoggedIn() && !sepiaSearch) {
+            if (Helper.canMakeAction() && !sepiaSearch) {
                 ((PeertubeActivity) context).openPostComment(comment, i);
             } else {
                 if (sepiaSearch) {
@@ -308,7 +308,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
 
         });
-        if (Helper.isLoggedIn() && !sepiaSearch) {
+        if (Helper.canMakeAction() && !sepiaSearch) {
             holder.binding.replyButton.setVisibility(View.VISIBLE);
         } else {
             holder.binding.replyButton.setVisibility(View.GONE);
