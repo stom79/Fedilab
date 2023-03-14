@@ -1050,4 +1050,6 @@
     <string name="fetch_remote_media">Automaticky načítat vzdálená média, pokud nejsou k dispozici</string>
     <string name="reblog_missing_description">U této zprávy chybí popis médií. Opravdu ji chcete boostnout\?</string>
     <string name="warn_boost_no_media_description">Varovat před boostnutím, pokud zpráva nemá popis médií</string>
+    <string name="add_description">Přidat popis</string>
+    <string name="fetching_messages">Načítání zpráv</string>
 </resources>
