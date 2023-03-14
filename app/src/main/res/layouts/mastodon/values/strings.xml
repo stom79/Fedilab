@@ -2,4 +2,5 @@
 <resources>
 
 
+    <string name="retrieve_remote_account">Retrieve remote account!</string>
 </resources>

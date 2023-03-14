@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.mastodon.helper.MastodonHelper.ACCOUNTS_PER_CALL;
 
 import android.os.Bundle;
@@ -68,6 +70,8 @@ public class FragmentMastodonAccount extends Fragment {
     private Timeline.TimeLineEnum timelineType;
     private String order;
     private Boolean local;
+    private boolean checkRemotely;
+    private String instance, token, remoteAccountId;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -79,7 +83,24 @@ public class FragmentMastodonAccount extends Fragment {
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
             order = getArguments().getString(Helper.ARG_DIRECTORY_ORDER, "active");
             local = getArguments().getBoolean(Helper.ARG_DIRECTORY_LOCAL, false);
+            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
         }
+        instance = currentInstance;
+        token = currentToken;
+
+        if (checkRemotely) {
+            String[] acctArray = accountTimeline.acct.split("@");
+            if (acctArray.length > 1) {
+                instance = acctArray[1];
+                token = null;
+            }
+            if (instance != null && instance.equalsIgnoreCase(currentInstance)) {
+                checkRemotely = false;
+                instance = currentInstance;
+                token = currentToken;
+            }
+        }
+
         flagLoading = false;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -104,26 +125,48 @@ public class FragmentMastodonAccount extends Fragment {
      * Router for timelines
      */
     private void router(boolean firstLoad) {
+        if (checkRemotely) {
+            if (remoteAccountId == null) {
+                SearchVM searchVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, SearchVM.class);
+                searchVM.search(instance, token, accountTimeline.acct, null, "accounts", null, null, null, null, null, null, null)
+                        .observe(getViewLifecycleOwner(), results -> {
+                            if (results != null && results.accounts.size() > 0) {
+                                remoteAccountId = results.accounts.get(0).id;
+                                fetchAccount(firstLoad, remoteAccountId);
+                            } else {
+                                Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                            }
+                        });
+            } else {
+                fetchAccount(firstLoad, remoteAccountId);
+            }
+        } else {
+            fetchAccount(firstLoad, accountTimeline.id);
+        }
+    }
+
+
+    private void fetchAccount(boolean firstLoad, String accountProfileId) {
         if (followType == FedilabProfileTLPageAdapter.follow_type.FOLLOWERS) {
             if (firstLoad) {
-                accountsVM.getAccountFollowers(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null)
+                accountsVM.getAccountFollowers(instance, token, accountProfileId, null, null)
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             } else {
-                accountsVM.getAccountFollowers(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, max_id, null)
+                accountsVM.getAccountFollowers(instance, token, accountProfileId, max_id, null)
                         .observe(getViewLifecycleOwner(), this::dealWithPagination);
             }
         } else if (followType == FedilabProfileTLPageAdapter.follow_type.FOLLOWING) {
             if (firstLoad) {
-                accountsVM.getAccountFollowing(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null)
+                accountsVM.getAccountFollowing(instance, token, accountProfileId, null, null)
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             } else {
-                accountsVM.getAccountFollowing(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, max_id, null)
+                accountsVM.getAccountFollowing(instance, token, accountProfileId, max_id, null)
                         .observe(getViewLifecycleOwner(), this::dealWithPagination);
             }
         } else if (search != null) {
             SearchVM searchVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, SearchVM.class);
             if (firstLoad) {
-                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "accounts", false, true, false, 0, null, null, MastodonHelper.SEARCH_PER_CALL)
+                searchVM.search(instance, token, search.trim(), null, "accounts", false, true, false, 0, null, null, MastodonHelper.SEARCH_PER_CALL)
                         .observe(getViewLifecycleOwner(), results -> {
                             if (results != null) {
                                 Accounts accounts = new Accounts();
@@ -136,7 +179,7 @@ public class FragmentMastodonAccount extends Fragment {
                             }
                         });
             } else {
-                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "accounts", false, true, false, offset, null, null, MastodonHelper.SEARCH_PER_CALL)
+                searchVM.search(instance, token, search.trim(), null, "accounts", false, true, false, offset, null, null, MastodonHelper.SEARCH_PER_CALL)
                         .observe(getViewLifecycleOwner(), results -> {
                             if (results != null) {
                                 Accounts accounts = new Accounts();
@@ -149,10 +192,10 @@ public class FragmentMastodonAccount extends Fragment {
             }
         } else if (timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE) {
             if (firstLoad) {
-                accountsVM.getMutes(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), null, null)
+                accountsVM.getMutes(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), null, null)
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             } else {
-                accountsVM.getMutes(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), max_id, null)
+                accountsVM.getMutes(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), max_id, null)
                         .observe(getViewLifecycleOwner(), this::dealWithPagination);
             }
         } else if (timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME) {
@@ -162,18 +205,18 @@ public class FragmentMastodonAccount extends Fragment {
             }
         } else if (timelineType == Timeline.TimeLineEnum.BLOCKED_TIMELINE) {
             if (firstLoad) {
-                accountsVM.getBlocks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), null, null)
+                accountsVM.getBlocks(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), null, null)
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             } else {
-                accountsVM.getBlocks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), max_id, null)
+                accountsVM.getBlocks(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), max_id, null)
                         .observe(getViewLifecycleOwner(), this::dealWithPagination);
             }
         } else if (timelineType == Timeline.TimeLineEnum.ACCOUNT_DIRECTORY) {
             if (firstLoad) {
-                accountsVM.getDirectory(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, 0, ACCOUNTS_PER_CALL, order, local)
+                accountsVM.getDirectory(instance, token, 0, ACCOUNTS_PER_CALL, order, local)
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             } else {
-                accountsVM.getDirectory(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, offset, ACCOUNTS_PER_CALL, order, local)
+                accountsVM.getDirectory(instance, token, offset, ACCOUNTS_PER_CALL, order, local)
                         .observe(getViewLifecycleOwner(), this::dealWithPagination);
             }
         }
@@ -184,7 +227,7 @@ public class FragmentMastodonAccount extends Fragment {
         for (Account account : accounts) {
             ids.add(account.id);
         }
-        accountsVM.getRelationships(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, ids)
+        accountsVM.getRelationships(instance, token, ids)
                 .observe(getViewLifecycleOwner(), relationShips -> {
                     if (relationShips != null) {
                         for (RelationShip relationShip : relationShips) {
@@ -252,7 +295,7 @@ public class FragmentMastodonAccount extends Fragment {
         }
 
         this.accounts = accounts.accounts;
-        accountAdapter = new AccountAdapter(this.accounts, timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME);
+        accountAdapter = new AccountAdapter(this.accounts, timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME, checkRemotely ? instance : null);
         if (search == null && timelineType != Timeline.TimeLineEnum.ACCOUNT_DIRECTORY) {
             flagLoading = accounts.pagination.max_id == null;
         } else if (timelineType != Timeline.TimeLineEnum.ACCOUNT_DIRECTORY) {
@@ -264,7 +307,9 @@ public class FragmentMastodonAccount extends Fragment {
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(accountAdapter);
         //Fetch the relationship
-        fetchRelationShip(accounts.accounts, 0);
+        if (!checkRemotely) {
+            fetchRelationShip(accounts.accounts, 0);
+        }
         max_id = accounts.pagination.max_id;
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -316,7 +361,9 @@ public class FragmentMastodonAccount extends Fragment {
             int position = accounts.size();
             accounts.addAll(fetched_accounts.accounts);
             //Fetch the relationship
-            fetchRelationShip(fetched_accounts.accounts, position);
+            if (!checkRemotely) {
+                fetchRelationShip(fetched_accounts.accounts, position);
+            }
             max_id = fetched_accounts.pagination.max_id;
             if (search != null) {
                 offset += MastodonHelper.SEARCH_PER_CALL;

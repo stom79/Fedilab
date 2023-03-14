@@ -52,6 +52,7 @@ import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
 import es.dmoral.toasty.Toasty;
 
 
@@ -59,19 +60,23 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private final List<Account> accountList;
     private final boolean home_mute;
+
+    private final String remoteInstance;
     private Context context;
 
-    public AccountAdapter(List<Account> accountList, boolean home_mute) {
+    public AccountAdapter(List<Account> accountList, boolean home_mute, String remoteInstance) {
         this.accountList = accountList;
         this.home_mute = home_mute;
+        this.remoteInstance = remoteInstance;
     }
 
     public AccountAdapter(List<Account> accountList) {
         this.accountList = accountList;
         this.home_mute = false;
+        this.remoteInstance = null;
     }
 
-    public static void accountManagement(Context context, AccountViewHolder accountViewHolder, Account account, int position, RecyclerView.Adapter<RecyclerView.ViewHolder> adapter, boolean home_mute) {
+    public static void accountManagement(Context context, AccountViewHolder accountViewHolder, Account account, int position, RecyclerView.Adapter<RecyclerView.ViewHolder> adapter, boolean home_mute, String remoteInstance) {
         MastodonHelper.loadPPMastodon(accountViewHolder.binding.avatar, account);
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -97,16 +102,42 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             accountViewHolder.binding.muteHome.setVisibility(View.GONE);
         }
+        if (remoteInstance != null) {
+            accountViewHolder.binding.muteGroup.setVisibility(View.GONE);
+            accountViewHolder.binding.followAction.setVisibility(View.GONE);
+            accountViewHolder.binding.block.setVisibility(View.GONE);
+        }
 
         accountViewHolder.binding.avatar.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ProfileActivity.class);
-            Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT, account);
-            intent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation((Activity) context, accountViewHolder.binding.avatar, context.getString(R.string.activity_porfile_pp));
-            // start the new activity
-            context.startActivity(intent, options.toBundle());
+            if (remoteInstance == null) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable(Helper.ARG_ACCOUNT, account);
+                intent.putExtras(b);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation((Activity) context, accountViewHolder.binding.avatar, context.getString(R.string.activity_porfile_pp));
+                // start the new activity
+                context.startActivity(intent, options.toBundle());
+            } else {
+                Toasty.info(context, context.getString(R.string.retrieve_remote_account), Toasty.LENGTH_SHORT).show();
+                SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
+                searchVM.search(remoteInstance, null, account.acct, null, "accounts", null, null, null, null, null, null, null)
+                        .observe((LifecycleOwner) context, results -> {
+                            if (results != null && results.accounts != null && results.accounts.size() > 0) {
+                                Account accountSearch = results.accounts.get(0);
+                                Intent intent = new Intent(context, ProfileActivity.class);
+                                Bundle b = new Bundle();
+                                b.putSerializable(Helper.ARG_ACCOUNT, accountSearch);
+                                intent.putExtras(b);
+                                ActivityOptionsCompat options = ActivityOptionsCompat
+                                        .makeSceneTransitionAnimation((Activity) context, accountViewHolder.binding.avatar, context.getString(R.string.activity_porfile_pp));
+                                // start the new activity
+                                context.startActivity(intent, options.toBundle());
+                            } else {
+                                Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                            }
+                        });
+            }
         });
 
 
@@ -302,7 +333,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Account account = accountList.get(position);
         AccountViewHolder holder = (AccountViewHolder) viewHolder;
-        accountManagement(context, holder, account, position, this, home_mute);
+        accountManagement(context, holder, account, position, this, home_mute, remoteInstance);
 
     }
 
