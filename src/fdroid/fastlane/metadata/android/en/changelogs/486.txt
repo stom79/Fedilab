@@ -1,0 +1,7 @@
+Added:
+- Check remotely following/followers from profiles
+
+Changed:
+
+Fixed:
+- Fix a crash with auto-fetch messages
