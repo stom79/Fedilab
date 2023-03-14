@@ -2502,7 +2502,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     statusIdMax = statusList.get(holder.getBindingAdapterPosition() - 1).id;
                 }
                 fetchMoreCallBack.autoFetch(statusIdMin, statusIdMax, status);
-                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
             }
         } else if (status.isFetching) {
             DrawerMessageFetchingBinding drawerMessageFetchingBinding = DrawerMessageFetchingBinding.inflate(LayoutInflater.from(context));
