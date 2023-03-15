@@ -16,6 +16,8 @@ package app.fedilab.android.peertube.activities;
 
 import static com.google.android.exoplayer2.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.ADD_COMMENT;
@@ -113,7 +115,6 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoSize;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
-import com.varunest.sparkbutton.SparkButton;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -590,7 +591,8 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private void playVideo() {
         if (status == null && typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
             app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM searchVM = new ViewModelProvider(PeertubeActivity.this).get(app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM.class);
-            searchVM.search(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), videoUuid, null, "statuses", false, true, false, 0, null, null, 1)
+            String url = "https://" + HelperInstance.getLiveInstance(PeertubeActivity.this) + "/videos/watch/" + videoUuid;
+            searchVM.search(currentInstance, currentToken, url, null, "statuses", false, true, false, 0, null, null, 1)
                     .observe(PeertubeActivity.this, results -> {
                         if (results != null && results.statuses != null && results.statuses.size() > 0) {
                             status = results.statuses.get(0);
@@ -1040,7 +1042,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     }
                     alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
                         if (status.reblogged) {
-                            statusesVM.unReblog(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
+                            statusesVM.unReblog(currentInstance, currentToken, status.id)
                                     .observe(PeertubeActivity.this, _status -> {
                                         if (_status != null) {
                                             status = _status;
@@ -1048,8 +1050,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                                         manageVIewPostActionsMastodon(status);
                                     });
                         } else {
-                            ((SparkButton) v).playAnimation();
-                            statusesVM.reblog(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id, null)
+                            statusesVM.reblog(currentInstance, currentToken, status.id, null)
                                     .observe(PeertubeActivity.this, _status -> {
                                         if (_status != null) {
                                             status = _status;
@@ -1064,7 +1065,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     alert.show();
                 } else {
                     if (status.reblogged) {
-                        statusesVM.unReblog(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
+                        statusesVM.unReblog(currentInstance, currentToken, status.id)
                                 .observe(PeertubeActivity.this, _status -> {
                                     if (_status != null) {
                                         status = _status;
@@ -1072,8 +1073,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                                     manageVIewPostActionsMastodon(status);
                                 });
                     } else {
-                        ((SparkButton) v).playAnimation();
-                        statusesVM.reblog(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id, null)
+                        statusesVM.reblog(currentInstance, currentToken, status.id, null)
                                 .observe(PeertubeActivity.this, _status -> {
                                     if (_status != null) {
                                         status = _status;
@@ -1098,7 +1098,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     }
                     alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
                         if (status.favourited) {
-                            statusesVM.unFavourite(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
+                            statusesVM.unFavourite(currentInstance, currentToken, status.id)
                                     .observe(PeertubeActivity.this, _status -> {
                                         if (_status != null) {
                                             status = _status;
@@ -1106,8 +1106,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                                         manageVIewPostActionsMastodon(status);
                                     });
                         } else {
-                            ((SparkButton) v).playAnimation();
-                            statusesVM.favourite(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
+                            statusesVM.favourite(currentInstance, currentToken, status.id)
                                     .observe(PeertubeActivity.this, _status -> {
                                         if (_status != null) {
                                             status = _status;
@@ -1122,7 +1121,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     alert.show();
                 } else {
                     if (status.favourited) {
-                        statusesVM.unFavourite(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
+                        statusesVM.unFavourite(currentInstance, currentToken, status.id)
                                 .observe(PeertubeActivity.this, _status -> {
                                     if (_status != null) {
                                         status = _status;
@@ -1130,8 +1129,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                                     manageVIewPostActionsMastodon(status);
                                 });
                     } else {
-                        ((SparkButton) v).playAnimation();
-                        statusesVM.favourite(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
+                        statusesVM.favourite(currentInstance, currentToken, status.id)
                                 .observe(PeertubeActivity.this, _status -> {
                                     if (_status != null) {
                                         status = _status;
@@ -1147,7 +1145,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             if (status != null) {
                 StatusesVM statusesVM = new ViewModelProvider(PeertubeActivity.this).get(StatusesVM.class);
                 if (status.bookmarked) {
-                    statusesVM.unBookmark(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
+                    statusesVM.unBookmark(currentInstance, currentToken, status.id)
                             .observe(PeertubeActivity.this, _status -> {
                                 if (_status != null) {
                                     status = _status;
@@ -1155,8 +1153,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                                 manageVIewPostActionsMastodon(status);
                             });
                 } else {
-                    ((SparkButton) v).playAnimation();
-                    statusesVM.bookmark(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
+                    statusesVM.bookmark(currentInstance, currentToken, status.id)
                             .observe(PeertubeActivity.this, _status -> {
                                 if (_status != null) {
                                     status = _status;
@@ -1989,6 +1986,9 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     if (Helper.isLoggedIn()) {
                         PostActionsVM viewModelComment = new ViewModelProvider(PeertubeActivity.this).get(PostActionsVM.class);
                         viewModelComment.comment(ADD_COMMENT, peertube.getId(), null, commentStr).observe(PeertubeActivity.this, apiResponse1 -> manageVIewPostActions(ADD_COMMENT, 0, apiResponse1));
+                    } else {//Remote account is posting a message
+                        StatusesVM statusesVM = new ViewModelProvider(PeertubeActivity.this).get(StatusesVM.class);
+                        statusesVM.postStatus(currentInstance, currentToken, null, commentStr, null, null, null, null, null, status.id, false, null, "public", null, null, null).observe(PeertubeActivity.this, this::manageVIewPostActionsMastodon);
                     }
                     binding.addCommentWrite.setText("");
                 }
@@ -1998,6 +1998,9 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     if (Helper.isLoggedIn()) {
                         PostActionsVM viewModelComment = new ViewModelProvider(PeertubeActivity.this).get(PostActionsVM.class);
                         viewModelComment.comment(REPLY, peertube.getId(), comment.getId(), commentView).observe(PeertubeActivity.this, apiResponse1 -> manageVIewPostActions(REPLY, position, apiResponse1));
+                    } else {//Remote account is posting a message
+                        StatusesVM statusesVM = new ViewModelProvider(PeertubeActivity.this).get(StatusesVM.class);
+                        statusesVM.postStatus(currentInstance, currentToken, null, commentView, null, null, null, null, null, status.id, false, null, "public", null, null, null).observe(PeertubeActivity.this, this::manageVIewPostActionsMastodon);
                     }
                     binding.addCommentWrite.setText("");
                 }
