@@ -362,7 +362,7 @@ public class ProfileActivity extends BaseActivity {
         if (account.locked) {
             Drawable img = ContextCompat.getDrawable(ProfileActivity.this, R.drawable.ic_baseline_lock_24);
             assert img != null;
-            img.setBounds(0, 0, (int) (16 * scale + 0.5f), (int) (16 * scale + 0.5f));
+            img.setBounds(0, 0, (int) (Helper.convertDpToPixel(14, this) * scale + 0.5f), (int) (Helper.convertDpToPixel(14, this) * scale + 0.5f));
             binding.accountUn.setCompoundDrawables(null, null, img, null);
         } else {
             binding.accountUn.setCompoundDrawables(null, null, null, null);
@@ -399,7 +399,7 @@ public class ProfileActivity extends BaseActivity {
             binding.accountMoved.setVisibility(View.VISIBLE);
             Drawable imgTravel = ContextCompat.getDrawable(ProfileActivity.this, R.drawable.ic_baseline_card_travel_24);
             assert imgTravel != null;
-            imgTravel.setBounds(0, 0, (int) (20 * scale + 0.5f), (int) (20 * scale + 0.5f));
+            imgTravel.setBounds(0, 0, (int) (Helper.convertDpToPixel(20, this) * scale + 0.5f), (int) (Helper.convertDpToPixel(20, this) * scale + 0.5f));
             binding.accountMoved.setCompoundDrawables(imgTravel, null, null, null);
             //Retrieves content and make account names clickable
             SpannableString spannableString = SpannableHelper.moveToText(ProfileActivity.this, account);

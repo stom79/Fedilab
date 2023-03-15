@@ -1,0 +1,7 @@
+Added:
+- Dedicated Peertube entry in main menu (My app)
+- Select instances (Instances picker with Filters)
+- Comment/Boost/Fav Peertube videos with Mastodon accounts
+
+Fixed:
+- Fix a crash when searching and with the user directory

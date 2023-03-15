@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.21.0",
+    "code": "487",
+    "note": "Added:\n- Dedicated Peertube entry in main menu (My app)\n- Select instances (Instances picker with Filters)\n- Comment/Boost/Fav Peertube videos with Mastodon accounts\n\nFixed:\n- Fix a crash when searching and with the user directory"
+  },
+  {
     "version": "3.20.3",
     "code": "486",
     "note": "Added:\n- Display all following/followers lists from remote profiles\n- Display all accounts that boosted/fav from a remote message\n\nFixed:\n- Fix a crash with auto-fetch messages"
