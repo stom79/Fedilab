@@ -302,6 +302,9 @@ public class Helper {
     public static final String PREF_USER_TOKEN = "PREF_USER_TOKEN";
     public static final String PREF_USER_ID = "PREF_USER_ID";
     public static final String PREF_USER_INSTANCE = "PREF_USER_INSTANCE";
+    public static final String PREF_USER_INSTANCE_PEERTUBE_BROWSING = "PREF_USER_INSTANCE_PEERTUBE_BROWSING";
+
+
     public static final String PREF_USER_SOFTWARE = "PREF_USER_SOFTWARE";
     public static final String PREF_IS_MODERATOR = "PREF_IS_MODERATOR";
     public static final String PREF_IS_ADMINISTRATOR = "PREF_IS_ADMINISTRATOR";

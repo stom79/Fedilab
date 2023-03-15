@@ -14,7 +14,7 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE_PEERTUBE_BROWSING;
 import static app.fedilab.android.mastodon.helper.Helper.addFragment;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.INSTANCE_ADDRESS;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.PICK_INSTANCE;
@@ -32,6 +32,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -65,33 +67,8 @@ public class ManageInstancesActivity extends BaseBarActivity implements AboutIns
     private AboutInstanceAdapter aboutInstanceAdapter;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityManageInstancesPeertubeBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        binding.loader.setVisibility(View.VISIBLE);
-        binding.noAction.setVisibility(View.GONE);
-        binding.lvInstances.setVisibility(View.GONE);
-        binding.actionButton.setOnClickListener(v -> showRadioButtonDialogFullInstances(ManageInstancesActivity.this));
-        aboutInstances = new ArrayList<>();
-        aboutInstanceAdapter = new AboutInstanceAdapter(this.aboutInstances);
-        aboutInstanceAdapter.allInstancesRemoved = this;
-        binding.lvInstances.setAdapter(aboutInstanceAdapter);
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(ManageInstancesActivity.this);
-        binding.lvInstances.setLayoutManager(layoutManager);
-        InfoInstanceVM viewModelInfoInstance = new ViewModelProvider(ManageInstancesActivity.this).get(InfoInstanceVM.class);
-        viewModelInfoInstance.getInstances().observe(ManageInstancesActivity.this, this::manageVIewInfoInstance);
-    }
-
     @SuppressLint("ApplySharedPref")
-    private void showRadioButtonDialogFullInstances(Activity activity) {
+    public static void showRadioButtonDialogFullInstances(Activity activity, FragmentManager fragmentManager) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity);
         alt_bld.setTitle(R.string.instance_choice);
@@ -116,7 +93,7 @@ public class ManageInstancesActivity extends BaseBarActivity implements AboutIns
                         WellKnownNodeinfo.NodeInfo instanceNodeInfo = new RetrofitPeertubeAPI(activity, newInstance, null).getNodeInfo();
                         if (instanceNodeInfo.getSoftware() != null && instanceNodeInfo.getSoftware().getName().trim().toLowerCase().compareTo("peertube") == 0) {
                             SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString(PREF_USER_INSTANCE, newInstance);
+                            editor.putString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, newInstance);
                             editor.commit();
                             newInstance = newInstance.trim().toLowerCase();
                             InstanceData.AboutInstance aboutInstance = new RetrofitPeertubeAPI(activity, newInstance, null).getAboutInstance();
@@ -136,22 +113,47 @@ public class ManageInstancesActivity extends BaseBarActivity implements AboutIns
                 }).start());
         alt_bld.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         alt_bld.setNeutralButton(R.string.help, (dialog, which) -> {
-            getSupportFragmentManager().setFragmentResultListener(PICK_INSTANCE, this, (requestKey, result) -> {
+            fragmentManager.setFragmentResultListener(PICK_INSTANCE, (LifecycleOwner) activity, (requestKey, result) -> {
                 new Thread(() -> {
                     String newInstance = result.getString(INSTANCE_ADDRESS);
-                    InstanceData.AboutInstance aboutInstance = new RetrofitPeertubeAPI(ManageInstancesActivity.this, newInstance, null).getAboutInstance();
-                    SQLiteDatabase db = Sqlite.getInstance(getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                    new StoredInstanceDAO(ManageInstancesActivity.this, db).insertInstance(aboutInstance, newInstance);
-                    runOnUiThread(() -> new Handler().post(() -> Helper.logoutNoRemoval(ManageInstancesActivity.this)));
+                    InstanceData.AboutInstance aboutInstance = new RetrofitPeertubeAPI(activity, newInstance, null).getAboutInstance();
+                    SQLiteDatabase db = Sqlite.getInstance(activity, Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
+                    new StoredInstanceDAO(activity, db).insertInstance(aboutInstance, newInstance);
+                    activity.runOnUiThread(() -> new Handler().post(() -> Helper.logoutNoRemoval(activity)));
                 }).start();
-                getSupportFragmentManager().clearFragmentResultListener(PICK_INSTANCE);
+                fragmentManager.clearFragmentResultListener(PICK_INSTANCE);
             });
             addFragment(
-                    getSupportFragmentManager(), android.R.id.content, new FragmentLoginPickInstancePeertube(),
+                    fragmentManager, android.R.id.content, new FragmentLoginPickInstancePeertube(),
                     null, null, FragmentLoginPickInstancePeertube.class.getName());
         });
         AlertDialog alert = alt_bld.create();
         alert.show();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityManageInstancesPeertubeBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.noAction.setVisibility(View.GONE);
+        binding.lvInstances.setVisibility(View.GONE);
+        binding.actionButton.setOnClickListener(v -> showRadioButtonDialogFullInstances(ManageInstancesActivity.this, getSupportFragmentManager()));
+        aboutInstances = new ArrayList<>();
+        aboutInstanceAdapter = new AboutInstanceAdapter(this.aboutInstances);
+        aboutInstanceAdapter.allInstancesRemoved = this;
+        binding.lvInstances.setAdapter(aboutInstanceAdapter);
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(ManageInstancesActivity.this);
+        binding.lvInstances.setLayoutManager(layoutManager);
+        InfoInstanceVM viewModelInfoInstance = new ViewModelProvider(ManageInstancesActivity.this).get(InfoInstanceVM.class);
+        viewModelInfoInstance.getInstances().observe(ManageInstancesActivity.this, this::manageVIewInfoInstance);
     }
 
     private void manageVIewInfoInstance(List<InstanceData.AboutInstance> aboutInstances) {

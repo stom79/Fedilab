@@ -24,6 +24,7 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.mastodon.helper.Helper.displayReleaseNotesIfNeeded;
 import static app.fedilab.android.mastodon.helper.ThemeHelper.fetchAccentColor;
 import static app.fedilab.android.mastodon.ui.drawer.StatusAdapter.sendAction;
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -374,6 +375,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             } else if (accounts.get(0).peertube_account != null) {
                                 account = "@" + accounts.get(0).peertube_account.getAcct() + "@" + accounts.get(0).instance;
                             }
+                            typeOfConnection = PeertubeMainActivity.TypeOfConnection.NORMAL;
                             Toasty.info(activity, activity.getString(R.string.toast_account_changed, account), Toasty.LENGTH_LONG).show();
                             BaseMainActivity.currentToken = accounts.get(0).token;
                             BaseMainActivity.currentUserID = accounts.get(0).user_id;
@@ -546,6 +548,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                             } else if (account.peertube_account != null) {
                                                 acctForAccount = "@" + account.peertube_account.getUsername() + "@" + account.instance;
                                             }
+                                            typeOfConnection = PeertubeMainActivity.TypeOfConnection.NORMAL;
                                             Toasty.info(activity, activity.getString(R.string.toast_account_changed, acctForAccount), Toasty.LENGTH_LONG).show();
                                             BaseMainActivity.currentToken = account.token;
                                             BaseMainActivity.currentUserID = account.user_id;
@@ -559,6 +562,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                             editor.commit();
                                             //The user is now aut
                                             //The user is now authenticated, it will be redirected to MainActivity
+
                                             Intent mainActivity = new Intent(activity, MainActivity.class);
                                             activity.startActivity(mainActivity);
                                             activity.finish();
@@ -711,6 +715,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         } else if (account.peertube_account != null) {
                             acct = "@" + account.peertube_account.getUsername() + "@" + account.instance;
                         }
+                        typeOfConnection = PeertubeMainActivity.TypeOfConnection.NORMAL;
                         Toasty.info(activity, activity.getString(R.string.toast_account_changed, acct), Toasty.LENGTH_LONG).show();
                         BaseMainActivity.currentToken = account.token;
                         BaseMainActivity.currentUserID = account.user_id;
@@ -1358,6 +1363,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 bundle.putBoolean(Helper.ARG_PEERTUBE_NAV_REMOTE, true);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                finish();
             } else if (id == R.id.nav_about_instance) {
                 (new InstanceActivity()).show(getSupportFragmentManager(), null);
             }

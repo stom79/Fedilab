@@ -15,12 +15,18 @@ package app.fedilab.android.peertube.fragment;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE_PEERTUBE_BROWSING;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.INSTANCE_ADDRESS;
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +40,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -47,9 +54,12 @@ import java.util.Map;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentLoginPickInstancePeertubeBinding;
 import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 import app.fedilab.android.peertube.client.APIResponse;
+import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.client.entities.InstanceParams;
+import app.fedilab.android.peertube.client.entities.PeertubeInformation;
 import app.fedilab.android.peertube.drawer.InstanceAdapter;
 import app.fedilab.android.peertube.helper.RoundedBackgroundSpan;
 import app.fedilab.android.peertube.viewmodel.InstancesVM;
@@ -74,6 +84,36 @@ public class FragmentLoginPickInstancePeertube extends Fragment implements Insta
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentLoginPickInstancePeertubeBinding.inflate(inflater, container, false);
 
+
+        if (peertubeInformation == null || peertubeInformation.getLanguages() == null) {
+            new Thread(() -> {
+                peertubeInformation = new PeertubeInformation();
+                peertubeInformation.setCategories(new LinkedHashMap<>());
+                peertubeInformation.setLanguages(new LinkedHashMap<>());
+                peertubeInformation.setLicences(new LinkedHashMap<>());
+                peertubeInformation.setPrivacies(new LinkedHashMap<>());
+                peertubeInformation.setPlaylistPrivacies(new LinkedHashMap<>());
+                peertubeInformation.setTranslations(new LinkedHashMap<>());
+                peertubeInformation = new RetrofitPeertubeAPI(requireActivity()).getPeertubeInformation();
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    if (peertubeInformation == null || peertubeInformation.getLanguages() == null) {
+                        Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                    } else {
+                        initializeView();
+                    }
+                };
+                mainHandler.post(myRunnable);
+
+            }).start();
+        } else {
+            initializeView();
+        }
+
+        return binding.getRoot();
+    }
+
+    private void initializeView() {
         binding.loader.setVisibility(View.VISIBLE);
 
 
@@ -100,7 +140,6 @@ public class FragmentLoginPickInstancePeertube extends Fragment implements Insta
 
             }
         });
-
         if (peertubeInformation != null && peertubeInformation.getLanguages() != null) {
             LinkedHashMap<String, String> languages = new LinkedHashMap<>(peertubeInformation.getLanguages());
             checkedItemsLanguage = new boolean[languages.size()];
@@ -238,10 +277,8 @@ public class FragmentLoginPickInstancePeertube extends Fragment implements Insta
         instanceParams = new InstanceParams();
         instanceParams.setNsfwPolicy(channelSensitive[1]);
         viewModel.getInstances(instanceParams).observe(getViewLifecycleOwner(), this::manageVIewInstance);
-
-
-        return binding.getRoot();
     }
+
 
     public void manageVIewInstance(APIResponse apiResponse) {
         binding.loader.setVisibility(View.GONE);
@@ -265,10 +302,20 @@ public class FragmentLoginPickInstancePeertube extends Fragment implements Insta
 
     @Override
     public void instance(String instance) {
-        Bundle bundle = new Bundle();
-        bundle.putString(INSTANCE_ADDRESS, instance);
-        Helper.addFragment(
-                getParentFragmentManager(), android.R.id.content, new PeertubeRegisterFragment(),
-                bundle, null, PeertubeRegisterFragment.class.getName());
+        if (typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
+            final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, instance);
+            editor.commit();
+            Log.v(Helper.TAG, "-->: " + instance);
+            requireActivity().recreate();
+
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putString(INSTANCE_ADDRESS, instance);
+            Helper.addFragment(
+                    getParentFragmentManager(), android.R.id.content, new PeertubeRegisterFragment(),
+                    bundle, null, PeertubeRegisterFragment.class.getName());
+        }
     }
 }

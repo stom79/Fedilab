@@ -127,7 +127,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.BasePeertubeActivity;
 import app.fedilab.android.databinding.ActivityPeertubeBinding;
@@ -591,7 +590,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private void playVideo() {
         if (status == null && typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
             app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM searchVM = new ViewModelProvider(PeertubeActivity.this).get(app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM.class);
-            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, videoUuid, null, "statuses", false, true, false, 0, null, null, 1)
+            searchVM.search(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), videoUuid, null, "statuses", false, true, false, 0, null, null, 1)
                     .observe(PeertubeActivity.this, results -> {
                         if (results != null && results.statuses != null && results.statuses.size() > 0) {
                             status = results.statuses.get(0);
@@ -1041,7 +1040,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     }
                     alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
                         if (status.reblogged) {
-                            statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                            statusesVM.unReblog(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
                                     .observe(PeertubeActivity.this, _status -> {
                                         if (_status != null) {
                                             status = _status;
@@ -1050,7 +1049,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                                     });
                         } else {
                             ((SparkButton) v).playAnimation();
-                            statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null)
+                            statusesVM.reblog(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id, null)
                                     .observe(PeertubeActivity.this, _status -> {
                                         if (_status != null) {
                                             status = _status;
@@ -1065,7 +1064,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     alert.show();
                 } else {
                     if (status.reblogged) {
-                        statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                        statusesVM.unReblog(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
                                 .observe(PeertubeActivity.this, _status -> {
                                     if (_status != null) {
                                         status = _status;
@@ -1074,7 +1073,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                                 });
                     } else {
                         ((SparkButton) v).playAnimation();
-                        statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null)
+                        statusesVM.reblog(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id, null)
                                 .observe(PeertubeActivity.this, _status -> {
                                     if (_status != null) {
                                         status = _status;
@@ -1099,7 +1098,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     }
                     alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
                         if (status.favourited) {
-                            statusesVM.unFavourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                            statusesVM.unFavourite(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
                                     .observe(PeertubeActivity.this, _status -> {
                                         if (_status != null) {
                                             status = _status;
@@ -1108,7 +1107,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                                     });
                         } else {
                             ((SparkButton) v).playAnimation();
-                            statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                            statusesVM.favourite(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
                                     .observe(PeertubeActivity.this, _status -> {
                                         if (_status != null) {
                                             status = _status;
@@ -1123,7 +1122,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                     alert.show();
                 } else {
                     if (status.favourited) {
-                        statusesVM.unFavourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                        statusesVM.unFavourite(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
                                 .observe(PeertubeActivity.this, _status -> {
                                     if (_status != null) {
                                         status = _status;
@@ -1132,7 +1131,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                                 });
                     } else {
                         ((SparkButton) v).playAnimation();
-                        statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                        statusesVM.favourite(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
                                 .observe(PeertubeActivity.this, _status -> {
                                     if (_status != null) {
                                         status = _status;
@@ -1148,7 +1147,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             if (status != null) {
                 StatusesVM statusesVM = new ViewModelProvider(PeertubeActivity.this).get(StatusesVM.class);
                 if (status.bookmarked) {
-                    statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                    statusesVM.unBookmark(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
                             .observe(PeertubeActivity.this, _status -> {
                                 if (_status != null) {
                                     status = _status;
@@ -1157,7 +1156,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                             });
                 } else {
                     ((SparkButton) v).playAnimation();
-                    statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id)
+                    statusesVM.bookmark(HelperInstance.getLiveInstance(PeertubeActivity.this), HelperInstance.getToken(), status.id)
                             .observe(PeertubeActivity.this, _status -> {
                                 if (_status != null) {
                                     status = _status;

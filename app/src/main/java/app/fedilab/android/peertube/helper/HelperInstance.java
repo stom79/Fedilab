@@ -14,12 +14,17 @@ package app.fedilab.android.peertube.helper;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE_PEERTUBE_BROWSING;
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
+
+import app.fedilab.android.peertube.activities.PeertubeMainActivity;
 
 
 public class HelperInstance {
@@ -33,7 +38,19 @@ public class HelperInstance {
      */
     public static String getLiveInstance(Context context) {
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedpreferences.getString(PREF_USER_INSTANCE, null);
+        if (typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
+            return sharedpreferences.getString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, null);
+        } else {
+            return sharedpreferences.getString(PREF_USER_INSTANCE, null);
+        }
+    }
+
+    public static String getToken() {
+        if (typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
+            return null;
+        } else {
+            return currentToken;
+        }
     }
 
 }
