@@ -19,7 +19,6 @@ import android.app.Application;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -475,19 +474,14 @@ public class StatusesVM extends AndroidViewModel {
             List<Account> accounts = null;
             Headers headers = null;
             if (accountsCall != null) {
-                Log.v(Helper.TAG, "accountsCall: " + accountsCall.request());
                 try {
                     Response<List<Account>> accountsResponse = accountsCall.execute();
                     if (accountsResponse.isSuccessful()) {
                         accounts = accountsResponse.body();
-                        Log.v(Helper.TAG, "accounts: " + accounts);
-                    } else {
-                        Log.v(Helper.TAG, "err: " + accountsResponse.errorBody().string());
                     }
                     headers = accountsResponse.headers();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.v(Helper.TAG, "er: " + e.getMessage());
                 }
             }
             Accounts accountsPagination = new Accounts();

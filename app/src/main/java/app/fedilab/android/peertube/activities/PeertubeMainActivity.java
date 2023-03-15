@@ -41,7 +41,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,6 +53,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -61,7 +61,6 @@ import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.kobakei.ratethisapp.RateThisApp;
 
@@ -118,27 +117,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     private DisplayOverviewFragment overviewFragment;
     private ActivityMainPeertubeBinding binding;
 
-    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = item -> {
-        int itemId = item.getItemId();
-        if (itemId == R.id.navigation_discover) {
-            setTitleCustom(R.string.title_discover);
-            binding.viewpager.setCurrentItem(3);
-        } else if (itemId == R.id.navigation_subscription) {
-            binding.viewpager.setCurrentItem(4);
-            setTitleCustom(R.string.subscriptions);
-        } else if (itemId == R.id.navigation_trending) {
-            setTitleCustom(R.string.title_trending);
-            binding.viewpager.setCurrentItem(2);
-        } else if (itemId == R.id.navigation_recently_added) {
-            setTitleCustom(R.string.title_recently_added);
-            binding.viewpager.setCurrentItem(1);
-        } else if (itemId == R.id.navigation_local) {
-            setTitleCustom(R.string.title_local);
-            binding.viewpager.setCurrentItem(0);
-        }
-        return true;
-    };
 
 
     private void setTitleCustom(int titleRId) {
@@ -178,7 +156,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
         if (typeOfConnection == TypeOfConnection.REMOTE_ACCOUNT) {
             String defaultInstance = sharedpreferences.getString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, null);
-            Log.v(app.fedilab.android.mastodon.helper.Helper.TAG, "defaultInstance-->: " + defaultInstance);
             if (defaultInstance == null) {
                 getSupportFragmentManager().setFragmentResultListener(PICK_INSTANCE, PeertubeMainActivity.this, (requestKey, result) -> {
                     new Thread(() -> {
@@ -192,8 +169,8 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 addFragment(
                         getSupportFragmentManager(), android.R.id.content, new FragmentLoginPickInstancePeertube(),
                         null, null, FragmentLoginPickInstancePeertube.class.getName());
+                return;
             }
-            return;
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -202,8 +179,48 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
         badgeCount = 0;
         headerMenuOpen = false;
-        binding.navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        startInForeground();
+        if (typeOfConnection == TypeOfConnection.NORMAL) {
+            binding.navView.setOnItemSelectedListener(item -> {
+                int itemId = item.getItemId();
+                if (itemId == R.id.navigation_discover) {
+                    setTitleCustom(R.string.title_discover);
+                    binding.viewpager.setCurrentItem(3);
+                } else if (itemId == R.id.navigation_subscription) {
+                    binding.viewpager.setCurrentItem(4);
+                    setTitleCustom(R.string.subscriptions);
+                } else if (itemId == R.id.navigation_trending) {
+                    setTitleCustom(R.string.title_trending);
+                    binding.viewpager.setCurrentItem(2);
+                } else if (itemId == R.id.navigation_recently_added) {
+                    setTitleCustom(R.string.title_recently_added);
+                    binding.viewpager.setCurrentItem(1);
+                } else if (itemId == R.id.navigation_local) {
+                    setTitleCustom(R.string.title_local);
+                    binding.viewpager.setCurrentItem(0);
+                }
+                return true;
+            });
+            startInForeground();
+        } else {
+            binding.navView.setOnItemSelectedListener(item -> {
+                int itemId = item.getItemId();
+                if (itemId == R.id.navigation_discover) {
+                    setTitleCustom(R.string.title_discover);
+                    binding.viewpager.setCurrentItem(3);
+                } else if (itemId == R.id.navigation_trending) {
+                    setTitleCustom(R.string.title_trending);
+                    binding.viewpager.setCurrentItem(2);
+                } else if (itemId == R.id.navigation_recently_added) {
+                    setTitleCustom(R.string.title_recently_added);
+                    binding.viewpager.setCurrentItem(1);
+                } else if (itemId == R.id.navigation_local) {
+                    setTitleCustom(R.string.title_local);
+                    binding.viewpager.setCurrentItem(0);
+                }
+                return true;
+            });
+        }
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
@@ -232,10 +249,10 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         bundle.putSerializable(Helper.TIMELINE_TYPE, TimelineVM.TimelineType.MOST_LIKED);
         mostLikedFragment.setArguments(bundle);
 
-        NavHeaderMainBinding headerMainBinding = NavHeaderMainBinding.inflate(getLayoutInflater());
+
         currentAccount = null;
         if (Helper.isLoggedIn()) {
-
+            NavHeaderMainBinding headerMainBinding = NavHeaderMainBinding.inflate(getLayoutInflater());
             new Thread(() -> {
                 try {
                     if (currentToken == null) {
@@ -313,15 +330,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 };
                 mainHandler.post(myRunnable);
             }).start();
-        } else {
-            binding.navView.inflateMenu(R.menu.bottom_nav_menu_peertube);
-        }
-
-        headerMainBinding.instanceInfo.setVisibility(View.GONE);
-
-        headerMainBinding.headerOptionInfo.setOnClickListener(v -> headerOptionInfoClick(PeertubeMainActivity.this, headerMainBinding, getSupportFragmentManager()));
-
-        if (Helper.isLoggedIn()) {
+            headerMainBinding.instanceInfo.setVisibility(View.GONE);
             binding.drawerNavView.addHeaderView(headerMainBinding.getRoot());
             binding.drawerNavView.setNavigationItemSelectedListener(item -> {
                 if (item.getItemId() == R.id.action_settings) {
@@ -377,11 +386,12 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 binding.drawerLayout.close();
                 return false;
             });
+            headerMainBinding.headerOptionInfo.setOnClickListener(v -> headerOptionInfoClick(PeertubeMainActivity.this, headerMainBinding, getSupportFragmentManager()));
+            fetchRecentAccounts(PeertubeMainActivity.this, headerMainBinding);
         } else {
-            binding.drawerNavView.setVisibility(View.GONE);
+            binding.navView.inflateMenu(R.menu.bottom_nav_menu_peertube);
+            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
-
-
         overviewFragment = new DisplayOverviewFragment();
         if (!Helper.isLoggedIn()) {
             PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -451,26 +461,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         if (search_cast) {
             super.discoverCast();
         }
-
-        //Instance
-        if (HelperInstance.getLiveInstance(PeertubeMainActivity.this) == null) {
-            getSupportFragmentManager().setFragmentResultListener(PICK_INSTANCE, this, (requestKey, result) -> {
-                String instance = result.getString(INSTANCE_ADDRESS, null);
-                if (instance != null) {
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString(PREF_USER_INSTANCE, instance);
-                    editor.commit();
-                    PeertubeMainActivity.this.recreate();
-                }
-                getSupportFragmentManager().clearFragmentResultListener(requestKey);
-            });
-            addFragment(
-                    getSupportFragmentManager(), android.R.id.content, new FragmentLoginPickInstancePeertube(),
-                    null, null, FragmentLoginPickInstancePeertube.class.getName());
-        }
         mamageNewIntent(PeertubeMainActivity.this, getIntent());
-        fetchRecentAccounts(PeertubeMainActivity.this, headerMainBinding);
-
     }
 
     public DisplayVideosFragment getSubscriptionFragment() {
@@ -498,7 +489,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     private void refreshToken() {
         new Thread(() -> {
             final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
-            String tokenStr = Helper.getToken(PeertubeMainActivity.this);
+            String tokenStr = HelperInstance.getToken();
             String instance = HelperInstance.getLiveInstance(PeertubeMainActivity.this);
             String instanceShar = sharedpreferences.getString(PREF_USER_INSTANCE, null);
             String userIdShar = sharedpreferences.getString(PREF_USER_ID, null);

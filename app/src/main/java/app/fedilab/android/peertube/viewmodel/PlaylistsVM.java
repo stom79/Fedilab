@@ -33,7 +33,7 @@ import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.PlaylistData.Playlist;
 import app.fedilab.android.peertube.client.data.VideoPlaylistData;
-import app.fedilab.android.peertube.helper.Helper;
+import app.fedilab.android.peertube.helper.HelperInstance;
 
 
 public class PlaylistsVM extends AndroidViewModel {
@@ -72,7 +72,7 @@ public class PlaylistsVM extends AndroidViewModel {
         Context _mContext = getApplication().getApplicationContext();
         new Thread(() -> {
             try {
-                String token = Helper.getToken(_mContext);
+                String token = HelperInstance.getToken();
                 BaseAccount account = new Account(_mContext).getAccountByToken(token);
                 int statusCode = -1;
                 APIResponse apiResponse;

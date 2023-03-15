@@ -29,7 +29,7 @@ import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.peertube.client.APIResponse;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.data.AccountData;
-import app.fedilab.android.peertube.helper.Helper;
+import app.fedilab.android.peertube.helper.HelperInstance;
 
 
 public class ChannelsVM extends AndroidViewModel {
@@ -57,7 +57,7 @@ public class ChannelsVM extends AndroidViewModel {
             String finalElement = element;
             try {
                 if (type == RetrofitPeertubeAPI.DataType.MY_CHANNELS) {
-                    String token = Helper.getToken(_mContext);
+                    String token = HelperInstance.getToken();
                     BaseAccount baseAccount = new Account(_mContext).getAccountByToken(token);
                     AccountData.PeertubeAccount account = baseAccount.peertube_account;
                     finalElement = account.getUsername() + "@" + account.getHost();

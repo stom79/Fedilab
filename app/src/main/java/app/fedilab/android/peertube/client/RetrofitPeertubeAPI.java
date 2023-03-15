@@ -237,7 +237,7 @@ public class RetrofitPeertubeAPI {
                 .build();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(_context);
         if (token == null) {
-            token = Helper.getToken(_context);
+            token = HelperInstance.getToken();
         }
         selection = sharedpreferences.getStringSet(_context.getString(R.string.set_video_language_choice), null);
         return retrofit.create(PeertubeService.class);

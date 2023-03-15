@@ -310,7 +310,7 @@ public class PeertubeUploadActivity extends BaseBarActivity {
                     filename = binding.videoTitle.getText().toString().trim();
                 }
                 try {
-                    String token = Helper.getToken(PeertubeUploadActivity.this);
+                    String token = HelperInstance.getToken();
                     new MultipartUploadRequest(PeertubeUploadActivity.this, "https://" + HelperInstance.getLiveInstance(PeertubeUploadActivity.this) + "/api/v1/videos/upload")
                             .setMethod("POST")
                             .setBearerAuth(token)

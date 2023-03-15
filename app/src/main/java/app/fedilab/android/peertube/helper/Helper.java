@@ -666,11 +666,6 @@ public class Helper {
     }
 
 
-    public static String getToken(Context context) {
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedpreferences.getString(PREF_USER_TOKEN, null);
-    }
-
     /**
      * Converts dp to pixel
      *

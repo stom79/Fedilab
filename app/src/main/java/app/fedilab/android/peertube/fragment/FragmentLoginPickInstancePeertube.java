@@ -26,7 +26,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -307,7 +306,6 @@ public class FragmentLoginPickInstancePeertube extends Fragment implements Insta
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, instance);
             editor.commit();
-            Log.v(Helper.TAG, "-->: " + instance);
             requireActivity().recreate();
 
         } else {
