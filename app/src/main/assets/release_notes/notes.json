@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.20.3",
+    "code": "486",
+    "note": "Added:\n- Display all following/followers lists from remote profiles\n- Display all accounts that boosted/fav from a remote message\n\nFixed:\n- Fix a crash with auto-fetch messages"
+  },
+  {
     "version": "3.20.2",
     "code": "485",
     "note": "Added:\n- Visual indicator when fetching missing messages\n- Open media description when it is missing from the warning dialog\n\nChanged:\n- Maths formula aligned to the left\n- Faster access to delete all notifications\n\nFixed:\n- Fix an issue with Nitter and some URLs\n- Fix refresh issue with notifications\n- Fix an issue when entering a Peertube instance\n- Fix jumps with Akkoma/Pleroma when media preview size is not set\n- Some crashes"

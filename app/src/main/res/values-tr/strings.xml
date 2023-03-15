@@ -1041,4 +1041,6 @@
     <string name="load_media_remotely">Medyayı uzaktan yükle</string>
     <string name="warn_boost_no_media_description">Arttırmadan önce mesajın medya açıklaması yoksa uyar</string>
     <string name="reblog_missing_description">Bu mesajın medya açıklaması eksik. Arttırmak istediğinizden emin misiniz\?</string>
+    <string name="fetching_messages">Mesajlar alınıyor</string>
+    <string name="add_description">Açıklama ekle</string>
 </resources>
