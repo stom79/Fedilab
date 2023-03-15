@@ -147,6 +147,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     public void onDestroy() {
         super.onDestroy();
         binding = null;
+        typeOfConnection = TypeOfConnection.NORMAL;
         LocalBroadcastManager.getInstance(PeertubeMainActivity.this).unregisterReceiver(broadcast_data);
     }
 
