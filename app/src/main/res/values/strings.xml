@@ -1961,4 +1961,5 @@
     <string name="fetching_messages">Fetching messages</string>
     <string name="add_description">Add a description</string>
     <string name="retrieve_remote_account">Retrieve remote account!</string>
+    <string name="exit">Exit</string>
 </resources>
