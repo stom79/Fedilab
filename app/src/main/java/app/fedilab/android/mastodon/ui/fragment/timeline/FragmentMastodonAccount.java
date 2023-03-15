@@ -141,7 +141,7 @@ public class FragmentMastodonAccount extends Fragment {
                 fetchAccount(firstLoad, remoteAccountId);
             }
         } else {
-            fetchAccount(firstLoad, accountTimeline.id);
+            fetchAccount(firstLoad, accountTimeline != null ? accountTimeline.id : null);
         }
     }
 
