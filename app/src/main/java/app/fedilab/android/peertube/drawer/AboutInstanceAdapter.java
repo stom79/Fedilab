@@ -19,7 +19,6 @@ import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -46,7 +45,6 @@ import java.util.List;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerAboutInstancePeertubeBinding;
 import app.fedilab.android.peertube.client.data.InstanceData;
-import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
 import app.fedilab.android.sqlite.Sqlite;
 
@@ -133,7 +131,7 @@ public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.View
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString(PREF_USER_INSTANCE, aboutInstance.getHost());
             editor.commit();
-            Helper.logoutNoRemoval((Activity) context);
+            //Helper.logoutNoRemoval((Activity) context);
         });
         holder.binding.instanceMore.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(context, holder.binding.instanceMore);

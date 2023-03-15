@@ -17,8 +17,6 @@ package app.fedilab.android.peertube.helper;
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
-import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
-import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 
 import android.Manifest;
@@ -39,6 +37,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.util.DisplayMetrics;
@@ -58,6 +57,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 
 import com.avatarfirst.avatargenlib.AvatarGenerator;
@@ -613,25 +613,17 @@ public class Helper {
 
 
     /**
-     * Log out without removing user in db
+     * Send broadcast to recreate Mainactivity
      *
-     * @param activity Activity
+     * @param activity - Activity
      */
-    public static void logoutNoRemoval(Activity activity) {
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString(PREF_USER_TOKEN, null);
-        editor.putString(CLIENT_ID, null);
-        editor.putString(CLIENT_SECRET, null);
-        editor.putString(PREF_USER_ID, null);
-        editor.putString(PREF_USER_INSTANCE, null);
-        editor.putString(PREF_USER_SOFTWARE, null);
-        editor.apply();
-        Intent loginActivity = new Intent(activity, PeertubeMainActivity.class);
-        activity.startActivity(loginActivity);
-        activity.finish();
+    public static void recreatePeertubeActivity(Activity activity) {
+        Bundle b = new Bundle();
+        b.putBoolean(app.fedilab.android.mastodon.helper.Helper.RECEIVE_RECREATE_PEERTUBE_ACTIVITY, true);
+        Intent intentBD = new Intent(app.fedilab.android.mastodon.helper.Helper.BROADCAST_DATA);
+        intentBD.putExtras(b);
+        LocalBroadcastManager.getInstance(activity).sendBroadcast(intentBD);
     }
-
 
     public static int getAttColor(Context context, int attColor) {
         TypedValue typedValue = new TypedValue();

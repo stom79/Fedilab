@@ -21,8 +21,19 @@
         app:actionViewClass="android.widget.CheckBox"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_sepia_search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="@string/sepia_search"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_about"
         android:icon="@drawable/ic_baseline_info_24"
         android:title="@string/about_the_app"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_exit"
+        android:icon="@drawable/baseline_exit_to_app_24"
+        android:title="@string/exit"
         app:showAsAction="never" />
 </menu>

@@ -33,7 +33,10 @@ import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 import static app.fedilab.android.peertube.helper.SwitchAccountHelper.switchDialog;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -57,6 +60,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -118,6 +122,17 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     private ActivityMainPeertubeBinding binding;
 
 
+    private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle b = intent.getExtras();
+            if (b != null) {
+                if (b.getBoolean(app.fedilab.android.mastodon.helper.Helper.RECEIVE_RECREATE_PEERTUBE_ACTIVITY, false)) {
+                    recreate();
+                }
+            }
+        }
+    };
 
     private void setTitleCustom(int titleRId) {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -132,6 +147,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     public void onDestroy() {
         super.onDestroy();
         binding = null;
+        LocalBroadcastManager.getInstance(PeertubeMainActivity.this).unregisterReceiver(broadcast_data);
     }
 
     @SuppressLint("ApplySharedPref")
@@ -141,7 +157,9 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         super.onCreate(savedInstanceState);
         binding = super.binding;
 
-
+        LocalBroadcastManager.getInstance(PeertubeMainActivity.this).registerReceiver(
+                broadcast_data, new IntentFilter(app.fedilab.android.mastodon.helper.Helper.BROADCAST_DATA)
+        );
         Intent intentActvity = getIntent();
         if (intentActvity != null) {
             Bundle extras = intentActvity.getExtras();
@@ -389,8 +407,23 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             headerMainBinding.headerOptionInfo.setOnClickListener(v -> headerOptionInfoClick(PeertubeMainActivity.this, headerMainBinding, getSupportFragmentManager()));
             fetchRecentAccounts(PeertubeMainActivity.this, headerMainBinding);
         } else {
-            binding.navView.inflateMenu(R.menu.bottom_nav_menu_peertube);
-            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            new Thread(() -> {
+                if (currentToken == null || currentToken.trim().isEmpty()) {
+                    currentToken = sharedpreferences.getString(app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN, null);
+                }
+                try {
+                    currentAccount = new Account(PeertubeMainActivity.this).getConnectedAccount();
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    binding.navView.inflateMenu(R.menu.bottom_nav_menu_peertube);
+                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                    app.fedilab.android.mastodon.helper.Helper.loadPP(this, binding.profilePicture, currentAccount);
+                };
+                mainHandler.post(myRunnable);
+            }).start();
         }
         overviewFragment = new DisplayOverviewFragment();
         if (!Helper.isLoggedIn()) {
@@ -624,20 +657,25 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
 
         MenuItem incognitoItem = menu.findItem(R.id.action_incognito);
+        MenuItem changeInstanceItem = menu.findItem(R.id.action_change_instance);
+        MenuItem exitItem = menu.findItem(R.id.action_exit);
+        MenuItem sepiaSearchItem = menu.findItem(R.id.action_sepia_search);
         switch (typeOfConnection) {
             case NORMAL:
-                if (Helper.isLoggedIn()) {
-                    incognitoItem.setVisible(true);
-                    final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
-                    boolean checked = sharedpreferences.getBoolean(getString(R.string.set_store_in_history), true);
-                    incognitoItem.setChecked(checked);
-                } else {
-                    incognitoItem.setVisible(false);
-                }
+                incognitoItem.setVisible(true);
+                final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
+                boolean checked = sharedpreferences.getBoolean(getString(R.string.set_store_in_history), true);
+                incognitoItem.setChecked(checked);
+                changeInstanceItem.setVisible(false);
+                exitItem.setVisible(false);
+                sepiaSearchItem.setVisible(false);
                 break;
             case REMOTE_ACCOUNT:
             case SURFING:
                 incognitoItem.setVisible(false);
+                changeInstanceItem.setVisible(true);
+                exitItem.setVisible(true);
+                sepiaSearchItem.setVisible(true);
                 break;
         }
 
@@ -709,6 +747,13 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 }
             }).start();
             return false;
+        } else if (item.getItemId() == R.id.action_exit) {
+            Intent intent = new Intent(PeertubeMainActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (item.getItemId() == R.id.action_sepia_search) {
+            Intent intent = new Intent(PeertubeMainActivity.this, SepiaSearchActivity.class);
+            startActivity(intent);
         }
         return true;
     }

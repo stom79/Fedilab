@@ -19,8 +19,10 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE_PEER
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.INSTANCE_ADDRESS;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
+import static app.fedilab.android.peertube.helper.Helper.recreatePeertubeActivity;
 
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -61,7 +63,9 @@ import app.fedilab.android.peertube.client.entities.InstanceParams;
 import app.fedilab.android.peertube.client.entities.PeertubeInformation;
 import app.fedilab.android.peertube.drawer.InstanceAdapter;
 import app.fedilab.android.peertube.helper.RoundedBackgroundSpan;
+import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
 import app.fedilab.android.peertube.viewmodel.InstancesVM;
+import app.fedilab.android.sqlite.Sqlite;
 import es.dmoral.toasty.Toasty;
 
 
@@ -300,14 +304,21 @@ public class FragmentLoginPickInstancePeertube extends Fragment implements Insta
     }
 
     @Override
-    public void instance(String instance) {
+    public void instance(final String instance) {
         if (typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
-            final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, instance);
-            editor.commit();
-            requireActivity().recreate();
-
+            new Thread(() -> {
+                final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, instance);
+                editor.commit();
+                InstanceData.AboutInstance aboutInstance = new RetrofitPeertubeAPI(requireActivity(), instance, null).getAboutInstance();
+                SQLiteDatabase db = Sqlite.getInstance(requireActivity(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
+                new StoredInstanceDAO(requireActivity(), db).insertInstance(aboutInstance, instance);
+                requireActivity().runOnUiThread(() -> {
+                    recreatePeertubeActivity(requireActivity());
+                    requireActivity().finish();
+                });
+            }).start();
         } else {
             Bundle bundle = new Bundle();
             bundle.putString(INSTANCE_ADDRESS, instance);

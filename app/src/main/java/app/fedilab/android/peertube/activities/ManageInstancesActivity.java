@@ -16,15 +16,11 @@ package app.fedilab.android.peertube.activities;
 
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE_PEERTUBE_BROWSING;
 import static app.fedilab.android.mastodon.helper.Helper.addFragment;
-import static app.fedilab.android.peertube.activities.PeertubeMainActivity.INSTANCE_ADDRESS;
-import static app.fedilab.android.peertube.activities.PeertubeMainActivity.PICK_INSTANCE;
+import static app.fedilab.android.peertube.helper.Helper.recreatePeertubeActivity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -32,8 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,7 +46,6 @@ import app.fedilab.android.peertube.client.data.InstanceData;
 import app.fedilab.android.peertube.client.entities.WellKnownNodeinfo;
 import app.fedilab.android.peertube.drawer.AboutInstanceAdapter;
 import app.fedilab.android.peertube.fragment.FragmentLoginPickInstancePeertube;
-import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
 import app.fedilab.android.peertube.sqlite.StoredInstanceDAO;
 import app.fedilab.android.peertube.viewmodel.InfoInstanceVM;
@@ -67,69 +60,6 @@ public class ManageInstancesActivity extends BaseBarActivity implements AboutIns
     private AboutInstanceAdapter aboutInstanceAdapter;
 
 
-    @SuppressLint("ApplySharedPref")
-    public static void showRadioButtonDialogFullInstances(Activity activity, FragmentManager fragmentManager) {
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity);
-        alt_bld.setTitle(R.string.instance_choice);
-        String instance = HelperInstance.getLiveInstance(activity);
-        final EditText input = new EditText(activity);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
-        alt_bld.setView(input);
-        input.setText(instance);
-        alt_bld.setPositiveButton(R.string.validate,
-                (dialog, which) -> new Thread(() -> {
-                    try {
-                        String newInstance = input.getText().toString().trim();
-                        if (!newInstance.startsWith("http")) {
-                            newInstance = "http://" + newInstance;
-                        }
-                        URL url = new URL(newInstance);
-                        newInstance = url.getHost();
-
-                        WellKnownNodeinfo.NodeInfo instanceNodeInfo = new RetrofitPeertubeAPI(activity, newInstance, null).getNodeInfo();
-                        if (instanceNodeInfo.getSoftware() != null && instanceNodeInfo.getSoftware().getName().trim().toLowerCase().compareTo("peertube") == 0) {
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, newInstance);
-                            editor.commit();
-                            newInstance = newInstance.trim().toLowerCase();
-                            InstanceData.AboutInstance aboutInstance = new RetrofitPeertubeAPI(activity, newInstance, null).getAboutInstance();
-                            SQLiteDatabase db = Sqlite.getInstance(activity.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                            new StoredInstanceDAO(activity, db).insertInstance(aboutInstance, newInstance);
-                            activity.runOnUiThread(() -> {
-                                dialog.dismiss();
-                                Helper.logoutNoRemoval(activity);
-                            });
-                        } else {
-                            activity.runOnUiThread(() -> Toasty.error(activity, activity.getString(R.string.not_valide_instance), Toast.LENGTH_LONG).show());
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }).start());
-        alt_bld.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-        alt_bld.setNeutralButton(R.string.help, (dialog, which) -> {
-            fragmentManager.setFragmentResultListener(PICK_INSTANCE, (LifecycleOwner) activity, (requestKey, result) -> {
-                new Thread(() -> {
-                    String newInstance = result.getString(INSTANCE_ADDRESS);
-                    InstanceData.AboutInstance aboutInstance = new RetrofitPeertubeAPI(activity, newInstance, null).getAboutInstance();
-                    SQLiteDatabase db = Sqlite.getInstance(activity, Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                    new StoredInstanceDAO(activity, db).insertInstance(aboutInstance, newInstance);
-                    activity.runOnUiThread(() -> new Handler().post(() -> Helper.logoutNoRemoval(activity)));
-                }).start();
-                fragmentManager.clearFragmentResultListener(PICK_INSTANCE);
-            });
-            addFragment(
-                    fragmentManager, android.R.id.content, new FragmentLoginPickInstancePeertube(),
-                    null, null, FragmentLoginPickInstancePeertube.class.getName());
-        });
-        AlertDialog alert = alt_bld.create();
-        alert.show();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +74,58 @@ public class ManageInstancesActivity extends BaseBarActivity implements AboutIns
         binding.loader.setVisibility(View.VISIBLE);
         binding.noAction.setVisibility(View.GONE);
         binding.lvInstances.setVisibility(View.GONE);
-        binding.actionButton.setOnClickListener(v -> showRadioButtonDialogFullInstances(ManageInstancesActivity.this, getSupportFragmentManager()));
+        binding.actionButton.setOnClickListener(v -> {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(this);
+            alt_bld.setTitle(R.string.instance_choice);
+            String instance = HelperInstance.getLiveInstance(this);
+            final EditText input = new EditText(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+            input.setLayoutParams(lp);
+            alt_bld.setView(input);
+            input.setText(instance);
+            alt_bld.setPositiveButton(R.string.validate,
+                    (dialog, which) -> new Thread(() -> {
+                        try {
+                            String newInstance = input.getText().toString().trim();
+                            if (!newInstance.startsWith("http")) {
+                                newInstance = "http://" + newInstance;
+                            }
+                            URL url = new URL(newInstance);
+                            newInstance = url.getHost();
+
+                            WellKnownNodeinfo.NodeInfo instanceNodeInfo = new RetrofitPeertubeAPI(this, newInstance, null).getNodeInfo();
+                            if (instanceNodeInfo.getSoftware() != null && instanceNodeInfo.getSoftware().getName().trim().toLowerCase().compareTo("peertube") == 0) {
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, newInstance);
+                                editor.commit();
+                                newInstance = newInstance.trim().toLowerCase();
+                                InstanceData.AboutInstance aboutInstance = new RetrofitPeertubeAPI(this, newInstance, null).getAboutInstance();
+                                SQLiteDatabase db = Sqlite.getInstance(this.getApplicationContext(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
+                                new StoredInstanceDAO(this, db).insertInstance(aboutInstance, newInstance);
+                                this.runOnUiThread(() -> {
+                                    dialog.dismiss();
+                                    recreatePeertubeActivity(this);
+                                });
+                            } else {
+                                runOnUiThread(() -> Toasty.error(this, getString(R.string.not_valide_instance), Toast.LENGTH_LONG).show());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }).start());
+            alt_bld.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+            alt_bld.setNeutralButton(R.string.help, (dialog, which) -> {
+                addFragment(
+                        getSupportFragmentManager(), android.R.id.content, new FragmentLoginPickInstancePeertube(),
+                        null, null, FragmentLoginPickInstancePeertube.class.getName());
+            });
+            AlertDialog alert = alt_bld.create();
+            alert.show();
+        });
         aboutInstances = new ArrayList<>();
         aboutInstanceAdapter = new AboutInstanceAdapter(this.aboutInstances);
         aboutInstanceAdapter.allInstancesRemoved = this;

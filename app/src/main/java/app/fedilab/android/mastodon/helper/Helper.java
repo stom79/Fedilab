@@ -197,6 +197,8 @@ public class Helper {
     public static final String RECEIVE_ERROR_MESSAGE = "RECEIVE_ERROR_MESSAGE";
 
     public static final String RECEIVE_RECREATE_ACTIVITY = "RECEIVE_RECREATE_ACTIVITY";
+    public static final String RECEIVE_RECREATE_PEERTUBE_ACTIVITY = "RECEIVE_RECREATE_PEERTUBE_ACTIVITY";
+
     public static final String RECEIVE_NEW_MESSAGE = "RECEIVE_NEW_MESSAGE";
     public static final String RECEIVE_COMPOSE_ERROR_MESSAGE = "RECEIVE_COMPOSE_ERROR_MESSAGE";
     public static final String RECEIVE_MASTODON_LIST = "RECEIVE_MASTODON_LIST";
