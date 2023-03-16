@@ -1037,4 +1037,8 @@
     <string name="requested_by">Solicitou seguirte</string>
     <string name="warn_boost_no_media_description">Avisar de publicar de que o multimedia non inclúe descrición</string>
     <string name="fetch_remote_media">Baixar automáticamente multimedia remoto cando non estivese dispoñible</string>
+    <string name="retrieve_remote_account">Contactar con conta remota!</string>
+    <string name="fetching_messages">Obtendo as mensaxes</string>
+    <string name="add_description">Engadir descrición</string>
+    <string name="exit">Saír</string>
 </resources>
