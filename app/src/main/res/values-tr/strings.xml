@@ -1043,4 +1043,6 @@
     <string name="reblog_missing_description">Bu mesajın medya açıklaması eksik. Arttırmak istediğinizden emin misiniz\?</string>
     <string name="fetching_messages">Mesajlar alınıyor</string>
     <string name="add_description">Açıklama ekle</string>
+    <string name="retrieve_remote_account">Uzak hesabı al!</string>
+    <string name="exit">Çıkış</string>
 </resources>
