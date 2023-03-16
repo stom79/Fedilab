@@ -53,12 +53,11 @@ import app.fedilab.android.sqlite.Sqlite;
 import es.dmoral.toasty.Toasty;
 
 
-public class ManageInstancesActivity extends BaseBarActivity implements AboutInstanceAdapter.AllInstancesRemoved {
+public class ManageInstancesActivity extends BaseBarActivity implements AboutInstanceAdapter.InstanceActions {
 
     private ActivityManageInstancesPeertubeBinding binding;
     private List<InstanceData.AboutInstance> aboutInstances;
     private AboutInstanceAdapter aboutInstanceAdapter;
-
 
 
     @Override
@@ -108,6 +107,7 @@ public class ManageInstancesActivity extends BaseBarActivity implements AboutIns
                                 this.runOnUiThread(() -> {
                                     dialog.dismiss();
                                     recreatePeertubeActivity(this);
+                                    finish();
                                 });
                             } else {
                                 runOnUiThread(() -> Toasty.error(this, getString(R.string.not_valide_instance), Toast.LENGTH_LONG).show());
@@ -128,7 +128,7 @@ public class ManageInstancesActivity extends BaseBarActivity implements AboutIns
         });
         aboutInstances = new ArrayList<>();
         aboutInstanceAdapter = new AboutInstanceAdapter(this.aboutInstances);
-        aboutInstanceAdapter.allInstancesRemoved = this;
+        aboutInstanceAdapter.instanceActions = this;
         binding.lvInstances.setAdapter(aboutInstanceAdapter);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(ManageInstancesActivity.this);
@@ -171,5 +171,11 @@ public class ManageInstancesActivity extends BaseBarActivity implements AboutIns
     public void onAllInstancesRemoved() {
         binding.noAction.setVisibility(View.VISIBLE);
         binding.lvInstances.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onFinished() {
+        recreatePeertubeActivity(this);
+        finish();
     }
 }

@@ -16,7 +16,7 @@ package app.fedilab.android.peertube.drawer;
 
 
 import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
-import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE_PEERTUBE_BROWSING;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -53,7 +53,7 @@ public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     private final List<InstanceData.AboutInstance> aboutInstances;
-    public AllInstancesRemoved allInstancesRemoved;
+    public InstanceActions instanceActions;
     private Context context;
 
     public AboutInstanceAdapter(List<InstanceData.AboutInstance> aboutInstances) {
@@ -126,12 +126,12 @@ public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         holder.binding.aboutInstanceName.setText(aboutInstance.getName());
-        holder.binding.instanceContainer.setOnClickListener(v -> {
+        holder.binding.pickup.setOnClickListener(v -> {
             final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString(PREF_USER_INSTANCE, aboutInstance.getHost());
+            editor.putString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, aboutInstance.getHost());
             editor.commit();
-            //Helper.logoutNoRemoval((Activity) context);
+            instanceActions.onFinished();
         });
         holder.binding.instanceMore.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(context, holder.binding.instanceMore);
@@ -153,7 +153,7 @@ public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.View
                                     Runnable myRunnable = () -> {
                                         notifyItemRemoved(i);
                                         if (aboutInstances.size() == 0) {
-                                            allInstancesRemoved.onAllInstancesRemoved();
+                                            instanceActions.onAllInstancesRemoved();
                                         }
                                     };
                                     mainHandler.post(myRunnable);
@@ -170,8 +170,10 @@ public class AboutInstanceAdapter extends RecyclerView.Adapter<RecyclerView.View
         });
     }
 
-    public interface AllInstancesRemoved {
+    public interface InstanceActions {
         void onAllInstancesRemoved();
+
+        void onFinished();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

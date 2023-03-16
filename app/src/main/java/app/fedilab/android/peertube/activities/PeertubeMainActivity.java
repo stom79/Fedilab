@@ -121,6 +121,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     private DisplayOverviewFragment overviewFragment;
     private ActivityMainPeertubeBinding binding;
 
+    private boolean keepRemote = false;
 
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
@@ -128,6 +129,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             Bundle b = intent.getExtras();
             if (b != null) {
                 if (b.getBoolean(app.fedilab.android.mastodon.helper.Helper.RECEIVE_RECREATE_PEERTUBE_ACTIVITY, false)) {
+                    keepRemote = true;
                     recreate();
                 }
             }
@@ -147,7 +149,9 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     public void onDestroy() {
         super.onDestroy();
         binding = null;
-        typeOfConnection = TypeOfConnection.NORMAL;
+        if (!keepRemote) {
+            typeOfConnection = TypeOfConnection.NORMAL;
+        }
         LocalBroadcastManager.getInstance(PeertubeMainActivity.this).unregisterReceiver(broadcast_data);
     }
 
