@@ -1052,4 +1052,7 @@
     <string name="warn_boost_no_media_description">Varovat před boostnutím, pokud zpráva nemá popis médií</string>
     <string name="add_description">Přidat popis</string>
     <string name="fetching_messages">Načítání zpráv</string>
+    <string name="check_home_cache">Zkontrolovat cache Domova</string>
+    <string name="retrieve_remote_account">Načíst vzdálený účet!</string>
+    <string name="exit">Konec</string>
 </resources>
