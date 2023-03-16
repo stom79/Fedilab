@@ -1043,4 +1043,5 @@
     <string name="reblog_missing_description">此消息缺少媒体描述。您确定要转发它吗？</string>
     <string name="add_description">添加描述</string>
     <string name="fetching_messages">获取消息中</string>
+    <string name="retrieve_remote_account">检索远程帐号！</string>
 </resources>
