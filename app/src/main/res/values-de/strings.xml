@@ -1046,4 +1046,5 @@
     <string name="fetching_messages">Rufe Beiträge ab</string>
     <string name="add_description">Beschreibung hinzufügen</string>
     <string name="retrieve_remote_account">Entferntes Konto abrufen!</string>
+    <string name="exit">Beenden</string>
 </resources>
