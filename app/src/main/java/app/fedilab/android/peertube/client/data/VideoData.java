@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.client.entities.File;
 import app.fedilab.android.peertube.client.entities.Item;
 import app.fedilab.android.peertube.client.entities.ItemStr;
@@ -150,13 +151,13 @@ public class VideoData implements Serializable {
             } else if (streamingPlaylists != null) {
                 List<File> files = new ArrayList<>();
                 for (StreamingPlaylists streamingPlaylists : streamingPlaylists) {
+                    File file = new File();
+                    file.setResolutions(new Item(0, context.getString(R.string.auto)));
+                    file.setFileUrl(streamingPlaylists.getPlaylistUrl());
+                    file.setFileDownloadUrl(streamingPlaylists.getPlaylistUrl());
+                    files.add(file);
                     if (streamingPlaylists.getFiles().size() > 0) {
                         files.addAll(streamingPlaylists.getFiles());
-                    } else {
-                        File file = new File();
-                        file.setFileUrl(streamingPlaylists.getPlaylistUrl());
-                        file.setFileDownloadUrl(streamingPlaylists.getPlaylistUrl());
-                        files.add(file);
                     }
                 }
                 return files;

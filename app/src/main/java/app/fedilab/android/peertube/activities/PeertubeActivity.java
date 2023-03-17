@@ -611,7 +611,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             }
             captions = null;
         }
-        currentResolution = null;
+        currentResolution = getString(R.string.auto);
         show_more_content = null;
         currentCaption = "null";
         binding.peertubeDescriptionMore.setVisibility(View.GONE);
@@ -1767,8 +1767,18 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             case RESOLUTION:
                 binding.subMenuTitle.setText(R.string.pickup_resolution);
                 int position = 0;
-                for (File file : peertube.getFiles()) {
-                    if (file.getResolutions() != null) {
+                for (File file : peertube.getAllFile(PeertubeActivity.this)) {
+
+                    if (file.getResolutions() == null) {
+                        MenuItemView item = new MenuItemView();
+                        item.setId(0);
+                        item.setLabel(file.getResolutions().getLabel());
+                        if (file.getResolutions().getLabel().compareTo(currentResolution) == 0) {
+                            item.setSelected(true);
+                        }
+                        items.add(item);
+                        position++;
+                    } else if (file.getResolutions() != null) {
                         if (file.getResolutions().getLabel().compareTo("0p") != 0) {
                             MenuItemView item = new MenuItemView();
                             item.setId(position);

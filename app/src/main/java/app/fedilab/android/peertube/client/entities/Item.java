@@ -30,6 +30,10 @@ public class Item implements Serializable {
     public Item() {
     }
 
+    public Item(int id, String label) {
+        this.id = id;
+        this.label = label;
+    }
 
     public int getId() {
         return id;
