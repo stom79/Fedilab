@@ -665,6 +665,8 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         MenuItem changeInstanceItem = menu.findItem(R.id.action_change_instance);
         MenuItem exitItem = menu.findItem(R.id.action_exit);
         MenuItem sepiaSearchItem = menu.findItem(R.id.action_sepia_search);
+        MenuItem settingsItem = menu.findItem(R.id.action_settings);
+
         switch (typeOfConnection) {
             case NORMAL:
                 incognitoItem.setVisible(true);
@@ -674,6 +676,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 changeInstanceItem.setVisible(false);
                 exitItem.setVisible(false);
                 sepiaSearchItem.setVisible(false);
+                settingsItem.setVisible(false);
                 break;
             case REMOTE_ACCOUNT:
             case SURFING:
@@ -681,6 +684,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 changeInstanceItem.setVisible(true);
                 exitItem.setVisible(true);
                 sepiaSearchItem.setVisible(true);
+                settingsItem.setVisible(true);
                 break;
         }
 
@@ -758,6 +762,9 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             finish();
         } else if (item.getItemId() == R.id.action_sepia_search) {
             Intent intent = new Intent(PeertubeMainActivity.this, SepiaSearchActivity.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.action_settings) {
+            Intent intent = new Intent(PeertubeMainActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
         return true;

@@ -1,6 +1,7 @@
 package app.fedilab.android.peertube.fragment;
 
 
+import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.userMe;
 
 import android.content.Intent;
@@ -20,6 +21,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.ListPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
@@ -277,6 +279,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
             return;
         }
+
+
+        if (typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
+            PreferenceCategory theming_category = findPreference("theming_category");
+            if (theming_category != null) {
+                getPreferenceScreen().removePreference(theming_category);
+            }
+        }
+
 
         //****** My Account ******
 
