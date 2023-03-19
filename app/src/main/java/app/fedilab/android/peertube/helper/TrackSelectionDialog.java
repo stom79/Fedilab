@@ -8,15 +8,12 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.Player;
@@ -25,7 +22,7 @@ import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.trackselection.TrackSelectionOverride;
 import com.google.android.exoplayer2.trackselection.TrackSelectionParameters;
 import com.google.android.exoplayer2.ui.TrackSelectionView;
-import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -35,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import app.fedilab.android.R;
+import app.fedilab.android.databinding.TrackSelectionDialogBinding;
 
 /**
  * Dialog to select tracks.
@@ -48,6 +46,7 @@ public final class TrackSelectionDialog extends DialogFragment {
     private int titleId;
     private DialogInterface.OnClickListener onClickListener;
     private DialogInterface.OnDismissListener onDismissListener;
+    private TrackSelectionDialogBinding binding;
 
     public TrackSelectionDialog() {
         tabFragments = new SparseArray<>();
@@ -214,11 +213,19 @@ public final class TrackSelectionDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // We need to own the view to let tab layout work correctly on all API levels. We can't use
-        // AlertDialog because it owns the view itself, so we use AppCompatDialog instead, themed using
-        // the AlertDialog theme overlay with force-enabled title.
-        AppCompatDialog dialog =
-                new AppCompatDialog(getActivity());
+        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(requireContext());
+        binding = TrackSelectionDialogBinding.inflate(getLayoutInflater());
+        materialAlertDialogBuilder.setView(binding.getRoot());
+        Dialog dialog = materialAlertDialogBuilder.create();
+        binding.trackSelectionDialogViewPager.setAdapter(new FragmentAdapter(getChildFragmentManager()));
+        binding.trackSelectionDialogTabLayout.setupWithViewPager(binding.trackSelectionDialogViewPager);
+        binding.trackSelectionDialogTabLayout.setVisibility(tabFragments.size() > 1 ? View.VISIBLE : View.GONE);
+        binding.trackSelectionDialogCancelButton.setOnClickListener(view -> dismiss());
+        binding.trackSelectionDialogOkButton.setOnClickListener(
+                view -> {
+                    onClickListener.onClick(getDialog(), DialogInterface.BUTTON_POSITIVE);
+                    dismiss();
+                });
         dialog.setTitle(titleId);
         return dialog;
     }
@@ -229,25 +236,6 @@ public final class TrackSelectionDialog extends DialogFragment {
         onDismissListener.onDismiss(dialog);
     }
 
-    @Override
-    public View onCreateView(
-            LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View dialogView = inflater.inflate(R.layout.track_selection_dialog, container, false);
-        TabLayout tabLayout = dialogView.findViewById(R.id.track_selection_dialog_tab_layout);
-        ViewPager viewPager = dialogView.findViewById(R.id.track_selection_dialog_view_pager);
-        Button cancelButton = dialogView.findViewById(R.id.track_selection_dialog_cancel_button);
-        Button okButton = dialogView.findViewById(R.id.track_selection_dialog_ok_button);
-        viewPager.setAdapter(new FragmentAdapter(getChildFragmentManager()));
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setVisibility(tabFragments.size() > 1 ? View.VISIBLE : View.GONE);
-        cancelButton.setOnClickListener(view -> dismiss());
-        okButton.setOnClickListener(
-                view -> {
-                    onClickListener.onClick(getDialog(), DialogInterface.BUTTON_POSITIVE);
-                    dismiss();
-                });
-        return dialogView;
-    }
 
     /**
      * Called when tracks are selected.
