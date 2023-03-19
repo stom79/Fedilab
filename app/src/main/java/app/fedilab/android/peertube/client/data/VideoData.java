@@ -146,7 +146,7 @@ public class VideoData implements Serializable {
         }
 
         public List<File> getAllFile(Context context) {
-            if (files != null && files.size() > 0) {
+            if (files != null && files.size() > 0) { //Old support
                 return files;
             } else if (streamingPlaylists != null) {
                 List<File> files = new ArrayList<>();
@@ -156,9 +156,6 @@ public class VideoData implements Serializable {
                     file.setFileUrl(streamingPlaylists.getPlaylistUrl());
                     file.setFileDownloadUrl(streamingPlaylists.getPlaylistUrl());
                     files.add(file);
-                    if (streamingPlaylists.getFiles().size() > 0) {
-                        files.addAll(streamingPlaylists.getFiles());
-                    }
                 }
                 return files;
             }

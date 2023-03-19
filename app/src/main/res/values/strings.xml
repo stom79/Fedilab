@@ -1962,4 +1962,8 @@
     <string name="add_description">Add a description</string>
     <string name="retrieve_remote_account">Retrieve remote account!</string>
     <string name="exit">Exit</string>
+
+
+    <string name="track_selection_title">Select tracks</string>
+
 </resources>

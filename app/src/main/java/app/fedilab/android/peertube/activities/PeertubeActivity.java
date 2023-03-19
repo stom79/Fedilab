@@ -149,7 +149,6 @@ import app.fedilab.android.peertube.client.data.PlaylistData;
 import app.fedilab.android.peertube.client.data.PluginData;
 import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.client.entities.Error;
-import app.fedilab.android.peertube.client.entities.File;
 import app.fedilab.android.peertube.client.entities.MenuItemView;
 import app.fedilab.android.peertube.client.entities.PlaylistExist;
 import app.fedilab.android.peertube.client.entities.Report;
@@ -159,6 +158,7 @@ import app.fedilab.android.peertube.drawer.MenuAdapter;
 import app.fedilab.android.peertube.drawer.MenuItemAdapter;
 import app.fedilab.android.peertube.helper.Helper;
 import app.fedilab.android.peertube.helper.HelperInstance;
+import app.fedilab.android.peertube.helper.TrackSelectionDialog;
 import app.fedilab.android.peertube.viewmodel.CaptionsVM;
 import app.fedilab.android.peertube.viewmodel.CommentVM;
 import app.fedilab.android.peertube.viewmodel.PlaylistsVM;
@@ -203,7 +203,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private String currentCaption;
     private boolean isRemote;
     private boolean willPlayFromIntent;
-
+    private boolean isShowingTrackSelectionDialog;
     private Status status;
 
     public static void hideKeyboard(Activity activity) {
@@ -1765,7 +1765,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         List<MenuItemView> items = new ArrayList<>();
         switch (action) {
             case RESOLUTION:
-                binding.subMenuTitle.setText(R.string.pickup_resolution);
+                /*binding.subMenuTitle.setText(R.string.pickup_resolution);
                 int position = 0;
                 for (File file : peertube.getAllFile(PeertubeActivity.this)) {
 
@@ -1790,6 +1790,15 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                             position++;
                         }
                     }
+                }*/
+                if (!isShowingTrackSelectionDialog
+                        && TrackSelectionDialog.willHaveContent(player)) {
+                    isShowingTrackSelectionDialog = true;
+                    TrackSelectionDialog trackSelectionDialog =
+                            TrackSelectionDialog.createForPlayer(
+                                    player,
+                                    /* onDismissListener= */ dismissedDialog -> isShowingTrackSelectionDialog = false);
+                    trackSelectionDialog.show(getSupportFragmentManager(), /* tag= */ null);
                 }
                 break;
             case SPEED:
