@@ -389,7 +389,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".peertube.activities.PeertubeActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
             android:launchMode="singleTask"
             android:resizeableActivity="true"
             android:supportsPictureInPicture="true"

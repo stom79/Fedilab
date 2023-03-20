@@ -19,6 +19,7 @@ import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.ADD_COMMENT;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.RATEVIDEO;
@@ -59,6 +60,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -78,6 +80,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -124,7 +127,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -205,7 +207,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private boolean willPlayFromIntent;
     private boolean isShowingTrackSelectionDialog;
     private Status status;
-
+    private int flags;
     public static void hideKeyboard(Activity activity) {
         if (activity != null && activity.getWindow() != null) {
             activity.getWindow().getDecorView();
@@ -216,16 +218,23 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         }
     }
 
+    private boolean humanInteraction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPeertubeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        //Store current flags
+        flags = getWindow().getDecorView().getSystemUiVisibility();
+        //Define a default video orientation - Real value will be fetched with a listener
         videoOrientationType = videoOrientation.LANDSCAPE;
+        //pagination for comments - Default value set to zero
         max_id = "0";
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeActivity.this);
         String token = sharedpreferences.getString(PREF_USER_TOKEN, null);
+
+        //Load user details for displaying the avatar
         if (Helper.canMakeAction() && !sepiaSearch) {
             BaseAccount account = null;
             try {
@@ -239,12 +248,16 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeActivity.this, binding.myPp, account);
             }
         }
+        //When using sepia search / video can be checked remotely (ie: a different instance)
         isRemote = false;
-
+        //Default fullscreen value
         fullScreenMode = false;
+        //Get initial orientation when checking the video
         initialOrientation = getResources().getConfiguration().orientation;
+
+        //Change the dimension depending of the device
         if (Helper.isTablet(PeertubeActivity.this)) {
-            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+            LinearLayoutCompat.LayoutParams param = new LinearLayoutCompat.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     0,
                     2.0f
@@ -252,7 +265,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             binding.videoContainer.setLayoutParams(param);
         } else {
             if (initialOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                LinearLayoutCompat.LayoutParams param = new LinearLayoutCompat.LayoutParams(
                         ConstraintLayout.LayoutParams.MATCH_PARENT,
                         0,
                         4.0f
@@ -260,14 +273,15 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 binding.videoContainer.setLayoutParams(param);
             }
         }
-        isPlayInMinimized = false;
+
+
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        //Mode for video (using exoplayer or a webview)
         mode = sharedpreferences.getInt(Helper.SET_VIDEO_MODE, Helper.VIDEO_MODE_NORMAL);
 
         Intent intent = getIntent();
-
+        //Retrieve some values passed to the activity
         Bundle b = intent.getExtras();
         if (b != null) {
             peertubeInstance = b.getString("peertube_instance", HelperInstance.getLiveInstance(PeertubeActivity.this));
@@ -279,9 +293,10 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (currentAccount != null && currentAccount.peertube_account != null) {
             binding.myAcct.setText(String.format("@%s@%s", currentAccount.peertube_account.getUsername(), currentAccount.instance));
         }
-
+        //If the activity was called from a URL
         willPlayFromIntent = manageIntentUrl(intent);
 
+        //Change view depending if the user is logged-in for actions
         if (Helper.isLoggedIn()) {
             binding.peertubePlaylist.setVisibility(View.VISIBLE);
         } else if (typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
@@ -307,9 +322,13 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (!Helper.canMakeAction() || sepiaSearch) {
             binding.writeCommentContainer.setVisibility(View.GONE);
         }
+        //Picture in picture enabled
         playInMinimized = sharedpreferences.getBoolean(getString(R.string.set_video_minimize_choice), true);
+        //Auto play video
         autoPlay = sharedpreferences.getBoolean(getString(R.string.set_autoplay_choice), true);
+        //Open in full screen
         autoFullscreen = sharedpreferences.getBoolean(getString(R.string.set_fullscreen_choice), false);
+        //Disable picture in picture enabled for older Android devices
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O
                 || !getPackageManager().hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)) {
             playInMinimized = false;
@@ -320,6 +339,8 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         } else {
             binding.videoSensitive.setVisibility(View.INVISIBLE);
         }
+
+        //When webview is enabled for video
         if (mode == Helper.VIDEO_MODE_WEBVIEW) {
             binding.webviewVideo.setVisibility(View.VISIBLE);
             binding.mediaVideo.setVisibility(View.GONE);
@@ -333,7 +354,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 } else {
                     binding.videoLayout.setVisibility(View.GONE);
                 }
-                toogleFullscreen(fullscreen);
+                toggleFullScreen();
             });
             binding.webviewVideo.getSettings().setAllowFileAccess(true);
             binding.webviewVideo.setWebChromeClient(mastalabWebChromeClient);
@@ -344,9 +365,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         } else {
             binding.webviewVideo.setVisibility(View.GONE);
             binding.loader.setVisibility(View.VISIBLE);
-        }
-
-        if (mode != Helper.VIDEO_MODE_WEBVIEW) {
             binding.doubleTapPlayerView.setControllerShowTimeoutMs(1000);
             binding.doubleTapPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
             initControllerButtons();
@@ -409,7 +427,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
         registBroadcastReceiver();
         if (autoFullscreen && autoPlay) {
-            openFullscreenDialog();
+            setFullScreen();
         }
         binding.postCommentButton.setOnClickListener(v -> {
             if (canMakeAction() && !sepiaSearch) {
@@ -617,7 +635,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         binding.peertubeDescriptionMore.setVisibility(View.GONE);
 
         if (autoFullscreen && autoPlay) {
-            openFullscreenDialog();
+            setFullScreen();
         }
 
         TimelineVM feedsViewModel = new ViewModelProvider(PeertubeActivity.this).get(TimelineVM.class);
@@ -1482,12 +1500,15 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (binding.minController.castMiniController.getVisibility() == View.VISIBLE) {
             return;
         }
+        Log.v(TAG, "newConfig.orientation: " + newConfig.orientation);
+        Log.v(TAG, "humanInteraction: " + humanInteraction);
+
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            if (mode != Helper.VIDEO_MODE_WEBVIEW) {
-                openFullscreenDialog();
+            if (mode != Helper.VIDEO_MODE_WEBVIEW && !humanInteraction) {
+                setFullScreen();
             }
             if (initialOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                LinearLayoutCompat.LayoutParams param = new LinearLayoutCompat.LayoutParams(
                         ConstraintLayout.LayoutParams.MATCH_PARENT,
                         0,
                         4.0f
@@ -1495,11 +1516,11 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 binding.videoContainer.setLayoutParams(param);
             }
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            if (mode != Helper.VIDEO_MODE_WEBVIEW) {
-                closeFullscreenDialog();
+            if (mode != Helper.VIDEO_MODE_WEBVIEW && !humanInteraction) {
+                disableFullScreen();
             }
             if (initialOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                LinearLayoutCompat.LayoutParams param = new LinearLayoutCompat.LayoutParams(
                         ConstraintLayout.LayoutParams.MATCH_PARENT,
                         0,
                         1.0f
@@ -1507,6 +1528,8 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 binding.videoContainer.setLayoutParams(param);
             }
         }
+        humanInteraction = false;
+
     }
 
     @Override
@@ -1645,14 +1668,76 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         }
     }
 
-    private void toogleFullscreen(boolean fullscreen) {
+
+    public void toggleFullScreen() {
+        fullScreenMode = !fullScreenMode;
+        humanInteraction = true;
+        Log.v(TAG, "toggleFullScreen: " + fullScreenMode);
+        if (fullScreenMode) {
+            if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && videoOrientationType == videoOrientation.PORTRAIT) {
+                setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            } else if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && videoOrientationType == videoOrientation.LANDSCAPE) {
+                setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            }
+            setFullScreen();
+        } else {
+            if (videoOrientationType == videoOrientation.LANDSCAPE) {
+                if (getResources().getConfiguration().orientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+                    setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                }
+            }
+            disableFullScreen();
+        }
+    }
+
+    private void setFullScreen() {
+        Log.v(TAG, "setFullScreen");
+        fullScreenMode = true;
+        fullScreenIcon.setImageDrawable(ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_fullscreen_exit_24));
+        Log.v(TAG, "getResources().getConfiguration().orientation: " + getResources().getConfiguration().orientation);
+        Log.v(TAG, "videoOrientationType: " + videoOrientationType);
+
+        // Enables regular immersive mode.
+        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+
+        binding.bottomVideo.setVisibility(View.GONE);
+    }
+
+    private void disableFullScreen() {
+        Log.v(TAG, "disableFullScreen");
+        fullScreenMode = false;
+        binding.bottomVideo.setVisibility(View.VISIBLE);
+        fullScreenIcon.setImageDrawable(ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_fullscreen_24));
+        View decorView = getWindow().getDecorView();
+        getWindow().setFlags(flags | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
+    }
+
+   /* private void toogleFullscreen(boolean fullscreen) {
 
         if (fullscreen) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
                     WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             Objects.requireNonNull(getSupportActionBar()).hide();
             binding.bottomVideo.setVisibility(View.GONE);
-            Objects.requireNonNull(getSupportActionBar()).hide();
+            Log.v(TAG,"videoOrientationType: " + videoOrientationType);
             if (videoOrientationType == videoOrientation.LANDSCAPE) {
                 if (getResources().getConfiguration().orientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                     setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -1665,19 +1750,8 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             binding.bottomVideo.setVisibility(View.VISIBLE);
             Objects.requireNonNull(getSupportActionBar()).show();
         }
-    }
+    }*/
 
-    private void openFullscreenDialog() {
-        fullScreenIcon.setImageDrawable(ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_fullscreen_exit_24));
-        fullScreenMode = true;
-        toogleFullscreen(true);
-    }
-
-    private void closeFullscreenDialog() {
-        fullScreenMode = false;
-        fullScreenIcon.setImageDrawable(ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_fullscreen_24));
-        toogleFullscreen(false);
-    }
 
     public void openCommentThread(Comment comment) {
 
@@ -2180,20 +2254,18 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         fullScreenIcon = controlView.findViewById(R.id.exo_fullscreen_icon);
         View fullScreenButton = controlView.findViewById(R.id.exo_fullscreen_button);
         if (fullScreenButton != null) {
-            fullScreenButton.setOnClickListener(v -> {
-                if (!fullScreenMode) {
-                    openFullscreenDialog();
-                } else {
-                    closeFullscreenDialog();
-                    setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                }
-            });
+            fullScreenButton.setOnClickListener(v -> toggleFullScreen());
         }
         ImageButton playButton = controlView.findViewById(R.id.exo_play);
         if (playButton != null) {
             playButton.setOnClickListener(v -> {
                 if (autoFullscreen && !fullScreenMode) {
-                    openFullscreenDialog();
+                    /*if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && videoOrientationType == videoOrientation.PORTRAIT) {
+                        setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+                    } else if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && videoOrientationType == videoOrientation.LANDSCAPE) {
+                        setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+                    }*/
+                    setFullScreen();
                 }
                 player.setPlayWhenReady(true);
             });
@@ -2219,7 +2291,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private void setRequestedOrientationCustom(int orientationCustom) {
         setRequestedOrientation(orientationCustom);
         Handler handler = new Handler();
-        handler.postDelayed(() -> setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR), 2000);
+        handler.postDelayed(() -> setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR), 2000);
     }
 
     private void initResolution() {
