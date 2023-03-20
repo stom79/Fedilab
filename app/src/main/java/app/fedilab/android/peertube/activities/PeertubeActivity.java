@@ -110,9 +110,8 @@ import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.DefaultTimeBar;
 import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.android.exoplayer2.util.MimeTypes;
-import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoSize;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
@@ -1379,12 +1378,12 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         SingleSampleMediaSource subtitleSource = null;
         DataSource.Factory dataSourceFactory;
         if (video_cache == 0 || video.isLive()) {
-            dataSourceFactory = new DefaultDataSourceFactory(PeertubeActivity.this,
-                    Util.getUserAgent(PeertubeActivity.this, null), null);
-
+            dataSourceFactory = new DefaultDataSource.Factory(PeertubeActivity.this);
             if (subtitles != null) {
-                MediaItem.Subtitle mediaSubtitle = new MediaItem.Subtitle(subtitles, MimeTypes.TEXT_VTT, lang);
-                subtitleSource = new SingleSampleMediaSource.Factory(dataSourceFactory).createMediaSource(mediaSubtitle, C.TIME_UNSET);
+                MediaItem.SubtitleConfiguration subtitleConfiguration = new MediaItem.SubtitleConfiguration.Builder(subtitles)
+                        .setMimeType(MimeTypes.TEXT_VTT)
+                        .setLanguage(lang).build();
+                subtitleSource = new SingleSampleMediaSource.Factory(dataSourceFactory).createMediaSource(subtitleConfiguration, C.TIME_UNSET);
             }
             MediaItem mediaItem = new MediaItem.Builder().setUri(Uri.parse(videoURL)).build();
             if (videoURL != null && !videoURL.endsWith("m3u8")) {
@@ -1397,8 +1396,11 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             CacheDataSourceFactory cacheDataSourceFactory = new CacheDataSourceFactory(PeertubeActivity.this);
             MediaItem mediaItem = new MediaItem.Builder().setUri(videoURL).build();
             if (subtitles != null) {
-                MediaItem.Subtitle mediaSubtitle = new MediaItem.Subtitle(subtitles, MimeTypes.TEXT_VTT, lang, Format.NO_VALUE);
-                subtitleSource = new SingleSampleMediaSource.Factory(cacheDataSourceFactory).createMediaSource(mediaSubtitle, C.TIME_UNSET);
+                MediaItem.SubtitleConfiguration subtitleConfiguration = new MediaItem.SubtitleConfiguration.Builder(subtitles)
+                        .setMimeType(MimeTypes.TEXT_VTT)
+                        .setSelectionFlags(Format.NO_VALUE)
+                        .setLanguage(lang).build();
+                subtitleSource = new SingleSampleMediaSource.Factory(cacheDataSourceFactory).createMediaSource(subtitleConfiguration, C.TIME_UNSET);
             }
             if (videoURL != null && !videoURL.endsWith("m3u8")) {
                 videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(mediaItem);
@@ -1720,28 +1722,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
     }
 
-   /* private void toogleFullscreen(boolean fullscreen) {
-
-        if (fullscreen) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            Objects.requireNonNull(getSupportActionBar()).hide();
-            binding.bottomVideo.setVisibility(View.GONE);
-            Log.v(TAG,"videoOrientationType: " + videoOrientationType);
-            if (videoOrientationType == videoOrientation.LANDSCAPE) {
-                if (getResources().getConfiguration().orientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                    setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                }
-            }
-        } else {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
-                    WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-            Objects.requireNonNull(getSupportActionBar()).show();
-            binding.bottomVideo.setVisibility(View.VISIBLE);
-            Objects.requireNonNull(getSupportActionBar()).show();
-        }
-    }*/
-
 
     public void openCommentThread(Comment comment) {
 
@@ -1829,32 +1809,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         List<MenuItemView> items = new ArrayList<>();
         switch (action) {
             case RESOLUTION:
-                /*binding.subMenuTitle.setText(R.string.pickup_resolution);
-                int position = 0;
-                for (File file : peertube.getAllFile(PeertubeActivity.this)) {
-
-                    if (file.getResolutions() == null) {
-                        MenuItemView item = new MenuItemView();
-                        item.setId(0);
-                        item.setLabel(file.getResolutions().getLabel());
-                        if (file.getResolutions().getLabel().compareTo(currentResolution) == 0) {
-                            item.setSelected(true);
-                        }
-                        items.add(item);
-                        position++;
-                    } else if (file.getResolutions() != null) {
-                        if (file.getResolutions().getLabel().compareTo("0p") != 0) {
-                            MenuItemView item = new MenuItemView();
-                            item.setId(position);
-                            item.setLabel(file.getResolutions().getLabel());
-                            if (file.getResolutions().getLabel().compareTo(currentResolution) == 0) {
-                                item.setSelected(true);
-                            }
-                            items.add(item);
-                            position++;
-                        }
-                    }
-                }*/
                 if (!isShowingTrackSelectionDialog
                         && TrackSelectionDialog.willHaveContent(player)) {
                     isShowingTrackSelectionDialog = true;
@@ -2250,11 +2204,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (playButton != null) {
             playButton.setOnClickListener(v -> {
                 if (autoFullscreen && !fullScreenMode) {
-                    /*if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && videoOrientationType == videoOrientation.PORTRAIT) {
-                        setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-                    } else if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && videoOrientationType == videoOrientation.LANDSCAPE) {
-                        setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-                    }*/
                     setFullScreen();
                 }
                 player.setPlayWhenReady(true);
@@ -2492,7 +2441,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
 
     @Override
-    public void onPlayerError(PlaybackException error) {
+    public void onPlayerError(@NonNull PlaybackException error) {
         Player.Listener.super.onPlayerError(error);
     }
 
