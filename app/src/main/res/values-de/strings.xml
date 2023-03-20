@@ -1043,4 +1043,8 @@
     <string name="warn_boost_no_media_description">Vor dem Teilen warnen, falls der Beitrag keine Medienbeschreibung hat</string>
     <string name="reblog_missing_description">Diesem Beitrag fehlt die Medienbeschreibung. Dennoch teilen\?</string>
     <string name="fetch_remote_media">Automatisches Abrufen entfernter Medien, wenn diese nicht verfügbar sind</string>
+    <string name="fetching_messages">Rufe Beiträge ab</string>
+    <string name="add_description">Beschreibung hinzufügen</string>
+    <string name="retrieve_remote_account">Entferntes Konto abrufen!</string>
+    <string name="exit">Beenden</string>
 </resources>
