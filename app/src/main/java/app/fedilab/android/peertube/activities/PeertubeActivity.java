@@ -1713,10 +1713,9 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         binding.bottomVideo.setVisibility(View.VISIBLE);
         fullScreenIcon.setImageDrawable(ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_fullscreen_24));
         View decorView = getWindow().getDecorView();
-        getWindow().setFlags(flags | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+        getWindow().setFlags(flags,
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
     }
