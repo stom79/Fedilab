@@ -163,7 +163,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-            final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+            final Configuration override = new Configuration();
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(newBase);
             override.fontScale = prefs.getFloat(newBase.getString(R.string.SET_FONT_SCALE), 1.1f);
             applyOverrideConfiguration(override);

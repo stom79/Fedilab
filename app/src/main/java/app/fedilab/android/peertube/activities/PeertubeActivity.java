@@ -19,7 +19,6 @@ import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeOfConnection;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.ADD_COMMENT;
 import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.ActionType.RATEVIDEO;
@@ -60,7 +59,6 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -1500,8 +1498,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (binding.minController.castMiniController.getVisibility() == View.VISIBLE) {
             return;
         }
-        Log.v(TAG, "newConfig.orientation: " + newConfig.orientation);
-        Log.v(TAG, "humanInteraction: " + humanInteraction);
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (mode != Helper.VIDEO_MODE_WEBVIEW && !humanInteraction) {
@@ -1672,7 +1668,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     public void toggleFullScreen() {
         fullScreenMode = !fullScreenMode;
         humanInteraction = true;
-        Log.v(TAG, "toggleFullScreen: " + fullScreenMode);
         if (fullScreenMode) {
             if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && videoOrientationType == videoOrientation.PORTRAIT) {
                 setRequestedOrientationCustom(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
@@ -1691,11 +1686,8 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     }
 
     private void setFullScreen() {
-        Log.v(TAG, "setFullScreen");
         fullScreenMode = true;
         fullScreenIcon.setImageDrawable(ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_fullscreen_exit_24));
-        Log.v(TAG, "getResources().getConfiguration().orientation: " + getResources().getConfiguration().orientation);
-        Log.v(TAG, "videoOrientationType: " + videoOrientationType);
 
         // Enables regular immersive mode.
         // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
@@ -1717,7 +1709,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     }
 
     private void disableFullScreen() {
-        Log.v(TAG, "disableFullScreen");
         fullScreenMode = false;
         binding.bottomVideo.setVisibility(View.VISIBLE);
         fullScreenIcon.setImageDrawable(ContextCompat.getDrawable(PeertubeActivity.this, R.drawable.ic_baseline_fullscreen_24));
