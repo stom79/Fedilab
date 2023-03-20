@@ -59,6 +59,7 @@ import java.util.Map;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerPeertubeBinding;
+import app.fedilab.android.databinding.DrawerPeertubeListBinding;
 import app.fedilab.android.peertube.activities.PeertubeActivity;
 import app.fedilab.android.peertube.activities.PeertubeEditUploadActivity;
 import app.fedilab.android.peertube.activities.ShowChannelActivity;
@@ -90,6 +91,22 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private ChannelData.Channel forChannel;
     private AccountData.PeertubeAccount forAccount;
 
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean videoInList = sharedpreferences.getBoolean(context.getString(R.string.set_video_in_list_choice), false);
+        if (videoInList) {
+            DrawerPeertubeListBinding itemBinding = DrawerPeertubeListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new VideoListViewHolder(itemBinding);
+        } else {
+            DrawerPeertubeBinding itemBinding = DrawerPeertubeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new VideoViewHolder(itemBinding);
+        }
+
+    }
+
     public PeertubeAdapter(List<VideoData.Video> videos, TimelineVM.TimelineType timelineType, boolean sepiaSearch, ChannelData.Channel forChannel, AccountData.PeertubeAccount forAccount) {
         this.videos = videos;
         this.timelineType = timelineType;
@@ -103,95 +120,385 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.videos = videos;
     }
 
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        DrawerPeertubeBinding itemBinding = DrawerPeertubeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(itemBinding);
-    }
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-
-
-        final ViewHolder holder = (ViewHolder) viewHolder;
-        final VideoData.Video video = videos.get(position);
-
-        if (video == null) {
-            return;
-        }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
         boolean videoInList = sharedpreferences.getBoolean(context.getString(R.string.set_video_in_list_choice), false);
-
-        boolean ownVideos;
-        if (timelineType == TimelineVM.TimelineType.MY_VIDEOS) {
-            ownVideos = true;
-        } else {
-            ownVideos = Helper.isVideoOwner(context, video);
-        }
-
-
-        String instance = null;
-        if (sepiaSearch) {
-            instance = video.getAccount().getHost();
-        } else if (forChannel != null) {
-            instance = forChannel.getHost();
-        } else if (forAccount != null) {
-            instance = forAccount.getHost();
-        }
-
-        holder.binding.peertubeDisplayname.setText(video.getChannel().getDisplayName());
-        holder.binding.peertubeUsername.setText(video.getChannel().getAcct());
-        Helper.loadAvatar(context, video.getChannel(), holder.binding.peertubeChannelAvatar);
-        holder.binding.peertubeTitle.setText(video.getName());
-        if (video.isLive()) {
-            holder.binding.peertubeDuration.setText(R.string.live);
-            holder.binding.peertubeDuration.setBackgroundResource(R.drawable.rounded_live);
-        } else {
-            holder.binding.peertubeDuration.setText(Helper.secondsToString(video.getDuration()));
-            holder.binding.peertubeDuration.setBackgroundResource(R.drawable.rounded_corner);
-        }
-
-
-        holder.binding.peertubeDate.setText(String.format(" - %s", Helper.dateDiff(context, video.getCreatedAt())));
-        holder.binding.peertubeViews.setText(context.getString(R.string.number_view_video, Helper.withSuffix(video.getViews())));
-
-        boolean blur = sharedpreferences.getString(context.getString(R.string.set_video_sensitive_choice), Helper.BLUR).compareTo("blur") == 0 && video.isNsfw();
         if (videoInList) {
-            Helper.loadGiF(context, instance, video.getThumbnailPath(), holder.binding.peertubeVideoImageSmall, blur);
-            holder.binding.peertubeVideoImageSmall.setVisibility(View.VISIBLE);
-            holder.binding.previewContainer.setVisibility(View.GONE);
-        } else {
-            loadImage(holder.binding.peertubeVideoImage, instance, video.getPreviewPath(), video.getThumbnailPath(), blur);
-            holder.binding.peertubeVideoImageSmall.setVisibility(View.GONE);
-            holder.binding.previewContainer.setVisibility(View.VISIBLE);
-        }
+            final VideoListViewHolder holder = (VideoListViewHolder) viewHolder;
+            final VideoData.Video video = videos.get(position);
 
-        //For Overview Videos: boolean values for displaying title is managed in the fragment
-        if (video.isHasTitle()) {
-            holder.binding.headerTitle.setVisibility(View.VISIBLE);
-            switch (video.getTitleType()) {
-                case TAG:
-                    holder.binding.headerTitle.setText(String.format("#%s", video.getTitle()));
-                    break;
-                case CHANNEL:
-                case CATEGORY:
-                    holder.binding.headerTitle.setText(String.format("%s", video.getTitle()));
-                    break;
+            if (video == null) {
+                return;
             }
-        } else {
-            holder.binding.headerTitle.setVisibility(View.GONE);
-        }
 
-        if (!ownVideos) {
-            holder.binding.peertubeChannelInfo.setOnClickListener(v -> {
-                Intent intent = new Intent(context, ShowChannelActivity.class);
+            boolean ownVideos;
+            if (timelineType == TimelineVM.TimelineType.MY_VIDEOS) {
+                ownVideos = true;
+            } else {
+                ownVideos = Helper.isVideoOwner(context, video);
+            }
+
+
+            String instance = null;
+            if (sepiaSearch) {
+                instance = video.getAccount().getHost();
+            } else if (forChannel != null) {
+                instance = forChannel.getHost();
+            } else if (forAccount != null) {
+                instance = forAccount.getHost();
+            }
+
+            holder.binding.peertubeDisplayname.setText(video.getChannel().getDisplayName());
+            holder.binding.peertubeUsername.setText(video.getChannel().getAcct());
+            Helper.loadAvatar(context, video.getChannel(), holder.binding.peertubeChannelAvatar);
+            holder.binding.peertubeTitle.setText(video.getName());
+            if (video.isLive()) {
+                holder.binding.peertubeDuration.setText(R.string.live);
+                holder.binding.peertubeDuration.setBackgroundResource(R.drawable.rounded_live);
+            } else {
+                holder.binding.peertubeDuration.setText(Helper.secondsToString(video.getDuration()));
+                holder.binding.peertubeDuration.setBackgroundResource(R.drawable.rounded_corner);
+            }
+
+
+            holder.binding.peertubeDate.setText(String.format(" - %s", Helper.dateDiffFull(video.getCreatedAt())));
+            holder.binding.peertubeViews.setText(context.getString(R.string.number_view_video, Helper.withSuffix(video.getViews())));
+
+            boolean blur = sharedpreferences.getString(context.getString(R.string.set_video_sensitive_choice), Helper.BLUR).compareTo("blur") == 0 && video.isNsfw();
+            loadImage(holder.binding.peertubeVideoImage, instance, video.getPreviewPath(), video.getThumbnailPath(), blur);
+            holder.binding.previewContainer.setVisibility(View.VISIBLE);
+
+            //For Overview Videos: boolean values for displaying title is managed in the fragment
+            if (video.isHasTitle()) {
+                holder.binding.headerTitle.setVisibility(View.VISIBLE);
+                switch (video.getTitleType()) {
+                    case TAG:
+                        holder.binding.headerTitle.setText(String.format("#%s", video.getTitle()));
+                        break;
+                    case CHANNEL:
+                    case CATEGORY:
+                        holder.binding.headerTitle.setText(String.format("%s", video.getTitle()));
+                        break;
+                }
+            } else {
+                holder.binding.headerTitle.setVisibility(View.GONE);
+            }
+
+            if (!ownVideos) {
+                holder.binding.peertubeChannelInfo.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, ShowChannelActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("channel", video.getChannel());
+                    b.putBoolean("sepia_search", sepiaSearch || forChannel != null);
+                    if (sepiaSearch || forChannel != null) {
+                        b.putString("peertube_instance", video.getAccount().getHost());
+                    }
+                    intent.putExtras(b);
+                    context.startActivity(intent);
+                });
+            }
+
+
+            holder.binding.moreActions.setOnClickListener(view -> {
+                PopupMenu popup = new PopupMenu(context, holder.binding.moreActions);
+                popup.getMenuInflater()
+                        .inflate(R.menu.video_drawer_menu_peertube, popup.getMenu());
+                if (timelineType == MY_VIDEOS) {
+                    popup.getMenu().findItem(R.id.action_report).setVisible(false);
+                    popup.getMenu().findItem(R.id.action_follow).setVisible(false);
+                } else {
+                    popup.getMenu().findItem(R.id.action_edit).setVisible(false);
+                    if (relationShipListener == null || relationShipListener.getRelationShip() == null || relationShipListener.getRelationShip().size() == 0) {
+                        popup.getMenu().findItem(R.id.action_follow).setVisible(false);
+                    } else {
+                        popup.getMenu().findItem(R.id.action_follow).setVisible(true);
+                        if (relationShipListener.getRelationShip().containsKey(video.getChannel().getAcct()) && relationShipListener.getRelationShip().get(video.getChannel().getAcct())) {
+                            popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_unfollow));
+                        } else {
+                            popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_follow));
+                        }
+                    }
+                }
+                popup.getMenu().findItem(R.id.action_playlist).setVisible(playlistListener != null && playlistListener.getPlaylist() != null && playlistListener.getPlaylist().size() != 0);
+                popup.setOnMenuItemClickListener(item -> {
+                    int itemId = item.getItemId();
+                    if (itemId == R.id.action_follow) {
+                        if (relationShipListener.getRelationShip().containsKey(video.getChannel().getAcct()) && relationShipListener.getRelationShip().get(video.getChannel().getAcct())) {
+                            relationShipListener.getRelationShip().put(video.getChannel().getAcct(), false);
+                            popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_follow));
+                            boolean confirm_unfollow = sharedpreferences.getBoolean(Helper.SET_UNFOLLOW_VALIDATION, true);
+                            if (confirm_unfollow) {
+                                AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context);
+                                unfollowConfirm.setTitle(context.getString(R.string.unfollow_confirm));
+                                unfollowConfirm.setMessage(video.getChannel().getAcct());
+                                unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                                unfollowConfirm.setPositiveButton(R.string.yes, (dialog, which) -> {
+                                    PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
+                                    viewModel.post(UNFOLLOW, video.getChannel().getAcct(), null).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(UNFOLLOW, apiResponse));
+                                    dialog.dismiss();
+                                });
+                                unfollowConfirm.show();
+                            } else {
+                                PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
+                                viewModel.post(UNFOLLOW, video.getChannel().getAcct(), null).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(UNFOLLOW, apiResponse));
+                            }
+                        } else {
+                            relationShipListener.getRelationShip().put(video.getChannel().getAcct(), true);
+                            popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_unfollow));
+                            PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
+                            viewModel.post(FOLLOW, video.getChannel().getAcct(), null).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(FOLLOW, apiResponse));
+                        }
+                    } else if (itemId == R.id.action_playlist) {
+                        PlaylistsVM viewModelOwnerPlaylist = new ViewModelProvider((ViewModelStoreOwner) context).get(PlaylistsVM.class);
+                        viewModelOwnerPlaylist.manage(PlaylistsVM.action.GET_PLAYLISTS, null, null).observe((LifecycleOwner) context, apiResponse -> manageVIewPlaylists(video, apiResponse));
+                    } else if (itemId == R.id.action_edit) {
+                        Intent intent = new Intent(context, PeertubeEditUploadActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("video_id", video.getUuid());
+                        intent.putExtras(b);
+                        context.startActivity(intent);
+                    } else if (itemId == R.id.action_report) {
+                        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context);
+                        LayoutInflater inflater1 = ((Activity) context).getLayoutInflater();
+                        View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(context), false);
+                        dialogBuilder.setView(dialogView);
+                        EditText report_content = dialogView.findViewById(R.id.report_content);
+                        dialogBuilder.setNeutralButton(R.string.cancel, (dialog2, id) -> dialog2.dismiss());
+                        dialogBuilder.setPositiveButton(R.string.report, (dialog2, id) -> {
+                            if (report_content.getText().toString().trim().length() == 0) {
+                                Toasty.info(context, context.getString(R.string.report_comment_size), Toasty.LENGTH_LONG).show();
+                            } else {
+                                PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
+                                Report report = new Report();
+                                Report.VideoReport videoReport = new Report.VideoReport();
+                                videoReport.setId(video.getId());
+                                report.setVideo(videoReport);
+                                report.setReason(report_content.getText().toString());
+                                viewModel.report(report).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(RetrofitPeertubeAPI.ActionType.REPORT_VIDEO, apiResponse));
+                                dialog2.dismiss();
+                            }
+                        });
+                        AlertDialog alertDialog2 = dialogBuilder.create();
+                        alertDialog2.show();
+                    }
+                    return true;
+                });
+                popup.show();
+            });
+            holder.binding.peertubeVideoInfo.setOnClickListener(v -> {
+                Intent intent = new Intent(context, PeertubeActivity.class);
                 Bundle b = new Bundle();
-                b.putSerializable("channel", video.getChannel());
-                b.putBoolean("sepia_search", sepiaSearch || forChannel != null);
-                if (sepiaSearch || forChannel != null) {
+                b.putString("video_id", video.getId());
+                b.putString("video_uuid", video.getUuid());
+                b.putBoolean("isMyVideo", ownVideos);
+                b.putBoolean("sepia_search", sepiaSearch);
+                b.putSerializable("video", video);
+                if (sepiaSearch) {
+                    b.putString("peertube_instance", video.getAccount().getHost());
+                }
+                intent.putExtras(b);
+                context.startActivity(intent);
+            });
+            holder.binding.peertubeVideoImage.setOnClickListener(v -> {
+                Intent intent = new Intent(context, PeertubeActivity.class);
+                Bundle b = new Bundle();
+                b.putString("video_id", video.getId());
+                b.putSerializable("video", video);
+                b.putString("video_uuid", video.getUuid());
+                b.putBoolean("isMyVideo", ownVideos);
+                b.putBoolean("sepia_search", sepiaSearch);
+                if (sepiaSearch) {
+                    b.putString("peertube_instance", video.getAccount().getHost());
+                }
+                intent.putExtras(b);
+                context.startActivity(intent);
+            });
+        } else {
+            final VideoViewHolder holder = (VideoViewHolder) viewHolder;
+            final VideoData.Video video = videos.get(position);
+
+            if (video == null) {
+                return;
+            }
+
+            boolean ownVideos;
+            if (timelineType == TimelineVM.TimelineType.MY_VIDEOS) {
+                ownVideos = true;
+            } else {
+                ownVideos = Helper.isVideoOwner(context, video);
+            }
+
+
+            String instance = null;
+            if (sepiaSearch) {
+                instance = video.getAccount().getHost();
+            } else if (forChannel != null) {
+                instance = forChannel.getHost();
+            } else if (forAccount != null) {
+                instance = forAccount.getHost();
+            }
+
+            holder.binding.peertubeDisplayname.setText(video.getChannel().getDisplayName());
+            holder.binding.peertubeUsername.setText(video.getChannel().getAcct());
+            Helper.loadAvatar(context, video.getChannel(), holder.binding.peertubeChannelAvatar);
+            holder.binding.peertubeTitle.setText(video.getName());
+            if (video.isLive()) {
+                holder.binding.peertubeDuration.setText(R.string.live);
+                holder.binding.peertubeDuration.setBackgroundResource(R.drawable.rounded_live);
+            } else {
+                holder.binding.peertubeDuration.setText(Helper.secondsToString(video.getDuration()));
+                holder.binding.peertubeDuration.setBackgroundResource(R.drawable.rounded_corner);
+            }
+
+
+            holder.binding.peertubeDate.setText(String.format(" - %s", Helper.dateDiffFull(video.getCreatedAt())));
+            holder.binding.peertubeViews.setText(context.getString(R.string.number_view_video, Helper.withSuffix(video.getViews())));
+
+            boolean blur = sharedpreferences.getString(context.getString(R.string.set_video_sensitive_choice), Helper.BLUR).compareTo("blur") == 0 && video.isNsfw();
+            loadImage(holder.binding.peertubeVideoImage, instance, video.getPreviewPath(), video.getThumbnailPath(), blur);
+            holder.binding.previewContainer.setVisibility(View.VISIBLE);
+
+            //For Overview Videos: boolean values for displaying title is managed in the fragment
+            if (video.isHasTitle()) {
+                holder.binding.headerTitle.setVisibility(View.VISIBLE);
+                switch (video.getTitleType()) {
+                    case TAG:
+                        holder.binding.headerTitle.setText(String.format("#%s", video.getTitle()));
+                        break;
+                    case CHANNEL:
+                    case CATEGORY:
+                        holder.binding.headerTitle.setText(String.format("%s", video.getTitle()));
+                        break;
+                }
+            } else {
+                holder.binding.headerTitle.setVisibility(View.GONE);
+            }
+
+            if (!ownVideos) {
+                holder.binding.peertubeChannelInfo.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, ShowChannelActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("channel", video.getChannel());
+                    b.putBoolean("sepia_search", sepiaSearch || forChannel != null);
+                    if (sepiaSearch || forChannel != null) {
+                        b.putString("peertube_instance", video.getAccount().getHost());
+                    }
+                    intent.putExtras(b);
+                    context.startActivity(intent);
+                });
+            }
+
+
+            holder.binding.moreActions.setOnClickListener(view -> {
+                PopupMenu popup = new PopupMenu(context, holder.binding.moreActions);
+                popup.getMenuInflater()
+                        .inflate(R.menu.video_drawer_menu_peertube, popup.getMenu());
+                if (timelineType == MY_VIDEOS) {
+                    popup.getMenu().findItem(R.id.action_report).setVisible(false);
+                    popup.getMenu().findItem(R.id.action_follow).setVisible(false);
+                } else {
+                    popup.getMenu().findItem(R.id.action_edit).setVisible(false);
+                    if (relationShipListener == null || relationShipListener.getRelationShip() == null || relationShipListener.getRelationShip().size() == 0) {
+                        popup.getMenu().findItem(R.id.action_follow).setVisible(false);
+                    } else {
+                        popup.getMenu().findItem(R.id.action_follow).setVisible(true);
+                        if (relationShipListener.getRelationShip().containsKey(video.getChannel().getAcct()) && relationShipListener.getRelationShip().get(video.getChannel().getAcct())) {
+                            popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_unfollow));
+                        } else {
+                            popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_follow));
+                        }
+                    }
+                }
+                popup.getMenu().findItem(R.id.action_playlist).setVisible(playlistListener != null && playlistListener.getPlaylist() != null && playlistListener.getPlaylist().size() != 0);
+                popup.setOnMenuItemClickListener(item -> {
+                    int itemId = item.getItemId();
+                    if (itemId == R.id.action_follow) {
+                        if (relationShipListener.getRelationShip().containsKey(video.getChannel().getAcct()) && relationShipListener.getRelationShip().get(video.getChannel().getAcct())) {
+                            relationShipListener.getRelationShip().put(video.getChannel().getAcct(), false);
+                            popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_follow));
+                            boolean confirm_unfollow = sharedpreferences.getBoolean(Helper.SET_UNFOLLOW_VALIDATION, true);
+                            if (confirm_unfollow) {
+                                AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context);
+                                unfollowConfirm.setTitle(context.getString(R.string.unfollow_confirm));
+                                unfollowConfirm.setMessage(video.getChannel().getAcct());
+                                unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                                unfollowConfirm.setPositiveButton(R.string.yes, (dialog, which) -> {
+                                    PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
+                                    viewModel.post(UNFOLLOW, video.getChannel().getAcct(), null).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(UNFOLLOW, apiResponse));
+                                    dialog.dismiss();
+                                });
+                                unfollowConfirm.show();
+                            } else {
+                                PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
+                                viewModel.post(UNFOLLOW, video.getChannel().getAcct(), null).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(UNFOLLOW, apiResponse));
+                            }
+                        } else {
+                            relationShipListener.getRelationShip().put(video.getChannel().getAcct(), true);
+                            popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_unfollow));
+                            PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
+                            viewModel.post(FOLLOW, video.getChannel().getAcct(), null).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(FOLLOW, apiResponse));
+                        }
+                    } else if (itemId == R.id.action_playlist) {
+                        PlaylistsVM viewModelOwnerPlaylist = new ViewModelProvider((ViewModelStoreOwner) context).get(PlaylistsVM.class);
+                        viewModelOwnerPlaylist.manage(PlaylistsVM.action.GET_PLAYLISTS, null, null).observe((LifecycleOwner) context, apiResponse -> manageVIewPlaylists(video, apiResponse));
+                    } else if (itemId == R.id.action_edit) {
+                        Intent intent = new Intent(context, PeertubeEditUploadActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("video_id", video.getUuid());
+                        intent.putExtras(b);
+                        context.startActivity(intent);
+                    } else if (itemId == R.id.action_report) {
+                        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context);
+                        LayoutInflater inflater1 = ((Activity) context).getLayoutInflater();
+                        View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(context), false);
+                        dialogBuilder.setView(dialogView);
+                        EditText report_content = dialogView.findViewById(R.id.report_content);
+                        dialogBuilder.setNeutralButton(R.string.cancel, (dialog2, id) -> dialog2.dismiss());
+                        dialogBuilder.setPositiveButton(R.string.report, (dialog2, id) -> {
+                            if (report_content.getText().toString().trim().length() == 0) {
+                                Toasty.info(context, context.getString(R.string.report_comment_size), Toasty.LENGTH_LONG).show();
+                            } else {
+                                PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
+                                Report report = new Report();
+                                Report.VideoReport videoReport = new Report.VideoReport();
+                                videoReport.setId(video.getId());
+                                report.setVideo(videoReport);
+                                report.setReason(report_content.getText().toString());
+                                viewModel.report(report).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(RetrofitPeertubeAPI.ActionType.REPORT_VIDEO, apiResponse));
+                                dialog2.dismiss();
+                            }
+                        });
+                        AlertDialog alertDialog2 = dialogBuilder.create();
+                        alertDialog2.show();
+                    }
+                    return true;
+                });
+                popup.show();
+            });
+            holder.binding.peertubeVideoInfo.setOnClickListener(v -> {
+                Intent intent = new Intent(context, PeertubeActivity.class);
+                Bundle b = new Bundle();
+                b.putString("video_id", video.getId());
+                b.putString("video_uuid", video.getUuid());
+                b.putBoolean("isMyVideo", ownVideos);
+                b.putBoolean("sepia_search", sepiaSearch);
+                b.putSerializable("video", video);
+                if (sepiaSearch) {
+                    b.putString("peertube_instance", video.getAccount().getHost());
+                }
+                intent.putExtras(b);
+                context.startActivity(intent);
+            });
+            holder.binding.peertubeVideoImage.setOnClickListener(v -> {
+                Intent intent = new Intent(context, PeertubeActivity.class);
+                Bundle b = new Bundle();
+                b.putString("video_id", video.getId());
+                b.putSerializable("video", video);
+                b.putString("video_uuid", video.getUuid());
+                b.putBoolean("isMyVideo", ownVideos);
+                b.putBoolean("sepia_search", sepiaSearch);
+                if (sepiaSearch) {
                     b.putString("peertube_instance", video.getAccount().getHost());
                 }
                 intent.putExtras(b);
@@ -200,121 +507,12 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
 
-        holder.binding.moreActions.setOnClickListener(view -> {
-            PopupMenu popup = new PopupMenu(context, holder.binding.moreActions);
-            popup.getMenuInflater()
-                    .inflate(R.menu.video_drawer_menu_peertube, popup.getMenu());
-            if (timelineType == MY_VIDEOS) {
-                popup.getMenu().findItem(R.id.action_report).setVisible(false);
-                popup.getMenu().findItem(R.id.action_follow).setVisible(false);
-            } else {
-                popup.getMenu().findItem(R.id.action_edit).setVisible(false);
-                if (relationShipListener == null || relationShipListener.getRelationShip() == null || relationShipListener.getRelationShip().size() == 0) {
-                    popup.getMenu().findItem(R.id.action_follow).setVisible(false);
-                } else {
-                    popup.getMenu().findItem(R.id.action_follow).setVisible(true);
-                    if (relationShipListener.getRelationShip().containsKey(video.getChannel().getAcct()) && relationShipListener.getRelationShip().get(video.getChannel().getAcct())) {
-                        popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_unfollow));
-                    } else {
-                        popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_follow));
-                    }
-                }
-            }
-            popup.getMenu().findItem(R.id.action_playlist).setVisible(playlistListener != null && playlistListener.getPlaylist() != null && playlistListener.getPlaylist().size() != 0);
-            popup.setOnMenuItemClickListener(item -> {
-                int itemId = item.getItemId();
-                if (itemId == R.id.action_follow) {
-                    if (relationShipListener.getRelationShip().containsKey(video.getChannel().getAcct()) && relationShipListener.getRelationShip().get(video.getChannel().getAcct())) {
-                        relationShipListener.getRelationShip().put(video.getChannel().getAcct(), false);
-                        popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_follow));
-                        boolean confirm_unfollow = sharedpreferences.getBoolean(Helper.SET_UNFOLLOW_VALIDATION, true);
-                        if (confirm_unfollow) {
-                            AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context);
-                            unfollowConfirm.setTitle(context.getString(R.string.unfollow_confirm));
-                            unfollowConfirm.setMessage(video.getChannel().getAcct());
-                            unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                            unfollowConfirm.setPositiveButton(R.string.yes, (dialog, which) -> {
-                                PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
-                                viewModel.post(UNFOLLOW, video.getChannel().getAcct(), null).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(UNFOLLOW, apiResponse));
-                                dialog.dismiss();
-                            });
-                            unfollowConfirm.show();
-                        } else {
-                            PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
-                            viewModel.post(UNFOLLOW, video.getChannel().getAcct(), null).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(UNFOLLOW, apiResponse));
-                        }
-                    } else {
-                        relationShipListener.getRelationShip().put(video.getChannel().getAcct(), true);
-                        popup.getMenu().findItem(R.id.action_follow).setTitle(context.getString(R.string.action_unfollow));
-                        PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
-                        viewModel.post(FOLLOW, video.getChannel().getAcct(), null).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(FOLLOW, apiResponse));
-                    }
-                } else if (itemId == R.id.action_playlist) {
-                    PlaylistsVM viewModelOwnerPlaylist = new ViewModelProvider((ViewModelStoreOwner) context).get(PlaylistsVM.class);
-                    viewModelOwnerPlaylist.manage(PlaylistsVM.action.GET_PLAYLISTS, null, null).observe((LifecycleOwner) context, apiResponse -> manageVIewPlaylists(video, apiResponse));
-                } else if (itemId == R.id.action_edit) {
-                    Intent intent = new Intent(context, PeertubeEditUploadActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("video_id", video.getUuid());
-                    intent.putExtras(b);
-                    context.startActivity(intent);
-                } else if (itemId == R.id.action_report) {
-                    AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context);
-                    LayoutInflater inflater1 = ((Activity) context).getLayoutInflater();
-                    View dialogView = inflater1.inflate(R.layout.popup_report_peertube, new LinearLayout(context), false);
-                    dialogBuilder.setView(dialogView);
-                    EditText report_content = dialogView.findViewById(R.id.report_content);
-                    dialogBuilder.setNeutralButton(R.string.cancel, (dialog2, id) -> dialog2.dismiss());
-                    dialogBuilder.setPositiveButton(R.string.report, (dialog2, id) -> {
-                        if (report_content.getText().toString().trim().length() == 0) {
-                            Toasty.info(context, context.getString(R.string.report_comment_size), Toasty.LENGTH_LONG).show();
-                        } else {
-                            PostActionsVM viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(PostActionsVM.class);
-                            Report report = new Report();
-                            Report.VideoReport videoReport = new Report.VideoReport();
-                            videoReport.setId(video.getId());
-                            report.setVideo(videoReport);
-                            report.setReason(report_content.getText().toString());
-                            viewModel.report(report).observe((LifecycleOwner) context, apiResponse -> manageVIewPostActions(RetrofitPeertubeAPI.ActionType.REPORT_VIDEO, apiResponse));
-                            dialog2.dismiss();
-                        }
-                    });
-                    AlertDialog alertDialog2 = dialogBuilder.create();
-                    alertDialog2.show();
-                }
-                return true;
-            });
-            popup.show();
-        });
-        holder.binding.peertubeVideoInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(context, PeertubeActivity.class);
-            Bundle b = new Bundle();
-            b.putString("video_id", video.getId());
-            b.putString("video_uuid", video.getUuid());
-            b.putBoolean("isMyVideo", ownVideos);
-            b.putBoolean("sepia_search", sepiaSearch);
-            b.putSerializable("video", video);
-            if (sepiaSearch) {
-                b.putString("peertube_instance", video.getAccount().getHost());
-            }
-            intent.putExtras(b);
-            context.startActivity(intent);
-        });
-        holder.binding.peertubeVideoImage.setOnClickListener(v -> {
-            Intent intent = new Intent(context, PeertubeActivity.class);
-            Bundle b = new Bundle();
-            b.putString("video_id", video.getId());
-            b.putSerializable("video", video);
-            b.putString("video_uuid", video.getUuid());
-            b.putBoolean("isMyVideo", ownVideos);
-            b.putBoolean("sepia_search", sepiaSearch);
-            if (sepiaSearch) {
-                b.putString("peertube_instance", video.getAccount().getHost());
-            }
-            intent.putExtras(b);
-            context.startActivity(intent);
-        });
+    }
 
+
+    enum typeOfTimeline {
+        CLASSIC,
+        LIST
     }
 
 
@@ -477,14 +675,22 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         Map<String, List<PlaylistExist>> getPlaylist();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class VideoViewHolder extends RecyclerView.ViewHolder {
         DrawerPeertubeBinding binding;
 
-        ViewHolder(DrawerPeertubeBinding itemView) {
+        VideoViewHolder(DrawerPeertubeBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
         }
     }
 
+    static class VideoListViewHolder extends RecyclerView.ViewHolder {
+        DrawerPeertubeListBinding binding;
+
+        VideoListViewHolder(DrawerPeertubeListBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+        }
+    }
 
 }

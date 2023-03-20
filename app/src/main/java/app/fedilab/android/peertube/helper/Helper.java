@@ -216,6 +216,16 @@ public class Helper {
             return String.format(Locale.getDefault(), "%s:%s", strMin, strSec);
     }
 
+
+    public static String dateDiffFull(Date dateToot) {
+        SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT, Locale.getDefault());
+        try {
+            return df.format(dateToot);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     /***
      * Returns a String depending of the date
      * @param context Context
