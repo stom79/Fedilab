@@ -2837,6 +2837,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         int to = Math.min(position + siblings, max_size - 1);
         for (Status status : statusList.subList(from, to)) {
+            if (status == null) {
+                continue;
+            }
             Status statusToDeal = status.reblog != null ? status.reblog : status;
             if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
                 attachments.addAll(statusToDeal.media_attachments);

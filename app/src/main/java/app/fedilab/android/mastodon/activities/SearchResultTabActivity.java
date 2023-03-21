@@ -280,13 +280,13 @@ public class SearchResultTabActivity extends BaseBarActivity {
     public void moveToAccount() {
         tagEmpty = null;
         accountEmpty = null;
-        binding.searchViewpager.setCurrentItem(1);
+        binding.searchViewpager.post(() -> binding.searchViewpager.setCurrentItem(1));
     }
 
     public void moveToMessage() {
         tagEmpty = null;
         accountEmpty = null;
-        binding.searchViewpager.setCurrentItem(2);
+        binding.searchViewpager.post(() -> binding.searchViewpager.setCurrentItem(2));
     }
 
     /**
