@@ -665,6 +665,8 @@ public class Helper {
                     .build();
             builder.setDefaultColorSchemeParams(defaultColors);
             CustomTabsIntent customTabsIntent = builder.build();
+            url = url.replace("HTTPS://", "https://");
+            url = url.replace("HTTP://", "http://");
             try {
                 customTabsIntent.launchUrl(context, Uri.parse(url));
             } catch (Exception e) {
