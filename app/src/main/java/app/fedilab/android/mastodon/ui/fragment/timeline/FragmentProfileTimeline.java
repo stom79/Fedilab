@@ -16,18 +16,24 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.tabs.TabLayout;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentProfileTimelinesBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.pageadapter.FedilabProfilePageAdapter;
 
@@ -36,6 +42,7 @@ public class FragmentProfileTimeline extends Fragment {
     private Account account;
     private FragmentProfileTimelinesBinding binding;
     private boolean checkRemotely;
+    private boolean show_boosts = true, show_replies = true;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +78,82 @@ public class FragmentProfileTimeline extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                if (binding.viewpager.getAdapter() != null && binding.viewpager
+                        .getAdapter()
+                        .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem()) instanceof FragmentMastodonTimeline) {
+                    FragmentMastodonTimeline fragmentMastodonTimeline = (FragmentMastodonTimeline) binding.viewpager
+                            .getAdapter()
+                            .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem());
+                    fragmentMastodonTimeline.goTop();
+                }
             }
+        });
+
+        final LinearLayout tabStrip = (LinearLayout) binding.tabLayout.getChildAt(0);
+        tabStrip.getChildAt(0).setOnLongClickListener(v -> {
+            PopupMenu popup = new PopupMenu(requireActivity(), binding.tabLayout.getChildAt(0));
+            popup.getMenuInflater()
+                    .inflate(R.menu.option_filter_toots_account, popup.getMenu());
+            Menu menu = popup.getMenu();
+
+            final MenuItem itemShowBoosts = menu.findItem(R.id.action_show_boosts);
+            final MenuItem itemShowReplies = menu.findItem(R.id.action_show_replies);
+
+            itemShowBoosts.setChecked(show_boosts);
+            itemShowReplies.setChecked(show_replies);
+
+            popup.setOnDismissListener(menu1 -> {
+                if (binding.viewpager.getAdapter() != null && binding.viewpager
+                        .getAdapter()
+                        .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem()) instanceof FragmentMastodonTimeline) {
+                    FragmentMastodonTimeline fragmentMastodonTimeline = (FragmentMastodonTimeline) binding.viewpager
+                            .getAdapter()
+                            .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem());
+                    FragmentTransaction fragTransaction = getChildFragmentManager().beginTransaction();
+                    fragTransaction.detach(fragmentMastodonTimeline).commit();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
+                    bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                    bundle.putBoolean(Helper.ARG_SHOW_PINNED, true);
+                    bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
+                    bundle.putBoolean(Helper.ARG_SHOW_REBLOGS, show_boosts);
+                    bundle.putBoolean(Helper.ARG_SHOW_REPLIES, show_replies);
+                    fragmentMastodonTimeline.setArguments(bundle);
+                    FragmentTransaction fragTransaction2 = getChildFragmentManager().beginTransaction();
+                    fragTransaction2.attach(fragmentMastodonTimeline);
+                    fragTransaction2.commit();
+                    fragmentMastodonTimeline.recreate();
+                }
+
+            });
+            popup.setOnMenuItemClickListener(item -> {
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                item.setActionView(new View(requireActivity()));
+                item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        return false;
+                    }
+                });
+                int itemId = item.getItemId();
+                if (itemId == R.id.action_show_boosts) {
+                    show_boosts = !show_boosts;
+                } else if (itemId == R.id.action_show_replies) {
+                    show_replies = !show_replies;
+                }
+                if (binding.tabLayout.getTabAt(0) != null)
+                    binding.tabLayout.getTabAt(0).select();
+                itemShowReplies.setChecked(show_replies);
+                itemShowBoosts.setChecked(show_boosts);
+                return true;
+            });
+            popup.show();
+            return true;
         });
 
     }

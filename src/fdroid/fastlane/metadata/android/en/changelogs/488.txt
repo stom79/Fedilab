@@ -1,5 +1,5 @@
 Added:
-
+- Filter messages in profiles (hide/show boosts or replies) via a long press on the tab
 
 Changed:
 - Some layout improvements for Peertube

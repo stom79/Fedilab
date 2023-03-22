@@ -125,6 +125,8 @@ public class ProfileActivity extends BaseActivity {
     private String account_id;
     private String mention_str;
     private WellKnownNodeinfo.NodeInfo nodeInfo;
+
+
     private boolean checkRemotely;
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
@@ -225,6 +227,7 @@ public class ProfileActivity extends BaseActivity {
                     followerTab.setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count)));
                 }
             }
+
         }
     }
 

@@ -334,6 +334,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
     }
 
+    public void goTop() {
+        if (binding != null && search == null) {
+            binding.recyclerView.scrollToPosition(0);
+        }
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -403,6 +409,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
             statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
         }
+
 
         //When visiting a profile without being authenticated
         if (checkRemotely) {
