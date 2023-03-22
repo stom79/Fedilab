@@ -8,6 +8,8 @@ Changed:
 
 Fixed:
 - URL in upper cases
-- GIF does not honor nsfw
 - Issues with Peertube player
+- False positive error when listening to audio
+- GIF does not honor nsfw
+- Polls having html
 - Fix crashes when scrolling timeline with animated gif

@@ -131,6 +131,7 @@ public class FragmentMedia extends Fragment {
         binding.loader.setVisibility(View.VISIBLE);
         scheduleStartPostponedTransition(binding.mediaPicture);
         if (Helper.isValidContextForGlide(requireActivity()) && isAdded()) {
+            String finalType1 = type;
             Glide.with(requireActivity())
                     .asDrawable()
                     .dontTransform()
@@ -193,7 +194,7 @@ public class FragmentMedia extends Fragment {
                                         binding.loader.setVisibility(View.GONE);
                                         Glide.with(requireActivity())
                                                 .load(attachment.remote_url).into(binding.mediaPicture);
-                                    } else {
+                                    } else if (finalType1.equalsIgnoreCase("image")) {
                                         Toasty.error(requireActivity(), getString(R.string.toast_error_media), Toasty.LENGTH_SHORT).show();
                                         binding.loadRemote.setVisibility(View.VISIBLE);
                                         binding.loadRemote.setOnClickListener(v -> {
