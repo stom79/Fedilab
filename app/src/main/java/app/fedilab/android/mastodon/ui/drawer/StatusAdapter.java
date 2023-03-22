@@ -1674,7 +1674,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     } else {
                         layoutMediaBinding.mediaRoot.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-                        if (autoplaygif && attachment.type.equalsIgnoreCase("gifv")) {
+                        if (autoplaygif && attachment.type.equalsIgnoreCase("gifv") && !statusToDeal.sensitive) {
                             layoutMediaBinding.media.setVisibility(View.GONE);
                             layoutMediaBinding.mediaVideo.setVisibility(View.VISIBLE);
                             layoutMediaBinding.mediaVideo.onResume();
@@ -2736,6 +2736,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         LocalBroadcastManager.getInstance(context).sendBroadcast(intentBC);
     }
 
+
     public static void applyColor(Context context, StatusViewHolder holder) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
@@ -3191,8 +3192,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
-        super.onViewRecycled(holder);
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder viewHolder) {
+        super.onViewRecycled(viewHolder);
+        if (viewHolder instanceof StatusViewHolder) {
+            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            if (holder.binding != null) {
+                PlayerView doubleTapPlayerView = holder.binding.media.getRoot().findViewById(R.id.media_video);
+                if (doubleTapPlayerView != null && doubleTapPlayerView.getPlayer() != null) {
+                    doubleTapPlayerView.getPlayer().release();
+                }
+            }
+        }
     }
 
 
