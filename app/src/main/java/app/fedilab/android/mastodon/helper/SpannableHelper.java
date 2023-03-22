@@ -95,12 +95,18 @@ public class SpannableHelper {
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement, WeakReference<View> viewWeakReference) {
-        return convert(context, text, status, account, announcement, viewWeakReference, null);
+        return convert(context, text, status, account, announcement, viewWeakReference, null, true);
     }
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
                                     WeakReference<View> viewWeakReference, Status.Callback callback) {
+        return convert(context, text, status, account, announcement, viewWeakReference, callback, true);
+    }
+
+    public static Spannable convert(Context context, String text,
+                                    Status status, Account account, Announcement announcement,
+                                    WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml) {
         if (text == null) {
             return null;
         }
@@ -133,10 +139,14 @@ public class SpannableHelper {
         text = text.trim().replaceAll("\\s{3}", "&nbsp;&nbsp;&nbsp;");
         text = text.trim().replaceAll("\\s{2}", "&nbsp;&nbsp;");
         SpannableString initialContent;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
-        else
-            initialContent = new SpannableString(Html.fromHtml(text));
+        if (convertHtml) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+            else
+                initialContent = new SpannableString(Html.fromHtml(text));
+        } else {
+            initialContent = new SpannableString(text);
+        }
 
         //Get all links
         SpannableStringBuilder content = new SpannableStringBuilder(initialContent);
