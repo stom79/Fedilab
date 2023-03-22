@@ -1044,4 +1044,6 @@
     <string name="add_description">添加描述</string>
     <string name="fetching_messages">获取消息中</string>
     <string name="retrieve_remote_account">检索远程帐号！</string>
+    <string name="track_selection_title">选择音轨</string>
+    <string name="exit">退出</string>
 </resources>
