@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.21.1",
+    "code": "488",
+    "note": "Added:\n- Filter messages in profiles (hide/show boosts or replies) via a long press on the tab\n\nChanged:\n- Some layout improvements for Peertube\n- Better management of resolution with Peertube\n- Improve instance picker for Peertube\n\nFixed:\n- URL in upper cases\n- Issues with Peertube player\n- False positive error when listening to audio\n- GIF does not honor nsfw\n- Polls having html\n- Fix crashes when scrolling timeline with animated gif"
+  },
+  {
     "version": "3.21.0",
     "code": "487",
     "note": "Added:\n- Dedicated Peertube entry in main menu (My app)\n- Select instances (Instances picker with Filters)\n- Comment/Boost/Fav Peertube videos with Mastodon accounts\n\nFixed:\n- Fix a crash when searching and with the user directory"
