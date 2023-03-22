@@ -1,0 +1,13 @@
+Added:
+
+
+Changed:
+- Some layout improvements for Peertube
+- Better management of resolution with Peertube
+- Improve instance picker for Peertube
+
+Fixed:
+- URL in upper cases
+- GIF does not honor nsfw
+- Issues with Peertube player
+- Fix crashes when scrolling timeline with animated gif
