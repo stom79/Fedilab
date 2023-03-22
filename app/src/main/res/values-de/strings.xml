@@ -1047,4 +1047,5 @@
     <string name="add_description">Beschreibung hinzufügen</string>
     <string name="retrieve_remote_account">Entferntes Konto abrufen!</string>
     <string name="exit">Beenden</string>
+    <string name="track_selection_title">Titel auswählen</string>
 </resources>

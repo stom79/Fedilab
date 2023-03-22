@@ -1055,4 +1055,5 @@
     <string name="check_home_cache">Zkontrolovat cache Domova</string>
     <string name="retrieve_remote_account">Načíst vzdálený účet!</string>
     <string name="exit">Konec</string>
+    <string name="track_selection_title">Vybrat stopy</string>
 </resources>
