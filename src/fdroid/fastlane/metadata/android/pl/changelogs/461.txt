@@ -1,0 +1,13 @@
+Dodano:
+- Pixelfed: Niestandardowy układ do pełnego wyświetlania "Media
+*(Ustawienia > Timelines > Pixelfed Presentation) - Działa również dla innych softów, gdy są media
+
+Zmienione:
+- Dodaj przypięty tag w "dowolnym", aby uniknąć utraty go podczas zmiany nazwy osi czasu
+
+Naprawiono:
+- Naprawić powiadomienia push z kilkoma kontami
+- Naprawić cytaty z tagami/mentami
+- Napraw powiadomienia
+- Naprawić wysyłanie wielu mediów
+- Niektóre awarie

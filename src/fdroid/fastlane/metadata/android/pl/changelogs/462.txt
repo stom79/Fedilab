@@ -1,0 +1,21 @@
+Dodano:
+
+- Dodaj obsługę osi czasu Bubble w dodatkowych funkcjach z filtrami
+- Zezwól na domyślne wyświetlanie profili publicznych, aby uzyskać wszystkie wiadomości (Ustawienia > Interfejs)
+- Glitch: Pozwól na lokalne publikowanie wiadomości (Można wyłączyć w Ustawieniach)
+- Pixelfed: Niestandardowy układ, aby wyświetlić Media w pełni (Działa również dla innych programów, gdy są media)
+- Pozwól wyrównać lewe przyciski akcji w wiadomościach
+
+Zmienione:
+- Pełna przeróbka linków w wiadomościach (również wzmianki i tagi)
+- Dodaj przypięty tag w "dowolnym", aby uniknąć utraty go podczas zmiany nazwy osi czasu
+
+Naprawiono:
+- Linki do wiadomości nie obsługiwane przez aplikację
+- CW podczas edycji wiadomości
+- Naprawić powiadomienia push z kilku kont
+- Nowe wiadomości lub powiadomienia o edycji nie są pchane
+- Naprawić cytaty z tagami/mentami
+- Naprawić powiadomienia
+- Naprawić wysyłanie wielu mediów
+- Naprawić awarie
