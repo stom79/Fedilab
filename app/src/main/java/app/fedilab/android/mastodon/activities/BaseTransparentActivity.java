@@ -30,7 +30,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.material.color.DynamicColors;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.one.EmojiOneProvider;
 
@@ -66,9 +65,9 @@ public class BaseTransparentActivity extends AppCompatActivity {
         }
         String currentTheme = sharedpreferences.getString(getString(R.string.SET_THEME_BASE), getString(R.string.SET_DEFAULT_THEME));
         //Default automatic switch
+        int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         if (currentTheme.equals(getString(R.string.SET_DEFAULT_THEME))) {
 
-            int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
             switch (currentNightMode) {
                 case Configuration.UI_MODE_NIGHT_NO:
                     String defaultLight = sharedpreferences.getString(getString(R.string.SET_THEME_DEFAULT_LIGHT), "LIGHT");
@@ -129,10 +128,7 @@ public class BaseTransparentActivity extends AppCompatActivity {
             }
         }
         super.onCreate(savedInstanceState);
-        boolean dynamicColor = sharedpreferences.getBoolean(getString(R.string.SET_DYNAMICCOLOR), false);
-        if (dynamicColor) {
-            DynamicColors.applyToActivityIfAvailable(this);
-        }
+        ThemeHelper.applyThemeColor(this);
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

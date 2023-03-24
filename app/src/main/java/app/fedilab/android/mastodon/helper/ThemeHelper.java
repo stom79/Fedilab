@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import static android.content.Context.WINDOW_SERVICE;
+import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.currentUserID;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,6 +25,8 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -36,6 +40,9 @@ import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
+
+import com.google.android.material.color.DynamicColors;
+import com.google.android.material.color.DynamicColorsOptions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -275,6 +282,31 @@ public class ThemeHelper {
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
             }
+        }
+    }
+
+    public static void applyThemeColor(Activity activity) {
+        int currentNightMode = activity.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        boolean dynamicColor = sharedpreferences.getBoolean(activity.getString(R.string.SET_DYNAMICCOLOR), false);
+        boolean customAccentEnabled = sharedpreferences.getBoolean(activity.getString(R.string.SET_CUSTOM_ACCENT) + currentUserID + currentInstance, false);
+        int customAccentLight = sharedpreferences.getInt(activity.getString(R.string.SET_CUSTOM_ACCENT_LIGHT_VALUE) + currentUserID + currentInstance, -1);
+        int customAccentDark = sharedpreferences.getInt(activity.getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE) + currentUserID + currentInstance, -1);
+        if (customAccentEnabled) {
+            Bitmap bmp = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bmp);
+            //Light theme enabled
+            if (currentNightMode == Configuration.UI_MODE_NIGHT_NO && customAccentLight != -1) {
+                canvas.drawColor(customAccentLight);
+            } else if (customAccentDark != -1) {
+                canvas.drawColor(customAccentDark);
+            }
+            DynamicColorsOptions.Builder builder = new DynamicColorsOptions.Builder();
+            builder.setContentBasedSource(bmp);
+            DynamicColorsOptions dynamicColorsOptions = builder.build();
+            DynamicColors.applyToActivityIfAvailable(activity, dynamicColorsOptions);
+        } else if (dynamicColor) {
+            DynamicColors.applyToActivityIfAvailable(activity);
         }
     }
 

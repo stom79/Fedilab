@@ -3,4 +3,10 @@
 
 
     <string name="auto">Auto</string>
+    <string name="set_custom_accent">Custom accent color</string>
+    <string name="set_custom_accent_indication">Define a theme color per account</string>
+    <string name="set_custom_accent_light_value">Light accent color</string>
+    <string name="set_custom_accent_dark_value">Dark accent color</string>
+    <string name="set_custom_accent_value_light_description">Color that will be applied to the light theme</string>
+    <string name="set_custom_accent_value_dark_description">Color that will be applied to the dark theme</string>
 </resources>

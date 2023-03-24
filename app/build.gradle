@@ -96,12 +96,11 @@ allprojects {
     }
 }
 dependencies {
-    implementation project(':autoimageslider')
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
 
     implementation 'com.google.android.material:material:1.8.0'
 
-    implementation 'com.jaredrummler:colorpicker:1.1.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "com.google.code.gson:gson:2.9.1"
@@ -121,15 +120,18 @@ dependencies {
     }
 
     implementation "org.jsoup:jsoup:1.15.1"
-
     implementation 'com.github.mergehez:ArgPlayer:v3.1'
+
+    implementation project(':autoimageslider')
     implementation project(path: ':mytransl')
     implementation project(path: ':ratethisapp')
     implementation project(path: ':sparkbutton')
+    implementation project(path: ':colorPicker')
+    implementation project(path: ':mathjaxandroid')
+
 
     implementation 'com.burhanrashid52:photoeditor:1.5.1'
     implementation("com.vanniktech:android-image-cropper:4.3.3")
-    implementation project(path: ':mathjaxandroid')
     annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
     implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.23.0'
@@ -164,7 +166,6 @@ dependencies {
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     implementation 'com.r0adkll:slidableactivity:2.1.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-
 
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation "androidx.fragment:fragment:1.5.5"

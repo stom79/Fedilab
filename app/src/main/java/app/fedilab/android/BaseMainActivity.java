@@ -1067,6 +1067,16 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } catch (DBException e) {
                 e.printStackTrace();
             }
+            if (currentAccount != null && currentInstance == null) {
+                currentInstance = currentAccount.instance;
+                currentUserID = currentAccount.user_id;
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    recreate();
+                };
+                mainHandler.post(myRunnable);
+            }
+
             if (currentAccount != null && currentAccount.peertube_account != null) {
                 //It is a peertube user
                 Intent intent = getIntent();

@@ -24,6 +24,28 @@
         app:summary="@string/set_dynamic_color_indication"
         app:title="@string/set_dynamic_color" />
 
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CUSTOM_ACCENT"
+        app:singleLineTitle="false"
+        app:summary="@string/set_custom_accent_indication"
+        app:title="@string/set_custom_accent" />
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:dependency="@string/SET_CUSTOM_ACCENT"
+        android:key="@string/SET_CUSTOM_ACCENT_LIGHT_VALUE"
+        app:iconSpaceReserved="false"
+        app:summary="@string/set_custom_accent_value_light_description"
+        app:title="@string/set_custom_accent_light_value" />
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:dependency="@string/SET_CUSTOM_ACCENT"
+        android:key="@string/SET_CUSTOM_ACCENT_DARK_VALUE"
+        app:iconSpaceReserved="false"
+        app:summary="@string/set_custom_accent_value_dark_description"
+        app:title="@string/set_custom_accent_dark_value" />
+
     <ListPreference
         app:defaultValue="LIGHT"
         app:dialogTitle="@string/type_default_theme_light"

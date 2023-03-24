@@ -15,8 +15,13 @@ package app.fedilab.android.mastodon.ui.fragment.settings;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.currentUserID;
+
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavOptions;
@@ -24,16 +29,21 @@ import androidx.navigation.Navigation;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.jaredrummler.android.colorpicker.ColorPreferenceCompat;
 
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.helper.Helper;
 import es.dmoral.toasty.Toasty;
 
 public class FragmentThemingSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 
+    boolean prefChanged = false;
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         createPref();
@@ -55,22 +65,45 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (getPreferenceScreen() != null && getPreferenceScreen().getSharedPreferences() != null) {
             getPreferenceScreen().getSharedPreferences()
                     .unregisterOnSharedPreferenceChangeListener(this);
+            if (prefChanged) {
+                Helper.recreateMainActivity(requireActivity());
+                prefChanged = false;
+            }
         }
 
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        prefChanged = true;
         if (key.compareTo(getString(R.string.SET_THEME_BASE)) == 0) {
             ListPreference SET_THEME_BASE = findPreference(getString(R.string.SET_THEME_BASE));
             if (SET_THEME_BASE != null) {
                 requireActivity().finish();
                 startActivity(requireActivity().getIntent());
             }
+            Helper.recreateMainActivity(requireActivity());
+        } else if (key.compareTo(getString(R.string.SET_CUSTOM_ACCENT)) == 0) {
+            SwitchPreferenceCompat SET_CUSTOM_ACCENT = findPreference(getString(R.string.SET_CUSTOM_ACCENT));
+            if (SET_CUSTOM_ACCENT != null) {
+                editor.putBoolean(getString(R.string.SET_CUSTOM_ACCENT) + MainActivity.currentUserID + MainActivity.currentInstance, SET_CUSTOM_ACCENT.isChecked());
+            }
+        } else if (key.compareTo(getString(R.string.SET_CUSTOM_ACCENT_LIGHT_VALUE)) == 0) {
+            ColorPreferenceCompat SET_CUSTOM_ACCENT_VALUE = findPreference(getString(R.string.SET_CUSTOM_ACCENT_LIGHT_VALUE));
+            if (SET_CUSTOM_ACCENT_VALUE != null) {
+                editor.putInt(getString(R.string.SET_CUSTOM_ACCENT_LIGHT_VALUE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_CUSTOM_ACCENT_VALUE.getColor());
+            }
+        } else if (key.compareTo(getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE)) == 0) {
+            ColorPreferenceCompat SET_CUSTOM_ACCENT_VALUE = findPreference(getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE));
+            if (SET_CUSTOM_ACCENT_VALUE != null) {
+                editor.putInt(getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_CUSTOM_ACCENT_VALUE.getColor());
+            }
         }
-        //TODO: check if can be removed
-        Helper.recreateMainActivity(requireActivity());
+        Log.v(Helper.TAG, "currentUserID: " + currentUserID);
+        Log.v(Helper.TAG, "currentInstance: " + currentInstance);
+        editor.apply();
     }
 
 
@@ -83,6 +116,24 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
         }
 
+        SwitchPreferenceCompat SET_DYNAMIC_COLOR = findPreference(getString(R.string.SET_DYNAMICCOLOR));
+        SwitchPreferenceCompat SET_CUSTOM_ACCENT = findPreference(getString(R.string.SET_CUSTOM_ACCENT));
+        ColorPreferenceCompat SET_CUSTOM_ACCENT_DARK_VALUE = findPreference(getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE));
+        ColorPreferenceCompat SET_CUSTOM_ACCENT_LIGHT_VALUE = findPreference(getString(R.string.SET_CUSTOM_ACCENT_LIGHT_VALUE));
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            if (SET_DYNAMIC_COLOR != null) {
+                getPreferenceScreen().removePreference(SET_DYNAMIC_COLOR);
+            }
+            if (SET_CUSTOM_ACCENT != null) {
+                getPreferenceScreen().removePreference(SET_CUSTOM_ACCENT);
+            }
+            if (SET_CUSTOM_ACCENT_DARK_VALUE != null) {
+                getPreferenceScreen().removePreference(SET_CUSTOM_ACCENT_DARK_VALUE);
+            }
+            if (SET_CUSTOM_ACCENT_LIGHT_VALUE != null) {
+                getPreferenceScreen().removePreference(SET_CUSTOM_ACCENT_LIGHT_VALUE);
+            }
+        }
 
         Preference SET_CUSTOMIZE_LIGHT_COLORS_ACTION = findPreference(getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS_ACTION));
         if (SET_CUSTOMIZE_LIGHT_COLORS_ACTION != null) {

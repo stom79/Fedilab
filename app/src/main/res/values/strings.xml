@@ -1037,6 +1037,10 @@
 
     <string name="SET_THEME_BASE" translatable="false">SET_THEME_BASE</string>
     <string name="SET_DYNAMICCOLOR" translatable="false">SET_DYNAMICCOLOR</string>
+    <string name="SET_CUSTOM_ACCENT" translatable="false">SET_CUSTOM_ACCENT</string>
+    <string name="SET_CUSTOM_ACCENT_LIGHT_VALUE" translatable="false">SET_CUSTOM_ACCENT_LIGHT_VALUE</string>
+    <string name="SET_CUSTOM_ACCENT_DARK_VALUE" translatable="false">SET_CUSTOM_ACCENT_DARK_VALUE</string>
+
     <string name="SET_CARDVIEW" translatable="false">SET_CARDVIEW</string>
     <string name="SET_CUSTOMIZE_LIGHT_COLORS" translatable="false">SET_CUSTOMIZE_LIGHT_COLORS</string>
     <string name="SET_CHAT_FOR_CONVERSATION" translatable="false">SET_CHAT_FOR_CONVERSATION</string>
