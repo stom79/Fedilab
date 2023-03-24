@@ -21,7 +21,6 @@ import static app.fedilab.android.BaseMainActivity.currentUserID;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavOptions;
@@ -101,8 +100,6 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
                 editor.putInt(getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_CUSTOM_ACCENT_VALUE.getColor());
             }
         }
-        Log.v(Helper.TAG, "currentUserID: " + currentUserID);
-        Log.v(Helper.TAG, "currentInstance: " + currentInstance);
         editor.apply();
     }
 
@@ -115,7 +112,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (getPreferenceScreen() == null) {
             Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
         }
-
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         SwitchPreferenceCompat SET_DYNAMIC_COLOR = findPreference(getString(R.string.SET_DYNAMICCOLOR));
         SwitchPreferenceCompat SET_CUSTOM_ACCENT = findPreference(getString(R.string.SET_CUSTOM_ACCENT));
         ColorPreferenceCompat SET_CUSTOM_ACCENT_DARK_VALUE = findPreference(getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE));
@@ -132,6 +129,19 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             }
             if (SET_CUSTOM_ACCENT_LIGHT_VALUE != null) {
                 getPreferenceScreen().removePreference(SET_CUSTOM_ACCENT_LIGHT_VALUE);
+            }
+        } else {
+            if (SET_CUSTOM_ACCENT != null) {
+                boolean customAccentEnabled = sharedpreferences.getBoolean(getString(R.string.SET_CUSTOM_ACCENT) + currentUserID + currentInstance, false);
+                SET_CUSTOM_ACCENT.setChecked(customAccentEnabled);
+            }
+            if (SET_CUSTOM_ACCENT_DARK_VALUE != null) {
+                int darkValue = sharedpreferences.getInt(getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE) + currentUserID + currentInstance, -1);
+                SET_CUSTOM_ACCENT_DARK_VALUE.setColor(darkValue);
+            }
+            if (SET_CUSTOM_ACCENT_LIGHT_VALUE != null) {
+                int darkValue = sharedpreferences.getInt(getString(R.string.SET_CUSTOM_ACCENT_LIGHT_VALUE) + currentUserID + currentInstance, -1);
+                SET_CUSTOM_ACCENT_LIGHT_VALUE.setColor(darkValue);
             }
         }
 

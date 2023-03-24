@@ -1067,13 +1067,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } catch (DBException e) {
                 e.printStackTrace();
             }
+            //Apply the custom theme
             if (currentAccount != null && currentInstance == null) {
                 currentInstance = currentAccount.instance;
                 currentUserID = currentAccount.user_id;
                 Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> {
-                    recreate();
-                };
+                Runnable myRunnable = this::recreate;
                 mainHandler.post(myRunnable);
             }
 

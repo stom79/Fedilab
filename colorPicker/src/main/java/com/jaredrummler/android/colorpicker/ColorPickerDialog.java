@@ -53,6 +53,8 @@ import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -183,8 +185,8 @@ public class ColorPickerDialog extends DialogFragment implements ColorPickerView
         if (selectedButtonStringRes == 0) {
             selectedButtonStringRes = R.string.cpv_select;
         }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity()).setView(rootView)
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext()).setView(rootView)
+                //    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity()).setView(rootView)
                 .setPositiveButton(selectedButtonStringRes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
