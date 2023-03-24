@@ -303,6 +303,7 @@ public class ThemeHelper {
             }
             DynamicColorsOptions.Builder builder = new DynamicColorsOptions.Builder();
             builder.setContentBasedSource(bmp);
+            builder.setThemeOverlay(R.style.ThemeOverlay_Material3_DynamicColors_DayNight);
             DynamicColorsOptions dynamicColorsOptions = builder.build();
             DynamicColors.applyToActivityIfAvailable(activity, dynamicColorsOptions);
         } else if (dynamicColor) {

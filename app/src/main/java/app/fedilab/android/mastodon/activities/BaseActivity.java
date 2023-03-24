@@ -143,8 +143,8 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
         super.onCreate(savedInstanceState);
-        ThemeHelper.applyThemeColor(this);
 
+        ThemeHelper.applyThemeColor(this);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
             ThemeHelper.adjustFontScale(this, getResources().getConfiguration());
         }
