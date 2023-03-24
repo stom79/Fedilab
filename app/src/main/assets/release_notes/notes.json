@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.21.2",
+    "code": "489",
+    "note": "Added:\n- Android 12+ : Customize accent colors for light/dark theme and per account (Settings > Theming > Custom accent color)\n"
+  },
+  {
     "version": "3.21.1",
     "code": "488",
     "note": "Added:\n- Filter messages in profiles (hide/show boosts or replies) via a long press on the tab\n\nChanged:\n- Some layout improvements for Peertube\n- Better management of resolution with Peertube\n- Improve instance picker for Peertube\n\nFixed:\n- URL in upper cases\n- Issues with Peertube player\n- False positive error when listening to audio\n- GIF does not honor nsfw\n- Polls having html\n- Fix crashes when scrolling timeline with animated gif"
