@@ -1046,4 +1046,11 @@
     <string name="retrieve_remote_account">检索远程帐号！</string>
     <string name="track_selection_title">选择音轨</string>
     <string name="exit">退出</string>
+    <string name="set_custom_accent_indication">为每个帐号定义主题色</string>
+    <string name="set_custom_accent_light_value">浅色强调色</string>
+    <string name="set_custom_accent_value_dark_description">将应用于深色主题的颜色</string>
+    <string name="set_custom_accent">自定义强调色</string>
+    <string name="auto">自动</string>
+    <string name="set_custom_accent_value_light_description">将应用于浅色主题的颜色</string>
+    <string name="set_custom_accent_dark_value">深色强调色</string>
 </resources>
