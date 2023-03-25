@@ -172,6 +172,7 @@ import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.PinnedTimelineHelper;
 import app.fedilab.android.mastodon.helper.PushHelper;
+import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.ui.drawer.AccountsSearchTopBarAdapter;
 import app.fedilab.android.mastodon.ui.drawer.TagSearchTopBarAdapter;
 import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonConversation;
@@ -719,6 +720,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         Toasty.info(activity, activity.getString(R.string.toast_account_changed, acct), Toasty.LENGTH_LONG).show();
                         BaseMainActivity.currentToken = account.token;
                         BaseMainActivity.currentUserID = account.user_id;
+                        ThemeHelper.applyThemeColor(activity);
                         api = account.api;
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.putString(PREF_USER_TOKEN, account.token);

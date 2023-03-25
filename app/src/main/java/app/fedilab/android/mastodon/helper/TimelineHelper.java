@@ -132,10 +132,14 @@ public class TimelineHelper {
                                 continue;
                             }
                             String content;
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                            else
-                                content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
+                            try {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                                else
+                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
+                            } catch (Exception e) {
+                                content = status.reblog != null ? status.reblog.content : status.content;
+                            }
                             Matcher m = p.matcher(content);
                             if (m.find()) {
                                 status.filteredByApp = filter;
