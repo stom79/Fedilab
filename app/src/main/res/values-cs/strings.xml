@@ -1056,4 +1056,12 @@
     <string name="retrieve_remote_account">Načíst vzdálený účet!</string>
     <string name="exit">Konec</string>
     <string name="track_selection_title">Vybrat stopy</string>
+    <string name="auto">Auto</string>
+    <string name="set_custom_accent">Vlastní barva zvýraznění</string>
+    <string name="set_custom_accent_light_value">Světlá barva zvýraznění</string>
+    <string name="set_custom_accent_dark_value">Tmavá barva zvýraznění</string>
+    <string name="set_custom_accent_value_light_description">Barva, která se použije pro světlé téma</string>
+    <string name="set_custom_accent_indication">Definovat barvu tématu pro účet</string>
+    <string name="set_custom_accent_value_dark_description">Barva, která se použije pro tmavé téma</string>
+    <string name="requested_by">Žádá o možnost sledovat</string>
 </resources>
