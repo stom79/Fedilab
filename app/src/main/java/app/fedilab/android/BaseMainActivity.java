@@ -17,6 +17,7 @@ package app.fedilab.android;
 import static app.fedilab.android.BaseMainActivity.status.DISCONNECTED;
 import static app.fedilab.android.BaseMainActivity.status.UNKNOWN;
 import static app.fedilab.android.mastodon.helper.CacheHelper.deleteDir;
+import static app.fedilab.android.mastodon.helper.Helper.ARG_REFRESH_NOTFICATION;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
@@ -672,6 +673,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     }
                     viewPager.setCurrentItem(position);
                 }
+                Bundle b = new Bundle();
+                b.putBoolean(ARG_REFRESH_NOTFICATION, true);
+                Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
+                intentBC.putExtras(b);
+                LocalBroadcastManager.getInstance(activity).sendBroadcast(intentBC);
             }
         }, 1000);
         intent.removeExtra(Helper.INTENT_ACTION);

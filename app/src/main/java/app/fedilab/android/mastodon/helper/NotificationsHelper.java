@@ -379,7 +379,7 @@ public class NotificationsHelper {
                 Helper.NotifType finalNotifType = notifType;
                 String finalMessage = message;
                 String finalTitle = title;
-                StatusAdapter.sendAction(context, Helper.ARG_REFRESH_NOTFICATION, null, null);
+                StatusAdapter.sendAction(context, Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION, null, null);
                 Runnable myRunnable = () -> Glide.with(context)
                         .asBitmap()
                         .load(finalNotificationUrl != null ? finalNotificationUrl : R.drawable.fedilab_logo_bubbles)

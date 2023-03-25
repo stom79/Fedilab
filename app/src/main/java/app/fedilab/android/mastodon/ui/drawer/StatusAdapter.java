@@ -2726,10 +2726,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             b.putSerializable(type, status);
         }
         if (id != null) {
-            b.putSerializable(type, id);
+            b.putString(type, id);
         }
         if (type == ARG_TIMELINE_REFRESH_ALL) {
-            b.putSerializable(ARG_TIMELINE_REFRESH_ALL, true);
+            b.putBoolean(ARG_TIMELINE_REFRESH_ALL, true);
         }
         Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
         intentBC.putExtras(b);

@@ -194,6 +194,8 @@ public class Helper {
     public static final String RECEIVE_REDRAW_BOTTOM = "RECEIVE_REDRAW_BOTTOM";
 
     public static final String RECEIVE_STATUS_ACTION = "RECEIVE_STATUS_ACTION";
+
+    public static final String RECEIVE_REFRESH_NOTIFICATIONS_ACTION = "RECEIVE_REFRESH_NOTIFICATIONS_ACTION";
     public static final String RECEIVE_ERROR_MESSAGE = "RECEIVE_ERROR_MESSAGE";
 
     public static final String RECEIVE_RECREATE_ACTIVITY = "RECEIVE_RECREATE_ACTIVITY";

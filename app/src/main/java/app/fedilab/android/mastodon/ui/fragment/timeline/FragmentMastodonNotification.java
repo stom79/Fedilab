@@ -72,7 +72,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             if (b != null) {
                 Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
                 String delete_all_for_account_id = b.getString(Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID);
-                if (receivedStatus != null && notificationAdapter != null) {
+                boolean refreshNotifications = b.getBoolean(Helper.ARG_REFRESH_NOTFICATION, false);
+                if (refreshNotifications) {
+                    scrollToTop();
+                } else if (receivedStatus != null && notificationAdapter != null) {
                     int position = getPosition(receivedStatus);
                     if (position >= 0) {
                         if (notificationList.get(position).status != null) {
@@ -203,7 +206,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         aggregateNotification = false;
 
         LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
-        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_refresh, new IntentFilter(Helper.ARG_REFRESH_NOTFICATION));
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_refresh, new IntentFilter(Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION));
         return root;
     }
 
