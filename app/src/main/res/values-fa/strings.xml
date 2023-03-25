@@ -15,7 +15,7 @@
     <string name="save_over">رسانه، ذخیره شد</string>
     <string name="download_from" formatted="false">پرونده: %1$s</string>
     <string name="password">گذرواژه</string>
-    <string name="email">رایانامه</string>
+    <string name="email">ایمیل</string>
     <string name="accounts">حساب‌ها</string>
     <string name="toots">بوق‌ها</string>
     <string name="tags">برچسب‌ها</string>
@@ -29,7 +29,7 @@
     <string name="camera">دوربین</string>
     <string name="delete_all">حذف همه</string>
     <string name="schedule">زمان‌بندی</string>
-    <string name="text_size">اندازه متن و آیکون</string>
+    <string name="text_size">اندازه متن</string>
     <string name="next">بعدی</string>
     <string name="previous">قبلی</string>
     <string name="open_with">باز کردن با</string>
@@ -570,4 +570,6 @@
     <string name="no_distributors_found">No distributors found!</string>
     <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
     <string name="select_distributors">Select a distributor</string>
+    <string name="icon_size">اندازه نماد</string>
+    <string name="show_privates">نمایش بوق‌های مستقیم</string>
 </resources>
