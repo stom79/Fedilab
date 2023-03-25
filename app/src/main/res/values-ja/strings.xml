@@ -64,7 +64,7 @@
     <string name="logout_account_confirmation">\@%1$s@%2$sからログアウトしますか？</string>
     <!-- Status -->
     <string name="no_status">投稿がありません</string>
-    <string name="favourite_add">この投稿をお気に入りに追加しますか？</string>
+    <string name="favourite_add">この投稿をお気に入りに登録しますか？</string>
     <string name="favourite_remove">この投稿をお気に入りから削除しますか？</string>
     <string name="reblog_add">この投稿をブーストしますか？</string>
     <string name="reblog_remove">この投稿のブーストを取り消しますか？</string>
@@ -158,7 +158,7 @@
     <string name="notif_mention">にメンションされました</string>
     <string name="notif_status">が投稿しました</string>
     <string name="notif_reblog">がブーストしました</string>
-    <string name="notif_favourite">がお気に入りに登録しました</string>
+    <string name="notif_favourite">があなたの投稿をお気に入りに登録しました</string>
     <string name="notif_follow">があなたをフォローしました</string>
     <string name="notif_follow_request">フォローリクエストが来ています</string>
     <string name="delete_notification_ask_all">すべての通知を削除しますか？</string>
@@ -175,7 +175,7 @@
     <string name="toast_unfollow">アカウントのフォローを解除しました！</string>
     <string name="toast_reblog">投稿をブーストしました！</string>
     <string name="toast_unreblog">投稿のブーストを取り消しました！</string>
-    <string name="toast_favourite">投稿をお気に入りに追加しました！</string>
+    <string name="toast_favourite">投稿をお気に入りに登録しました！</string>
     <string name="toast_unfavourite">投稿をお気に入りから削除しました！</string>
     <string name="toast_error">エラーが発生しました！</string>
     <string name="toast_code_error">エラーが発生しました！ サーバーは認証コードを返しませんでした！</string>
@@ -189,12 +189,12 @@
     <string name="set_disable_gif">GIFアバターを無効にする</string>
     <string name="set_notif_follow">フォローされたときに通知する</string>
     <string name="set_notif_follow_share">投稿がブーストされたときに通知する</string>
-    <string name="set_notif_follow_add">投稿がお気に入りに追加されたときに通知する</string>
-    <string name="set_notif_follow_mention">メンションを受け取ったときに通知する</string>
+    <string name="set_notif_follow_add">あなたの投稿がお気に入りに登録されたときに通知する</string>
+    <string name="set_notif_follow_mention">メンションされたときに通知する</string>
     <string name="set_notif_follow_poll">投票が終了したら通知する</string>
     <string name="set_notif_status">新しい投稿を通知する</string>
     <string name="set_share_validation">ブースト前に確認ダイアログを表示する</string>
-    <string name="set_share_validation_fav">お気に入りに追加する前に確認ダイアログを表示する</string>
+    <string name="set_share_validation_fav">お気に入りに登録する前に確認ダイアログを表示する</string>
     <string name="set_notify">通知する</string>
     <string name="set_notif_silent">サイレント通知</string>
     <string name="set_nsfw_timeout">NSFW表示のタイムアウト(単位は秒、0でオフ)</string>
@@ -620,8 +620,8 @@
     <string name="replace_reddit_description">Redditの代替フロントエンドを使用します</string>
     <string name="keepon">続行</string>
     <string name="category_custom">カスタム</string>
-    <string name="boosted_by">次のユーザーにブーストされました</string>
-    <string name="favourited_by">次のユーザーにお気に入りされました</string>
+    <string name="boosted_by">次のユーザーにブーストされました:</string>
+    <string name="favourited_by">次のユーザーにお気に入りに登録されました:</string>
     <string name="other">その他</string>
     <string name="eg_sensitive_content">例: 閲覧注意のコンテンツ</string>
     <string name="remove_status">ステータスを削除</string>
@@ -685,7 +685,7 @@
     <string name="messages_in_cache_for_home">ホームの投稿のキャッシュ</string>
     <string name="types_of_notifications_to_display">表示する通知の種類</string>
     <string name="set_display_bookmark_indication">ブックマークボタンを常に表示する</string>
-    <string name="also_boosted_by">次のユーザーにもブーストされています:</string>
+    <string name="also_boosted_by">ブーストした他のユーザー:</string>
     <string name="label_rectangle">長方形</string>
     <string name="label_line">線形</string>
     <string name="msg_save_image">画像を保存せずに終了しますか？</string>
@@ -712,7 +712,7 @@
     <string name="poll_type">アンケートの種類:</string>
     <string name="poll_duration">アンケートの期間:</string>
     <string name="top_menu">トップバーメニュー</string>
-    <string name="also_favourite_by">"次のユーザーにもフォローされています: "</string>
+    <string name="also_favourite_by">"次のユーザーにもお気に入りに登録されています: "</string>
     <string name="last_active">最終活動日</string>
     <string name="location">場所</string>
     <string name="staff">スタッフ</string>
@@ -780,7 +780,7 @@
     <string name="state">状態</string>
     <string name="load_media_type_title">メディアのサムネイルを読み込む</string>
     <string name="set_use_cache_indication">タイムラインがキャッシュされるのでアプリが高速になります。</string>
-    <string name="display_media_notification_summary">ブーストとお気に入りの通知のメディアを表示します</string>
+    <string name="display_media_notification_summary">ブーストとお気に入りの通知でメディアを表示します</string>
     <string name="aggregate_notifications_summary">有効にすると、関連のある通知を折りたたみます</string>
     <string name="aggregate_notifications">通知をまとめる</string>
     <string name="set_unlisted_replies">返信を未収載にする</string>
@@ -954,7 +954,7 @@
     <string name="v_list">リスト</string>
     <string name="set_display_local_only">「ローカルのみ」ボタンを表示</string>
     <string name="translator">翻訳</string>
-    <string name="also_followed_by">次のユーザーにフォローされています:</string>
+    <string name="also_followed_by">あなたをフォローした他のユーザー:</string>
     <string name="toast_error_peertube_not_supported">PeerTubeのバージョンが古いため、このアプリではサポートされていません。</string>
     <string name="otp_message">二要素認証のトークン</string>
     <string name="compose_shortcut_short_label1">作成</string>
@@ -1037,4 +1037,5 @@
     <string name="fails">失敗</string>
     <string name="new_messages">新しい投稿</string>
     <string name="follows_you">あなたのフォロワー</string>
+    <string name="track_selection_title">トラックを選択</string>
 </resources>
