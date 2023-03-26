@@ -1,0 +1,13 @@
+Añadido:
+- Pixelfed: Disposición personalizada para mostrar por completo los medios
+*(Configuración > Líneas de tiempo > Presentación de Pixelfed) - También funciona para medios en otros softwares
+
+Cambiado:
+- Añadida etiqueta fijada en "cualquiera" para evitar perderlo al renombrar la línea de tiempo
+
+Arreglado:
+- Arregladas notificaciones push con varias cuentas
+- Arregladas citas con etiquetas/menciones
+- Arregladas notificaciones
+- Arreglado múltiples archivos de medios
+- Algunos cierres
