@@ -1041,4 +1041,11 @@
     <string name="fetching_messages">Obtendo as mensaxes</string>
     <string name="add_description">Engadir descrición</string>
     <string name="exit">Saír</string>
+    <string name="auto">Auto</string>
+    <string name="set_custom_accent_indication">Establece a cor para cada conta</string>
+    <string name="set_custom_accent_light_value">Cor clara</string>
+    <string name="set_custom_accent_dark_value">Cor escura</string>
+    <string name="set_custom_accent_value_light_description">Cor que se aplicará no decorado claro</string>
+    <string name="set_custom_accent">Cor persoal para resaltar</string>
+    <string name="set_custom_accent_value_dark_description">Cor que se aplicará no decorado escuro</string>
 </resources>
