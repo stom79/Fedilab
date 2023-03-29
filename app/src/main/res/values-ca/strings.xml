@@ -806,4 +806,20 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="notif_report">Una usuària ha denunciat</string>
     <string name="proxy_protocol_socks">SOCKS</string>
     <string name="card_picture">"Imatge  de perfil"</string>
+    <string name="account_silenced">Compte silenciat</string>
+    <string name="report">Denúncia</string>
+    <string name="restart_the_app">Reinicia l\'app\?</string>
+    <string name="state">Estat</string>
+    <string name="account_suspended">Compte suspès</string>
+    <string name="restart">Reinicia</string>
+    <string name="account_undisabled">Compte rehabilitat</string>
+    <string name="account_disabled">Compte inhabilitat</string>
+    <string name="account_unsilenced">Compte no silenciat</string>
+    <string name="account_approved">Compte aprovat</string>
+    <string name="mark_unresolved">Marca com a no resolt</string>
+    <string name="mark_resolved">Marca com a resolt</string>
+    <string name="account_rejected">Compte rebutjat</string>
+    <string name="account_warned">Compte advertit</string>
+    <string name="account_unsuspended">Compte reactivat</string>
+    <string name="restart_the_app_theme">Heu de reiniciar l\'app per aplicar-hi els canvis.</string>
 </resources>
