@@ -223,7 +223,7 @@
     <string name="notif_update_push">Chaidh teachdaireachd a cho-roinn thu a dheasachadh</string>
     <string name="move_timeline">Gluais an loidhne-ama</string>
     <string name="hide_timeline">Falaich an loidhne-ama</string>
-    <string name="reorder_timelines">Stiùirich na loidhnichean-ama</string>
+    <string name="reorder_timelines">Stiùir loidhnichean-ama</string>
     <string name="reorder_list_deleted">Chaidh an liosta a sguabadh às gu buan</string>
     <string name="reorder_instance_removed">Chaidh an t-ionstans a lean thu a thoirt air falbh</string>
     <string name="reorder_tag_removed">Chaidh an taga prìnichte a thoirt air falbh</string>
@@ -282,7 +282,7 @@
     <string name="settings_category_notif_categories">Roinnean-seòrsa</string>
     <string name="warning_main_timeline">Cha ghabh na prìomh loidhnichean-ama ach falach!</string>
     <string name="set_sensitive_content">Cuir comharra ri meadhanan an-còmhnaidh gu bheil iad frionasach</string>
-    <string name="add_tags">Stiùirich na tagaichean</string>
+    <string name="add_tags">Stiùir tagaichean</string>
     <string name="display_name">Ainm-taisbeanaidh</string>
     <string name="label_emoji">Emoji</string>
     <string name="label_text">Teacsa</string>
@@ -291,7 +291,7 @@
     <string name="title">Tiotal</string>
     <string name="keyword_or_phrase">Facal no abairt-luirg</string>
     <string name="unblock_domain">Dì-bhac an àrainn</string>
-    <string name="manage_tags">Stiùirich na tagaichean</string>
+    <string name="manage_tags">Stiùir tagaichean</string>
     <string name="label_filter">Criathrag</string>
     <string name="category_activism">Iomairteachd</string>
     <string name="category_games">Geamaireachd</string>
@@ -747,7 +747,7 @@
     <string name="account_disabled">Chaidh an cunntas a chur à comas</string>
     <string name="restart">Ath-thòisich</string>
     <string name="notif_signed_up">Air a chlàradh</string>
-    <string name="manage_accounts">Stiùirich na cunntasan</string>
+    <string name="manage_accounts">Stiùir cunntasan</string>
     <string name="version">Tionndadh</string>
     <string name="also_followed_by">’Ga leantainn le:</string>
     <string name="Directory">Eòlaire</string>
