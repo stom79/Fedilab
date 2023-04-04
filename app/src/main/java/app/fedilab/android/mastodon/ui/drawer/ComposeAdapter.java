@@ -976,26 +976,36 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (description == null && content == null) {
             return;
         }
-        int position = statusList.size() - 1;
-        statusList.get(position).text = "";
+
+        StringBuilder contentBuilder = new StringBuilder();
+
         if (title != null && title.trim().length() > 0) {
-            statusList.get(position).text += title + " ";
+            contentBuilder.append(title);
         } else if (subject != null && subject.trim().length() > 0) {
-            statusList.get(position).text += subject + " ";
+            contentBuilder.append(subject);
         }
+
+        if(contentBuilder.length() > 0) {
+            contentBuilder.append("\n\n");
+        }
+
         if (description != null && description.trim().length() > 0) {
             if (url != null && !description.contains(url)) {
-                statusList.get(position).text += url + "\n>";
+                contentBuilder.append(url).append("\n\n");
             }
-            statusList.get(position).text += description + "\n\n";
+            contentBuilder.append("> ").append(description);
         } else if (content != null && content.trim().length() > 0) {
             if (!content.contains(url)) {
-                statusList.get(position).text += url + "\n>";
+                contentBuilder.append(url).append("\n\n");
             }
-            statusList.get(position).text += content + "\n\n";
+            contentBuilder.append("> ").append(content);
         } else {
-            statusList.get(position).text += url + "\n\n";
+            contentBuilder.append(url);
         }
+
+        int position = statusList.size() - 1;
+        statusList.get(position).text = contentBuilder.toString();
+
         if (saveFilePath != null) {
             Attachment attachment = new Attachment();
             attachment.mimeType = "image/*";
