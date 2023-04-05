@@ -891,7 +891,7 @@
     <string name="admin_reject_reports">Rejeter les rapports</string>
     <string name="mute_tag">Voulez-vous vraiment masquer le tag %1$s \?</string>
     <string name="Suggestions">Suggestions</string>
-    <string name="not_interested">Pas intéressé</string>
+    <string name="not_interested">Pas intéressé·e</string>
     <string name="set_notif_update">Notifier les mises à jour</string>
     <string name="delete_timeline">Supprimer le fil chronologique</string>
     <string name="notif_signed_up">Inscrit·e</string>
@@ -956,7 +956,7 @@
     <string name="set_remove_left_margin">Suppression de la marge de gauche dans les lignes de temps pour rendre les messages plus compacts</string>
     <string name="version">Version</string>
     <string name="post_format">Format de publication</string>
-    <string name="set_pixelfed_presentation">Présentation de Pixelfed pour les médias</string>
+    <string name="set_pixelfed_presentation">Présentation façon Pixelfed pour les médias</string>
     <string name="set_display_quote_indication">Afficher le bouton « Citer »</string>
     <string name="set_display_reaction_indication">Afficher les boutons « Réactions »</string>
     <string name="set_post_format">Format du message</string>
@@ -996,7 +996,7 @@
     <string name="toast_error_peertube_not_supported">Votre Peertube est trop ancien et ne peut pas être pris en charge par l’application.</string>
     <string name="set_mention_at_top">Mentions en haut</string>
     <string name="check_home_cache">Vérifier le cache du fil principal</string>
-    <string name="messages">%1$d messages en cache</string>
+    <string name="messages">%1$d messages en cache</string>
     <string name="last_24_h">Dernières 24 heures</string>
     <string name="fails">Échecs</string>
     <string name="new_messages">Nouveaux messages</string>
@@ -1028,4 +1028,28 @@
     <string name="set_display_compact_buttons_description">Les boutons en bas des messages n’occuperont pas toute la largeur</string>
     <string name="fetching_messages">Récupération des messages</string>
     <string name="retrieve_remote_account">Récupérer le compte distant !</string>
+    <string name="compose_shortcut_short_label1">Rédiger</string>
+    <string name="tags_deleted">L\'étiquette a été supprimée !</string>
+    <string name="tags_stored">L\'étiquette a été enregistrée !</string>
+    <string name="chart_home_cache">Enregistrements par heure du cache du fil principal</string>
+    <string name="updated_count">%d messages mis à jour</string>
+    <string name="fetch_home_every">Récupérer le fil principal tous les</string>
+    <string name="type_of_home_delay_title">Délai de récupération du fil principal</string>
+    <string name="no_cached_messages">Pas de messages du fil principal en cache !</string>
+    <string name="chart_home_cache_logs">Journal du cache du fil principal</string>
+    <string name="updated_messages">Messages mis à jour</string>
+    <string name="track_selection_title">Sélectionner les pistes</string>
+    <string name="auto">Automatique</string>
+    <string name="set_custom_accent">Couleur d\'accentuation personnalisée</string>
+    <string name="set_custom_accent_indication">Définir une couleur de thème par compte</string>
+    <string name="set_custom_accent_light_value">Couleur d\'accentuation claire</string>
+    <string name="set_custom_accent_dark_value">Couleur d\'accentuation sombre</string>
+    <string name="set_custom_accent_value_light_description">Couleur qui sera appliquée au thème clair</string>
+    <string name="set_custom_accent_value_dark_description">Couleur qui sera appliquée au thème sombre</string>
+    <string name="set_remote_profile">L\'application affichera les profils publiquement pour obtenir tous les messages. Les interactions nécessiteront une étape de plus pour fédérer les messages.</string>
+    <string name="chat_timeline_for_direct">Fil de discussion pour les messages direct</string>
+    <string name="more_media">%1$s media supplémentaire⋅s</string>
+    <string name="set_alt_text_mandatory_description_warn">S\'il manque des descriptions de média, une fenêtre sera affichée avec la possibilité d\'envoyer le message sans description de média</string>
+    <string name="add_description">Ajouter une description</string>
+    <string name="about_peertube">\"PeerTube est un outil de partage de vidéos en ligne développé par Framasoft, une association française à but non-lucratif ... PeerTube permet à ses plate-formes d\'être connectées les unes aux autres, créant un grand réseau de plate-formes qui sont autonomes et inter-connectées.\"</string>
 </resources>
