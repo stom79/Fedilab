@@ -958,11 +958,11 @@
     <string name="post_format">Format de publication</string>
     <string name="set_pixelfed_presentation">Présentation façon Pixelfed pour les médias</string>
     <string name="set_display_quote_indication">Afficher le bouton « Citer »</string>
-    <string name="set_display_reaction_indication">Afficher les boutons « Réactions »</string>
+    <string name="set_display_reaction_indication">Afficher les boutons \"Réactions\".</string>
     <string name="set_post_format">Format du message</string>
     <string name="exclude_visibility">Exclure la visibilité</string>
     <string name="set_remote_profile_title">Profils distants</string>
-    <string name="set_display_local_only">Afficher le bouton « Local uniquement »</string>
+    <string name="set_display_local_only">Afficher le bouton \"Local uniquement\".</string>
     <string name="local_only">Local uniquement</string>
     <string name="also_followed_by">Suivi·e par :</string>
     <string name="_new">Nouveau</string>
