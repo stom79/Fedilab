@@ -1053,4 +1053,6 @@
     <string name="fetching_messages">Pobieranie wiadomości</string>
     <string name="retrieve_remote_account">Odzyskaj zdalne konto!</string>
     <string name="exit">Wyjście</string>
+    <string name="set_single_topbar_title">Pojedynczy pasek</string>
+    <string name="set_alt_text_mandatory_description">Jeśli brakuje opisu z mediami, wiadomość nie zostanie wysłana</string>
 </resources>
