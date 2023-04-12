@@ -1055,4 +1055,15 @@
     <string name="exit">Wyjście</string>
     <string name="set_single_topbar_title">Pojedynczy pasek</string>
     <string name="set_alt_text_mandatory_description">Jeśli brakuje opisu z mediami, wiadomość nie zostanie wysłana</string>
+    <string name="unassign">Cofnij przypisanie</string>
+    <string name="push_distributors">Dystrybutor Push</string>
+    <string name="set_custom_accent_light_value">Jasny kolor akcentu</string>
+    <string name="set_custom_accent_indication">Zdefiniuj kolor motywu dla każdego konta</string>
+    <string name="set_custom_accent_dark_value">Ciemny kolor akcentu</string>
+    <string name="set_custom_accent_value_dark_description">Kolor, który zostanie zastosowany do ciemnego motywu</string>
+    <string name="set_custom_accent_value_light_description">Kolor, który zostanie zastosowany do jasnego motywu</string>
+    <string name="auto">Automatycznie</string>
+    <string name="set_custom_accent">Niestandardowy kolor akcentu</string>
+    <string name="notif_signed_up">Zarejestrowany</string>
+    <string name="load_media_remotely">Ładuj media zdalnie</string>
 </resources>
