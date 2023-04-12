@@ -936,7 +936,7 @@
     <string name="import_data">Importer des données</string>
     <string name="manage_accounts">Gérer les comptes</string>
     <string name="admin_domainblock_public_comment">Commentaire à propos de la limitation de ce domaine au public, si l\'annonce de la liste de limitation de domaines est activée.</string>
-    <string name="group_reblogs">Re-blog de groupe dans la timeline d’accueil</string>
+    <string name="group_reblogs">Partages de groupe dans le fil principal</string>
     <string name="add_all_users_home_muted">Ajouter tout les utilisateurs masqués à l’accueil</string>
     <string name="api_key">Clé API du traducteur</string>
     <string name="icons_extra_features_visibility_summary">Si votre instance n\'accepte pas certaines fonctionnalités supplémentaires, vous pouvez masquer ces icônes</string>
@@ -968,7 +968,7 @@
     <string name="_new">Nouveau</string>
     <string name="Directory">Annuaire</string>
     <string name="set_display_compact_buttons">Boutons d’action compacts</string>
-    <string name="set_disable_release_notes_indication">Lorsqu’une nouvelle version est publiée, vous ne serez pas alerté dans l’application.</string>
+    <string name="set_disable_release_notes_indication">Lorsqu’une nouvelle version est publiée, vous ne serez pas alerté⋅e dans l’application.</string>
     <string name="maths_format">Format mathématique</string>
     <string name="action_change_subscribed_language">Modifier les langues abonnées</string>
     <string name="filter_languages">Filtrer des langues</string>
@@ -983,7 +983,7 @@
     <string name="proxy_protocol">Protocole</string>
     <string name="proxy_protocol_http">HTTP</string>
     <string name="proxy_protocol_socks">SOCKS</string>
-    <string name="manage_tags">Gérer les tags</string>
+    <string name="manage_tags">Gérer les étiquettes</string>
     <string name="pinned">Épinglé</string>
     <string name="update_date">Date de mise à jour</string>
     <string name="otp_message">Jeton d’authentification à deux facteurs</string>
@@ -1033,7 +1033,7 @@
     <string name="tags_stored">L\'étiquette a été enregistrée !</string>
     <string name="chart_home_cache">Enregistrements par heure du cache du fil principal</string>
     <string name="updated_count">%d messages mis à jour</string>
-    <string name="fetch_home_every">Récupérer le fil principal tous les</string>
+    <string name="fetch_home_every">Récupérer le fil principal toutes les</string>
     <string name="type_of_home_delay_title">Délai de récupération du fil principal</string>
     <string name="no_cached_messages">Pas de messages du fil principal en cache !</string>
     <string name="chart_home_cache_logs">Journal du cache du fil principal</string>
@@ -1052,4 +1052,6 @@
     <string name="set_alt_text_mandatory_description_warn">S\'il manque des descriptions de média, une fenêtre sera affichée avec la possibilité d\'envoyer le message sans description de média</string>
     <string name="add_description">Ajouter une description</string>
     <string name="about_peertube">\"PeerTube est un outil de partage de vidéos en ligne développé par Framasoft, une association française à but non-lucratif ... PeerTube permet à ses plate-formes d\'être connectées les unes aux autres, créant un grand réseau de plate-formes qui sont autonomes et inter-connectées.\"</string>
+    <string name="self">Soi-même</string>
+    <string name="exit">Sortir</string>
 </resources>
