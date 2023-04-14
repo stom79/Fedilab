@@ -555,8 +555,6 @@
 \nomdirigerer til
 \n
 \n %2$s</string>
-    <string name="set_utm_parameters"></string>
-    <string name="set_utm_parameters_indication"></string>
     <string name="talking_about">%d folk snakker</string>
     <string name="twitter_accounts">Twitter-kontoer (via Nitter)</string>
     <string name="list_of_twitter_accounts">Twitter-brukernavn adskilt med mellomrom</string>
