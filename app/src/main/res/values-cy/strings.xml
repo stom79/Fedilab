@@ -17,7 +17,7 @@
     <string name="password">Cyfrinair</string>
     <string name="email">E-bost</string>
     <string name="accounts">Cyfrifon</string>
-    <string name="toots">Tŵtiau</string>
+    <string name="toots">Negeseuon</string>
     <string name="tags">Tagiau</string>
     <string name="save">Cadw</string>
     <string name="instance">Achos</string>
@@ -29,7 +29,7 @@
     <string name="camera">Camera</string>
     <string name="delete_all">Dileu i gyd</string>
     <string name="schedule">Amserlen</string>
-    <string name="text_size">Meintiau testun ac eiconau</string>
+    <string name="text_size">Meintiau testun</string>
     <string name="next">Nesaf</string>
     <string name="previous">Cynt</string>
     <string name="open_with">Agor gyda</string>
@@ -590,4 +590,5 @@
     <string name="no_distributors_found">No distributors found!</string>
     <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
     <string name="select_distributors">Select a distributor</string>
+    <string name="icon_size">Meintiau eicon</string>
 </resources>
