@@ -24,8 +24,8 @@
     <string name="instance_example">Achos: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Nawr yn gweithio gyda\'r cyfrif %1$s</string>
     <string name="add_account">Ychwanegu cyfrif</string>
-    <string name="clipboard">Mae cynnwys y tŵt wedi ei gopio i\'r clipfwrdd</string>
-    <string name="clipboard_url">The URL of the toot has been copied to the clipboard</string>
+    <string name="clipboard">Mae cynnwys y neges wedi ei gopïo i\'r clipfwrdd</string>
+    <string name="clipboard_url">Mae URL y neges wedi ei gopïo i\'r clipfwrdd</string>
     <string name="camera">Camera</string>
     <string name="delete_all">Dileu i gyd</string>
     <string name="schedule">Amserlen</string>
@@ -57,17 +57,17 @@
     <string name="follow_request">Dilyn ceisiadau</string>
     <string name="settings">Gosodiadau</string>
     <string name="send_email">Anfon e-bost</string>
-    <string name="scheduled_toots">Tŵt Newydd</string>
+    <string name="scheduled_toots">Negeseuon wedi\'u hamserlennu</string>
     <string name="disclaimer_full">Gall y wybodaeth isod roi adlewyrchiad anghyflawn o broffil y defnyddiwr.</string>
     <string name="insert_emoji">Mewnosod emoji</string>
     <string name="no_emoji">Ni gasglwyd emoji dethol gan yr ap am y tro.</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">Dim tŵt i\'w arddangos</string>
-    <string name="favourite_add">Ychwanegu\'r tŵt hwn i\'ch ffefrynnau?</string>
-    <string name="favourite_remove">Cael gwared o\'r tŵt hwn o\'ch ffefrynnau?</string>
-    <string name="reblog_add">Hybu\'r tŵt hwn?</string>
-    <string name="reblog_remove">Dad-hybu\'r tŵt hwn?</string>
+    <string name="no_status">Dim neges i\'w dangos</string>
+    <string name="favourite_add">Ychwanegu\'r neges hon at eich ffefrynnau\?</string>
+    <string name="favourite_remove">Dileu\'r neges hon o\'ch ffefrynnau\?</string>
+    <string name="reblog_add">Rhoi hwb i\'r neges hon\?</string>
+    <string name="reblog_remove">Dad-hybu\'r neges hon\?</string>
     <string name="more_action_1">Mudo</string>
     <string name="more_action_2">Blocio</string>
     <string name="more_action_3">Cwyno</string>
@@ -138,8 +138,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">Roedd gwall!</string>
     <string name="toot_delete_media">Dileu\'r cyfryngau hyn?</string>
-    <string name="toot_error_no_content">Mae eich tŵt yn wag!</string>
-    <string name="toot_sent">Mae\'r tŵt wedi\'i anfon!</string>
+    <string name="toot_error_no_content">Mae eich neges yn wag!</string>
+    <string name="toot_sent">Anfonwyd y neges!</string>
     <string name="toot_sensitive">Cynnwys sensitif?</string>
     <string name="no_draft">Dim drafftiau!</string>
     <string name="choose_accounts">Dewiswch gyfrif</string>
@@ -159,14 +159,15 @@
     <!-- Accounts -->
     <string name="no_accounts">Dim cyfrif i\'w arddangos</string>
     <string name="no_follow_request">Dim cais dilyn</string>
-    <string name="status_cnt">Tŵtiau \n %1$s</string>
+    <string name="status_cnt">Negeseuon
+\n %1$s</string>
     <string name="following_cnt">Yn dilyn \n %1$s</string>
     <string name="followers_cnt">Dilynwyr \n %1$s</string>
     <string name="reject">Gwrthod</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Dim tŵt wedi eu hamserlennu i\'w dangos!</string>
-    <string name="remove_scheduled">Dileu\'r tŵt a amserlennwyd?</string>
-    <string name="toot_scheduled">Mae\'r tŵt wedi ei amserlennu!</string>
+    <string name="no_scheduled_toots">Dim negeseuon wedi\'u hamserlennu i\'w dangos!</string>
+    <string name="remove_scheduled">Dileu\'r neges a drefnwyd\?</string>
+    <string name="toot_scheduled">Mae\'r neges wedi\'i hamserlennu!</string>
     <string name="toot_scheduled_date">Rhaid i ddyddiad yr amserlen fod yn hwyrach na\'r presennol!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Dylai\'r amser tawelu fod yn hirach na munud.</string>
@@ -192,10 +193,10 @@
     <string name="toast_unmute">Nid yw\'r cyfrif wedi ei dawelu mwyach!</string>
     <string name="toast_follow">Dilynwyd y cyfrif!</string>
     <string name="toast_unfollow">Nid yw\'r cyfrif yn cael ei ddilyn mwyach!</string>
-    <string name="toast_reblog">Mae\'r tŵt wedi\'i hybu!</string>
-    <string name="toast_unreblog">Nid yw\'r tŵt wedi\'i hybu mwyach!</string>
-    <string name="toast_favourite">Ychwanegwyd y tŵt i\'ch ffefrynnau!</string>
-    <string name="toast_unfavourite">Dilewyd y tŵt o\'ch ffefrynnau!</string>
+    <string name="toast_reblog">Cafodd y neges hwb!</string>
+    <string name="toast_unreblog">Nid yw\'r neges wedi\'i hybu mwyach!</string>
+    <string name="toast_favourite">Ychwanegwyd y neges at eich ffefrynnau!</string>
+    <string name="toast_unfavourite">Tynnwyd y neges o\'ch ffefrynnau!</string>
     <string name="toast_error">Wps! Aeth rhywbeth o\'i le!</string>
     <string name="toast_code_error">Aeth rhywbeth o\'i le! Ni wnaeth yr achos ddychwelyd cod awdurdodi!</string>
     <string name="toast_error_instance">Ymddengys nad yw parth yr achos yn un dilys!</string>
@@ -204,7 +205,7 @@
     <string name="nothing_to_do">Ni ellir gwneud dim</string>
     <string name="toast_error_translate">Aeth rhywbeth o\'i le tra\'n cyfieithu!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Nifer y tŵtiau i bob llwythiad</string>
+    <string name="set_toots_page">Nifer y negeseuon fesul llwyth</string>
     <string name="set_disable_gif">Diffodd avatars GIF</string>
     <string name="set_notif_follow">Hysbysu pryd mae rhywun yn eich dilyn chi</string>
     <string name="set_notif_follow_share">Hysbysu pan mae rhywun yn hybu\'ch statws</string>
@@ -219,14 +220,14 @@
     <string name="set_nsfw_timeout">Terfyn amser golwg deunydd anaddas i\'r gweithle (eiliadau, ystyr 0 yw ei fod wedi ei ddiffodd)</string>
     <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
     <string name="settings_title_custom_sharing">Rhannu dethol</string>
-    <string name="settings_custom_sharing_url">Eich URL… rhannu dethol</string>
+    <string name="settings_custom_sharing_url">Eich URL rhannu…</string>
     <string name="set_lock_account">Cloi\'r cyfrif</string>
     <string name="set_save_changes">Arbed newidiadau</string>
     <string name="set_fit_preview">Ffitio delweddau rhagweld</string>
     <string name="settings_time_from">Rhwng</string>
     <string name="settings_time_to">ac</string>
     <string name="embedded_browser">Defnyddio\'r porwr rhagosodedig</string>
-    <string name="custom_tabs">Tabiau wedi\'u golygu</string>
+    <string name="custom_tabs">Porwr mewn-ap</string>
     <string name="expand_cw">Ehangu cw yn awtomataidd</string>
     <string name="set_led_colour">Gosod lliw LED:</string>
     <string-array name="led_colours">
@@ -283,7 +284,7 @@
     <string name="poxy_port">Porth</string>
     <string name="poxy_login">Mewngofnodi</string>
     <string name="poxy_password">Cyfrinair</string>
-    <string name="set_share_details">Ychwanegu manylion tŵt wrth rannu</string>
+    <string name="set_share_details">Ychwanegu manylion neges wrth rannu</string>
     <string name="support_the_app_on_liberapay">Cefnogi\'r ap ar Liberapay</string>
     <string name="alert_regex">Mae yna wall yn y mynegiad rheolaidd!</string>
     <string name="toast_instance_unavailable">Ni ddarganfyddwyd unrhyw ffrydiau ar yr achos yma!</string>
@@ -304,7 +305,7 @@
     <string name="context_conversation">Sgyrsiau</string>
     <string name="filter_keyword_explanations">Ceith ei gyfateb heb ystyriaeth i faint lythrennau yn y testun neu rhybudd cynnwys mewn tŵt</string>
     <string name="context_drop">Gollwng yn lle cuddio</string>
-    <string name="context_drop_explanations">Bydd y tŵtiau a hidlwyd yn diflannu am byth, hyd yn oed os dileuir yr hidlydd wedyn</string>
+    <string name="context_drop_explanations">Bydd y negeseuon a hidlwyd yn diflannu am byth, hyd yn oed os dileuir yr hidlydd wedyn</string>
     <string name="context_whole_word_explanations">Pan y mae allweddair neu ymadrodd yn alffaniwmerig yn unig, bydd ond yn cael ei osod os yw\'n cyfateb i\'r gair cyfan</string>
     <string name="context_whole_word">Gair cyfan</string>
     <string name="filter_context">Hidlo cyd-destunnau</string>
@@ -319,7 +320,7 @@
     <string name="channel_notif_fav">Ffefryn newydd</string>
     <string name="channel_notif_mention">New Mention</string>
     <string name="channel_notif_poll">Poll Ended</string>
-    <string name="channel_notif_backup">Tŵtiau wrth gefn</string>
+    <string name="channel_notif_backup">Negeseuon wrth gefn</string>
     <string name="channel_notif_status">New posts</string>
     <string name="channel_notif_media">Lawrlwytho Cyfryngau</string>
     <string name="select_sound">Dewis tôn</string>
@@ -331,11 +332,11 @@
     <string name="peertube_instance">Achos Peertube</string>
     <string name="set_display_emoji">Defnyddio Emoji One</string>
     <string name="information">Gwybodaeth</string>
-    <string name="set_display_card">Dangos rhaglun ym mhob tŵt</string>
+    <string name="set_display_card">Dangos rhagolygon ym mhob neges</string>
     <string name="account_id_clipbloard">Mae\'r cyfrif id wedi\'i gopïo yn y clipfwrdd!</string>
     <string name="set_change_locale">Newid iaith</string>
-    <string name="truncate_long_toots">Cwtogi tŵtiau hir</string>
-    <string name="set_truncate_toot">Cwtogi tŵtiau dros \'x\' o linellau. Mae sero\'n golygu ei fod wedi ei ddiffodd.</string>
+    <string name="truncate_long_toots">Torri negeseuon hir</string>
+    <string name="set_truncate_toot">Torri negeseuon dros nifer \'x\' o linellau. Mae sero yn golygu diffodd.</string>
     <string name="display_toot_truncate">Dangos mwy</string>
     <string name="hide_toot_truncate">Dangos llai</string>
     <string name="tags_already_stored">Mae\'r tag hwn yn bodoli\'n barod!</string>
@@ -381,8 +382,8 @@
     <string name="category">Categori</string>
     <string name="description">Disgrifiad</string>
     <string name="share">Rhannu</string>
-    <string name="toots_server">Tŵtiau (Gweinydd)</string>
-    <string name="toots_client">Tŵtiau (Dyfais)</string>
+    <string name="toots_server">Negeseuon (Gweinydd)</string>
+    <string name="toots_client">Negeseuon (Dyfais)</string>
     <string name="settings_category_label_timelines">Ffrydiau</string>
     <string name="settings_category_label_interface">Rhyngwyneb</string>
     <string name="contact">Cysylltiadau</string>
@@ -404,11 +405,11 @@
     <string name="poll_finish_at">end at %s</string>
     <string name="vote">Vote</string>
     <string name="notif_poll">A poll you have voted in has ended</string>
-    <string name="notif_poll_self">A poll you tooted has ended</string>
+    <string name="notif_poll_self">Mae arolwg barn a gyhoeddwyd gennych wedi dod i ben</string>
     <string name="settings_category_notif_categories">Categories</string>
     <string name="move_timeline">Move timeline</string>
     <string name="hide_timeline">Hide timeline</string>
-    <string name="reorder_timelines">Reorder timelines</string>
+    <string name="reorder_timelines">Rheoli ffrydiau</string>
     <string name="reorder_list_deleted">List permanently deleted</string>
     <string name="reorder_instance_removed">Followed instance removed</string>
     <string name="reorder_tag_removed">Pinned tag removed</string>
@@ -428,7 +429,7 @@
     <string name="saving">Saving…</string>
     <string name="image_saved">Image Saved Successfully!</string>
     <string name="save_image_failed">Failed to save Image</string>
-    <string name="add_poll_item">Add a poll item</string>
+    <string name="add_poll_item">Ychwanegu dewis</string>
     <string name="mute_conversation">Mute conversation</string>
     <string name="unmute_conversation">Unmute conversation</string>
     <string name="toast_unmute_conversation">The conversation is no longer muted!</string>
@@ -449,7 +450,7 @@
     <string name="agreement_check">I agree to %1$s and %2$s</string>
     <string name="server_rules">server rules</string>
     <string name="tos">terms of service</string>
-    <string name="sign_up">Sign up</string>
+    <string name="sign_up">Cofrestru</string>
     <string name="validation_needed">This instance works with invitations. Your account will need to be manually approved by an administrator before being usable.</string>
     <string name="password_error">Passwords don\'t match!</string>
     <string name="email_error">The email doesn\'t seem to be valid!</string>
@@ -591,4 +592,37 @@
     <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
     <string name="select_distributors">Select a distributor</string>
     <string name="icon_size">Meintiau eicon</string>
+    <string name="channel_notif_update">Diweddariad newydd</string>
+    <string name="channel_notif_signup">Cofrestriad newydd</string>
+    <string name="channel_notif_report">Adroddiad newydd</string>
+    <string name="notif_sign_up">Mae defnyddiwr wedi cofrestru</string>
+    <string name="notif_report">Anfonodd defnyddiwr adroddiad</string>
+    <string name="replace_youtube_description">Defnyddiwch flaenwedd arall ar gyfer YouTube</string>
+    <string name="replace_youtube_host">Parth blaen YouTube</string>
+    <string name="replace_twitter_description">Defnyddiwch flaenwedd arall ar gyfer Twitter</string>
+    <string name="replace_instagram_description">Defnyddio flaen arall ar gyfer Instagram</string>
+    <string name="muted_menu_home">Defnyddwyr cartref wedi eu anwybyddu</string>
+    <string name="set_notifications_page">Nifer yr hysbysiadau fesul llwyth</string>
+    <string name="replace_youtube">YouTube</string>
+    <string name="reblog_missing_description">Mae disgrifiad cyfryngau ar goll yn y neges hon. Ydych chi wir eisiau rhoi hwb iddi\?</string>
+    <string name="toots_visibility_title">Gwelededd y negeseuon yn ddiofyn:</string>
+    <string name="toast_bookmark">Ychwanegwyd y neges at eich llyfrnodau!</string>
+    <string name="toast_unbookmark">Tynnwyd y neges o\'ch llyfrnodau!</string>
+    <string name="requested_by">Cais i\'ch dilyn</string>
+    <string name="category_music">Cerddoriaeth</string>
+    <string name="sign_ups">Cofrestriadau</string>
+    <string name="replace_twitter_host">Parth blaen Twitter</string>
+    <string name="replace_instagram">Instagram</string>
+    <string name="replace_reddit">Reddit</string>
+    <string name="replace_reddit_description">Defnyddio flaen arall ar gyfer Reddit</string>
+    <string name="replace_reddit_host">Parth blaen Reddit</string>
+    <string name="_new">Newydd</string>
+    <string name="replace_twitter">Twitter</string>
+    <string name="replace_instagram_host">Parth blaen Instagram</string>
+    <string name="data_export_settings">Allforiwyd y gosodiadau</string>
+    <string name="show_privates">Dangos negeseuon uniongyrchol</string>
+    <string name="proxy_protocol">Protocol</string>
+    <string name="set_accounts_page">Nifer y cyfrifon fesul llwyth</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
 </resources>
