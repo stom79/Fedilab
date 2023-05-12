@@ -143,7 +143,8 @@
     <!-- Accounts -->
     <string name="no_accounts">No account to display</string>
     <string name="no_follow_request">No follow request</string>
-    <string name="status_cnt">Toots \n %1$s</string>
+    <string name="status_cnt">بوق‌ها
+\n %1$s</string>
     <string name="following_cnt">Following \n %1$s</string>
     <string name="followers_cnt">Followers \n %1$s</string>
     <string name="reject">Reject</string>
@@ -572,4 +573,5 @@
     <string name="select_distributors">Select a distributor</string>
     <string name="icon_size">اندازه نماد</string>
     <string name="show_privates">نمایش بوق‌های مستقیم</string>
+    <string name="muted_menu_home">کاربران بی‌صدا شده خانه</string>
 </resources>
