@@ -51,10 +51,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -290,11 +288,7 @@ public class FragmentLoginMain extends Fragment {
             e.printStackTrace();
         }
 
-        try {
-            currentInstanceLogin = URLEncoder.encode(host, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            currentInstanceLogin = host;
-        }
+        currentInstanceLogin = host;
         String scopes = requestedAdmin ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
         AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
         appsVM.createApp(currentInstanceLogin, getString(R.string.app_name),
