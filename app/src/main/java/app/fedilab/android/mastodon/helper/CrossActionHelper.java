@@ -508,7 +508,7 @@ public class CrossActionHelper {
                             }
                         }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

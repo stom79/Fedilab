@@ -133,8 +133,9 @@ public class FragmentMastodonAccount extends Fragment {
                             if (results != null && results.accounts.size() > 0) {
                                 remoteAccountId = results.accounts.get(0).id;
                                 fetchAccount(firstLoad, remoteAccountId);
-                            } else {
-                                Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                            } else { //FallBack the app failed to find remote accounts
+                                checkRemotely = false;
+                                fetchAccount(firstLoad, accountTimeline != null ? accountTimeline.id : null);
                             }
                         });
             } else {
