@@ -34,11 +34,7 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
@@ -67,7 +63,7 @@ public class NotificationsHelper {
 
     public static HashMap<String, String> since_ids = new HashMap<>();
 
-    public static void task(Context context, String slug) throws DBException {
+    public static synchronized void task(Context context, String slug) throws DBException {
 
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
@@ -77,10 +73,13 @@ public class NotificationsHelper {
             return;
         }
         String last_notifid;
+        last_notifid = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + slug, null);
         if (since_ids.containsKey(slug)) {
-            last_notifid = since_ids.get(slug);
+            String last_notifid_reccorded = since_ids.get(slug);
+            if (last_notifid_reccorded != null && last_notifid_reccorded.compareToIgnoreCase(last_notifid) == 0) {
+                return;
+            }
         } else {
-            last_notifid = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + slug, null);
             since_ids.put(slug, last_notifid);
         }
 
@@ -383,27 +382,6 @@ public class NotificationsHelper {
                 Runnable myRunnable = () -> Glide.with(context)
                         .asBitmap()
                         .load(finalNotificationUrl != null ? finalNotificationUrl : R.drawable.fedilab_logo_bubbles)
-                        .listener(new RequestListener<Bitmap>() {
-
-                            @Override
-                            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
-                                String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
-                                if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
-                                    SharedPreferences.Editor editor = prefs.edit();
-                                    since_ids.put(account.user_id + "@" + account.instance, lastNotif);
-                                    editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
-                                    editor.apply();
-                                    Helper.notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
-                                            getMainLogo(context)), finalNotifType, finalTitle, finalMessage);
-                                }
-                                return false;
-                            }
-                        })
                         .into(new CustomTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
@@ -411,9 +389,23 @@ public class NotificationsHelper {
                                 if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
-                                    editor.apply();
+                                    editor.commit();
                                     since_ids.put(account.user_id + "@" + account.instance, lastNotif);
                                     Helper.notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
+                                }
+                            }
+
+                            @Override
+                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                super.onLoadFailed(errorDrawable);
+                                String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
+                                if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    since_ids.put(account.user_id + "@" + account.instance, lastNotif);
+                                    editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
+                                    editor.commit();
+                                    Helper.notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
+                                            getMainLogo(context)), finalNotifType, finalTitle, finalMessage);
                                 }
                             }
 
