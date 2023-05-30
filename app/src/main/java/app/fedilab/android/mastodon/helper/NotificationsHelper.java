@@ -386,27 +386,27 @@ public class NotificationsHelper {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                                 String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
-                                if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
+                               // if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
                                     editor.commit();
                                     since_ids.put(account.user_id + "@" + account.instance, lastNotif);
                                     Helper.notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
-                                }
+                                //  }
                             }
 
                             @Override
                             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                 super.onLoadFailed(errorDrawable);
                                 String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
-                                if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
+                                //      if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
                                     SharedPreferences.Editor editor = prefs.edit();
                                     since_ids.put(account.user_id + "@" + account.instance, lastNotif);
                                     editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
                                     editor.commit();
                                     Helper.notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
                                             getMainLogo(context)), finalNotifType, finalTitle, finalMessage);
-                                }
+                                //    }
                             }
 
                             @Override

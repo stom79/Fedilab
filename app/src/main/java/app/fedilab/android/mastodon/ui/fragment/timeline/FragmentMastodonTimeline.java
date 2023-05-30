@@ -87,6 +87,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
+
+    private boolean retry_for_home_done;
+
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -376,6 +379,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                              ViewGroup container, Bundle savedInstanceState) {
         timelineType = Timeline.TimeLineEnum.HOME;
         canBeFederated = true;
+        retry_for_home_done = false;
         if (getArguments() != null) {
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
             list_id = getArguments().getString(Helper.ARG_LIST_ID, null);
@@ -794,6 +798,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
         if (useCache && direction != DIRECTION.SCROLL_TOP && direction != DIRECTION.FETCH_NEW) {
             getCachedStatus(direction, fetchingMissing, timelineParams, fetchStatus);
+
         } else {
             getLiveStatus(direction, fetchingMissing, timelineParams, true, fetchStatus);
         }
@@ -855,7 +860,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     private void getCachedStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams, Status fetchStatus) {
-
         if (direction == null) {
             timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesCached -> {
@@ -913,7 +917,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statuses -> {
                         initialStatuses = statuses;
-                        initializeStatusesCommonView(statuses);
+                        if (!retry_for_home_done && timelineType == Timeline.TimeLineEnum.HOME && (statuses == null || statuses.statuses.size() == 0) && timelineParams.maxId != null) {
+                            retry_for_home_done = true;
+                            timelineParams.maxId = null;
+                            max_id = null;
+                            getLiveStatus(null, fetchingMissing, timelineParams, true, fetchStatus);
+                        } else {
+                            initializeStatusesCommonView(statuses);
+                        }
                     });
         } else if (direction == DIRECTION.BOTTOM) {
             timelinesVM.getTimeline(timelineStatuses, timelineParams)
