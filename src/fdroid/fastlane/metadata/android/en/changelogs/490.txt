@@ -1,0 +1,5 @@
+Fixed:
+- Too many requests
+- Blank Home page
+- Crashes when visiting profiles
+- Some audio files cannot be uploaded

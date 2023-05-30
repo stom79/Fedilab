@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.22.0",
+    "code": "490",
+    "note": "Fixed:\n- Too many requests\n- Blank Home page\n- Crashes when visiting profiles\n- Some audio files cannot be uploaded"
+  },
+  {
     "version": "3.21.2",
     "code": "489",
     "note": "Added:\n- Android 12+ : Customize accent colors for light/dark theme and per account (Settings > Theming > Custom accent color)\n"

@@ -431,7 +431,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (instanceInfo != null && instanceInfo.getMimeTypeAudio() != null && instanceInfo.getMimeTypeAudio().size() > 0) {
                 mimetypes = instanceInfo.getMimeTypeAudio().toArray(new String[0]);
             } else {
-                mimetypes = new String[]{"audio/mpeg", "audio/opus", "audio/flac", "audio/wav", "audio/ogg"};
+                mimetypes = new String[]{"audio/*"};
             }
         } else if (type == ComposeActivity.mediaType.ALL) {
             if (instanceInfo != null && instanceInfo.getMimeTypeOther() != null && instanceInfo.getMimeTypeOther().size() > 0) {
