@@ -917,7 +917,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statuses -> {
                         initialStatuses = statuses;
-                        if (!retry_for_home_done && timelineType == Timeline.TimeLineEnum.HOME && (statuses == null || statuses.statuses.size() == 0) && timelineParams.maxId != null) {
+                        if (!retry_for_home_done && timelineType == Timeline.TimeLineEnum.HOME && (statuses == null || statuses.statuses == null || statuses.statuses.size() == 0) && timelineParams.maxId != null) {
                             retry_for_home_done = true;
                             timelineParams.maxId = null;
                             max_id = null;

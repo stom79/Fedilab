@@ -24,7 +24,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -50,12 +52,6 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
         registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
-
-
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                     getString(R.string.notification_channel_name),
@@ -83,8 +79,13 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
 
             startForeground(1, notification);
         }
-        Thread thread = new Thread() {
 
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Thread thread = new Thread() {
             @Override
             public void run() {
                 EmojiHelper.fillMapEmoji(getApplicationContext());
@@ -96,7 +97,9 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
                 peertubeInformation.setPlaylistPrivacies(new LinkedHashMap<>());
                 peertubeInformation.setTranslations(new LinkedHashMap<>());
                 peertubeInformation = new RetrofitPeertubeAPI(RetrieveInfoService.this).getPeertubeInformation();
-                stopForeground(true);
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> stopForeground(true);
+                mainHandler.post(myRunnable);
             }
         };
         thread.start();
