@@ -152,11 +152,15 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (account.relationShip.id.compareToIgnoreCase(BaseMainActivity.currentUserID) == 0) {
                 doAction = ProfileActivity.action.NOTHING;
                 accountViewHolder.binding.followAction.setVisibility(View.GONE);
-                accountViewHolder.binding.muteGroup.setVisibility(View.GONE);
+                accountViewHolder.binding.muteNotification.setVisibility(View.GONE);
+                accountViewHolder.binding.muteTimed.setVisibility(View.GONE);
+                accountViewHolder.binding.mute.setVisibility(View.GONE);
                 accountViewHolder.binding.block.setVisibility(View.GONE);
             } else {
                 accountViewHolder.binding.followAction.setVisibility(View.VISIBLE);
-                accountViewHolder.binding.muteGroup.setVisibility(View.VISIBLE);
+                accountViewHolder.binding.muteNotification.setVisibility(View.VISIBLE);
+                accountViewHolder.binding.muteTimed.setVisibility(View.VISIBLE);
+                accountViewHolder.binding.mute.setVisibility(View.VISIBLE);
                 accountViewHolder.binding.block.setVisibility(View.VISIBLE);
             }
 
