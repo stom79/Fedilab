@@ -95,8 +95,9 @@ public class NotificationsHelper {
         boolean notif_report = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_REPORT), true);
 
         //User disagree with all notifications
-        if (!notif_follow && !notif_fav && !notif_mention && !notif_share && !notif_poll && !notif_status && !notif_updates && !notif_signup && !notif_report)
+        if (!notif_follow && !notif_fav && !notif_mention && !notif_share && !notif_poll && !notif_status && !notif_updates && !notif_signup && !notif_report) {
             return; //Nothing is done
+        }
 
         MastodonNotificationsService mastodonNotificationsService = init(context, slugArray[1]);
         String finalLast_notifid = last_notifid;
@@ -123,10 +124,10 @@ public class NotificationsHelper {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> onRetrieveNotifications(context, notifications, accountDb);
+                mainHandler.post(myRunnable);
             }
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            Runnable myRunnable = () -> onRetrieveNotifications(context, notifications, accountDb);
-            mainHandler.post(myRunnable);
         }).start();
 
     }
