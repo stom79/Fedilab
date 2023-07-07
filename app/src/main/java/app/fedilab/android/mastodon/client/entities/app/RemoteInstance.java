@@ -48,6 +48,8 @@ public class RemoteInstance implements Serializable {
         NITTER("NITTER"),
         @SerializedName("MISSKEY")
         MISSKEY("MISSKEY"),
+        @SerializedName("LEMMY")
+        LEMMY("LEMMY"),
         @SerializedName("GNU")
         GNU("GNU");
 

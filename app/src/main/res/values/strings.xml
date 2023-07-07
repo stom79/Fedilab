@@ -389,6 +389,7 @@
     <string name="some_tags">Add some words to filter (space-separated)</string>
     <string name="change_tag_column">Change column name</string>
     <string name="misskey_instance">Misskey instance</string>
+    <string name="lemmy_instance">Lemmy instance</string>
     <string name="trending">Trending</string>
     <string name="local">Local</string>
     <string name="category">Category</string>

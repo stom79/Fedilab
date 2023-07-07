@@ -44,6 +44,12 @@
             android:text="@string/misskey_instance" />
 
         <RadioButton
+            android:id="@+id/lemmy_instance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lemmy_instance" />
+
+        <RadioButton
             android:id="@+id/gnu_instance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -203,6 +203,9 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.misskey_instance) {
                     url = "https://" + instanceName + "/api/notes/local-timeline";
                     getCall = false;
+                } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.lemmy_instance) {
+                    url = "https://" + instanceName + "/api/v3/post/list";
+                    getCall = false;
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.gnu_instance) {
                     url = "https://" + instanceName + "/api/statuses/public_timeline.json";
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.twitter_accounts) {
@@ -248,6 +251,8 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                                         instanceType = RemoteInstance.InstanceType.PIXELFED;
                                     } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.misskey_instance) {
                                         instanceType = RemoteInstance.InstanceType.MISSKEY;
+                                    } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.lemmy_instance) {
+                                        instanceType = RemoteInstance.InstanceType.LEMMY;
                                     } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.gnu_instance) {
                                         instanceType = RemoteInstance.InstanceType.GNU;
                                     } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.twitter_accounts) {

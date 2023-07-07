@@ -94,6 +94,9 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     case MISSKEY:
                         holder.binding.icon.setImageResource(R.drawable.misskey);
                         break;
+                    case LEMMY:
+                        holder.binding.icon.setImageResource(R.drawable.lemmy);
+                        break;
                     case GNU:
                         holder.binding.icon.setImageResource(R.drawable.ic_gnu_social);
                         break;

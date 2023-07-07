@@ -844,6 +844,8 @@ public class ProfileActivity extends BaseActivity {
                         instanceType = RemoteInstance.InstanceType.PIXELFED;
                     } else if (nodeInfo.software.name.compareToIgnoreCase("misskey") == 0) {
                         instanceType = RemoteInstance.InstanceType.MISSKEY;
+                    } else if (nodeInfo.software.name.compareToIgnoreCase("lemmy") == 0) {
+                        instanceType = RemoteInstance.InstanceType.LEMMY;
                     } else if (nodeInfo.software.name.compareToIgnoreCase("gnu") == 0) {
                         instanceType = RemoteInstance.InstanceType.GNU;
                     } else {
