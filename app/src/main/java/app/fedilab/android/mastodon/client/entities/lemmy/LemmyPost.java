@@ -17,7 +17,13 @@ package app.fedilab.android.mastodon.client.entities.lemmy;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.api.Attachment;
+import app.fedilab.android.mastodon.client.entities.api.Status;
 
 public class LemmyPost implements Serializable {
 
@@ -42,6 +48,44 @@ public class LemmyPost implements Serializable {
     @SerializedName("unread_comments")
     public int unread_comments;
 
+
+    public static Status convert(LemmyPost lemmyPost, String instance) {
+        Status status = new Status();
+        status.id = lemmyPost.comment == null ? lemmyPost.post.id : lemmyPost.comment.id;
+        if (lemmyPost.comment != null) {
+            status.in_reply_to_id = lemmyPost.comment.post_id;
+        }
+        status.content = lemmyPost.comment == null ? lemmyPost.post.name : lemmyPost.comment.content;
+        status.visibility = "public";
+        status.created_at = lemmyPost.comment == null ? lemmyPost.post.published : lemmyPost.comment.published;
+        status.url = lemmyPost.comment == null ? lemmyPost.post.ap_id : lemmyPost.comment.ap_id;
+        status.uri = lemmyPost.comment == null ? lemmyPost.post.ap_id : lemmyPost.comment.ap_id;
+
+
+        Account account = new Account();
+        account.id = lemmyPost.creator.id;
+        account.acct = lemmyPost.creator.name + "@" + instance;
+        account.username = "@" + lemmyPost.creator.name;
+        account.display_name = lemmyPost.creator.name;
+        account.avatar = lemmyPost.creator.avatar;
+        account.avatar_static = lemmyPost.creator.avatar;
+        status.account = account;
+
+        if (lemmyPost.post.thumbnail_url != null) {
+            List<Attachment> attachmentList = new ArrayList<>();
+            Attachment attachment = new Attachment();
+            attachment.type = "image";
+            attachment.url = lemmyPost.post.thumbnail_url;
+            attachment.preview_url = lemmyPost.post.thumbnail_url;
+            if (lemmyPost.post.nsfw) {
+                status.sensitive = true;
+            }
+            attachmentList.add(attachment);
+            status.media_attachments = attachmentList;
+        }
+        return status;
+    }
+
     public static class Post implements Serializable {
         @SerializedName("id")
         public String id;
@@ -65,6 +109,9 @@ public class LemmyPost implements Serializable {
         public boolean deleted;
         @SerializedName("nsfw")
         public boolean nsfw;
+        @SerializedName("thumbnail_url")
+        public String thumbnail_url;
+
         @SerializedName("ap_id")
         public String ap_id;
         @SerializedName("local")
@@ -90,6 +137,8 @@ public class LemmyPost implements Serializable {
         public boolean removed;
         @SerializedName("published")
         public Date published;
+        @SerializedName("thumbnail_url")
+        public String thumbnail_url;
         @SerializedName("deleted")
         public boolean deleted;
         @SerializedName("ap_id")
