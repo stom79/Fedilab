@@ -232,13 +232,13 @@ public interface MastodonTimelinesService {
 
 
     @GET("api/v3/post/list")
-    Call<List<LemmyPost>> getLemmyMain(@Query("limit") Integer limit,
-                                       @Query("page") String page);
+    Call<LemmyPost.LemmyPosts> getLemmyMain(@Query("limit") Integer limit,
+                                            @Query("page") String page);
 
     @GET("api/v3/comment/list")
-    Call<List<LemmyPost>> getLemmyThread(@Query("post_id") String post_id,
-                                         @Query("limit") Integer limit,
-                                         @Query("page") String page);
+    Call<LemmyPost.LemmyComments> getLemmyThread(@Query("post_id") String post_id,
+                                                 @Query("limit") Integer limit,
+                                                 @Query("page") String page);
 
     //Public timelines for Misskey
     @FormUrlEncoded

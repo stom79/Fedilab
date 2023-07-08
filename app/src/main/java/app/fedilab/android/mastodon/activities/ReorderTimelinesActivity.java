@@ -205,7 +205,6 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                     getCall = false;
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.lemmy_instance) {
                     url = "https://" + instanceName + "/api/v3/post/list";
-                    getCall = false;
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.gnu_instance) {
                     url = "https://" + instanceName + "/api/statuses/public_timeline.json";
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.twitter_accounts) {

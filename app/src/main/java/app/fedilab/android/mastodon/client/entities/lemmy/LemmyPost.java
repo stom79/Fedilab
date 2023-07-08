@@ -48,6 +48,15 @@ public class LemmyPost implements Serializable {
     @SerializedName("unread_comments")
     public int unread_comments;
 
+    public static class LemmyPosts {
+        @SerializedName("posts")
+        public List<LemmyPost> posts;
+    }
+
+    public static class LemmyComments {
+        @SerializedName("comments")
+        public List<LemmyPost> comments;
+    }
 
     public static Status convert(LemmyPost lemmyPost, String instance) {
         Status status = new Status();

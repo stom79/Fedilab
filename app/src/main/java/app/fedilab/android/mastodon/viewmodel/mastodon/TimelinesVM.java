@@ -351,30 +351,64 @@ public class TimelinesVM extends AndroidViewModel {
         statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
 
-            Call<List<LemmyPost>> publicTlCall;
+            Call<LemmyPost.LemmyPosts> lemmyPostsCall = null;
+            Call<LemmyPost.LemmyComments> lemmyCommentsCall = null;
             if (post_id == null) {
-                publicTlCall = mastodonTimelinesService.getLemmyMain(limit, page);
+                lemmyPostsCall = mastodonTimelinesService.getLemmyMain(limit, page);
             } else {
-                publicTlCall = mastodonTimelinesService.getLemmyThread(post_id, limit, page);
+                lemmyCommentsCall = mastodonTimelinesService.getLemmyThread(post_id, limit, page);
             }
             Statuses statuses = new Statuses();
-            if (publicTlCall != null) {
+            if (lemmyPostsCall != null) {
                 try {
-                    Response<List<LemmyPost>> publicTlResponse = publicTlCall.execute();
+                    Response<LemmyPost.LemmyPosts> publicTlResponse = lemmyPostsCall.execute();
                     if (publicTlResponse.isSuccessful()) {
-                        List<LemmyPost> lemmyPostList = publicTlResponse.body();
+                        LemmyPost.LemmyPosts lemmyPosts = publicTlResponse.body();
                         List<Status> statusList = new ArrayList<>();
-                        if (lemmyPostList != null) {
-                            for (LemmyPost lemmyPost : lemmyPostList) {
+                        if (lemmyPosts != null) {
+                            for (LemmyPost lemmyPost : lemmyPosts.posts) {
                                 Status status = LemmyPost.convert(lemmyPost, instance);
                                 statusList.add(status);
                             }
                         }
                         statuses.statuses = TimelineHelper.filterStatus(getApplication(), statusList, Timeline.TimeLineEnum.PUBLIC);
                         statuses.pagination = new Pagination();
-                        if (statusList.size() > 0) {
-                            statuses.pagination.min_id = statusList.get(0).id;
-                            statuses.pagination.max_id = statusList.get(statusList.size() - 1).id;
+                        if (page == null) {
+                            statuses.pagination.min_id = "0";
+                            statuses.pagination.max_id = "1";
+                        } else {
+                            int pageInt = Integer.parseInt(page);
+                            statuses.pagination.min_id = page;
+                            statuses.pagination.max_id = String.valueOf((pageInt + 1));
+
+                        }
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (lemmyCommentsCall != null) {
+                try {
+                    Response<LemmyPost.LemmyComments> publicTlResponse = lemmyCommentsCall.execute();
+                    if (publicTlResponse.isSuccessful()) {
+                        LemmyPost.LemmyComments lemmyComments = publicTlResponse.body();
+                        List<Status> statusList = new ArrayList<>();
+                        if (lemmyComments != null) {
+                            for (LemmyPost lemmyPost : lemmyComments.comments) {
+                                Status status = LemmyPost.convert(lemmyPost, instance);
+                                statusList.add(status);
+                            }
+                        }
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication(), statusList, Timeline.TimeLineEnum.PUBLIC);
+                        statuses.pagination = new Pagination();
+                        if (page == null) {
+                            statuses.pagination.min_id = "0";
+                            statuses.pagination.max_id = "1";
+                        } else {
+                            int pageInt = Integer.parseInt(page);
+                            statuses.pagination.min_id = page;
+                            statuses.pagination.max_id = String.valueOf((pageInt + 1));
                         }
                     }
 
