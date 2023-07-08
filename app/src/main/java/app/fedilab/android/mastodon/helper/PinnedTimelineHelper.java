@@ -370,7 +370,9 @@ public class PinnedTimelineHelper {
                                 case MASTODON:
                                     tabCustomViewBinding.icon.setImageResource(R.drawable.mastodon_icon_item);
                                     break;
-
+                                case LEMMY:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.lemmy);
+                                    break;
                                 case MISSKEY:
                                     tabCustomViewBinding.icon.setImageResource(R.drawable.misskey);
                                     break;
@@ -460,6 +462,9 @@ public class PinnedTimelineHelper {
                                 break;
                             case MISSKEY:
                                 item.setIcon(R.drawable.misskey);
+                                break;
+                            case LEMMY:
+                                item.setIcon(R.drawable.lemmy);
                                 break;
                             case PIXELFED:
                                 item.setIcon(R.drawable.pixelfed);

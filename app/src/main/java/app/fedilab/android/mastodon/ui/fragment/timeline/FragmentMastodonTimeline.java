@@ -89,6 +89,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private List<Status> timelineStatuses;
 
     private boolean retry_for_home_done;
+    private String lemmy_post_id;
 
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
@@ -382,6 +383,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         retry_for_home_done = false;
         if (getArguments() != null) {
             timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
+            lemmy_post_id = getArguments().getString(Helper.ARG_LEMMY_POST_ID, null);
             list_id = getArguments().getString(Helper.ARG_LIST_ID, null);
             search = getArguments().getString(Helper.ARG_SEARCH_KEYWORD, null);
             searchCache = getArguments().getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
@@ -625,6 +627,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         statusAdapter = new StatusAdapter(timelineStatuses, timelineType, minified, canBeFederated, checkRemotely);
         statusAdapter.fetchMoreCallBack = this;
+        statusAdapter.pinnedTimeline = pinnedTimeline;
+        //------Specifications for Lemmy timelines
+        if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
+            statusAdapter.type = pinnedTimeline.remoteInstance.type;
+        }
+        statusAdapter.lemmy_post_id = lemmy_post_id;
+        //---------------
+
         if (statusReport != null) {
             scrollToTop();
         }
@@ -1019,7 +1029,27 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                 }
                             });
                 }
-            } //PEERTUBE TIMELINES
+            } //LEMMY TIMELINES
+            else if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.LEMMY) {
+                if (direction == null) {
+                    timelinesVM.getLemmy(remoteInstance, lemmy_post_id, null, MastodonHelper.statusesPerCall(requireActivity()))
+                            .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                } else if (direction == DIRECTION.BOTTOM) {
+                    timelinesVM.getLemmy(remoteInstance, lemmy_post_id, max_id, MastodonHelper.statusesPerCall(requireActivity()))
+                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                } else if (direction == DIRECTION.TOP) {
+                    flagLoading = false;
+                } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
+                    timelinesVM.getLemmy(remoteInstance, lemmy_post_id, null, MastodonHelper.statusesPerCall(requireActivity()))
+                            .observe(getViewLifecycleOwner(), statusesRefresh -> {
+                                if (statusAdapter != null) {
+                                    dealWithPagination(statusesRefresh, direction, true, true, fetchStatus);
+                                } else {
+                                    initializeStatusesCommonView(statusesRefresh);
+                                }
+                            });
+                }
+            }//PEERTUBE TIMELINES
             else if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.PEERTUBE) {
                 if (direction == null) {
                     timelinesVM.getPeertube(remoteInstance, null, MastodonHelper.statusesPerCall(requireActivity()))

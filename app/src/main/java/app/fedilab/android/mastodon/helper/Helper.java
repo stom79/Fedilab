@@ -259,6 +259,8 @@ public class Helper {
     public static final String ARG_STATUS_ID = "ARG_STATUS_ID";
     public static final String ARG_WORK_ID = "ARG_WORK_ID";
     public static final String ARG_LIST_ID = "ARG_LIST_ID";
+    public static final String ARG_LEMMY_POST_ID = "ARG_LEMMY_POST_ID";
+
     public static final String ARG_SEARCH_KEYWORD = "ARG_SEARCH_KEYWORD";
     public static final String ARG_DIRECTORY_ORDER = "ARG_DIRECTORY_ORDER";
     public static final String ARG_DIRECTORY_LOCAL = "ARG_DIRECTORY_LOCAL";

@@ -22,6 +22,7 @@ import app.fedilab.android.mastodon.client.entities.api.Marker;
 import app.fedilab.android.mastodon.client.entities.api.MastodonList;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
+import app.fedilab.android.mastodon.client.entities.lemmy.LemmyPost;
 import app.fedilab.android.mastodon.client.entities.misskey.MisskeyNote;
 import app.fedilab.android.mastodon.client.entities.nitter.Nitter;
 import app.fedilab.android.mastodon.client.entities.peertube.PeertubeVideo;
@@ -229,6 +230,15 @@ public interface MastodonTimelinesService {
     @POST("api/notes")
     Call<List<MisskeyNote>> getMisskey(@Body MisskeyNote.MisskeyParams params);
 
+
+    @GET("api/v3/post/list")
+    Call<List<LemmyPost>> getLemmyMain(@Query("limit") Integer limit,
+                                       @Query("page") String page);
+
+    @GET("api/v3/comment/list")
+    Call<List<LemmyPost>> getLemmyThread(@Query("post_id") String post_id,
+                                         @Query("limit") Integer limit,
+                                         @Query("page") String page);
 
     //Public timelines for Misskey
     @FormUrlEncoded

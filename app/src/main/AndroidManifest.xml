@@ -266,6 +266,10 @@
             android:label="@string/action_about"
             android:theme="@style/AppThemeBar" />
         <activity
+            android:name=".mastodon.activities.TimelineActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppThemeBar" />
+        <activity
             android:name=".mastodon.activities.CheckHomeCacheActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/home_cache"

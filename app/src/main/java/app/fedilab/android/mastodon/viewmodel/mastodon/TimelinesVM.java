@@ -52,6 +52,7 @@ import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
+import app.fedilab.android.mastodon.client.entities.lemmy.LemmyPost;
 import app.fedilab.android.mastodon.client.entities.misskey.MisskeyNote;
 import app.fedilab.android.mastodon.client.entities.nitter.Nitter;
 import app.fedilab.android.mastodon.client.entities.peertube.PeertubeVideo;
@@ -334,6 +335,60 @@ public class TimelinesVM extends AndroidViewModel {
         }).start();
         return statusesMutableLiveData;
     }
+
+    /**
+     * Public timeline for Lemmy
+     *
+     * @param post_id Return comments for post_id, if null it's for main threads
+     * @param page    Return results from this page
+     * @param limit   Maximum number of results to return. Defaults to 20.
+     * @return {@link LiveData} containing a {@link Statuses}
+     */
+    public LiveData<Statuses> getLemmy(@NonNull String instance, String post_id,
+                                       String page,
+                                       Integer limit) {
+        MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance);
+        statusesMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+
+            Call<List<LemmyPost>> publicTlCall;
+            if (post_id == null) {
+                publicTlCall = mastodonTimelinesService.getLemmyMain(limit, page);
+            } else {
+                publicTlCall = mastodonTimelinesService.getLemmyThread(post_id, limit, page);
+            }
+            Statuses statuses = new Statuses();
+            if (publicTlCall != null) {
+                try {
+                    Response<List<LemmyPost>> publicTlResponse = publicTlCall.execute();
+                    if (publicTlResponse.isSuccessful()) {
+                        List<LemmyPost> lemmyPostList = publicTlResponse.body();
+                        List<Status> statusList = new ArrayList<>();
+                        if (lemmyPostList != null) {
+                            for (LemmyPost lemmyPost : lemmyPostList) {
+                                Status status = LemmyPost.convert(lemmyPost, instance);
+                                statusList.add(status);
+                            }
+                        }
+                        statuses.statuses = TimelineHelper.filterStatus(getApplication(), statusList, Timeline.TimeLineEnum.PUBLIC);
+                        statuses.pagination = new Pagination();
+                        if (statusList.size() > 0) {
+                            statuses.pagination.min_id = statusList.get(0).id;
+                            statuses.pagination.max_id = statusList.get(statusList.size() - 1).id;
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
+            mainHandler.post(myRunnable);
+        }).start();
+        return statusesMutableLiveData;
+    }
+
 
     /**
      * Public timeline for Peertube

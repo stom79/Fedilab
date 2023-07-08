@@ -139,6 +139,7 @@ import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.activities.ReportActivity;
 import app.fedilab.android.mastodon.activities.StatusHistoryActivity;
 import app.fedilab.android.mastodon.activities.StatusInfoActivity;
+import app.fedilab.android.mastodon.activities.TimelineActivity;
 import app.fedilab.android.mastodon.activities.admin.AdminAccountActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Poll;
@@ -146,6 +147,8 @@ import app.fedilab.android.mastodon.client.entities.api.Reaction;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
+import app.fedilab.android.mastodon.client.entities.app.RemoteInstance;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
@@ -187,6 +190,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final List<Status> statusList;
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
+    public RemoteInstance.InstanceType type;
+    public String lemmy_post_id;
+    public PinnedTimeline pinnedTimeline;
     private final boolean canBeFederated;
     private final boolean checkRemotely;
     public FetchMoreCallBack fetchMoreCallBack;
@@ -1989,7 +1995,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ((ContextActivity) context).setCurrentFragment((FragmentMastodonContext) fragment);
                 } else {
                     if (remote) {
-                        if (!(context instanceof ContextActivity)) { //We are not already checking a remote conversation
+                        //Lemmy main post that should open Lemmy threads
+                        if (adapter instanceof StatusAdapter && ((StatusAdapter) adapter).type == RemoteInstance.InstanceType.LEMMY && ((StatusAdapter) adapter).lemmy_post_id == null) {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, ((StatusAdapter) adapter).pinnedTimeline);
+                            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
+                            bundle.putSerializable(Helper.ARG_LEMMY_POST_ID, ((StatusAdapter) adapter).lemmy_post_id);
+                            Intent intent = new Intent(context, TimelineActivity.class);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+
+                        } //Classic other cases for remote instances that will search the remote context
+                        else if (!(context instanceof ContextActivity)) { //We are not already checking a remote conversation
                             Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                             searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
                                     .observe((LifecycleOwner) context, results -> {
