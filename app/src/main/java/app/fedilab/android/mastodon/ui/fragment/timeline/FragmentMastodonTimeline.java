@@ -632,7 +632,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
             statusAdapter.type = pinnedTimeline.remoteInstance.type;
         }
-        statusAdapter.lemmy_post_id = lemmy_post_id;
         //---------------
 
         if (statusReport != null) {

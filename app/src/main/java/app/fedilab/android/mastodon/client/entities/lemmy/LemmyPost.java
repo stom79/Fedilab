@@ -80,12 +80,23 @@ public class LemmyPost implements Serializable {
         account.avatar_static = lemmyPost.creator.avatar;
         status.account = account;
 
-        if (lemmyPost.post.thumbnail_url != null) {
+        if (lemmyPost.comment == null && lemmyPost.post.thumbnail_url != null) {
             List<Attachment> attachmentList = new ArrayList<>();
             Attachment attachment = new Attachment();
             attachment.type = "image";
             attachment.url = lemmyPost.post.thumbnail_url;
             attachment.preview_url = lemmyPost.post.thumbnail_url;
+            if (lemmyPost.post.nsfw) {
+                status.sensitive = true;
+            }
+            attachmentList.add(attachment);
+            status.media_attachments = attachmentList;
+        } else if (lemmyPost.comment != null && lemmyPost.comment.thumbnail_url != null) {
+            List<Attachment> attachmentList = new ArrayList<>();
+            Attachment attachment = new Attachment();
+            attachment.type = "image";
+            attachment.url = lemmyPost.comment.thumbnail_url;
+            attachment.preview_url = lemmyPost.comment.thumbnail_url;
             if (lemmyPost.post.nsfw) {
                 status.sensitive = true;
             }

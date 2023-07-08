@@ -191,7 +191,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
     public RemoteInstance.InstanceType type;
-    public String lemmy_post_id;
     public PinnedTimeline pinnedTimeline;
     private final boolean canBeFederated;
     private final boolean checkRemotely;
@@ -1996,11 +1995,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     if (remote) {
                         //Lemmy main post that should open Lemmy threads
-                        if (adapter instanceof StatusAdapter && ((StatusAdapter) adapter).type == RemoteInstance.InstanceType.LEMMY && ((StatusAdapter) adapter).lemmy_post_id == null) {
+                        if (adapter instanceof StatusAdapter && ((StatusAdapter) adapter).type == RemoteInstance.InstanceType.LEMMY) {
                             Bundle bundle = new Bundle();
                             bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, ((StatusAdapter) adapter).pinnedTimeline);
                             bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
-                            bundle.putSerializable(Helper.ARG_LEMMY_POST_ID, ((StatusAdapter) adapter).lemmy_post_id);
+                            bundle.putString(Helper.ARG_LEMMY_POST_ID, status.id);
                             Intent intent = new Intent(context, TimelineActivity.class);
                             intent.putExtras(bundle);
                             context.startActivity(intent);
