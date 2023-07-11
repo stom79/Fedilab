@@ -81,7 +81,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private AccountsVM accountsVM;
     private boolean flagLoading;
     private String search, searchCache;
-    private Status statusReport;
+    private Status statusReport, initialStatus /*Used to put a message at the top*/;
     private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
     private Integer offset;
     private StatusAdapter statusAdapter;
@@ -414,6 +414,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
             minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
             statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
+            initialStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
         }
 
 
@@ -614,6 +615,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         if (statusReport != null) {
             timelineStatuses.add(statusReport);
+        }
+        if (initialStatus != null) {
+            timelineStatuses.add(initialStatus);
         }
         timelineStatuses.addAll(statuses.statuses);
         if (max_id == null || (statuses.pagination.max_id != null && Helper.compareTo(statuses.pagination.max_id, max_id) < 0) || timelineType.getValue().startsWith("TREND_")) {

@@ -336,6 +336,7 @@ public class TimelinesVM extends AndroidViewModel {
         return statusesMutableLiveData;
     }
 
+
     /**
      * Public timeline for Lemmy
      *

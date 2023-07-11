@@ -33,8 +33,8 @@ public class LemmyPost implements Serializable {
     public Comment comment;
     @SerializedName("creator")
     public Creator creator;
-    @SerializedName("community")
-    public Community community;
+    /*@SerializedName("community")
+    public Community community;*/
     @SerializedName("counts")
     public Counts counts;
     @SerializedName("creator_banned_from_community")
@@ -63,6 +63,9 @@ public class LemmyPost implements Serializable {
         status.id = lemmyPost.comment == null ? lemmyPost.post.id : lemmyPost.comment.id;
         if (lemmyPost.comment != null) {
             status.in_reply_to_id = lemmyPost.comment.post_id;
+            status.lemmy_post_id = null;
+        } else {
+            status.lemmy_post_id = lemmyPost.post.id;
         }
         status.content = lemmyPost.comment == null ? lemmyPost.post.name : lemmyPost.comment.content;
         status.visibility = "public";

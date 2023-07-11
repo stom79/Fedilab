@@ -1995,15 +1995,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     if (remote) {
                         //Lemmy main post that should open Lemmy threads
-                        if (adapter instanceof StatusAdapter && ((StatusAdapter) adapter).type == RemoteInstance.InstanceType.LEMMY) {
+                        if (adapter instanceof StatusAdapter && ((StatusAdapter) adapter).type == RemoteInstance.InstanceType.LEMMY && status.lemmy_post_id != null) {
                             Bundle bundle = new Bundle();
                             bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, ((StatusAdapter) adapter).pinnedTimeline);
                             bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
-                            bundle.putString(Helper.ARG_LEMMY_POST_ID, status.id);
+                            bundle.putString(Helper.ARG_LEMMY_POST_ID, status.lemmy_post_id);
+                            bundle.putSerializable(Helper.ARG_STATUS, status);
                             Intent intent = new Intent(context, TimelineActivity.class);
                             intent.putExtras(bundle);
                             context.startActivity(intent);
-
                         } //Classic other cases for remote instances that will search the remote context
                         else if (!(context instanceof ContextActivity)) { //We are not already checking a remote conversation
                             Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();

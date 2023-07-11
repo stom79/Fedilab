@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityTimelineBinding;
+import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -45,19 +46,24 @@ public class TimelineActivity extends BaseBarActivity {
         Timeline.TimeLineEnum timelineType = null;
         String lemmy_post_id = null;
         PinnedTimeline pinnedTimeline = null;
+        Status status = null;
         if (b != null) {
             timelineType = (Timeline.TimeLineEnum) b.get(Helper.ARG_TIMELINE_TYPE);
             lemmy_post_id = b.getString(Helper.ARG_LEMMY_POST_ID, null);
             pinnedTimeline = (PinnedTimeline) b.getSerializable(Helper.ARG_REMOTE_INSTANCE);
+            status = (Status) b.getSerializable(Helper.ARG_STATUS);
         }
         if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
-            setTitle(pinnedTimeline.remoteInstance.displayName);
+            setTitle(pinnedTimeline.remoteInstance.host);
         }
         FragmentMastodonTimeline fragmentMastodonTimeline = new FragmentMastodonTimeline();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, timelineType);
         bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinnedTimeline);
         bundle.putSerializable(Helper.ARG_LEMMY_POST_ID, lemmy_post_id);
+        if (status != null) {
+            bundle.putSerializable(Helper.ARG_STATUS, status);
+        }
         fragmentMastodonTimeline.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()
