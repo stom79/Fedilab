@@ -231,7 +231,7 @@ public interface MastodonTimelinesService {
     Call<List<MisskeyNote>> getMisskey(@Body MisskeyNote.MisskeyParams params);
 
 
-    @GET("api/v3/post/list")
+    @GET("api/v3/post/list?sort=New")
     Call<LemmyPost.LemmyPosts> getLemmyMain(@Query("limit") Integer limit,
                                             @Query("page") String page);
 

@@ -350,14 +350,17 @@ public class TimelinesVM extends AndroidViewModel {
                                        Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance);
         statusesMutableLiveData = new MutableLiveData<>();
+        if (page == null) {
+            page = "1";
+        }
+        String finalPage = page;
         new Thread(() -> {
-
             Call<LemmyPost.LemmyPosts> lemmyPostsCall = null;
             Call<LemmyPost.LemmyComments> lemmyCommentsCall = null;
             if (post_id == null) {
-                lemmyPostsCall = mastodonTimelinesService.getLemmyMain(limit, page);
+                lemmyPostsCall = mastodonTimelinesService.getLemmyMain(limit, finalPage);
             } else {
-                lemmyCommentsCall = mastodonTimelinesService.getLemmyThread(post_id, limit, page);
+                lemmyCommentsCall = mastodonTimelinesService.getLemmyThread(post_id, limit, finalPage);
             }
             Statuses statuses = new Statuses();
             if (lemmyPostsCall != null) {
@@ -374,16 +377,9 @@ public class TimelinesVM extends AndroidViewModel {
                         }
                         statuses.statuses = TimelineHelper.filterStatus(getApplication(), statusList, Timeline.TimeLineEnum.PUBLIC);
                         statuses.pagination = new Pagination();
-                        if (page == null) {
-                            statuses.pagination.min_id = "0";
-                            statuses.pagination.max_id = "1";
-                        } else {
-                            int pageInt = Integer.parseInt(page);
-                            statuses.pagination.min_id = page;
-                            statuses.pagination.max_id = String.valueOf((pageInt + 1));
-
-                        }
-
+                        int pageInt = Integer.parseInt(finalPage);
+                        statuses.pagination.min_id = finalPage;
+                        statuses.pagination.max_id = String.valueOf((pageInt + 1));
                     }
 
                 } catch (Exception e) {
@@ -403,12 +399,12 @@ public class TimelinesVM extends AndroidViewModel {
                         }
                         statuses.statuses = TimelineHelper.filterStatus(getApplication(), statusList, Timeline.TimeLineEnum.PUBLIC);
                         statuses.pagination = new Pagination();
-                        if (page == null) {
+                        if (finalPage == null) {
                             statuses.pagination.min_id = "0";
                             statuses.pagination.max_id = "1";
                         } else {
-                            int pageInt = Integer.parseInt(page);
-                            statuses.pagination.min_id = page;
+                            int pageInt = Integer.parseInt(finalPage);
+                            statuses.pagination.min_id = finalPage;
                             statuses.pagination.max_id = String.valueOf((pageInt + 1));
                         }
                     }

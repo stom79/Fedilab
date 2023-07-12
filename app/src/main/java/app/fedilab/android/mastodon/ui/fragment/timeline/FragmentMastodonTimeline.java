@@ -215,7 +215,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                 rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
                 //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
-                if (max_id == null && !isViewInitialized && rememberPosition) {
+                if (max_id == null && !isViewInitialized && rememberPosition && 1 == 2) {
                     max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
                 }
                 //Only fragment in main view pager should not have the view initialized
@@ -358,7 +358,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
         //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
-        if (max_id == null && !isViewInitialized && rememberPosition) {
+        if (max_id == null && !isViewInitialized && rememberPosition && 1 == 2) {
             max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
         }
         if (search != null) {
@@ -535,6 +535,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 } else if (max_id == null || Helper.compareTo(fetched_statuses.pagination.max_id, max_id) < 0 || timelineType.getValue().startsWith("TREND_")) {
                     max_id = fetched_statuses.pagination.max_id;
                 }
+                if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.LEMMY) {
+                    max_id = fetched_statuses.pagination.max_id;
+                }
                 if (min_id == null || (fetched_statuses.pagination.min_id != null && Helper.compareTo(fetched_statuses.pagination.min_id, min_id) > 0)) {
                     min_id = fetched_statuses.pagination.min_id;
                 }
@@ -577,7 +580,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 route(DIRECTION.REFRESH, true);
             });
         }
-        if (statuses == null || statuses.statuses == null || statuses.statuses.size() == 0) {
+        if (initialStatus == null && (statuses == null || statuses.statuses == null || statuses.statuses.size() == 0)) {
             binding.noAction.setVisibility(View.VISIBLE);
             return;
         } else if (timelineType == Timeline.TimeLineEnum.ART) {
@@ -621,6 +624,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         timelineStatuses.addAll(statuses.statuses);
         if (max_id == null || (statuses.pagination.max_id != null && Helper.compareTo(statuses.pagination.max_id, max_id) < 0) || timelineType.getValue().startsWith("TREND_")) {
+            max_id = statuses.pagination.max_id;
+        }
+        //For Lemmy pagination
+        if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.LEMMY) {
             max_id = statuses.pagination.max_id;
         }
         if (min_id == null || (statuses.pagination.min_id != null && Helper.compareTo(statuses.pagination.min_id, min_id) > 0)) {
