@@ -1808,7 +1808,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ComposePollBinding composePollBinding = ComposePollBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);
         alertPoll.setView(composePollBinding.getRoot());
         int max_entry = 4;
-        int max_length = 25;
+        int max_length = 50;
         final int[] pollCountItem = {2};
 
         if (instanceInfo != null && instanceInfo.configuration != null && instanceInfo.configuration.pollsConf != null) {
