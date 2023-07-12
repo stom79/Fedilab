@@ -1,0 +1,4 @@
+Added:
+- Follow Lemmy instance (from Manage Timelines)
+Fixed:
+- Add 50 chars max for poll options
