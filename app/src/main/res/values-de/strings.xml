@@ -1055,4 +1055,5 @@
     <string name="set_custom_accent_value_dark_description">Farbe, die für das dunkle Thema verwendet wird</string>
     <string name="set_custom_accent">Benutzerdefinierte Akzentfarbe</string>
     <string name="set_custom_accent_value_light_description">Farbe, die für das helle Thema verwendet wird</string>
+    <string name="lemmy_instance">Lemmy-Instanz</string>
 </resources>
