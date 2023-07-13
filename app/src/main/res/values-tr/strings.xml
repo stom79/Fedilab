@@ -1053,4 +1053,5 @@
     <string name="set_custom_accent_light_value">Açık vurgu rengi</string>
     <string name="set_custom_accent_dark_value">Koyu vurgu rengi</string>
     <string name="set_custom_accent_value_dark_description">Koyu temaya uygulanacak renk</string>
+    <string name="lemmy_instance">Lemmy sunucusu</string>
 </resources>
