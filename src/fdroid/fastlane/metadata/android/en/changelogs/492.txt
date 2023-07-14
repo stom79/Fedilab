@@ -1,0 +1,12 @@
+Added:
+- Follow Lemmy instances (from Manage Timelines)
+- View remote conversations (default: disabled - Settings > Interface)
+
+Fixed:
+- Add 50 chars max for poll options
+- Too many requests
+- Blank Home page
+- Crashes when visiting profiles
+- Some audio files cannot be uploaded
+- Multiple notifications
+- Fix some other crashes

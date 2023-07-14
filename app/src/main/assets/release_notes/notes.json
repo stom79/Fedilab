@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.22.2",
+    "code": "492",
+    "note": "Added:\n- Follow Lemmy instances (from Manage Timelines)\n- View remote conversations (default: disabled - Settings > Interface)\n\nFixed:\n- Add 50 chars max for poll options\n- Too many requests\n- Blank Home page\n- Crashes when visiting profiles\n- Some audio files cannot be uploaded\n- Multiple notifications\n- Fix some other crashes"
+  },
+  {
     "version": "3.22.1",
     "code": "491",
     "note": "Added:\n- Follow Lemmy instance (from Manage Timelines)\nFixed:\n- Add 50 chars max for poll options"
