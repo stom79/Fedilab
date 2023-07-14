@@ -215,7 +215,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                 rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
                 //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
-                if (max_id == null && !isViewInitialized && rememberPosition && 1 == 2) {
+                if (max_id == null && !isViewInitialized && rememberPosition) {
                     max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
                 }
                 //Only fragment in main view pager should not have the view initialized
@@ -358,7 +358,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
         //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
-        if (max_id == null && !isViewInitialized && rememberPosition && 1 == 2) {
+        if (max_id == null && !isViewInitialized && rememberPosition) {
             max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
         }
         if (search != null) {
