@@ -1048,4 +1048,5 @@
     <string name="set_custom_accent_value_light_description">Cor que se aplicará no decorado claro</string>
     <string name="set_custom_accent">Cor persoal para resaltar</string>
     <string name="set_custom_accent_value_dark_description">Cor que se aplicará no decorado escuro</string>
+    <string name="lemmy_instance">Instancia Lemmy</string>
 </resources>

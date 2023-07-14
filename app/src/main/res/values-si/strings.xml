@@ -29,7 +29,7 @@
     <string name="camera">කැමරාව</string>
     <string name="delete_all">සියල්ල මකන්න</string>
     <string name="schedule">සැලසුම් කරන්න</string>
-    <string name="text_size">අකුරු සහ ලාංඡනවල ප්‍රමාණය</string>
+    <string name="text_size">අකුරුවල ප්‍රමාණය</string>
     <string name="next">ඊළඟ</string>
     <string name="previous">පෙර</string>
     <string name="open_with">සමඟින් විවෘත කරන්න</string>
@@ -241,8 +241,8 @@
     <string name="keywords_header_custom_sharing">Keywords</string>
     <string name="keywords_hint_custom_sharing">Keywords…</string>
     <!-- ACTIVITY CACHE -->
-    <string name="v_public">Public</string>
-    <string name="v_unlisted">Unlisted</string>
+    <string name="v_public">ප්‍රසිද්ධ</string>
+    <string name="v_unlisted">ලැයිස්තුගත නොකළ</string>
     <string name="v_private">Private</string>
     <string name="v_direct">Direct</string>
     <!-- PRIVACY -->
@@ -266,7 +266,7 @@
     <string name="poxy_host">Host</string>
     <string name="poxy_port">Port</string>
     <string name="poxy_login">Login</string>
-    <string name="poxy_password">Password</string>
+    <string name="poxy_password">මුර පදය</string>
     <string name="set_share_details">Add toot details when sharing</string>
     <string name="support_the_app_on_liberapay">Liberapay මගින් මෙම මෘදුකාංගයට සඳහා ආධාර කරන්න</string>
     <string name="alert_regex">There is an error in the regular expression!</string>
@@ -313,8 +313,8 @@
     <string name="toast_block_domain">අඩවිය අවහිර කරන ලදී</string>
     <string name="retrieve_remote_status">Fetching remote status</string>
     <string name="peertube_instance">Peertube instance</string>
-    <string name="set_display_emoji">Use Emoji One</string>
-    <string name="information">Information</string>
+    <string name="set_display_emoji">Emoji One භාවිත කරන්න</string>
+    <string name="information">තොරතුරු</string>
     <string name="set_display_card">Display previews in all toots</string>
     <string name="account_id_clipbloard">The account id has been copied in the clipboard!</string>
     <string name="set_change_locale">භාෂාව වෙනස් කරන්න</string>
@@ -368,7 +368,7 @@
     <string name="toots_server">Toots (Server)</string>
     <string name="toots_client">Toots (Device)</string>
     <string name="settings_category_label_timelines">කාල රේඛා</string>
-    <string name="settings_category_label_interface">Interface</string>
+    <string name="settings_category_label_interface">අතුරුමුහුණත</string>
     <string name="contact">Contacts</string>
     <string name="toot_select_file_error">An error occurred when selecting the backup file!</string>
     <string name="action_logout_account">Logout account</string>
@@ -422,9 +422,9 @@
     <string name="category_art">Art</string>
     <string name="category_activism">Activism</string>
     <string name="category_games">Gaming</string>
-    <string name="category_tech">Technology</string>
+    <string name="category_tech">තාක්ෂණය</string>
     <string name="category_furry">Furry</string>
-    <string name="category_food">Food</string>
+    <string name="category_food">ආහාර</string>
     <string name="instance_logo">Logo of the instance</string>
     <string name="join_mastodon">Join Mastodon</string>
     <string name="pickup_instance_category">Choose an instance by picking up a category, then tap on a check button.</string>
@@ -506,12 +506,12 @@
     <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
     <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
-    <string name="action_add_notes">Add notes</string>
-    <string name="note_for_account">Notes for the account</string>
+    <string name="action_add_notes">සටහන් එක් කරන්න</string>
+    <string name="note_for_account">ගිණුම සඳහා සටහන්</string>
     <string name="set_resize_picture_indication">Allow to compress large photos into smaller sized photos with very less or negligible loss in quality of the image.</string>
     <string name="set_resize_video_indication">Allow compressing videos while maintaining their quality.</string>
     <string name="order_by">Order by</string>
-    <string name="link_color_title">Links</string>
+    <string name="link_color_title">සබැඳි</string>
     <string name="link_color">Change the color of links (URLs, mentions, tags, etc.) in messages</string>
     <string name="boost_header_color_title">Reblogs header</string>
     <string name="displayname_title">Change the color of display name at the top of messages</string>
@@ -522,7 +522,7 @@
     <string name="reset_color">Reset colors</string>
     <string name="clik_reset">Tap here to reset all your custom colors</string>
     <string name="reset">Reset</string>
-    <string name="icons_color_title">Icons</string>
+    <string name="icons_color_title">ලාංඡන</string>
     <string name="icons_color">Color of bottom icons in timelines</string>
     <string name="logo_of_the_instance">Logo of the instance</string>
     <string name="edit_profile">Edit profile</string>
@@ -561,8 +561,8 @@
     <string name="action_disabled">Action disabled</string>
     <string name="action_unfollow">Unfollow</string>
     <string name="error_destination_path">Something went wrong, please check your download directory in settings.</string>
-    <string name="action_announcements">Announcements</string>
-    <string name="no_announcements">No announcements!</string>
+    <string name="action_announcements">නිවේදන</string>
+    <string name="no_announcements">නිවේදන නැත!</string>
     <string name="add_reaction">Add a reaction</string>
     <string name="set_video_cache">Video cache in MB, zero means no cache.</string>
     <string name="set_watermark">Watermarks</string>
@@ -570,4 +570,8 @@
     <string name="no_distributors_found">No distributors found!</string>
     <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
     <string name="select_distributors">Select a distributor</string>
+    <string name="show_content">අන්තර්ගතය පෙන්වන්න &gt;</string>
+    <string name="icon_size">ලාංඡනවල ප්‍රමාණය</string>
+    <string name="hide_content">අන්තර්ගතය සඟවන්න &gt;</string>
+    <string name="stop_recording">පටිගත කිරීම නවත්වන්න</string>
 </resources>
