@@ -1127,6 +1127,7 @@
     <string name="SET_REMOVE_LEFT_MARGIN" translatable="false">SET_REMOVE_LEFT_MARGIN</string>
 
     <string name="SET_PROFILE_REMOTELY" translatable="false">SET_PROFILE_REMOTELY</string>
+    <string name="SET_CONVERSATION_REMOTELY" translatable="false">SET_CONVERSATION_REMOTELY</string>
     <string name="SET_EXTAND_EXTRA_FEATURES" translatable="false">SET_EXTAND_EXTRA_FEATURES</string>
     <string name="SET_DISPLAY_LOCAL_ONLY" translatable="false">SET_DISPLAY_LOCAL_ONLY</string>
     <string name="SET_INNER_MARKER" translatable="false">SET_INNER_MARKER</string>
@@ -1881,7 +1882,9 @@
     <string name="following">Following</string>
     <string name="self">Self</string>
     <string name="set_remote_profile_title">Remote profiles</string>
+    <string name="set_remote_conversation_title">Remote conversations</string>
     <string name="set_remote_profile">The app will display publicly profiles to get all messages. Interactions will need an extra step to federate messages.</string>
+    <string name="set_remote_conversation">The app will display publicly conversations to get all messages. Interactions will need an extra step to federate messages.</string>
     <string name="local_only">Local only</string>
     <string name="set_display_local_only">Display \"Local only\" button</string>
     <string name="set_pixelfed_presentation">Pixelfed presentation for media</string>

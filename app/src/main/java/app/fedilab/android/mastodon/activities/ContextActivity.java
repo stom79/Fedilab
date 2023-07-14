@@ -16,6 +16,7 @@ package app.fedilab.android.mastodon.activities;
 
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.BaseMainActivity.currentInstance;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -60,6 +61,8 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
     Fragment currentFragment;
     private Status firstMessage;
     private String remote_instance;
+    private Status focusedStatus;
+    private boolean checkRemotely;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         }
         Bundle b = getIntent().getExtras();
         displayCW = sharedpreferences.getBoolean(getString(R.string.SET_EXPAND_CW), false);
-        Status focusedStatus = null; // or other values
+        focusedStatus = null; // or other values
         if (b != null) {
             focusedStatus = (Status) b.getSerializable(Helper.ARG_STATUS);
             remote_instance = b.getString(Helper.ARG_REMOTE_INSTANCE, null);
@@ -94,12 +97,24 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
             return;
         }
         MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
+
+        checkRemotely = sharedpreferences.getBoolean(getString(R.string.SET_CONVERSATION_REMOTELY), false);
+        if (!checkRemotely) {
+            loadLocalConversation();
+        } else {
+            loadRemotelyConversation(true);
+            invalidateOptionsMenu();
+        }
+    }
+
+    private void loadLocalConversation() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Helper.ARG_STATUS, focusedStatus);
         bundle.putString(Helper.ARG_REMOTE_INSTANCE, remote_instance);
         FragmentMastodonContext fragmentMastodonContext = new FragmentMastodonContext();
         fragmentMastodonContext.firstMessage = this;
         currentFragment = Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, fragmentMastodonContext, bundle, null, null);
+        //Update the status
         if (remote_instance == null) {
             StatusesVM timelinesVM = new ViewModelProvider(ContextActivity.this).get(StatusesVM.class);
             timelinesVM.getStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, focusedStatus.id).observe(ContextActivity.this, status -> {
@@ -126,7 +141,6 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -144,7 +158,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
             itemDisplayCW.setIcon(R.drawable.ic_outline_remove_red_eye_24);
         }
         MenuItem action_remote = menu.findItem(R.id.action_remote);
-        if (remote_instance != null) {
+        if (remote_instance != null || checkRemotely) {
             action_remote.setVisible(false);
         } else {
             if (firstMessage != null && !firstMessage.visibility.equalsIgnoreCase("direct") && !firstMessage.visibility.equalsIgnoreCase("private")) {
@@ -181,10 +195,62 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
             }
             invalidateOptionsMenu();
         } else if (item.getItemId() == R.id.action_remote) {
+            loadRemotelyConversation(false);
 
+        }
+        return true;
+    }
+
+    private void loadRemotelyConversation(boolean fallback) {
+        if (fallback) {
+            StatusesVM statusesVM;
+            statusesVM = new ViewModelProvider(this).get(StatusesVM.class);
+            statusesVM.getContext(currentInstance, null, focusedStatus.id)
+                    .observe(this, result -> {
+                        if (result != null && result.ancestors != null && result.ancestors.size() > 0) {
+                            firstMessage = result.ancestors.get(0);
+                            String instance = null;
+                            try {
+                                URL url = new URL(firstMessage.uri);
+                                instance = url.getHost();
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            }
+                            if (instance == null) {
+                                loadLocalConversation();
+                                return;
+                            }
+                            Pattern pattern = Helper.statusIdInUrl;
+                            Matcher matcher = pattern.matcher(firstMessage.uri);
+                            String remoteId = null;
+                            if (matcher.find()) {
+                                remoteId = matcher.group(1);
+                            }
+                            if (remoteId == null) {
+                                loadLocalConversation();
+                                return;
+                            }
+                            String finalInstance = instance;
+                            statusesVM.getStatus(instance, null, remoteId).observe(ContextActivity.this, status -> {
+                                if (status != null) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable(Helper.ARG_STATUS, status);
+                                    bundle.putString(Helper.ARG_REMOTE_INSTANCE, finalInstance);
+                                    FragmentMastodonContext fragmentMastodonContext = new FragmentMastodonContext();
+                                    fragmentMastodonContext.firstMessage = ContextActivity.this;
+                                    currentFragment = Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, fragmentMastodonContext, bundle, null, null);
+                                } else {
+                                    loadLocalConversation();
+                                }
+                            });
+                        } else {
+                            loadLocalConversation();
+                        }
+                    });
+        } else {
             if (firstMessage == null) {
                 Toasty.warning(ContextActivity.this, getString(R.string.toast_try_later), Toasty.LENGTH_SHORT).show();
-                return true;
+                return;
             }
             if (firstMessage.account.acct != null) {
                 String instance = null;
@@ -196,11 +262,11 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                 }
                 if (instance == null) {
                     Toasty.info(ContextActivity.this, getString(R.string.toast_error_fetch_message), Toasty.LENGTH_SHORT).show();
-                    return true;
+                    return;
                 }
                 if (instance.equalsIgnoreCase(MainActivity.currentInstance)) {
                     Toasty.info(ContextActivity.this, getString(R.string.toast_on_your_instance), Toasty.LENGTH_SHORT).show();
-                    return true;
+                    return;
                 }
                 Pattern pattern = Helper.statusIdInUrl;
                 Matcher matcher = pattern.matcher(firstMessage.uri);
@@ -229,7 +295,6 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                 Toasty.warning(ContextActivity.this, getString(R.string.toast_error_fetch_message), Toasty.LENGTH_SHORT).show();
             }
         }
-        return true;
     }
 
     @Override

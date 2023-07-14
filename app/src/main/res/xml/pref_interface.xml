@@ -31,6 +31,14 @@
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
+        app:key="@string/SET_CONVERSATION_REMOTELY"
+        app:singleLineTitle="false"
+        app:summary="@string/set_remote_conversation"
+        app:title="@string/set_remote_conversation_title" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_PROFILE_REMOTELY"
         app:singleLineTitle="false"
         app:summary="@string/set_remote_profile"
