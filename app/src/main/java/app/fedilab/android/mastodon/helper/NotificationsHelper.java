@@ -62,6 +62,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NotificationsHelper {
 
     public static HashMap<String, String> since_ids = new HashMap<>();
+    public static HashMap<String, List<String>> pushed_notifications = new HashMap<>();
 
     public static synchronized void task(Context context, String slug) throws DBException {
 
@@ -184,6 +185,19 @@ public class NotificationsHelper {
         //No previous notifications in cache, so no notification will be sent
 
         for (Notification notification : notifications) {
+            List<String> notificationIDList;
+            if (pushed_notifications.containsKey(key)) {
+                notificationIDList = pushed_notifications.get(key);
+                if (notificationIDList != null && notificationIDList.contains(notification.id)) {
+                    continue;
+                }
+            }
+            notificationIDList = pushed_notifications.get(key);
+            if (notificationIDList == null) {
+                notificationIDList = new ArrayList<>();
+            }
+            notificationIDList.add(notification.id);
+            pushed_notifications.put(key, notificationIDList);
             String notificationUrl;
             String title = null;
             String message = null;
@@ -387,12 +401,12 @@ public class NotificationsHelper {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                                 String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
-                               // if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
-                                    SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
-                                    editor.commit();
-                                    since_ids.put(account.user_id + "@" + account.instance, lastNotif);
-                                    Helper.notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
+                                // if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
+                                editor.commit();
+                                since_ids.put(account.user_id + "@" + account.instance, lastNotif);
+                                Helper.notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
                                 //  }
                             }
 
@@ -401,12 +415,12 @@ public class NotificationsHelper {
                                 super.onLoadFailed(errorDrawable);
                                 String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
                                 //      if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
-                                    SharedPreferences.Editor editor = prefs.edit();
-                                    since_ids.put(account.user_id + "@" + account.instance, lastNotif);
-                                    editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
-                                    editor.commit();
-                                    Helper.notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
-                                            getMainLogo(context)), finalNotifType, finalTitle, finalMessage);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                since_ids.put(account.user_id + "@" + account.instance, lastNotif);
+                                editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
+                                editor.commit();
+                                Helper.notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
+                                        getMainLogo(context)), finalNotifType, finalTitle, finalMessage);
                                 //    }
                             }
 
