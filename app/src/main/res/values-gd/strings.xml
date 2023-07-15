@@ -1003,4 +1003,7 @@
     <string name="fetching_messages">A’ faighinn nan teachdaireachdan</string>
     <string name="retrieve_remote_account">Faigh an cunntas cèin!</string>
     <string name="about_peertube">“’S e inneal airson videothan a cho-roinneadh air loidhne a th’ ann am PeerTube a tha ’ga leasachadh le buidheann neo-phrothaideach Frangach.…Leigidh PeerTube le ùrlaran ceangal ri chèile, a’ cruthachadh lìonra mòr de dh’ùrlaran a tha an dà chuid neo-eisimeileach agus ceangailte ri chèile.”</string>
+    <string name="lemmy_instance">Ionstans Lemmy</string>
+    <string name="set_remote_conversation_title">Còmhraidhean cèine</string>
+    <string name="set_remote_conversation">Seallaidh an aplacaid còmhraidhean poblach airson a h-uile teachdaireachd fhaighinn. Bidh eadar-ghabhail feumach air ceum a bharrachd airson co-nasgadh nan teachdaireachdan.</string>
 </resources>
