@@ -318,7 +318,7 @@
     <string name="block_domain">Blockiere Domäne</string>
     <string name="toast_block_domain">Die Domäne ist geblockt</string>
     <string name="retrieve_remote_status">Rufe entfernten Status ab</string>
-    <string name="peertube_instance">Peertube Instanz</string>
+    <string name="peertube_instance">Peertube-Instanz</string>
     <string name="set_display_emoji">Emoji One verwenden</string>
     <string name="information">Information</string>
     <string name="set_display_card">Vorschau in allen Beiträgen anzeigen</string>
@@ -365,7 +365,7 @@
     <string name="some_words_all">Alle dieser Hashtags (durch Leerzeichen getrennt)</string>
     <string name="some_tags">Hashtags zum Filter hinzufügen (durch Leerzeichen getrennt)</string>
     <string name="change_tag_column">Spaltenname ändern</string>
-    <string name="misskey_instance">Misskey Instanz</string>
+    <string name="misskey_instance">Misskey-Instanz</string>
     <string name="trending">Angesagt</string>
     <string name="local">Lokal</string>
     <string name="category">Kategorie</string>
@@ -1056,4 +1056,6 @@
     <string name="set_custom_accent">Benutzerdefinierte Akzentfarbe</string>
     <string name="set_custom_accent_value_light_description">Farbe, die für das helle Thema verwendet wird</string>
     <string name="lemmy_instance">Lemmy-Instanz</string>
+    <string name="set_remote_conversation_title">Entfernte Unterhaltungen</string>
+    <string name="set_remote_conversation">Die App zeigt öffentliche Unterhaltungen an, um alle Nachrichten zu erhalten. Für Interaktionen ist ein zusätzlicher Schritt erforderlich, um Nachrichten zu verbinden.</string>
 </resources>
