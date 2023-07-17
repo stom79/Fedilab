@@ -125,7 +125,7 @@
     <string name="toot_error_no_content">Your toot is empty!</string>
     <string name="toot_sent">The toot has been sent!</string>
     <string name="toot_sensitive">සංවේදී අන්තර්ගතයක් ද?</string>
-    <string name="no_draft">No drafts!</string>
+    <string name="no_draft">කටුසටහන් නැත!</string>
     <string name="choose_accounts">ගිණුමක් තෝරන්න</string>
     <string name="select_accounts">ගිණුම් කිහිපයක් තෝරන්න</string>
     <string name="remove_draft">කටුසටහන ඉවත් කරනවා ද?</string>
@@ -243,8 +243,8 @@
     <!-- ACTIVITY CACHE -->
     <string name="v_public">ප්‍රසිද්ධ</string>
     <string name="v_unlisted">ලැයිස්තුගත නොකළ</string>
-    <string name="v_private">Private</string>
-    <string name="v_direct">Direct</string>
+    <string name="v_private">අනුගාමිකයින්ට පමණි</string>
+    <string name="v_direct">සඳහන් කළ අයට පමණි</string>
     <!-- PRIVACY -->
     <string name="filter_regex">Filter out by regular expressions</string>
     <string name="search">සෙවීම</string>
@@ -574,4 +574,7 @@
     <string name="icon_size">ලාංඡනවල ප්‍රමාණය</string>
     <string name="hide_content">අන්තර්ගතය සඟවන්න &gt;</string>
     <string name="stop_recording">පටිගත කිරීම නවත්වන්න</string>
+    <string name="number_of_media">මාධ්‍ය සංඛ්‍යාව</string>
+    <string name="number_of_replies">ප්‍රතිචාර සංඛ්‍යාව</string>
+    <string name="followers_only">අනුගාමිකයින්ට පමණි</string>
 </resources>
