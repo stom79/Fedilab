@@ -1049,4 +1049,6 @@
     <string name="set_custom_accent">Cor persoal para resaltar</string>
     <string name="set_custom_accent_value_dark_description">Cor que se aplicará no decorado escuro</string>
     <string name="lemmy_instance">Instancia Lemmy</string>
+    <string name="set_remote_conversation_title">Conversas remotas</string>
+    <string name="set_remote_conversation">A app mostrará todas as mensaxes das conversas públicas. As interacción precisarán un paso extra para federar as mensaxes.</string>
 </resources>
