@@ -430,7 +430,7 @@
     <string name="category_food">Comida</string>
     <string name="instance_logo">Logo da instancia</string>
     <string name="join_mastodon">Únirse a Mastodon</string>
-    <string name="pickup_instance_category">Escolla unha instancia escollendo unha categoría, despois pulse no botón de marca.</string>
+    <string name="pickup_instance_category">Elixe unha categoría para ter unha lista de instancias, despois preme na instancia que queiras.</string>
     <string name="users">%1$s usuarias</string>
     <string name="password_confirm">Confirmar contrasinal</string>
     <string name="agreement_check">Acepto as %1$s e os %2$s</string>
@@ -598,7 +598,7 @@
     <string name="pref_custom_theme_new_summary">Permitir crear o teu propio decorado</string>
     <string name="pref_contributor">Decorados da comunidade</string>
     <string name="poll_type">Tipo de enquisa:</string>
-    <string name="pref_contributor_summary">Elixe un decorado que foi creado por persoas da comunidade</string>
+    <string name="pref_contributor_summary">Elixe un decorado dos creados pola comunidade</string>
     <string name="poll_duration">Duración da enquisa:</string>
     <string name="icon_size">Tamaño das iconas</string>
     <string name="toots_visibility_title">Visibilidade por defecto para as mensaxes:</string>
@@ -1051,4 +1051,5 @@
     <string name="lemmy_instance">Instancia Lemmy</string>
     <string name="set_remote_conversation_title">Conversas remotas</string>
     <string name="set_remote_conversation">A app mostrará todas as mensaxes das conversas públicas. As interacción precisarán un paso extra para federar as mensaxes.</string>
+    <string name="track_selection_title">Elexir calidade</string>
 </resources>
