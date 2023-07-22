@@ -32,6 +32,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -103,6 +104,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         ActivityCompat.postponeEnterTransition(MediaActivity.this);
         binding = ActivityMediaPagerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
