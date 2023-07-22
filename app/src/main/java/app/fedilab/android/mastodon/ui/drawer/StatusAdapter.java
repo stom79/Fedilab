@@ -731,7 +731,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         if (status.isMaths == null) {
-            if (Helper.mathsPattern.matcher(status.content).find()) {
+            if (status.content != null && Helper.mathsPattern.matcher(status.content).find()) {
                 holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
                 status.isMaths = true;
             } else {
