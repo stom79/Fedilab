@@ -71,8 +71,11 @@ public class FragmentMedia extends Fragment {
     private FragmentSlideMediaBinding binding;
     private SlidrInterface slidrInterface;
 
+    private boolean visible = false;
+
     public FragmentMedia() {
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -236,6 +239,7 @@ public class FragmentMedia extends Fragment {
         }
     }
 
+
     private void loadVideo(String url, String type) {
         if (binding == null || !isAdded() || getActivity() == null || url == null) {
             return;
@@ -267,7 +271,7 @@ public class FragmentMedia extends Fragment {
         binding.mediaPicture.setVisibility(View.GONE);
         player.setMediaSource(videoSource);
         player.prepare();
-        player.setPlayWhenReady(true);
+        player.setPlayWhenReady(visible);
         player.addListener(new Player.Listener() {
             @Override
             public void onPlayerError(@NonNull PlaybackException error) {
@@ -301,6 +305,7 @@ public class FragmentMedia extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        visible = false;
         if (player != null) {
             player.setPlayWhenReady(false);
         }
@@ -318,9 +323,11 @@ public class FragmentMedia extends Fragment {
         }
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
+        visible = true;
         if (player != null) {
             player.setPlayWhenReady(true);
         }
