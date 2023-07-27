@@ -274,7 +274,8 @@ public class MediaHelper {
      * @param listener ActionRecord
      */
     public static void recordAudio(Activity activity, ActionRecord listener) {
-        String filePath = activity.getCacheDir() + "/fedilab_recorded_audio.m4a";
+        //String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/fedilab_recorded_audio.ogg";
+        String filePath = activity.getCacheDir() + "/fedilab_recorded_audio.ogg";
         AudioRecorder mAudioRecorder = AudioRecorder.getInstance();
         File mAudioFile = new File(filePath);
         PopupRecordBinding binding = PopupRecordBinding.inflate(activity.getLayoutInflater());
@@ -306,16 +307,18 @@ public class MediaHelper {
                     binding.counter.setText(String.format(Locale.getDefault(), "%s:%s", minutes, seconds));
                 });
             }
-        }, 1000, 1000);
+        }, 0, 1000);
         binding.record.setOnClickListener(v -> {
             mAudioRecorder.stopRecord();
             timer.cancel();
             alert.dismiss();
             listener.onRecorded(filePath);
         });
-        mAudioRecorder.prepareRecord(MediaRecorder.AudioSource.MIC,
-                MediaRecorder.OutputFormat.MPEG_4, MediaRecorder.AudioEncoder.AAC,
-                mAudioFile);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            mAudioRecorder.prepareRecord(MediaRecorder.AudioSource.MIC,
+                    MediaRecorder.OutputFormat.OGG, MediaRecorder.AudioEncoder.OPUS, 48000, 384000,
+                    mAudioFile);
+        }
         mAudioRecorder.startRecord();
     }
 

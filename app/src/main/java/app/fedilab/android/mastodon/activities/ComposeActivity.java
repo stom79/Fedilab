@@ -304,6 +304,12 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_compose, menu);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            MenuItem micro = menu.findItem(R.id.action_microphone);
+            if (micro != null) {
+                micro.setVisible(false);
+            }
+        }
         return true;
     }
 

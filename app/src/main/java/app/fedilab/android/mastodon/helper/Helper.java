@@ -1282,9 +1282,9 @@ public class Helper {
 
                 MimeTypeMap mime = MimeTypeMap.getSingleton();
                 String extension = mime.getExtensionFromMimeType(cR.getType(uri));
-                if (uri.toString().endsWith("fedilab_recorded_audio.m4a")) {
-                    extension = ".m4a";
-                    attachment.mimeType = "audio/mp4";
+                if (uri.toString().endsWith("fedilab_recorded_audio.ogg")) {
+                    extension = "ogg";
+                    attachment.mimeType = "audio/ogg";
                 }
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_" + counter, Locale.getDefault());
                 counter++;
