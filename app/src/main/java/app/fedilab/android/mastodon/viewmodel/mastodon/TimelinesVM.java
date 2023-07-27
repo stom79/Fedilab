@@ -31,6 +31,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -157,7 +158,7 @@ public class TimelinesVM extends AndroidViewModel {
 
     private MastodonTimelinesService initInstanceOnly(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance)
+                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED))
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();
@@ -166,7 +167,7 @@ public class TimelinesVM extends AndroidViewModel {
 
     private MastodonTimelinesService initInstanceXMLOnly(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance)
+                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED))
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .client(okHttpClient)
                 .build();
@@ -175,7 +176,7 @@ public class TimelinesVM extends AndroidViewModel {
 
     private MastodonTimelinesService init(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance + "/api/v1/")
+                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();

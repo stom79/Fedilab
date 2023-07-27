@@ -23,6 +23,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.net.IDN;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -52,7 +53,7 @@ public class AnnouncementsVM extends AndroidViewModel {
 
     private MastodonAnnouncementsService init(@NonNull String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance + "/api/v1/")
+                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();

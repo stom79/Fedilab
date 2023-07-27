@@ -19,6 +19,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import java.net.IDN;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.mastodon.client.endpoints.MastodonOembedService;
@@ -42,7 +43,7 @@ public class OembedVM extends AndroidViewModel {
 
     private MastodonOembedService init(@NonNull String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance + "/api/v1/")
+                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();

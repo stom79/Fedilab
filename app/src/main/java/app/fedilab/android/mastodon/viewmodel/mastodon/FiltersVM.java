@@ -24,6 +24,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.net.IDN;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -57,7 +58,7 @@ public class FiltersVM extends AndroidViewModel {
 
     private MastodonFiltersService initV2(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance + "/api/v2/")
+                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v2/")
                 //    .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)

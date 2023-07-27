@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 
 import java.io.IOException;
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,7 +62,7 @@ public class TimelineHelper {
                 .proxy(Helper.getProxy(context))
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + BaseMainActivity.currentInstance + "/api/v2/")
+                .baseUrl("https://" + IDN.toASCII(BaseMainActivity.currentInstance, IDN.ALLOW_UNASSIGNED) + "/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();

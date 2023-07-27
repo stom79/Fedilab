@@ -25,6 +25,7 @@ import org.simpleframework.xml.Path;
 import org.simpleframework.xml.Root;
 
 import java.io.Serializable;
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +69,7 @@ public class Nitter implements Serializable {
                 .proxy(Helper.getProxy(context))
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance)
+                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED))
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .client(okHttpClient)
                 .build();

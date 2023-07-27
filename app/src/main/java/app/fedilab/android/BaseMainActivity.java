@@ -110,6 +110,7 @@ import org.jsoup.nodes.Element;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -1113,7 +1114,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         .proxy(Helper.getProxy(getApplication().getApplicationContext()))
                         .build();
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://" + MainActivity.currentInstance + "/api/v1/")
+                        .baseUrl("https://" + IDN.toASCII(MainActivity.currentInstance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
                         .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                         .client(okHttpClient)
                         .build();

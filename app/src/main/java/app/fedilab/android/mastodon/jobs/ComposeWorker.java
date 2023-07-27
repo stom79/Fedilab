@@ -44,6 +44,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -98,7 +99,7 @@ public class ComposeWorker extends Worker {
 
     private static MastodonStatusesService init(Context context, @NonNull String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance + "/api/v1/")
+                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(getOkHttpClient(context))
                 .build();

@@ -23,6 +23,7 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
+import java.net.IDN;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
@@ -137,7 +138,7 @@ public class PushNotifications {
                 .proxy(Helper.getProxy(context.getApplicationContext()))
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance + "/api/v1/")
+                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();

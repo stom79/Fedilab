@@ -32,6 +32,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.IOException;
+import java.net.IDN;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
@@ -110,7 +111,7 @@ public class ScheduleBoostWorker extends Worker {
 
     private MastodonStatusesService init(@NonNull String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance + "/api/v1/")
+                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(getOkHttpClient())
                 .build();
