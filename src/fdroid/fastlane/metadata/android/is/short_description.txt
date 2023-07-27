@@ -1,0 +1,1 @@
+Fedilab er fjölnota Android biðlari til að tengjast Fediverse, kerfi netþjóna sem skapa örblogg, mynddeilingu og myndbandshýsingu.
