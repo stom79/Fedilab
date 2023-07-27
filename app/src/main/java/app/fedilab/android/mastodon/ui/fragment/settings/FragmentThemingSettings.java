@@ -43,6 +43,7 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
 
 
     boolean prefChanged = false;
+
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         createPref();

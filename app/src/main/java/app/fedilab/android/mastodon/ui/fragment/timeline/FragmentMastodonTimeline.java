@@ -73,9 +73,9 @@ import es.dmoral.toasty.Toasty;
 
 public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.FetchMoreCallBack {
 
-    private boolean scrollingUp;
     private static final int PRELOAD_AHEAD_ITEMS = 10;
     public UpdateCounters update;
+    private boolean scrollingUp;
     private FragmentPaginationBinding binding;
     private TimelinesVM timelinesVM;
     private AccountsVM accountsVM;
@@ -87,10 +87,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
-
-    private boolean retry_for_home_done;
-    private String lemmy_post_id;
-
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -180,6 +176,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         }
     };
+    private boolean retry_for_home_done;
+    private String lemmy_post_id;
     private boolean checkRemotely;
     private String accountIDInRemoteInstance;
     private boolean isViewInitialized;

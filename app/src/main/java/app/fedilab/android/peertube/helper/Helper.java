@@ -841,11 +841,6 @@ public class Helper {
         }
     }
 
-    public interface PermissionGranted {
-        void proceed();
-    }
-
-
     public static String readFileFromAssets(Context context, String filename) {
         String json;
         try {
@@ -860,6 +855,11 @@ public class Helper {
             return null;
         }
         return json;
+    }
+
+
+    public interface PermissionGranted {
+        void proceed();
     }
 
 }

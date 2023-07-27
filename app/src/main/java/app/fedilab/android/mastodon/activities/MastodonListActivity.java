@@ -373,7 +373,8 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                                                                                 Intent intentBD = new Intent(Helper.BROADCAST_DATA);
                                                                                 intentBD.putExtras(b);
                                                                                 LocalBroadcastManager.getInstance(MastodonListActivity.this).sendBroadcast(intentBD);
-                                                                            } catch (DBException e) {
+                                                                            } catch (
+                                                                                    DBException e) {
                                                                                 e.printStackTrace();
                                                                             }
                                                                         }).start();

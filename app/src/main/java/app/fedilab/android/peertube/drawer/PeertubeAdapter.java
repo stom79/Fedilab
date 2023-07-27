@@ -91,6 +91,18 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private ChannelData.Channel forChannel;
     private AccountData.PeertubeAccount forAccount;
 
+    public PeertubeAdapter(List<VideoData.Video> videos, TimelineVM.TimelineType timelineType, boolean sepiaSearch, ChannelData.Channel forChannel, AccountData.PeertubeAccount forAccount) {
+        this.videos = videos;
+        this.timelineType = timelineType;
+        this.sepiaSearch = sepiaSearch || timelineType == SEPIA_SEARCH;
+        this.forChannel = forChannel;
+        this.forAccount = forAccount;
+    }
+
+    public PeertubeAdapter(List<VideoData.Video> videos) {
+        this.videos = videos;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -105,19 +117,6 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new VideoViewHolder(itemBinding);
         }
 
-    }
-
-    public PeertubeAdapter(List<VideoData.Video> videos, TimelineVM.TimelineType timelineType, boolean sepiaSearch, ChannelData.Channel forChannel, AccountData.PeertubeAccount forAccount) {
-        this.videos = videos;
-        this.timelineType = timelineType;
-        this.sepiaSearch = sepiaSearch || timelineType == SEPIA_SEARCH;
-        this.forChannel = forChannel;
-        this.forAccount = forAccount;
-    }
-
-
-    public PeertubeAdapter(List<VideoData.Video> videos) {
-        this.videos = videos;
     }
 
     @Override
@@ -509,13 +508,6 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-
-    enum typeOfTimeline {
-        CLASSIC,
-        LIST
-    }
-
-
     public void manageVIewPlaylists(VideoData.Video video, APIResponse apiResponse) {
         if (apiResponse.getError() != null) {
             return;
@@ -665,6 +657,11 @@ public class PeertubeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
         );
 
+    }
+
+    enum typeOfTimeline {
+        CLASSIC,
+        LIST
     }
 
     public interface RelationShipListener {

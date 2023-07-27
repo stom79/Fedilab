@@ -15,8 +15,6 @@ package app.fedilab.android.peertube.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
-
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;

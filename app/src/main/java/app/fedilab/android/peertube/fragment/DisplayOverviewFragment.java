@@ -171,7 +171,6 @@ public class DisplayOverviewFragment extends Fragment implements PeertubeAdapter
     }
 
 
-
     @Override
     public void onStop() {
         super.onStop();

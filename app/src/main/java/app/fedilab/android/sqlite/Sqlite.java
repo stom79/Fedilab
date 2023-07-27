@@ -206,8 +206,8 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_USER_ID + " TEXT NOT NULL, "
             + COL_TYPE + " TEXT NOT NULL, "
             + COL_MUTED_ACCOUNTS + " TEXT)";
-
-
+    public static SQLiteDatabase db;
+    private static Sqlite sInstance;
     private final String CREATE_TABLE_STORED_INSTANCES = "CREATE TABLE "
             + TABLE_BOOKMARKED_INSTANCES + "("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -215,12 +215,10 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_USER_ID + " TEXT NOT NULL, "
             + COL_ABOUT + " TEXT NOT NULL, "
             + COL_USER_INSTANCE + " TEXT NOT NULL)";
-
     private final String CREATE_TABLE_CACHE_TAGS = "CREATE TABLE "
             + TABLE_CACHE_TAGS + "("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COL_TAG + " TEXT NOT NULL)";
-
     private final String CREATE_TABLE_TIMELINE_CACHE_LOGS = "CREATE TABLE "
             + TABLE_TIMELINE_CACHE_LOGS + "("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -234,10 +232,6 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_SLUG + " TEXT NOT NULL, "
             + COL_TYPE + " TEXT NOT NULL, "
             + COL_CREATED_AT + " TEXT NOT NULL)";
-
-
-    public static SQLiteDatabase db;
-    private static Sqlite sInstance;
 
 
     public Sqlite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

@@ -65,6 +65,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private boolean flagLoading;
     private List<Notification> notificationList;
     private NotificationAdapter notificationAdapter;
+    private boolean isViewInitialized;
+    private Notifications initialNotifications;
+    private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -108,9 +111,6 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             }
         }
     };
-    private boolean isViewInitialized;
-    private Notifications initialNotifications;
-    private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
     private LinearLayoutManager mLayoutManager;
     private NotificationTypeEnum notificationType;
     private boolean aggregateNotification;

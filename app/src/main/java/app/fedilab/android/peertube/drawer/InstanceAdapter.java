@@ -45,10 +45,8 @@ import app.fedilab.android.peertube.helper.RoundedBackgroundSpan;
 public class InstanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<Instance> instances;
-
-    private Context context;
-
     public ActionClick actionClick;
+    private Context context;
 
     public InstanceAdapter(List<Instance> instances) {
         this.instances = instances;
@@ -159,6 +157,10 @@ public class InstanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
+    public interface ActionClick {
+        void instance(String instance);
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         DrawerInstancePeertubeBinding binding;
 
@@ -166,9 +168,5 @@ public class InstanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView.getRoot());
             binding = itemView;
         }
-    }
-
-    public interface ActionClick {
-        void instance(String instance);
     }
 }

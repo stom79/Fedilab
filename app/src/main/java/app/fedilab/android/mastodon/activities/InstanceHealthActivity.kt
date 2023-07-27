@@ -79,34 +79,34 @@ class InstanceHealthActivity : DialogFragment() {
                     }
                     binding.name.text = instance.name
                     if (instance.up) {
-                        binding.up.setText(app.fedilab.android.R.string.is_up)
+                        binding.up.setText(R.string.is_up)
                         binding.up.setTextColor(
                             ThemeHelper.getAttColor(
                                 requireContext(),
-                                app.fedilab.android.R.attr.colorPrimary
+                                R.attr.colorPrimary
                             )
                         )
                     } else {
-                        binding.up.setText(app.fedilab.android.R.string.is_down)
+                        binding.up.setText(R.string.is_down)
                         binding.up.setTextColor(
                             ThemeHelper.getAttColor(
                                 requireContext(),
-                                app.fedilab.android.R.attr.colorError
+                                R.attr.colorError
                             )
                         )
                     }
                     binding.uptime.text = getString(
-                        app.fedilab.android.R.string.instance_health_uptime,
+                        R.string.instance_health_uptime,
                         instance.uptime * 100
                     )
                     if (instance.checked_at != null)
                         binding.checkedAt.text =
                             getString(
-                                app.fedilab.android.R.string.instance_health_checkedat,
+                                R.string.instance_health_checkedat,
                                 Helper.dateToString(instance.checked_at)
                             )
                     binding.values.text = getString(
-                        app.fedilab.android.R.string.instance_health_indication,
+                        R.string.instance_health_indication,
                         instance.version,
                         Helper.withSuffix(instance.active_users.toLong()),
                         Helper.withSuffix(instance.statuses.toLong())

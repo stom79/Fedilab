@@ -48,16 +48,6 @@ public class LemmyPost implements Serializable {
     @SerializedName("unread_comments")
     public int unread_comments;
 
-    public static class LemmyPosts {
-        @SerializedName("posts")
-        public List<LemmyPost> posts;
-    }
-
-    public static class LemmyComments {
-        @SerializedName("comments")
-        public List<LemmyPost> comments;
-    }
-
     public static Status convert(LemmyPost lemmyPost, String instance) {
         Status status = new Status();
         status.id = lemmyPost.comment == null ? lemmyPost.post.id : lemmyPost.comment.id;
@@ -107,6 +97,16 @@ public class LemmyPost implements Serializable {
             status.media_attachments = attachmentList;
         }
         return status;
+    }
+
+    public static class LemmyPosts {
+        @SerializedName("posts")
+        public List<LemmyPost> posts;
+    }
+
+    public static class LemmyComments {
+        @SerializedName("comments")
+        public List<LemmyPost> comments;
     }
 
     public static class Post implements Serializable {

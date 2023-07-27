@@ -108,7 +108,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
     private Status firstStatus;
     private boolean pullToRefresh;
     private String user_token, user_instance;
-
+    private Status statusCompose;
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
@@ -126,7 +126,6 @@ public class FragmentMastodonDirectMessage extends Fragment {
             }
         }
     };
-    private Status statusCompose;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

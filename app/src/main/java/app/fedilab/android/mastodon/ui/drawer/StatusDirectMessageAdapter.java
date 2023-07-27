@@ -87,20 +87,13 @@ import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
 
 public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static float measuredWidth = -1;
     private final List<Status> statusList;
     private Context context;
     private RecyclerView mRecyclerView;
-    private static float measuredWidth = -1;
+
     public StatusDirectMessageAdapter(List<Status> data) {
         this.statusList = data;
-    }
-
-    @NotNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        DrawerStatusChatBinding itemBinding = DrawerStatusChatBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new StatusChatViewHolder(itemBinding);
     }
 
     public static void loadAndAddAttachment(Context context, LayoutMediaBinding layoutMediaBinding,
@@ -214,6 +207,14 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
     }
 
+    @NotNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        DrawerStatusChatBinding itemBinding = DrawerStatusChatBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new StatusChatViewHolder(itemBinding);
+    }
+
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -225,15 +226,6 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public int getItemCount() {
         return statusList.size();
-    }
-
-    public static class StatusChatViewHolder extends RecyclerView.ViewHolder {
-        DrawerStatusChatBinding binding;
-
-        StatusChatViewHolder(DrawerStatusChatBinding itemView) {
-            super(itemView.getRoot());
-            binding = itemView;
-        }
     }
 
     @Override
@@ -673,6 +665,15 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             }
         } else {
             holder.binding.media.mediaContainer.setVisibility(View.GONE);
+        }
+    }
+
+    public static class StatusChatViewHolder extends RecyclerView.ViewHolder {
+        DrawerStatusChatBinding binding;
+
+        StatusChatViewHolder(DrawerStatusChatBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
         }
     }
 }

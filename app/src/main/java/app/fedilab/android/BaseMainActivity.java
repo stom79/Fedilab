@@ -212,6 +212,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static String regex_home, regex_local, regex_public;
     public static BaseAccount currentAccount;
     public static iconLauncher mLauncher = iconLauncher.BUBBLES;
+    public static boolean headerMenuOpen;
     Fragment currentFragment;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -330,7 +331,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
     };
     private NetworkStateReceiver networkStateReceiver;
-    public static boolean headerMenuOpen;
 
     public static void fetchRecentAccounts(Activity activity, NavHeaderMainBinding headerMainBinding) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -643,8 +643,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         });
         popup.show();
     }
-
-    protected abstract void rateThisApp();
 
     /**
      * Open notifications tab when coming from a notification device
@@ -1033,6 +1031,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         intent.setData(null);
         intent.setFlags(0);
     }
+
+    protected abstract void rateThisApp();
 
     @Override
     protected void onNewIntent(Intent intent) {

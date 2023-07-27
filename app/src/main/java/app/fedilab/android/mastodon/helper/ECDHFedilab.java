@@ -192,7 +192,9 @@ public class ECDHFedilab {
             cipher.init(Cipher.DECRYPT_MODE, aesKey, gCMParameterSpec);
             byte[] decrypted = cipher.doFinal(ciphertext);
             decryptedStr = new String(decrypted, 2, decrypted.length - 2, StandardCharsets.UTF_8);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException |
+                 InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException |
+                 IllegalBlockSizeException e) {
             e.printStackTrace();
             return null;
         }

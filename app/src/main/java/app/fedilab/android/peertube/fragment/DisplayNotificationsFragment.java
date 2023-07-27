@@ -60,8 +60,7 @@ public class DisplayNotificationsFragment extends Fragment {
     public final static int AUTO_INSTANCE_FOLLOWING = 14;
     public final static int MY_VIDEO_REPPORT_SUCCESS = 15;
     public final static int ABUSE_NEW_MESSAGE = 16;
-
-
+    FragmentRecyclerviewPeertubeBinding binding;
     private boolean flag_loading;
     private Context context;
     private PeertubeNotificationsListAdapter peertubeNotificationsListAdapter;
@@ -69,7 +68,6 @@ public class DisplayNotificationsFragment extends Fragment {
     private List<Notification> notifications;
     private boolean firstLoad;
     private NotificationsVM viewModel;
-    FragmentRecyclerviewPeertubeBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

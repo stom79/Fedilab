@@ -190,10 +190,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final List<Status> statusList;
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
-    public RemoteInstance.InstanceType type;
-    public PinnedTimeline pinnedTimeline;
     private final boolean canBeFederated;
     private final boolean checkRemotely;
+    public RemoteInstance.InstanceType type;
+    public PinnedTimeline pinnedTimeline;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
     private boolean visiblePixelfed;

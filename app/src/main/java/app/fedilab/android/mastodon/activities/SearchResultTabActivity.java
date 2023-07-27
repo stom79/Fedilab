@@ -67,10 +67,10 @@ import es.dmoral.toasty.Toasty;
 public class SearchResultTabActivity extends BaseBarActivity {
 
 
+    public Boolean tagEmpty, accountEmpty;
     private String search;
     private ActivitySearchResultTabsBinding binding;
     private TabLayout.Tab initial;
-    public Boolean tagEmpty, accountEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

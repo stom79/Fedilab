@@ -404,11 +404,20 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
         }).start();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     public enum range {
         ALL,
         DAY
     }
-
 
     public static class GraphElement {
         String dateLabel;
@@ -422,15 +431,6 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
             }
             return same;
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public class CustomMarkerView extends MarkerView {

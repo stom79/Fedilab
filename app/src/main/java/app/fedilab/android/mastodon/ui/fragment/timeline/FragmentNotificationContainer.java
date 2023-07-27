@@ -91,8 +91,6 @@ public class FragmentNotificationContainer extends Fragment {
             dialogBuilder.setView(dialogView.getRoot());
 
 
-
-
             boolean displayAllCategory = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_ALL_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, false);
             dialogView.displayAllCategories.setChecked(displayAllCategory);
             dialogView.displayAllCategories.setOnCheckedChangeListener((compoundButton, checked) -> {

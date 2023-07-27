@@ -205,6 +205,8 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private boolean isShowingTrackSelectionDialog;
     private Status status;
     private int flags;
+    private boolean humanInteraction;
+
     public static void hideKeyboard(Activity activity) {
         if (activity != null && activity.getWindow() != null) {
             activity.getWindow().getDecorView();
@@ -214,8 +216,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             }
         }
     }
-
-    private boolean humanInteraction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

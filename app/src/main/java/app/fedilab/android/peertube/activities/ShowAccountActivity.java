@@ -88,7 +88,6 @@ public class ShowAccountActivity extends BaseBarActivity {
         }
 
 
-
         manageAccount();
         AccountsVM viewModel = new ViewModelProvider(ShowAccountActivity.this).get(AccountsVM.class);
         viewModel.getAccount(accountAcct == null ? account.getUsername() + "@" + account.getHost() : accountAcct).observe(ShowAccountActivity.this, this::manageViewAccounts);

@@ -467,7 +467,6 @@ public class Helper {
     }
 
 
-
     /***
      *  Check if the user is connected to Internet
      * @return boolean
