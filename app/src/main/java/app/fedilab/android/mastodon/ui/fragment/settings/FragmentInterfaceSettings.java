@@ -111,12 +111,13 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_LOGO_LAUNCHER)) == 0) {
                 ListPreference SET_LOGO_LAUNCHER = findPreference(getString(R.string.SET_LOGO_LAUNCHER));
-                if (SET_LOGO_LAUNCHER != null) {
+                String newLauncher = sharedpreferences.getString(getString(R.string.SET_LOGO_LAUNCHER), "Bubbles");
+                if (Character.isUpperCase(newLauncher.codePointAt(0))) {
                     hideAllIcons(requireActivity());
-                    setIcon(requireActivity(), SET_LOGO_LAUNCHER.getValue());
-                    SET_LOGO_LAUNCHER.setIcon(LogoHelper.getDrawable(SET_LOGO_LAUNCHER.getValue()));
-                    setDrawable(SET_LOGO_LAUNCHER.getValue());
-                    editor.putString(getString(R.string.SET_LOGO_LAUNCHER), SET_LOGO_LAUNCHER.getValue());
+                    setIcon(requireActivity(), newLauncher);
+                    SET_LOGO_LAUNCHER.setIcon(LogoHelper.getDrawable(newLauncher));
+                    setDrawable(newLauncher);
+                    editor.putString(getString(R.string.SET_LOGO_LAUNCHER), newLauncher);
                 }
             }
             editor.apply();

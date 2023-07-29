@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ImageListPreference">
+        <attr name="ilp_entryImages" format="reference" />
+        <attr name="ilp_tintKey" format="string" />
+        <attr name="ilp_backgroundTintKey" format="string" />
+        <attr name="ilp_tint" format="color" />
+        <attr name="ilp_backgroundTint" format="color" />
+        <attr name="ilp_errorImage" format="reference" />
+        <attr name="ilp_useCard" format="boolean" />
+        <attr name="ilp_itemLayout" format="reference" />
+    </declare-styleable>
+</resources>

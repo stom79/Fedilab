@@ -768,6 +768,14 @@
         <item>Mastalab</item>
     </string-array>
 
+    <string-array name="SET_LOGO_DRAWABLE" translatable="false">
+        <item>@drawable/ic_launcher_bubbles_foreground</item>
+        <item>@drawable/ic_launcher_fediverse_foreground</item>
+        <item>@drawable/ic_launcher_hero_foreground</item>
+        <item>@drawable/ic_launcher_atom_foreground</item>
+        <item>@drawable/ic_launcher_crash_foreground</item>
+        <item>@drawable/ic_launcher_mastalab_foreground</item>
+    </string-array>
 
     <string-array name="SET_MATHS_FORMAT">
         <item>Inline\nNotation that sits inline with other text\n</item>
