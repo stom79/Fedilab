@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.23.0",
+    "code": "493",
+    "note": "Added:\n- Add preview for app icons\n- Two new app icons\n\nFixed:\n- Fix Nitter feeds\n- Crash with Pixelfed accounts\n- Lingva encoding issue\n- Avoid sleep mode for media activity\n- Videos are played simultaneously\n- Voice messages for Android 10+\n- Punycode not supported for domains"
+  },
+  {
     "version": "3.22.2",
     "code": "492",
     "note": "Added:\n- Follow Lemmy instances (from Manage Timelines)\n- View remote conversations (default: disabled - Settings > Interface)\n\nFixed:\n- Add 50 chars max for poll options\n- Too many requests\n- Blank Home page\n- Crashes when visiting profiles\n- Some audio files cannot be uploaded\n- Multiple notifications\n- Fix some other crashes"
