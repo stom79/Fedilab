@@ -78,6 +78,10 @@ public class LogoHelper {
                 return R.drawable.fedilab_logo_crash;
             case "Mastalab":
                 return R.drawable.fedilab_logo_mastalab;
+            case "BubblesUA":
+                return R.drawable.fedilab_logo_bubbles_ua;
+            case "BubblesPeaGreen":
+                return R.drawable.fedilab_logo_bubbles_pea_green;
             default:
                 return R.drawable.fedilab_logo_bubbles;
         }
@@ -99,6 +103,12 @@ public class LogoHelper {
                 break;
             case "Mastalab":
                 mLauncher = BaseMainActivity.iconLauncher.MASTALAB;
+                break;
+            case "BubblesUA":
+                mLauncher = BaseMainActivity.iconLauncher.BUBBLESUA;
+                break;
+            case "BubblesPeaGreen":
+                mLauncher = BaseMainActivity.iconLauncher.BUBBLESPEAGREEN;
                 break;
             default:
                 mLauncher = BaseMainActivity.iconLauncher.BUBBLES;

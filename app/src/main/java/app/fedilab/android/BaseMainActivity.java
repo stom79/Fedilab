@@ -1963,6 +1963,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
     public enum iconLauncher {
         BUBBLES,
+        BUBBLESUA,
+        BUBBLESPEAGREEN,
         FEDIVERSE,
         HERO,
         ATOM,

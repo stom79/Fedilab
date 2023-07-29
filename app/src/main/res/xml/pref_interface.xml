@@ -156,7 +156,7 @@
         app:title="@string/set_med_desc_timeout" />
 
     <app.fedilab.android.mastodon.helper.ImageListPreference
-        app:defaultValue="bubbles"
+        app:defaultValue="Bubbles"
         app:dialogTitle="@string/pickup_logo"
         app:entries="@array/set_logo_type_value"
         app:entryValues="@array/SET_LOGO_TYPE_VALUE"

@@ -102,7 +102,7 @@ public class ImageListPreference extends ListPreference {
             if (mImages.size() > i) {
                 resource = mImages.get(i);
             }
-            items.add(new ImageListItem(getEntries()[i], resource, getEntryValues()[i].equals(launcher)));
+            items.add(new ImageListItem(getEntries()[i], resource, String.valueOf(getEntryValues()[i]).equalsIgnoreCase(launcher)));
         }
 
         int layout = R.layout.imagelistpreference_item;
