@@ -260,7 +260,6 @@ public class TimelinesVM extends AndroidViewModel {
             if (publicTlCall != null) {
                 try {
                     Response<Nitter> publicTlResponse = publicTlCall.execute();
-
                     if (publicTlResponse.isSuccessful()) {
                         Nitter rssResponse = publicTlResponse.body();
                         List<Status> statusList = new ArrayList<>();

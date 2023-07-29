@@ -1817,8 +1817,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         if (networkStateReceiver != null) {
             try {
                 unregisterReceiver(networkStateReceiver);
-            } catch (IllegalArgumentException illegalArgumentException) {
-                illegalArgumentException.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             }
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);

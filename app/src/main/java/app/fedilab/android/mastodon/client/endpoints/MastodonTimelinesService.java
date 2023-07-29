@@ -263,14 +263,14 @@ public interface MastodonTimelinesService {
     );
 
     @Headers({"Accept: text/html,application/xhtml+xml,application/xml"})
-    @GET("{names}/rss")
+    @GET("{names}/with_replies/rss")
     Call<Nitter> getNitter(
             @Path("names") String id,
             @Query("max_position") String max_position
     );
 
     @Headers({"Accept: text/html,application/xhtml+xml,application/xml"})
-    @GET("{account}/rss")
+    @GET("{account}/with_replies/rss")
     Call<Nitter> getNitterAccount(
             @Path("account") String account
     );

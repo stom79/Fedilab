@@ -210,7 +210,7 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.twitter_accounts) {
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ReorderTimelinesActivity.this);
                     String nitterHost = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
-                    url = "https://" + nitterHost + "/" + instanceName.replaceAll("[ ]+", ",").replaceAll("\\s", "") + "/rss";
+                    url = "https://" + nitterHost + "/" + instanceName.replaceAll("[ ]+", ",").replaceAll("\\s", "") + "/with_replies/rss";
                 }
                 OkHttpClient client = new OkHttpClient.Builder()
                         .connectTimeout(10, TimeUnit.SECONDS)
