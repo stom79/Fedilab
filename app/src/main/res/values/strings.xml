@@ -753,6 +753,8 @@
     </string-array>
     <string-array name="set_logo_type_value" translatable="false">
         <item>Fedilab</item>
+        <item>Fedilab UA</item>
+        <item>Fedilab Pea Green</item>
         <item>Fediverse</item>
         <item>SuperHero</item>
         <item>Atom</item>
@@ -761,6 +763,8 @@
     </string-array>
     <string-array name="SET_LOGO_TYPE_VALUE" translatable="false">
         <item>Bubbles</item>
+        <item>BubblesUA</item>
+        <item>BubblesPeaGreen</item>
         <item>Fediverse</item>
         <item>Hero</item>
         <item>Atom</item>
@@ -770,6 +774,8 @@
 
     <string-array name="SET_LOGO_DRAWABLE" translatable="false">
         <item>@drawable/ic_launcher_bubbles_foreground</item>
+        <item>@drawable/ic_launcher_bubbles_ua_foreground</item>
+        <item>@drawable/ic_launcher_bubbles_pea_green_foreground</item>
         <item>@drawable/ic_launcher_fediverse_foreground</item>
         <item>@drawable/ic_launcher_hero_foreground</item>
         <item>@drawable/ic_launcher_atom_foreground</item>

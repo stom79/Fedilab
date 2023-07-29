@@ -150,6 +150,14 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
         context.getPackageManager().setComponentEnabledSetting(
                 new ComponentName(BuildConfig.APPLICATION_ID, "app.fedilab.android.activities.MainActivity.Mastalab"),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        context.getPackageManager().setComponentEnabledSetting(
+                new ComponentName(BuildConfig.APPLICATION_ID, "app.fedilab.android.activities.MainActivity.BubblesUA"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        context.getPackageManager().setComponentEnabledSetting(
+                new ComponentName(BuildConfig.APPLICATION_ID, "app.fedilab.android.activities.MainActivity.BubblesPeaGreen"),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
     }
 
     private void setIcon(Context context, String iconName) {
