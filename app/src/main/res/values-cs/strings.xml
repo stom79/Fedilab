@@ -219,7 +219,7 @@
     <string name="settings_time_to">a</string>
     <string name="embedded_browser">Použít vestavěný prohlížeč</string>
     <string name="custom_tabs">Prohlížeč v aplikaci</string>
-    <string name="expand_cw">Automaticky ukázat cw</string>
+    <string name="expand_cw">Automaticky ukázat varování před obsahem</string>
     <string name="set_led_colour">Barva LED:</string>
     <string-array name="led_colours">
         <item>Modrá</item>
@@ -271,7 +271,7 @@
     <!-- Proxy -->
     <string name="proxy_set">Proxy</string>
     <string name="proxy_enable">Povolit proxy\?</string>
-    <string name="poxy_host">Host</string>
+    <string name="poxy_host">Server</string>
     <string name="poxy_port">Port</string>
     <string name="poxy_login">Přihlašovací jméno</string>
     <string name="poxy_password">Heslo</string>
@@ -463,7 +463,7 @@
     <string name="administration">Administrace</string>
     <string name="reports">Hlášení</string>
     <string name="unresolved">Nevyřešeno</string>
-    <string name="remote">Remote</string>
+    <string name="remote">Vzdálené</string>
     <string name="active">Aktivní</string>
     <string name="pending">Čekající</string>
     <string name="disabled">Vypnuto</string>
@@ -1064,4 +1064,9 @@
     <string name="set_custom_accent_indication">Definovat barvu tématu pro účet</string>
     <string name="set_custom_accent_value_dark_description">Barva, která se použije pro tmavé téma</string>
     <string name="requested_by">Žádá o možnost sledovat</string>
+    <string name="set_alt_text_mandatory_description_warn">Pokud existují chybějící média, zobrazí se dialog s možností odeslat zprávu bez popisu médií</string>
+    <string name="set_remote_conversation_title">Vzdálené konverzace</string>
+    <string name="set_remote_conversation">Aplikace bude veřejně zobrazovat konverzace, aby získala všechny zprávy. Interakce budou k federaci zpráv potřebovat samostatný krok.</string>
+    <string name="lemmy_instance">Instance Lemmy</string>
+    <string name="self">Vlastní</string>
 </resources>
