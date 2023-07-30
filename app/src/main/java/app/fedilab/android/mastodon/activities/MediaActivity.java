@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -150,6 +151,10 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 startActivity(intentContext);
             });
         }
+
+        binding.mediaDescription.setMovementMethod(new ScrollingMovementMethod());
+        binding.mediaDescriptionTranslated.setMovementMethod(new ScrollingMovementMethod());
+        
         if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
             binding.mediaDescription.setText(description);
             binding.translate.setOnClickListener(v -> {
