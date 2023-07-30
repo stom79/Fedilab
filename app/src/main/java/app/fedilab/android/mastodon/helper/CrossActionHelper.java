@@ -259,14 +259,14 @@ public class CrossActionHelper {
     }
 
 
-    private static MastodonSearchService init(Context context, @NonNull String instance) {
+    private static MastodonSearchService init(Context context, String instance) {
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .proxy(Helper.getProxy(context))
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v2/")
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();
@@ -493,9 +493,7 @@ public class CrossActionHelper {
      * Fetch and federate the remote status
      */
     public static void fetchAccountInRemoteInstance(@NonNull Context context, String acct, String instance, Callback callback) {
-        if (instance == null) {
-            return;
-        }
+
         MastodonSearchService mastodonSearchService = init(context, instance);
         new Thread(() -> {
             Call<Results> resultsCall = mastodonSearchService.search(null, acct, null, "accounts", null, null, null, null, null, null, 1);

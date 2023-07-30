@@ -93,9 +93,9 @@ public class NotificationsVM extends AndroidViewModel {
         }
     }
 
-    private MastodonNotificationsService init(@NonNull String instance) {
+    private MastodonNotificationsService init(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();

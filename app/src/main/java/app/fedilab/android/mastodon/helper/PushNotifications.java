@@ -131,14 +131,14 @@ public class PushNotifications {
                 slug + "/unifiedpush.connector", null);
     }
 
-    private static MastodonNotificationsService init(@NonNull Context context, @NonNull String instance) {
+    private static MastodonNotificationsService init(@NonNull Context context, String instance) {
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .proxy(Helper.getProxy(context.getApplicationContext()))
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();

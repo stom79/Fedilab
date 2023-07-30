@@ -53,7 +53,7 @@ public class NodeInfoVM extends AndroidViewModel {
 
     private NodeInfoService init(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/")
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();

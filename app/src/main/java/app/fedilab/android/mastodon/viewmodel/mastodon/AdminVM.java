@@ -63,18 +63,18 @@ public class AdminVM extends AndroidViewModel {
         super(application);
     }
 
-    private MastodonAdminService init(@NonNull String instance) {
+    private MastodonAdminService init(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();
         return retrofit.create(MastodonAdminService.class);
     }
 
-    private MastodonAdminService initv2(@NonNull String instance) {
+    private MastodonAdminService initv2(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v2/")
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();

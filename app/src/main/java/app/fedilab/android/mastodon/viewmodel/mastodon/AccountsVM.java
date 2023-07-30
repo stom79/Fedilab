@@ -106,7 +106,7 @@ public class AccountsVM extends AndroidViewModel {
 
     private MastodonAccountsService init(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();
@@ -115,7 +115,7 @@ public class AccountsVM extends AndroidViewModel {
 
     private MastodonAccountsService initv2(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v2/")
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();

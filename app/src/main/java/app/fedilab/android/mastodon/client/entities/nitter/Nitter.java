@@ -69,7 +69,7 @@ public class Nitter implements Serializable {
                 .proxy(Helper.getProxy(context))
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED))
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null))
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .client(okHttpClient)
                 .build();

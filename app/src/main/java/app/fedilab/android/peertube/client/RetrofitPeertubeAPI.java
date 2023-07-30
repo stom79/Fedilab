@@ -44,6 +44,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.IDN;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -253,7 +254,7 @@ public class RetrofitPeertubeAPI {
                 .proxy(app.fedilab.android.mastodon.helper.Helper.getProxy(_context.getApplicationContext()))
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + instance)
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null))
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();

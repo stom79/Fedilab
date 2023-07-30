@@ -41,9 +41,9 @@ public class OembedVM extends AndroidViewModel {
         super(application);
     }
 
-    private MastodonOembedService init(@NonNull String instance) {
+    private MastodonOembedService init(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://" + IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
