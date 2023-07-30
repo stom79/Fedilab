@@ -493,7 +493,9 @@ public class CrossActionHelper {
      * Fetch and federate the remote status
      */
     public static void fetchAccountInRemoteInstance(@NonNull Context context, String acct, String instance, Callback callback) {
-
+        if (instance == null) {
+            return;
+        }
         MastodonSearchService mastodonSearchService = init(context, instance);
         new Thread(() -> {
             Call<Results> resultsCall = mastodonSearchService.search(null, acct, null, "accounts", null, null, null, null, null, null, 1);
