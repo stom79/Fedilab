@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.23.1",
+    "code": "494",
+    "note": "Added:\n- Scrollable media description\n\nFixed:\n- Crashes with profiles"
+  },
+  {
     "version": "3.23.0",
     "code": "493",
     "note": "Added:\n- Add preview for app icons\n- Two new app icons\n\nFixed:\n- Fix Nitter feeds\n- Crash with Pixelfed accounts\n- Lingva encoding issue\n- Avoid sleep mode for media activity\n- Videos are played simultaneously\n- Voice messages for Android 10+\n- Punycode not supported for domains"
