@@ -201,7 +201,7 @@
     <string name="set_med_desc_timeout">メディアの説明のタイムアウト(単位は秒、0でオフ)</string>
     <string name="settings_title_custom_sharing">カスタム共有</string>
     <string name="settings_custom_sharing_url">カスタム共有URL…</string>
-    <string name="set_lock_account">アカウントをロック</string>
+    <string name="set_lock_account">承認制アカウント</string>
     <string name="set_save_changes">変更内容を保存</string>
     <string name="set_fit_preview">画像のプレビューを元の比率で表示する</string>
     <string name="settings_time_from">開始</string>
@@ -641,8 +641,8 @@
     <string name="notif_display_mentions">メンション</string>
     <string name="notif_display_follows">フォロー</string>
     <string name="add_filter">フィルターを追加</string>
-    <string name="unlocked">ロックしない</string>
-    <string name="locked">ロックする</string>
+    <string name="unlocked">承認制にしない</string>
+    <string name="locked">承認制にする</string>
     <string name="add_field">項目を追加</string>
     <string name="type_of_notifications">通知の種類</string>
     <string name="type_of_notifications_title">通知の種類を選択</string>
@@ -1038,4 +1038,14 @@
     <string name="new_messages">新しい投稿</string>
     <string name="follows_you">あなたのフォロワー</string>
     <string name="track_selection_title">トラックを選択</string>
+    <string name="auto">自動</string>
+    <string name="set_remote_conversation_title">リモートの会話</string>
+    <string name="set_remote_conversation">アプリは公開の会話を表示するために全ての投稿を取得します。交流は投稿を連合させるための追加の操作が必要です。</string>
+    <string name="set_custom_accent_indication">アカウントごとにテーマカラーを設定する</string>
+    <string name="set_custom_accent_light_value">ライトテーマのアクセントカラー</string>
+    <string name="set_custom_accent">カスタムアクセントカラー</string>
+    <string name="set_custom_accent_value_light_description">ライトテーマに適用されるアクセントカラー</string>
+    <string name="set_custom_accent_dark_value">ダークテーマのアクセントカラー</string>
+    <string name="set_custom_accent_value_dark_description">ダークテーマに適用されるアクセントカラー</string>
+    <string name="lemmy_instance">Lemmyインスタンス</string>
 </resources>
