@@ -185,6 +185,8 @@ dependencies {
     implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.0'
 
 
+    implementation 'io.noties.markwon:core:4.6.2'
+
     //************ CAST **************///
 
     //---> Google libs (google_full)

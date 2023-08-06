@@ -84,9 +84,11 @@ import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.MarkdownConverter;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.FiltersVM;
 import es.dmoral.toasty.Toasty;
+import io.noties.markwon.Markwon;
 
 public class SpannableHelper {
 
@@ -149,7 +151,43 @@ public class SpannableHelper {
         }
 
         //Get all links
-        SpannableStringBuilder content = new SpannableStringBuilder(initialContent);
+        MarkdownConverter markdownConverter = new MarkdownConverter();
+        markdownConverter.markdownItems = new ArrayList<>();
+        int next;
+        int position = 0;
+        for (int i = 0; i < initialContent.length(); i = next) {
+            // find the next span transition
+            next = initialContent.nextSpanTransition(i, initialContent.length(), URLSpan.class);
+            MarkdownConverter.MarkdownItem markdownItem = new MarkdownConverter.MarkdownItem();
+            markdownItem.code = initialContent.subSequence(i, next).toString();
+
+            markdownItem.position = position;
+            // get all spans in this range
+            URLSpan[] spans = initialContent.getSpans(i, next, URLSpan.class);
+            if (spans != null && spans.length > 0) {
+                markdownItem.urlSpan = spans[0];
+            }
+
+            if (markdownItem.code.trim().length() > 0) {
+                markdownConverter.markdownItems.add(markdownItem);
+                position++;
+            }
+        }
+        final Markwon markwon = Markwon.create(context);
+
+        final Spanned markdown = markwon.toMarkdown(initialContent.toString());
+        SpannableStringBuilder content = new SpannableStringBuilder(markdown);
+        position = 0;
+        for (MarkdownConverter.MarkdownItem markdownItem : markdownConverter.markdownItems) {
+            Pattern p = Pattern.compile("(" + Pattern.quote(markdownItem.code) + ")", Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(content);
+            while (m.find()) {
+                content.setSpan(markdownItem.urlSpan, m.start(), m.end(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            }
+            position++;
+        }
+
+
         URLSpan[] urls = content.getSpans(0, (content.length() - 1), URLSpan.class);
         //Loop through links
         for (URLSpan span : urls) {
