@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.23.2",
+    "code": "495",
+    "note": "Added:\n- Markdown support (can be disabled in Settings > Timelines)"
+  },
+  {
     "version": "3.23.1",
     "code": "494",
     "note": "Added:\n- Scrollable media description\n\nFixed:\n- Crashes with profiles"
