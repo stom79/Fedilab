@@ -762,7 +762,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             MathJaxView mathview = new MathJaxView(context, mathJaxConfig);
             holder.binding.statusContentMaths.addView(mathview);
             if (status.contentSpan != null) {
-                String input = status.contentSpan.toString();
+                String input;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    input = new SpannableString(Html.fromHtml(status.content, Html.FROM_HTML_MODE_LEGACY)).toString();
+                else
+                    input = new SpannableString(Html.fromHtml(status.content)).toString();
                 input = input.replaceAll("'", "&#39;");
                 input = input.replaceAll("\"", "&#34;");
                 mathview.setInputText(input);
