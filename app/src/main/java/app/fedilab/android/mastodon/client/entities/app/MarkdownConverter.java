@@ -37,5 +37,15 @@ public class MarkdownConverter {
         public String code;
         public int position;
         public URLSpan urlSpan;
+
+        public int regexPosition(List<MarkdownItem> markdownItems) {
+            int position = 0;
+            for (MarkdownItem markdownItem : markdownItems) {
+                if (markdownItem.code.equals(code) && position <= this.position) {
+                    position++;
+                }
+            }
+            return position;
+        }
     }
 }

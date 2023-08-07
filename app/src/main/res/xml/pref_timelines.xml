@@ -53,6 +53,13 @@
     <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"
+        app:key="@string/SET_MARKDOWN_SUPPORT"
+        app:singleLineTitle="false"
+        app:title="@string/markdown_support" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_TRUNCATE_LINKS"
         app:singleLineTitle="false"
         app:title="@string/truncate_links" />

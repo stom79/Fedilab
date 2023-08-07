@@ -43,6 +43,7 @@ import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
@@ -71,6 +72,7 @@ import java.util.regex.Pattern;
 import javax.net.ssl.HttpsURLConnection;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.MySuperGrammerLocator;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.PopupLinksBinding;
@@ -89,6 +91,10 @@ import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.FiltersVM;
 import es.dmoral.toasty.Toasty;
 import io.noties.markwon.Markwon;
+import io.noties.markwon.ext.tables.TablePlugin;
+import io.noties.markwon.syntax.Prism4jThemeDefault;
+import io.noties.markwon.syntax.SyntaxHighlightPlugin;
+import io.noties.prism4j.Prism4j;
 
 public class SpannableHelper {
 
@@ -149,44 +155,56 @@ public class SpannableHelper {
         } else {
             initialContent = new SpannableString(text);
         }
-
+        boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), true);
         //Get all links
-        MarkdownConverter markdownConverter = new MarkdownConverter();
-        markdownConverter.markdownItems = new ArrayList<>();
-        int next;
-        int position = 0;
-        for (int i = 0; i < initialContent.length(); i = next) {
-            // find the next span transition
-            next = initialContent.nextSpanTransition(i, initialContent.length(), URLSpan.class);
-            MarkdownConverter.MarkdownItem markdownItem = new MarkdownConverter.MarkdownItem();
-            markdownItem.code = initialContent.subSequence(i, next).toString();
+        SpannableStringBuilder content;
+        if (markdownSupport) {
+            MarkdownConverter markdownConverter = new MarkdownConverter();
+            markdownConverter.markdownItems = new ArrayList<>();
+            int next;
+            int position = 0;
+            for (int i = 0; i < initialContent.length(); i = next) {
+                // find the next span transition
+                next = initialContent.nextSpanTransition(i, initialContent.length(), URLSpan.class);
+                MarkdownConverter.MarkdownItem markdownItem = new MarkdownConverter.MarkdownItem();
+                markdownItem.code = initialContent.subSequence(i, next).toString();
 
-            markdownItem.position = position;
-            // get all spans in this range
-            URLSpan[] spans = initialContent.getSpans(i, next, URLSpan.class);
-            if (spans != null && spans.length > 0) {
-                markdownItem.urlSpan = spans[0];
+                markdownItem.position = position;
+                // get all spans in this range
+                URLSpan[] spans = initialContent.getSpans(i, next, URLSpan.class);
+                if (spans != null && spans.length > 0) {
+                    markdownItem.urlSpan = spans[0];
+                }
+
+                if (markdownItem.code.trim().length() > 0) {
+                    markdownConverter.markdownItems.add(markdownItem);
+                    position++;
+                }
             }
 
-            if (markdownItem.code.trim().length() > 0) {
-                markdownConverter.markdownItems.add(markdownItem);
+            final Markwon markwon = Markwon.builder(context)
+                    .usePlugin(TablePlugin.create(context))
+                    .usePlugin(SyntaxHighlightPlugin.create(new Prism4j(new MySuperGrammerLocator()), Prism4jThemeDefault.create())).build();
+
+            final Spanned markdown = markwon.toMarkdown(initialContent.toString());
+            content = new SpannableStringBuilder(markdown);
+            position = 0;
+            for (MarkdownConverter.MarkdownItem markdownItem : markdownConverter.markdownItems) {
+                Pattern p = Pattern.compile("(" + Pattern.quote(markdownItem.code) + ")", Pattern.CASE_INSENSITIVE);
+                Matcher m = p.matcher(content);
+                int fetchPosition = 1;
+                while (m.find()) {
+                    int regexPosition = markdownItem.regexPosition(markdownConverter.markdownItems);
+                    if (regexPosition == fetchPosition) {
+                        content.setSpan(markdownItem.urlSpan, m.start(), m.end(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    }
+                    fetchPosition++;
+                }
                 position++;
             }
+        } else {
+            content = new SpannableStringBuilder(initialContent);
         }
-        final Markwon markwon = Markwon.create(context);
-
-        final Spanned markdown = markwon.toMarkdown(initialContent.toString());
-        SpannableStringBuilder content = new SpannableStringBuilder(markdown);
-        position = 0;
-        for (MarkdownConverter.MarkdownItem markdownItem : markdownConverter.markdownItems) {
-            Pattern p = Pattern.compile("(" + Pattern.quote(markdownItem.code) + ")", Pattern.CASE_INSENSITIVE);
-            Matcher m = p.matcher(content);
-            while (m.find()) {
-                content.setSpan(markdownItem.urlSpan, m.start(), m.end(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            }
-            position++;
-        }
-
 
         URLSpan[] urls = content.getSpans(0, (content.length() - 1), URLSpan.class);
         //Loop through links
@@ -334,6 +352,23 @@ public class SpannableHelper {
 
         }
         return trimSpannable(new SpannableStringBuilder(content));
+    }
+
+    public interface Prism4jTheme {
+
+        @ColorInt
+        int background();
+
+        @ColorInt
+        int textColor();
+
+        void apply(
+                @NonNull String language,
+                @NonNull Prism4j.Syntax syntax,
+                @NonNull SpannableStringBuilder builder,
+                int start,
+                int end
+        );
     }
 
 

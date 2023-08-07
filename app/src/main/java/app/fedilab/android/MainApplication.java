@@ -42,7 +42,9 @@ import java.util.Objects;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.peertube.services.GlobalUploadObserver;
 import es.dmoral.toasty.Toasty;
+import io.noties.prism4j.annotations.PrismBundle;
 
+@PrismBundle(includeAll = true, grammarLocatorClassName = ".MySuperGrammerLocator")
 
 public class MainApplication extends MultiDexApplication {
 
