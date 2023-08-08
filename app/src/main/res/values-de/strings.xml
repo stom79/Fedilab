@@ -1058,4 +1058,5 @@
     <string name="lemmy_instance">Lemmy-Instanz</string>
     <string name="set_remote_conversation_title">Entfernte Unterhaltungen</string>
     <string name="set_remote_conversation">Die App zeigt öffentliche Unterhaltungen an, um alle Nachrichten zu erhalten. Für Interaktionen ist ein zusätzlicher Schritt erforderlich, um Nachrichten zu verbinden.</string>
+    <string name="markdown_support">Markdown-Unterstützung</string>
 </resources>
