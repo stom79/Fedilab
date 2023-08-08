@@ -1054,4 +1054,7 @@
     <string name="about_peertube">\"PeerTube est un outil de partage de vidéos en ligne développé par Framasoft, une association française à but non-lucratif ... PeerTube permet à ses plate-formes d\'être connectées les unes aux autres, créant un grand réseau de plate-formes qui sont autonomes et inter-connectées.\"</string>
     <string name="self">Soi-même</string>
     <string name="exit">Sortir</string>
+    <string name="set_remote_conversation_title">Conversations distantes</string>
+    <string name="markdown_support">Prise en charge de Markdown</string>
+    <string name="lemmy_instance">Instance Lemmy</string>
 </resources>
