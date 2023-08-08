@@ -1054,4 +1054,7 @@
     <string name="set_custom_accent_dark_value">Koyu vurgu rengi</string>
     <string name="set_custom_accent_value_dark_description">Koyu temaya uygulanacak renk</string>
     <string name="lemmy_instance">Lemmy sunucusu</string>
+    <string name="markdown_support">Markdown desteği</string>
+    <string name="set_remote_conversation_title">Uzak görüşmeler</string>
+    <string name="set_remote_conversation">Uygulama, tüm mesajları almak için herkese açık görüşmeleri görüntüleyecektir. Etkileşimlerin mesajları birleştirmek için ek bir adıma ihtiyacı olacaktır.</string>
 </resources>
