@@ -14,46 +14,64 @@
     You should have received a copy of the GNU General Public License along with Fedilab; if not,
     see <http://www.gnu.org/licenses>
 -->
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:layout_marginTop="6dp"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/name"
-        android:layout_width="0dp"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:text="@tools:sample/first_names" />
+        android:layout_margin="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        tools:text="@tools:sample/last_names" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/remove"
-        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_margin="6dp"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:contentDescription="@string/delete_field"
-        android:padding="0dp"
-        android:textColor="?colorError"
-        app:icon="@drawable/ic_compose_attachment_remove"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        app:iconTint="?colorError"
-        app:layout_constraintStart_toStartOf="@id/banner_pp"
-        app:layout_constraintTop_toTopOf="@id/banner_pp"
-        app:strokeColor="?colorError" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="@tools:sample/first_names" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                tools:text="@tools:sample/last_names" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/remove"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="@string/delete_field"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:textColor="?colorError"
+            app:icon="@drawable/ic_compose_attachment_remove"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="?colorError"
+            app:layout_constraintStart_toStartOf="@id/banner_pp"
+            app:layout_constraintTop_toTopOf="@id/banner_pp"
+            app:strokeColor="?colorError" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</com.google.android.material.card.MaterialCardView>
