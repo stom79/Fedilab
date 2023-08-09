@@ -191,8 +191,13 @@ public class SpannableHelper {
             final Spanned markdown = markwon.toMarkdown(initialContent.toString());
             content = new SpannableStringBuilder(markdown);
             position = 0;
+
             for (MarkdownConverter.MarkdownItem markdownItem : markdownConverter.markdownItems) {
-                Pattern p = Pattern.compile("(" + Pattern.quote(markdownItem.code) + ")", Pattern.CASE_INSENSITIVE);
+
+                String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(markdownItem.code).find() ? "\\b" : "";
+                String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(markdownItem.code).find() ? "\\b" : "\\B";
+
+                Pattern p = Pattern.compile(sb + "(" + Pattern.quote(markdownItem.code) + ")" + eb, Pattern.CASE_INSENSITIVE);
                 Matcher m = p.matcher(content);
                 int fetchPosition = 1;
                 while (m.find()) {

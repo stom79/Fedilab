@@ -40,10 +40,12 @@ public class MarkdownConverter {
 
         public int regexPosition(List<MarkdownItem> markdownItems) {
             int position = 0;
+            int loopedPosition = 0;
             for (MarkdownItem markdownItem : markdownItems) {
-                if (markdownItem.code.equals(code) && position <= this.position) {
+                if (markdownItem.code.equals(code) && loopedPosition <= this.position) {
                     position++;
                 }
+                loopedPosition++;
             }
             return position;
         }
