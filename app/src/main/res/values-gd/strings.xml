@@ -1006,4 +1006,5 @@
     <string name="lemmy_instance">Ionstans Lemmy</string>
     <string name="set_remote_conversation_title">Còmhraidhean cèine</string>
     <string name="set_remote_conversation">Seallaidh an aplacaid còmhraidhean poblach airson a h-uile teachdaireachd fhaighinn. Bidh eadar-ghabhail feumach air ceum a bharrachd airson co-nasgadh nan teachdaireachdan.</string>
+    <string name="markdown_support">Taic ri Markdown</string>
 </resources>
