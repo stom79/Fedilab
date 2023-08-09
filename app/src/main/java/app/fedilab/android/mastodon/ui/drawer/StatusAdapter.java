@@ -844,7 +844,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.cardTitle.setText(statusToDeal.card.title);
             holder.binding.cardDescription.setText(statusToDeal.card.description);
             holder.binding.cardUrl.setText(Helper.transformURL(context, statusToDeal.card.url));
-            holder.binding.card.setOnClickListener(v -> Helper.openBrowser(context, Helper.transformURL(context, statusToDeal.card.url)));
+            holder.binding.card.setOnClickListener(v -> {
+                SpannableHelper.linkClickAction(context, statusToDeal.card.url);
+            });
             holder.binding.card.setVisibility(View.VISIBLE);
         } else {
             holder.binding.card.setVisibility(View.GONE);

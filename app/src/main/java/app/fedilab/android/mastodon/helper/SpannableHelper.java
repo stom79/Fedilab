@@ -598,111 +598,7 @@ public class SpannableHelper {
             public void onClick(@NonNull View textView) {
 
                 textView.setTag(CLICKABLE_SPAN);
-                Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
-                Matcher matcherLink = link.matcher(finalUrl);
-                Pattern linkLong = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w_.-]+@[a-zA-Z0-9][a-zA-Z0-9.-]{1,61}[a-zA-Z0-9](?:\\.[a-zA-Z]{2,})+)(/[0-9]+)?$");
-                Matcher matcherLinkLong = linkLong.matcher(finalUrl);
-                Pattern userWithoutAt = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(users/([\\w._-]*[0-9]*))/statuses/([0-9]+)");
-                Matcher matcherUserWithoutAt = userWithoutAt.matcher(finalUrl);
-                if (matcherLink.find() && !finalUrl.contains("medium.com")) {
-                    if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
-                        CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
-                            @Override
-                            public void federatedStatus(Status status) {
-                                Intent intent = new Intent(context, ContextActivity.class);
-                                intent.putExtra(Helper.ARG_STATUS, status);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            }
-
-                            @Override
-                            public void federatedAccount(Account account) {
-                            }
-                        });
-                    } else {//It's an account
-                        CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
-                            @Override
-                            public void federatedStatus(Status status) {
-                            }
-
-                            @Override
-                            public void federatedAccount(Account account) {
-                                Intent intent = new Intent(context, ProfileActivity.class);
-                                Bundle b = new Bundle();
-                                b.putSerializable(Helper.ARG_ACCOUNT, account);
-                                intent.putExtras(b);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            }
-                        });
-                    }
-                } else if (matcherLinkLong.find() && !finalUrl.contains("medium.com")) {
-                    if (matcherLinkLong.group(3) != null && Objects.requireNonNull(matcherLinkLong.group(3)).length() > 0) { //It's a toot
-                        CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
-                            @Override
-                            public void federatedStatus(Status status) {
-                                Intent intent = new Intent(context, ContextActivity.class);
-                                intent.putExtra(Helper.ARG_STATUS, status);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            }
-
-                            @Override
-                            public void federatedAccount(Account account) {
-                            }
-                        });
-                    } else if (matcherLinkLong.group(2) != null) {//It's an account
-                        CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherLinkLong.group(2), new CrossActionHelper.Callback() {
-                            @Override
-                            public void federatedStatus(Status status) {
-                            }
-
-                            @Override
-                            public void federatedAccount(Account account) {
-                                Intent intent = new Intent(context, ProfileActivity.class);
-                                Bundle b = new Bundle();
-                                b.putSerializable(Helper.ARG_ACCOUNT, account);
-                                intent.putExtras(b);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            }
-                        });
-                    }
-                } else if (matcherUserWithoutAt.find() && !finalUrl.contains("medium.com")) {
-                    if (matcherUserWithoutAt.group(4) != null && Objects.requireNonNull(matcherUserWithoutAt.group(4)).length() > 0) { //It's a toot
-                        CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
-                            @Override
-                            public void federatedStatus(Status status) {
-                                Intent intent = new Intent(context, ContextActivity.class);
-                                intent.putExtra(Helper.ARG_STATUS, status);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            }
-
-                            @Override
-                            public void federatedAccount(Account account) {
-                            }
-                        });
-                    } else {//It's an account
-                        CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherUserWithoutAt.group(3) + "@" + matcherUserWithoutAt.group(1), new CrossActionHelper.Callback() {
-                            @Override
-                            public void federatedStatus(Status status) {
-                            }
-
-                            @Override
-                            public void federatedAccount(Account account) {
-                                Intent intent = new Intent(context, ProfileActivity.class);
-                                Bundle b = new Bundle();
-                                b.putSerializable(Helper.ARG_ACCOUNT, account);
-                                intent.putExtras(b);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            }
-                        });
-                    }
-                } else {
-                    Helper.openBrowser(context, finalUrl);
-                }
+                linkClickAction(context, finalUrl);
             }
 
             @Override
@@ -716,6 +612,113 @@ public class SpannableHelper {
         }, start, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     }
 
+    public static void linkClickAction(Context context, String finalUrl) {
+        Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
+        Matcher matcherLink = link.matcher(finalUrl);
+        Pattern linkLong = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w_.-]+@[a-zA-Z0-9][a-zA-Z0-9.-]{1,61}[a-zA-Z0-9](?:\\.[a-zA-Z]{2,})+)(/[0-9]+)?$");
+        Matcher matcherLinkLong = linkLong.matcher(finalUrl);
+        Pattern userWithoutAt = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(users/([\\w._-]*[0-9]*))/statuses/([0-9]+)");
+        Matcher matcherUserWithoutAt = userWithoutAt.matcher(finalUrl);
+        if (matcherLink.find() && !finalUrl.contains("medium.com")) {
+            if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
+                CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
+                    @Override
+                    public void federatedStatus(Status status) {
+                        Intent intent = new Intent(context, ContextActivity.class);
+                        intent.putExtra(Helper.ARG_STATUS, status);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void federatedAccount(Account account) {
+                    }
+                });
+            } else {//It's an account
+                CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
+                    @Override
+                    public void federatedStatus(Status status) {
+                    }
+
+                    @Override
+                    public void federatedAccount(Account account) {
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        Bundle b = new Bundle();
+                        b.putSerializable(Helper.ARG_ACCOUNT, account);
+                        intent.putExtras(b);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                });
+            }
+        } else if (matcherLinkLong.find() && !finalUrl.contains("medium.com")) {
+            if (matcherLinkLong.group(3) != null && Objects.requireNonNull(matcherLinkLong.group(3)).length() > 0) { //It's a toot
+                CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
+                    @Override
+                    public void federatedStatus(Status status) {
+                        Intent intent = new Intent(context, ContextActivity.class);
+                        intent.putExtra(Helper.ARG_STATUS, status);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void federatedAccount(Account account) {
+                    }
+                });
+            } else if (matcherLinkLong.group(2) != null) {//It's an account
+                CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherLinkLong.group(2), new CrossActionHelper.Callback() {
+                    @Override
+                    public void federatedStatus(Status status) {
+                    }
+
+                    @Override
+                    public void federatedAccount(Account account) {
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        Bundle b = new Bundle();
+                        b.putSerializable(Helper.ARG_ACCOUNT, account);
+                        intent.putExtras(b);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                });
+            }
+        } else if (matcherUserWithoutAt.find() && !finalUrl.contains("medium.com")) {
+            if (matcherUserWithoutAt.group(4) != null && Objects.requireNonNull(matcherUserWithoutAt.group(4)).length() > 0) { //It's a toot
+                CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
+                    @Override
+                    public void federatedStatus(Status status) {
+                        Intent intent = new Intent(context, ContextActivity.class);
+                        intent.putExtra(Helper.ARG_STATUS, status);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void federatedAccount(Account account) {
+                    }
+                });
+            } else {//It's an account
+                CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherUserWithoutAt.group(3) + "@" + matcherUserWithoutAt.group(1), new CrossActionHelper.Callback() {
+                    @Override
+                    public void federatedStatus(Status status) {
+                    }
+
+                    @Override
+                    public void federatedAccount(Account account) {
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        Bundle b = new Bundle();
+                        b.putSerializable(Helper.ARG_ACCOUNT, account);
+                        intent.putExtras(b);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                });
+            }
+        } else {
+            Helper.openBrowser(context, finalUrl);
+        }
+    }
 
     private static void emails(Context context, Spannable content) {
         // --- For all patterns defined in Helper class ---
