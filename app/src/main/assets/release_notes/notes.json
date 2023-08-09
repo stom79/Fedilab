@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.23.3",
+    "code": "496",
+    "note": "- Longer fields when editing bio\n- Clicks on card do not open Mastodon posts inside the app\n- Crash with Pixelfed\n- Line breaks with Markdown\n- Side effects with Markdown and some links"
+  },
+  {
     "version": "3.23.2",
     "code": "495",
     "note": "Added:\n- Markdown support (can be disabled in Settings > Timelines)"

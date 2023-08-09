@@ -1,0 +1,7 @@
+Fixed:
+
+- Longer fields when editing bio
+- Clicks on card do not open Mastodon posts inside the app
+- Crash with Pixelfed
+- Line breaks with Markdown
+- Side effects with Markdown and some links
