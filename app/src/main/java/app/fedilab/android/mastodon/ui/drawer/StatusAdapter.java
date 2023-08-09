@@ -1444,7 +1444,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.containerTrans.setVisibility(View.GONE);
         }
         if (statusToDeal.spoiler_text == null || statusToDeal.spoiler_text.trim().isEmpty() || statusToDeal.isExpended) {
-            if (statusToDeal.content.trim().length() == 0) {
+            if (statusToDeal.content == null || statusToDeal.content.trim().length() == 0) {
                 holder.binding.mediaContainer.setVisibility(View.GONE);
             } else {
                 if (!status.mathsShown) {
