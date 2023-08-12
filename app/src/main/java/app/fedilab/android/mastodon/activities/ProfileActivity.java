@@ -1017,6 +1017,9 @@ public class ProfileActivity extends BaseActivity {
                         }
                         accountsVM.getListContainingAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                                 .observe(ProfileActivity.this, mastodonListUserIs -> {
+                                    if (mastodonListUserIs == null) {
+                                        mastodonListUserIs = new ArrayList<>();
+                                    }
                                     AlertDialog.Builder builderSingle = new MaterialAlertDialogBuilder(ProfileActivity.this);
                                     builderSingle.setTitle(getString(R.string.action_lists_add_to));
                                     builderSingle.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss());
