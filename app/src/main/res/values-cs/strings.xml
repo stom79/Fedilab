@@ -1069,4 +1069,5 @@
     <string name="set_remote_conversation">Aplikace bude veřejně zobrazovat konverzace, aby získala všechny zprávy. Interakce budou k federaci zpráv potřebovat samostatný krok.</string>
     <string name="lemmy_instance">Instance Lemmy</string>
     <string name="self">Vlastní</string>
+    <string name="markdown_support">Podpora pro Markdown</string>
 </resources>
