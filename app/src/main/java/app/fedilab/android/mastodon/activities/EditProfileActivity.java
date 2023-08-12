@@ -17,6 +17,7 @@ package app.fedilab.android.mastodon.activities;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -60,6 +61,7 @@ public class EditProfileActivity extends BaseBarActivity {
     private ActivityEditProfileBinding binding;
     private AccountsVM accountsVM;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +71,20 @@ public class EditProfileActivity extends BaseBarActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        binding.scrollContainer.setOnTouchListener((v, event) -> {
+
+            binding.bio.getParent().requestDisallowInterceptTouchEvent(false);
+
+            return false;
+        });
+
+        binding.bio.setOnTouchListener((v, event) -> {
+
+            binding.bio.getParent().requestDisallowInterceptTouchEvent(true);
+
+            return false;
+        });
 
         new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class).getConnectedAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
                 .observe(EditProfileActivity.this, account -> {
