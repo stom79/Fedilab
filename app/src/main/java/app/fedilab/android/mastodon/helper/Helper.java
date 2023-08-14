@@ -2072,4 +2072,13 @@ public class Helper {
     public interface OnFileCopied {
         void onFileCopied(File file);
     }
+
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }

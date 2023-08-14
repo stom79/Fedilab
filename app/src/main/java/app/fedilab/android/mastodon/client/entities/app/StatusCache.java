@@ -555,15 +555,28 @@ public class StatusCache {
         String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_TYPE + "= '" + Timeline.TimeLineEnum.NOTIFICATION.getValue() + "' ";
         String limit = String.valueOf(MastodonHelper.statusesPerCall(context));
         if (min_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "' ";
+            if (Helper.isNumeric(min_id)) {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > cast(" + min_id + " as int) ";
+            } else {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "' ";
+            }
             order = " ASC";
         } else if (max_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "' ";
+            if (Helper.isNumeric(max_id)) {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " < cast(" + max_id + " as int) ";
+            } else {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "' ";
+            }
+
         } else if (since_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
+            if (Helper.isNumeric(since_id)) {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > cast(" + since_id + " as int) ";
+            } else {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
+            }
+
             limit = null;
         }
-
         if (exclude_type != null && exclude_type.size() > 0) {
             StringBuilder exclude = new StringBuilder();
             for (String excluded : exclude_type) {
@@ -600,12 +613,25 @@ public class StatusCache {
         String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_TYPE + "= '" + Timeline.TimeLineEnum.CONVERSATION.getValue() + "' ";
         String limit = String.valueOf(MastodonHelper.statusesPerCall(context));
         if (min_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "' ";
+            if (Helper.isNumeric(min_id)) {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > cast(" + min_id + " as int) ";
+            } else {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "' ";
+            }
             order = " ASC";
         } else if (max_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "' ";
+
+            if (Helper.isNumeric(max_id)) {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " < cast(" + max_id + " as int) ";
+            } else {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "' ";
+            }
         } else if (since_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
+            if (Helper.isNumeric(since_id)) {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > cast(" + since_id + " as int) ";
+            } else {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
+            }
             limit = null;
         }
         try {
@@ -636,12 +662,25 @@ public class StatusCache {
         String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + user_id + "' AND " + Sqlite.COL_SLUG + "= '" + slug + "' ";
         String limit = String.valueOf(MastodonHelper.statusesPerCall(context));
         if (min_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "' ";
+
+            if (Helper.isNumeric(min_id)) {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > cast(" + min_id + " as int) ";
+            } else {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + min_id + "' ";
+            }
             order = " ASC";
         } else if (max_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "' ";
+            if (Helper.isNumeric(max_id)) {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " < cast(" + max_id + " as int) ";
+            } else {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " < '" + max_id + "' ";
+            }
         } else if (since_id != null) {
-            selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
+            if (Helper.isNumeric(since_id)) {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > cast(" + since_id + " as int) ";
+            } else {
+                selection += "AND " + Sqlite.COL_STATUS_ID + " > '" + since_id + "' ";
+            }
             limit = null;
         }
         try {
