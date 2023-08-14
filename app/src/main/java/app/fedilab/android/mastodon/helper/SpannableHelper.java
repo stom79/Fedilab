@@ -113,6 +113,22 @@ public class SpannableHelper {
         return convert(context, text, status, account, announcement, viewWeakReference, callback, true);
     }
 
+
+    public static boolean isRTL(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            byte d = Character.getDirectionality(s.charAt(i));
+            if (d == Character.DIRECTIONALITY_RIGHT_TO_LEFT ||
+                    d == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC ||
+                    d == Character.DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING ||
+                    d == Character.DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
                                     WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml) {
@@ -196,8 +212,12 @@ public class SpannableHelper {
 
                 String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(markdownItem.code).find() ? "\\b" : "";
                 String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(markdownItem.code).find() ? "\\b" : "\\B";
-
-                Pattern p = Pattern.compile(sb + "(" + Pattern.quote(markdownItem.code) + ")" + eb, Pattern.CASE_INSENSITIVE);
+                Pattern p;
+                if (!isRTL(initialContent.toString())) {
+                    p = Pattern.compile(sb + "(" + Pattern.quote(markdownItem.code) + ")" + eb, Pattern.UNICODE_CASE);
+                } else {
+                    p = Pattern.compile(eb + "(" + Pattern.quote(markdownItem.code) + ")" + sb, Pattern.UNICODE_CASE);
+                }
                 Matcher m = p.matcher(content);
                 int fetchPosition = 1;
                 while (m.find()) {
