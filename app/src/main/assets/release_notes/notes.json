@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.23.4",
+    "code": "497",
+    "note": "Fixed:\n\n- Holes in timelines due to a cache bug\n- Fix tags issue with RTL and the markdown format\n- Scrollable bio when editing profiles\n- Crash when adding a user into a list"
+  },
+  {
     "version": "3.23.3",
     "code": "496",
     "note": "- Longer fields when editing bio\n- Clicks on card do not open Mastodon posts inside the app\n- Crash with Pixelfed\n- Line breaks with Markdown\n- Side effects with Markdown and some links"
