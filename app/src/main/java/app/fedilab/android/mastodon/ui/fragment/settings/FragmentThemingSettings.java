@@ -141,8 +141,8 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
                 SET_CUSTOM_ACCENT_DARK_VALUE.setColor(darkValue);
             }
             if (SET_CUSTOM_ACCENT_LIGHT_VALUE != null) {
-                int darkValue = sharedpreferences.getInt(getString(R.string.SET_CUSTOM_ACCENT_LIGHT_VALUE) + currentUserID + currentInstance, -1);
-                SET_CUSTOM_ACCENT_LIGHT_VALUE.setColor(darkValue);
+                int lightValue = sharedpreferences.getInt(getString(R.string.SET_CUSTOM_ACCENT_LIGHT_VALUE) + currentUserID + currentInstance, -1);
+                SET_CUSTOM_ACCENT_LIGHT_VALUE.setColor(lightValue);
             }
         }
 
