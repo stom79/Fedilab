@@ -910,4 +910,6 @@
     <string name="otp_message">Token de autenticação de dois fatores</string>
     <string name="compose_shortcut_short_label1">Compor</string>
     <string name="maths_format">Formato matemático</string>
+    <string name="report_indication_title_status_more">Escolha a melhor correspondência</string>
+    <string name="lemmy_instance">Instância Lemmy</string>
 </resources>
