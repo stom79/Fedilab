@@ -1,0 +1,5 @@
+Added:
+- Hide / Show Self boosts and self replies (Long press the Home tab)
+
+Changed:
+- Full screen size when writing media descriptions.
