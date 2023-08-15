@@ -21,6 +21,8 @@ import static app.fedilab.android.BaseMainActivity.currentUserID;
 import static app.fedilab.android.BaseMainActivity.show_boosts;
 import static app.fedilab.android.BaseMainActivity.show_dms;
 import static app.fedilab.android.BaseMainActivity.show_replies;
+import static app.fedilab.android.BaseMainActivity.show_self_boosts;
+import static app.fedilab.android.BaseMainActivity.show_self_replies;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -633,16 +635,22 @@ public class PinnedTimelineHelper {
                 .inflate(R.menu.option_filter_toots, popup.getMenu());
         Menu menu = popup.getMenu();
         final MenuItem itemShowBoosts = menu.findItem(R.id.action_show_boosts);
+        final MenuItem itemShowSelfBoosts = menu.findItem(R.id.action_show_self_boosts);
         final MenuItem itemShowReplies = menu.findItem(R.id.action_show_replies);
+        final MenuItem itemShowSelfReplies = menu.findItem(R.id.action_show_self_replies);
         final MenuItem itemShowDMs = menu.findItem(R.id.action_show_dms);
         final MenuItem itemFilter = menu.findItem(R.id.action_filter);
         if (!showExtendedFilter) {
             itemShowBoosts.setVisible(false);
             itemShowReplies.setVisible(false);
+            itemShowSelfBoosts.setVisible(false);
+            itemShowSelfReplies.setVisible(false);
             itemShowDMs.setVisible(false);
         } else {
             itemShowBoosts.setVisible(true);
             itemShowReplies.setVisible(true);
+            itemShowSelfBoosts.setVisible(true);
+            itemShowSelfReplies.setVisible(true);
             itemShowDMs.setVisible(true);
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -657,6 +665,8 @@ public class PinnedTimelineHelper {
 
         itemShowBoosts.setChecked(show_boosts);
         itemShowReplies.setChecked(show_replies);
+        itemShowSelfBoosts.setChecked(show_self_boosts);
+        itemShowSelfReplies.setChecked(show_self_replies);
         itemShowDMs.setChecked(show_dms);
         if (show_filtered != null && show_filtered.length() > 0) {
             itemFilter.setTitle(show_filtered);
@@ -692,10 +702,20 @@ public class PinnedTimelineHelper {
                 editor.putBoolean(activity.getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, show_boosts);
                 itemShowBoosts.setChecked(show_boosts);
                 editor.apply();
+            } else if (itemId == R.id.action_show_self_boosts) {
+                show_self_boosts = !show_self_boosts;
+                editor.putBoolean(activity.getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance, show_self_boosts);
+                itemShowSelfBoosts.setChecked(show_self_boosts);
+                editor.apply();
             } else if (itemId == R.id.action_show_replies) {
                 show_replies = !show_replies;
                 editor.putBoolean(activity.getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
                 itemShowReplies.setChecked(show_replies);
+                editor.apply();
+            } else if (itemId == R.id.action_show_self_replies) {
+                show_self_replies = !show_self_replies;
+                editor.putBoolean(activity.getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance, show_self_replies);
+                itemShowSelfReplies.setChecked(show_self_replies);
                 editor.apply();
             } else if (itemId == R.id.action_show_dms) {
                 show_dms = !show_dms;

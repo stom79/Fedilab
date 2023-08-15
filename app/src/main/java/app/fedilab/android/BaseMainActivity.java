@@ -208,7 +208,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static List<Filter> mainFilters;
     public static List<app.fedilab.android.mastodon.client.entities.api.Account> filteredAccounts;
     public static boolean filterFetched;
-    public static boolean show_boosts, show_replies, show_dms, show_art_nsfw;
+    public static boolean show_boosts, show_replies, show_dms, show_art_nsfw, show_self_boosts, show_self_replies;
     public static String regex_home, regex_local, regex_public;
     public static BaseAccount currentAccount;
     public static iconLauncher mLauncher = iconLauncher.BUBBLES;
@@ -1206,7 +1206,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 currentUserID = currentAccount.user_id;
 
                 show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, true);
+                show_self_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance, true);
                 show_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, true);
+                show_self_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance, true);
                 show_dms = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, true);
                 regex_home = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, null);
                 regex_local = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, null);
@@ -1538,16 +1540,22 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 .inflate(R.menu.option_filter_toots, popup.getMenu());
         Menu menu = popup.getMenu();
         final MenuItem itemShowBoosts = menu.findItem(R.id.action_show_boosts);
+        final MenuItem itemShowSelfBoosts = menu.findItem(R.id.action_show_self_boosts);
         final MenuItem itemShowDMs = menu.findItem(R.id.action_show_dms);
         final MenuItem itemShowReplies = menu.findItem(R.id.action_show_replies);
+        final MenuItem itemShowSelfReplies = menu.findItem(R.id.action_show_self_replies);
         final MenuItem itemFilter = menu.findItem(R.id.action_filter);
         if (!showExtendedFilter) {
             itemShowBoosts.setVisible(false);
             itemShowReplies.setVisible(false);
+            itemShowSelfBoosts.setVisible(false);
+            itemShowSelfReplies.setVisible(false);
             itemShowDMs.setVisible(false);
         } else {
             itemShowBoosts.setVisible(true);
             itemShowReplies.setVisible(true);
+            itemShowSelfBoosts.setVisible(true);
+            itemShowSelfReplies.setVisible(true);
             itemShowDMs.setVisible(true);
         }
 
@@ -1563,6 +1571,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
         itemShowBoosts.setChecked(show_boosts);
         itemShowReplies.setChecked(show_replies);
+        itemShowSelfBoosts.setChecked(show_self_boosts);
+        itemShowSelfReplies.setChecked(show_self_replies);
         itemShowDMs.setChecked(show_dms);
         if (show_filtered != null && show_filtered.length() > 0) {
             itemFilter.setTitle(show_filtered);
@@ -1599,10 +1609,20 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 editor.putBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, show_boosts);
                 itemShowBoosts.setChecked(show_boosts);
                 editor.apply();
+            } else if (itemId == R.id.action_show_self_boosts) {
+                show_self_boosts = !show_self_boosts;
+                editor.putBoolean(getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance, show_self_boosts);
+                itemShowSelfBoosts.setChecked(show_self_boosts);
+                editor.apply();
             } else if (itemId == R.id.action_show_replies) {
                 show_replies = !show_replies;
                 editor.putBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
                 itemShowReplies.setChecked(show_replies);
+                editor.apply();
+            } else if (itemId == R.id.action_show_self_replies) {
+                show_self_replies = !show_self_replies;
+                editor.putBoolean(getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance, show_self_replies);
+                itemShowSelfReplies.setChecked(show_self_replies);
                 editor.apply();
             } else if (itemId == R.id.action_show_dms) {
                 show_dms = !show_dms;

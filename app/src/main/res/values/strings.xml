@@ -48,6 +48,8 @@
     <string name="reblog">Boosts</string>
     <string name="show_boosts">Show boosts</string>
     <string name="show_replies">Show replies</string>
+    <string name="show_self_boosts">Show self boosts</string>
+    <string name="show_self_replies">Show self replies</string>
     <string name="show_privates">Show direct messages</string>
     <string name="action_open_in_web">Open in browser</string>
     <string name="translate">Translate</string>
@@ -1043,7 +1045,9 @@
     <string name="SET_TIMELINES_IN_A_LIST" translatable="false">SET_TIMELINES_IN_A_LIST</string>
     <string name="SET_LED_COLOUR_VAL_N" translatable="false">SET_LED_COLOUR_VAL_N</string>
     <string name="SET_SHOW_BOOSTS" translatable="false">SET_SHOW_BOOSTS</string>
+    <string name="SET_SHOW_SELF_BOOSTS" translatable="false">SET_SHOW_SELF_BOOSTS</string>
     <string name="SET_SHOW_REPLIES" translatable="false">SET_SHOW_REPLIES</string>
+    <string name="SET_SHOW_SELF_REPLIES" translatable="false">SET_SHOW_SELF_REPLIES</string>
     <string name="SET_SHOW_DMS" translatable="false">SET_SHOW_DMS</string>
 
     <string name="SET_DISABLE_ANIMATED_EMOJI" translatable="false">SET_DISABLE_ANIMATED_EMOJI</string>
