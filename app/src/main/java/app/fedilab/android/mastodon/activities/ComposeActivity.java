@@ -33,12 +33,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -55,6 +57,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.OutOfQuotaPolicy;
 import androidx.work.WorkManager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
@@ -64,6 +67,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -99,7 +103,7 @@ import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
 import es.dmoral.toasty.Toasty;
 
-public class ComposeActivity extends BaseActivity implements ComposeAdapter.ManageDrafts, AccountsReplyAdapter.ActionDone, ComposeAdapter.promptDraftListener {
+public class ComposeActivity extends BaseActivity implements ComposeAdapter.ManageDrafts, AccountsReplyAdapter.ActionDone, ComposeAdapter.promptDraftListener, ComposeAdapter.MediaDescriptionCallBack {
 
 
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 754;
@@ -206,7 +210,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
     @Override
     public void onBackPressed() {
-        storeDraftWarning();
+        if (binding.recyclerView.getVisibility() == View.VISIBLE) {
+            storeDraftWarning();
+        }
     }
 
     private void storeDraftWarning() {
@@ -290,6 +296,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         statusList.add(initialStatus);
         statusList.add(statusDraft.statusDraftList.get(0));
         composeAdapter = new ComposeAdapter(statusList, context.ancestors.size(), account, accountMention, visibility, editMessageId);
+        composeAdapter.mediaDescriptionCallBack = this;
         composeAdapter.promptDraftListener = this;
         composeAdapter.manageDrafts = this;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
@@ -617,6 +624,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             int statusCount = statusList.size();
             statusList.addAll(statusDraft.statusDraftList);
             composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, editMessageId);
+            composeAdapter.mediaDescriptionCallBack = this;
             composeAdapter.manageDrafts = this;
             composeAdapter.promptDraftListener = this;
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
@@ -689,6 +697,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             //StatusDraftList at this point should only have one element
             statusList.addAll(statusDraftList);
             composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, editMessageId);
+            composeAdapter.mediaDescriptionCallBack = this;
             composeAdapter.manageDrafts = this;
             composeAdapter.promptDraftListener = this;
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
@@ -703,6 +712,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             //StatusDraftList at this point should only have one element
             statusList.addAll(statusDraftList);
             composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, editMessageId);
+            composeAdapter.mediaDescriptionCallBack = this;
             composeAdapter.manageDrafts = this;
             composeAdapter.promptDraftListener = this;
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
@@ -712,6 +722,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             //Compose without replying
             statusList.addAll(statusDraftList);
             composeAdapter = new ComposeAdapter(statusList, 0, account, accountMention, visibility, editMessageId);
+            composeAdapter.mediaDescriptionCallBack = this;
             composeAdapter.manageDrafts = this;
             composeAdapter.promptDraftListener = this;
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
@@ -1008,6 +1019,36 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     @Override
     public void promptDraft() {
         promptSaveDraft = true;
+    }
+
+    @Override
+    public void click(ComposeAdapter.ComposeViewHolder holder, Attachment attachment, int messagePosition, int mediaPosition) {
+        binding.description.setVisibility(View.VISIBLE);
+        binding.recyclerView.setVisibility(View.GONE);
+        binding.mediaDescription.setText("");
+        String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;
+        Glide.with(binding.mediaPreview.getContext())
+                .load(attachmentPath)
+                .into(binding.mediaPreview);
+        if (attachment.description != null) {
+            binding.mediaDescription.setText(attachment.description);
+            binding.mediaDescription.setSelection(binding.mediaDescription.getText().length());
+        }
+        binding.mediaDescription.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1500)});
+        binding.mediaDescription.requestFocus();
+        Objects.requireNonNull(getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        binding.mediaDescription.requestFocus();
+
+        binding.mediaSave.setOnClickListener(v -> {
+            binding.description.setVisibility(View.GONE);
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            composeAdapter.openDescriptionActivity(true, binding.mediaDescription.getText().toString().trim(), holder, attachment, messagePosition, mediaPosition);
+        });
+        binding.mediaCancel.setOnClickListener(v -> {
+            binding.description.setVisibility(View.GONE);
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            composeAdapter.openDescriptionActivity(false, binding.mediaDescription.getText().toString().trim(), holder, attachment, messagePosition, mediaPosition);
+        });
     }
 
 

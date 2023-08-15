@@ -46,7 +46,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -69,7 +68,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
@@ -91,7 +89,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -105,7 +102,6 @@ import app.fedilab.android.databinding.ComposePollBinding;
 import app.fedilab.android.databinding.ComposePollItemBinding;
 import app.fedilab.android.databinding.DrawerStatusComposeBinding;
 import app.fedilab.android.databinding.DrawerStatusSimpleBinding;
-import app.fedilab.android.databinding.PopupMediaDescriptionBinding;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
@@ -170,6 +166,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private boolean unlisted_changed = false;
 
     private RecyclerView mRecyclerView;
+    public MediaDescriptionCallBack mediaDescriptionCallBack;
+
 
     public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, Account mentionedAccount, String visibility, String editMessageId) {
         this.statusList = statusList;
@@ -1146,7 +1144,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         intent.putExtras(b);
                         context.startActivity(intent);
                     });
-                    composeAttachmentItemBinding.buttonDescription.setOnClickListener(v -> openDescription(holder, attachment, position, finalMediaPosition));
+                    composeAttachmentItemBinding.buttonDescription.setOnClickListener(v -> mediaDescriptionCallBack.click(holder, attachment, position, finalMediaPosition));
 
                     composeAttachmentItemBinding.buttonOrderUp.setOnClickListener(v -> {
                         if (finalMediaPosition > 0 && attachmentList.size() > 1) {
@@ -1235,7 +1233,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     for (Attachment attachment : status.media_attachments) {
                         if (attachment.description == null || attachment.description.trim().isEmpty()) {
                             ComposeViewHolder composeViewHolder = (ComposeViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
-                            openDescription(composeViewHolder, attachment, position, mediaPosition);
+                            mediaDescriptionCallBack.click(composeViewHolder, attachment, position, mediaPosition);
                             return;
                         }
                         mediaPosition++;
@@ -1246,34 +1244,15 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-
-    private void openDescription(ComposeViewHolder holder, Attachment attachment, int messagePosition, int mediaPosition) {
-        String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;
-        AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
-        // builderInner.setTitle(R.string.upload_form_description);
-        PopupMediaDescriptionBinding popupMediaDescriptionBinding = PopupMediaDescriptionBinding.inflate(LayoutInflater.from(context), null, false);
-        builderInner.setView(popupMediaDescriptionBinding.getRoot());
-
-        popupMediaDescriptionBinding.mediaDescription.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1500)});
-        popupMediaDescriptionBinding.mediaDescription.requestFocus();
-        Glide.with(popupMediaDescriptionBinding.mediaPicture.getContext())
-                .load(attachmentPath)
-                .apply(new RequestOptions().transform(new RoundedCorners(30)))
-                .into(popupMediaDescriptionBinding.mediaPicture);
-        builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-        if (attachment.description != null) {
-            popupMediaDescriptionBinding.mediaDescription.setText(attachment.description);
-            popupMediaDescriptionBinding.mediaDescription.setSelection(popupMediaDescriptionBinding.mediaDescription.getText().length());
-        }
-        builderInner.setPositiveButton(R.string.validate, (dialog, which) -> {
-            attachment.description = popupMediaDescriptionBinding.mediaDescription.getText().toString();
+    public void openDescriptionActivity(boolean saved, String content, ComposeViewHolder holder, Attachment attachment, int messagePosition, int mediaPosition) {
+        if (saved) {
+            attachment.description = content;
             displayAttachments(holder, messagePosition, mediaPosition);
-            dialog.dismiss();
-        });
-        AlertDialog alertDialog = builderInner.create();
-        Objects.requireNonNull(alertDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        alertDialog.show();
-        popupMediaDescriptionBinding.mediaDescription.requestFocus();
+        }
+    }
+
+    public interface MediaDescriptionCallBack {
+        void click(ComposeViewHolder holder, Attachment attachment, int messagePosition, int mediaPosition);
     }
 
     /**
