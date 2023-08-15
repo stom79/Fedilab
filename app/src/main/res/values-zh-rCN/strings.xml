@@ -1053,4 +1053,8 @@
     <string name="auto">自动</string>
     <string name="set_custom_accent_value_light_description">将应用于浅色主题的颜色</string>
     <string name="set_custom_accent_dark_value">深色强调色</string>
+    <string name="set_remote_conversation_title">远程对话</string>
+    <string name="set_remote_conversation">应用将公开显示对话，以获取所有消息。互动需要额外的步骤来联合消息。</string>
+    <string name="markdown_support">Markdown 支持</string>
+    <string name="lemmy_instance">Lemmy 实例</string>
 </resources>
