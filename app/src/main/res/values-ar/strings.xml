@@ -227,7 +227,7 @@
     <string name="settings_time_from">بين</string>
     <string name="settings_time_to">و</string>
     <string name="embedded_browser">استخدم المتصفح المُدمَج في التطبيق</string>
-    <string name="custom_tabs">الألسنة الخاصة</string>
+    <string name="custom_tabs">المتصفح المدمج</string>
     <string name="expand_cw">توسيع نافذة التحذير عن المحتوى تلقائيًا</string>
     <string name="set_led_colour">اختيار لون الإشعار الضوئي:</string>
     <string-array name="led_colours">
@@ -429,7 +429,7 @@
     <string name="saving">جاري الحفظ…</string>
     <string name="image_saved">تم حفظ الصورة بنجاح!</string>
     <string name="save_image_failed">فشل في حفظ الصورة</string>
-    <string name="add_poll_item">إضافة خيار إلى الاستطلاع</string>
+    <string name="add_poll_item">إضافة خيار</string>
     <string name="mute_conversation">كتم المحادثة</string>
     <string name="unmute_conversation">ألغِ كتم المحادثة</string>
     <string name="toast_unmute_conversation">لقد تم إلغاء الكتم عن هذه المحادثة!</string>
@@ -811,4 +811,16 @@
     <string name="import_settings">استيراد الإعدادت</string>
     <string name="media_cannot_be_uploaded">لا يمكن تحميل الوسائط!</string>
     <string name="origin_report">أصل الحساب المبلغ عنه</string>
+    <string name="notif_display_updates_from_people">آخر المستجدات من الناس</string>
+    <string name="follows_you">يتابعك</string>
+    <string name="_new">جديد</string>
+    <string name="auto">تلقائي</string>
+    <string name="requested_by">طلب متابعتك</string>
+    <string name="exit">خروج</string>
+    <string name="add_description">إضافة وصف</string>
+    <string name="show_privates">إظهار الرسائل المباشرة</string>
+    <string name="proxy_protocol">البروتوكول</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
+    <string name="lemmy_instance">مثيل خادم Lemmy</string>
 </resources>
