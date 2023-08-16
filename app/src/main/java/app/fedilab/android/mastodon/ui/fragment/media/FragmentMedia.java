@@ -21,6 +21,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -246,7 +247,7 @@ public class FragmentMedia extends Fragment {
         }
         binding.pbarInf.setIndeterminate(false);
         binding.pbarInf.setScaleY(3f);
-        binding.mediaVideo.setVisibility(View.VISIBLE);
+        binding.videoViewContainer.setVisibility(View.VISIBLE);
         Uri uri = Uri.parse(url);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         int video_cache = sharedpreferences.getInt(getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
@@ -266,7 +267,16 @@ public class FragmentMedia extends Fragment {
             player.setRepeatMode(Player.REPEAT_MODE_ONE);
             binding.mediaVideo.setUseController(false);
         }
+        binding.mediaVideo.setOnTouchListener((view, motionEvent) -> {
+            if (binding.controls.getVisibility() != View.VISIBLE) {
+                binding.controls.setVisibility(View.VISIBLE);
+                final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(() -> binding.controls.setVisibility(View.GONE), 2000);
+            }
+            return false;
+        });
         binding.mediaVideo.setPlayer(player);
+        binding.controls.setPlayer(player);
         binding.loader.setVisibility(View.GONE);
         binding.mediaPicture.setVisibility(View.GONE);
         player.setMediaSource(videoSource);
@@ -349,7 +359,7 @@ public class FragmentMedia extends Fragment {
                         @Override
                         public void onSlideChange(float percent) {
                             if (percent < 0.70) {
-                                binding.mediaVideo.setVisibility(View.GONE);
+                                binding.videoViewContainer.setVisibility(View.GONE);
                                 binding.videoLayout.setVisibility(View.GONE);
                                 ActivityCompat.finishAfterTransition(requireActivity());
                             }
