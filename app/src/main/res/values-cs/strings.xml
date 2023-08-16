@@ -1070,4 +1070,6 @@
     <string name="lemmy_instance">Instance Lemmy</string>
     <string name="self">Vlastní</string>
     <string name="markdown_support">Podpora pro Markdown</string>
+    <string name="show_self_boosts">Zobrazit boosty sebe sama</string>
+    <string name="show_self_replies">Zobrazit odpovědi na sebe</string>
 </resources>
