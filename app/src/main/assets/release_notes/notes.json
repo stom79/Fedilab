@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.24.0",
+    "code": "499",
+    "note": "Added:\n- Markdown support (can be disabled in Settings > Timelines)\n- Hide / Show Self boosts, self replies and your own messages (Long press the Home tab)\n\nChanged:\n- Full screen size when writing media descriptions.\n- Move media descriptions to the top\n\nFixed:\n- Holes in timelines due to a cache bug\n- Spoiler issue when composing threads\n- CamelCase tags when forwarding them in replies\n- Buttons hidden by keyboard when composing\n- Overlay with menu and buttons when playing videos\n- Clicks on card do not open Mastodon posts inside the app\n- Scrollable bio when editing profiles\n- Crash when adding a user into a list\n- Longer fields when editing bio\n- Crash with Pixelfed\n"
+  },
+  {
     "version": "3.23.5",
     "code": "498",
     "note": "Added:\n- Hide / Show Self boosts and self replies (Long press the Home tab)\n\nChanged:\n- Full screen size when writing media descriptions."
