@@ -1621,12 +1621,30 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (forwardTag && position > 0 && statusDraft.text != null && !statusDraft.text.contains("#") && !statusList.get(position).tagAdded) {
                 statusList.get(position).tagAdded = true;
                 Status status = statusList.get(position - 1).reblog == null ? statusList.get(position - 1) : statusList.get(position - 1).reblog;
-                if (status.tags != null && status.tags.size() > 0) {
+                if (status.text == null && status.content != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                        status.text = new SpannableString(Html.fromHtml(status.content, Html.FROM_HTML_MODE_LEGACY)).toString();
+                    else
+                        status.text = new SpannableString(Html.fromHtml(status.content)).toString();
+                }
+                List<String> camelCaseTags = new ArrayList<>();
+                Matcher matcher = Helper.hashtagPattern.matcher(status.text);
+                while (matcher.find()) {
+                    int matchStart = matcher.start(1);
+                    int matchEnd = matcher.end();
+                    //Get cached tags
+                    if (matchStart >= 0 && matchEnd < status.text.length()) {
+                        String tag = status.text.substring(matchStart, matchEnd);
+                        tag = tag.replace("#", "");
+                        camelCaseTags.add(tag);
+                    }
+                }
+                if (camelCaseTags.size() > 0) {
                     statusDraft.text += "\n\n";
                     int lenght = 0;
-                    for (Tag tag : status.tags) {
-                        statusDraft.text += "#" + tag.name + " ";
-                        lenght += ("#" + tag.name + " ").length();
+                    for (String tag : camelCaseTags) {
+                        statusDraft.text += "#" + tag + " ";
+                        lenght += ("#" + tag + " ").length();
                     }
                     holder.binding.content.setText(statusDraft.text);
                     statusDraft.cursorPosition = statusDraft.text.length() - lenght - 3;
@@ -1635,11 +1653,29 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             } else if (forwardTag && position > 0 && statusDraft.text != null && statusDraft.text.contains("#") && !statusList.get(position).tagAdded) {
                 Status status = statusList.get(position - 1).reblog == null ? statusList.get(position - 1) : statusList.get(position - 1).reblog;
-                if (status.tags != null && status.tags.size() > 0) {
+                if (status.text == null && status.content != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                        status.text = new SpannableString(Html.fromHtml(status.content, Html.FROM_HTML_MODE_LEGACY)).toString();
+                    else
+                        status.text = new SpannableString(Html.fromHtml(status.content)).toString();
+                }
+                List<String> camelCaseTags = new ArrayList<>();
+                Matcher matcher = Helper.hashtagPattern.matcher(status.text);
+                while (matcher.find()) {
+                    int matchStart = matcher.start(1);
+                    int matchEnd = matcher.end();
+                    //Get cached tags
+                    if (matchStart >= 0 && matchEnd < status.text.length()) {
+                        String tag = status.text.substring(matchStart, matchEnd);
+                        tag = tag.replace("#", "");
+                        camelCaseTags.add(tag);
+                    }
+                }
+                if (camelCaseTags.size() > 0) {
                     statusList.get(position).tagAdded = true;
                     int lenght = 0;
-                    for (Tag tag : status.tags) {
-                        lenght += ("#" + tag.name + " ").length();
+                    for (String tag : camelCaseTags) {
+                        lenght += ("#" + tag + " ").length();
                     }
                     statusDraft.cursorPosition = statusDraft.text.length() - lenght - 3;
                     statusDraft.setCursorToEnd = false;
