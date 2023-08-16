@@ -1059,4 +1059,6 @@
     <string name="set_remote_conversation_title">Entfernte Unterhaltungen</string>
     <string name="set_remote_conversation">Die App zeigt öffentliche Unterhaltungen an, um alle Nachrichten zu erhalten. Für Interaktionen ist ein zusätzlicher Schritt erforderlich, um Nachrichten zu verbinden.</string>
     <string name="markdown_support">Markdown-Unterstützung</string>
+    <string name="show_self_boosts">Eigene geteilte Beiträge anzeigen</string>
+    <string name="show_self_replies">Eigene Antworten anzeigen</string>
 </resources>
