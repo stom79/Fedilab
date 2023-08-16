@@ -1,6 +1,6 @@
 Added:
 - Markdown support (can be disabled in Settings > Timelines)
-- Hide / Show Self boosts and self replies (Long press the Home tab)
+- Hide / Show Self boosts, self replies and your own messages (Long press the Home tab)
 
 Changed:
 - Full screen size when writing media descriptions.

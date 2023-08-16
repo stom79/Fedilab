@@ -208,7 +208,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static List<Filter> mainFilters;
     public static List<app.fedilab.android.mastodon.client.entities.api.Account> filteredAccounts;
     public static boolean filterFetched;
-    public static boolean show_boosts, show_replies, show_dms, show_art_nsfw, show_self_boosts, show_self_replies;
+    public static boolean show_boosts, show_replies, show_dms, show_art_nsfw, show_self_boosts, show_self_replies, show_my_messages;
     public static String regex_home, regex_local, regex_public;
     public static BaseAccount currentAccount;
     public static iconLauncher mLauncher = iconLauncher.BUBBLES;
@@ -1206,6 +1206,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 currentUserID = currentAccount.user_id;
 
                 show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, true);
+                show_my_messages = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance, true);
                 show_self_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance, true);
                 show_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, true);
                 show_self_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance, true);
@@ -1540,6 +1541,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 .inflate(R.menu.option_filter_toots, popup.getMenu());
         Menu menu = popup.getMenu();
         final MenuItem itemShowBoosts = menu.findItem(R.id.action_show_boosts);
+        final MenuItem itemShowMyMessages = menu.findItem(R.id.action_show_my_messages);
         final MenuItem itemShowSelfBoosts = menu.findItem(R.id.action_show_self_boosts);
         final MenuItem itemShowDMs = menu.findItem(R.id.action_show_dms);
         final MenuItem itemShowReplies = menu.findItem(R.id.action_show_replies);
@@ -1550,12 +1552,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             itemShowReplies.setVisible(false);
             itemShowSelfBoosts.setVisible(false);
             itemShowSelfReplies.setVisible(false);
+            itemShowMyMessages.setVisible(false);
             itemShowDMs.setVisible(false);
         } else {
             itemShowBoosts.setVisible(true);
             itemShowReplies.setVisible(true);
             itemShowSelfBoosts.setVisible(true);
             itemShowSelfReplies.setVisible(true);
+            itemShowMyMessages.setVisible(true);
             itemShowDMs.setVisible(true);
         }
 
@@ -1570,6 +1574,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
 
         itemShowBoosts.setChecked(show_boosts);
+        itemShowMyMessages.setChecked(show_my_messages);
         itemShowReplies.setChecked(show_replies);
         itemShowSelfBoosts.setChecked(show_self_boosts);
         itemShowSelfReplies.setChecked(show_self_replies);
@@ -1608,6 +1613,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 show_boosts = !show_boosts;
                 editor.putBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, show_boosts);
                 itemShowBoosts.setChecked(show_boosts);
+                editor.apply();
+            } else if (itemId == R.id.action_show_my_messages) {
+                show_my_messages = !show_my_messages;
+                editor.putBoolean(getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance, show_my_messages);
+                itemShowMyMessages.setChecked(show_my_messages);
                 editor.apply();
             } else if (itemId == R.id.action_show_self_boosts) {
                 show_self_boosts = !show_self_boosts;

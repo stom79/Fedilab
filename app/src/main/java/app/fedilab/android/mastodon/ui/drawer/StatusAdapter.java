@@ -17,12 +17,14 @@ package app.fedilab.android.mastodon.ui.drawer;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.BaseMainActivity.currentUserID;
 import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.regex_home;
 import static app.fedilab.android.BaseMainActivity.regex_local;
 import static app.fedilab.android.BaseMainActivity.regex_public;
 import static app.fedilab.android.BaseMainActivity.show_boosts;
 import static app.fedilab.android.BaseMainActivity.show_dms;
+import static app.fedilab.android.BaseMainActivity.show_my_messages;
 import static app.fedilab.android.BaseMainActivity.show_replies;
 import static app.fedilab.android.BaseMainActivity.show_self_boosts;
 import static app.fedilab.android.BaseMainActivity.show_self_replies;
@@ -219,6 +221,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private static boolean isVisible(Timeline.TimeLineEnum timelineType, Status status, List<Status> statusList) {
         if (timelineType == Timeline.TimeLineEnum.HOME && !show_boosts && status.reblog != null) {
+            return false;
+        }
+        if (timelineType == Timeline.TimeLineEnum.HOME && !show_my_messages && status.account.id.equals(currentUserID)) {
             return false;
         }
         if (timelineType == Timeline.TimeLineEnum.HOME && !show_self_boosts && status.reblog != null && status.reblog.account.id.equals(status.account.id)) {
