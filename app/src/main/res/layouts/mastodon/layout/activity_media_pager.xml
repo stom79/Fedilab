@@ -33,9 +33,9 @@
 
     <TextView
         android:id="@+id/media_description"
+        android:fitsSystemWindows="true"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:maxHeight="300dp"
         android:scrollbars="vertical"
         android:layout_gravity="center_horizontal|bottom"
@@ -51,7 +51,7 @@
         tools:visibility="visible" />
 
     <TextView
-        android:layout_marginTop="100dp"
+        android:fitsSystemWindows="true"
         android:id="@+id/media_description_translated"
         android:layout_width="0dp"
         android:maxHeight="300dp"
@@ -71,16 +71,16 @@
         tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
-        android:layout_marginTop="100dp"
+
         android:id="@+id/translate"
-        style="@style/Widget.Material3.Button.IconButton"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/translate"
         android:visibility="gone"
         app:icon="@drawable/ic_baseline_translate_24"
         app:iconPadding="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/media_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/media_description"
         tools:visibility="visible" />
