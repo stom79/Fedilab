@@ -796,6 +796,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         }
         status.spoiler_text = statusList.get(position - 1).spoiler_text;
         status.sensitive = statusList.get(position - 1).sensitive;
+        status.spoilerChecked = statusList.get(position - 1).spoilerChecked;
         statusList.add(status);
         composeAdapter.notifyItemInserted(position);
         composeAdapter.notifyItemRangeChanged(0, statusList.size());
