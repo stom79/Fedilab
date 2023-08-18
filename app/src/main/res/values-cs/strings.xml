@@ -1072,4 +1072,5 @@
     <string name="markdown_support">Podpora pro Markdown</string>
     <string name="show_self_boosts">Zobrazit boosty sebe sama</string>
     <string name="show_self_replies">Zobrazit odpovědi na sebe</string>
+    <string name="show_my_messages">Ukázat mé zprávy</string>
 </resources>
