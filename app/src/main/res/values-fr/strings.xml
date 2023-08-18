@@ -537,7 +537,7 @@
     <string name="icons_color_title">Icônes</string>
     <string name="icons_color">Couleur des icônes du bas dans les fils</string>
     <string name="logo_of_the_instance">Logo de l\'instance</string>
-    <string name="edit_profile">Éditer le profil</string>
+    <string name="edit_profile">Modifier le profil</string>
     <string name="make_an_action">Faire une action</string>
     <string name="translation">Traduction</string>
     <string name="text_color_title">Couleur du texte</string>
@@ -767,7 +767,7 @@
     <string name="set_display_counters">Afficher des compteurs</string>
     <string name="set_display_counters_description">Affichera une bulle avec un compteur dans les onglets des fils pour les nouveaux messages</string>
     <string name="view_the_original_message">Ouvrir le message d\'origine</string>
-    <string name="full_date_edited">%1$s a édité %2$s</string>
+    <string name="full_date_edited">%1$s a été modifié %2$s</string>
     <string name="icon_size">Tailles des icônes</string>
     <string name="remember_position">Se souvenir de la position dans les fils</string>
     <string name="aggregate_notifications">Regrouper les notifications</string>
@@ -783,9 +783,9 @@
     <string name="set_live_translate_title">Traduire les messages</string>
     <string name="set_live_translate">Forcer la traduction dans une langue spécifique. Choisissez la première valeur pour réinitialiser les paramètres de l’appareil</string>
     <string name="aggregate_notifications_summary">Lors de l’activation, l’application réduira les notifications associées</string>
-    <string name="edit_message">Éditer le message</string>
+    <string name="edit_message">Modifier le message</string>
     <string name="status_history">Historique du message</string>
-    <string name="edited_message_at">Édité à %1$s</string>
+    <string name="edited_message_at">Modifié à %1$s</string>
     <string name="created_message_at">Créé à %1$s</string>
     <string name="max_indentation_thread">Indentation maximale des fils</string>
     <string name="set_unlisted_replies">Réponses non-listées</string>
@@ -837,7 +837,7 @@
     <string name="add_keyword">Ajouter le mot-clé</string>
     <string name="show_anyway">Afficher quand-même</string>
     <string name="filtered_by">Filtré : %1$s</string>
-    <string name="notif_update">A édité un message</string>
+    <string name="notif_update">A modifié un message</string>
     <string name="account_warned">Compte averti</string>
     <string name="watch_trends_for_instance">Voir les tendances pour cette instance</string>
     <string name="hide_with_warning">Masquer avec un avertissement</string>
@@ -862,7 +862,7 @@
     <string name="channel_notif_update">Nouvelle mise à jour</string>
     <string name="channel_notif_signup">Nouvel abonnement</string>
     <string name="channel_notif_report">Nouveau signalement</string>
-    <string name="notif_update_push">Un message que vous avez partagé a été édité</string>
+    <string name="notif_update_push">Un message que vous avez partagé a été modifié</string>
     <string name="notif_sign_up">Un⋅e utilisateur⋅ice s\'est abonné⋅e</string>
     <string name="action_privacy_policy">Politique de vie privée</string>
     <string name="no_blocked_domains">Vous n’avez pas bloqué de domaines</string>
