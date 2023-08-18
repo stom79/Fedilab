@@ -171,9 +171,6 @@ public class FragmentLoginMain extends Fragment {
                 if (nodeInfo != null) {
                     BaseMainActivity.software = nodeInfo.software.name.toUpperCase();
                     switch (nodeInfo.software.name.toUpperCase().trim()) {
-                        case "MASTODON":
-                            apiLogin = Account.API.MASTODON;
-                            break;
                         case "FRIENDICA":
                             apiLogin = Account.API.FRIENDICA;
                             break;
@@ -188,7 +185,7 @@ public class FragmentLoginMain extends Fragment {
                             apiLogin = Account.API.PEERTUBE;
                             break;
                         default:
-                            apiLogin = Account.API.UNKNOWN;
+                            apiLogin = Account.API.MASTODON;
                             break;
                     }
                     softwareLogin = nodeInfo.software.name.toUpperCase();
