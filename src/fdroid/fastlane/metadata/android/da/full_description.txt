@@ -4,11 +4,11 @@ Den understøtter:
 
 Appen har avancerede funktioner (især for Pleroma og Mastodon):
 
-- Flerkontiunderstøttelse
-- Skedulér beskeder fra enheden
-- Skedulér boosts
+- Flerkontounderstøttelse
+- Planlæg beskeder fra enheden
+- Planlæg fremhævninger
 - Bogmærk beskeder
-- Følg og interagér med fjerninstanser
+- Følg og interager med fjerninstanser
 - Gør konti tavse jf. tidsintervaller
 - Krydskontohandlinger via langt tryk
 - Oversættelsesfunktion
