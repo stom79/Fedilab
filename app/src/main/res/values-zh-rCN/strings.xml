@@ -1057,4 +1057,7 @@
     <string name="set_remote_conversation">应用将公开显示对话，以获取所有消息。互动需要额外的步骤来联合消息。</string>
     <string name="markdown_support">Markdown 支持</string>
     <string name="lemmy_instance">Lemmy 实例</string>
+    <string name="show_self_boosts">显示自己的转发</string>
+    <string name="show_self_replies">显示自己的回复</string>
+    <string name="show_my_messages">显示自己的消息</string>
 </resources>
