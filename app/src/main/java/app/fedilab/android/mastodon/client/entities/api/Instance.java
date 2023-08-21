@@ -169,8 +169,8 @@ public class Instance implements Serializable {
         public int min_expiration;
         @SerializedName("max_options")
         public int max_options = 4;
-        @SerializedName("max_option_chars")
-        public int max_option_chars = 25;
+        @SerializedName("max_characters_per_option")
+        public int max_option_chars = 50;
         @SerializedName("max_expiration")
         public int max_expiration;
     }

@@ -319,7 +319,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
         ComposePollBinding composePollBinding = ComposePollBinding.inflate(LayoutInflater.from(requireActivity()), new LinearLayout(requireActivity()), false);
         alertPoll.setView(composePollBinding.getRoot());
         int max_entry = 4;
-        int max_length = 25;
+        int max_length = 50;
         final int[] pollCountItem = {2};
 
         if (instanceInfo != null && instanceInfo.configuration != null && instanceInfo.configuration.pollsConf != null) {
