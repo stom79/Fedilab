@@ -1057,4 +1057,8 @@
     <string name="set_remote_conversation_title">Conversations distantes</string>
     <string name="markdown_support">Prise en charge de Markdown</string>
     <string name="lemmy_instance">Instance Lemmy</string>
+    <string name="show_self_boosts">Afficher les messages partagés par leur auteur⋅ice</string>
+    <string name="show_self_replies">Afficher les réponses aux message du même auteur⋅ice</string>
+    <string name="set_remote_conversation">L\'application affichera publiquement les conversations pour obtenir tous les messages. Les interactions auront besoin d\'une étape supplémentaire pour fédérer les messages.</string>
+    <string name="show_my_messages">Afficher mes messages</string>
 </resources>
