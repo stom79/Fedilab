@@ -210,14 +210,9 @@ public class SpannableHelper {
 
             for (MarkdownConverter.MarkdownItem markdownItem : markdownConverter.markdownItems) {
 
-                String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(markdownItem.code).find() ? "\\b" : "";
-                String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(markdownItem.code).find() ? "\\b" : "\\B";
-                Pattern p;
-                if (!isRTL(initialContent.toString())) {
-                    p = Pattern.compile(sb + "(" + Pattern.quote(markdownItem.code) + ")" + eb, Pattern.UNICODE_CASE);
-                } else {
-                    p = Pattern.compile(eb + "(" + Pattern.quote(markdownItem.code) + ")" + sb, Pattern.UNICODE_CASE);
-                }
+                String sb = Pattern.compile("\\A[\\p{L}0-9_]").matcher(markdownItem.code).find() ? "\\b" : "";
+                String eb = Pattern.compile("[\\p{L}0-9_]\\z").matcher(markdownItem.code).find() ? "\\b" : "\\B";
+                Pattern p = Pattern.compile(sb + "(" + Pattern.quote(markdownItem.code) + ")" + eb, Pattern.UNICODE_CASE);
                 Matcher m = p.matcher(content);
                 int fetchPosition = 1;
                 while (m.find()) {
