@@ -1,0 +1,5 @@
+Hinzugefügt:
+- Peertube 2FA Unterstützung
+
+Fehler behoben:
+- Dynamische Farben für Android 12+

@@ -1053,4 +1053,7 @@
     <string name="set_remote_conversation">A app mostrará todas as mensaxes das conversas públicas. As interacción precisarán un paso extra para federar as mensaxes.</string>
     <string name="track_selection_title">Elexir calidade</string>
     <string name="markdown_support">Soporte para Markdown</string>
+    <string name="show_self_boosts">Mostrar autopromocións</string>
+    <string name="show_self_replies">Mostrar respostas a ti mesma</string>
+    <string name="show_my_messages">Mostrar as miñas mensaxes</string>
 </resources>
