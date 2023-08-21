@@ -1625,7 +1625,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 ratio = measuredWidth > 0 ? measuredWidth / mediaW : 1.0f;
                             }
                         }
-                        if (autoplaygif && attachment.type.equalsIgnoreCase("gifv")) {
+                        if (autoplaygif && attachment.type.equalsIgnoreCase("gifv") && mediaPosition == 1) {
 
                             layoutMediaBinding.media.setVisibility(View.GONE);
                             layoutMediaBinding.mediaVideo.setVisibility(View.VISIBLE);
@@ -1702,7 +1702,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     } else {
                         layoutMediaBinding.mediaRoot.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-                        if (autoplaygif && attachment.type.equalsIgnoreCase("gifv") && !statusToDeal.sensitive) {
+                        if (autoplaygif && attachment.type.equalsIgnoreCase("gifv") && !statusToDeal.sensitive && mediaPosition == 1) {
                             layoutMediaBinding.media.setVisibility(View.GONE);
                             layoutMediaBinding.mediaVideo.setVisibility(View.VISIBLE);
                             layoutMediaBinding.mediaVideo.onResume();
