@@ -31,6 +31,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
+import com.google.android.material.color.DynamicColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jaredrummler.android.colorpicker.ColorPreferenceCompat;
 
@@ -118,7 +119,20 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         SwitchPreferenceCompat SET_CUSTOM_ACCENT = findPreference(getString(R.string.SET_CUSTOM_ACCENT));
         ColorPreferenceCompat SET_CUSTOM_ACCENT_DARK_VALUE = findPreference(getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE));
         ColorPreferenceCompat SET_CUSTOM_ACCENT_LIGHT_VALUE = findPreference(getString(R.string.SET_CUSTOM_ACCENT_LIGHT_VALUE));
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+        if (DynamicColors.isDynamicColorAvailable()) {
+            if (SET_CUSTOM_ACCENT != null) {
+                boolean customAccentEnabled = sharedpreferences.getBoolean(getString(R.string.SET_CUSTOM_ACCENT) + currentUserID + currentInstance, false);
+                SET_CUSTOM_ACCENT.setChecked(customAccentEnabled);
+            }
+            if (SET_CUSTOM_ACCENT_DARK_VALUE != null) {
+                int darkValue = sharedpreferences.getInt(getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE) + currentUserID + currentInstance, -1);
+                SET_CUSTOM_ACCENT_DARK_VALUE.setColor(darkValue);
+            }
+            if (SET_CUSTOM_ACCENT_LIGHT_VALUE != null) {
+                int lightValue = sharedpreferences.getInt(getString(R.string.SET_CUSTOM_ACCENT_LIGHT_VALUE) + currentUserID + currentInstance, -1);
+                SET_CUSTOM_ACCENT_LIGHT_VALUE.setColor(lightValue);
+            }
+        } else {
             if (SET_DYNAMIC_COLOR != null) {
                 getPreferenceScreen().removePreference(SET_DYNAMIC_COLOR);
             }
@@ -130,19 +144,6 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             }
             if (SET_CUSTOM_ACCENT_LIGHT_VALUE != null) {
                 getPreferenceScreen().removePreference(SET_CUSTOM_ACCENT_LIGHT_VALUE);
-            }
-        } else {
-            if (SET_CUSTOM_ACCENT != null) {
-                boolean customAccentEnabled = sharedpreferences.getBoolean(getString(R.string.SET_CUSTOM_ACCENT) + currentUserID + currentInstance, false);
-                SET_CUSTOM_ACCENT.setChecked(customAccentEnabled);
-            }
-            if (SET_CUSTOM_ACCENT_DARK_VALUE != null) {
-                int darkValue = sharedpreferences.getInt(getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE) + currentUserID + currentInstance, -1);
-                SET_CUSTOM_ACCENT_DARK_VALUE.setColor(darkValue);
-            }
-            if (SET_CUSTOM_ACCENT_LIGHT_VALUE != null) {
-                int darkValue = sharedpreferences.getInt(getString(R.string.SET_CUSTOM_ACCENT_LIGHT_VALUE) + currentUserID + currentInstance, -1);
-                SET_CUSTOM_ACCENT_LIGHT_VALUE.setColor(darkValue);
             }
         }
 
