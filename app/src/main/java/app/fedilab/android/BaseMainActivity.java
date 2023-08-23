@@ -1114,7 +1114,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         .proxy(Helper.getProxy(getApplication().getApplicationContext()))
                         .build();
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://" + IDN.toASCII(MainActivity.currentInstance, IDN.ALLOW_UNASSIGNED) + "/api/v1/")
+                        .baseUrl("https://" + (MainActivity.currentInstance != null ? IDN.toASCII(MainActivity.currentInstance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
                         .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                         .client(okHttpClient)
                         .build();
