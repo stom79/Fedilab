@@ -90,9 +90,13 @@ import app.fedilab.android.mastodon.client.entities.app.MarkdownConverter;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.FiltersVM;
 import es.dmoral.toasty.Toasty;
+import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.SoftBreakAddsNewLinePlugin;
+import io.noties.markwon.ext.strikethrough.StrikethroughPlugin;
 import io.noties.markwon.ext.tables.TablePlugin;
+import io.noties.markwon.inlineparser.HtmlInlineProcessor;
+import io.noties.markwon.inlineparser.MarkwonInlineParserPlugin;
 import io.noties.markwon.syntax.Prism4jThemeDefault;
 import io.noties.markwon.syntax.SyntaxHighlightPlugin;
 import io.noties.prism4j.Prism4j;
@@ -202,7 +206,17 @@ public class SpannableHelper {
             final Markwon markwon = Markwon.builder(context)
                     .usePlugin(TablePlugin.create(context))
                     .usePlugin(SoftBreakAddsNewLinePlugin.create())
-                    .usePlugin(SyntaxHighlightPlugin.create(new Prism4j(new MySuperGrammerLocator()), Prism4jThemeDefault.create())).build();
+                    .usePlugin(SyntaxHighlightPlugin.create(new Prism4j(new MySuperGrammerLocator()), Prism4jThemeDefault.create()))
+                    .usePlugin(StrikethroughPlugin.create())
+                    .usePlugin(MarkwonInlineParserPlugin.create())
+                    .usePlugin(new AbstractMarkwonPlugin() {
+                        @Override
+                        public void configure(@NonNull Registry registry) {
+                            registry.require(MarkwonInlineParserPlugin.class, plugin -> plugin.factoryBuilder()
+                                    .excludeInlineProcessor(HtmlInlineProcessor.class));
+                        }
+                    })
+                    .build();
 
             final Spanned markdown = markwon.toMarkdown(initialContent.toString());
             content = new SpannableStringBuilder(markdown);
