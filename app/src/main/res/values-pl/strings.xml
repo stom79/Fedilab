@@ -530,7 +530,7 @@
     <string name="order_by">Sortuj według</string>
     <string name="link_color_title">Linki</string>
     <string name="link_color">Zmień kolor linków (URL, wzmianki, tagi itp.) w wiadomościach</string>
-    <string name="boost_header_color_title">Reblogs header</string>
+    <string name="boost_header_color_title">Nagłówek rebloga</string>
     <string name="displayname_title">Zmiana koloru nazwy wyświetlanej na górze wiadomości</string>
     <string name="username_title">Zmiana koloru nazwy użytkownika w górnej części wiadomości</string>
     <string name="boost_header_color">Zmień kolor nagłówka dla reblogów</string>
@@ -573,7 +573,7 @@
 \n %2$s</string>
     <string name="set_utm_parameters">Usuń parametry UTM</string>
     <string name="set_utm_parameters_indication">Aplikacja automatycznie usunie parametry UTM z adresów URL przed odwiedzeniem linku.</string>
-    <string name="talking_about">%d people talking</string>
+    <string name="talking_about">%d ludzi o tym pisze</string>
     <string name="twitter_accounts">Konta Twitter (przez Nitter)</string>
     <string name="list_of_twitter_accounts">Nazwy użytkowników Twittera oddzielone spacjami</string>
     <string name="identity_proofs">Dowód tożsamości</string>
@@ -1066,4 +1066,12 @@
     <string name="set_custom_accent">Niestandardowy kolor akcentu</string>
     <string name="notif_signed_up">Zarejestrowany</string>
     <string name="load_media_remotely">Ładuj media zdalnie</string>
+    <string name="set_remote_conversation_title">Zdalne konwersacje</string>
+    <string name="self">Własne</string>
+    <string name="set_remote_conversation">Aplikacja wyświetli publicznie konwersacje, aby uzyskać wszystkie wiadomości. Interakcje będą wymagały dodatkowego kroku w celu federacji wiadomości.</string>
+    <string name="show_self_replies">Pokaż odpowiedzi do własnych postów</string>
+    <string name="show_self_boosts">Pokaż podbicia własnych postów</string>
+    <string name="show_my_messages">Pokaż moje wiadomości</string>
+    <string name="markdown_support">Obsługa Markdown</string>
+    <string name="lemmy_instance">Instancja Lemmy</string>
 </resources>
