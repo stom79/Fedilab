@@ -214,6 +214,7 @@ public class Helper {
     public static final String ARG_NOTIFICATION_TYPE = "ARG_NOTIFICATION_TYPE";
     public static final String ARG_EXCLUDED_NOTIFICATION_TYPE = "ARG_EXCLUDED_NOTIFICATION_TYPE";
     public static final String ARG_STATUS = "ARG_STATUS";
+    public static final String ARG_FOCUSED_STATUS_URI = "ARG_FOCUSED_STATUS_URI";
     public static final String ARG_TIMELINE_REFRESH_ALL = "ARG_TIMELINE_REFRESH_ALL";
     public static final String ARG_REFRESH_NOTFICATION = "ARG_REFRESH_NOTFICATION";
     public static final String ARG_STATUS_DELETED = "ARG_STATUS_DELETED";

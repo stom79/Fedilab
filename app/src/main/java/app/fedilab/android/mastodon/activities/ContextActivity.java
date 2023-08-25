@@ -62,6 +62,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
     private Status firstMessage;
     private String remote_instance;
     private Status focusedStatus;
+    private String focusedStatusURI;
     private boolean checkRemotely;
 
     @Override
@@ -91,10 +92,15 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         if (b != null) {
             focusedStatus = (Status) b.getSerializable(Helper.ARG_STATUS);
             remote_instance = b.getString(Helper.ARG_REMOTE_INSTANCE, null);
+            focusedStatusURI = b.getString(Helper.ARG_FOCUSED_STATUS_URI, null);
+
         }
         if (focusedStatus == null || currentAccount == null || currentAccount.mastodon_account == null) {
             finish();
             return;
+        }
+        if (focusedStatusURI == null && remote_instance == null) {
+            focusedStatusURI = focusedStatus.uri;
         }
         MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
 
@@ -236,6 +242,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                                     Bundle bundle = new Bundle();
                                     bundle.putSerializable(Helper.ARG_STATUS, status);
                                     bundle.putString(Helper.ARG_REMOTE_INSTANCE, finalInstance);
+                                    bundle.putString(Helper.ARG_FOCUSED_STATUS_URI, focusedStatusURI);
                                     FragmentMastodonContext fragmentMastodonContext = new FragmentMastodonContext();
                                     fragmentMastodonContext.firstMessage = ContextActivity.this;
                                     currentFragment = Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, fragmentMastodonContext, bundle, null, null);
@@ -281,6 +288,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                         if (status != null) {
                             Intent intentContext = new Intent(ContextActivity.this, ContextActivity.class);
                             intentContext.putExtra(Helper.ARG_STATUS, status);
+                            intentContext.putExtra(Helper.ARG_FOCUSED_STATUS_URI, focusedStatusURI);
                             intentContext.putExtra(Helper.ARG_REMOTE_INSTANCE, finalInstance);
                             intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intentContext);

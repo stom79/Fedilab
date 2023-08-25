@@ -124,7 +124,7 @@ public class FragmentMastodonContext extends Fragment {
         }
     };
     private Status focusedStatus;
-    private String remote_instance;
+    private String remote_instance, focusedStatusURI;
     private Status firstStatus;
     private boolean pullToRefresh;
     private String user_token, user_instance;
@@ -153,9 +153,11 @@ public class FragmentMastodonContext extends Fragment {
 
         focusedStatus = null;
         pullToRefresh = false;
+        focusedStatusURI = null;
         if (getArguments() != null) {
             focusedStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
             remote_instance = getArguments().getString(Helper.ARG_REMOTE_INSTANCE, null);
+            focusedStatusURI = getArguments().getString(Helper.ARG_FOCUSED_STATUS_URI, null);
         }
         if (remote_instance != null) {
             user_instance = remote_instance;
@@ -264,7 +266,22 @@ public class FragmentMastodonContext extends Fragment {
         }
         binding.recyclerView.addItemDecoration(new DividerDecoration(requireActivity(), statuses));
         binding.swipeContainer.setRefreshing(false);
-        binding.recyclerView.scrollToPosition(statusPosition);
+        if (focusedStatusURI == null) {
+            binding.recyclerView.scrollToPosition(statusPosition);
+        } else {
+            int position = 0;
+            boolean found = false;
+            for (Status status : statuses) {
+                if (status.uri.compareToIgnoreCase(focusedStatusURI) == 0) {
+                    found = true;
+                    break;
+                }
+                position++;
+            }
+            if (found) {
+                binding.recyclerView.scrollToPosition(position);
+            }
+        }
     }
 
     @Override
