@@ -669,10 +669,8 @@ public class Helper {
                     .build();
             builder.setDefaultColorSchemeParams(defaultColors);
             CustomTabsIntent customTabsIntent = builder.build();
-            url = url.replace("HTTPS://", "https://");
-            url = url.replace("HTTP://", "http://");
             try {
-                customTabsIntent.launchUrl(context, Uri.parse(url));
+                customTabsIntent.launchUrl(context, Uri.parse(url).normalizeScheme());
             } catch (Exception e) {
                 Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
             }
@@ -683,7 +681,7 @@ public class Helper {
             if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
                 url = "http://" + url;
             }
-            intent.setData(Uri.parse(url));
+            intent.setData(Uri.parse(url).normalizeScheme());
             try {
                 context.startActivity(intent);
             } catch (Exception e) {
