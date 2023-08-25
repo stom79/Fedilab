@@ -60,11 +60,11 @@ public class Account implements Serializable {
     @SerializedName("header_static")
     public String header_static;
     @SerializedName("followers_count")
-    public int followers_count;
+    public long followers_count;
     @SerializedName("following_count")
-    public int following_count;
+    public long following_count;
     @SerializedName("statuses_count")
-    public int statuses_count;
+    public long statuses_count;
     @SerializedName("last_status_at")
     public Date last_status_at;
     @SerializedName("source")

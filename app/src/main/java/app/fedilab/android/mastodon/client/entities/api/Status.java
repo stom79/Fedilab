@@ -62,11 +62,11 @@ public class Status implements Serializable, Cloneable {
     @SerializedName("url")
     public String url;
     @SerializedName("replies_count")
-    public int replies_count;
+    public long replies_count;
     @SerializedName("reblogs_count")
-    public int reblogs_count;
+    public long reblogs_count;
     @SerializedName("favourites_count")
-    public int favourites_count;
+    public long favourites_count;
     @SerializedName("favourited")
     public boolean favourited;
     @SerializedName("reblogged")
