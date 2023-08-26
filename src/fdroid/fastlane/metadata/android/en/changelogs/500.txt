@@ -1,0 +1,14 @@
+Added:
+- Three new app icons (Pride, Pink and Pirate)
+- Keep position with remote conversations
+
+Fixed:
+- Markdown: stop parsing tags and support strike text
+- Cursor more visible when composing
+- Fix custom instance max char length not working
+- Tabs in profiles
+- Fix not clickable tags for some languages
+- Bug with account having huge amount of followers
+- Crash with several gif in same message
+- Poll max chars
+- Some crashes
