@@ -47,6 +47,7 @@
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/content_spoiler"
             android:layout_width="0dp"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:layout_marginTop="6dp"
@@ -72,6 +73,7 @@
         <app.fedilab.android.mastodon.helper.FedilabAutoCompleteTextView
             android:id="@+id/content"
             android:layout_width="0dp"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:focusable="true"
