@@ -553,13 +553,13 @@ public class MastodonHelper {
 
     public static int getInstanceMaxChars(Context context) {
         int max_car;
-        if (instanceInfo != null) {
-            max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        int val = sharedpreferences.getInt(context.getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, -1);
+        if (val != -1) {
+            return val;
         } else {
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            int val = sharedpreferences.getInt(context.getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, -1);
-            if (val != -1) {
-                return val;
+            if (instanceInfo != null) {
+                max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
             } else {
                 max_car = 500;
             }

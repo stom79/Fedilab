@@ -50,7 +50,6 @@ import app.fedilab.android.mastodon.viewmodel.mastodon.InstancesVM;
 public class InstanceActivity extends DialogFragment {
 
     ActivityInstanceBinding binding;
-    private boolean applyMaxChar = false;
 
     @NonNull
     @Override
@@ -78,19 +77,23 @@ public class InstanceActivity extends DialogFragment {
 
         binding.about.setOnClickListener(v -> Helper.openBrowser(requireActivity(), "https://" + MainActivity.currentInstance + "/about"));
         binding.privacy.setOnClickListener(v -> Helper.openBrowser(requireActivity(), "https://" + MainActivity.currentInstance + "/privacy-policy"));
+        int maxCharCustom = sharedpreferences.getInt(getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, -1);
+        if (maxCharCustom != -1) {
+            binding.maxChar.setText(String.valueOf(maxCharCustom));
+        }
         binding.close.setOnClickListener(view -> {
-            if (applyMaxChar) {
-                String max_char = binding.maxChar.getText().toString();
-
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                if (!max_char.isEmpty()) {
-                    try {
-                        editor.putInt(getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, Integer.parseInt(max_char));
+                    String max_char = binding.maxChar.getText().toString();
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    if (!max_char.isEmpty()) {
+                        try {
+                            editor.putInt(getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, Integer.parseInt(max_char));
+                            editor.apply();
+                        } catch (Exception ignored) {
+                        }
+                    } else {
+                        editor.putInt(getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, -1);
                         editor.apply();
-                    } catch (Exception ignored) {
                     }
-                }
-            }
                     requireDialog().dismiss();
                 }
 
@@ -107,8 +110,6 @@ public class InstanceActivity extends DialogFragment {
                 if (val != -1) {
                     binding.maxChar.setText(String.valueOf(val));
                 }
-                applyMaxChar = true;
-
             } else {
                 Instance instance = instanceInfo.info;
 
