@@ -81,6 +81,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityProfileBinding;
 import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
+import app.fedilab.android.databinding.TabProfileCustomViewBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.FamiliarFollowers;
@@ -291,9 +292,27 @@ public class ProfileActivity extends BaseActivity {
         binding.accountTabLayout.removeAllTabs();
         //Tablayout for timelines/following/followers
         FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(getSupportFragmentManager(), account, checkRemotely);
-        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count))));
-        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count))));
-        binding.accountTabLayout.addTab(binding.accountTabLayout.newTab().setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count))));
+        TabProfileCustomViewBinding tabMessagesView = TabProfileCustomViewBinding.inflate(getLayoutInflater());
+        TabProfileCustomViewBinding tabFollowingView = TabProfileCustomViewBinding.inflate(getLayoutInflater());
+        TabProfileCustomViewBinding tabFollowersView = TabProfileCustomViewBinding.inflate(getLayoutInflater());
+
+        tabMessagesView.title.setText(getString(R.string.toots));
+        tabMessagesView.count.setText(Helper.withSuffix(account.statuses_count));
+        tabFollowingView.title.setText(getString(R.string.following));
+        tabFollowingView.count.setText(Helper.withSuffix(account.following_count));
+        tabFollowersView.title.setText(getString(R.string.followers));
+        tabFollowersView.count.setText(Helper.withSuffix(account.followers_count));
+
+        TabLayout.Tab tabMessages = binding.accountTabLayout.newTab();
+        TabLayout.Tab tabFollowing = binding.accountTabLayout.newTab();
+        TabLayout.Tab tabFollowers = binding.accountTabLayout.newTab();
+        tabMessages.setCustomView(tabMessagesView.getRoot());
+        tabFollowing.setCustomView(tabFollowingView.getRoot());
+        tabFollowers.setCustomView(tabFollowersView.getRoot());
+
+        binding.accountTabLayout.addTab(tabMessages);
+        binding.accountTabLayout.addTab(tabFollowing);
+        binding.accountTabLayout.addTab(tabFollowers);
         binding.accountViewpager.setAdapter(fedilabProfileTLPageAdapter);
         binding.accountViewpager.setOffscreenPageLimit(3);
         binding.accountViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.accountTabLayout));
