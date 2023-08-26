@@ -758,6 +758,9 @@
         <item>Fedilab</item>
         <item>Fedilab UA</item>
         <item>Fedilab Pea Green</item>
+        <item>FediPride</item>
+        <item>FediPink</item>
+        <item>FediPirate</item>
         <item>Fediverse</item>
         <item>SuperHero</item>
         <item>Atom</item>
@@ -768,6 +771,9 @@
         <item>Bubbles</item>
         <item>BubblesUA</item>
         <item>BubblesPeaGreen</item>
+        <item>BubblesPride</item>
+        <item>BubblesPink</item>
+        <item>BubblesPirate</item>
         <item>Fediverse</item>
         <item>Hero</item>
         <item>Atom</item>
@@ -779,6 +785,9 @@
         <item>@drawable/ic_launcher_bubbles_foreground</item>
         <item>@drawable/ic_launcher_bubbles_ua_foreground</item>
         <item>@drawable/ic_launcher_bubbles_pea_green_foreground</item>
+        <item>@drawable/ic_launcher_bubbles_pride_foreground</item>
+        <item>@drawable/ic_launcher_bubbles_pink_foreground</item>
+        <item>@drawable/ic_launcher_bubbles_pirate_foreground</item>
         <item>@drawable/ic_launcher_fediverse_foreground</item>
         <item>@drawable/ic_launcher_hero_foreground</item>
         <item>@drawable/ic_launcher_atom_foreground</item>

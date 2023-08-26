@@ -60,6 +60,16 @@ public class LogoHelper {
                 return R.drawable.fedilab_logo_crash;
             case "Mastalab":
                 return R.drawable.fedilab_logo_mastalab;
+            case "BubblesUA":
+                return R.drawable.fedilab_logo_bubbles_ua;
+            case "BubblesPeaGreen":
+                return R.drawable.fedilab_logo_bubbles_pea_green;
+            case "BubblesPride":
+                return R.drawable.fedilab_logo_bubbles_pride;
+            case "BubblesPink":
+                return R.drawable.fedilab_logo_bubbles_pink;
+            case "BubblesPirate":
+                return R.drawable.fedilab_logo_bubbles_pirate;
             default:
                 return R.drawable.fedilab_logo_bubbles;
         }
@@ -82,6 +92,12 @@ public class LogoHelper {
                 return R.drawable.fedilab_logo_bubbles_ua;
             case "BubblesPeaGreen":
                 return R.drawable.fedilab_logo_bubbles_pea_green;
+            case "BubblesPride":
+                return R.drawable.fedilab_logo_bubbles_pride;
+            case "BubblesPink":
+                return R.drawable.fedilab_logo_bubbles_pink;
+            case "BubblesPirate":
+                return R.drawable.fedilab_logo_bubbles_pirate;
             default:
                 return R.drawable.fedilab_logo_bubbles;
         }
@@ -109,6 +125,15 @@ public class LogoHelper {
                 break;
             case "BubblesPeaGreen":
                 mLauncher = BaseMainActivity.iconLauncher.BUBBLESPEAGREEN;
+                break;
+            case "BubblesPride":
+                mLauncher = BaseMainActivity.iconLauncher.BUBBLESPRIDE;
+                break;
+            case "BubblesPink":
+                mLauncher = BaseMainActivity.iconLauncher.BUBBLESPINK;
+                break;
+            case "BubblesPirate":
+                mLauncher = BaseMainActivity.iconLauncher.BUBBLESPIRATE;
                 break;
             default:
                 mLauncher = BaseMainActivity.iconLauncher.BUBBLES;
