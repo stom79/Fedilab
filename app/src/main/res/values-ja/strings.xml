@@ -954,7 +954,7 @@
     <string name="v_list">リスト</string>
     <string name="set_display_local_only">「ローカルのみ」ボタンを表示</string>
     <string name="translator">翻訳</string>
-    <string name="also_followed_by">あなたをフォローした他のユーザー:</string>
+    <string name="also_followed_by">フォロワー:</string>
     <string name="toast_error_peertube_not_supported">PeerTubeのバージョンが古いため、このアプリではサポートされていません。</string>
     <string name="otp_message">二要素認証のトークン</string>
     <string name="compose_shortcut_short_label1">作成</string>
@@ -1048,4 +1048,8 @@
     <string name="set_custom_accent_dark_value">ダークテーマのアクセントカラー</string>
     <string name="set_custom_accent_value_dark_description">ダークテーマに適用されるアクセントカラー</string>
     <string name="lemmy_instance">Lemmyインスタンス</string>
+    <string name="show_self_boosts">自分のブーストを表示する</string>
+    <string name="show_self_replies">自分の返信を表示する</string>
+    <string name="markdown_support">Markdownをレンダリングする</string>
+    <string name="show_my_messages">自分の投稿を表示する</string>
 </resources>
