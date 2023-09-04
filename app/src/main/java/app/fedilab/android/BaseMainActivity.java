@@ -1107,12 +1107,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
             //If the attached account is null, the app will fetch remote instance to get up-to-date values
             if (currentAccount != null && currentAccount.mastodon_account == null) {
-                OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                        .readTimeout(60, TimeUnit.SECONDS)
-                        .connectTimeout(60, TimeUnit.SECONDS)
-                        .callTimeout(60, TimeUnit.SECONDS)
-                        .proxy(Helper.getProxy(getApplication().getApplicationContext()))
-                        .build();
+                OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("https://" + (MainActivity.currentInstance != null ? IDN.toASCII(MainActivity.currentInstance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
                         .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))

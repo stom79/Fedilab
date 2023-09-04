@@ -33,7 +33,6 @@ import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,11 +55,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TimelineHelper {
 
     private static MastodonFiltersService initv2(Context context) {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .proxy(Helper.getProxy(context))
-                .build();
+        OkHttpClient okHttpClient = Helper.myOkHttpClient(context);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + (MainActivity.currentInstance != null ? IDN.toASCII(MainActivity.currentInstance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create())

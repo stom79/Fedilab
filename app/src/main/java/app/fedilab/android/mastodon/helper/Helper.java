@@ -140,6 +140,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -168,6 +169,8 @@ import app.fedilab.android.mastodon.watermark.androidwm.bean.WatermarkText;
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class Helper {
@@ -2079,5 +2082,21 @@ public class Helper {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public static OkHttpClient myOkHttpClient(Context context) {
+        return new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    Request originalRequest = chain.request();
+                    Request requestWithUserAgent = originalRequest.newBuilder()
+                            .header("User-Agent", context.getString(R.string.app_name) + "/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE)
+                            .build();
+                    return chain.proceed(requestWithUserAgent);
+                })
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .callTimeout(60, TimeUnit.SECONDS)
+                .proxy(Helper.getProxy(context))
+                .build();
     }
 }

@@ -29,7 +29,6 @@ import com.google.gson.GsonBuilder;
 import java.net.IDN;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.mastodon.client.endpoints.MastodonSearchService;
 import app.fedilab.android.mastodon.client.entities.api.Results;
@@ -45,12 +44,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchVM extends AndroidViewModel {
 
-    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .callTimeout(60, TimeUnit.SECONDS)
-            .proxy(Helper.getProxy(getApplication().getApplicationContext()))
-            .build();
+    final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
     private MutableLiveData<Results> resultsMutableLiveData;
 
     public SearchVM(@NonNull Application application) {

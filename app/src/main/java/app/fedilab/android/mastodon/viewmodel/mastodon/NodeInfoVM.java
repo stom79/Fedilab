@@ -25,7 +25,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.net.IDN;
-import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.mastodon.client.NodeInfoService;
 import app.fedilab.android.mastodon.client.entities.app.WellKnownNodeinfo;
@@ -38,11 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NodeInfoVM extends AndroidViewModel {
 
-    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .readTimeout(5, TimeUnit.SECONDS)
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .proxy(Helper.getProxy(getApplication().getApplicationContext()))
-            .build();
+    final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
 
     private MutableLiveData<WellKnownNodeinfo.NodeInfo> nodeInfoMutableLiveData;
 

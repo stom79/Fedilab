@@ -24,7 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
 import java.net.IDN;
-import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.endpoints.MastodonNotificationsService;
@@ -132,11 +131,7 @@ public class PushNotifications {
     }
 
     private static MastodonNotificationsService init(@NonNull Context context, String instance) {
-        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .proxy(Helper.getProxy(context.getApplicationContext()))
-                .build();
+        final OkHttpClient okHttpClient = Helper.myOkHttpClient(context);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))

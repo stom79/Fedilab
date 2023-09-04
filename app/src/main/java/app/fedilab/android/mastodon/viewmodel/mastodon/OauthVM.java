@@ -27,7 +27,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.net.IDN;
-import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.mastodon.client.endpoints.MastodonAppsService;
 import app.fedilab.android.mastodon.client.entities.api.Token;
@@ -40,12 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OauthVM extends AndroidViewModel {
 
-    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .callTimeout(60, TimeUnit.SECONDS)
-            .proxy(Helper.getProxy(getApplication().getApplicationContext()))
-            .build();
+    final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
     private MutableLiveData<Token> tokenMutableLiveData;
     private MutableLiveData<Void> voidMutableLiveData;
 

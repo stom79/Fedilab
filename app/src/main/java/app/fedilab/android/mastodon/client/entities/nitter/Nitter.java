@@ -29,7 +29,6 @@ import java.net.IDN;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,12 +61,7 @@ public class Nitter implements Serializable {
 
     public static MastodonTimelinesService initInstanceXMLOnly(Context context, String instance) {
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .callTimeout(60, TimeUnit.SECONDS)
-                .proxy(Helper.getProxy(context))
-                .build();
+        OkHttpClient okHttpClient = Helper.myOkHttpClient(context);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null))
                 .addConverterFactory(SimpleXmlConverterFactory.create())

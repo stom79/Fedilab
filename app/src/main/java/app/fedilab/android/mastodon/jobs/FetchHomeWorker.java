@@ -64,12 +64,7 @@ public class FetchHomeWorker extends Worker {
 
     private static final int FETCH_HOME_CHANNEL_ID = 5;
     private static final String CHANNEL_ID = "fedilab_home";
-    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .callTimeout(60, TimeUnit.SECONDS)
-            .proxy(Helper.getProxy(getApplicationContext().getApplicationContext()))
-            .build();
+    final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplicationContext());
     private final NotificationManager notificationManager;
 
 

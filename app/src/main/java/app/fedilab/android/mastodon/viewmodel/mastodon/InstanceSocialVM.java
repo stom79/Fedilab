@@ -23,7 +23,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.mastodon.client.entities.app.InstanceSocial;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -36,12 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class InstanceSocialVM extends AndroidViewModel {
 
-    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .callTimeout(60, TimeUnit.SECONDS)
-            .proxy(Helper.getProxy(getApplication().getApplicationContext()))
-            .build();
+    final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
     private final InstancesSocialService instancesSocialService;
     private MutableLiveData<InstanceSocial> instanceSocialMutableLiveData;
 

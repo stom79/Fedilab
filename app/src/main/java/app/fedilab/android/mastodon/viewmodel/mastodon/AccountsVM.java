@@ -27,7 +27,6 @@ import androidx.lifecycle.MutableLiveData;
 import java.net.IDN;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
@@ -69,12 +68,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AccountsVM extends AndroidViewModel {
 
 
-    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .callTimeout(60, TimeUnit.SECONDS)
-            .proxy(Helper.getProxy(getApplication().getApplicationContext()))
-            .build();
+    final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
 
 
     private MutableLiveData<Account> accountMutableLiveData;

@@ -54,7 +54,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -226,11 +225,7 @@ public class RetrofitPeertubeAPI {
     }
 
     private PeertubeService init() {
-        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .proxy(app.fedilab.android.mastodon.helper.Helper.getProxy(_context.getApplicationContext()))
-                .build();
+        final OkHttpClient okHttpClient = app.fedilab.android.mastodon.helper.Helper.myOkHttpClient(_context);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(finalUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -248,11 +243,7 @@ public class RetrofitPeertubeAPI {
         if (!URLUtil.isValidUrl("https://" + instance)) {
             return null;
         }
-        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .proxy(app.fedilab.android.mastodon.helper.Helper.getProxy(_context.getApplicationContext()))
-                .build();
+        final OkHttpClient okHttpClient = app.fedilab.android.mastodon.helper.Helper.myOkHttpClient(_context);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null))
                 .addConverterFactory(GsonConverterFactory.create())
