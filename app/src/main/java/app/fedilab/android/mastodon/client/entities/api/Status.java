@@ -152,21 +152,21 @@ public class Status implements Serializable, Cloneable {
 
     public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference, Callback callback) {
         if (contentSpan == null) {
-            contentSpan = SpannableHelper.convert(context, content, this, null, null, viewWeakReference, callback);
+            contentSpan = SpannableHelper.convert(context, content, this, null, null, viewWeakReference, callback, true);
         }
         return contentSpan;
     }
 
     public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference, Callback callback) {
         if (contentSpoilerSpan == null) {
-            contentSpoilerSpan = SpannableHelper.convert(context, spoiler_text, this, null, null, viewWeakReference, callback);
+            contentSpoilerSpan = SpannableHelper.convert(context, spoiler_text, this, null, null, viewWeakReference, callback, false);
         }
         return contentSpoilerSpan;
     }
 
     public synchronized Spannable getSpanTranslate(Context context, WeakReference<View> viewWeakReference, Callback callback) {
         if (contentTranslateSpan == null) {
-            contentTranslateSpan = SpannableHelper.convert(context, translationContent, this, null, null, viewWeakReference, callback);
+            contentTranslateSpan = SpannableHelper.convert(context, translationContent, this, null, null, viewWeakReference, callback, true);
         }
         return contentTranslateSpan;
     }

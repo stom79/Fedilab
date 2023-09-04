@@ -108,13 +108,13 @@ public class SpannableHelper {
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement, WeakReference<View> viewWeakReference) {
-        return convert(context, text, status, account, announcement, viewWeakReference, null, true);
+        return convert(context, text, status, account, announcement, viewWeakReference, null, true, false);
     }
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
-                                    WeakReference<View> viewWeakReference, Status.Callback callback) {
-        return convert(context, text, status, account, announcement, viewWeakReference, callback, true);
+                                    WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertMarkdown) {
+        return convert(context, text, status, account, announcement, viewWeakReference, callback, true, convertMarkdown);
     }
 
 
@@ -135,7 +135,7 @@ public class SpannableHelper {
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
-                                    WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml) {
+                                    WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml, boolean convertMarkdown) {
         if (text == null) {
             return null;
         }
@@ -179,7 +179,7 @@ public class SpannableHelper {
         boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), true);
         //Get all links
         SpannableStringBuilder content;
-        if (markdownSupport) {
+        if (markdownSupport && convertMarkdown) {
             MarkdownConverter markdownConverter = new MarkdownConverter();
             markdownConverter.markdownItems = new ArrayList<>();
             int next;
