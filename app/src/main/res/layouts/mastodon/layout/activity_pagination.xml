@@ -87,6 +87,7 @@
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/media_description"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

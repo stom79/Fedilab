@@ -41,7 +41,6 @@ import java.net.IDN;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 import app.fedilab.android.BaseMainActivity;
@@ -126,7 +125,9 @@ public class NotificationsHelper {
                     }
                 }
             } finally {
-                lock.unlock();
+                if (lock.isHeldByCurrentThread()) {
+                    lock.unlock();
+                }
             }
         }).start();
     }

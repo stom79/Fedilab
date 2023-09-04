@@ -114,6 +114,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private List<Status> statusList;
     private Status statusReply, statusMention, statusQuoted;
     private StatusDraft statusDraft;
+    private ActionBar actionBar;
     private ComposeAdapter composeAdapter;
     private final BroadcastReceiver imageReceiver = new BroadcastReceiver() {
         @Override
@@ -482,7 +483,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         setSupportActionBar(binding.toolbar);
         promptSaveDraft = false;
         restoredDraft = false;
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -1025,6 +1026,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     @Override
     public void click(ComposeAdapter.ComposeViewHolder holder, Attachment attachment, int messagePosition, int mediaPosition) {
         binding.description.setVisibility(View.VISIBLE);
+        actionBar.hide();
         binding.recyclerView.setVisibility(View.GONE);
         binding.mediaDescription.setText("");
         String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;
@@ -1042,11 +1044,13 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
         binding.mediaSave.setOnClickListener(v -> {
             binding.description.setVisibility(View.GONE);
+            actionBar.show();
             binding.recyclerView.setVisibility(View.VISIBLE);
             composeAdapter.openDescriptionActivity(true, binding.mediaDescription.getText().toString().trim(), holder, attachment, messagePosition, mediaPosition);
         });
         binding.mediaCancel.setOnClickListener(v -> {
             binding.description.setVisibility(View.GONE);
+            actionBar.show();
             binding.recyclerView.setVisibility(View.VISIBLE);
             composeAdapter.openDescriptionActivity(false, binding.mediaDescription.getText().toString().trim(), holder, attachment, messagePosition, mediaPosition);
         });
