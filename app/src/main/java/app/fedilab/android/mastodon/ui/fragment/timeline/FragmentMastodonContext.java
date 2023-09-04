@@ -280,6 +280,10 @@ public class FragmentMastodonContext extends Fragment {
             }
             if (found) {
                 binding.recyclerView.scrollToPosition(position);
+                statuses.get(0).isFocused = false;
+                statuses.get(position).isFocused = true;
+                statusAdapter.notifyItemChanged(0);
+                statusAdapter.notifyItemChanged(position);
             }
         }
     }

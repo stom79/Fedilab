@@ -2041,6 +2041,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                                         }
                                     });
+                        } else if (context instanceof ContextActivity) {
+                            int position = 0;
+                            for (Status _status : statusList) {
+                                if (_status.isFocused) {
+                                    _status.isFocused = false;
+                                    adapter.notifyItemChanged(position);
+                                } else if (statusToDeal.equals(_status)) {
+                                    _status.isFocused = true;
+                                    adapter.notifyItemChanged(position);
+                                }
+                                position++;
+                            }
                         }
                     } else {
                         Intent intent = new Intent(context, ContextActivity.class);
