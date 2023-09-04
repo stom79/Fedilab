@@ -1,12 +1,23 @@
 It supports:
-- Mastodon, Pleroma, Pixelfed and Friendica.
+- Mastodon, Peertube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica
 
-The app has advanced features :
-
+The app has advanced features:
 - Compose threads
 - Multi-accounts support
 - Schedule messages from the device
 - Follow and interact with remote instances
 - Cross-account actions with a long press
 - Translation feature
-- Art timelines
+- Multiple options for automatic updates
+  - Push notifications via UnifiedPush (including ntfy on FDroid)
+  - Remain connected for Live Notifications
+  - Delayed notifications (connect every 30 seconds)
+- Replace youtube and twitter links with links to invidious and nitter instances
+- Custom themes, import export, and definition
+- Import and export app's database
+- Emoji pciker with custom emoji
+- Multiple launcher icons
+- Advanced toot filtering
+- Special art timeline for mastoart tag
+- Export toots
+- Customize url sharing to directly share urls to other services
