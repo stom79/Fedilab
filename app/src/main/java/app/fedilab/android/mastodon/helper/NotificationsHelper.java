@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -62,8 +63,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NotificationsHelper {
 
-    public static HashMap<String, String> since_ids = new HashMap<>();
     public static HashMap<String, List<String>> pushed_notifications = new HashMap<>();
+
+    public static ReentrantLock lock = new ReentrantLock();
 
     public static synchronized void task(Context context, String slug) throws DBException {
 
@@ -73,16 +75,6 @@ public class NotificationsHelper {
         BaseAccount accountDb = new Account(context).getUniqAccount(slugArray[0], slugArray[1]);
         if (accountDb == null) {
             return;
-        }
-        String last_notifid;
-        last_notifid = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + slug, null);
-        if (since_ids.containsKey(slug)) {
-            String last_notifid_reccorded = since_ids.get(slug);
-            if (last_notifid_reccorded != null && last_notifid_reccorded.compareToIgnoreCase(last_notifid) == 0) {
-                return;
-            }
-        } else {
-            since_ids.put(slug, last_notifid);
         }
 
         //Check which notifications the user wants to see
@@ -101,37 +93,42 @@ public class NotificationsHelper {
             return; //Nothing is done
         }
 
-        MastodonNotificationsService mastodonNotificationsService = init(context, slugArray[1]);
-        String finalLast_notifid = last_notifid;
         new Thread(() -> {
-            Notifications notifications = new Notifications();
-            Call<List<Notification>> notificationsCall;
-            if (finalLast_notifid != null) {
-                notificationsCall = mastodonNotificationsService.getNotifications(accountDb.token, null, null, null, finalLast_notifid, null, 30);
-            } else {
-                notificationsCall = mastodonNotificationsService.getNotifications(accountDb.token, null, null, null, null, null, 5);
-            }
-            if (notificationsCall != null) {
-                try {
-                    Response<List<Notification>> notificationsResponse = notificationsCall.execute();
-                    if (notificationsResponse.isSuccessful()) {
-                        notifications.notifications = notificationsResponse.body();
-                        if (notifications.notifications != null) {
-                            if (notifications.notifications.size() > 0) {
-                                since_ids.put(slug, notifications.notifications.get(0).id);
+            try {
+                // fetch if we get the lock, or ignore, another thread is doing the job
+                if (lock.tryLock()) {
+                    MastodonNotificationsService mastodonNotificationsService = init(context, slugArray[1]);
+                    Notifications notifications = new Notifications();
+                    Call<List<Notification>> notificationsCall;
+                    String last_notif_id = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + slug, null);
+                    notificationsCall = mastodonNotificationsService.getNotifications(accountDb.token, null, null, null, last_notif_id, null, 30);
+                    if (notificationsCall != null) {
+                        try {
+                            Response<List<Notification>> notificationsResponse = notificationsCall.execute();
+                            if (notificationsResponse.isSuccessful()) {
+                                notifications.notifications = notificationsResponse.body();
+                                if (notifications.notifications != null) {
+                                    if (notifications.notifications.size() > 0) {
+                                        prefs.edit().putString(
+                                                context.getString(R.string.LAST_NOTIFICATION_ID) + slug,
+                                                notifications.notifications.get(0).id
+                                        ).apply();
+                                    }
+                                }
+                                notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
+                        Handler mainHandler = new Handler(Looper.getMainLooper());
+                        Runnable myRunnable = () -> onRetrieveNotifications(context, notifications, accountDb, last_notif_id);
+                        mainHandler.post(myRunnable);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> onRetrieveNotifications(context, notifications, accountDb);
-                mainHandler.post(myRunnable);
+            } finally {
+                lock.unlock();
             }
         }).start();
-
     }
 
 
@@ -150,7 +147,7 @@ public class NotificationsHelper {
         return retrofit.create(MastodonNotificationsService.class);
     }
 
-    public static void onRetrieveNotifications(Context context, Notifications newNotifications, final BaseAccount account) {
+    public static void onRetrieveNotifications(Context context, Notifications newNotifications, final BaseAccount account, String max_id) {
         if (newNotifications == null || newNotifications.notifications == null || newNotifications.notifications.size() == 0 || account == null) {
             return;
         }
@@ -168,8 +165,6 @@ public class NotificationsHelper {
         boolean notif_update = prefs.getBoolean(context.getString(R.string.SET_NOTIF_UPDATE), true);
         boolean notif_signup = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_SIGNUP), true);
         boolean notif_report = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_REPORT), true);
-
-        final String max_id = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + key, null);
 
         final List<Notification> notifications = new ArrayList<>();
         int pos = 0;
@@ -401,28 +396,14 @@ public class NotificationsHelper {
                         .into(new CustomTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                                String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
-                                // if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
-                                SharedPreferences.Editor editor = prefs.edit();
-                                editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
-                                editor.commit();
-                                since_ids.put(account.user_id + "@" + account.instance, lastNotif);
                                 Helper.notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
-                                //  }
                             }
 
                             @Override
                             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                 super.onLoadFailed(errorDrawable);
-                                String lastNotif = prefs.getString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, null);
-                                //      if (lastNotif == null || Helper.compareTo(notification.id, lastNotif) > 0) {
-                                SharedPreferences.Editor editor = prefs.edit();
-                                since_ids.put(account.user_id + "@" + account.instance, lastNotif);
-                                editor.putString(context.getString(R.string.LAST_NOTIFICATION_ID) + account.user_id + "@" + account.instance, notifications.get(0).id);
-                                editor.commit();
                                 Helper.notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
                                         getMainLogo(context)), finalNotifType, finalTitle, finalMessage);
-                                //    }
                             }
 
                             @Override
