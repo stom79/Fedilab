@@ -64,7 +64,18 @@ public class NotificationsHelper {
 
     public static HashMap<String, List<String>> pushed_notifications = new HashMap<>();
 
-    public static ReentrantLock lock = new ReentrantLock();
+    private static final HashMap<String, ReentrantLock> lockMap = new HashMap<>();
+
+    private static ReentrantLock getLock(String slug) {
+        synchronized (lockMap) {
+            if (lockMap.containsKey(slug)) {
+                return lockMap.get(slug);
+            }
+            ReentrantLock lock = new ReentrantLock();
+            lockMap.put(slug, lock);
+            return lock;
+        }
+    }
 
     public static synchronized void task(Context context, String slug) throws DBException {
 
@@ -93,6 +104,7 @@ public class NotificationsHelper {
         }
 
         new Thread(() -> {
+            ReentrantLock lock = getLock(slug);
             try {
                 // fetch if we get the lock, or ignore, another thread is doing the job
                 if (lock.tryLock()) {
