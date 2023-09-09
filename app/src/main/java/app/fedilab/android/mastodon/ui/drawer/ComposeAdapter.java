@@ -159,14 +159,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final String editMessageId;
     public ManageDrafts manageDrafts;
     public promptDraftListener promptDraftListener;
+    public MediaDescriptionCallBack mediaDescriptionCallBack;
     private int statusCount;
     private Context context;
     private AlertDialog alertDialogEmoji;
     private List<Emoji> emojisList = new ArrayList<>();
     private boolean unlisted_changed = false;
-
     private RecyclerView mRecyclerView;
-    public MediaDescriptionCallBack mediaDescriptionCallBack;
 
 
     public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, Account mentionedAccount, String visibility, String editMessageId) {
@@ -1251,10 +1250,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public interface MediaDescriptionCallBack {
-        void click(ComposeViewHolder holder, Attachment attachment, int messagePosition, int mediaPosition);
-    }
-
     /**
      * Manage state of media and poll button
      *
@@ -2052,7 +2047,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         alertPollDiaslog.show();
     }
 
-
     /**
      * Display the emoji picker in the current message
      *
@@ -2084,6 +2078,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             builder.setView(textView);
         }
         alertDialogEmoji = builder.show();
+    }
+
+
+    public interface MediaDescriptionCallBack {
+        void click(ComposeViewHolder holder, Attachment attachment, int messagePosition, int mediaPosition);
     }
 
     public interface promptDraftListener {

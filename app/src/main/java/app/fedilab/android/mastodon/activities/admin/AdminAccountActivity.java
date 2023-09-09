@@ -310,7 +310,7 @@ public class AdminAccountActivity extends BaseActivity {
 
 
         binding.accountDn.setText(
-                adminAccount.account.getSpanDisplayName(AdminAccountActivity.this,
+                adminAccount.account.getSpanDisplayNameEmoji(AdminAccountActivity.this,
                         new WeakReference<>(binding.accountDn)),
                 TextView.BufferType.SPANNABLE);
         binding.accountUn.setText(String.format("@%s", adminAccount.account.acct));

@@ -2044,6 +2044,31 @@ public class Helper {
         }
     }
 
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static OkHttpClient myOkHttpClient(Context context) {
+        return new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    Request originalRequest = chain.request();
+                    Request requestWithUserAgent = originalRequest.newBuilder()
+                            .header("User-Agent", context.getString(R.string.app_name) + "/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE)
+                            .build();
+                    return chain.proceed(requestWithUserAgent);
+                })
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .callTimeout(60, TimeUnit.SECONDS)
+                .proxy(Helper.getProxy(context))
+                .build();
+    }
+
     //Enum that described actions to replace inside a toot content
     public enum PatternType {
         MENTION,
@@ -2073,30 +2098,5 @@ public class Helper {
 
     public interface OnFileCopied {
         void onFileCopied(File file);
-    }
-
-    public static boolean isNumeric(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    public static OkHttpClient myOkHttpClient(Context context) {
-        return new OkHttpClient.Builder()
-                .addInterceptor(chain -> {
-                    Request originalRequest = chain.request();
-                    Request requestWithUserAgent = originalRequest.newBuilder()
-                            .header("User-Agent", context.getString(R.string.app_name) + "/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE)
-                            .build();
-                    return chain.proceed(requestWithUserAgent);
-                })
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .callTimeout(60, TimeUnit.SECONDS)
-                .proxy(Helper.getProxy(context))
-                .build();
     }
 }
