@@ -89,14 +89,15 @@ public class Account implements Serializable {
     public Role role;
     public transient RelationShip relationShip;
 
+
     public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference) {
         if (display_name == null || display_name.isEmpty()) {
             display_name = username;
         }
-        return SpannableHelper.convert(context, display_name, null, this, null, viewWeakReference);
+        return SpannableHelper.convert(context, display_name, null, this, null, viewWeakReference, null, true, false);
     }
 
-    public synchronized Spannable getSpanDisplayName(Activity activity, WeakReference<View> viewWeakReference) {
+    public synchronized Spannable getSpanDisplayNameEmoji(Activity activity, WeakReference<View> viewWeakReference) {
         if (display_name == null || display_name.isEmpty()) {
             display_name = username;
         }
@@ -104,11 +105,11 @@ public class Account implements Serializable {
     }
 
     public synchronized Spannable getSpanDisplayNameTitle(Context context, WeakReference<View> viewWeakReference, String title) {
-        return SpannableHelper.convert(context, title, null, this, null, viewWeakReference);
+        return SpannableHelper.convert(context, title, null, this, null, viewWeakReference, null, true, false);
     }
 
     public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, note, null, this, null, viewWeakReference);
+        return SpannableHelper.convert(context, note, null, this, null, viewWeakReference, null, true, false);
     }
 
     @Override

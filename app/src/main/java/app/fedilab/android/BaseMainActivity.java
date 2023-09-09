@@ -1219,7 +1219,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
                 if (!isFinishing()) {
                     headerMainBinding.accountName.setText(
-                            currentAccount.mastodon_account.getSpanDisplayName(BaseMainActivity.this,
+                            currentAccount.mastodon_account.getSpanDisplayNameEmoji(BaseMainActivity.this,
                                     new WeakReference<>(headerMainBinding.accountName)),
                             TextView.BufferType.SPANNABLE);
                 }

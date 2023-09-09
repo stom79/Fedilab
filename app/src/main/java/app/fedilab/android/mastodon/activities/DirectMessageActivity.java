@@ -53,7 +53,6 @@ public class DirectMessageActivity extends BaseActivity implements FragmentMasto
     public static boolean displayCW;
 
     FragmentMastodonDirectMessage currentFragment;
-    private Status firstMessage;
     private String remote_instance;
 
     @Override
@@ -149,7 +148,6 @@ public class DirectMessageActivity extends BaseActivity implements FragmentMasto
 
     @Override
     public void get(Status status) {
-        firstMessage = status;
         invalidateOptionsMenu();
     }
 }

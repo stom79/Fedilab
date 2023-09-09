@@ -154,7 +154,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
 
         binding.mediaDescription.setMovementMethod(new ScrollingMovementMethod());
         binding.mediaDescriptionTranslated.setMovementMethod(new ScrollingMovementMethod());
-        
+
         if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
             binding.mediaDescription.setText(description);
             binding.translate.setOnClickListener(v -> {

@@ -6,13 +6,13 @@
             android:pivotY="100%"
             android:toDegrees="0">
             <shape android:shape="rectangle">
-                <solid android:color="@color/chat_other_background" />
+                <solid android:color="?attr/colorSecondary" />
             </shape>
         </rotate>
     </item>
     <item android:left="5dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/chat_other_background" />
+            <solid android:color="?attr/colorSecondary" />
             <corners android:radius="5dp" />
         </shape>
     </item>

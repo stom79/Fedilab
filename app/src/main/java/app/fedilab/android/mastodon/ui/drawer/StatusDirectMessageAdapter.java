@@ -234,6 +234,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         StatusChatViewHolder holder = (StatusChatViewHolder) viewHolder;
         Status status = statusList.get(position);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        status.underlined = true;
         holder.binding.messageContent.setText(
                 status.getSpanContent(context,
                         new WeakReference<>(holder.binding.messageContent),
@@ -279,17 +280,19 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             holder.binding.mainContainer.setBackgroundResource(R.drawable.bubble_right_tail);
 
             layoutParams.setMargins((int) Helper.convertDpToPixel(50, context), (int) Helper.convertDpToPixel(12, context), 0, 0);
-            holder.binding.date.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
-            holder.binding.messageContent.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
-            holder.binding.userName.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
-            Helper.changeDrawableColor(context, holder.binding.visibility, ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            holder.binding.date.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
+            holder.binding.messageContent.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
+            holder.binding.userName.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
+            holder.binding.messageContent.setLinkTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
+            Helper.changeDrawableColor(context, holder.binding.visibility, ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
         } else {
             holder.binding.mainContainer.setBackgroundResource(R.drawable.bubble_left_tail);
             layoutParams.setMargins(0, (int) Helper.convertDpToPixel(12, context), (int) Helper.convertDpToPixel(50, context), 0);
-            holder.binding.date.setTextColor(ContextCompat.getColor(context, R.color.black));
-            holder.binding.messageContent.setTextColor(ContextCompat.getColor(context, R.color.black));
-            holder.binding.userName.setTextColor(ContextCompat.getColor(context, R.color.black));
-            Helper.changeDrawableColor(context, holder.binding.visibility, R.color.black);
+            holder.binding.date.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            holder.binding.messageContent.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            holder.binding.userName.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            holder.binding.messageContent.setLinkTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            Helper.changeDrawableColor(context, holder.binding.visibility, ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
         }
         holder.binding.mainContainer.setLayoutParams(layoutParams);
 
@@ -333,9 +336,13 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
         final float scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.1f);
         if (status.poll != null && status.poll.options != null) {
-
-            holder.binding.poll.pollInfo.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
-            holder.binding.poll.refresh.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            if (status.account.id.equals(MainActivity.currentUserID)) {
+                holder.binding.poll.pollInfo.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
+                holder.binding.poll.refresh.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
+            } else {
+                holder.binding.poll.pollInfo.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+                holder.binding.poll.refresh.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+            }
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             if (status.poll.voted || status.poll.expired) {
                 holder.binding.poll.submitVote.setVisibility(View.GONE);
@@ -362,8 +369,13 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                             pollItem.getSpanTitle(context, status,
                                     new WeakReference<>(pollItemBinding.pollItemText)),
                             TextView.BufferType.SPANNABLE);
-                    pollItemBinding.pollItemPercent.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
-                    pollItemBinding.pollItemText.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+                    if (status.account.id.equals(MainActivity.currentUserID)) {
+                        pollItemBinding.pollItemPercent.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
+                        pollItemBinding.pollItemText.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
+                    } else {
+                        pollItemBinding.pollItemPercent.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+                        pollItemBinding.pollItemText.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+                    }
                     pollItemBinding.pollItemValue.setProgress((int) value);
                     if (pollItem.votes_count == greaterValue) {
                         pollItemBinding.pollItemPercent.setTypeface(null, Typeface.BOLD);
@@ -395,7 +407,12 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                                         new WeakReference<>(cb)),
                                 TextView.BufferType.SPANNABLE);
                         holder.binding.poll.multipleChoice.addView(cb);
-                        cb.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+                        if (status.account.id.equals(MainActivity.currentUserID)) {
+                            cb.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
+                        } else {
+                            cb.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+                        }
+
                     }
                     holder.binding.poll.multipleChoice.setVisibility(View.VISIBLE);
                     holder.binding.poll.singleChoiceRadioGroup.setVisibility(View.GONE);
@@ -408,7 +425,12 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                                 pollOption.getSpanTitle(context, status,
                                         new WeakReference<>(rb)),
                                 TextView.BufferType.SPANNABLE);
-                        rb.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+
+                        if (status.account.id.equals(MainActivity.currentUserID)) {
+                            rb.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
+                        } else {
+                            rb.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnSecondary));
+                        }
                         holder.binding.poll.singleChoiceRadioGroup.addView(rb);
                     }
                     holder.binding.poll.singleChoiceRadioGroup.setVisibility(View.VISIBLE);

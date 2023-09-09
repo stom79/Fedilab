@@ -133,6 +133,8 @@ public class Status implements Serializable, Cloneable {
     public transient boolean setCursorToEnd = false;
     public transient int cursorPosition = 0;
     public transient boolean submitted = false;
+
+    public transient boolean underlined = false;
     public boolean spoilerChecked = false;
     public Filter filteredByApp;
     public transient Spannable contentSpan;
@@ -152,21 +154,21 @@ public class Status implements Serializable, Cloneable {
 
     public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference, Callback callback) {
         if (contentSpan == null) {
-            contentSpan = SpannableHelper.convert(context, content, this, null, null, viewWeakReference, callback, true);
+            contentSpan = SpannableHelper.convert(context, content, this, null, null, viewWeakReference, callback, true, true);
         }
         return contentSpan;
     }
 
     public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference, Callback callback) {
         if (contentSpoilerSpan == null) {
-            contentSpoilerSpan = SpannableHelper.convert(context, spoiler_text, this, null, null, viewWeakReference, callback, false);
+            contentSpoilerSpan = SpannableHelper.convert(context, spoiler_text, this, null, null, viewWeakReference, callback, true, false);
         }
         return contentSpoilerSpan;
     }
 
     public synchronized Spannable getSpanTranslate(Context context, WeakReference<View> viewWeakReference, Callback callback) {
         if (contentTranslateSpan == null) {
-            contentTranslateSpan = SpannableHelper.convert(context, translationContent, this, null, null, viewWeakReference, callback, true);
+            contentTranslateSpan = SpannableHelper.convert(context, translationContent, this, null, null, viewWeakReference, callback, true, true);
         }
         return contentTranslateSpan;
     }

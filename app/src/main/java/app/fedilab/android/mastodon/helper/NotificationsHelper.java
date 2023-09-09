@@ -62,9 +62,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NotificationsHelper {
 
-    public static HashMap<String, List<String>> pushed_notifications = new HashMap<>();
-
     private static final HashMap<String, ReentrantLock> lockMap = new HashMap<>();
+    public static HashMap<String, List<String>> pushed_notifications = new HashMap<>();
 
     private static ReentrantLock getLock(String slug) {
         synchronized (lockMap) {

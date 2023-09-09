@@ -43,7 +43,6 @@ import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
@@ -107,33 +106,6 @@ public class SpannableHelper {
     private static int linkColor;
 
     public static Spannable convert(Context context, String text,
-                                    Status status, Account account, Announcement announcement, WeakReference<View> viewWeakReference) {
-        return convert(context, text, status, account, announcement, viewWeakReference, null, true, false);
-    }
-
-    public static Spannable convert(Context context, String text,
-                                    Status status, Account account, Announcement announcement,
-                                    WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertMarkdown) {
-        return convert(context, text, status, account, announcement, viewWeakReference, callback, true, convertMarkdown);
-    }
-
-
-    public static boolean isRTL(String s) {
-        for (int i = 0; i < s.length(); i++) {
-            byte d = Character.getDirectionality(s.charAt(i));
-            if (d == Character.DIRECTIONALITY_RIGHT_TO_LEFT ||
-                    d == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC ||
-                    d == Character.DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING ||
-                    d == Character.DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE
-            ) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
                                     WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml, boolean convertMarkdown) {
         if (text == null) {
@@ -160,6 +132,10 @@ public class SpannableHelper {
         if (linkColor == 0) {
             linkColor = -1;
         }
+        if (status != null && status.underlined) {
+            linkColor = -1;
+        }
+
         List<Mention> mentions = new ArrayList<>();
         if (status != null && status.mentions != null) {
             mentions.addAll(status.mentions);
@@ -333,7 +309,7 @@ public class SpannableHelper {
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        ds.setUnderlineText(false);
+                        ds.setUnderlineText(status != null && status.underlined);
                         if (linkColor != -1) {
                             ds.setColor(linkColor);
                         }
@@ -341,10 +317,10 @@ public class SpannableHelper {
 
                 }, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             } else {
-                makeLinks(context, content, url, start, end);
+                makeLinks(context, status, content, url, start, end);
             }
             replaceQuoteSpans(context, content);
-            emails(context, content);
+            emails(context, content, status);
         }
 
         Pattern imgPattern = Pattern.compile("<img [^>]*src=\"([^\"]+)\"[^>]*>");
@@ -390,25 +366,8 @@ public class SpannableHelper {
         return trimSpannable(new SpannableStringBuilder(content));
     }
 
-    public interface Prism4jTheme {
 
-        @ColorInt
-        int background();
-
-        @ColorInt
-        int textColor();
-
-        void apply(
-                @NonNull String language,
-                @NonNull Prism4j.Syntax syntax,
-                @NonNull SpannableStringBuilder builder,
-                int start,
-                int end
-        );
-    }
-
-
-    private static void makeLinks(Context context, SpannableStringBuilder content, String url, int start, int end) {
+    private static void makeLinks(Context context, Status status, SpannableStringBuilder content, String url, int start, int end) {
         String newUrl = url;
         boolean validUrl = URLUtil.isValidUrl(url) && url.length() == (end - start);
         if (validUrl) {
@@ -640,7 +599,7 @@ public class SpannableHelper {
             @Override
             public void updateDrawState(@NonNull TextPaint ds) {
                 super.updateDrawState(ds);
-                ds.setUnderlineText(false);
+                ds.setUnderlineText(status != null && status.underlined);
                 if (linkColor != -1) {
                     ds.setColor(linkColor);
                 }
@@ -756,7 +715,7 @@ public class SpannableHelper {
         }
     }
 
-    private static void emails(Context context, Spannable content) {
+    private static void emails(Context context, Spannable content, Status status) {
         // --- For all patterns defined in Helper class ---
         Pattern pattern = Helper.emailPattern;
         Matcher matcher = pattern.matcher(content);
@@ -785,7 +744,7 @@ public class SpannableHelper {
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        ds.setUnderlineText(false);
+                        ds.setUnderlineText(status != null && status.underlined);
                         if (linkColor != -1) {
                             ds.setColor(linkColor);
                         }

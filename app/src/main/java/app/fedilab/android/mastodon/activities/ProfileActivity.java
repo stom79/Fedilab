@@ -456,7 +456,7 @@ public class ProfileActivity extends BaseActivity {
         }
 
         binding.accountDn.setText(
-                account.getSpanDisplayName(ProfileActivity.this,
+                account.getSpanDisplayNameEmoji(ProfileActivity.this,
                         new WeakReference<>(binding.accountDn)),
                 TextView.BufferType.SPANNABLE);
 
