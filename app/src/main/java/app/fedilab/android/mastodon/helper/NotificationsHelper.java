@@ -41,6 +41,7 @@ import java.net.IDN;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 import app.fedilab.android.BaseMainActivity;
@@ -105,9 +106,9 @@ public class NotificationsHelper {
 
         new Thread(() -> {
             ReentrantLock lock = getLock(slug);
-            try {
-                // fetch if we get the lock, or ignore, another thread is doing the job
-                if (lock.tryLock()) {
+            // fetch if we get the lock, or ignore, another thread is doing the job
+            if (lock.tryLock()) {
+                try {
                     MastodonNotificationsService mastodonNotificationsService = init(context, slugArray[1]);
                     Notifications notifications = new Notifications();
                     Call<List<Notification>> notificationsCall;
@@ -135,10 +136,11 @@ public class NotificationsHelper {
                         Runnable myRunnable = () -> onRetrieveNotifications(context, notifications, accountDb, last_notif_id);
                         mainHandler.post(myRunnable);
                     }
-                }
-            } finally {
-                if (lock.isHeldByCurrentThread()) {
-                    lock.unlock();
+
+                } finally {
+                    if (lock.isHeldByCurrentThread()) {
+                        lock.unlock();
+                    }
                 }
             }
         }).start();
@@ -147,7 +149,11 @@ public class NotificationsHelper {
 
     private static MastodonNotificationsService init(Context context, String instance) {
 
-        final OkHttpClient okHttpClient = Helper.myOkHttpClient(context);
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .proxy(Helper.getProxy(context))
+                .build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
