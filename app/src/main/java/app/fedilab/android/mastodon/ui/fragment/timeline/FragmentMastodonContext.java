@@ -55,6 +55,7 @@ public class FragmentMastodonContext extends Fragment {
     private StatusesVM statusesVM;
     private List<Status> statuses;
     private StatusAdapter statusAdapter;
+    private boolean refresh;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -154,6 +155,7 @@ public class FragmentMastodonContext extends Fragment {
         focusedStatus = null;
         pullToRefresh = false;
         focusedStatusURI = null;
+        refresh = true;
         if (getArguments() != null) {
             focusedStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
             remote_instance = getArguments().getString(Helper.ARG_REMOTE_INSTANCE, null);
@@ -182,7 +184,7 @@ public class FragmentMastodonContext extends Fragment {
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
         binding.swipeContainer.setOnRefreshListener(() -> {
-            if (this.statuses.size() > 0) {
+            if (this.statuses.size() > 0 && !refresh) {
                 binding.swipeContainer.setRefreshing(true);
                 pullToRefresh = true;
                 statusesVM.getContext(user_instance, user_token, focusedStatus.id)
@@ -229,7 +231,7 @@ public class FragmentMastodonContext extends Fragment {
      * @param context {@link Context}
      */
     private void initializeContextView(final Context context) {
-
+        refresh = false;
         if (context == null) {
             Helper.sendToastMessage(requireActivity(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
             return;
