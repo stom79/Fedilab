@@ -752,6 +752,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         editor.commit();
                         Intent mainActivity = new Intent(activity, MainActivity.class);
                         mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_NOTIFICATION);
+                        Bundle bundle = intent.getExtras();
+                        if (bundle != null) {
+                            mainActivity.putExtras(bundle);
+                        }
                         activity.startActivity(mainActivity);
                         activity.finish();
                     } catch (DBException e) {
