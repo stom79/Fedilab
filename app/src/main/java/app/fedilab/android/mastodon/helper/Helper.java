@@ -327,6 +327,7 @@ public class Helper {
     public static final int OPEN_NOTIFICATION = 2;
     public static final int OPEN_WITH_ANOTHER_ACCOUNT = 3;
     public static final String INTENT_TARGETED_ACCOUNT = "INTENT_TARGETED_ACCOUNT";
+    public static final String INTENT_TARGETED_STATUS = "INTENT_TARGETED_STATUS";
     public static final String INTENT_SEND_MODIFIED_IMAGE = "INTENT_SEND_MODIFIED_IMAGE";
     public static final String INTENT_COMPOSE_ERROR_MESSAGE = "INTENT_COMPOSE_ERROR_MESSAGE";
     public static final String TEMP_MEDIA_DIRECTORY = "TEMP_MEDIA_DIRECTORY";

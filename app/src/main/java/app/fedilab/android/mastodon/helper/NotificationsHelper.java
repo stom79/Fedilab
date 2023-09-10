@@ -24,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
@@ -50,6 +51,7 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.client.endpoints.MastodonNotificationsService;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.api.Notifications;
+import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -211,7 +213,8 @@ public class NotificationsHelper {
             String notificationUrl;
             String title = null;
             String message = null;
-            String targeted_account = null;
+            app.fedilab.android.mastodon.client.entities.api.Account targeted_account = null;
+            Status targeted_status = null;
             Helper.NotifType notifType = Helper.NotifType.MENTION;
             switch (notification.type) {
                 case "mention":
@@ -232,6 +235,7 @@ public class NotificationsHelper {
                                 else
                                     message = new SpannableString(Html.fromHtml(notification.status.content)).toString();
                             }
+                            targeted_status = notification.status;
                         }
                     }
                     break;
@@ -254,6 +258,7 @@ public class NotificationsHelper {
                                 else
                                     message = new SpannableString(Html.fromHtml(notification.status.content)).toString();
                             }
+                            targeted_status = notification.status;
                         }
                     }
                     break;
@@ -309,7 +314,7 @@ public class NotificationsHelper {
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_follow_request));
                         else
                             message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_follow_request));
-                        targeted_account = notification.account.id;
+                        targeted_account = notification.account;
                     }
                     break;
                 case "follow":
@@ -320,7 +325,7 @@ public class NotificationsHelper {
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_follow));
                         else
                             message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_follow));
-                        targeted_account = notification.account.id;
+                        targeted_account = notification.account;
                     }
                     break;
                 case "poll":
@@ -361,6 +366,7 @@ public class NotificationsHelper {
                                 else
                                     message = new SpannableString(Html.fromHtml(notification.status.content)).toString();
                             }
+                            targeted_status = notification.status;
                         }
                     }
                     break;
@@ -372,7 +378,7 @@ public class NotificationsHelper {
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_signed_up));
                         else
                             message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_signed_up));
-                        targeted_account = notification.account.id;
+                        targeted_account = notification.account;
                     }
                     break;
                 case "admin.report":
@@ -383,7 +389,7 @@ public class NotificationsHelper {
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_reported));
                         else
                             message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_reported));
-                        targeted_account = notification.account.id;
+                        targeted_account = notification.account;
                     }
                     break;
                 default:
@@ -394,8 +400,15 @@ public class NotificationsHelper {
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(Helper.INTENT_ACTION, Helper.NOTIFICATION_INTENT);
                 intent.putExtra(Helper.PREF_USER_ID, account.user_id);
-                if (targeted_account != null)
-                    intent.putExtra(Helper.INTENT_TARGETED_ACCOUNT, targeted_account);
+                if (targeted_account != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Helper.INTENT_TARGETED_ACCOUNT, targeted_account);
+                    intent.putExtras(bundle);
+                } else if (targeted_status != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Helper.INTENT_TARGETED_STATUS, targeted_status);
+                    intent.putExtras(bundle);
+                }
                 intent.putExtra(Helper.PREF_USER_INSTANCE, account.instance);
                 notificationUrl = notification.account.avatar;
                 Handler mainHandler = new Handler(Looper.getMainLooper());
