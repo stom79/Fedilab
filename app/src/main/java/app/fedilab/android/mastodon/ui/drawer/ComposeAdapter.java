@@ -1642,9 +1642,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         lenght += ("#" + tag + " ").length();
                     }
                     holder.binding.content.setText(statusDraft.text);
-                    statusDraft.cursorPosition = statusDraft.text.length() - lenght - 3;
-                    statusDraft.setCursorToEnd = false;
-                    holder.binding.content.setSelection(statusDraft.text.length() - lenght - 3);
+                    if (statusDraft.text.length() - lenght - 3 >= 0) {
+                        statusDraft.cursorPosition = statusDraft.text.length() - lenght - 3;
+                        statusDraft.setCursorToEnd = false;
+                        holder.binding.content.setSelection(statusDraft.text.length() - lenght - 3);
+                    }
                 }
             } else if (forwardTag && position > 0 && statusDraft.text != null && statusDraft.text.contains("#") && !statusList.get(position).tagAdded) {
                 Status status = statusList.get(position - 1).reblog == null ? statusList.get(position - 1) : statusList.get(position - 1).reblog;
@@ -1672,9 +1674,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     for (String tag : camelCaseTags) {
                         lenght += ("#" + tag + " ").length();
                     }
-                    statusDraft.cursorPosition = statusDraft.text.length() - lenght - 3;
-                    statusDraft.setCursorToEnd = false;
-                    holder.binding.content.setSelection(statusDraft.text.length() - lenght - 3);
+                    if (statusDraft.text.length() - lenght - 3 >= 0) {
+                        statusDraft.cursorPosition = statusDraft.text.length() - lenght - 3;
+                        statusDraft.setCursorToEnd = false;
+                        holder.binding.content.setSelection(statusDraft.text.length() - lenght - 3);
+                    }
                 }
             }
 
