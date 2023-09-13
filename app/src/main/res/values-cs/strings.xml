@@ -395,7 +395,7 @@
     <string name="poll_choice_s">Volba %d</string>
     <string name="poll_invalid_choices">Pro anketu potřebujete alespoň dvě volby!</string>
     <string name="done">Hotovo</string>
-    <string name="poll_finish_at">skončit po %s</string>
+    <string name="poll_finish_at">konec: %s</string>
     <string name="vote">Hlasovat</string>
     <string name="notif_poll">Anketa, ve které jste hlasoval(a), skončila</string>
     <string name="notif_poll_self">Vaše anketa skončila</string>
