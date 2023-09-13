@@ -1061,4 +1061,5 @@
     <string name="show_self_replies">Afficher les réponses aux message du même auteur⋅ice</string>
     <string name="set_remote_conversation">L\'application affichera publiquement les conversations pour obtenir tous les messages. Les interactions auront besoin d\'une étape supplémentaire pour fédérer les messages.</string>
     <string name="show_my_messages">Afficher mes messages</string>
+    <string name="frequency_count_minutes">%d fréquence (minutes)</string>
 </resources>
