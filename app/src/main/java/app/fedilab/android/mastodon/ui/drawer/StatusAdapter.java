@@ -1826,7 +1826,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 for (Poll.PollItem pollItem : statusToDeal.poll.options) {
                     @NonNull LayoutPollItemBinding pollItemBinding = LayoutPollItemBinding.inflate(inflater, holder.binding.poll.rated, true);
-                    double value = Math.ceil((pollItem.votes_count * 100) / (double) statusToDeal.poll.voters_count);
+                    double value = Math.round((pollItem.votes_count * 100) / (double) statusToDeal.poll.voters_count);
                     pollItemBinding.pollItemPercent.setText(String.format("%s %%", (int) value));
                     pollItemBinding.pollItemText.setText(
                             pollItem.getSpanTitle(context, statusToDeal,
