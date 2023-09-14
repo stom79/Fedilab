@@ -823,4 +823,23 @@
     <string name="proxy_protocol_http">HTTP</string>
     <string name="proxy_protocol_socks">SOCKS</string>
     <string name="lemmy_instance">مثيل خادم Lemmy</string>
+    <string name="send_anyway">إرسال على أي حال</string>
+    <string name="last_24_h">آخر 24 ساعة</string>
+    <string name="set_unlisted_replies">الردود غير المُدرَجة</string>
+    <string name="pinned">مُثبَّت</string>
+    <string name="new_messages">الرسائل الجديدة</string>
+    <string name="notif_report">قام مستخدم بإرسال شكوى</string>
+    <string name="poll_type_single">خيار واحد</string>
+    <string name="list_reported_statuses">المنشورات المبلّغ عنها</string>
+    <string name="set_remove_battery">تجاهل تحسينات البطارية</string>
+    <string name="reblog_missing_description">يَفتقِد هذا المنشور على وصف للوسائط. أمتأكد من أنّك تريد إعادة نشره؟</string>
+    <string name="show_my_messages">أظهر منشوراتي</string>
+    <string name="muted_menu_home">المستخدمون المكتومون على الخيط الرئيسي</string>
+    <string name="resolved">مُعالَج</string>
+    <string name="assign_to_me">أسنده لي</string>
+    <string name="display_timelines">اعرض الخيوط الزمنية</string>
+    <string name="unassign">ألغِ الإسناد</string>
+    <string name="allow">سماح</string>
+    <string name="poll_type_multiple">خيارات متعددة</string>
+    <string name="load_media_remotely">حمِّل الوسائط البعيدة</string>
 </resources>
