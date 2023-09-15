@@ -51,7 +51,7 @@
         app:title="@string/boost_original_date" />
 
     <SwitchPreferenceCompat
-        android:defaultValue="true"
+        android:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_MARKDOWN_SUPPORT"
         app:singleLineTitle="false"

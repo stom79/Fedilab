@@ -152,72 +152,28 @@ public class SpannableHelper {
         } else {
             initialContent = new SpannableString(text);
         }
-        boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), true);
+        boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), false);
         //Get all links
         SpannableStringBuilder content;
+        SpannableStringBuilder markdownContent;
         if (markdownSupport && convertMarkdown) {
-            MarkdownConverter markdownConverter = new MarkdownConverter();
-            markdownConverter.markdownItems = new ArrayList<>();
-            int next;
-            int position = 0;
-            for (int i = 0; i < initialContent.length(); i = next) {
-                // find the next span transition
-                next = initialContent.nextSpanTransition(i, initialContent.length(), URLSpan.class);
-                MarkdownConverter.MarkdownItem markdownItem = new MarkdownConverter.MarkdownItem();
-                markdownItem.code = initialContent.subSequence(i, next).toString();
-
-                markdownItem.position = position;
-                // get all spans in this range
-                URLSpan[] spans = initialContent.getSpans(i, next, URLSpan.class);
-                if (spans != null && spans.length > 0) {
-                    markdownItem.urlSpan = spans[0];
-                }
-
-                if (markdownItem.code.trim().length() > 0) {
-                    markdownConverter.markdownItems.add(markdownItem);
-                    position++;
-                }
-            }
-
-            final Markwon markwon = Markwon.builder(context)
-                    .usePlugin(TablePlugin.create(context))
-                    .usePlugin(SoftBreakAddsNewLinePlugin.create())
-                    .usePlugin(SyntaxHighlightPlugin.create(new Prism4j(new MySuperGrammerLocator()), Prism4jThemeDefault.create()))
-                    .usePlugin(StrikethroughPlugin.create())
-                    .usePlugin(MarkwonInlineParserPlugin.create())
-                    .usePlugin(new AbstractMarkwonPlugin() {
-                        @Override
-                        public void configure(@NonNull Registry registry) {
-                            registry.require(MarkwonInlineParserPlugin.class, plugin -> plugin.factoryBuilder()
-                                    .excludeInlineProcessor(HtmlInlineProcessor.class));
-                        }
-                    })
-                    .build();
-
-            final Spanned markdown = markwon.toMarkdown(initialContent.toString());
-            content = new SpannableStringBuilder(markdown);
-            position = 0;
-
-            for (MarkdownConverter.MarkdownItem markdownItem : markdownConverter.markdownItems) {
-
-                String sb = Pattern.compile("\\A[\\p{L}0-9_]").matcher(markdownItem.code).find() ? "\\b" : "";
-                String eb = Pattern.compile("[\\p{L}0-9_]\\z").matcher(markdownItem.code).find() ? "\\b" : "\\B";
-                Pattern p = Pattern.compile(sb + "(" + Pattern.quote(markdownItem.code) + ")" + eb, Pattern.UNICODE_CASE);
-                Matcher m = p.matcher(content);
-                int fetchPosition = 1;
-                while (m.find()) {
-                    int regexPosition = markdownItem.regexPosition(markdownConverter.markdownItems);
-                    if (regexPosition == fetchPosition) {
-                        content.setSpan(markdownItem.urlSpan, m.start(), m.end(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                    }
-                    fetchPosition++;
-                }
-                position++;
-            }
+            content = transformMarkDown(context, initialContent);
         } else {
             content = new SpannableStringBuilder(initialContent);
+            boolean isMarkdown = isMarkDown(content.toString());
+            if (isMarkdown && status != null) {
+                markdownContent = transformMarkDown(context, initialContent);
+                status.contentMarkdownSpan = convert(context, markdownContent, text, status, account, announcement, viewWeakReference, mentions, callback);
+            }
         }
+        return convert(context, content, text, status, account, announcement, viewWeakReference, mentions, callback);
+    }
 
+    private static Spannable convert(Context context, SpannableStringBuilder content, String text,
+                                     Status status, Account account, Announcement announcement,
+                                     WeakReference<View> viewWeakReference, List<Mention> mentions, Status.Callback callback) {
+
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         URLSpan[] urls = content.getSpans(0, (content.length() - 1), URLSpan.class);
         //Loop through links
         for (URLSpan span : urls) {
@@ -937,5 +893,103 @@ public class SpannableHelper {
         }
 
         return trimSpannable(new SpannableStringBuilder(content));
+    }
+
+
+    private static boolean isMarkDown(String content) {
+        Pattern pattern1 = Pattern.compile("(#\\s)(.*)");
+        Pattern pattern2 = Pattern.compile("(#{2}\\s)(.*)");
+        Pattern pattern3 = Pattern.compile("(#{3}\\s)(.*)");
+        Pattern pattern4 = Pattern.compile("(#{4}\\s)(.*)");
+        Pattern pattern5 = Pattern.compile("(#{5}\\s)(.*)");
+        Pattern pattern6 = Pattern.compile("(#{6}\\s)(.*)");
+        Pattern pattern7 = Pattern.compile("([*_])+(\\S+)([*_])+");
+        Pattern pattern8 = Pattern.compile("(\\[.*])(\\((http)s?(://).*\\))");
+        Pattern pattern9 = Pattern.compile("(^(\\W)(\\s)(.*)$?)+");
+        Pattern pattern10 = Pattern.compile("(^(\\d+\\.)(\\s)(.*)$?)+");
+        Pattern pattern11 = Pattern.compile("(^(>{1})(\\s)(.*)$?)+");
+        Pattern pattern12 = Pattern.compile("(`)(.*)(`)");
+        Pattern pattern13 = Pattern.compile("(```)(.*)(```)");
+
+        Matcher matcher1 = pattern1.matcher(content);
+        Matcher matcher2 = pattern2.matcher(content);
+        Matcher matcher3 = pattern3.matcher(content);
+        Matcher matcher4 = pattern4.matcher(content);
+        Matcher matcher5 = pattern5.matcher(content);
+        Matcher matcher6 = pattern6.matcher(content);
+        Matcher matcher7 = pattern7.matcher(content);
+        Matcher matcher8 = pattern8.matcher(content);
+        Matcher matcher9 = pattern9.matcher(content);
+        Matcher matcher10 = pattern10.matcher(content);
+        Matcher matcher11 = pattern11.matcher(content);
+        Matcher matcher12 = pattern12.matcher(content);
+        Matcher matcher13 = pattern13.matcher(content);
+
+
+        return matcher1.find() || matcher2.find() || matcher3.find() || matcher4.find() || matcher5.find()
+                || matcher6.find() || matcher7.find() || matcher8.find() || matcher9.find() || matcher10.find()
+                || matcher11.find() || matcher12.find() || matcher13.find();
+    }
+
+
+    private static SpannableStringBuilder transformMarkDown(Context context, SpannableString initialContent) {
+        MarkdownConverter markdownConverter = new MarkdownConverter();
+        markdownConverter.markdownItems = new ArrayList<>();
+        int next;
+        int position = 0;
+        for (int i = 0; i < initialContent.length(); i = next) {
+            // find the next span transition
+            next = initialContent.nextSpanTransition(i, initialContent.length(), URLSpan.class);
+            MarkdownConverter.MarkdownItem markdownItem = new MarkdownConverter.MarkdownItem();
+            markdownItem.code = initialContent.subSequence(i, next).toString();
+
+            markdownItem.position = position;
+            // get all spans in this range
+            URLSpan[] spans = initialContent.getSpans(i, next, URLSpan.class);
+            if (spans != null && spans.length > 0) {
+                markdownItem.urlSpan = spans[0];
+            }
+
+            if (markdownItem.code.trim().length() > 0) {
+                markdownConverter.markdownItems.add(markdownItem);
+                position++;
+            }
+        }
+        final Markwon markwon = Markwon.builder(context)
+                .usePlugin(TablePlugin.create(context))
+                .usePlugin(SoftBreakAddsNewLinePlugin.create())
+                .usePlugin(SyntaxHighlightPlugin.create(new Prism4j(new MySuperGrammerLocator()), Prism4jThemeDefault.create()))
+                .usePlugin(StrikethroughPlugin.create())
+                .usePlugin(MarkwonInlineParserPlugin.create())
+                .usePlugin(new AbstractMarkwonPlugin() {
+                    @Override
+                    public void configure(@NonNull Registry registry) {
+                        registry.require(MarkwonInlineParserPlugin.class, plugin -> plugin.factoryBuilder()
+                                .excludeInlineProcessor(HtmlInlineProcessor.class));
+                    }
+                })
+                .build();
+
+        final Spanned markdown = markwon.toMarkdown(initialContent.toString());
+        SpannableStringBuilder content = new SpannableStringBuilder(markdown);
+        position = 0;
+
+        for (MarkdownConverter.MarkdownItem markdownItem : markdownConverter.markdownItems) {
+
+            String sb = Pattern.compile("\\A[\\p{L}0-9_]").matcher(markdownItem.code).find() ? "\\b" : "";
+            String eb = Pattern.compile("[\\p{L}0-9_]\\z").matcher(markdownItem.code).find() ? "\\b" : "\\B";
+            Pattern p = Pattern.compile(sb + "(" + Pattern.quote(markdownItem.code) + ")" + eb, Pattern.UNICODE_CASE);
+            Matcher m = p.matcher(content);
+            int fetchPosition = 1;
+            while (m.find()) {
+                int regexPosition = markdownItem.regexPosition(markdownConverter.markdownItems);
+                if (regexPosition == fetchPosition) {
+                    content.setSpan(markdownItem.urlSpan, m.start(), m.end(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                }
+                fetchPosition++;
+            }
+            position++;
+        }
+        return content;
     }
 }

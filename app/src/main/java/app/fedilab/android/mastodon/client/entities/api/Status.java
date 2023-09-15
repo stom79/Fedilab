@@ -138,6 +138,7 @@ public class Status implements Serializable, Cloneable {
     public boolean spoilerChecked = false;
     public Filter filteredByApp;
     public transient Spannable contentSpan;
+    public transient Spannable contentMarkdownSpan;
     public transient Spannable contentSpoilerSpan;
     public transient Spannable contentTranslateSpan;
     public transient MathJaxView mathJaxView;
