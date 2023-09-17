@@ -1,0 +1,13 @@
+Hinzugefügt:
+- Suchleiste: Vorschläge anzeigen, wenn mit „@“ oder „#“ begonnen wird
+
+Geändert:
+- Laden Sie Medien in Zeitleisten vor, um Sprünge zu vermeiden
+- Suche: Wechseln Sie automatisch zur Registerkarte „Konto“, wenn keine Ergebnisse für Tags vorliegen
+
+Fest:
+- Sprünge mit der Funktion „Mehr abrufen“ beheben
+- Fix-Videos können nicht gespeichert werden
+- Tags können nicht angeheftet werden, wenn keine benutzerdefinierten Registerkarten vorhanden sind
+- PixelFed-Ansicht: NSFW nicht berücksichtigt
+- Abstürze beheben
