@@ -575,6 +575,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.layoutReactions.getRoot().setVisibility(View.GONE);
                 holder.binding.layoutReactions.reactionsView.setAdapter(null);
             }
+
+
             holder.binding.statusEmoji.setOnClickListener(v -> {
                 EmojiManager.install(new EmojiOneProvider());
                 final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.statusEmoji).setOnEmojiPopupDismissListener(() -> {
@@ -1037,6 +1039,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 return true;
             });
+            holder.binding.actionButtonExtra.setAnimation(null);
+
+            holder.binding.actionButtonExtra.setOnClickListener(v -> {
+                holder.binding.extraFeaturesPanel.setVisibility(View.VISIBLE);
+                holder.binding.actionButtonExtra.setChecked(false);
+            });
+
+            holder.binding.buttonCloseExtraFeaturesPanel.setOnClickListener(v -> holder.binding.extraFeaturesPanel.setVisibility(View.GONE));
+
             holder.binding.actionButtonBoost.setOnClickListener(v -> {
                 boolean needToWarnForMissingDescription = false;
                 if (warnNoMedia && statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {

@@ -763,12 +763,19 @@
                 android:background="@drawable/bg_compose_panels"
                 android:padding="6dp"
                 android:visibility="gone"
-                app:constraint_referenced_ids="action_button_quote, action_button_translate, action_button_maths, status_add_custom_emoji, status_emoji"
+                app:constraint_referenced_ids="button_close_extra_features_panel, action_button_quote, action_button_translate, action_button_maths, status_add_custom_emoji, status_emoji"
                 app:flow_maxElementsWrap="3"
                 app:flow_wrapMode="aligned"
-                app:layout_constraintBottom_toBottomOf="@id/action_button_extra"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@id/action_buttons"
+                app:layout_constraintEnd_toEndOf="@id/action_button_extra" />
 
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_close_extra_features_panel"
+                style="@style/Widget.Material3.Button.IconButton.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_baseline_close_24" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/action_button_quote"
