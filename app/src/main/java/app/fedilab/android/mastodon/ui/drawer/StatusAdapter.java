@@ -745,25 +745,24 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.statusAddCustomEmoji.setVisibility(View.GONE);
                 holder.binding.statusEmoji.setVisibility(View.GONE);
             }
-
-
         }
 
-        if (status.isMaths == null) {
-            if (status.content != null && Helper.mathsPattern.matcher(status.content).find()) {
-                holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
-                status.isMaths = true;
-            } else {
-                holder.binding.actionButtonMaths.setVisibility(View.GONE);
+        if (statusToDeal.markdownShown) {
+            if (statusToDeal.contentMarkdownSpan != null) {
+                holder.binding.statusContent.setText(statusToDeal.contentMarkdownSpan, TextView.BufferType.SPANNABLE);
             }
         } else {
-            if (status.isMaths) {
-                holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
-            } else {
-                holder.binding.actionButtonMaths.setVisibility(View.GONE);
+            if (statusToDeal.contentSpan != null) {
+                holder.binding.statusContent.setText(statusToDeal.contentSpan, TextView.BufferType.SPANNABLE);
             }
         }
-        if (status.mathsShown) {
+        if (statusToDeal.extraFeaturesShown) {
+            holder.binding.extraFeaturesPanel.setVisibility(View.VISIBLE);
+            holder.binding.extraFeaturesPanel.requestFocus();
+        } else {
+            holder.binding.extraFeaturesPanel.setVisibility(View.GONE);
+        }
+        if (statusToDeal.mathsShown) {
             holder.binding.statusContentMaths.setVisibility(View.VISIBLE);
             holder.binding.statusContent.setVisibility(View.GONE);
             holder.binding.statusContentMaths.removeAllViews();
@@ -799,8 +798,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusContent.setVisibility(View.VISIBLE);
         }
         holder.binding.actionButtonMaths.setOnClickListener(v -> {
-
             status.mathsShown = !status.mathsShown;
+            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+        });
+        holder.binding.actionButtonMarkdown.setOnClickListener(v -> {
+            status.markdownShown = !status.markdownShown;
             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
         });
         holder.binding.actionButtonFavorite.setActiveImage(R.drawable.ic_round_star_24);
@@ -908,15 +910,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.actionButtonBookmark.setVisibility(View.VISIBLE);
             } else {
                 holder.binding.actionButtonBookmark.setVisibility(View.GONE);
-            }
-            if (displayTranslate) {
-                if (statusToDeal.language != null && statusToDeal.language.trim().length() > 0 && statusToDeal.language.equalsIgnoreCase(MyTransL.getLocale())) {
-                    holder.binding.actionButtonTranslate.setVisibility(View.GONE);
-                } else {
-                    holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
-                }
-            } else {
-                holder.binding.actionButtonTranslate.setVisibility(View.GONE);
             }
             //--- ACTIONS ---
             holder.binding.actionButtonBookmark.setChecked(statusToDeal.bookmarked);
@@ -1042,11 +1035,42 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.actionButtonExtra.setAnimation(null);
 
             holder.binding.actionButtonExtra.setOnClickListener(v -> {
+                if (displayTranslate) {
+                    if (statusToDeal.language != null && statusToDeal.language.trim().length() > 0 && statusToDeal.language.equalsIgnoreCase(MyTransL.getLocale())) {
+                        holder.binding.actionButtonTranslate.setVisibility(View.GONE);
+                    } else {
+                        holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    holder.binding.actionButtonTranslate.setVisibility(View.GONE);
+                }
+                if (statusToDeal.isMaths == null) {
+                    if (statusToDeal.content != null && Helper.mathsPattern.matcher(statusToDeal.content).find()) {
+                        holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
+                        statusToDeal.isMaths = true;
+                    } else {
+                        holder.binding.actionButtonMaths.setVisibility(View.GONE);
+                    }
+                } else {
+                    if (statusToDeal.isMaths) {
+                        holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.binding.actionButtonMaths.setVisibility(View.GONE);
+                    }
+                }
+                if (statusToDeal.contentMarkdownSpan != null) {
+                    holder.binding.actionButtonMarkdown.setVisibility(View.VISIBLE);
+                } else {
+                    holder.binding.actionButtonMarkdown.setVisibility(View.GONE);
+                }
                 holder.binding.extraFeaturesPanel.setVisibility(View.VISIBLE);
                 holder.binding.actionButtonExtra.setChecked(false);
             });
 
-            holder.binding.buttonCloseExtraFeaturesPanel.setOnClickListener(v -> holder.binding.extraFeaturesPanel.setVisibility(View.GONE));
+            holder.binding.buttonCloseExtraFeaturesPanel.setOnClickListener(v -> {
+                statusToDeal.extraFeaturesShown = !statusToDeal.extraFeaturesShown;
+                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+            });
 
             holder.binding.actionButtonBoost.setOnClickListener(v -> {
                 boolean needToWarnForMissingDescription = false;
@@ -2066,9 +2090,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             }
                         }
                     } else {
-                        Intent intent = new Intent(context, ContextActivity.class);
-                        intent.putExtra(Helper.ARG_STATUS, statusToDeal);
-                        context.startActivity(intent);
+                        if (statusToDeal.extraFeaturesShown) {
+                            statusToDeal.extraFeaturesShown = false;
+                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                        } else {
+                            Intent intent = new Intent(context, ContextActivity.class);
+                            intent.putExtra(Helper.ARG_STATUS, statusToDeal);
+                            context.startActivity(intent);
+                        }
                     }
                 }
             });
