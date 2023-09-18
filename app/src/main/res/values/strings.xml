@@ -1905,6 +1905,7 @@
     <string name="icons_extra_features_visibility_summary">If your instance does not accept some extra features, you can hide these icons</string>
     <string name="set_display_quote_indication">Display the \"Quote\" button</string>
     <string name="set_display_reaction_indication">Display \"Reactions\" buttons</string>
+    <string name="quote">Quote</string>
     <string name="bubble">Bubble</string>
     <string name="exclude_visibility">Exclude visibility</string>
     <string name="reply_visibility">Reply visibility</string>

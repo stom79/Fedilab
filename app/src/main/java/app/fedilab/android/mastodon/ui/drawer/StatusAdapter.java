@@ -1315,7 +1315,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.editTime.setVisibility(View.GONE);
             holder.binding.visibilitySmall.setImageResource(ressource);
             if (displayCounters && canBeFederated) {
-                holder.binding.replyCount.setText(String.valueOf(statusToDeal.replies_count));
+                holder.binding.actionButtonReplyCount.setText(String.valueOf(statusToDeal.replies_count));
                 holder.binding.statusInfo.setVisibility(View.VISIBLE);
                 holder.binding.dateShort.setVisibility(View.GONE);
                 holder.binding.visibilitySmall.setVisibility(View.GONE);
@@ -2415,9 +2415,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             popup.show();
         });
         if (statusToDeal.replies_count > 0 && !(context instanceof ContextActivity)) {
-            holder.binding.replyCount.setVisibility(View.VISIBLE);
+            holder.binding.actionButtonReplyCount.setVisibility(View.VISIBLE);
         } else {
-            holder.binding.replyCount.setVisibility(View.GONE);
+            holder.binding.actionButtonReplyCount.setVisibility(View.GONE);
         }
         holder.binding.actionButtonReply.setOnLongClickListener(v -> {
             CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REPLY_ACTION, null, statusToDeal);
@@ -2823,10 +2823,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         if (theme_icons_color != -1) {
-            Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.actionButtonQuote, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.statusEmoji, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_round_reply_24, theme_icons_color);
+            //   Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
+            //   Helper.changeDrawableColor(context, holder.binding.actionButtonQuote, theme_icons_color);
+            //   Helper.changeDrawableColor(context, holder.binding.statusEmoji, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_star_24, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_repeat_24, theme_icons_color);
@@ -2835,11 +2835,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_bot, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_reply_24, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.actionButtonTranslate, theme_icons_color);
+            //   Helper.changeDrawableColor(context, holder.binding.actionButtonTranslate, theme_icons_color);
             holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
-            holder.binding.replyCount.setTextColor(theme_icons_color);
+            holder.binding.actionButtonReplyCount.setTextColor(theme_icons_color);
         }
         if (theme_statuses_color != -1) {
             holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
