@@ -644,7 +644,6 @@
                 app:inactiveImage="@drawable/ic_round_reply_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/action_button_boost"
                 app:layout_constraintTop_toTopOf="parent"
                 app:primaryColor="@color/boost_icon"
                 app:secondaryColor="@color/boost_icon" />
@@ -659,105 +658,112 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/action_button_reply"
+                android:layout_marginEnd="10dp"
                 tools:ignore="HardcodedText"
                 tools:visibility="visible" />
-
-            <com.varunest.sparkbutton.SparkButton
-                android:id="@+id/action_button_boost"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/reblog_add"
-                app:activeImage="@drawable/ic_round_repeat_active_24"
-                app:iconSize="28dp"
-                app:inactiveImage="@drawable/ic_round_repeat_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/action_button_favorite"
-                app:layout_constraintStart_toEndOf="@+id/action_button_reply_count"
-                app:layout_constraintTop_toTopOf="parent"
-                app:primaryColor="@color/boost_icon"
-                app:secondaryColor="@color/boost_icon" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/action_button_boost_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:text="0"
-                android:textColor="?colorControlNormal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/action_button_boost"
-                android:visibility="gone"
-                tools:ignore="HardcodedText"
-                tools:visibility="visible" />
-
-            <com.varunest.sparkbutton.SparkButton
-                android:id="@+id/action_button_favorite"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/favourite_add"
-                app:activeImage="@drawable/ic_round_star_24"
-                app:animationSpeed="1.5"
-                app:inactiveImage="@drawable/ic_round_star_border_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/action_button_bookmark"
-                app:layout_constraintStart_toEndOf="@+id/action_button_boost_count"
-                app:layout_constraintTop_toTopOf="parent"
-                app:primaryColor="@color/marked_icon"
-                app:secondaryColor="@color/marked_icon"
-                sparkbutton:iconSize="28dp" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/action_button_favorite_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:text="0"
-                android:textColor="?colorControlNormal"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/action_button_favorite"
-                tools:ignore="HardcodedText"
-                tools:visibility="visible" />
-
-
-            <com.varunest.sparkbutton.SparkButton
-                android:id="@+id/action_button_bookmark"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/bookmark_add"
-                app:activeImage="@drawable/ic_round_bookmark_24"
-                app:animationSpeed="1.5"
-                app:inactiveImage="@drawable/ic_round_bookmark_border_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/action_button_extra_container"
-                app:layout_constraintStart_toEndOf="@+id/action_button_favorite"
-                app:layout_constraintTop_toTopOf="parent"
-                app:primaryColor="@color/marked_icon"
-                app:secondaryColor="@color/marked_icon"
-                sparkbutton:iconSize="28dp" />
 
             <HorizontalScrollView
                 android:id="@+id/action_button_extra_container"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fillViewport="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/action_button_more"
-                app:layout_constraintStart_toEndOf="@+id/action_button_bookmark"
+                app:layout_constraintStart_toEndOf="@+id/action_button_reply_count"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
+
+                    <com.varunest.sparkbutton.SparkButton
+                        android:id="@+id/action_button_boost"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/reblog_add"
+                        app:activeImage="@drawable/ic_round_repeat_active_24"
+                        app:iconSize="28dp"
+                        app:inactiveImage="@drawable/ic_round_repeat_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/action_button_favorite"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:primaryColor="@color/boost_icon"
+                        app:secondaryColor="@color/boost_icon" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/action_button_boost_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="0"
+                        android:textColor="?colorControlNormal"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/action_button_boost"
+                        tools:ignore="HardcodedText"
+                        tools:visibility="visible" />
+
+                    <com.varunest.sparkbutton.SparkButton
+                        android:id="@+id/action_button_favorite"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/favourite_add"
+                        app:activeImage="@drawable/ic_round_star_24"
+                        app:animationSpeed="1.5"
+                        app:inactiveImage="@drawable/ic_round_star_border_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/action_button_bookmark"
+                        app:layout_constraintStart_toEndOf="@+id/action_button_boost_count"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:primaryColor="@color/marked_icon"
+                        app:secondaryColor="@color/marked_icon"
+                        sparkbutton:iconSize="28dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/action_button_favorite_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="0"
+                        android:textColor="?colorControlNormal"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/action_button_favorite"
+                        tools:ignore="HardcodedText"
+                        tools:visibility="visible" />
+
+
+                    <com.varunest.sparkbutton.SparkButton
+                        android:id="@+id/action_button_bookmark"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/bookmark_add"
+                        app:activeImage="@drawable/ic_round_bookmark_24"
+                        app:animationSpeed="1.5"
+                        app:inactiveImage="@drawable/ic_round_bookmark_border_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/action_button_quote"
+                        app:layout_constraintStart_toEndOf="@+id/action_button_favorite"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:primaryColor="@color/marked_icon"
+                        app:secondaryColor="@color/marked_icon"
+                        sparkbutton:iconSize="28dp" />
 
                     <com.varunest.sparkbutton.SparkButton
                         android:id="@+id/action_button_quote"
+                        android:layout_marginStart="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/action_button_translate"
+                        app:layout_constraintStart_toEndOf="@+id/action_button_bookmark"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
@@ -770,6 +776,11 @@
 
                     <com.varunest.sparkbutton.SparkButton
                         android:id="@+id/action_button_translate"
+                        android:layout_marginStart="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/action_button_maths"
+                        app:layout_constraintStart_toEndOf="@+id/action_button_quote"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
@@ -782,6 +793,11 @@
 
                     <com.varunest.sparkbutton.SparkButton
                         android:id="@+id/action_button_maths"
+                        android:layout_marginStart="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/action_button_markdown"
+                        app:layout_constraintStart_toEndOf="@+id/action_button_translate"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
@@ -794,6 +810,11 @@
 
                     <com.varunest.sparkbutton.SparkButton
                         android:id="@+id/action_button_markdown"
+                        android:layout_marginStart="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/status_add_custom_emoji"
+                        app:layout_constraintStart_toEndOf="@+id/action_button_maths"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
@@ -806,6 +827,11 @@
 
                     <com.varunest.sparkbutton.SparkButton
                         android:id="@+id/status_add_custom_emoji"
+                        android:layout_marginStart="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/status_emoji"
+                        app:layout_constraintStart_toEndOf="@+id/action_button_markdown"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
@@ -818,6 +844,11 @@
 
                     <com.varunest.sparkbutton.SparkButton
                         android:id="@+id/status_emoji"
+                        android:layout_marginStart="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/status_add_custom_emoji"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
@@ -828,13 +859,14 @@
                         app:inactiveImage="@drawable/ic_baseline_add_reaction_24"
                         sparkbutton:iconSize="28dp" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </HorizontalScrollView>
 
 
             <com.varunest.sparkbutton.SparkButton
                 android:id="@+id/action_button_more"
+                android:layout_marginStart="10dp"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"

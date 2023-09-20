@@ -731,7 +731,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         int truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
-
         if (extraFeatures) {
             if (displayQuote) {
                 holder.binding.actionButtonQuote.setVisibility(View.VISIBLE);
@@ -745,6 +744,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.statusAddCustomEmoji.setVisibility(View.GONE);
                 holder.binding.statusEmoji.setVisibility(View.GONE);
             }
+        } else {
+            holder.binding.actionButtonQuote.setVisibility(View.GONE);
+            holder.binding.statusAddCustomEmoji.setVisibility(View.GONE);
+            holder.binding.statusEmoji.setVisibility(View.GONE);
         }
 
         if (statusToDeal.markdownShown) {
