@@ -1333,46 +1333,51 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.app.setVisibility(View.GONE);
             holder.binding.editTime.setVisibility(View.GONE);
             holder.binding.visibilitySmall.setImageResource(ressource);
-            if (displayCounters && canBeFederated) {
-                holder.binding.actionButtonReplyCount.setText(String.valueOf(statusToDeal.replies_count));
-                holder.binding.statusInfo.setVisibility(View.VISIBLE);
-                holder.binding.dateShort.setVisibility(View.GONE);
-                holder.binding.visibilitySmall.setVisibility(View.GONE);
-                holder.binding.reblogsCount.setText(String.valueOf(statusToDeal.reblogs_count));
-                holder.binding.favoritesCount.setText(String.valueOf(statusToDeal.favourites_count));
-                if (originalDateForBoost || status.reblog == null) {
-                    holder.binding.time.setText(Helper.dateDiff(context, statusToDeal.created_at));
-                } else {
-                    holder.binding.time.setText(Helper.dateDiff(context, status.created_at));
-                }
-                if (statusToDeal.edited_at != null) {
-                    Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_mode_edit_message_24);
-                    img.setBounds(0, 0, (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f), (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f));
-                    holder.binding.time.setCompoundDrawables(null, null, img, null);
-                } else {
-                    holder.binding.time.setCompoundDrawables(null, null, null, null);
-                }
-                Helper.absoluteDateTimeReveal(context, holder.binding.time, statusToDeal.created_at, statusToDeal.edited_at);
-                holder.binding.visibility.setImageResource(ressource);
-                holder.binding.time.setVisibility(View.VISIBLE);
+            holder.binding.statusInfo.setVisibility(View.GONE);
+            holder.binding.dateShort.setVisibility(View.VISIBLE);
+            holder.binding.visibilitySmall.setVisibility(View.VISIBLE);
+            if (statusToDeal.edited_at != null) {
+                Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_mode_edit_message_24);
+                img.setBounds(0, 0, (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f), (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f));
+                holder.binding.dateShort.setCompoundDrawables(null, null, img, null);
             } else {
-                holder.binding.statusInfo.setVisibility(View.GONE);
-                holder.binding.dateShort.setVisibility(View.VISIBLE);
-                holder.binding.visibilitySmall.setVisibility(View.VISIBLE);
-                if (statusToDeal.edited_at != null) {
-                    Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_mode_edit_message_24);
-                    img.setBounds(0, 0, (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f), (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f));
-                    holder.binding.dateShort.setCompoundDrawables(null, null, img, null);
+                holder.binding.dateShort.setCompoundDrawables(null, null, null, null);
+            }
+            if (originalDateForBoost || status.reblog == null) {
+                holder.binding.dateShort.setText(Helper.dateDiff(context, statusToDeal.created_at));
+            } else {
+                holder.binding.dateShort.setText(Helper.dateDiff(context, status.created_at));
+            }
+            holder.binding.time.setVisibility(View.GONE);
+            Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, statusToDeal.created_at, statusToDeal.edited_at);
+            if (displayCounters && canBeFederated) {
+                if (statusToDeal.reblogs_count > 0) {
+                    holder.binding.actionButtonBoostCount.setText(String.valueOf(statusToDeal.reblogs_count));
+                    holder.binding.actionButtonBoostCount.setVisibility(View.VISIBLE);
                 } else {
-                    holder.binding.dateShort.setCompoundDrawables(null, null, null, null);
+                    holder.binding.actionButtonBoostCount.setVisibility(View.GONE);
                 }
-                if (originalDateForBoost || status.reblog == null) {
-                    holder.binding.dateShort.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                if (statusToDeal.favourites_count > 0) {
+                    holder.binding.actionButtonFavoriteCount.setText(String.valueOf(statusToDeal.favourites_count));
+                    holder.binding.actionButtonFavoriteCount.setVisibility(View.VISIBLE);
                 } else {
-                    holder.binding.dateShort.setText(Helper.dateDiff(context, status.created_at));
+                    holder.binding.actionButtonFavoriteCount.setVisibility(View.GONE);
                 }
-                holder.binding.time.setVisibility(View.GONE);
-                Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, statusToDeal.created_at, statusToDeal.edited_at);
+
+                if (statusToDeal.replies_count > 0 && !(context instanceof ContextActivity)) {
+                    holder.binding.actionButtonReplyCount.setText(String.valueOf(statusToDeal.replies_count));
+                    holder.binding.actionButtonReplyCount.setVisibility(View.VISIBLE);
+                } else {
+                    holder.binding.actionButtonReplyCount.setVisibility(View.GONE);
+                }
+            } else {
+                holder.binding.actionButtonBoostCount.setVisibility(View.GONE);
+                holder.binding.actionButtonFavoriteCount.setVisibility(View.GONE);
+                if (statusToDeal.replies_count > 0 && !(context instanceof ContextActivity)) {
+                    holder.binding.actionButtonReplyCount.setVisibility(View.VISIBLE);
+                } else {
+                    holder.binding.actionButtonReplyCount.setVisibility(View.GONE);
+                }
             }
         }
 
@@ -2433,11 +2438,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             popup.show();
         });
-        if (statusToDeal.replies_count > 0 && !(context instanceof ContextActivity)) {
-            holder.binding.actionButtonReplyCount.setVisibility(View.VISIBLE);
-        } else {
-            holder.binding.actionButtonReplyCount.setVisibility(View.GONE);
-        }
+
         holder.binding.actionButtonReply.setOnLongClickListener(v -> {
             CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REPLY_ACTION, null, statusToDeal);
             return true;
