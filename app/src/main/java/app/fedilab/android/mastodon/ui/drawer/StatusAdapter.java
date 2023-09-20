@@ -756,12 +756,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.statusContent.setText(statusToDeal.contentSpan, TextView.BufferType.SPANNABLE);
             }
         }
-        if (statusToDeal.extraFeaturesShown) {
-            holder.binding.extraFeaturesPanel.setVisibility(View.VISIBLE);
-            holder.binding.extraFeaturesPanel.requestFocus();
-        } else {
-            holder.binding.extraFeaturesPanel.setVisibility(View.GONE);
-        }
         if (statusToDeal.mathsShown) {
             holder.binding.statusContentMaths.setVisibility(View.VISIBLE);
             holder.binding.statusContent.setVisibility(View.GONE);
@@ -1032,46 +1026,43 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 return true;
             });
-            holder.binding.actionButtonExtra.setAnimation(null);
+            holder.binding.actionButtonReply.setAnimation(null);
+            holder.binding.actionButtonQuote.setAnimation(null);
+            holder.binding.actionButtonTranslate.setAnimation(null);
+            holder.binding.actionButtonMaths.setAnimation(null);
+            holder.binding.actionButtonMarkdown.setAnimation(null);
+            holder.binding.statusAddCustomEmoji.setAnimation(null);
+            holder.binding.statusEmoji.setAnimation(null);
+            holder.binding.actionButtonMore.setAnimation(null);
 
-            holder.binding.actionButtonExtra.setOnClickListener(v -> {
-                if (displayTranslate) {
-                    if (statusToDeal.language != null && statusToDeal.language.trim().length() > 0 && statusToDeal.language.equalsIgnoreCase(MyTransL.getLocale())) {
-                        holder.binding.actionButtonTranslate.setVisibility(View.GONE);
-                    } else {
-                        holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
-                    }
-                } else {
+            if (displayTranslate) {
+                if (statusToDeal.language != null && statusToDeal.language.trim().length() > 0 && statusToDeal.language.equalsIgnoreCase(MyTransL.getLocale())) {
                     holder.binding.actionButtonTranslate.setVisibility(View.GONE);
-                }
-                if (statusToDeal.isMaths == null) {
-                    if (statusToDeal.content != null && Helper.mathsPattern.matcher(statusToDeal.content).find()) {
-                        holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
-                        statusToDeal.isMaths = true;
-                    } else {
-                        holder.binding.actionButtonMaths.setVisibility(View.GONE);
-                    }
                 } else {
-                    if (statusToDeal.isMaths) {
-                        holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
-                    } else {
-                        holder.binding.actionButtonMaths.setVisibility(View.GONE);
-                    }
+                    holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
                 }
-                if (statusToDeal.contentMarkdownSpan != null) {
-                    holder.binding.actionButtonMarkdown.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.actionButtonTranslate.setVisibility(View.GONE);
+            }
+            if (statusToDeal.isMaths == null) {
+                if (statusToDeal.content != null && Helper.mathsPattern.matcher(statusToDeal.content).find()) {
+                    holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
+                    statusToDeal.isMaths = true;
                 } else {
-                    holder.binding.actionButtonMarkdown.setVisibility(View.GONE);
+                    holder.binding.actionButtonMaths.setVisibility(View.GONE);
                 }
-                holder.binding.extraFeaturesPanel.setVisibility(View.VISIBLE);
-                holder.binding.actionButtonExtra.setChecked(false);
-            });
-
-            holder.binding.buttonCloseExtraFeaturesPanel.setOnClickListener(v -> {
-                statusToDeal.extraFeaturesShown = !statusToDeal.extraFeaturesShown;
-                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-            });
-
+            } else {
+                if (statusToDeal.isMaths) {
+                    holder.binding.actionButtonMaths.setVisibility(View.VISIBLE);
+                } else {
+                    holder.binding.actionButtonMaths.setVisibility(View.GONE);
+                }
+            }
+            if (statusToDeal.contentMarkdownSpan != null) {
+                holder.binding.actionButtonMarkdown.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.actionButtonMarkdown.setVisibility(View.GONE);
+            }
             holder.binding.actionButtonBoost.setOnClickListener(v -> {
                 boolean needToWarnForMissingDescription = false;
                 if (warnNoMedia && statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
@@ -1241,32 +1232,22 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         //Button sizes depending of the defined scale
         float normalSize = Helper.convertDpToPixel(28, context);
-        holder.binding.actionButtonReply.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonReply.requestLayout();
-
-        holder.binding.actionButtonTranslate.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonTranslate.getLayoutParams().height = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonTranslate.requestLayout();
-
+        holder.binding.actionButtonReply.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonBoost.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonFavorite.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonBookmark.setImageSize((int) (normalSize * scaleIcon));
-
+        holder.binding.actionButtonQuote.setImageSize((int) (normalSize * scaleIcon));
+        holder.binding.actionButtonTranslate.setImageSize((int) (normalSize * scaleIcon));
+        holder.binding.actionButtonMaths.setImageSize((int) (normalSize * scaleIcon));
+        holder.binding.actionButtonMarkdown.setImageSize((int) (normalSize * scaleIcon));
+        holder.binding.statusAddCustomEmoji.setImageSize((int) (normalSize * scaleIcon));
+        holder.binding.statusEmoji.setImageSize((int) (normalSize * scaleIcon));
+        holder.binding.actionButtonMore.setImageSize((int) (normalSize * scaleIcon));
 
         holder.binding.statusAddCustomEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.statusAddCustomEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.statusAddCustomEmoji.requestLayout();
 
-        holder.binding.actionButtonQuote.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonQuote.getLayoutParams().height = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonQuote.requestLayout();
-
-        holder.binding.statusEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.statusEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonMore.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonMore.getLayoutParams().height = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonMore.requestLayout();
         holder.binding.actionShare.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.actionShare.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.actionShare.requestLayout();
@@ -2090,14 +2071,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             }
                         }
                     } else {
-                        if (statusToDeal.extraFeaturesShown) {
-                            statusToDeal.extraFeaturesShown = false;
-                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                        } else {
-                            Intent intent = new Intent(context, ContextActivity.class);
-                            intent.putExtra(Helper.ARG_STATUS, statusToDeal);
-                            context.startActivity(intent);
-                        }
+                        Intent intent = new Intent(context, ContextActivity.class);
+                        intent.putExtra(Helper.ARG_STATUS, statusToDeal);
+                        context.startActivity(intent);
                     }
                 }
             });
@@ -2864,10 +2840,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (theme_icons_color != -1) {
             Helper.changeDrawableColor(context, R.drawable.ic_round_reply_24, theme_icons_color);
-            //   Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
-            //   Helper.changeDrawableColor(context, holder.binding.actionButtonQuote, theme_icons_color);
-            //   Helper.changeDrawableColor(context, holder.binding.statusEmoji, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
+
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_format_quote_24, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_translate_24, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_round_repeat_24, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_functions_24, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.baseline_code_24, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_emoji_emotions_24, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_baseline_add_reaction_24, theme_icons_color);
+
+            Helper.changeDrawableColor(context, R.drawable.ic_round_more_horiz_24, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_star_24, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_repeat_24, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.visibility, theme_icons_color);
@@ -2875,11 +2857,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_bot, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_reply_24, theme_icons_color);
-            //   Helper.changeDrawableColor(context, holder.binding.actionButtonTranslate, theme_icons_color);
+
             holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonReplyCount.setTextColor(theme_icons_color);
+
+            holder.binding.actionButtonQuote.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.actionButtonTranslate.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.actionButtonMaths.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.actionButtonMarkdown.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.statusAddCustomEmoji.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.statusEmoji.setInActiveImageTintColor(theme_icons_color);
+            holder.binding.actionButtonMore.setInActiveImageTintColor(theme_icons_color);
+
         }
         if (theme_statuses_color != -1) {
             holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);

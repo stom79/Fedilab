@@ -1928,6 +1928,7 @@
     <string name="set_disable_release_notes">Disable release notes</string>
     <string name="set_disable_release_notes_indication">When a new version is published, you will not be alerted inside the app.</string>
     <string name="formula">Formula</string>
+    <string name="markdown">Markdown</string>
     <string name="set_maths_support">Write formula</string>
     <string name="maths_format">Maths format</string>
     <string name="hide_single_media_with_card">Hide single media when there is a link preview</string>
