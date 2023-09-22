@@ -457,7 +457,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (compactButtons) {
             ConstraintSet set = new ConstraintSet();
             set.clone(holder.binding.actionButtons);
-            set.clear(R.id.status_emoji, ConstraintSet.END);
+            set.clear(R.id.action_button_extra_container, ConstraintSet.END);
             set.applyTo(holder.binding.actionButtons);
         }
 
