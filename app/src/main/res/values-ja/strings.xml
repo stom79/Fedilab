@@ -207,7 +207,7 @@
     <string name="settings_time_from">開始</string>
     <string name="settings_time_to">終了</string>
     <string name="embedded_browser">アプリ内ブラウザを使用する</string>
-    <string name="custom_tabs">アプリ内ブラウザー(カスタムタブ)</string>
+    <string name="custom_tabs">アプリ内ブラウザー</string>
     <string name="expand_cw">CWを自動的に展開する</string>
     <string name="set_led_colour">LEDの色:</string>
     <string-array name="led_colours">
@@ -497,7 +497,7 @@
     </string-array>
     <string name="poll_duplicated_entry">アンケートに重複した選択肢を作ることはできません！</string>
     <string name="set_clear_cache_exit">終了時にキャッシュを消去する</string>
-    <string name="set_clear_cache_exit_indication">アプリの終了時にキャッシュ(メディア、キャッシュされた投稿、ビルトインブラウザのデータ)が自動的に消去されます。</string>
+    <string name="set_clear_cache_exit_indication">アプリの終了時にキャッシュ(メディア、キャッシュされた投稿、アプリ内ブラウザーのデータ)が自動的に消去されます。</string>
     <string name="unfollow_confirm">このアカウントのフォローを解除しますか？</string>
     <string name="set_unfollow_validation">フォローを解除する前に確認を表示する</string>
     <string name="replace_medium">Medium</string>
