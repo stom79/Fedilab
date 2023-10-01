@@ -965,7 +965,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
             //Here we know that the intent contains a valid URL
             if (!url.contains("medium.com")) {
-                Pattern link = Pattern.compile("https?://([\\da-z.-]+[à-ü]?\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
+                Pattern link = Pattern.compile("https?://([\\da-z.-]+[à-ü]?\\.[a-z.]{2,10})/(@[@\\w._-]*[0-9]*)(/[0-9]+)?$");
                 Matcher matcherLink;
                 matcherLink = link.matcher(url);
                 if (matcherLink.find()) {
