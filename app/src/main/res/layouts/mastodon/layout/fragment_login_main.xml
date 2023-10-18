@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:dropDownAnchor="@id/login_instance_layout"
             android:hint="@string/instance_example"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:inputType="textWebEmailAddress"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
