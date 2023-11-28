@@ -207,7 +207,7 @@
     <string name="settings_time_from">Antara</string>
     <string name="settings_time_to">dan</string>
     <string name="embedded_browser">Gunakan browser built-in</string>
-    <string name="custom_tabs">Tab kustom</string>
+    <string name="custom_tabs">Aplikasi peramban</string>
     <string name="expand_cw">Automatically expand cw</string>
     <string name="set_led_colour">Atur warna LED:</string>
     <string-array name="led_colours">
@@ -569,4 +569,13 @@
     <string name="icon_size">Ukuran Ikon</string>
     <string name="toots_visibility_title">Visibilitas pesan secara default:</string>
     <string name="show_anyway">Tetap tampilkan</string>
+    <string name="show_self_replies">Tampilkan balasan diri</string>
+    <string name="toast_bookmark">Pesan ditambahkan ke bookmark Anda!</string>
+    <string name="toast_unbookmark">Pesan dihapus dari bookmark Anda!</string>
+    <string name="set_accounts_page">Jumlah akun per beban</string>
+    <string name="reblog_missing_description">Pesan ini kehilangan deskripsi media. Apakah Anda yakin untuk memboostnya?</string>
+    <string name="show_privates">Tampilkan pesan langsung</string>
+    <string name="muted_menu_home">Beranda pengguna yang dibisukan</string>
+    <string name="warn_boost_no_media_description">Peringaktan jika pesan tidak memiliki deskripsi media sebelum diboosting</string>
+    <string name="set_notifications_page">Jumlah pemberitahuan per beban</string>
 </resources>

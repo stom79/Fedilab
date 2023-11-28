@@ -1057,4 +1057,7 @@
     <string name="markdown_support">Markdown desteği</string>
     <string name="set_remote_conversation_title">Uzak görüşmeler</string>
     <string name="set_remote_conversation">Uygulama, tüm mesajları almak için herkese açık görüşmeleri görüntüleyecektir. Etkileşimlerin mesajları birleştirmek için ek bir adıma ihtiyacı olacaktır.</string>
+    <string name="show_self_replies">Kendi yanıtlarını göster</string>
+    <string name="show_self_boosts">Öz destekleri göster</string>
+    <string name="show_my_messages">Mesajlarımı göster</string>
 </resources>
