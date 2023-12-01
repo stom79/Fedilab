@@ -1,2 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="close">Clauder</string>
+    <string name="download_from" formatted="false">File: %1$s</string>
+    <string name="save">Salvar</string>
+    <string name="action_open_in_web">Aperir in le navigator</string>
+    <string name="show_replies">Monstrar le responsas</string>
+    <string name="action_cache">Cache</string>
+    <string name="action_about">A proposito de</string>
+    <string name="password">Contrasigno</string>
+    <string name="action_logout">Clauder le session</string>
+    <string name="accounts">Contos</string>
+    <string name="next">Sequente</string>
+    <string name="translate">Traducer</string>
+    <string name="no">Non</string>
+    <string name="action_privacy">Confidentialitate</string>
+    <string name="tags">Etiquettas</string>
+    <string name="email">E-mail</string>
+    <string name="yes">Si</string>
+    <string name="username">Nomine de usator</string>
+    <string name="clipboard">Le contento del message esseva copiate al area de transferentia</string>
+    <string name="download_file">Discarga %1$s</string>
+    <string name="send_email">Inviar un e-mail</string>
+    <string name="instance_example">Instantia: mastodon.social</string>
+    <string name="notifications">Notificationes</string>
+    <string name="instance">Instantia</string>
+    <string name="clipboard_url">Le URL del message esseva copiate al area de transferentia</string>
+    <string name="toots">Messages</string>
+    <string name="download">Discargar</string>
+    <string name="previous">Previe</string>
+    <string name="action_about_instance">A proposito del instantia</string>
+    <string name="open_with">Aperir con</string>
+    <string name="cancel">Cancellar</string>
+    <string name="show_privates">Monstrar messages directe</string>
+    <string name="replies">Responsas</string>
+    <string name="delete_all">Deler toto</string>
+    <string name="settings">Parametros</string>
+    <string name="home_menu">Initio</string>
+    <string name="blocked_menu">Usatores blocate</string>
+    <string name="favourite">Favoritos</string>
+    <string name="share_with">Compartir con</string>
+    <string name="add_account">Adder un conto</string>
+</resources>
