@@ -79,8 +79,13 @@ public class TranslateHelper {
 
         Set<String> translates = sharedpreferences.getStringSet(context.getString(R.string.SET_LIVE_TRANSLATE_MULTIPLE), null);
         String translate;
-        if (translates == null || translates.size() == 0) {
+        if (translates == null || translates.size() <= 1) {
             translate = MyTransL.getLocale();
+            if(translates != null && translates.size() == 1 ) {
+                for (String val : translates) {
+                    translate = val;
+                }
+            }
             myTransL.translate(statusToTranslate, translate, params, new Results() {
                 @Override
                 public void onSuccess(com.github.stom79.mytransl.translate.Translate translate) {
