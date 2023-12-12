@@ -204,8 +204,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (timer != null) {
             timer.cancel();
         }
-        LocalBroadcastManager.getInstance(this)
-                .unregisterReceiver(imageReceiver);
+        unregisterReceiver(imageReceiver);
 
     }
 
@@ -214,6 +213,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (binding.recyclerView.getVisibility() == View.VISIBLE) {
             storeDraftWarning();
         }
+        super.onBackPressed();
     }
 
     private void storeDraftWarning() {
@@ -734,10 +734,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
         }
         MastodonHelper.loadPPMastodon(binding.profilePicture, account.mastodon_account);
-        LocalBroadcastManager.getInstance(this)
-                .registerReceiver(imageReceiver,
-                        new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE));
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(imageReceiver, new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE), android.content.Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(imageReceiver, new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE));
+        }
         if (timer != null) {
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override

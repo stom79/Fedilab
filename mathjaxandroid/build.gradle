@@ -6,8 +6,6 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 33
-        versionCode 2
-        versionName "0.2"
     }
     buildTypes {
         release {
@@ -15,6 +13,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'de.timfreiheit.mathjax.android'
 }
 
 dependencies {

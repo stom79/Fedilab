@@ -17,6 +17,7 @@ package app.fedilab.android.mastodon.activities;
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 
+import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -27,6 +28,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -204,7 +206,13 @@ public class ProfileActivity extends BaseActivity {
         }
         //Check if account is homeMuted
         accountsVM.isMuted(currentAccount, account).observe(this, result -> homeMuted = result != null && result);
-        LocalBroadcastManager.getInstance(ProfileActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), android.content.Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
+        }
+
+
     }
 
 
@@ -1266,7 +1274,7 @@ public class ProfileActivity extends BaseActivity {
             scheduledExecutorService.shutdownNow();
             scheduledExecutorService = null;
         }
-        LocalBroadcastManager.getInstance(ProfileActivity.this).unregisterReceiver(broadcast_data);
+        unregisterReceiver(broadcast_data);
         super.onDestroy();
     }
 

@@ -8,8 +8,6 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 33
-        versionCode 3
-        versionName "1.0.12"
     }
     buildTypes {
         release {
@@ -17,7 +15,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    lintOptions {
+    namespace 'com.varunest.sparkbutton'
+    lint {
         abortOnError false
     }
 }

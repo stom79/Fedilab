@@ -152,7 +152,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         if (!keepRemote) {
             typeOfConnection = TypeOfConnection.NORMAL;
         }
-        LocalBroadcastManager.getInstance(PeertubeMainActivity.this).unregisterReceiver(broadcast_data);
+        unregisterReceiver(broadcast_data);
     }
 
     @SuppressLint("ApplySharedPref")
@@ -162,9 +162,13 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         super.onCreate(savedInstanceState);
         binding = super.binding;
 
-        LocalBroadcastManager.getInstance(PeertubeMainActivity.this).registerReceiver(
-                broadcast_data, new IntentFilter(app.fedilab.android.mastodon.helper.Helper.BROADCAST_DATA)
-        );
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(broadcast_data, new IntentFilter(app.fedilab.android.mastodon.helper.Helper.BROADCAST_DATA), android.content.Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(broadcast_data, new IntentFilter(app.fedilab.android.mastodon.helper.Helper.BROADCAST_DATA));
+        }
+
         Intent intentActvity = getIntent();
         if (intentActvity != null) {
             Bundle extras = intentActvity.getExtras();

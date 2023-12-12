@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -453,7 +454,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
 
 
-        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requireActivity().registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), android.content.Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            requireActivity().registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
+        }
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -836,7 +841,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             storeMarker();
         }
         try {
-            LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
+            requireActivity().unregisterReceiver(receive_action);
         } catch (Exception ignored) {
         }
         super.onDestroyView();

@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -205,8 +206,13 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         aggregateNotification = false;
 
-        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
-        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_refresh, new IntentFilter(Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requireActivity().registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), android.content.Context.RECEIVER_NOT_EXPORTED);
+            requireActivity().registerReceiver(receive_refresh, new IntentFilter(Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION), android.content.Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            requireActivity().registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
+            requireActivity().registerReceiver(receive_refresh, new IntentFilter(Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION));
+        }
         return root;
     }
 
@@ -673,8 +679,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
 
     @Override
     public void onDestroyView() {
-        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
-        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_refresh);
+        requireActivity().unregisterReceiver(receive_action);
+        requireActivity().unregisterReceiver(receive_refresh);
         if (isAdded()) {
             storeMarker();
         }

@@ -1591,12 +1591,16 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 }
             }
         };
-        getApplicationContext().registerReceiver(mPowerKeyReceiver, theFilter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(mPowerKeyReceiver, theFilter,  android.content.Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(mPowerKeyReceiver, theFilter);
+        }
     }
 
     private void unregisterReceiver() {
         if (mPowerKeyReceiver != null) {
-            getApplicationContext().unregisterReceiver(mPowerKeyReceiver);
+            unregisterReceiver(mPowerKeyReceiver);
             mPowerKeyReceiver = null;
         }
     }

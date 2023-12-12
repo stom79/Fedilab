@@ -13,6 +13,7 @@ android {
         minifyEnabled false
       }
     }
+    namespace 'com.kobakei.ratethisapp'
 }
 
 dependencies {

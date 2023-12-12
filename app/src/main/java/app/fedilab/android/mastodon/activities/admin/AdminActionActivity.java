@@ -22,6 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,7 +84,13 @@ public class AdminActionActivity extends BaseBarActivity {
 
         binding = ActivityAdminActionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(Helper.BROADCAST_DATA));
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(mReceiver, new IntentFilter(Helper.BROADCAST_DATA), android.content.Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(mReceiver, new IntentFilter(Helper.BROADCAST_DATA));
+        }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -318,7 +325,7 @@ public class AdminActionActivity extends BaseBarActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mReceiver != null) {
-            LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+            unregisterReceiver(mReceiver);
         }
     }
 

@@ -207,8 +207,11 @@ public class FragmentMastodonDirectMessage extends Fragment {
             statusCompose.text = binding.text.getText().toString();
             onSubmit(prepareDraft(statusCompose, MainActivity.currentInstance, MainActivity.currentUserID));
         });
-        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requireActivity().registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), android.content.Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            requireActivity().registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
+        }
         binding.text.setKeyBoardInputCallbackListener((inputContentInfo, flags, opts) -> {
             if (inputContentInfo != null) {
                 Uri uri = inputContentInfo.getContentUri();
@@ -273,7 +276,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
 
     @Override
     public void onDestroyView() {
-        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(broadcast_data);
+        requireActivity().unregisterReceiver(broadcast_data);
         super.onDestroyView();
     }
 

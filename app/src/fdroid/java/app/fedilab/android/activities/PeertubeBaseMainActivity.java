@@ -19,6 +19,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -147,7 +148,11 @@ public abstract class PeertubeBaseMainActivity extends BaseActivity implements C
                 }
             }
         };
-        LocalBroadcastManager.getInstance(PeertubeBaseMainActivity.this).registerReceiver(manage_chromecast, new IntentFilter(Helper.RECEIVE_CAST_SETTINGS));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(manage_chromecast, new IntentFilter(Helper.RECEIVE_CAST_SETTINGS), Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(manage_chromecast, new IntentFilter(Helper.RECEIVE_CAST_SETTINGS));
+        }
     }
 
     @Override
@@ -189,8 +194,7 @@ public abstract class PeertubeBaseMainActivity extends BaseActivity implements C
         super.onDestroy();
         ChromeCasts.unregisterListener(this);
         if (manage_chromecast != null) {
-            LocalBroadcastManager.getInstance(PeertubeBaseMainActivity.this).unregisterReceiver(manage_chromecast);
-
+            unregisterReceiver(manage_chromecast);
             new Thread(() -> {
                 if (chromeCasts != null && chromeCasts.size() > 0) {
                     for (ChromeCast cast : chromeCasts) {

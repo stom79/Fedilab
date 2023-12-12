@@ -20,6 +20,7 @@ import static app.fedilab.android.mastodon.activities.ContextActivity.expand;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -195,7 +196,12 @@ public class FragmentMastodonContext extends Fragment {
             statusesVM.getContext(user_instance, user_token, focusedStatus.id)
                     .observe(getViewLifecycleOwner(), this::initializeContextView);
         }
-        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requireActivity().registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), android.content.Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            requireActivity().registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
+        }
         return binding.getRoot();
     }
 
@@ -292,7 +298,7 @@ public class FragmentMastodonContext extends Fragment {
 
     @Override
     public void onDestroyView() {
-        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(receive_action);
+        requireActivity().unregisterReceiver(receive_action);
         super.onDestroyView();
     }
 

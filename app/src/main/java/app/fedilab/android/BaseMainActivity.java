@@ -1063,6 +1063,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         mamageNewIntent(BaseMainActivity.this, intent);
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1074,7 +1075,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             finish();
             return;
         } else {
-            BaseMainActivity.currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
+            BaseMainActivity.currentToken = sharedpreferences.getString(PREF_USER_TOKEN, null);
         }
         String software = sharedpreferences.getString(PREF_USER_SOFTWARE, null);
 
@@ -1528,10 +1529,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
         //For receiving  data from other activities
-        LocalBroadcastManager.getInstance(BaseMainActivity.this).registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
-        LocalBroadcastManager.getInstance(BaseMainActivity.this)
-                .registerReceiver(broadcast_error_message,
-                        new IntentFilter(Helper.INTENT_COMPOSE_ERROR_MESSAGE));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), Context.RECEIVER_NOT_EXPORTED);
+            registerReceiver(broadcast_error_message, new IntentFilter(Helper.INTENT_COMPOSE_ERROR_MESSAGE), Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
+            registerReceiver(broadcast_error_message, new IntentFilter(Helper.INTENT_COMPOSE_ERROR_MESSAGE));
+        }
         if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance) || emojis.get(BaseMainActivity.currentInstance) == null) {
             new Thread(() -> {
                 try {
@@ -1859,9 +1863,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(BaseMainActivity.this).unregisterReceiver(broadcast_data);
-        LocalBroadcastManager.getInstance(BaseMainActivity.this)
-                .unregisterReceiver(broadcast_error_message);
+
+        unregisterReceiver(broadcast_data);
+        unregisterReceiver(broadcast_error_message);
+
         if (networkStateReceiver != null) {
             try {
                 unregisterReceiver(networkStateReceiver);
