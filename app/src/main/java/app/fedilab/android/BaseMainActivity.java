@@ -80,7 +80,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -694,8 +694,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 Bundle b = new Bundle();
                 b.putBoolean(ARG_REFRESH_NOTFICATION, true);
                 Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
+                intentBC.setPackage(BuildConfig.APPLICATION_ID);
                 intentBC.putExtras(b);
-                LocalBroadcastManager.getInstance(activity).sendBroadcast(intentBC);
+                activity.sendBroadcast(intentBC);
             }
         }, 1000);
         intent.removeExtra(Helper.INTENT_ACTION);

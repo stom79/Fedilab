@@ -89,7 +89,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -857,6 +857,7 @@ public class Helper {
         b.putString(RECEIVE_TOAST_CONTENT, content);
         intentBC.setAction(Helper.RECEIVE_TOAST_MESSAGE);
         intentBC.putExtras(b);
+        intentBC.setPackage(BuildConfig.APPLICATION_ID);
         context.sendBroadcast(intentBC);
     }
 
@@ -1498,7 +1499,8 @@ public class Helper {
         b.putBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, true);
         Intent intentBD = new Intent(Helper.BROADCAST_DATA);
         intentBD.putExtras(b);
-        LocalBroadcastManager.getInstance(activity).sendBroadcast(intentBD);
+        intentBD.setPackage(BuildConfig.APPLICATION_ID);
+        activity.sendBroadcast(intentBD);
     }
 
     public static void showKeyboard(Context context, View view) {

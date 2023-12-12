@@ -28,7 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityHashtagBinding;
@@ -192,7 +193,8 @@ public class HashTagActivity extends BaseActivity {
                     b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                     Intent intentBD = new Intent(Helper.BROADCAST_DATA);
                     intentBD.putExtras(b);
-                    LocalBroadcastManager.getInstance(HashTagActivity.this).sendBroadcast(intentBD);
+                    intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                    sendBroadcast(intentBD);
                     dialog.dismiss();
                 });
                 unpinConfirm.show();
@@ -246,7 +248,8 @@ public class HashTagActivity extends BaseActivity {
                         b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                         Intent intentBD = new Intent(Helper.BROADCAST_DATA);
                         intentBD.putExtras(b);
-                        LocalBroadcastManager.getInstance(HashTagActivity.this).sendBroadcast(intentBD);
+                        intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                        sendBroadcast(intentBD);
                         pinnedTag = true;
                         invalidateOptionsMenu();
                     } catch (DBException e) {

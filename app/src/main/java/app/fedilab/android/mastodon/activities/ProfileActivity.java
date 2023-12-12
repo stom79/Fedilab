@@ -57,7 +57,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,6 +79,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityProfileBinding;
@@ -904,7 +905,8 @@ public class ProfileActivity extends BaseActivity {
                             b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                             Intent intentBD = new Intent(Helper.BROADCAST_DATA);
                             intentBD.putExtras(b);
-                            LocalBroadcastManager.getInstance(ProfileActivity.this).sendBroadcast(intentBD);
+                            intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                            sendBroadcast(intentBD);
                         });
                     } catch (DBException e) {
                         e.printStackTrace();

@@ -32,7 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.AccountFieldItemBinding;
 import app.fedilab.android.databinding.ActivityEditProfileBinding;
@@ -270,7 +271,8 @@ public class EditProfileActivity extends BaseBarActivity {
         b.putSerializable(Helper.ARG_ACCOUNT, account);
         Intent intentBD = new Intent(Helper.BROADCAST_DATA);
         intentBD.putExtras(b);
-        LocalBroadcastManager.getInstance(EditProfileActivity.this).sendBroadcast(intentBD);
+        intentBD.setPackage(BuildConfig.APPLICATION_ID);
+        sendBroadcast(intentBD);
     }
 
     private Intent prepareIntent() {

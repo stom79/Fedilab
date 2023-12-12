@@ -28,7 +28,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -38,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityPeertubeBinding;
 import app.fedilab.android.mastodon.activities.BaseBarActivity;
@@ -124,7 +125,8 @@ public class BasePeertubeActivity extends BaseBarActivity {
                             if (PeertubeBaseMainActivity.chromecastActivated) {
                                 b.putInt("displayed", 0);
                                 intentBC.putExtras(b);
-                                LocalBroadcastManager.getInstance(BasePeertubeActivity.this).sendBroadcast(intentBC);
+                                intentBC.setPackage(BuildConfig.APPLICATION_ID);
+                                sendBroadcast(intentBC);
                                 Handler mainHandler = new Handler(Looper.getMainLooper());
                                 Runnable myRunnable = () -> {
                                     binding.doubleTapPlayerView.setVisibility(View.VISIBLE);
@@ -136,7 +138,8 @@ public class BasePeertubeActivity extends BaseBarActivity {
                                 b.putInt("displayed", 1);
                                 b.putSerializable("castedTube", peertube);
                                 intentBC.putExtras(b);
-                                LocalBroadcastManager.getInstance(BasePeertubeActivity.this).sendBroadcast(intentBC);
+                                intentBC.setPackage(BuildConfig.APPLICATION_ID);
+                                sendBroadcast(intentBC);
                                 try {
                                     Handler mainHandler = new Handler(Looper.getMainLooper());
                                     Runnable myRunnable = () -> {

@@ -26,7 +26,7 @@ import android.os.Looper;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityMainPeertubeBinding;
 import app.fedilab.android.mastodon.activities.BaseActivity;
@@ -70,7 +71,8 @@ public abstract class PeertubeBaseMainActivity extends BaseActivity implements C
             Bundle b = new Bundle();
             b.putInt("displayed", 0);
             intentBC.putExtras(b);
-            LocalBroadcastManager.getInstance(PeertubeBaseMainActivity.this).sendBroadcast(intentBC);
+            intentBC.setPackage(BuildConfig.APPLICATION_ID);
+            sendBroadcast(intentBC);
         });
 
         binding.castTogglePlay.setOnClickListener(v -> {

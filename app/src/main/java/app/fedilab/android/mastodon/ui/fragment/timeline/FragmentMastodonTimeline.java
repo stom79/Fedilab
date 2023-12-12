@@ -27,6 +27,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -94,6 +95,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle b = intent.getExtras();
+            Log.v(Helper.TAG, "onReceive: " + b);
             if (b != null) {
                 Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
                 String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);

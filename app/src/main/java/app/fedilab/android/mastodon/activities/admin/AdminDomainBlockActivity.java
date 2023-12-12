@@ -26,10 +26,11 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityAdminDomainblockBinding;
@@ -108,7 +109,8 @@ public class AdminDomainBlockActivity extends BaseBarActivity {
                                     Toasty.error(AdminDomainBlockActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                 }
                                 Intent intent = new Intent(Helper.BROADCAST_DATA).putExtra(Helper.ARG_ADMIN_DOMAINBLOCK, adminDomainBlockResult);
-                                LocalBroadcastManager.getInstance(AdminDomainBlockActivity.this).sendBroadcast(intent);
+                                intent.setPackage(BuildConfig.APPLICATION_ID);
+                                sendBroadcast(intent);
                                 finish();
                             }
                     );
@@ -136,7 +138,8 @@ public class AdminDomainBlockActivity extends BaseBarActivity {
                             adminVM.deleteDomain(MainActivity.currentInstance, MainActivity.currentToken, adminDomainBlock.id)
                                     .observe(AdminDomainBlockActivity.this, adminDomainBlockResult -> {
                                                 Intent intent = new Intent(Helper.BROADCAST_DATA).putExtra(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE, adminDomainBlock);
-                                                LocalBroadcastManager.getInstance(AdminDomainBlockActivity.this).sendBroadcast(intent);
+                                                intent.setPackage(BuildConfig.APPLICATION_ID);
+                                                sendBroadcast(intent);
                                                 finish();
                                             }
                                     );

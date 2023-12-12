@@ -31,7 +31,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import androidx.preference.PreferenceManager;
 import androidx.work.Data;
 import androidx.work.ForegroundInfo;
@@ -51,6 +51,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.endpoints.MastodonStatusesService;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
@@ -228,7 +229,8 @@ public class ComposeWorker extends Worker {
                     b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, context.getString(R.string.media_cannot_be_uploaded));
                     b.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
                     intentBD.putExtras(b);
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(intentBD);
+                    intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                    context.sendBroadcast(intentBD);
                     return;
                 }
                 if (statuses.get(i).local_only) {
@@ -312,7 +314,8 @@ public class ComposeWorker extends Worker {
                             }
                             b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, err);
                             intentBD.putExtras(b);
-                            LocalBroadcastManager.getInstance(context).sendBroadcast(intentBD);
+                            intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                            context.sendBroadcast(intentBD);
                             return;
                         }
                     } catch (IOException e) {
@@ -323,7 +326,8 @@ public class ComposeWorker extends Worker {
                         Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
                         b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, e.getMessage());
                         intentBD.putExtras(b);
-                        LocalBroadcastManager.getInstance(context).sendBroadcast(intentBD);
+                        intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                        context.sendBroadcast(intentBD);
                         return;
                     }
                 } else {
@@ -377,7 +381,8 @@ public class ComposeWorker extends Worker {
             Intent intentBD = new Intent(Helper.BROADCAST_DATA);
             b.putSerializable(Helper.RECEIVE_STATUS_ACTION, firstSendMessage);
             intentBD.putExtras(b);
-            LocalBroadcastManager.getInstance(context).sendBroadcast(intentBD);
+            intentBD.setPackage(BuildConfig.APPLICATION_ID);
+            context.sendBroadcast(intentBD);
         }
     }
 

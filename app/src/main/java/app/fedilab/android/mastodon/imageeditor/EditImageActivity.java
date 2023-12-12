@@ -22,7 +22,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityEditImageBinding;
 import app.fedilab.android.mastodon.helper.CirclesDrawingView;
@@ -327,7 +328,8 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                                 intentImage.putExtra("focusY", focusY);
 
                             }
-                            LocalBroadcastManager.getInstance(EditImageActivity.this).sendBroadcast(intentImage);
+                            intentImage.setPackage(BuildConfig.APPLICATION_ID);
+                            sendBroadcast(intentImage);
                             finish();
                         }
                     }

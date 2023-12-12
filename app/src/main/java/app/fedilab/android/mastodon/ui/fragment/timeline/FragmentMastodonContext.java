@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;

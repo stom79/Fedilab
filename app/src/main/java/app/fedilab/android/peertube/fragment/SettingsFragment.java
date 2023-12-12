@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import androidx.preference.ListPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.peertube.activities.MyAccountActivity;
 import app.fedilab.android.peertube.activities.PeertubeMainActivity;
@@ -247,7 +248,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             Bundle b = new Bundle();
             b.putInt("state_asked", set_cast_choice.isChecked() ? 1 : 0);
             intentBC.putExtras(b);
-            LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intentBC);
+            intentBC.setPackage(BuildConfig.APPLICATION_ID);
+            requireActivity().sendBroadcast(intentBC);
         }
         if (key.compareTo(getString(R.string.set_video_language_choice)) == 0) {
             MultiSelectListPreference set_video_language_choice = findPreference(getString(R.string.set_video_language_choice));

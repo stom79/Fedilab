@@ -57,6 +57,7 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -87,7 +88,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -121,6 +122,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.DrawerFetchMoreBinding;
@@ -2784,7 +2786,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
         intentBC.putExtras(b);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intentBC);
+        intentBC.setPackage(BuildConfig.APPLICATION_ID);
+        context.sendBroadcast(intentBC);
     }
 
 

@@ -57,7 +57,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import androidx.preference.PreferenceManager;
 
 import com.avatarfirst.avatargenlib.AvatarGenerator;
@@ -83,6 +83,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -632,7 +633,8 @@ public class Helper {
         b.putBoolean(app.fedilab.android.mastodon.helper.Helper.RECEIVE_RECREATE_PEERTUBE_ACTIVITY, true);
         Intent intentBD = new Intent(app.fedilab.android.mastodon.helper.Helper.BROADCAST_DATA);
         intentBD.putExtras(b);
-        LocalBroadcastManager.getInstance(activity).sendBroadcast(intentBD);
+        intentBD.setPackage(BuildConfig.APPLICATION_ID);
+        activity.sendBroadcast(intentBD);
     }
 
     public static int getAttColor(Context context, int attColor) {

@@ -30,7 +30,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +41,7 @@ import java.util.Collections;
 import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityListBinding;
@@ -290,7 +291,8 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                 Intent intentBD = new Intent(Helper.BROADCAST_DATA);
                 b.putSerializable(Helper.RECEIVE_MASTODON_LIST, mastodonListList);
                 intentBD.putExtras(b);
-                LocalBroadcastManager.getInstance(MastodonListActivity.this).sendBroadcast(intentBD);
+                intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                sendBroadcast(intentBD);
             });
             alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
             AlertDialog alert = alt_bld.create();
@@ -325,7 +327,8 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                                 Intent intentBD = new Intent(Helper.BROADCAST_DATA);
                                 b.putSerializable(Helper.RECEIVE_MASTODON_LIST, mastodonListList);
                                 intentBD.putExtras(b);
-                                LocalBroadcastManager.getInstance(MastodonListActivity.this).sendBroadcast(intentBD);
+                                intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                                sendBroadcast(intentBD);
                             });
                     dialog.dismiss();
                 } else {
@@ -372,7 +375,8 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                                                                                 b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                                                                                 Intent intentBD = new Intent(Helper.BROADCAST_DATA);
                                                                                 intentBD.putExtras(b);
-                                                                                LocalBroadcastManager.getInstance(MastodonListActivity.this).sendBroadcast(intentBD);
+                                                                                intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                                                                                sendBroadcast(intentBD);
                                                                             } catch (
                                                                                     DBException e) {
                                                                                 e.printStackTrace();
