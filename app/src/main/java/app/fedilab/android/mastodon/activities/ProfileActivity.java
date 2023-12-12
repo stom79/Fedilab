@@ -206,11 +206,7 @@ public class ProfileActivity extends BaseActivity {
         }
         //Check if account is homeMuted
         accountsVM.isMuted(currentAccount, account).observe(this, result -> homeMuted = result != null && result);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), android.content.Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
-        }
+        ContextCompat.registerReceiver(ProfileActivity.this, broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
 
 
     }

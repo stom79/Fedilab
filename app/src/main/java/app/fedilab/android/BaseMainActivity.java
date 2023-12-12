@@ -73,6 +73,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.cursoradapter.widget.CursorAdapter;
 import androidx.fragment.app.Fragment;
@@ -1529,13 +1530,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
         binding.toolbarSearch.setOnSearchClickListener(v -> binding.tabLayout.setVisibility(View.VISIBLE));
         //For receiving  data from other activities
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), Context.RECEIVER_NOT_EXPORTED);
-            registerReceiver(broadcast_error_message, new IntentFilter(Helper.INTENT_COMPOSE_ERROR_MESSAGE), Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
-            registerReceiver(broadcast_error_message, new IntentFilter(Helper.INTENT_COMPOSE_ERROR_MESSAGE));
-        }
+        ContextCompat.registerReceiver(BaseMainActivity.this, broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(BaseMainActivity.this, broadcast_error_message, new IntentFilter(Helper.INTENT_COMPOSE_ERROR_MESSAGE), ContextCompat.RECEIVER_NOT_EXPORTED);
         if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance) || emojis.get(BaseMainActivity.currentInstance) == null) {
             new Thread(() -> {
                 try {

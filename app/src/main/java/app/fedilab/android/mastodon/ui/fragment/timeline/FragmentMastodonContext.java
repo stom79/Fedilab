@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -197,11 +198,7 @@ public class FragmentMastodonContext extends Fragment {
                     .observe(getViewLifecycleOwner(), this::initializeContextView);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireActivity().registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), android.content.Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            requireActivity().registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
-        }
+        ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
         return binding.getRoot();
     }
 

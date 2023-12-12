@@ -30,6 +30,7 @@ import android.os.Looper;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.LinkedHashMap;
 import java.util.Objects;
@@ -51,11 +52,7 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
         super.onCreate();
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION),  android.content.Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
-        }
+        ContextCompat.registerReceiver(RetrieveInfoService.this, networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION),  ContextCompat.RECEIVER_NOT_EXPORTED);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                     getString(R.string.notification_channel_name),

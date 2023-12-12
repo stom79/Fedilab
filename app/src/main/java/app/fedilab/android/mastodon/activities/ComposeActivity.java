@@ -734,11 +734,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
         }
         MastodonHelper.loadPPMastodon(binding.profilePicture, account.mastodon_account);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerReceiver(imageReceiver, new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE), android.content.Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            registerReceiver(imageReceiver, new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE));
-        }
+        ContextCompat.registerReceiver(ComposeActivity.this, imageReceiver, new IntentFilter(Helper.INTENT_SEND_MODIFIED_IMAGE), ContextCompat.RECEIVER_NOT_EXPORTED);
         if (timer != null) {
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override

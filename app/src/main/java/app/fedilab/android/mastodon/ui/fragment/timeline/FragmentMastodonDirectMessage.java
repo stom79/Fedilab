@@ -207,11 +207,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
             statusCompose.text = binding.text.getText().toString();
             onSubmit(prepareDraft(statusCompose, MainActivity.currentInstance, MainActivity.currentUserID));
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireActivity().registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), android.content.Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            requireActivity().registerReceiver(broadcast_data, new IntentFilter(Helper.BROADCAST_DATA));
-        }
+        ContextCompat.registerReceiver(requireActivity(), broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
         binding.text.setKeyBoardInputCallbackListener((inputContentInfo, flags, opts) -> {
             if (inputContentInfo != null) {
                 Uri uri = inputContentInfo.getContentUri();

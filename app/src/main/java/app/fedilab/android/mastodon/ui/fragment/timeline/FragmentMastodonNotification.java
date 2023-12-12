@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -206,13 +207,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         aggregateNotification = false;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireActivity().registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), android.content.Context.RECEIVER_NOT_EXPORTED);
-            requireActivity().registerReceiver(receive_refresh, new IntentFilter(Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION), android.content.Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            requireActivity().registerReceiver(receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION));
-            requireActivity().registerReceiver(receive_refresh, new IntentFilter(Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION));
-        }
+        ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(requireActivity(), receive_refresh, new IntentFilter(Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
         return root;
     }
 

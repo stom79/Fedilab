@@ -25,6 +25,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.IOException;
@@ -148,11 +149,7 @@ public abstract class PeertubeBaseMainActivity extends BaseActivity implements C
                 }
             }
         };
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerReceiver(manage_chromecast, new IntentFilter(Helper.RECEIVE_CAST_SETTINGS), Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            registerReceiver(manage_chromecast, new IntentFilter(Helper.RECEIVE_CAST_SETTINGS));
-        }
+        ContextCompat.registerReceiver(PeertubeBaseMainActivity.this, manage_chromecast, new IntentFilter(Helper.RECEIVE_CAST_SETTINGS), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     @Override

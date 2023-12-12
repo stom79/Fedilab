@@ -140,11 +140,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         binding.mediaViewpager.setAdapter(mPagerAdapter);
         binding.mediaViewpager.setSaveEnabled(false);
         binding.mediaViewpager.setCurrentItem(mediaPosition - 1);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), android.content.Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        }
+        ContextCompat.registerReceiver(MediaActivity.this, onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), ContextCompat.RECEIVER_NOT_EXPORTED);
         String description = attachments.get(mediaPosition - 1).description;
         handler = new Handler();
         if (attachments.get(mediaPosition - 1).status != null) {

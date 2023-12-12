@@ -55,6 +55,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.TooltipCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -163,11 +164,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         binding = super.binding;
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerReceiver(broadcast_data, new IntentFilter(app.fedilab.android.mastodon.helper.Helper.BROADCAST_DATA), android.content.Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            registerReceiver(broadcast_data, new IntentFilter(app.fedilab.android.mastodon.helper.Helper.BROADCAST_DATA));
-        }
+        ContextCompat.registerReceiver(PeertubeMainActivity.this, broadcast_data, new IntentFilter(app.fedilab.android.mastodon.helper.Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
 
         Intent intentActvity = getIntent();
         if (intentActvity != null) {

@@ -30,6 +30,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -86,11 +87,7 @@ public class AdminActionActivity extends BaseBarActivity {
         setContentView(binding.getRoot());
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerReceiver(mReceiver, new IntentFilter(Helper.BROADCAST_DATA), android.content.Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            registerReceiver(mReceiver, new IntentFilter(Helper.BROADCAST_DATA));
-        }
+        ContextCompat.registerReceiver(AdminActionActivity.this, mReceiver, new IntentFilter(Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
