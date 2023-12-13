@@ -30,6 +30,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.Objects;
+
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
@@ -98,9 +100,9 @@ public class AdminDomainBlockActivity extends BaseBarActivity {
         binding.rejectReports.setOnCheckedChangeListener((compoundButton, checked) -> adminDomainBlock.reject_reports = checked);
         adminVM = new ViewModelProvider(AdminDomainBlockActivity.this).get(AdminVM.class);
         binding.saveChanges.setOnClickListener(v -> {
-            adminDomainBlock.domain = binding.domain.getText().toString().trim();
-            adminDomainBlock.public_comment = binding.publicComment.getText().toString().trim();
-            adminDomainBlock.private_comment = binding.privateComment.getText().toString().trim();
+            adminDomainBlock.domain = Objects.requireNonNull(binding.domain.getText()).toString().trim();
+            adminDomainBlock.public_comment = Objects.requireNonNull(binding.publicComment.getText()).toString().trim();
+            adminDomainBlock.private_comment = Objects.requireNonNull(binding.privateComment.getText()).toString().trim();
             adminVM.createOrUpdateDomainBlock(MainActivity.currentInstance, MainActivity.currentToken, adminDomainBlock)
                     .observe(AdminDomainBlockActivity.this, adminDomainBlockResult -> {
                                 if (adminDomainBlockResult != null) {

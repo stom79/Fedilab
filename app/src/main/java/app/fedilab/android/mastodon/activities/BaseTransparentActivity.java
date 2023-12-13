@@ -69,62 +69,50 @@ public class BaseTransparentActivity extends AppCompatActivity {
         if (currentTheme.equals(getString(R.string.SET_DEFAULT_THEME))) {
 
             switch (currentNightMode) {
-                case Configuration.UI_MODE_NIGHT_NO:
+                case Configuration.UI_MODE_NIGHT_NO -> {
                     String defaultLight = sharedpreferences.getString(getString(R.string.SET_THEME_DEFAULT_LIGHT), "LIGHT");
                     switch (defaultLight) {
-                        case "LIGHT":
-                            setTheme(R.style.Transparent);
-                            break;
-                        case "SOLARIZED_LIGHT":
-                            setTheme(R.style.TransparentSolarized);
-                            break;
+                        case "LIGHT" -> setTheme(R.style.Transparent);
+                        case "SOLARIZED_LIGHT" -> setTheme(R.style.TransparentSolarized);
                     }
-                    break;
-                case Configuration.UI_MODE_NIGHT_YES:
+                }
+                case Configuration.UI_MODE_NIGHT_YES -> {
                     String defaultDark = sharedpreferences.getString(getString(R.string.SET_THEME_DEFAULT_DARK), "DARK");
                     switch (defaultDark) {
-                        case "DARK":
-                            setTheme(R.style.Transparent);
-                            break;
-                        case "SOLARIZED_DARK":
-                            setTheme(R.style.TransparentSolarized);
-                            break;
-                        case "BLACK":
-                            setTheme(R.style.TransparentBlack);
-                            break;
-                        case "DRACULA":
-                            setTheme(R.style.TransparentDracula);
-                            break;
+                        case "DARK" -> setTheme(R.style.Transparent);
+                        case "SOLARIZED_DARK" -> setTheme(R.style.TransparentSolarized);
+                        case "BLACK" -> setTheme(R.style.TransparentBlack);
+                        case "DRACULA" -> setTheme(R.style.TransparentDracula);
                     }
-                    break;
+                }
             }
 
         } else {
             switch (currentTheme) {
-                case "LIGHT":
+                case "LIGHT" -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     setTheme(R.style.Transparent);
-                    break;
-                case "DARK":
+                }
+                case "DARK" -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.Transparent);
-                    break;
-                case "SOLARIZED_LIGHT":
+                }
+                case "SOLARIZED_LIGHT" -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     setTheme(R.style.TransparentSolarized);
-                    break;
-                case "SOLARIZED_DARK":
+                }
+                case "SOLARIZED_DARK" -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.TransparentSolarized);
-                    break;
-                case "BLACK":
+                }
+                case "BLACK" -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.TransparentBlack);
-                    break;
-                case "DRACULA":
+                }
+                case "DRACULA" -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setTheme(R.style.TransparentDracula);
-                    break;
+                }
             }
         }
         super.onCreate(savedInstanceState);

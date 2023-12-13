@@ -226,7 +226,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                     Description description = binding.chart.getDescription();
                     description.setEnabled(false);
                     CustomMarkerView mv = new CustomMarkerView(CheckHomeCacheActivity.this, R.layout.custom_marker_view_layout);
-                    binding.chart.setMarkerView(mv);
+                    binding.chart.setMarker(mv);
 
                     binding.chart.invalidate();
                 });
@@ -391,7 +391,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                     Description description = binding.chart2.getDescription();
                     description.setEnabled(true);
                     CustomMarkerView2 mv = new CustomMarkerView2(CheckHomeCacheActivity.this, R.layout.custom_marker_view_layout);
-                    binding.chart2.setMarkerView(mv);
+                    binding.chart2.setMarker(mv);
 
                     binding.chart2.invalidate();
                 });
@@ -450,7 +450,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
             if (xVals.size() > (int) e.getX()) {
-                tvContent.setText(getString(R.string.messages, (int) e.getY()) + "\r\n" + xVals.get((int) e.getX()));
+                tvContent.setText(getString(R.string.messages, (int) e.getY()));
             }
 
             // this will perform necessary layouting
@@ -496,7 +496,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                     text += dateDiffFull(timelineCacheLogsListToAnalyse.get((int) e.getX()).created_at);
                     tvContent.setText(text);
                 } else {
-                    tvContent.setText(getString(R.string.messages, (int) e.getY()) + "\r\n" + xVals2.get((int) e.getX()));
+                    tvContent.setText(getString(R.string.messages, (int) e.getY()));
                 }
             }
 

@@ -150,7 +150,6 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         setContentView(new FrameLayout(this));
         FragmentLoginMain fragmentLoginMain = new FragmentLoginMain();
         Helper.addFragment(getSupportFragmentManager(), android.R.id.content, fragmentLoginMain, null, null, null);

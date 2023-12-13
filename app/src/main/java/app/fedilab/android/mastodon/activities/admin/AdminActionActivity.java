@@ -22,18 +22,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.annotations.SerializedName;
@@ -96,6 +95,31 @@ public class AdminActionActivity extends BaseBarActivity {
         binding.accounts.setOnClickListener(v -> displayTimeline(ACCOUNT));
         binding.domains.setOnClickListener(v -> displayTimeline(DOMAIN));
 
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (canGoBack) {
+                    canGoBack = false;
+                    ThemeHelper.slideViewsToRight(binding.fragmentContainer, binding.buttonContainer, () -> {
+                        if (fragmentAdminReport != null) {
+                            fragmentAdminReport.onDestroyView();
+                            fragmentAdminReport = null;
+                        }
+                        if (fragmentAdminAccount != null) {
+                            fragmentAdminAccount.onDestroyView();
+                            fragmentAdminAccount = null;
+                        }
+                        if (fragmentAdminDomain != null) {
+                            fragmentAdminDomain.onDestroyView();
+                            fragmentAdminDomain = null;
+                        }
+                        setTitle(R.string.administration);
+                        invalidateOptionsMenu();
+                    });
+                }
+            }
+        });
+
     }
 
     private void displayTimeline(AdminEnum type) {
@@ -141,15 +165,9 @@ public class AdminActionActivity extends BaseBarActivity {
             });
         }
         switch (type) {
-            case REPORT:
-                setTitle(R.string.reports);
-                break;
-            case ACCOUNT:
-                setTitle(R.string.accounts);
-                break;
-            case DOMAIN:
-                setTitle(R.string.domains);
-                break;
+            case REPORT -> setTitle(R.string.reports);
+            case ACCOUNT -> setTitle(R.string.accounts);
+            case DOMAIN -> setTitle(R.string.domains);
         }
         invalidateOptionsMenu();
     }
@@ -165,7 +183,7 @@ public class AdminActionActivity extends BaseBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.action_filter) {
             if (getTitle().toString().equalsIgnoreCase(getString(R.string.accounts))) {
@@ -326,31 +344,6 @@ public class AdminActionActivity extends BaseBarActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        if (canGoBack) {
-            canGoBack = false;
-            ThemeHelper.slideViewsToRight(binding.fragmentContainer, binding.buttonContainer, () -> {
-                if (fragmentAdminReport != null) {
-                    fragmentAdminReport.onDestroyView();
-                    fragmentAdminReport = null;
-                }
-                if (fragmentAdminAccount != null) {
-                    fragmentAdminAccount.onDestroyView();
-                    fragmentAdminAccount = null;
-                }
-                if (fragmentAdminDomain != null) {
-                    fragmentAdminDomain.onDestroyView();
-                    fragmentAdminDomain = null;
-                }
-                setTitle(R.string.administration);
-                invalidateOptionsMenu();
-            });
-        } else {
-            super.onBackPressed();
-        }
-
-    }
 
     public enum AdminEnum {
         @SerializedName("REPORT")

@@ -248,9 +248,6 @@ public class AdminReportActivity extends BaseBarActivity {
         });
 
 
-        //Retrieve relationship with the connected account
-        List<String> accountListToCheck = new ArrayList<>();
-        accountListToCheck.add(account.id);
         //Animate emojis
         if (account.emojis != null && account.emojis.size() > 0) {
             boolean disableAnimatedEmoji = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);

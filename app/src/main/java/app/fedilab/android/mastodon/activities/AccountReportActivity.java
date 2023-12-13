@@ -27,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
@@ -134,12 +135,12 @@ public class AccountReportActivity extends BaseBarActivity {
         binding.reject.setOnClickListener(view -> adminVM.reject(MainActivity.currentInstance, MainActivity.currentToken, account_id).observe(this, account -> fillReport(account, actionType.REJECT)));
         binding.allow.setOnClickListener(view -> adminVM.approve(MainActivity.currentInstance, MainActivity.currentToken, account_id).observe(this, account -> fillReport(account, actionType.APPROVE)));
         binding.warn.setOnClickListener(view -> {
-            adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "none", null, null, binding.comment.getText().toString().trim(), binding.emailUser.isChecked());
+            adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "none", null, null, Objects.requireNonNull(binding.comment.getText()).toString().trim(), binding.emailUser.isChecked());
             fillReport(accountAdmin, actionType.NONE);
         });
         binding.silence.setOnClickListener(view -> {
             if (!accountAdmin.silenced) {
-                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "silence", null, null, binding.comment.getText().toString().trim(), binding.emailUser.isChecked());
+                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "silence", null, null, Objects.requireNonNull(binding.comment.getText()).toString().trim(), binding.emailUser.isChecked());
                 accountAdmin.silenced = true;
                 fillReport(accountAdmin, actionType.SILENCE);
             } else {
@@ -148,7 +149,7 @@ public class AccountReportActivity extends BaseBarActivity {
         });
         binding.disable.setOnClickListener(view -> {
             if (!accountAdmin.disabled) {
-                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "disable", null, null, binding.comment.getText().toString().trim(), binding.emailUser.isChecked());
+                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "disable", null, null, Objects.requireNonNull(binding.comment.getText()).toString().trim(), binding.emailUser.isChecked());
                 accountAdmin.disabled = true;
                 fillReport(accountAdmin, actionType.DISABLE);
             } else {
@@ -158,7 +159,7 @@ public class AccountReportActivity extends BaseBarActivity {
 
         binding.suspend.setOnClickListener(view -> {
             if (!accountAdmin.suspended) {
-                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "suspend", null, null, binding.comment.getText().toString().trim(), binding.emailUser.isChecked());
+                adminVM.performAction(MainActivity.currentInstance, MainActivity.currentToken, account_id, "suspend", null, null, Objects.requireNonNull(binding.comment.getText()).toString().trim(), binding.emailUser.isChecked());
                 accountAdmin.suspended = true;
                 fillReport(accountAdmin, actionType.SUSPEND);
             } else {
@@ -170,35 +171,21 @@ public class AccountReportActivity extends BaseBarActivity {
         if (type != null) {
             String message = null;
             switch (type) {
-                case SILENCE:
-                    message = getString(R.string.account_silenced);
-                    break;
-                case UNSILENCE:
-                    message = getString(R.string.account_unsilenced);
-                    break;
-                case DISABLE:
-                    message = getString(R.string.account_disabled);
-                    break;
-                case ENABLE:
-                    message = getString(R.string.account_undisabled);
-                    break;
-                case SUSPEND:
-                    message = getString(R.string.account_suspended);
-                    break;
-                case UNSUSPEND:
-                    message = getString(R.string.account_unsuspended);
-                    break;
-                case NONE:
-                    message = getString(R.string.account_warned);
-                    break;
-                case APPROVE:
+                case SILENCE -> message = getString(R.string.account_silenced);
+                case UNSILENCE -> message = getString(R.string.account_unsilenced);
+                case DISABLE -> message = getString(R.string.account_disabled);
+                case ENABLE -> message = getString(R.string.account_undisabled);
+                case SUSPEND -> message = getString(R.string.account_suspended);
+                case UNSUSPEND -> message = getString(R.string.account_unsuspended);
+                case NONE -> message = getString(R.string.account_warned);
+                case APPROVE -> {
                     binding.allowRejectGroup.setVisibility(View.GONE);
                     message = getString(R.string.account_approved);
-                    break;
-                case REJECT:
+                }
+                case REJECT -> {
                     binding.allowRejectGroup.setVisibility(View.GONE);
                     message = getString(R.string.account_rejected);
-                    break;
+                }
             }
             if (message != null) {
                 Toasty.success(AccountReportActivity.this, message, Toast.LENGTH_LONG).show();
