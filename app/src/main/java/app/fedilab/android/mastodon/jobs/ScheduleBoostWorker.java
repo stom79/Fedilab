@@ -18,6 +18,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.ServiceInfo;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 
@@ -77,7 +78,12 @@ public class ScheduleBoostWorker extends Worker {
                 .setContentText(getApplicationContext().getString(R.string.schedule_boost))
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_DEFAULT);
-        return Futures.immediateFuture(new ForegroundInfo(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build()));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return Futures.immediateFuture(new ForegroundInfo(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC));
+        } else {
+            return Futures.immediateFuture(new ForegroundInfo(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build()));
+        }
     }
 
     @NonNull
@@ -97,7 +103,12 @@ public class ScheduleBoostWorker extends Worker {
                 .setContentText(getApplicationContext().getString(R.string.schedule_boost))
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_DEFAULT);
-        return new ForegroundInfo(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return new ForegroundInfo(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
+        } else {
+            return new ForegroundInfo(NOTIFICATION_INT_CHANNEL_ID, notificationBuilder.build());
+        }
     }
 
 

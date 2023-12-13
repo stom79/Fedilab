@@ -22,6 +22,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ServiceInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -330,6 +331,11 @@ public class NotificationsWorker extends Worker {
                 .setSound(null)
                 .setAutoCancel(true)
                 .setOngoing(true);
-        return new ForegroundInfo(pendingNotificationID, notificationBuilder.build());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return new ForegroundInfo(pendingNotificationID, notificationBuilder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
+        } else {
+            return new ForegroundInfo(pendingNotificationID, notificationBuilder.build());
+        }
     }
 }
