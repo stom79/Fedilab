@@ -23,6 +23,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ServiceInfo;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -52,7 +54,7 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
         super.onCreate();
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
-        ContextCompat.registerReceiver(RetrieveInfoService.this, networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION),  ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(RetrieveInfoService.this, networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION),  ContextCompat.RECEIVER_NOT_EXPORTED);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                     getString(R.string.notification_channel_name),
@@ -66,7 +68,11 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
                     .setContentText(getString(R.string.notification_channel_name))
                     .setAutoCancel(true).build();
 
-            startForeground(1, notification);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
+            } else {
+                startForeground(1, notification);
+            }
 
         } else {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
@@ -77,7 +83,6 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
                     .setAutoCancel(true);
 
             Notification notification = builder.build();
-
             startForeground(1, notification);
         }
 
