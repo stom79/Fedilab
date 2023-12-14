@@ -162,7 +162,7 @@
 
     <androidx.preference.SeekBarPreference
         android:defaultValue="5"
-        android:max="20"
+        android:max="40"
         app:iconSpaceReserved="false"
         app:key="@string/SET_MAX_INDENTATION"
         app:showSeekBarValue="true"
