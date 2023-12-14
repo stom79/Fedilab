@@ -361,9 +361,10 @@ public class FragmentMedia extends Fragment {
                             if (percent < 0.70) {
                                 binding.videoViewContainer.setVisibility(View.GONE);
                                 binding.videoLayout.setVisibility(View.GONE);
-                                ActivityCompat.finishAfterTransition(requireActivity());
+                                try {
+                                    ActivityCompat.finishAfterTransition(requireActivity());
+                                }catch (Exception ignored){}
                             }
-
                         }
 
                         @Override

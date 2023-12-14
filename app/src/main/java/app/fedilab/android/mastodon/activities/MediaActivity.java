@@ -253,7 +253,9 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
-            ActivityCompat.finishAfterTransition(MediaActivity.this);
+            try {
+                ActivityCompat.finishAfterTransition(MediaActivity.this);
+            }catch (Exception ignored){}
             return true;
         } else if (item.getItemId() == R.id.action_save) {
             int position = binding.mediaViewpager.getCurrentItem();
