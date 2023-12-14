@@ -774,12 +774,15 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     }
 
     @Override
-    public void onItemDraftAdded(int position) {
+    public void onItemDraftAdded(int position, String initialContent) {
         Status status = new Status();
 
         status.id = Helper.generateIdString();
         status.mentions = statusList.get(position - 1).mentions;
         status.visibility = statusList.get(position - 1).visibility;
+        if(initialContent != null) {
+            status.text = initialContent;
+        }
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
         boolean unlistedReplies = sharedpreferences.getBoolean(getString(R.string.SET_UNLISTED_REPLIES), true);
         if (status.visibility.equalsIgnoreCase("public") && unlistedReplies) {

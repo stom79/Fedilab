@@ -89,6 +89,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -117,6 +118,7 @@ import app.fedilab.android.mastodon.client.entities.app.Languages;
 import app.fedilab.android.mastodon.client.entities.app.Quotes;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.helper.ComposeHelper;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
@@ -467,7 +469,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_add_status);
                     holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.add_status));
                     holder.binding.addRemoveStatus.setOnClickListener(v -> {
-                        manageDrafts.onItemDraftAdded(statusList.size());
+                        manageDrafts.onItemDraftAdded(statusList.size(), null);
                         buttonVisibility(holder);
                     });
                 }
@@ -475,7 +477,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_add_status);
                 holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.add_status));
                 holder.binding.addRemoveStatus.setOnClickListener(v -> {
-                    manageDrafts.onItemDraftAdded(statusList.size());
+                    manageDrafts.onItemDraftAdded(statusList.size(), null);
                     buttonVisibility(holder);
                 });
             }
@@ -523,6 +525,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextWatcher textw;
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
+        final boolean[] proceedToSplit = {false};
         textw = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -531,10 +534,33 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 buttonVisibility(holder);
+                //Text is copied pasted and the content is greater than the max of the instance
+                int max_car = MastodonHelper.getInstanceMaxChars(context);
+                if (count > max_car) {
+                    proceedToSplit[0] = true;
+                    ArrayList<String> splitText = ComposeHelper.splitToots(s.toString(), max_car);
+                    int statusListSize = statusList.size();
+                    int i = 0;
+                    for(String message: splitText) {
+                        if(i==0) {
+                            i++;
+                            continue;
+                        }
+                        manageDrafts.onItemDraftAdded(statusListSize+(i-1), message);
+                        buttonVisibility(holder);
+                        i++;
+                    }
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                String contentString = s.toString();
+                if(proceedToSplit[0]) {
+                    int max_car = MastodonHelper.getInstanceMaxChars(context);
+                    ArrayList<String> splitText = ComposeHelper.splitToots(contentString, max_car);
+                    contentString = splitText.get(0);
+                }
                 int currentLength = MastodonHelper.countLength(holder);
                 if (promptDraftListener != null) {
                     promptDraftListener.promptDraft();
@@ -553,22 +579,23 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (holder.getBindingAdapterPosition() < 0) {
                     return;
                 }
-                statusList.get(holder.getBindingAdapterPosition()).text = s.toString();
-                if (s.toString().trim().length() < 2) {
+                statusList.get(holder.getBindingAdapterPosition()).text = contentString;
+                if (contentString.trim().length() < 2) {
                     buttonVisibility(holder);
                 }
                 //Update cursor position
                 //statusList.get(holder.getBindingAdapterPosition()).cursorPosition = holder.binding.content.getSelectionStart();
                 if (autocomplete) {
                     holder.binding.content.removeTextChangedListener(this);
+                    String finalContentString = contentString;
                     Thread thread = new Thread() {
                         @Override
                         public void run() {
                             String fedilabHugsTrigger = ":fedilab_hugs:";
                             String fedilabMorseTrigger = ":fedilab_morse:";
                             String fedilabQuoteTrigger = ":fedilab_quote:";
-                            if (s.toString().contains(fedilabHugsTrigger)) {
-                                newContent[0] = s.toString().replaceAll(Pattern.quote(fedilabHugsTrigger), "").trim();
+                            if (finalContentString.contains(fedilabHugsTrigger)) {
+                                newContent[0] = finalContentString.replaceAll(Pattern.quote(fedilabHugsTrigger), "").trim();
                                 int toFill = 500 - newContent[0].length();
                                 if (toFill <= 0) {
                                     return;
@@ -589,8 +616,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     updateCharacterCount(holder);
                                 };
                                 mainHandler.post(myRunnable);
-                            } else if (s.toString().contains(fedilabMorseTrigger)) {
-                                newContent[0] = s.toString().replaceAll(fedilabMorseTrigger, "").trim();
+                            } else if (finalContentString.contains(fedilabMorseTrigger)) {
+                                newContent[0] = finalContentString.replaceAll(fedilabMorseTrigger, "").trim();
                                 List<String> mentions = new ArrayList<>();
                                 String mentionPattern = "@[a-z0-9_]+(@[a-z0-9.\\-]+[a-z0-9]+)?";
                                 final Pattern mPattern = Pattern.compile(mentionPattern, Pattern.CASE_INSENSITIVE);
@@ -634,8 +661,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     updateCharacterCount(holder);
                                 };
                                 mainHandler.post(myRunnable);
-                            } else if (s.toString().contains(fedilabQuoteTrigger)) {
-                                newContent[0] = s.toString().replaceAll(fedilabQuoteTrigger, "").trim();
+                            } else if (finalContentString.contains(fedilabQuoteTrigger)) {
+                                newContent[0] = finalContentString.replaceAll(fedilabQuoteTrigger, "").trim();
                                 List<String> mentions = new ArrayList<>();
                                 String mentionPattern = "@[a-z0-9_]+(@[a-z0-9.\\-]+[a-z0-9]+)?";
                                 final Pattern mPattern = Pattern.compile(mentionPattern, Pattern.CASE_INSENSITIVE);
@@ -694,37 +721,35 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 if (holder.binding.content.getSelectionStart() != 0)
                     currentCursorPosition[0] = holder.binding.content.getSelectionStart();
-                if (s.toString().length() == 0)
+                if (contentString.length() == 0)
                     currentCursorPosition[0] = 0;
                 //Only check last 15 characters before cursor position to avoid lags
                 //Less than 15 characters are written before the cursor position
                 searchLength[0] = Math.min(currentCursorPosition[0], searchDeep);
 
 
-                if (currentCursorPosition[0] - (searchLength[0] - 1) < 0 || currentCursorPosition[0] == 0 || currentCursorPosition[0] > s.toString().length()) {
+                if (currentCursorPosition[0] - (searchLength[0] - 1) < 0 || currentCursorPosition[0] == 0 || currentCursorPosition[0] > contentString.length()) {
                     updateCharacterCount(holder);
                     return;
                 }
-                Matcher mathsPatterns = Helper.mathsComposePattern.matcher((s.toString()));
+                Matcher mathsPatterns = Helper.mathsComposePattern.matcher((contentString));
                 if (mathsPatterns.find()) {
                     if (holder.binding.laTexViewContainer.getChildCount() == 0) {
                         MathJaxConfig mathJaxConfig = new MathJaxConfig();
                         mathJaxConfig.setAutomaticLinebreaks(true);
                         mathJaxConfig.setInput(TeX);
                         switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-                            case Configuration.UI_MODE_NIGHT_YES:
-                                mathJaxConfig.setTextColor("white");
-                                break;
-                            case Configuration.UI_MODE_NIGHT_NO:
-                                mathJaxConfig.setTextColor("black");
-                                break;
+                            case Configuration.UI_MODE_NIGHT_YES ->
+                                    mathJaxConfig.setTextColor("white");
+                            case Configuration.UI_MODE_NIGHT_NO ->
+                                    mathJaxConfig.setTextColor("black");
                         }
                         statusList.get(holder.getBindingAdapterPosition()).mathJaxView = new MathJaxView(context, mathJaxConfig);
                         holder.binding.laTexViewContainer.addView(statusList.get(holder.getBindingAdapterPosition()).mathJaxView);
                         holder.binding.laTexViewContainer.setVisibility(View.VISIBLE);
                     }
                     if (statusList.get(holder.getBindingAdapterPosition()).mathJaxView != null) {
-                        statusList.get(holder.getBindingAdapterPosition()).mathJaxView.setInputText(s.toString());
+                        statusList.get(holder.getBindingAdapterPosition()).mathJaxView.setInputText(contentString);
                     }
 
                 } else {
@@ -733,7 +758,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 String patternh = "^(.|\\s)*(:fedilab_hugs:)";
                 final Pattern hPattern = Pattern.compile(patternh);
-                Matcher mh = hPattern.matcher((s.toString().substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])));
+                Matcher mh = hPattern.matcher((contentString.substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])));
 
                 if (mh.matches()) {
                     autocomplete = true;
@@ -742,7 +767,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 String patternM = "^(.|\\s)*(:fedilab_morse:)";
                 final Pattern mPattern = Pattern.compile(patternM);
-                Matcher mm = mPattern.matcher((s.toString().substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])));
+                Matcher mm = mPattern.matcher((contentString.substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])));
                 if (mm.matches()) {
                     autocomplete = true;
                     return;
@@ -750,13 +775,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 String patternQ = "^(.|\\s)*(:fedilab_quote:)";
                 final Pattern qPattern = Pattern.compile(patternQ);
-                Matcher mq = qPattern.matcher((s.toString().substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])));
+                Matcher mq = qPattern.matcher((contentString.substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])));
                 if (mq.matches()) {
                     autocomplete = true;
                     return;
                 }
 
-                String[] searchInArray = (s.toString().substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])).split("\\s");
+                String[] searchInArray = (contentString.substring(currentCursorPosition[0] - searchLength[0], currentCursorPosition[0])).split("\\s");
                 if (searchInArray.length < 1) {
                     updateCharacterCount(holder);
                     return;
@@ -1498,22 +1523,22 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             switch (statusDraft.visibility.toLowerCase()) {
-                case "public":
+                case "public" -> {
                     holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_public);
                     statusDraft.visibility = MastodonHelper.visibility.PUBLIC.name();
-                    break;
-                case "unlisted":
+                }
+                case "unlisted" -> {
                     holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_unlisted);
                     statusDraft.visibility = MastodonHelper.visibility.UNLISTED.name();
-                    break;
-                case "private":
+                }
+                case "private" -> {
                     holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_private);
                     statusDraft.visibility = MastodonHelper.visibility.PRIVATE.name();
-                    break;
-                case "direct":
+                }
+                case "direct" -> {
                     holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_direct);
                     statusDraft.visibility = MastodonHelper.visibility.DIRECT.name();
-                    break;
+                }
             }
 
             holder.binding.visibilityPanel.setOnTouchListener((view, motionEvent) -> true);
@@ -1582,7 +1607,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 else
                     statusDraft.text = new SpannableString(Html.fromHtml(statusDraft.content)).toString();
             }
+            int max_car = MastodonHelper.getInstanceMaxChars(context);
             holder.binding.content.setText(statusDraft.text);
+            holder.binding.characterProgress.setMax(max_car);
+            updateCharacterCount(holder);
             holder.binding.content.setKeyBoardInputCallbackListener((inputContentInfo, flags, opts) -> {
                 if (inputContentInfo != null) {
                     Uri uri = inputContentInfo.getContentUri();
@@ -1694,7 +1722,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (instanceInfo == null) {
                 return;
             }
-            int max_car = MastodonHelper.getInstanceMaxChars(context);
             holder.binding.characterProgress.setMax(max_car);
             holder.binding.contentSpoiler.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -1917,27 +1944,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 composePollBinding.buttonAddOption.setVisibility(View.GONE);
             }
             switch (statusDraft.poll.expire_in) {
-                case 300:
-                    composePollBinding.pollDuration.setSelection(0);
-                    break;
-                case 1800:
-                    composePollBinding.pollDuration.setSelection(1);
-                    break;
-                case 3600:
-                    composePollBinding.pollDuration.setSelection(2);
-                    break;
-                case 21600:
-                    composePollBinding.pollDuration.setSelection(3);
-                    break;
-                case 86400:
-                    composePollBinding.pollDuration.setSelection(4);
-                    break;
-                case 259200:
-                    composePollBinding.pollDuration.setSelection(5);
-                    break;
-                case 604800:
-                    composePollBinding.pollDuration.setSelection(6);
-                    break;
+                case 300 -> composePollBinding.pollDuration.setSelection(0);
+                case 1800 -> composePollBinding.pollDuration.setSelection(1);
+                case 3600 -> composePollBinding.pollDuration.setSelection(2);
+                case 21600 -> composePollBinding.pollDuration.setSelection(3);
+                case 86400 -> composePollBinding.pollDuration.setSelection(4);
+                case 259200 -> composePollBinding.pollDuration.setSelection(5);
+                case 604800 -> composePollBinding.pollDuration.setSelection(6);
             }
             if (statusDraft.poll.multiple)
                 composePollBinding.pollType.check(R.id.poll_type_multiple);
@@ -1980,40 +1993,24 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 int poll_duration_pos = composePollBinding.pollDuration.getSelectedItemPosition();
 
                 int selected_poll_type_id = composePollBinding.pollType.getCheckedButtonId();
-                String choice1 = composePollBinding.option1.text.getText().toString().trim();
-                String choice2 = composePollBinding.option2.text.getText().toString().trim();
+                String choice1 = Objects.requireNonNull(composePollBinding.option1.text.getText()).toString().trim();
+                String choice2 = Objects.requireNonNull(composePollBinding.option2.text.getText()).toString().trim();
 
                 if (choice1.isEmpty() && choice2.isEmpty()) {
                     Toasty.error(context, context.getString(R.string.poll_invalid_choices), Toasty.LENGTH_SHORT).show();
                 } else if (statusDraft != null) {
                     statusDraft.poll = new Poll();
                     statusDraft.poll.multiple = selected_poll_type_id == R.id.poll_type_multiple;
-                    int expire;
-                    switch (poll_duration_pos) {
-                        case 0:
-                            expire = 300;
-                            break;
-                        case 1:
-                            expire = 1800;
-                            break;
-                        case 2:
-                            expire = 3600;
-                            break;
-                        case 3:
-                            expire = 21600;
-                            break;
-                        case 4:
-                            expire = 86400;
-                            break;
-                        case 5:
-                            expire = 259200;
-                            break;
-                        case 6:
-                            expire = 604800;
-                            break;
-                        default:
-                            expire = 864000;
-                    }
+                    int expire = switch (poll_duration_pos) {
+                        case 0 -> 300;
+                        case 1 -> 1800;
+                        case 2 -> 3600;
+                        case 3 -> 21600;
+                        case 4 -> 86400;
+                        case 5 -> 259200;
+                        case 6 -> 604800;
+                        default -> 864000;
+                    };
                     statusDraft.poll.expire_in = expire;
                     if (promptDraftListener != null) {
                         promptDraftListener.promptDraft();
@@ -2094,7 +2091,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public interface ManageDrafts {
-        void onItemDraftAdded(int position);
+        void onItemDraftAdded(int position, String content);
 
         void onItemDraftDeleted(Status status, int position);
 
