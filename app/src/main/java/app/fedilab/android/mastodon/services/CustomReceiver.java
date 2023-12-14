@@ -16,13 +16,16 @@ package app.fedilab.android.mastodon.services;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.unifiedpush.android.connector.MessagingReceiver;
 
+import app.fedilab.android.R;
 import app.fedilab.android.mastodon.helper.NotificationsHelper;
 import app.fedilab.android.mastodon.helper.PushNotifications;
 
@@ -63,8 +66,15 @@ public class CustomReceiver extends MessagingReceiver {
     @Override
     public void onNewEndpoint(@Nullable Context context, @NotNull String endpoint, @NotNull String slug) {
         if (context != null) {
-            PushNotifications
-                    .registerPushNotifications(context, endpoint, slug);
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            String storedEnpoint = sharedpreferences.getString(context.getString(R.string.SET_STORED_ENDPOINT)+slug, null);
+            if(storedEnpoint == null || !storedEnpoint.equalsIgnoreCase(endpoint)) {
+                PushNotifications
+                        .registerPushNotifications(context, endpoint, slug);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(context.getString(R.string.SET_STORED_ENDPOINT)+slug, endpoint);
+                editor.apply();
+            }
         }
     }
 
