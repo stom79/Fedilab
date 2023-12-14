@@ -37,6 +37,8 @@ import androidx.preference.PreferenceManager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.Objects;
+
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
@@ -82,7 +84,7 @@ public class InstanceActivity extends DialogFragment {
             binding.maxChar.setText(String.valueOf(maxCharCustom));
         }
         binding.close.setOnClickListener(view -> {
-                    String max_char = binding.maxChar.getText().toString();
+                    String max_char = Objects.requireNonNull(binding.maxChar.getText()).toString();
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     if (!max_char.isEmpty()) {
                         try {

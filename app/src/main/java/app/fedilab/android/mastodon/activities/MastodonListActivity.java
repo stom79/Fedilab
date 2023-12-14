@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,6 +26,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
@@ -39,6 +41,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.BuildConfig;
@@ -127,6 +130,22 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                         }
                     });
                 });
+
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (canGoBack) {
+                    canGoBack = false;
+                    ThemeHelper.slideViewsToRight(binding.fragmentContainer, binding.recyclerView, () -> {
+                        if (fragmentMastodonTimeline != null) {
+                            fragmentMastodonTimeline.onDestroyView();
+                        }
+                    });
+                    setTitle(R.string.action_lists);
+                    invalidateOptionsMenu();
+                }
+            }
+        });
     }
 
 
@@ -142,10 +161,11 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
         invalidateOptionsMenu();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.action_user_mute_home) {
             AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(MastodonListActivity.this);
@@ -344,7 +364,7 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
             dialogBuilder.setView(popupAddListBinding.getRoot());
             popupAddListBinding.addList.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
             popupAddListBinding.addList.setText(mastodonList.title);
-            popupAddListBinding.addList.setSelection(popupAddListBinding.addList.getText().length());
+            popupAddListBinding.addList.setSelection(Objects.requireNonNull(popupAddListBinding.addList.getText()).length());
             dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
                 if (popupAddListBinding.addList.getText() != null && popupAddListBinding.addList.getText().toString().trim().length() > 0) {
                     timelinesVM.updateList(
@@ -458,21 +478,5 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
             getMenuInflater().inflate(R.menu.menu_list, menu);
         }
         return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (canGoBack) {
-            canGoBack = false;
-            ThemeHelper.slideViewsToRight(binding.fragmentContainer, binding.recyclerView, () -> {
-                if (fragmentMastodonTimeline != null) {
-                    fragmentMastodonTimeline.onDestroyView();
-                }
-            });
-            setTitle(R.string.action_lists);
-            invalidateOptionsMenu();
-        } else {
-            super.onBackPressed();
-        }
     }
 }

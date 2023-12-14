@@ -14,6 +14,7 @@ package app.fedilab.android.mastodon.ui.fragment.settings;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -23,6 +24,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import app.fedilab.android.BaseMainActivity;
@@ -37,6 +39,7 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
         createPref();
     }
 
+    @SuppressLint("ApplySharedPref")
     private void createPref() {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
@@ -83,7 +86,7 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equalsIgnoreCase(getString(R.string.SET_WATERMARK_TEXT))) {
+        if (Objects.requireNonNull(key).equalsIgnoreCase(getString(R.string.SET_WATERMARK_TEXT))) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(getString(R.string.SET_WATERMARK_TEXT) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT), null));
             editor.apply();
@@ -94,14 +97,14 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
     public void onResume() {
         super.onResume();
 
-        getPreferenceScreen().getSharedPreferences()
+        Objects.requireNonNull(getPreferenceScreen().getSharedPreferences())
                 .registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        getPreferenceScreen().getSharedPreferences()
+        Objects.requireNonNull(getPreferenceScreen().getSharedPreferences())
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 

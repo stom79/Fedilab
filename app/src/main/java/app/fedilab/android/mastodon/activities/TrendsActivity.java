@@ -71,11 +71,9 @@ public class TrendsActivity extends BaseBarActivity {
                 Fragment fragment;
                 if (binding.trendsViewpager.getAdapter() != null) {
                     fragment = (Fragment) binding.trendsViewpager.getAdapter().instantiateItem(binding.trendsViewpager, tab.getPosition());
-                    if (fragment instanceof FragmentMastodonTimeline) {
-                        FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                    if (fragment instanceof FragmentMastodonTimeline fragmentMastodonTimeline) {
                         fragmentMastodonTimeline.scrollToTop();
-                    } else if (fragment instanceof FragmentMastodonTag) {
-                        FragmentMastodonTag fragmentMastodonTag = ((FragmentMastodonTag) fragment);
+                    } else if (fragment instanceof FragmentMastodonTag fragmentMastodonTag) {
                         fragmentMastodonTag.scrollToTop();
                     }
                 }

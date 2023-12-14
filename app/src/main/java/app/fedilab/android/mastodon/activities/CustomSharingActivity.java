@@ -28,6 +28,7 @@ import android.widget.Toast;
 import androidx.preference.PreferenceManager;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import app.fedilab.android.R;
@@ -126,7 +127,7 @@ public class CustomSharingActivity extends BaseBarActivity implements OnCustomSh
         binding.setCustomSharingSave.setOnClickListener(v -> {
             // obtain title, description, keywords
             title = binding.setCustomSharingTitle.getText().toString();
-            keywords = binding.setCustomSharingKeywords.getText().toString();
+            keywords = Objects.requireNonNull(binding.setCustomSharingKeywords.getText()).toString();
             CharSequence comma_only = ",";
             CharSequence space_only = " ";
             CharSequence double_space = "  ";
@@ -194,38 +195,38 @@ public class CustomSharingActivity extends BaseBarActivity implements OnCustomSh
             String param_value = uri.getQueryParameter(param_name);
             if (param_value != null)
                 switch (param_value) {
-                    case "${url}":
+                    case "${url}" -> {
                         paramFound = true;
                         builder.appendQueryParameter(param_name, bundle_url);
-                        break;
-                    case "${title}":
+                    }
+                    case "${title}" -> {
                         paramFound = true;
                         builder.appendQueryParameter(param_name, title);
-                        break;
-                    case "${source}":
+                    }
+                    case "${source}" -> {
                         paramFound = true;
                         builder.appendQueryParameter(param_name, bundle_source);
-                        break;
-                    case "${id}":
+                    }
+                    case "${id}" -> {
                         paramFound = true;
                         builder.appendQueryParameter(param_name, bundle_id);
-                        break;
-                    case "${description}":
+                    }
+                    case "${description}" -> {
                         paramFound = true;
                         builder.appendQueryParameter(param_name, bundle_content);
-                        break;
-                    case "${keywords}":
+                    }
+                    case "${keywords}" -> {
                         paramFound = true;
                         builder.appendQueryParameter(param_name, keywords);
-                        break;
-                    case "${creator}":
+                    }
+                    case "${creator}" -> {
                         paramFound = true;
                         builder.appendQueryParameter(param_name, bundle_creator);
-                        break;
-                    case "${thumbnailurl}":
+                    }
+                    case "${thumbnailurl}" -> {
                         paramFound = true;
                         builder.appendQueryParameter(param_name, bundle_thumbnailurl);
-                        break;
+                    }
                 }
             if (!paramFound) {
                 builder.appendQueryParameter(param_name, param_value);

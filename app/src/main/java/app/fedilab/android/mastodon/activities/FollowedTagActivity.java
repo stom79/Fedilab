@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
@@ -82,12 +83,27 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
                         binding.notContent.setVisibility(View.VISIBLE);
                     }
                 });
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (canGoBack) {
+                    canGoBack = false;
+                    ThemeHelper.slideViewsToRight(binding.fragmentContainer, binding.recyclerView, () -> {
+                        if (fragmentMastodonTimeline != null) {
+                            fragmentMastodonTimeline.onDestroyView();
+                        }
+                    });
+                    setTitle(R.string.followed_tags);
+                    invalidateOptionsMenu();
+                }
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.action_unfollow && tag != null) {
             AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(FollowedTagActivity.this);
@@ -170,21 +186,6 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-        if (canGoBack) {
-            canGoBack = false;
-            ThemeHelper.slideViewsToRight(binding.fragmentContainer, binding.recyclerView, () -> {
-                if (fragmentMastodonTimeline != null) {
-                    fragmentMastodonTimeline.onDestroyView();
-                }
-            });
-            setTitle(R.string.followed_tags);
-            invalidateOptionsMenu();
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public void click(Tag tag) {

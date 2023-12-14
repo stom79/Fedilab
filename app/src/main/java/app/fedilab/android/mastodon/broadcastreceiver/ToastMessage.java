@@ -31,18 +31,14 @@ public class ToastMessage extends BroadcastReceiver {
             String content = b.getString(Helper.RECEIVE_TOAST_CONTENT, null);
             if (type != null && content != null) {
                 switch (type) {
-                    case Helper.RECEIVE_TOAST_TYPE_ERROR:
-                        Toasty.error(context, content, Toasty.LENGTH_SHORT).show();
-                        break;
-                    case Helper.RECEIVE_TOAST_TYPE_WARNING:
-                        Toasty.warning(context, content, Toasty.LENGTH_SHORT).show();
-                        break;
-                    case Helper.RECEIVE_TOAST_TYPE_INFO:
-                        Toasty.info(context, content, Toasty.LENGTH_SHORT).show();
-                        break;
-                    case Helper.RECEIVE_TOAST_TYPE_SUCCESS:
-                        Toasty.success(context, content, Toasty.LENGTH_SHORT).show();
-                        break;
+                    case Helper.RECEIVE_TOAST_TYPE_ERROR ->
+                            Toasty.error(context, content, Toasty.LENGTH_SHORT).show();
+                    case Helper.RECEIVE_TOAST_TYPE_WARNING ->
+                            Toasty.warning(context, content, Toasty.LENGTH_SHORT).show();
+                    case Helper.RECEIVE_TOAST_TYPE_INFO ->
+                            Toasty.info(context, content, Toasty.LENGTH_SHORT).show();
+                    case Helper.RECEIVE_TOAST_TYPE_SUCCESS ->
+                            Toasty.success(context, content, Toasty.LENGTH_SHORT).show();
                 }
             }
         }

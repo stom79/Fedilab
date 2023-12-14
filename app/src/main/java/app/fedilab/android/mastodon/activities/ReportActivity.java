@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -291,7 +292,7 @@ public class ReportActivity extends BaseBarActivity {
             if (fragment != null) {
                 statusIds = fragment.getCheckedStatusesId();
             }
-            comment = binding.reportMessage.getText().toString();
+            comment = Objects.requireNonNull(binding.reportMessage.getText()).toString();
             binding.actionButton.setEnabled(false);
             accountsVM.report(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, category, statusIds, ruleIds, comment, forward)
                     .observe(ReportActivity.this, report -> {

@@ -41,6 +41,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.BuildConfig;
@@ -115,18 +116,10 @@ public class EditProfileActivity extends BaseBarActivity {
         if (currentAccount.mastodon_account.source != null) {
             binding.sensitive.setChecked(currentAccount.mastodon_account.source.sensitive);
             switch (currentAccount.mastodon_account.source.privacy) {
-                case "public":
-                    binding.visibilityPublic.setChecked(true);
-                    break;
-                case "unlisted":
-                    binding.visibilityUnlisted.setChecked(true);
-                    break;
-                case "private":
-                    binding.visibilityPrivate.setChecked(true);
-                    break;
-                case "direct":
-                    binding.visibilityDirect.setChecked(true);
-                    break;
+                case "public" -> binding.visibilityPublic.setChecked(true);
+                case "unlisted" -> binding.visibilityUnlisted.setChecked(true);
+                case "private" -> binding.visibilityPrivate.setChecked(true);
+                case "direct" -> binding.visibilityDirect.setChecked(true);
             }
         } else {
             binding.sensitive.setVisibility(View.GONE);
@@ -318,8 +311,8 @@ public class EditProfileActivity extends BaseBarActivity {
         LinkedHashMap<Integer, Field.FieldParams> fields = new LinkedHashMap<>();
         for (int i = 0; i < binding.fieldsContainer.getChildCount(); i++) {
             Field.FieldParams field = new Field.FieldParams();
-            field.name = ((TextInputEditText) binding.fieldsContainer.getChildAt(i).findViewById(R.id.name)).getText().toString().trim();
-            field.value = ((TextInputEditText) binding.fieldsContainer.getChildAt(i).findViewById(R.id.value)).getText().toString().trim();
+            field.name = Objects.requireNonNull(((TextInputEditText) binding.fieldsContainer.getChildAt(i).findViewById(R.id.name)).getText()).toString().trim();
+            field.value = Objects.requireNonNull(((TextInputEditText) binding.fieldsContainer.getChildAt(i).findViewById(R.id.value)).getText()).toString().trim();
             fields.put(i, field);
         }
         return fields;
@@ -334,8 +327,8 @@ public class EditProfileActivity extends BaseBarActivity {
             accountsVM.updateCredentials(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
                             binding.discoverable.isChecked(),
                             binding.bot.isChecked(),
-                            binding.displayName.getText().toString().trim(),
-                            binding.bio.getText().toString(),
+                            Objects.requireNonNull(binding.displayName.getText()).toString().trim(),
+                            Objects.requireNonNull(binding.bio.getText()).toString(),
                             binding.locked.isChecked(),
                             getPrivacy(),
                             binding.sensitive.isChecked(),

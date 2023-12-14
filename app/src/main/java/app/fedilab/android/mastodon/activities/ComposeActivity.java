@@ -44,6 +44,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -158,31 +159,21 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private String editMessageId;
 
     private static int visibilityToNumber(String visibility) {
-        switch (visibility) {
-            case "public":
-                return 3;
-            case "unlisted":
-                return 2;
-            case "private":
-                return 1;
-            case "direct":
-                return 0;
-        }
-        return 3;
+        return switch (visibility) {
+            case "unlisted" -> 2;
+            case "private" -> 1;
+            case "direct" -> 0;
+            default -> 3;
+        };
     }
 
     private static String visibilityToString(int visibility) {
-        switch (visibility) {
-            case 3:
-                return "public";
-            case 2:
-                return "unlisted";
-            case 1:
-                return "private";
-            case 0:
-                return "direct";
-        }
-        return "public";
+        return switch (visibility) {
+            case 2 -> "unlisted";
+            case 1 -> "private";
+            case 0 -> "direct";
+            default -> "public";
+        };
     }
 
     public static String getVisibility(BaseAccount account, String defaultVisibility) {
@@ -208,13 +199,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
     }
 
-    @Override
-    public void onBackPressed() {
-        if (binding.recyclerView.getVisibility() == View.VISIBLE) {
-            storeDraftWarning();
-        }
-        super.onBackPressed();
-    }
 
     private void storeDraftWarning() {
         if (statusDraft == null) {
@@ -778,6 +762,15 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 composeAdapter.addSharing(null, null, sharedDescription, null, sharedContent, null);
             }
         }
+
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (binding.recyclerView.getVisibility() == View.VISIBLE) {
+                    storeDraftWarning();
+                }
+            }
+        });
     }
 
     @Override
@@ -1032,7 +1025,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 .into(binding.mediaPreview);
         if (attachment.description != null) {
             binding.mediaDescription.setText(attachment.description);
-            binding.mediaDescription.setSelection(binding.mediaDescription.getText().length());
+            binding.mediaDescription.setSelection(Objects.requireNonNull(binding.mediaDescription.getText()).length());
         }
         binding.mediaDescription.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1500)});
         binding.mediaDescription.requestFocus();
@@ -1043,13 +1036,13 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             binding.description.setVisibility(View.GONE);
             actionBar.show();
             binding.recyclerView.setVisibility(View.VISIBLE);
-            composeAdapter.openDescriptionActivity(true, binding.mediaDescription.getText().toString().trim(), holder, attachment, messagePosition, mediaPosition);
+            composeAdapter.openDescriptionActivity(true, Objects.requireNonNull(binding.mediaDescription.getText()).toString().trim(), holder, attachment, messagePosition, mediaPosition);
         });
         binding.mediaCancel.setOnClickListener(v -> {
             binding.description.setVisibility(View.GONE);
             actionBar.show();
             binding.recyclerView.setVisibility(View.VISIBLE);
-            composeAdapter.openDescriptionActivity(false, binding.mediaDescription.getText().toString().trim(), holder, attachment, messagePosition, mediaPosition);
+            composeAdapter.openDescriptionActivity(false, Objects.requireNonNull(binding.mediaDescription.getText()).toString().trim(), holder, attachment, messagePosition, mediaPosition);
         });
     }
 

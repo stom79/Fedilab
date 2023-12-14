@@ -17,7 +17,6 @@ package app.fedilab.android.mastodon.activities;
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 
-import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -28,7 +27,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -1226,20 +1224,18 @@ public class ProfileActivity extends BaseActivity {
                     target = account.id;
                 }
                 switch (doActionAccount) {
-                    case BLOCK:
-                        accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
-                                .observe(ProfileActivity.this, relationShip -> {
-                                    this.relationship = relationShip;
-                                    updateAccount();
-                                });
-                        break;
-                    case UNBLOCK:
-                        accountsVM.unblock(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
-                                .observe(ProfileActivity.this, relationShip -> {
-                                    this.relationship = relationShip;
-                                    updateAccount();
-                                });
-                        break;
+                    case BLOCK ->
+                            accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                    .observe(ProfileActivity.this, relationShip -> {
+                                        this.relationship = relationShip;
+                                        updateAccount();
+                                    });
+                    case UNBLOCK ->
+                            accountsVM.unblock(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                    .observe(ProfileActivity.this, relationShip -> {
+                                        this.relationship = relationShip;
+                                        updateAccount();
+                                    });
                 }
                 dialog.dismiss();
             });

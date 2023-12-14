@@ -25,7 +25,7 @@ import java.util.Set;
 
 
 /**
- * Original work from https://stackoverflow.com/a/25873554
+ * Original work from <a href="https://stackoverflow.com/a/25873554">stackoverflow</a>
  */
 public class NetworkStateReceiver extends BroadcastReceiver {
 

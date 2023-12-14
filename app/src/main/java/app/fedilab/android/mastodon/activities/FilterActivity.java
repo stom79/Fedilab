@@ -75,27 +75,13 @@ public class FilterActivity extends BaseBarActivity implements FilterAdapter.Del
             @Override
             public void onItemSelected(AdapterView<?> parent1, View view, int position1, long id) {
                 switch (position1) {
-                    case 0:
-                        expire[0] = -1;
-                        break;
-                    case 1:
-                        expire[0] = 1800;
-                        break;
-                    case 2:
-                        expire[0] = 3600;
-                        break;
-                    case 3:
-                        expire[0] = 21600;
-                        break;
-                    case 4:
-                        expire[0] = 43200;
-                        break;
-                    case 5:
-                        expire[0] = 86400;
-                        break;
-                    case 6:
-                        expire[0] = 604800;
-                        break;
+                    case 0 -> expire[0] = -1;
+                    case 1 -> expire[0] = 1800;
+                    case 2 -> expire[0] = 3600;
+                    case 3 -> expire[0] = 21600;
+                    case 4 -> expire[0] = 43200;
+                    case 5 -> expire[0] = 86400;
+                    case 6 -> expire[0] = 604800;
                 }
             }
 
@@ -128,21 +114,12 @@ public class FilterActivity extends BaseBarActivity implements FilterAdapter.Del
             if (filter.context != null) {
                 for (String val : filter.context) {
                     switch (val) {
-                        case "home":
-                            popupAddFilterBinding.contextHome.setChecked(true);
-                            break;
-                        case "public":
-                            popupAddFilterBinding.contextPublic.setChecked(true);
-                            break;
-                        case "notifications":
-                            popupAddFilterBinding.contextNotification.setChecked(true);
-                            break;
-                        case "thread":
-                            popupAddFilterBinding.contextConversation.setChecked(true);
-                            break;
-                        case "account":
-                            popupAddFilterBinding.contextProfiles.setChecked(true);
-                            break;
+                        case "home" -> popupAddFilterBinding.contextHome.setChecked(true);
+                        case "public" -> popupAddFilterBinding.contextPublic.setChecked(true);
+                        case "notifications" ->
+                                popupAddFilterBinding.contextNotification.setChecked(true);
+                        case "thread" -> popupAddFilterBinding.contextConversation.setChecked(true);
+                        case "account" -> popupAddFilterBinding.contextProfiles.setChecked(true);
                     }
                 }
             }
@@ -193,7 +170,7 @@ public class FilterActivity extends BaseBarActivity implements FilterAdapter.Del
                         canBeSent = false;
                     }
                 }
-                if (popupAddFilterBinding.addTitle.getText().toString().trim().isEmpty()) {
+                if (Objects.requireNonNull(popupAddFilterBinding.addTitle.getText()).toString().trim().isEmpty()) {
                     popupAddFilterBinding.addTitle.setError(context.getString(R.string.cannot_be_empty));
                     canBeSent = false;
                 }

@@ -94,11 +94,8 @@ public class FollowRequestActivity extends BaseActivity {
 
         binding.loadingNextAccounts.setVisibility(View.GONE);
         if (accountList != null && accounts != null && accounts.accounts != null && accounts.accounts.size() > 0) {
-            int startId = 0;
             //There are some statuses present in the timeline
-            if (accountList.size() > 0) {
-                startId = accountList.size();
-            }
+            int startId = accountList.size();
             flagLoading = accounts.pagination.max_id == null;
             accountList.addAll(accounts.accounts);
             max_id = accounts.pagination.max_id;

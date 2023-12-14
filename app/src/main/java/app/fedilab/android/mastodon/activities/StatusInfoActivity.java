@@ -145,11 +145,8 @@ public class StatusInfoActivity extends BaseActivity {
             if (!checkRemotely) {
                 fetchRelationShip(accounts.accounts, position);
             }
-            int startId = 0;
             //There are some statuses present in the timeline
-            if (accountList.size() > 0) {
-                startId = accountList.size();
-            }
+            int startId = accountList.size();
             accountList.addAll(accounts.accounts);
             max_id = accounts.pagination.max_id;
             flagLoading = accounts.pagination.max_id == null;
