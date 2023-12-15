@@ -16,9 +16,15 @@ package app.fedilab.android.mastodon.helper;
 
 import static app.fedilab.android.mastodon.helper.Helper.mentionLongPattern;
 import static app.fedilab.android.mastodon.helper.Helper.mentionPattern;
+import static app.fedilab.android.mastodon.helper.Helper.mentionPatternALL;
+import static app.fedilab.android.mastodon.helper.MastodonHelper.countWithEmoji;
+
+import android.util.Patterns;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
+
+import app.fedilab.android.mastodon.ui.drawer.ComposeAdapter;
 
 public class ComposeHelper {
 
@@ -35,26 +41,27 @@ public class ComposeHelper {
 
 
         ArrayList<String> mentions = new ArrayList<>();
-        int mentionLength = 0;
+        int mentionLength;
         StringBuilder mentionString = new StringBuilder();
-        Matcher matcher = mentionLongPattern.matcher(content);
+        Matcher matcher = mentionPatternALL.matcher(content);
         while (matcher.find()) {
             String mentionLong = matcher.group(1);
-            if (!mentions.contains(mentionLong)) {
-                mentions.add(mentionLong);
+            if(mentionLong != null) {
+                if (!mentions.contains(mentionLong)) {
+                    mentions.add(mentionLong);
+                }
             }
-        }
-        matcher = mentionPattern.matcher(content);
-        while (matcher.find()) {
-            String mention = matcher.group(1);
-            if (!mentions.contains(mention)) {
-                mentions.add(mention);
+            String mentionShort = matcher.group(2);
+            if(mentionShort != null) {
+                if (!mentions.contains(mentionShort)) {
+                    mentions.add(mentionShort);
+                }
             }
         }
         for (String mention : mentions) {
             mentionString.append(mention).append(" ");
         }
-        mentionLength = mentionString.length() + 1;
+        mentionLength = countLength(mentionString.toString()) + 1;
         int maxCharsPerMessage = maxChars - mentionLength;
         int totalCurrent = 0;
         ArrayList<String> reply = new ArrayList<>();
@@ -94,5 +101,24 @@ public class ComposeHelper {
             }
         }
         return reply;
+    }
+
+
+    /***
+     * Returns the length used when composing a toot
+     * @param mentions String containing mentions
+     * @return int - characters used
+     */
+    public static int countLength(String mentions) {
+        String contentCount = mentions;
+        contentCount = contentCount.replaceAll("(?i)(^|[^/\\w])@(([a-z0-9_]+)@[a-z0-9.-]+[a-z0-9]+)", "$1@$3");
+        Matcher matcherALink = Patterns.WEB_URL.matcher(contentCount);
+        while (matcherALink.find()) {
+            final String url = matcherALink.group(1);
+            if (url != null) {
+                contentCount = contentCount.replace(url, "abcdefghijklmnopkrstuvw");
+            }
+        }
+        return contentCount.length();
     }
 }

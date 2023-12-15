@@ -541,7 +541,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 buttonVisibility(holder);
                 //Text is copied pasted and the content is greater than the max of the instance
                 int max_car = MastodonHelper.getInstanceMaxChars(context);
-                if (count > max_car) {
+                if (ComposeHelper.countLength(s.toString()) > max_car) {
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
                     String defaultFormat = sharedpreferences.getString(context.getString(R.string.SET_THREAD_MESSAGE), context.getString(R.string.DEFAULT_THREAD_VALUE));
                     //User asked to be prompted for threading long messages

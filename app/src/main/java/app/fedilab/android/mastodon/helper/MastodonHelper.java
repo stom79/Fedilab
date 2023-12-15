@@ -397,7 +397,7 @@ public class MastodonHelper {
      * @param text String - The current text
      * @return int - Number of characters used by emoji
      */
-    private static int countWithEmoji(String text) {
+    static int countWithEmoji(String text) {
         int emojiCount = 0;
         for (int i = 0; i < text.length(); i++) {
             int type = Character.getType(text.charAt(i));
