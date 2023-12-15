@@ -48,6 +48,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.URLUtil;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -59,6 +60,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -101,9 +103,11 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ComposeAttachmentItemBinding;
 import app.fedilab.android.databinding.ComposePollBinding;
 import app.fedilab.android.databinding.ComposePollItemBinding;
+import app.fedilab.android.databinding.DrawerMediaListBinding;
 import app.fedilab.android.databinding.DrawerStatusComposeBinding;
 import app.fedilab.android.databinding.DrawerStatusSimpleBinding;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
+import app.fedilab.android.mastodon.activities.MediaActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Emoji;
@@ -1343,6 +1347,38 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (getItemViewType(position) == TYPE_NORMAL) {
             Status status = statusList.get(position);
             StatusSimpleViewHolder holder = (StatusSimpleViewHolder) viewHolder;
+            if(status.media_attachments != null && status.media_attachments.size() > 0 ) {
+                holder.binding.simpleMedia.removeAllViews();
+                List<Attachment> attachmentList = statusList.get(position).media_attachments;
+                for(Attachment attachment: attachmentList) {
+                    DrawerMediaListBinding drawerMediaListBinding = DrawerMediaListBinding.inflate(LayoutInflater.from(context), holder.binding.simpleMedia, false);
+                    Glide.with(drawerMediaListBinding.media.getContext())
+                            .load(attachment.preview_url)
+                            .into(drawerMediaListBinding.media);
+
+                    if(attachment.filename != null) {
+                        drawerMediaListBinding.mediaName.setText(attachment.filename);
+                    } else if (attachment.preview_url != null){
+                        drawerMediaListBinding.mediaName.setText(URLUtil.guessFileName(attachment.preview_url, null, null));
+                    }
+                    drawerMediaListBinding.getRoot().setOnClickListener(v->{
+                        Intent mediaIntent = new Intent(context, MediaActivity.class);
+                        Bundle b = new Bundle();
+                        ArrayList<Attachment> attachments = new ArrayList<>();
+                        attachments.add(attachment);
+                        b.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
+                        mediaIntent.putExtras(b);
+                        ActivityOptionsCompat options = ActivityOptionsCompat
+                                .makeSceneTransitionAnimation((Activity) context, drawerMediaListBinding.media, attachment.url);
+                        context.startActivity(mediaIntent, options.toBundle());
+                    });
+                    holder.binding.simpleMedia.addView(drawerMediaListBinding.getRoot());
+
+                }
+                holder.binding.simpleMediaContainer.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.simpleMediaContainer.setVisibility(View.GONE);
+            }
             holder.binding.statusContent.setText(
                     status.getSpanContent(context,
                             new WeakReference<>(holder.binding.statusContent), () -> notifyItemChanged(position)),

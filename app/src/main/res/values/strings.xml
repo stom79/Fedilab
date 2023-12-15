@@ -2035,4 +2035,5 @@
     <string name="set_custom_accent_value_light_description">Color that will be applied to the light theme</string>
     <string name="set_custom_accent_value_dark_description">Color that will be applied to the dark theme</string>
 
+    <string name="thumbnail">Thumbnail</string>
 </resources>
