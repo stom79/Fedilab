@@ -1873,6 +1873,7 @@
     <string name="mute_tag">Are you sure to mute the tag %1$s?</string>
     <string name="type_of_theme">Pickup a mode for the theme</string>
     <string name="thread_long_message">Divide long messages in replies</string>
+    <string name="thread_long_this_message">Divide this messages in replies?</string>
     <string name="thread_long_message_no">Don\'t divide it</string>
     <string name="thread_long_message_yes">Divide the message</string>
     <string name="thread_long_message_message">The message will be divided in several replies to follow your instance max characters.</string>

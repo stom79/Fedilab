@@ -542,7 +542,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     //User asked to be prompted for threading long messages
                     if(defaultFormat.compareToIgnoreCase("ASK") == 0) {
                         AlertDialog.Builder threadConfirm = new MaterialAlertDialogBuilder(context);
-                        threadConfirm.setTitle(context.getString(R.string.thread_long_message));
+                        threadConfirm.setTitle(context.getString(R.string.thread_long_this_message));
                         threadConfirm.setMessage(context.getString(R.string.thread_long_message_message));
                         threadConfirm.setNegativeButton(R.string.thread_long_message_no, (dialog, which) -> dialog.dismiss());
                         threadConfirm.setPositiveButton(R.string.thread_long_message_yes, (dialog, which) -> {
