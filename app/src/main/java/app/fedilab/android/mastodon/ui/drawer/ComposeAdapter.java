@@ -203,7 +203,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         for (String morseCode : MORSELIST) {
             if (MORSE_TO_ALPHA.containsKey(morseCode)) {
-                morseContent = morseContent.replaceAll(Pattern.quote(morseCode), MORSE_TO_ALPHA.get(morseCode));
+                morseContent = morseContent.replaceAll(Pattern.quote(morseCode), Objects.requireNonNull(MORSE_TO_ALPHA.get(morseCode)));
             }
         }
         return morseContent;
@@ -1132,12 +1132,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 for (Attachment attachment : attachmentList) {
                     ComposeAttachmentItemBinding composeAttachmentItemBinding = ComposeAttachmentItemBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
                     composeAttachmentItemBinding.buttonPlay.setVisibility(View.GONE);
-                   /* if (editMessageId != null && attachment.url != null) {
-                        composeAttachmentItemBinding.editPreview.setVisibility(View.GONE);
-                        composeAttachmentItemBinding.buttonDescription.setVisibility(View.INVISIBLE);
-                        composeAttachmentItemBinding.buttonOrderDown.setVisibility(View.INVISIBLE);
-                        composeAttachmentItemBinding.buttonOrderUp.setVisibility(View.INVISIBLE);
-                    }*/
                     String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;
                     if (attachment.type != null || attachment.mimeType != null) {
                         if ((attachment.type != null && attachment.type.toLowerCase().startsWith("image")) || (attachment.mimeType != null && attachment.mimeType.toLowerCase().startsWith("image"))) {
@@ -1267,7 +1261,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         mRecyclerView = recyclerView;
     }
@@ -1324,7 +1318,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.binding.buttonAttachManual.setEnabled(false);
                     holder.binding.buttonPoll.setEnabled(true);
                 }
-                holder.binding.buttonPoll.setEnabled(statusDraft.media_attachments == null || statusDraft.media_attachments.size() <= 0);
+                holder.binding.buttonPoll.setEnabled(statusDraft.media_attachments == null || statusDraft.media_attachments.size() == 0);
             }
         }
     }
@@ -2029,7 +2023,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else if (statusDraft != null) {
                     statusDraft.poll = new Poll();
                     statusDraft.poll.multiple = selected_poll_type_id == R.id.poll_type_multiple;
-                    int expire = switch (poll_duration_pos) {
+                    statusDraft.poll.expire_in = switch (poll_duration_pos) {
                         case 0 -> 300;
                         case 1 -> 1800;
                         case 2 -> 3600;
@@ -2039,7 +2033,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         case 6 -> 604800;
                         default -> 864000;
                     };
-                    statusDraft.poll.expire_in = expire;
                     if (promptDraftListener != null) {
                         promptDraftListener.promptDraft();
                     }
@@ -2048,7 +2041,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     for (int i = 0; i < childCount; i++) {
                         Poll.PollItem pollItem = new Poll.PollItem();
                         AppCompatEditText title = (composePollBinding.optionsList.getChildAt(i)).findViewById(R.id.text);
-                        pollItem.title = title.getText().toString();
+                        pollItem.title = Objects.requireNonNull(title.getText()).toString();
                         pollItems.add(pollItem);
                     }
                     List<String> options = new ArrayList<>();
@@ -2080,7 +2073,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * Display the emoji picker in the current message
      *
      * @param holder - view for the message {@link ComposeViewHolder}
-     * @throws DBException
      */
     private void displayEmojiPicker(ComposeViewHolder holder, String instance) throws DBException {
 
@@ -2095,7 +2087,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             gridView.setAdapter(new EmojiAdapter(emojis.get(instance)));
             gridView.setNumColumns(5);
             gridView.setOnItemClickListener((parent, view, position, id) -> {
-                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojis.get(instance).get(position).shortcode + ": ");
+                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + Objects.requireNonNull(emojis.get(instance)).get(position).shortcode + ": ");
                 alertDialogEmoji.dismiss();
             });
             gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
