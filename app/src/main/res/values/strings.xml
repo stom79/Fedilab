@@ -706,6 +706,19 @@
     <string name="no_account_in_list">No accounts found for this list!</string>
     <string name="scheduled">Scheduled</string>
 
+
+    <string-array name="set_thread_message_value">
+        <item>Ask</item>
+        <item>Disable</item>
+        <item>Enable</item>
+    </string-array>
+
+    <string-array name="SET_THREAD_MESSAGE_VALUE" translatable="false">
+        <item>ASK</item>
+        <item>DISABLE</item>
+        <item>ENABLE</item>
+    </string-array>
+
     <string-array name="set_theme_mode_value">
         <item>Light</item>
         <item>Dark</item>
@@ -1065,6 +1078,7 @@
     <string name="SET_CAPITALIZE" translatable="false">SET_CAPITALIZE</string>
     <string name="SET_MENTIONS_AT_TOP" translatable="false">SET_MENTIONS_AT_TOP</string>
 
+    <string name="SET_THREAD_MESSAGE" translatable="false">SET_THREAD_MESSAGE</string>
     <string name="SET_THEME_BASE" translatable="false">SET_THEME_BASE</string>
     <string name="SET_DYNAMICCOLOR" translatable="false">SET_DYNAMICCOLOR</string>
     <string name="SET_CUSTOM_ACCENT" translatable="false">SET_CUSTOM_ACCENT</string>
@@ -1193,6 +1207,7 @@
     <string name="SET_NOTIFICATIONS_PER_CALL" translatable="false">SET_NOTIFICATIONS_PER_CALL</string>
     <string name="INSTANCE_INFO" translatable="false">INSTANCE_INFO</string>
     <string name="SET_INVIDIOUS" translatable="false">SET_INVIDIOUS</string>
+    <string name="DEFAULT_THREAD_VALUE" translatable="false">ASK</string>
     <string name="SET_INVIDIOUS_HOST" translatable="false">SET_INVIDIOUS_HOST</string>
     <string name="DEFAULT_INVIDIOUS_HOST" translatable="false">invidious.snopyta.org</string>
     <string name="SET_FILTER_UTM" translatable="false">SET_FILTER_UTM</string>
@@ -1857,6 +1872,11 @@
     <string name="create_domain_block">Create domain block</string>
     <string name="mute_tag">Are you sure to mute the tag %1$s?</string>
     <string name="type_of_theme">Pickup a mode for the theme</string>
+    <string name="thread_long_message">Divide long messages in replies</string>
+    <string name="thread_long_message_no">Don\'t divide it</string>
+    <string name="thread_long_message_yes">Divide the message</string>
+    <string name="thread_long_message_message">The message will be divided in several replies to follow your instance max characters.</string>
+
     <string name="pref_customize">Customize colors</string>
     <string name="pref_customize_summary">Allow to set your custom colors for themes.</string>
     <string name="set_dynamic_color">Dynamic Color</string>

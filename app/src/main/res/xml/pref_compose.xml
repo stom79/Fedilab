@@ -14,6 +14,17 @@
         app:summary="@string/set_capitalize_indication"
         app:title="@string/set_capitalize" />
 
+    <ListPreference
+        app:defaultValue="ASK"
+        app:dialogTitle="@string/thread_long_message"
+        app:entries="@array/set_thread_message_value"
+        app:entryValues="@array/SET_THREAD_MESSAGE_VALUE"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_THREAD_MESSAGE"
+        app:title="@string/thread_long_message"
+        app:useSimpleSummaryProvider="true" />
+
+
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"

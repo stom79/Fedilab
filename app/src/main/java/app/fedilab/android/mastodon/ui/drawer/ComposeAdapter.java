@@ -537,18 +537,46 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //Text is copied pasted and the content is greater than the max of the instance
                 int max_car = MastodonHelper.getInstanceMaxChars(context);
                 if (count > max_car) {
-                    proceedToSplit[0] = true;
-                    ArrayList<String> splitText = ComposeHelper.splitToots(s.toString(), max_car);
-                    int statusListSize = statusList.size();
-                    int i = 0;
-                    for(String message: splitText) {
-                        if(i==0) {
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    String defaultFormat = sharedpreferences.getString(context.getString(R.string.SET_THREAD_MESSAGE), context.getString(R.string.DEFAULT_THREAD_VALUE));
+                    //User asked to be prompted for threading long messages
+                    if(defaultFormat.compareToIgnoreCase("ASK") == 0) {
+                        AlertDialog.Builder threadConfirm = new MaterialAlertDialogBuilder(context);
+                        threadConfirm.setTitle(context.getString(R.string.thread_long_message));
+                        threadConfirm.setMessage(context.getString(R.string.thread_long_message_message));
+                        threadConfirm.setNegativeButton(R.string.thread_long_message_no, (dialog, which) -> dialog.dismiss());
+                        threadConfirm.setPositiveButton(R.string.thread_long_message_yes, (dialog, which) -> {
+                            String currentContent = holder.binding.content.getText().toString();
+                            ArrayList<String> splitText = ComposeHelper.splitToots(currentContent, max_car);
+                            holder.binding.content.setText(splitText.get(0));
+                            int statusListSize = statusList.size();
+                            int i = 0;
+                            for(String message: splitText) {
+                                if(i==0) {
+                                    i++;
+                                    continue;
+                                }
+                                manageDrafts.onItemDraftAdded(statusListSize+(i-1), message);
+                                buttonVisibility(holder);
+                                i++;
+                            }
+                            dialog.dismiss();
+                        });
+                        threadConfirm.show();
+                    } else if(defaultFormat.compareToIgnoreCase("ENABLE") == 0) { //User wants to automatically thread long messages
+                        proceedToSplit[0] = true;
+                        ArrayList<String> splitText = ComposeHelper.splitToots(s.toString(), max_car);
+                        int statusListSize = statusList.size();
+                        int i = 0;
+                        for(String message: splitText) {
+                            if(i==0) {
+                                i++;
+                                continue;
+                            }
+                            manageDrafts.onItemDraftAdded(statusListSize+(i-1), message);
+                            buttonVisibility(holder);
                             i++;
-                            continue;
                         }
-                        manageDrafts.onItemDraftAdded(statusListSize+(i-1), message);
-                        buttonVisibility(holder);
-                        i++;
                     }
                 }
             }
