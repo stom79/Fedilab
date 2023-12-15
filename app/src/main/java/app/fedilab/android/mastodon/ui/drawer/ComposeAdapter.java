@@ -120,6 +120,7 @@ import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.ComposeHelper;
 import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.imageeditor.EditImageActivity;
@@ -1344,8 +1345,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             StatusSimpleViewHolder holder = (StatusSimpleViewHolder) viewHolder;
             holder.binding.statusContent.setText(
                     status.getSpanContent(context,
-                            new WeakReference<>(holder.binding.statusContent), null),
+                            new WeakReference<>(holder.binding.statusContent), () -> notifyItemChanged(position)),
                     TextView.BufferType.SPANNABLE);
+            holder.binding.statusContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
             MastodonHelper.loadPPMastodon(holder.binding.avatar, status.account);
             if (status.account != null) {
                 holder.binding.displayName.setText(
