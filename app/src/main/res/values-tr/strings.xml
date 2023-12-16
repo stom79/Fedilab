@@ -1060,4 +1060,10 @@
     <string name="show_self_replies">Kendi yanıtlarını göster</string>
     <string name="show_self_boosts">Öz destekleri göster</string>
     <string name="show_my_messages">Mesajlarımı göster</string>
+    <string name="thread_long_message">Uzun mesajları yanıtlara böl</string>
+    <string name="thread_long_message_yes">Mesajı böl</string>
+    <string name="thread_long_message_no">Bölünmesin</string>
+    <string name="thumbnail">Küçük resim</string>
+    <string name="thread_long_message_message">Mesaj, sunucunuzun en fazla karakter sayısına uygun olacak şekilde birkaç yanıta bölünecek.</string>
+    <string name="thread_long_this_message">Bu mesajlar yanıtlara bölünsün mü?</string>
 </resources>
