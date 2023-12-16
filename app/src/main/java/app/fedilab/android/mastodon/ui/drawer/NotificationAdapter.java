@@ -275,10 +275,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Bundle b = new Bundle();
                 b.putSerializable(Helper.ARG_ACCOUNT, notification.account);
                 intent.putExtras(b);
-                ActivityOptionsCompat options = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation((Activity) context, holderFollow.binding.avatar, context.getString(R.string.activity_porfile_pp));
                 // start the new activity
-                context.startActivity(intent, options.toBundle());
+                context.startActivity(intent);
             });
             if (notification.isFetchMore && fetchMoreCallBack != null) {
                 holderFollow.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
@@ -388,10 +386,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         Bundle b = new Bundle();
                         b.putSerializable(Helper.ARG_ACCOUNT, notification.account);
                         intent.putExtras(b);
-                        ActivityOptionsCompat options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation((Activity) context, holderStatus.bindingNotification.status.avatar, context.getString(R.string.activity_porfile_pp));
                         // start the new activity
-                        context.startActivity(intent, options.toBundle());
+                        context.startActivity(intent);
                     });
                     holderStatus.bindingNotification.status.mainContainer.setAlpha(.8f);
                 }
@@ -437,10 +433,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             Bundle b = new Bundle();
                             b.putSerializable(Helper.ARG_ACCOUNT, relativeNotif.account);
                             intent.putExtras(b);
-                            ActivityOptionsCompat options = ActivityOptionsCompat
-                                    .makeSceneTransitionAnimation((Activity) context, notificationsRelatedAccountsBinding.profilePicture, context.getString(R.string.activity_porfile_pp));
                             // start the new activity
-                            context.startActivity(intent, options.toBundle());
+                            context.startActivity(intent);
                         });
                         holderStatus.bindingNotification.relatedAccounts.addView(notificationsRelatedAccountsBinding.getRoot());
                     }
@@ -453,20 +447,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     Bundle b = new Bundle();
                     b.putSerializable(Helper.ARG_ACCOUNT, notification.account);
                     intent.putExtras(b);
-                    ActivityOptionsCompat options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation((Activity) context, holderStatus.bindingNotification.status.avatar, context.getString(R.string.activity_porfile_pp));
                     // start the new activity
-                    context.startActivity(intent, options.toBundle());
+                    context.startActivity(intent);
                 });
                 holderStatus.bindingNotification.status.statusUserInfo.setOnClickListener(v -> {
                     Intent intent = new Intent(context, ProfileActivity.class);
                     Bundle b = new Bundle();
                     b.putSerializable(Helper.ARG_ACCOUNT, notification.account);
                     intent.putExtras(b);
-                    ActivityOptionsCompat options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation((Activity) context, holderStatus.bindingNotification.status.avatar, context.getString(R.string.activity_porfile_pp));
                     // start the new activity
-                    context.startActivity(intent, options.toBundle());
+                    context.startActivity(intent);
                 });
 
                 holderStatus.bindingNotification.status.displayName.setText(

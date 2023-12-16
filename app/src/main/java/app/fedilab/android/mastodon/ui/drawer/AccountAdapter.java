@@ -114,10 +114,8 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Bundle b = new Bundle();
                 b.putSerializable(Helper.ARG_ACCOUNT, account);
                 intent.putExtras(b);
-                ActivityOptionsCompat options = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation((Activity) context, accountViewHolder.binding.avatar, context.getString(R.string.activity_porfile_pp));
                 // start the new activity
-                context.startActivity(intent, options.toBundle());
+                context.startActivity(intent);
             } else {
                 Toasty.info(context, context.getString(R.string.retrieve_remote_account), Toasty.LENGTH_SHORT).show();
                 SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
@@ -129,10 +127,8 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 Bundle b = new Bundle();
                                 b.putSerializable(Helper.ARG_ACCOUNT, accountSearch);
                                 intent.putExtras(b);
-                                ActivityOptionsCompat options = ActivityOptionsCompat
-                                        .makeSceneTransitionAnimation((Activity) context, accountViewHolder.binding.avatar, context.getString(R.string.activity_porfile_pp));
                                 // start the new activity
-                                context.startActivity(intent, options.toBundle());
+                                context.startActivity(intent);
                             } else {
                                 Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                             }

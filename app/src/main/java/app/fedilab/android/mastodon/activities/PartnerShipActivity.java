@@ -81,9 +81,7 @@ public class PartnerShipActivity extends BaseBarActivity {
                         Bundle b = new Bundle();
                         b.putSerializable(Helper.ARG_ACCOUNT, account);
                         intent.putExtras(b);
-                        ActivityOptionsCompat options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation(PartnerShipActivity.this, binding.accountPp, getString(R.string.activity_porfile_pp));
-                        startActivity(intent, options.toBundle());
+                        startActivity(intent);
                     });
                     AccountsVM accountsVM = new ViewModelProvider(PartnerShipActivity.this).get(AccountsVM.class);
                     List<String> ids = new ArrayList<>();

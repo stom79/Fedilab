@@ -168,7 +168,6 @@ public class ProfileActivity extends BaseActivity {
         if (!checkRemotely) {
             checkRemotely = sharedpreferences.getBoolean(getString(R.string.SET_PROFILE_REMOTELY), false);
         }
-        ActivityCompat.postponeEnterTransition(ProfileActivity.this);
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -363,21 +362,18 @@ public class ProfileActivity extends BaseActivity {
                                     binding.accountPp.animate();
                                     ((Animatable) resource).start();
                                 }
-                                ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
 
                             @Override
                             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                 binding.profilePicture.setImageResource(R.drawable.ic_person);
                                 binding.accountPp.setImageResource(R.drawable.ic_person);
-                                ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
 
                             @Override
                             public void onLoadCleared(@Nullable Drawable placeholder) {
                                 binding.profilePicture.setImageResource(R.drawable.ic_person);
                                 binding.accountPp.setImageResource(R.drawable.ic_person);
-                                ActivityCompat.startPostponedEnterTransition(ProfileActivity.this);
                             }
                         }
                 );
@@ -445,9 +441,7 @@ public class ProfileActivity extends BaseActivity {
             b.putSerializable(Helper.ARG_ACCOUNT, account);
             b.putSerializable(Helper.ARG_CHECK_REMOTELY, true);
             intent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(ProfileActivity.this, binding.profilePicture, getString(R.string.activity_porfile_pp));
-            startActivity(intent, options.toBundle());
+            startActivity(intent);
             finish();
         });
         //Fields for profile
@@ -630,10 +624,8 @@ public class ProfileActivity extends BaseActivity {
                     Bundle b = new Bundle();
                     b.putSerializable(Helper.ARG_ACCOUNT, account);
                     intent.putExtras(b);
-                    ActivityOptionsCompat options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation(ProfileActivity.this, notificationsRelatedAccountsBinding.profilePicture, getString(R.string.activity_porfile_pp));
                     // start the new activity
-                    startActivity(intent, options.toBundle());
+                    startActivity(intent);
                 });
                 binding.relatedAccounts.addView(notificationsRelatedAccountsBinding.getRoot());
             }

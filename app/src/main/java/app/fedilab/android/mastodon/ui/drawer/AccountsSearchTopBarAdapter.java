@@ -69,10 +69,8 @@ public class AccountsSearchTopBarAdapter extends SimpleCursorAdapter {
                 Bundle b = new Bundle();
                 b.putSerializable(Helper.ARG_ACCOUNT, accountList.get(position));
                 intent.putExtras(b);
-                ActivityOptionsCompat options = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation((Activity) context, account_pp, context.getString(R.string.activity_porfile_pp));
                 // start the new activity
-                context.startActivity(intent, options.toBundle());
+                context.startActivity(intent);
             }
         });
     }

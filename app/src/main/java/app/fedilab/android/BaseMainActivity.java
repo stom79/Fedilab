@@ -1419,9 +1419,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             Bundle b = new Bundle();
             b.putSerializable(Helper.ARG_ACCOUNT, currentAccount.mastodon_account);
             intent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(BaseMainActivity.this, headerMainBinding.instanceInfoContainer, getString(R.string.activity_porfile_pp));
-            startActivity(intent, options.toBundle());
+            startActivity(intent);
         });
 
         headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());

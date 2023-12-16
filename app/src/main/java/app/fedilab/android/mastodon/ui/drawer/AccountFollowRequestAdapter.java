@@ -106,10 +106,8 @@ public class AccountFollowRequestAdapter extends RecyclerView.Adapter<RecyclerVi
             Bundle b = new Bundle();
             b.putSerializable(Helper.ARG_ACCOUNT, account);
             intent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation((Activity) context, holderFollow.binding.avatar, context.getString(R.string.activity_porfile_pp));
             // start the new activity
-            context.startActivity(intent, options.toBundle());
+            context.startActivity(intent);
         });
     }
 

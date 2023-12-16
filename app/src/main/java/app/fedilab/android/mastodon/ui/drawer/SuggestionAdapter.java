@@ -90,10 +90,8 @@ public class SuggestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Bundle b = new Bundle();
             b.putSerializable(Helper.ARG_ACCOUNT, account);
             intent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation((Activity) context, holder.binding.avatar, context.getString(R.string.activity_porfile_pp));
             // start the new activity
-            context.startActivity(intent, options.toBundle());
+            context.startActivity(intent);
         });
         holder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
         if (account == null) {

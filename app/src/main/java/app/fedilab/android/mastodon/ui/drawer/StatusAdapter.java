@@ -962,10 +962,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     Bundle b = new Bundle();
                                     b.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.reblog != null ? fetchedStatus.reblog.account : fetchedStatus.account);
                                     intent.putExtras(b);
-                                    ActivityOptionsCompat options = ActivityOptionsCompat
-                                            .makeSceneTransitionAnimation((Activity) context, holder.binding.avatar, context.getString(R.string.activity_porfile_pp));
                                     // start the new activity
-                                    context.startActivity(intent, options.toBundle());
+                                    context.startActivity(intent);
                                 } else {
                                     Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                                 }
@@ -975,10 +973,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Bundle b = new Bundle();
                     b.putSerializable(Helper.ARG_ACCOUNT, status.reblog != null ? status.reblog.account : status.account);
                     intent.putExtras(b);
-                    ActivityOptionsCompat options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation((Activity) context, holder.binding.avatar, context.getString(R.string.activity_porfile_pp));
                     // start the new activity
-                    context.startActivity(intent, options.toBundle());
+                    context.startActivity(intent);
                 }
             });
             holder.binding.statusBoosterInfo.setOnClickListener(v -> {
@@ -992,10 +988,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     Bundle b = new Bundle();
                                     b.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.account);
                                     intent.putExtras(b);
-                                    ActivityOptionsCompat options = ActivityOptionsCompat
-                                            .makeSceneTransitionAnimation((Activity) context, holder.binding.statusBoosterAvatar, context.getString(R.string.activity_porfile_pp));
                                     // start the new activity
-                                    context.startActivity(intent, options.toBundle());
+                                    context.startActivity(intent);
                                 } else {
                                     Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                                 }
@@ -1005,10 +999,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Bundle b = new Bundle();
                     b.putSerializable(Helper.ARG_ACCOUNT, status.account);
                     intent.putExtras(b);
-                    ActivityOptionsCompat options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation((Activity) context, holder.binding.statusBoosterAvatar, context.getString(R.string.activity_porfile_pp));
                     // start the new activity
-                    context.startActivity(intent, options.toBundle());
+                    context.startActivity(intent);
                 }
             });
             //---> REBLOG/UNREBLOG
@@ -3174,9 +3166,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Bundle b = new Bundle();
                 b.putSerializable(Helper.ARG_ACCOUNT, status.account);
                 intent.putExtras(b);
-                ActivityOptionsCompat options = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation((Activity) context, holder.bindingArt.artPp, context.getString(R.string.activity_porfile_pp));
-                context.startActivity(intent, options.toBundle());
+                context.startActivity(intent);
             });
             holder.bindingArt.artMedia.setOnClickListener(v -> {
                 if (status.art_attachment != null) {
@@ -3228,9 +3218,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Bundle b = new Bundle();
                 b.putSerializable(Helper.ARG_ACCOUNT, statusToDeal.account);
                 intent.putExtras(b);
-                ActivityOptionsCompat options = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation((Activity) context, holder.bindingPixelfed.artPp, context.getString(R.string.activity_porfile_pp));
-                context.startActivity(intent, options.toBundle());
+                context.startActivity(intent);
             });
             holder.bindingPixelfed.bottomBanner.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ContextActivity.class);

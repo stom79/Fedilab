@@ -1911,9 +1911,7 @@ public class Helper {
                                 Bundle b = new Bundle();
                                 b.putSerializable(Helper.ARG_ACCOUNT, account);
                                 intent.putExtras(b);
-                                ActivityOptionsCompat options = ActivityOptionsCompat
-                                        .makeSceneTransitionAnimation(activity, binding.accountPp, activity.getString(R.string.activity_porfile_pp));
-                                activity.startActivity(intent, options.toBundle());
+                                activity.startActivity(intent);
                             });
 
                             AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(AccountsVM.class);
