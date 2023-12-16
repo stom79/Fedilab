@@ -1056,4 +1056,10 @@
     <string name="show_self_boosts">Mostrar autopromocións</string>
     <string name="show_self_replies">Mostrar respostas a ti mesma</string>
     <string name="show_my_messages">Mostrar as miñas mensaxes</string>
+    <string name="thread_long_message">Dividir as mensaxes longas nas respostas</string>
+    <string name="thread_long_message_yes">Dividir a mensaxe</string>
+    <string name="thread_long_message_no">Non dividilo</string>
+    <string name="thumbnail">Miniatura</string>
+    <string name="thread_long_message_message">A mensaxe vai ser dividida en varias respostas para cumprir co número máximo de caracteres da túa instancia.</string>
+    <string name="thread_long_this_message">Dividir estas mensaxes nas respostas?</string>
 </resources>
