@@ -1073,4 +1073,10 @@
     <string name="show_self_boosts">Zobrazit boosty sebe sama</string>
     <string name="show_self_replies">Zobrazit odpovědi na sebe</string>
     <string name="show_my_messages">Ukázat mé zprávy</string>
+    <string name="thread_long_message">Rozdělit dlouhé zprávy v odpovědích</string>
+    <string name="thread_long_message_yes">Rozdělit zprávu</string>
+    <string name="thread_long_message_no">Nerozdělovat</string>
+    <string name="thumbnail">Náhled</string>
+    <string name="thread_long_message_message">Vaše zpráva bude rozdělena do několika odpovědí, aby se dodržel limit maximálních znaků daný vaší instancí.</string>
+    <string name="thread_long_this_message">Rozdělit zprávu do odpovědí?</string>
 </resources>
