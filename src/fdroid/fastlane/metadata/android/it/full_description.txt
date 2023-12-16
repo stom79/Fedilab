@@ -2,15 +2,22 @@ Supporta:
 - Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
 
 
-L'applicazione ha funzioni avanzate (specialmente per Pleroma e Mastodon):
-
+L'applicazione ha funzioni avanzate:
+- Crea discussioni
 - Supporto a profili multipli
 - Programma messaggi dal dispositivo
-- Programma boost
-- Aggiungi messaggi ai segnalibri
-- Segui ed interagisci con istanze remote
-- Silenzio temporizzato per profili
-- Azioni cross-account con una lunga pressione
+- Segui e interagisci con istanze remote
 - Funzione di Traduzione
-- Timeline arte
-- Timeline video
+- Opzioni multiple per aggiornamenti automatici
+- Notifiche del dispositivo tramite UnifiedPush (include ntfy su FDroid)
+- Connessione persistente per Notifiche Dal Vivo
+- Notifiche in differita (connessione ogni 30 secondi)
+- Rimpiazzamento di collegamenti a YouTube e Twitter con collegamenti a istanze di Invidious e Nitter rispettivamente
+- Temi personalizzati con importazione/esportazione e definizioni
+- Importazione ed esportazione della base di dati dell'applicazione
+- Selettore di emoji con emoji personalizzate
+- Icone per il launcher multiple
+- Filtri avanzati per i toot
+- Linea temporale artistica per #mastoart
+- Esportazione toot
+- Personalizzazione della condivisione tramite URL per condividere direttamente con altri dispositivi
