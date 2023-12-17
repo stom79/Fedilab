@@ -1,16 +1,25 @@
-این‌ها پشتیبانی می‌شوند:
-ماستدون، پلرمو، پیکسل‌فد، پیرتیوب، گنوسوشال، فرندیکا.
+پشتیبانی ازد:
+ماستودون، پلروما پیکسل‌فد، پیرتیوب، گنوسوشال، فرندیکا.
 
 
-The app has advanced features (especially for Pleroma and Mastodon):
+این اپ ویژگی‌های پیشرفته‌ای دارد:
 
-- Multi-accounts support
-- Schedule messages from the device
-- Schedule boosts
-- Bookmark messages
-- Follow and interact with remote instances
-- Timed mute accounts
-- Cross-account actions with a long press
-- Translation feature
-- Art timelines
-- Video timelines
+- نوشتن رشته
+- پشتبانی از چند حساب
+- زمان‌بندی ارسال از روی دستگاه
+- دنبال کردن و تعامل با کارسازهای دور
+- عملیات بین حساب با نگه‌داشتن دکمه‌ها
+- قابلیت ترجمه
+- چندین گزینه برای به روزرسانی خودکار
+  - ارسال اعلان توسط UnifiedPush (شامل ntfy on FDroid)
+  - متصل ماندن برای دریافت اعلان
+  - اعلان‌های تاخیری (اتصال هر ۳۰ ثانیه)
+- جایگزینی پیوند به YouTube و Twitter با کارسازهای Invidious و Nitter
+- Custom themes, import export, and definition
+- Import and export app's database
+- Emoji pciker with custom emoji
+- Multiple launcher icons
+- Advanced toot filtering
+- Special art timeline for mastoart tag
+- Export toots
+- Customize url sharing to directly share urls to other services

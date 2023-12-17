@@ -1,0 +1,8 @@
+Sistemato:
+- scrivi fra istanze diverse: emoji delle istanze spagliate
+- emoji personalizzate non mostrate nelle notifiche
+- simoli preferiti/boost per messaggi condivisi
+- notifiche vuote
+- sistemato avvertimenti contenuto nelle risposte
+- sistemato l'espansione dei media sensibili con anteprime adattate
+- sistemato un problema con "carica altro..." mostrato troppo spesso (pulire la cache o aspettare per nuovi messaggi aiuterà)
