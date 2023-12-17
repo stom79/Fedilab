@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.25.1",
+    "code": "502",
+    "note": "Fix a crash from release 3.25.0"
+  },
+  {
     "version": "3.25.0",
     "code": "501",
     "note": "Added:\n- Android 14 support\n- Automatically split long messages in threads (default: ASK)\n- Links and media are clickable when composing\n\nFixed:\n- Avoid error 429 with NTFY\n- Several crashes are fixed"
