@@ -272,7 +272,11 @@ public class FragmentMastodonDirectMessage extends Fragment {
 
     @Override
     public void onDestroyView() {
-        requireActivity().unregisterReceiver(broadcast_data);
+        try {
+            requireActivity().unregisterReceiver(broadcast_data);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         super.onDestroyView();
     }
 

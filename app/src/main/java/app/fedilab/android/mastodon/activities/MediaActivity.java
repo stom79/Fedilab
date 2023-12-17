@@ -367,7 +367,11 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(onDownloadComplete);
+        try {
+            unregisterReceiver(onDownloadComplete);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         super.onDestroy();
     }
 

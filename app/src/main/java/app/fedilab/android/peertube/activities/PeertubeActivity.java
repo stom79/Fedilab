@@ -1596,7 +1596,11 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
 
     private void unregisterReceiver() {
         if (mPowerKeyReceiver != null) {
-            unregisterReceiver(mPowerKeyReceiver);
+            try {
+                unregisterReceiver(mPowerKeyReceiver);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
             mPowerKeyReceiver = null;
         }
     }

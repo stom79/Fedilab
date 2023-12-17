@@ -1,7 +1,7 @@
 Added:
 - Android 14 support
 - Automatically split long messages in threads (default: ASK)
-- Links and media are clickable when composing
+- Links and media are clicka ble when composing
 
 Fixed:
 - Avoid error 429 with NTFY

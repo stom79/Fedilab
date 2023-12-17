@@ -1859,9 +1859,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     @Override
     protected void onDestroy() {
 
-        unregisterReceiver(broadcast_data);
-        unregisterReceiver(broadcast_error_message);
-
+        try {
+            unregisterReceiver(broadcast_data);
+            unregisterReceiver(broadcast_error_message);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         if (networkStateReceiver != null) {
             try {
                 unregisterReceiver(networkStateReceiver);

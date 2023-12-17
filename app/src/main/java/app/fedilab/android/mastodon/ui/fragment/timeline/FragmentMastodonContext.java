@@ -295,7 +295,11 @@ public class FragmentMastodonContext extends Fragment {
 
     @Override
     public void onDestroyView() {
-        requireActivity().unregisterReceiver(receive_action);
+        try {
+            requireActivity().unregisterReceiver(receive_action);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         super.onDestroyView();
     }
 

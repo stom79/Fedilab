@@ -195,8 +195,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (timer != null) {
             timer.cancel();
         }
-        unregisterReceiver(imageReceiver);
-
+        try {
+            unregisterReceiver(imageReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
 

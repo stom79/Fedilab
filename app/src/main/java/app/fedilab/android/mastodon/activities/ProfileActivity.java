@@ -1260,7 +1260,11 @@ public class ProfileActivity extends BaseActivity {
             scheduledExecutorService.shutdownNow();
             scheduledExecutorService = null;
         }
-        unregisterReceiver(broadcast_data);
+        try {
+            unregisterReceiver(broadcast_data);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         super.onDestroy();
     }
 

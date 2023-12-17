@@ -340,7 +340,11 @@ public class AdminActionActivity extends BaseBarActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mReceiver != null) {
-            unregisterReceiver(mReceiver);
+            try {
+                unregisterReceiver(mReceiver);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
         }
     }
 

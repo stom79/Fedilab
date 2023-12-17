@@ -675,8 +675,13 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
 
     @Override
     public void onDestroyView() {
-        requireActivity().unregisterReceiver(receive_action);
-        requireActivity().unregisterReceiver(receive_refresh);
+
+        try {
+            requireActivity().unregisterReceiver(receive_action);
+            requireActivity().unregisterReceiver(receive_refresh);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         if (isAdded()) {
             storeMarker();
         }
