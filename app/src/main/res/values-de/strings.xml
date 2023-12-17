@@ -1062,4 +1062,10 @@
     <string name="show_self_boosts">Eigene geteilte Beiträge anzeigen</string>
     <string name="show_self_replies">Eigene Antworten anzeigen</string>
     <string name="show_my_messages">Meine Nachrichten anzeigen</string>
+    <string name="thread_long_message">Teile lange Beiträge in Antworten auf</string>
+    <string name="thread_long_message_yes">Den Beitrag aufteilen</string>
+    <string name="thread_long_message_no">Nicht aufteilen</string>
+    <string name="thumbnail">Vorschau</string>
+    <string name="thread_long_message_message">Der Beitrag wird in mehrere Antworten aufgeteilt, um die maximale Zeichenanzahl Ihrer Instanz einzuhalten.</string>
+    <string name="thread_long_this_message">Diese Beiträge in Antworten aufteilen?</string>
 </resources>

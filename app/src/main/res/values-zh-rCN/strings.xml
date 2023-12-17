@@ -1060,4 +1060,10 @@
     <string name="show_self_boosts">显示自己的转发</string>
     <string name="show_self_replies">显示自己的回复</string>
     <string name="show_my_messages">显示自己的消息</string>
+    <string name="thread_long_message">将长消息分为回复</string>
+    <string name="thread_long_message_yes">分开消息</string>
+    <string name="thread_long_message_no">不要分开</string>
+    <string name="thumbnail">缩略图</string>
+    <string name="thread_long_message_message">消息将分为几个回复，以满足您所在实例的最大字数。</string>
+    <string name="thread_long_this_message">是否将长消息分为回复？</string>
 </resources>

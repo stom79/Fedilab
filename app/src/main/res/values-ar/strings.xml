@@ -842,4 +842,27 @@
     <string name="allow">سماح</string>
     <string name="poll_type_multiple">خيارات متعددة</string>
     <string name="load_media_remotely">حمِّل الوسائط البعيدة</string>
+    <string name="toast_error_media">لا يمكن تحميل الوسائط!</string>
+    <string name="retrieve_remote_account">جلب الحساب البُعدي!</string>
+    <string name="fetching_messages">جلب الرسائل</string>
+    <string name="fetch_remote_media">الجلب الآلي للوسائط البعيدة عندما لا تكون متاحة</string>
+    <string name="chat_timeline_for_direct">خيط زمني للرسائل المباشرة</string>
+    <string name="instance_health_checkedat">تم فحصه: %s</string>
+    <string name="updated_messages">الرسائل المُحدَّثة</string>
+    <string name="type_of_notifications_delay_title">مهلة جلب الإشعارات</string>
+    <string name="load_settings">تحميل الإعدادات المُصَدّرة</string>
+    <string name="notif_sign_up">لقد قام مستخدم بتسجيل حساب</string>
+    <string name="report_indication_title_status_more">اختر أفضل ما يطابق ذلك</string>
+    <string name="files_cache_size">حجم ذاكرة التخزين المؤقتة للملفات</string>
+    <string name="report_title">الإبلاغ عن %1$s</string>
+    <string name="toot_error_no_media_description">تفتقد الوسائط إلى وصف</string>
+    <string name="status">الحالة</string>
+    <string name="set_autoplay_gif">تشغيل الوسائط المتحركة آليا</string>
+    <string name="thumbnail">الصورة المصغرة</string>
+    <string name="set_alt_text_mandatory_warn">تنبيه فقط</string>
+    <string name="permission_missing">لم يتم منح الإذن</string>
+    <string name="about_mastodon">\"ماستدون ليس موقعا شبكيا واحدا مثل تويتر أو فيسبوك، بل هو شبكة من آلاف المجتمعات المحلية التي تديرها مختلف المنظمات والأفراد الذين يقدمون تجربة إعلامية اجتماعية مميزة.\"</string>
+    <string name="push_distributors">موزع الإشعارات</string>
+    <string name="report_indication_title_status">أخبرنا ما الخَطب مع هذا المنشور</string>
+    <string name="set_alt_text_mandatory">وصف إلزامي للوسائط</string>
 </resources>
