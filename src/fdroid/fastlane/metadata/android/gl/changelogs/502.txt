@@ -1,0 +1,8 @@
+Engadido:
+- Soporte para Android 14
+- División automática de mensaxes longas en fíos (por defecto: ASK)
+- As ligazóns son accesibles durante a escritura da mensaxe
+
+Arranxos:
+- do erro 429 con NTFY
+- varios problemas
