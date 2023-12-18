@@ -1168,6 +1168,7 @@
 
     <string name="SET_NOTIF_VALIDATION_FAV" translatable="false">SET_NOTIF_VALIDATION_FAV</string>
     <string name="SET_DISPLAY_COUNTER_FAV_BOOST" translatable="false">SET_DISPLAY_COUNTER_FAV_BOOST</string>
+    <string name="SET_DISPLAY_RELATIVE_DATE" translatable="false">SET_DISPLAY_RELATIVE_DATE</string>
     <string name="SET_REMOVE_LEFT_MARGIN" translatable="false">SET_REMOVE_LEFT_MARGIN</string>
 
     <string name="SET_PROFILE_REMOTELY" translatable="false">SET_PROFILE_REMOTELY</string>
@@ -1729,6 +1730,7 @@
     <string name="set_timelines_in_a_list_title">Timelines in a list</string>
     <string name="set_timelines_in_a_list">When enabled, all pinned timelines will be displayed in a drop-down menu</string>
     <string name="set_display_counter">Display counters for messages</string>
+    <string name="set_display_relative_date">Display relative date for messages</string>
     <string name="set_use_cache">Use cache</string>
     <string name="set_use_cache_indication">Timelines will be cached so the application will be faster.</string>
     <string name="load_media_type_title">Load thumbnails for media</string>
