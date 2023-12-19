@@ -580,6 +580,20 @@ public class Helper {
     }
 
     /**
+     * Convert a date in String
+     *
+     * @param date Date
+     * @return String
+     */
+    public static String mediumDateToString(Date date) {
+        if (date == null) {
+            date = new Date();
+        }
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
+        return df.format(date);
+    }
+
+    /**
      * Convert a date in String -> format yyyy-MM-dd HH:mm:ss
      *
      * @param date Date

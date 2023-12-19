@@ -198,6 +198,12 @@
         app:key="@string/SET_DISPLAY_COUNTER_FAV_BOOST"
         app:singleLineTitle="false"
         app:title="@string/set_display_counter" />
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISPLAY_RELATIVE_DATE"
+        app:singleLineTitle="false"
+        app:title="@string/set_display_relative_date" />
     <SeekBarPreference
         android:defaultValue="0"
         android:max="20"
