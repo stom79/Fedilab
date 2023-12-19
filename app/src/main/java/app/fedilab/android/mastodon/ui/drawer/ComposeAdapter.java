@@ -1381,7 +1381,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             holder.binding.statusContent.setText(
                     status.getSpanContent(context,
-                            new WeakReference<>(holder.binding.statusContent), () -> notifyItemChanged(position)),
+                            new WeakReference<>(holder.binding.statusContent), () -> mRecyclerView.post(() -> notifyItemChanged(position))),
                     TextView.BufferType.SPANNABLE);
             holder.binding.statusContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
             MastodonHelper.loadPPMastodon(holder.binding.avatar, status.account);
