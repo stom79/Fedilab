@@ -1992,7 +1992,7 @@
     <string name="toot_error_no_media_description">There are missing media descriptions</string>
 
     <string name="truncate_links">Truncate links</string>
-    <string name="underline_links">Underlines clickable elements</string>
+    <string name="underline_links">Underline clickable elements</string>
     <string name="truncate_links_max">Max chars in links</string>
 
 
