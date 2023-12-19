@@ -1,0 +1,14 @@
+Engadido:
+- Tres novas iconas para a app (Orgullo, Rosa e Pirata)
+- Gardar a posición en conversas remotas
+
+Arranxos:
+- Markdown: deixar de xestionar as etiquetas e soporte para texto riscado
+- O cursor é máis visible cando se redacta
+- Solución ao problema co número máximo de caracteres da instancia
+- Pestanas nos perfís
+- Nalgúns idiomas non se podía premer nos cancelos
+- Problemas coas contas que tiñan moitos seguimentos
+- Os fallos cando había varios gif na mesma mensaxe
+- Máximo de caracteres nas enquisas
+- Outros fallos

@@ -747,7 +747,7 @@
     <string name="label_eraser_mode">Modo Borrar</string>
     <string name="delete_cache_message">Tes a certeza de querer baleirar a caché\? Se tes borradores que inclúen multimedia, estes perderanse.</string>
     <string name="my_account">A miña conta</string>
-    <string name="set_display_counters_description">Montrará icona con contador para as novas mensaxes nas cronoloxías da lapela</string>
+    <string name="set_display_counters_description">Mostrará un contador nas cronoloxías das pestanas para as novas mensaxes</string>
     <string name="load_settings">Cargar axustes exportados</string>
     <string name="push_distributors">Xestor de notificacións</string>
     <string name="import_settings">Importar axustes</string>
