@@ -1,0 +1,14 @@
+Added:
+- Allow to underline clickable elements (Settings > Timelines - default: disabled)
+- Allow to disable relative date in messages
+
+Changed:
+- Counters close to action buttons
+- Hide emoji picker if the instance has no emoji
+- Followed tags are ordered
+- Account picker when opening with another account
+
+Fixed:
+- Fix a crash when composing
+- Fix an issue with the back button
+- Display issue with followed tags
