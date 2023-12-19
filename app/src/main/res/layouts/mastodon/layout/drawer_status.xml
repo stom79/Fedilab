@@ -663,7 +663,6 @@
                     android:layout_gravity="bottom"
                     android:text="+"
                     android:textColor="?colorControlNormal"
-                    android:textSize="12sp"
                     android:visibility="gone"
                     tools:ignore="HardcodedText"
                     tools:visibility="visible" />
@@ -700,7 +699,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:textColor="?colorControlNormal"
-                    android:textSize="12sp"
                     android:visibility="gone"
                     tools:ignore="HardcodedText"
                     tools:visibility="visible" />
@@ -754,7 +752,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:textColor="?colorControlNormal"
-                    android:textSize="12sp"
                     android:visibility="gone"
                     tools:ignore="HardcodedText"
                     tools:visibility="visible" />
