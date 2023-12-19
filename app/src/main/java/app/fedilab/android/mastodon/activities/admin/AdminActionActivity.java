@@ -116,6 +116,8 @@ public class AdminActionActivity extends BaseBarActivity {
                         setTitle(R.string.administration);
                         invalidateOptionsMenu();
                     });
+                } else {
+                    finish();
                 }
             }
         });

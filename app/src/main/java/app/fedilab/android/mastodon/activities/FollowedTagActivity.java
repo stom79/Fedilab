@@ -95,6 +95,8 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
                     });
                     setTitle(R.string.followed_tags);
                     invalidateOptionsMenu();
+                } else {
+                    finish();
                 }
             }
         });

@@ -143,6 +143,8 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                     });
                     setTitle(R.string.action_lists);
                     invalidateOptionsMenu();
+                } else {
+                    finish();
                 }
             }
         });
