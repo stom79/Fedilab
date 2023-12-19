@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -145,6 +146,11 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
             dialogBuilder.setView(popupAddFollowedTagtBinding.getRoot());
             popupAddFollowedTagtBinding.addTag.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
             dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                String name = Objects.requireNonNull(popupAddFollowedTagtBinding.addTag.getText()).toString().trim();
+                if(tagList.contains(new Tag(name))) {
+                    Toasty.error(FollowedTagActivity.this, getString(R.string.tag_already_followed), Toasty.LENGTH_LONG).show();
+                    return;
+                }
                 if (popupAddFollowedTagtBinding.addTag.getText() != null && popupAddFollowedTagtBinding.addTag.getText().toString().trim().length() > 0) {
                     tagVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, popupAddFollowedTagtBinding.addTag.getText().toString().trim())
                             .observe(FollowedTagActivity.this, newTag -> {
@@ -162,7 +168,7 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
                                     tagList.add(0, newTag);
                                     followedTagAdapter.notifyItemInserted(0);
                                 } else {
-                                    Toasty.error(FollowedTagActivity.this, getString(R.string.toast_feature_not_supported), Toasty.LENGTH_LONG).show();
+                                    Toasty.error(FollowedTagActivity.this, getString(R.string.not_valid_tag_name), Toasty.LENGTH_LONG).show();
                                 }
                             });
                     dialog.dismiss();

@@ -32,6 +32,12 @@ public class Tag implements Serializable {
     @SerializedName("following")
     public boolean following = false;
 
+    public Tag() {}
+
+    public Tag(String name) {
+        this.name = name;
+    }
+
     public int getWeight() {
         int weight = 0;
         if (history != null && history.size() > 0) {

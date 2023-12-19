@@ -28,6 +28,7 @@
     <string name="clipboard">The content of the message has been copied to the clipboard</string>
     <string name="clipboard_url">The URL of the message has been copied to the clipboard</string>
     <string name="clipboard_version">Information have been copied to the clipboard</string>
+    <string name="tag_already_followed">You already follow that tag!</string>
     <string name="camera">Camera</string>
     <string name="delete_all">Delete all</string>
     <string name="schedule">Schedule</string>
