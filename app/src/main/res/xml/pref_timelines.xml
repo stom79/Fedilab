@@ -64,6 +64,13 @@
         app:singleLineTitle="false"
         app:title="@string/truncate_links" />
 
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_UNDERLINE_CLICKABLE"
+        app:singleLineTitle="false"
+        app:title="@string/underline_links" />
+
     <androidx.preference.SeekBarPreference
         android:defaultValue="30"
         android:max="150"

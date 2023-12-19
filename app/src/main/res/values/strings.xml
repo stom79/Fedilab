@@ -1189,6 +1189,7 @@
     <string name="SET_BOOST_ORIGINAL_DATE" translatable="false">SET_BOOST_ORIGINAL_DATE</string>
     <string name="SET_MARKDOWN_SUPPORT" translatable="false">SET_MARKDOWN_SUPPORT</string>
     <string name="SET_TRUNCATE_LINKS" translatable="false">SET_TRUNCATE_LINKS</string>
+    <string name="SET_UNDERLINE_CLICKABLE" translatable="false">SET_UNDERLINE_CLICKABLE</string>
     <string name="SET_TRUNCATE_LINKS_MAX" translatable="false">SET_TRUNCATE_LINKS_MAX</string>
 
     <string name="SET_HIDE_SINGLE_MEDIA_WITH_CARD" translatable="false">SET_HIDE_SINGLE_MEDIA_WITH_CARD</string>
@@ -1991,6 +1992,7 @@
     <string name="toot_error_no_media_description">There are missing media descriptions</string>
 
     <string name="truncate_links">Truncate links</string>
+    <string name="underline_links">Underlines clickable elements</string>
     <string name="truncate_links_max">Max chars in links</string>
 
 
