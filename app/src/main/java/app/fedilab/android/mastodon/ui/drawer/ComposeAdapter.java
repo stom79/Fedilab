@@ -1650,7 +1650,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //Last compose drawer
             buttonVisibility(holder);
 
-
+            if (emojis != null && emojis.size() > 0) {
+                holder.binding.buttonEmoji.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.buttonEmoji.setVisibility(View.GONE);
+            }
             holder.binding.buttonEmoji.setOnClickListener(v -> {
                 try {
                     displayEmojiPicker(holder, account.instance);
