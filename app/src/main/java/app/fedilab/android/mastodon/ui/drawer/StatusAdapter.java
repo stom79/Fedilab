@@ -2348,6 +2348,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if (accounts.size() > 1) {
                                 List<app.fedilab.android.mastodon.client.entities.api.Account> accountList = new ArrayList<>();
                                 for (BaseAccount account : accounts) {
+                                    account.mastodon_account.acct += "@" + account.instance;
                                     accountList.add(account.mastodon_account);
                                 }
                                 Handler mainHandler = new Handler(Looper.getMainLooper());
