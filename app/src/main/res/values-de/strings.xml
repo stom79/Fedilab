@@ -1068,4 +1068,9 @@
     <string name="thumbnail">Vorschau</string>
     <string name="thread_long_message_message">Der Beitrag wird in mehrere Antworten aufgeteilt, um die maximale Zeichenanzahl Ihrer Instanz einzuhalten.</string>
     <string name="thread_long_this_message">Diese Beiträge in Antworten aufteilen?</string>
+    <string name="clipboard_version">Informationen wurden in die Zwischenablage kopiert</string>
+    <string name="set_display_relative_date">Zeige relatives Datum für Beiträge an</string>
+    <string name="copy_version">Informationen kopieren</string>
+    <string name="underline_links">Anklickbare Elemente unterstreichen</string>
+    <string name="tag_already_followed">Du folgst bereits diesem Tag!</string>
 </resources>

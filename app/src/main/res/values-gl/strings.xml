@@ -1062,4 +1062,9 @@
     <string name="thumbnail">Miniatura</string>
     <string name="thread_long_message_message">A mensaxe vai ser dividida en varias respostas para cumprir co número máximo de caracteres da túa instancia.</string>
     <string name="thread_long_this_message">Dividir estas mensaxes nas respostas?</string>
+    <string name="clipboard_version">Copiouse a información ao portapapeis</string>
+    <string name="set_display_relative_date">Mostrar a data relativa das mensaxes</string>
+    <string name="copy_version">Copiar información</string>
+    <string name="underline_links">Subliñar os elementos clicables</string>
+    <string name="tag_already_followed">Xa segues ese cancelo!</string>
 </resources>
