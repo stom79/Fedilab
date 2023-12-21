@@ -82,6 +82,9 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
                              ViewGroup container, Bundle savedInstanceState) {
         flagLoading = false;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
+        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
         isViewInitialized = false;
         return binding.getRoot();
     }

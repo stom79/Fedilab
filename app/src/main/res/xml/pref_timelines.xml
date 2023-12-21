@@ -50,6 +50,14 @@
         app:singleLineTitle="false"
         app:title="@string/boost_original_date" />
 
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TIMELINE_SCROLLBAR"
+        app:singleLineTitle="false"
+        app:title="@string/timeline_scrollbar" />
+
     <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"

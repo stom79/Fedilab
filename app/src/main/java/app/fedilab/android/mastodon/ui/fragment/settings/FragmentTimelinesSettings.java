@@ -26,9 +26,11 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.mastodon.helper.Helper;
 
 public class FragmentTimelinesSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    boolean recreate;
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.pref_timelines);
@@ -78,7 +80,7 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, false);
             SET_PIXELFED_PRESENTATION.setChecked(checked);
         }
-
+        recreate = false;
     }
 
     @Override
@@ -88,6 +90,9 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
             SharedPreferences.Editor editor = sharedpreferences.edit();
             if (key.compareToIgnoreCase(getString(R.string.SET_TRANSLATOR)) == 0) {
                 createPref();
+            }
+            if (key.compareToIgnoreCase(getString(R.string.SET_TIMELINE_SCROLLBAR)) == 0) {
+                recreate = true;
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_DISPLAY_BOOKMARK)) == 0) {
                 SwitchPreferenceCompat SET_DISPLAY_BOOKMARK = findPreference(getString(R.string.SET_DISPLAY_BOOKMARK));
@@ -124,6 +129,11 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
         super.onPause();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
+        if (recreate) {
+            recreate = false;
+            requireActivity().recreate();
+            Helper.recreateMainActivity(requireActivity());
+        }
     }
 
 

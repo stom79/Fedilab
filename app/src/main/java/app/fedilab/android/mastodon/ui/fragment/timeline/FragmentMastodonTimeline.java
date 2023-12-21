@@ -355,9 +355,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         lockForResumeCall = 0;
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         max_id = statusReport != null ? statusReport.id : null;
         offset = 0;
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+
         rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
         //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
         if (max_id == null && !isViewInitialized && rememberPosition) {
@@ -459,6 +460,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
         ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
+        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
         return binding.getRoot();
     }
 
