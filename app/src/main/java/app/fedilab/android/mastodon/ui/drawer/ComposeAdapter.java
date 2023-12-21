@@ -173,6 +173,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<Emoji> emojisList = new ArrayList<>();
     private boolean unlisted_changed = false;
     private RecyclerView mRecyclerView;
+    private boolean proceedToSplit = false;
+    private boolean splitChoiceDone = false;
 
 
     public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, Account mentionedAccount, String visibility, String editMessageId) {
@@ -530,7 +532,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextWatcher textw;
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-        final boolean[] proceedToSplit = {false};
         textw = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -545,7 +546,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
                     String defaultFormat = sharedpreferences.getString(context.getString(R.string.SET_THREAD_MESSAGE), context.getString(R.string.DEFAULT_THREAD_VALUE));
                     //User asked to be prompted for threading long messages
-                    if(defaultFormat.compareToIgnoreCase("ASK") == 0) {
+                    if(defaultFormat.compareToIgnoreCase("ASK") == 0 && !splitChoiceDone) {
+                        splitChoiceDone = true;
                         AlertDialog.Builder threadConfirm = new MaterialAlertDialogBuilder(context);
                         threadConfirm.setTitle(context.getString(R.string.thread_long_this_message));
                         threadConfirm.setMessage(context.getString(R.string.thread_long_message_message));
@@ -569,7 +571,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         });
                         threadConfirm.show();
                     } else if(defaultFormat.compareToIgnoreCase("ENABLE") == 0) { //User wants to automatically thread long messages
-                        proceedToSplit[0] = true;
+                        proceedToSplit = true;
                         ArrayList<String> splitText = ComposeHelper.splitToots(s.toString(), max_car);
                         int statusListSize = statusList.size();
                         int i = 0;
@@ -589,7 +591,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void afterTextChanged(Editable s) {
                 String contentString = s.toString();
-                if(proceedToSplit[0]) {
+                if(proceedToSplit) {
                     int max_car = MastodonHelper.getInstanceMaxChars(context);
                     ArrayList<String> splitText = ComposeHelper.splitToots(contentString, max_car);
                     contentString = splitText.get(0);
