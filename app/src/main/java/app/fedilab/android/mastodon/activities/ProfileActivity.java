@@ -234,6 +234,12 @@ public class ProfileActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.clear();
+    }
+
     private void initializeView(Account account) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this);
         if (account == null) {
