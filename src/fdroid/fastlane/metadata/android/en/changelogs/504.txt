@@ -1,0 +1,9 @@
+Added:
+- Add a scroll bar for timelines (default: disabled)
+- Add a search bar for custom emojis
+
+Fixed:
+- Fix prompt to split asked several times when refusing
+- Crashes with profiles
+- Fix an issue with poll and Pleroma
+- Emoji not displayed in the picker
