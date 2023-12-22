@@ -23,11 +23,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +93,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle b = intent.getExtras();
-            Log.v(Helper.TAG, "onReceive: " + b);
             if (b != null) {
                 Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
                 String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
@@ -781,27 +778,24 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         timelineParams.fetchingMissing = fetchingMissing;
         switch (timelineType) {
-            case LOCAL:
+            case LOCAL -> {
                 timelineParams.local = true;
                 timelineParams.remote = false;
-                break;
-            case PUBLIC:
+            }
+            case PUBLIC -> {
                 timelineParams.local = false;
                 timelineParams.remote = true;
-                break;
-            case BUBBLE:
+            }
+            case BUBBLE -> {
                 if (bubbleTimeline != null) {
                     timelineParams.onlyMedia = bubbleTimeline.only_media;
                     timelineParams.remote = bubbleTimeline.remote;
                     timelineParams.replyVisibility = bubbleTimeline.reply_visibility;
                     timelineParams.excludeVisibilities = bubbleTimeline.exclude_visibilities;
                 }
-                break;
-            case LIST:
-                timelineParams.listId = list_id;
-                break;
-            case ART:
-            case TAG:
+            }
+            case LIST -> timelineParams.listId = list_id;
+            case ART, TAG -> {
                 if (tagTimeline == null) {
                     tagTimeline = new TagTimeline();
                     tagTimeline.name = search;
@@ -814,11 +808,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 if (timelineParams.hashtagTrim != null && timelineParams.hashtagTrim.startsWith("#")) {
                     timelineParams.hashtagTrim = tagTimeline.name.substring(1);
                 }
-                break;
-            case REMOTE:
+            }
+            case REMOTE -> {
                 timelineParams.instance = remoteInstance;
                 timelineParams.token = null;
-                break;
+            }
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean useCache = sharedpreferences.getBoolean(getString(R.string.SET_USE_CACHE), true);
@@ -1022,15 +1016,13 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                 }
                             });
                 }
-            } //GNU TIMELINES
-            else if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.GNU) {
-
             }//MISSKEY TIMELINES
             else if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.MISSKEY) {
                 if (direction == null) {
                     timelinesVM.getMisskey(remoteInstance, null, MastodonHelper.statusesPerCall(requireActivity()))
                             .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
                 } else if (direction == DIRECTION.BOTTOM) {
+
                     timelinesVM.getMisskey(remoteInstance, max_id, MastodonHelper.statusesPerCall(requireActivity()))
                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
                 } else if (direction == DIRECTION.TOP) {
