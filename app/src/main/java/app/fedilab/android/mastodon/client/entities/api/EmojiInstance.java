@@ -17,18 +17,32 @@ package app.fedilab.android.mastodon.client.entities.api;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteBlobTooBigException;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.mastodon.client.endpoints.MastodonInstanceService;
 import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.viewmodel.mastodon.InstancesVM;
 import app.fedilab.android.sqlite.Sqlite;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class EmojiInstance implements Serializable {
@@ -170,6 +184,17 @@ public class EmojiInstance implements Serializable {
         }
     }
 
+
+    private MastodonInstanceService init(String instance) {
+        final OkHttpClient okHttpClient = Helper.myOkHttpClient(context);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonInstanceService.class);
+    }
+
     /**
      * Returns the emojis for an instance
      *
@@ -184,6 +209,18 @@ public class EmojiInstance implements Serializable {
             Cursor c = db.query(Sqlite.TABLE_EMOJI_INSTANCE, null, Sqlite.COL_INSTANCE + " = '" + instance + "'", null, null, null, null, "1");
             return cursorToEmojiList(c);
         } catch (Exception e) {
+            MastodonInstanceService mastodonInstanceService = init(instance);
+            Call<List<Emoji>> emojiCall = mastodonInstanceService.customEmoji();
+            if (emojiCall != null) {
+                try {
+                    Response<List<Emoji>> emojiResponse = emojiCall.execute();
+                    if (emojiResponse.isSuccessful()) {
+                        return emojiResponse.body();
+                    }
+                } catch (Exception err) {
+                    err.printStackTrace();
+                }
+            }
             return null;
         }
     }
