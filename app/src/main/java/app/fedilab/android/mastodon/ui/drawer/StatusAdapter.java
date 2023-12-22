@@ -1316,13 +1316,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     holder.binding.replyCount.setVisibility(View.GONE);
                 }
-                if(statusToDeal.reblogs_count > 0  && !(context instanceof ContextActivity)) {
+                if(statusToDeal.reblogs_count > 0) {
                     holder.binding.boostCount.setText(String.valueOf(statusToDeal.reblogs_count));
                     holder.binding.boostCount.setVisibility(View.VISIBLE);
                 } else {
                     holder.binding.boostCount.setVisibility(View.GONE);
                 }
-                if(statusToDeal.favourites_count > 0  && !(context instanceof ContextActivity)) {
+                if(statusToDeal.favourites_count > 0) {
                     holder.binding.favoriteCount.setText(String.valueOf(statusToDeal.favourites_count));
                     holder.binding.favoriteCount.setVisibility(View.VISIBLE);
                 } else {
