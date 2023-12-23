@@ -16,6 +16,7 @@ package app.fedilab.android.mastodon.helper;
 
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.BaseMainActivity.currentNightMode;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -104,6 +105,7 @@ public class SpannableHelper {
 
     public static final String CLICKABLE_SPAN = "CLICKABLE_SPAN";
     private static int linkColor;
+    private static boolean underlineLinks;
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
@@ -112,9 +114,9 @@ public class SpannableHelper {
             return null;
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
         boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
+        underlineLinks = sharedpreferences.getBoolean(context.getString(R.string.SET_UNDERLINE_CLICKABLE), false);
         int link_color;
         if (currentNightMode == Configuration.UI_MODE_NIGHT_NO && customLight) {
             link_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_LINK), -1);
@@ -309,7 +311,9 @@ public class SpannableHelper {
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        ds.setUnderlineText(status != null && status.underlined);
+                        if(!underlineLinks) {
+                            ds.setUnderlineText(status != null && status.underlined);
+                        }
                         if (linkColor != -1) {
                             ds.setColor(linkColor);
                         }
@@ -599,7 +603,9 @@ public class SpannableHelper {
             @Override
             public void updateDrawState(@NonNull TextPaint ds) {
                 super.updateDrawState(ds);
-                ds.setUnderlineText(status != null && status.underlined);
+                if(!underlineLinks) {
+                    ds.setUnderlineText(status != null && status.underlined);
+                }
                 if (linkColor != -1) {
                     ds.setColor(linkColor);
                 }
@@ -744,7 +750,9 @@ public class SpannableHelper {
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        ds.setUnderlineText(status != null && status.underlined);
+                        if(!underlineLinks) {
+                            ds.setUnderlineText(status != null && status.underlined);
+                        }
                         if (linkColor != -1) {
                             ds.setColor(linkColor);
                         }
@@ -891,7 +899,9 @@ public class SpannableHelper {
                                             @Override
                                             public void updateDrawState(@NonNull TextPaint ds) {
                                                 super.updateDrawState(ds);
-                                                ds.setUnderlineText(false);
+                                                if(!underlineLinks) {
+                                                    ds.setUnderlineText(false);
+                                                }
                                                 if (linkColor != -1) {
                                                     ds.setColor(linkColor);
                                                 }

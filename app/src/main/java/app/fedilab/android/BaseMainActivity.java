@@ -36,6 +36,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.MatrixCursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
@@ -214,6 +215,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static BaseAccount currentAccount;
     public static iconLauncher mLauncher = iconLauncher.BUBBLES;
     public static boolean headerMenuOpen;
+    public static int currentNightMode;
     Fragment currentFragment;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -1859,9 +1861,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     @Override
     protected void onDestroy() {
 
-        unregisterReceiver(broadcast_data);
-        unregisterReceiver(broadcast_error_message);
-
+        try {
+            unregisterReceiver(broadcast_data);
+            unregisterReceiver(broadcast_error_message);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         if (networkStateReceiver != null) {
             try {
                 unregisterReceiver(networkStateReceiver);

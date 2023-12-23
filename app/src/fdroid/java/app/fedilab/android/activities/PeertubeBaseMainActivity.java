@@ -193,7 +193,11 @@ public abstract class PeertubeBaseMainActivity extends BaseActivity implements C
         super.onDestroy();
         ChromeCasts.unregisterListener(this);
         if (manage_chromecast != null) {
-            unregisterReceiver(manage_chromecast);
+            try {
+                unregisterReceiver(manage_chromecast);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
             new Thread(() -> {
                 if (chromeCasts != null && chromeCasts.size() > 0) {
                     for (ChromeCast cast : chromeCasts) {

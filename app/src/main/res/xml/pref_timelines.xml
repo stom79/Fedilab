@@ -50,6 +50,14 @@
         app:singleLineTitle="false"
         app:title="@string/boost_original_date" />
 
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TIMELINE_SCROLLBAR"
+        app:singleLineTitle="false"
+        app:title="@string/timeline_scrollbar" />
+
     <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"
@@ -63,6 +71,13 @@
         app:key="@string/SET_TRUNCATE_LINKS"
         app:singleLineTitle="false"
         app:title="@string/truncate_links" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_UNDERLINE_CLICKABLE"
+        app:singleLineTitle="false"
+        app:title="@string/underline_links" />
 
     <androidx.preference.SeekBarPreference
         android:defaultValue="30"
@@ -198,6 +213,12 @@
         app:key="@string/SET_DISPLAY_COUNTER_FAV_BOOST"
         app:singleLineTitle="false"
         app:title="@string/set_display_counter" />
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISPLAY_RELATIVE_DATE"
+        app:singleLineTitle="false"
+        app:title="@string/set_display_relative_date" />
     <SeekBarPreference
         android:defaultValue="0"
         android:max="20"

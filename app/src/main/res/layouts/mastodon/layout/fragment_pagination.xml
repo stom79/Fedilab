@@ -38,7 +38,10 @@
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:paddingBottom="6dp"
-                android:scrollbars="none" />
+                android:fastScrollEnabled="true"
+                android:scrollbarSize="5dp"
+                android:scrollbarThumbVertical="?colorPrimary"
+                android:scrollbars="vertical" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

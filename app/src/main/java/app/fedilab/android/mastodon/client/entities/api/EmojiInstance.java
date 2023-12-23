@@ -14,21 +14,40 @@ package app.fedilab.android.mastodon.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.emojis;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteBlobTooBigException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
+import android.os.Looper;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.mastodon.client.endpoints.MastodonInstanceService;
 import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.viewmodel.mastodon.InstancesVM;
 import app.fedilab.android.sqlite.Sqlite;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class EmojiInstance implements Serializable {
@@ -170,6 +189,17 @@ public class EmojiInstance implements Serializable {
         }
     }
 
+
+    private MastodonInstanceService init(String instance) {
+        final OkHttpClient okHttpClient = Helper.myOkHttpClient(context);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonInstanceService.class);
+    }
+
     /**
      * Returns the emojis for an instance
      *
@@ -184,8 +214,75 @@ public class EmojiInstance implements Serializable {
             Cursor c = db.query(Sqlite.TABLE_EMOJI_INSTANCE, null, Sqlite.COL_INSTANCE + " = '" + instance + "'", null, null, null, null, "1");
             return cursorToEmojiList(c);
         } catch (Exception e) {
+            MastodonInstanceService mastodonInstanceService = init(instance);
+            Call<List<Emoji>> emojiCall = mastodonInstanceService.customEmoji();
+            if (emojiCall != null) {
+                try {
+                    Response<List<Emoji>> emojiResponse = emojiCall.execute();
+                    if (emojiResponse.isSuccessful()) {
+                        return emojiResponse.body();
+                    }
+                } catch (Exception err) {
+                    err.printStackTrace();
+                }
+            }
             return null;
         }
+    }
+
+    public interface EmojiFilteredCallBack{
+        void get(List<Emoji> emojiList);
+    }
+
+    /**
+     * Returns the emojis for an instance
+     *
+     * @param instance String
+     * @param filter String
+     * @param callBack EmojiFilteredCallBack  - Get filtered emojis
+     *
+     * @return List<Emoji> - List of {@link Emoji}
+     */
+    public void getEmojiListFiltered(@NonNull String instance, @NonNull String filter, EmojiFilteredCallBack callBack) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        new Thread(() -> {
+            List<Emoji> emojiArrayList= new ArrayList<>();
+            List<Emoji> emojiFiltered= new ArrayList<>();
+            if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance) || emojis.get(BaseMainActivity.currentInstance) == null) {
+                try {
+                    Cursor c = db.query(Sqlite.TABLE_EMOJI_INSTANCE, null, Sqlite.COL_INSTANCE + " = '" + instance + "'", null, null, null, null, "1");
+                    emojiArrayList =  cursorToEmojiList(c);
+                } catch (Exception e) {
+                    MastodonInstanceService mastodonInstanceService = init(instance);
+                    Call<List<Emoji>> emojiCall = mastodonInstanceService.customEmoji();
+                    if (emojiCall != null) {
+                        try {
+                            Response<List<Emoji>> emojiResponse = emojiCall.execute();
+                            if (emojiResponse.isSuccessful()) {
+                                emojiArrayList = emojiResponse.body();
+                            }
+                        } catch (Exception err) {
+                            err.printStackTrace();
+                        }
+                    }
+                }
+            } else {
+                emojiArrayList = emojis.get(instance);
+            }
+            if(emojiArrayList != null && emojiArrayList.size() > 0 ) {
+                for(Emoji emoji: emojiArrayList) {
+                    if(emoji.shortcode.contains(filter)) {
+                        emojiFiltered.add(emoji);
+                    }
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> callBack.get(emojiFiltered);
+            mainHandler.post(myRunnable);
+        }).start();
+
     }
 
     /**

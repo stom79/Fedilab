@@ -1066,4 +1066,10 @@
     <string name="thumbnail">Küçük resim</string>
     <string name="thread_long_message_message">Mesaj, sunucunuzun en fazla karakter sayısına uygun olacak şekilde birkaç yanıta bölünecek.</string>
     <string name="thread_long_this_message">Bu mesajlar yanıtlara bölünsün mü?</string>
+    <string name="clipboard_version">Bilgiler panoya kopyalandı</string>
+    <string name="set_display_relative_date">Mesajlar için göreceli tarihi görüntüle</string>
+    <string name="copy_version">Bilgileri kopyala</string>
+    <string name="underline_links">Tıklanabilir ögelerin altını çiz</string>
+    <string name="tag_already_followed">Bu etiketi zaten takip ediyorsunuz!</string>
+    <string name="timeline_scrollbar">Zaman çizelgeleri için kaydırma çubuğu göster</string>
 </resources>

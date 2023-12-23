@@ -1,0 +1,25 @@
+Added:
+- Android 14 support
+- Automatically split long messages in threads (default: ASK)
+- Links and media are clickable when composing
+- Allow to underline clickable elements (Settings > Timelines - default: disabled)
+- Allow to disable relative date in messages
+- Add a scroll bar for timelines (default: disabled)
+- Add a search bar for custom emojis
+- Links clickable in media descriptions
+
+Changed:
+- Counters close to action buttons
+- Hide emoji picker if the instance has no emoji
+- Followed tags are ordered
+- Account picker when opening with another account
+
+Fixed:
+- Avoid error 429 with NTFY
+- Fix custom colors (Android 14)
+- Fix a crash when composing
+- Display issue with followed tags
+- Crashes with profiles
+- Fix an issue with poll and Pleroma
+- Emoji not displayed in the picker
+- Several crashes are fixed

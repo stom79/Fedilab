@@ -15,12 +15,16 @@ package app.fedilab.android.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -40,6 +44,7 @@ import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
+import es.dmoral.toasty.Toasty;
 
 
 public class AboutActivity extends BaseBarActivity {
@@ -58,10 +63,10 @@ public class AboutActivity extends BaseBarActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
+        String version = "";
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String version = pInfo.versionName;
+            version = pInfo.versionName;
             binding.aboutVersion.setText(getResources().getString(R.string.about_vesrion, version));
         } catch (PackageManager.NameNotFoundException ignored) {
         }
@@ -77,6 +82,20 @@ public class AboutActivity extends BaseBarActivity {
         }
         binding.aboutSupportPaypal.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://www.paypal.me/Mastalab"));
 
+
+        String finalVersion = version;
+        binding.aboutVersionCopy.setOnClickListener(v->{
+
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            String content = "Fedilab v" + finalVersion + " for " + (BuildConfig.DONATIONS?"FDroid":"Google");
+
+            ClipData clip = ClipData.newPlainText(Helper.CLIP_BOARD, content);
+            if (clipboard != null) {
+                clipboard.setPrimaryClip(clip);
+                Toasty.info(AboutActivity.this, getString(R.string.clipboard_version), Toast.LENGTH_LONG).show();
+            }
+
+        });
         if (BuildConfig.DONATIONS) {
             binding.aboutSupportPaypal.setVisibility(View.VISIBLE);
         } else {

@@ -35,14 +35,32 @@
             android:text="@string/app_name"
             android:textSize="20sp" />
         <!-- About version -->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/about_version"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:textSize="16sp" />
+            android:gravity="center"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/about_version"
+                tools:text="x.y.z"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:textSize="16sp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/about_version_copy"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                android:layout_marginStart="10dp"
+                android:contentDescription="@string/copy_version"
+                app:icon="@drawable/ic_copy_link"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
         <!-- About developer -->
         <androidx.appcompat.widget.AppCompatTextView

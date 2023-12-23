@@ -201,6 +201,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         flagLoading = false;
         isViewInitialized = false;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
+        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
         View root = binding.getRoot();
         if (getArguments() != null) {
             notificationType = (NotificationTypeEnum) getArguments().get(Helper.ARG_NOTIFICATION_TYPE);
@@ -675,8 +678,13 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
 
     @Override
     public void onDestroyView() {
-        requireActivity().unregisterReceiver(receive_action);
-        requireActivity().unregisterReceiver(receive_refresh);
+
+        try {
+            requireActivity().unregisterReceiver(receive_action);
+            requireActivity().unregisterReceiver(receive_refresh);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         if (isAdded()) {
             storeMarker();
         }

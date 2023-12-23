@@ -19,6 +19,7 @@ import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.mastodon.helper.MastodonHelper.ACCOUNTS_PER_CALL;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -103,6 +105,9 @@ public class FragmentMastodonAccount extends Fragment {
 
         flagLoading = false;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
+        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
         return binding.getRoot();
     }
 

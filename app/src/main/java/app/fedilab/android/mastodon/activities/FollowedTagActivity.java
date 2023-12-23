@@ -32,11 +32,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityFollowedTagsBinding;
 import app.fedilab.android.databinding.PopupAddFollowedTagtBinding;
+import app.fedilab.android.mastodon.client.entities.api.MastodonList;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -74,6 +78,7 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
                 .observe(FollowedTagActivity.this, tags -> {
                     if (tags != null && tags.tags != null && tags.tags.size() > 0) {
                         tagList = new ArrayList<>(tags.tags);
+                        sortAsc(tagList);
                         followedTagAdapter = new FollowedTagAdapter(tagList);
                         followedTagAdapter.actionOnTag = this;
                         binding.notContent.setVisibility(View.GONE);
@@ -95,6 +100,8 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
                     });
                     setTitle(R.string.followed_tags);
                     invalidateOptionsMenu();
+                } else {
+                    finish();
                 }
             }
         });
@@ -143,6 +150,11 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
             dialogBuilder.setView(popupAddFollowedTagtBinding.getRoot());
             popupAddFollowedTagtBinding.addTag.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
             dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                String name = Objects.requireNonNull(popupAddFollowedTagtBinding.addTag.getText()).toString().trim();
+                if(tagList.contains(new Tag(name))) {
+                    Toasty.error(FollowedTagActivity.this, getString(R.string.tag_already_followed), Toasty.LENGTH_LONG).show();
+                    return;
+                }
                 if (popupAddFollowedTagtBinding.addTag.getText() != null && popupAddFollowedTagtBinding.addTag.getText().toString().trim().length() > 0) {
                     tagVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, popupAddFollowedTagtBinding.addTag.getText().toString().trim())
                             .observe(FollowedTagActivity.this, newTag -> {
@@ -159,8 +171,10 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
                                 if (newTag != null) {
                                     tagList.add(0, newTag);
                                     followedTagAdapter.notifyItemInserted(0);
+                                    sortAsc(tagList);
+                                    followedTagAdapter.notifyItemRangeChanged(0, tagList.size());
                                 } else {
-                                    Toasty.error(FollowedTagActivity.this, getString(R.string.toast_feature_not_supported), Toasty.LENGTH_LONG).show();
+                                    Toasty.error(FollowedTagActivity.this, getString(R.string.not_valid_tag_name), Toasty.LENGTH_LONG).show();
                                 }
                             });
                     dialog.dismiss();
@@ -175,6 +189,9 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
         return super.onOptionsItemSelected(item);
     }
 
+    private void sortAsc(List<Tag> tagList) {
+        Collections.sort(tagList, (obj1, obj2) -> obj1.name.compareToIgnoreCase(obj2.name));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {

@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentNightMode;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -72,7 +74,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public static void applyColorConversation(Context context, ConversationHolder holder) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
         boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
         int theme_icons_color = -1;

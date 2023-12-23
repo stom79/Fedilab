@@ -113,6 +113,12 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.clear();
+    }
+
     private void loadLocalConversation() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Helper.ARG_STATUS, focusedStatus);

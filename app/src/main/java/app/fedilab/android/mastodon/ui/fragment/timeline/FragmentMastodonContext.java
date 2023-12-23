@@ -20,6 +20,7 @@ import static app.fedilab.android.mastodon.activities.ContextActivity.expand;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
@@ -175,6 +177,9 @@ public class FragmentMastodonContext extends Fragment {
         }
 
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
+        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
         statusesVM = new ViewModelProvider(FragmentMastodonContext.this).get(StatusesVM.class);
         binding.recyclerView.setNestedScrollingEnabled(true);
         this.statuses = new ArrayList<>();
@@ -295,7 +300,11 @@ public class FragmentMastodonContext extends Fragment {
 
     @Override
     public void onDestroyView() {
-        requireActivity().unregisterReceiver(receive_action);
+        try {
+            requireActivity().unregisterReceiver(receive_action);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         super.onDestroyView();
     }
 

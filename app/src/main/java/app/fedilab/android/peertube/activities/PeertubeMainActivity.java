@@ -153,7 +153,11 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         if (!keepRemote) {
             typeOfConnection = TypeOfConnection.NORMAL;
         }
-        unregisterReceiver(broadcast_data);
+        try {
+            unregisterReceiver(broadcast_data);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressLint("ApplySharedPref")

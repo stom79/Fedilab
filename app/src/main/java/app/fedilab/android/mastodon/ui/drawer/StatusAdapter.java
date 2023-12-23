@@ -17,6 +17,7 @@ package app.fedilab.android.mastodon.ui.drawer;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.BaseMainActivity.currentNightMode;
 import static app.fedilab.android.BaseMainActivity.currentUserID;
 import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.regex_home;
@@ -57,7 +58,6 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -303,51 +303,35 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                      boolean remote) {
         if (statusReturned == null) {
             switch (typeOfAction) {
-                case BOOKMARK_ACTION:
-                    statusToDeal.bookmarked = true;
-                    break;
-                case REBLOG_ACTION:
+                case BOOKMARK_ACTION -> statusToDeal.bookmarked = true;
+                case REBLOG_ACTION -> {
                     statusToDeal.reblogged = true;
                     statusToDeal.reblogs_count++;
-                    break;
-                case FAVOURITE_ACTION:
+                }
+                case FAVOURITE_ACTION -> {
                     statusToDeal.favourited = true;
                     statusToDeal.favourites_count++;
-                    break;
-                case UNBOOKMARK_ACTION:
-                    statusToDeal.bookmarked = false;
-                    break;
-                case UNREBLOG_ACTION:
+                }
+                case UNBOOKMARK_ACTION -> statusToDeal.bookmarked = false;
+                case UNREBLOG_ACTION -> {
                     statusToDeal.reblogged = false;
                     statusToDeal.reblogs_count--;
-                    break;
-                case UNFAVOURITE_ACTION:
+                }
+                case UNFAVOURITE_ACTION -> {
                     statusToDeal.favourited = false;
                     statusToDeal.favourites_count--;
-                    break;
+                }
             }
         } else {
-            boolean isOK = true;
-            switch (typeOfAction) {
-                case BOOKMARK_ACTION:
-                    isOK = statusReturned.bookmarked;
-                    break;
-                case REBLOG_ACTION:
-                    isOK = statusReturned.reblogged;
-                    break;
-                case FAVOURITE_ACTION:
-                    isOK = statusReturned.favourited;
-                    break;
-                case UNBOOKMARK_ACTION:
-                    isOK = !statusReturned.bookmarked;
-                    break;
-                case UNREBLOG_ACTION:
-                    isOK = !statusReturned.reblogged;
-                    break;
-                case UNFAVOURITE_ACTION:
-                    isOK = !statusReturned.favourited;
-                    break;
-            }
+            boolean isOK = switch (typeOfAction) {
+                case BOOKMARK_ACTION -> statusReturned.bookmarked;
+                case REBLOG_ACTION -> statusReturned.reblogged;
+                case FAVOURITE_ACTION -> statusReturned.favourited;
+                case UNBOOKMARK_ACTION -> !statusReturned.bookmarked;
+                case UNREBLOG_ACTION -> !statusReturned.reblogged;
+                case UNFAVOURITE_ACTION -> !statusReturned.favourited;
+                default -> true;
+            };
             if (!isOK) {
                 Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                 return;
@@ -367,18 +351,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             } else {
                 switch (typeOfAction) {
-                    case REBLOG_ACTION:
-                        statusToDeal.reblogs_count++;
-                        break;
-                    case FAVOURITE_ACTION:
-                        statusToDeal.favourites_count++;
-                        break;
-                    case UNREBLOG_ACTION:
-                        statusToDeal.reblogs_count--;
-                        break;
-                    case UNFAVOURITE_ACTION:
-                        statusToDeal.favourites_count--;
-                        break;
+                    case REBLOG_ACTION -> statusToDeal.reblogs_count++;
+                    case FAVOURITE_ACTION -> statusToDeal.favourites_count++;
+                    case UNREBLOG_ACTION -> statusToDeal.reblogs_count--;
+                    case UNFAVOURITE_ACTION -> statusToDeal.favourites_count--;
                 }
             }
         }
@@ -451,6 +427,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean displayReactions = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_REACTIONS) + MainActivity.currentUserID + MainActivity.currentInstance, true);
         boolean compactButtons = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COMPACT_ACTION_BUTTON), false);
         boolean originalDateForBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_BOOST_ORIGINAL_DATE), true);
+        boolean relativeDate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_RELATIVE_DATE), true);
         boolean hideSingleMediaWithCard = sharedpreferences.getBoolean(context.getString(R.string.SET_HIDE_SINGLE_MEDIA_WITH_CARD), false);
         boolean autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
         boolean warnNoMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_MANDATORY_ALT_TEXT_FOR_BOOSTS), true);
@@ -769,12 +746,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusContentMaths.removeAllViews();
             MathJaxConfig mathJaxConfig = new MathJaxConfig();
             switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-                case Configuration.UI_MODE_NIGHT_YES:
-                    mathJaxConfig.setTextColor("white");
-                    break;
-                case Configuration.UI_MODE_NIGHT_NO:
-                    mathJaxConfig.setTextColor("black");
-                    break;
+                case Configuration.UI_MODE_NIGHT_YES -> mathJaxConfig.setTextColor("white");
+                case Configuration.UI_MODE_NIGHT_NO -> mathJaxConfig.setTextColor("black");
             }
             mathJaxConfig.setAutomaticLinebreaks(true);
 
@@ -1020,9 +993,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (needToWarnForMissingDescription) {
                     AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
                     alt_bld.setMessage(context.getString(R.string.reblog_missing_description));
-                    alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
-                        CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, null, statusToDeal);
-                    });
+                    alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, null, statusToDeal));
                     alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
                     AlertDialog alert = alt_bld.create();
                     alert.show();
@@ -1245,21 +1216,21 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.visibility.setContentDescription(context.getString(R.string.v_public));
         holder.binding.visibilitySmall.setContentDescription(context.getString(R.string.v_public));
         switch (status.visibility) {
-            case "unlisted":
+            case "unlisted" -> {
                 holder.binding.visibility.setContentDescription(context.getString(R.string.v_unlisted));
                 holder.binding.visibilitySmall.setContentDescription(context.getString(R.string.v_unlisted));
                 ressource = R.drawable.ic_baseline_lock_open_24;
-                break;
-            case "private":
+            }
+            case "private" -> {
                 ressource = R.drawable.ic_baseline_lock_24;
                 holder.binding.visibility.setContentDescription(context.getString(R.string.v_private));
                 holder.binding.visibilitySmall.setContentDescription(context.getString(R.string.v_private));
-                break;
-            case "direct":
+            }
+            case "direct" -> {
                 ressource = R.drawable.ic_baseline_mail_24;
                 holder.binding.visibility.setContentDescription(context.getString(R.string.v_direct));
                 holder.binding.visibilitySmall.setContentDescription(context.getString(R.string.v_direct));
-                break;
+            }
         }
 
         if (statusToDeal.local_only) {
@@ -1309,46 +1280,58 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.editTime.setVisibility(View.GONE);
             holder.binding.visibilitySmall.setImageResource(ressource);
             if (displayCounters && canBeFederated) {
-                holder.binding.replyCount.setText(String.valueOf(statusToDeal.replies_count));
-                holder.binding.statusInfo.setVisibility(View.VISIBLE);
-                holder.binding.dateShort.setVisibility(View.GONE);
-                holder.binding.visibilitySmall.setVisibility(View.GONE);
-                holder.binding.reblogsCount.setText(String.valueOf(statusToDeal.reblogs_count));
-                holder.binding.favoritesCount.setText(String.valueOf(statusToDeal.favourites_count));
-                if (originalDateForBoost || status.reblog == null) {
-                    holder.binding.time.setText(Helper.dateDiff(context, statusToDeal.created_at));
+                if (statusToDeal.replies_count > 0 && !(context instanceof ContextActivity)) {
+                    holder.binding.replyCount.setVisibility(View.VISIBLE);
+                    holder.binding.replyCount.setText(String.valueOf(statusToDeal.replies_count));
                 } else {
-                    holder.binding.time.setText(Helper.dateDiff(context, status.created_at));
+                    holder.binding.replyCount.setVisibility(View.GONE);
                 }
-                if (statusToDeal.edited_at != null) {
-                    Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_mode_edit_message_24);
-                    img.setBounds(0, 0, (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f), (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f));
-                    holder.binding.time.setCompoundDrawables(null, null, img, null);
+                if(statusToDeal.reblogs_count > 0) {
+                    holder.binding.boostCount.setText(String.valueOf(statusToDeal.reblogs_count));
+                    holder.binding.boostCount.setVisibility(View.VISIBLE);
                 } else {
-                    holder.binding.time.setCompoundDrawables(null, null, null, null);
+                    holder.binding.boostCount.setVisibility(View.GONE);
                 }
-                Helper.absoluteDateTimeReveal(context, holder.binding.time, statusToDeal.created_at, statusToDeal.edited_at);
-                holder.binding.visibility.setImageResource(ressource);
-                holder.binding.time.setVisibility(View.VISIBLE);
+                if(statusToDeal.favourites_count > 0) {
+                    holder.binding.favoriteCount.setText(String.valueOf(statusToDeal.favourites_count));
+                    holder.binding.favoriteCount.setVisibility(View.VISIBLE);
+                } else {
+                    holder.binding.favoriteCount.setVisibility(View.GONE);
+                }
             } else {
-                holder.binding.statusInfo.setVisibility(View.GONE);
-                holder.binding.dateShort.setVisibility(View.VISIBLE);
-                holder.binding.visibilitySmall.setVisibility(View.VISIBLE);
-                if (statusToDeal.edited_at != null) {
-                    Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_mode_edit_message_24);
-                    img.setBounds(0, 0, (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f), (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f));
-                    holder.binding.dateShort.setCompoundDrawables(null, null, img, null);
+                holder.binding.boostCount.setVisibility(View.GONE);
+                holder.binding.favoriteCount.setVisibility(View.GONE);
+                if (statusToDeal.replies_count > 0 && !(context instanceof ContextActivity)) {
+                    holder.binding.replyCount.setVisibility(View.VISIBLE);
                 } else {
-                    holder.binding.dateShort.setCompoundDrawables(null, null, null, null);
+                    holder.binding.replyCount.setVisibility(View.GONE);
                 }
+            }
+            holder.binding.statusInfo.setVisibility(View.GONE);
+            holder.binding.dateShort.setVisibility(View.VISIBLE);
+            holder.binding.visibilitySmall.setVisibility(View.VISIBLE);
+            if (statusToDeal.edited_at != null) {
+                Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_mode_edit_message_24);
+                img.setBounds(0, 0, (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f), (int) (Helper.convertDpToPixel(16, context) * scale + 0.5f));
+                holder.binding.dateShort.setCompoundDrawables(null, null, img, null);
+            } else {
+                holder.binding.dateShort.setCompoundDrawables(null, null, null, null);
+            }
+            if(relativeDate) {
                 if (originalDateForBoost || status.reblog == null) {
                     holder.binding.dateShort.setText(Helper.dateDiff(context, statusToDeal.created_at));
                 } else {
                     holder.binding.dateShort.setText(Helper.dateDiff(context, status.created_at));
                 }
-                holder.binding.time.setVisibility(View.GONE);
-                Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, statusToDeal.created_at, statusToDeal.edited_at);
+            } else {
+                if (originalDateForBoost || status.reblog == null) {
+                    holder.binding.dateShort.setText(Helper.mediumDateToString(statusToDeal.created_at));
+                } else {
+                    holder.binding.dateShort.setText(Helper.mediumDateToString(status.created_at));
+                }
             }
+            holder.binding.time.setVisibility(View.GONE);
+            Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, statusToDeal.created_at, statusToDeal.edited_at);
         }
 
         //---- SPOILER TEXT -----
@@ -1401,20 +1384,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         //--- BOOST VISIBILITY ---
         switch (statusToDeal.visibility) {
-            case "public":
-            case "unlisted":
-                holder.binding.actionButtonBoost.setVisibility(View.VISIBLE);
-                break;
-            case "private":
+            case "public", "unlisted" ->
+                    holder.binding.actionButtonBoost.setVisibility(View.VISIBLE);
+            case "private" -> {
                 if (status.account.id.compareTo(BaseMainActivity.currentUserID) == 0) {
                     holder.binding.actionButtonBoost.setVisibility(View.VISIBLE);
                 } else {
                     holder.binding.actionButtonBoost.setVisibility(View.GONE);
                 }
-                break;
-            case "direct":
-                holder.binding.actionButtonBoost.setVisibility(View.GONE);
-                break;
+            }
+            case "direct" -> holder.binding.actionButtonBoost.setVisibility(View.GONE);
         }
 
         //--- MAIN CONTENT ---
@@ -1802,6 +1781,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         // --- POLL ---
 
         if (statusToDeal.poll != null && statusToDeal.poll.options != null) {
+            int normalize;
+            if(statusToDeal.poll.multiple && statusToDeal.poll.voters_count > 1) {
+                normalize = statusToDeal.poll.voters_count;
+            } else {
+                normalize = statusToDeal.poll.votes_count;
+            }
             if (statusToDeal.poll.voted || statusToDeal.poll.expired) {
                 holder.binding.poll.submitVote.setVisibility(View.GONE);
                 holder.binding.poll.rated.setVisibility(View.VISIBLE);
@@ -1820,7 +1805,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 for (Poll.PollItem pollItem : statusToDeal.poll.options) {
                     @NonNull LayoutPollItemBinding pollItemBinding = LayoutPollItemBinding.inflate(inflater, holder.binding.poll.rated, true);
-                    double value = Math.round((pollItem.votes_count * 100) / (double) statusToDeal.poll.voters_count);
+                    double value = Math.round((pollItem.votes_count * 100) / (double) normalize);
                     pollItemBinding.pollItemPercent.setText(String.format("%s %%", (int) value));
                     pollItemBinding.pollItemText.setText(
                             pollItem.getSpanTitle(context, statusToDeal,
@@ -1973,7 +1958,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                     }));
             holder.binding.poll.pollContainer.setVisibility(View.VISIBLE);
-            String pollInfo = context.getResources().getQuantityString(R.plurals.number_of_voters, statusToDeal.poll.voters_count, statusToDeal.poll.voters_count);
+            String pollInfo = context.getResources().getQuantityString(R.plurals.number_of_voters, normalize, normalize);
             if (statusToDeal.poll.expired) {
                 pollInfo += " - " + context.getString(R.string.poll_finish_at, MastodonHelper.dateToStringPoll(statusToDeal.poll.expires_at));
             } else {
@@ -2335,6 +2320,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if (accounts.size() > 1) {
                                 List<app.fedilab.android.mastodon.client.entities.api.Account> accountList = new ArrayList<>();
                                 for (BaseAccount account : accounts) {
+                                    account.mastodon_account.acct += "@" + account.instance;
                                     accountList.add(account.mastodon_account);
                                 }
                                 Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -2408,11 +2394,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             popup.show();
         });
-        if (statusToDeal.replies_count > 0 && !(context instanceof ContextActivity)) {
-            holder.binding.replyCount.setVisibility(View.VISIBLE);
-        } else {
-            holder.binding.replyCount.setVisibility(View.GONE);
-        }
+
         holder.binding.actionButtonReply.setOnLongClickListener(v -> {
             CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REPLY_ACTION, null, statusToDeal);
             return true;
@@ -2773,7 +2755,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (id != null) {
             b.putString(type, id);
         }
-        if (type == ARG_TIMELINE_REFRESH_ALL) {
+        if (type.equals(ARG_TIMELINE_REFRESH_ALL)) {
             b.putBoolean(ARG_TIMELINE_REFRESH_ALL, true);
         }
         Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
@@ -2785,7 +2767,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public static void applyColor(Context context, StatusViewHolder holder) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
         boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
         int theme_icons_color = -1;

@@ -125,7 +125,11 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
         super.onDestroy();
         if (networkStateReceiver != null) {
             networkStateReceiver.removeListener(this);
-            unregisterReceiver(networkStateReceiver);
+            try {
+                unregisterReceiver(networkStateReceiver);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
         }
     }
 

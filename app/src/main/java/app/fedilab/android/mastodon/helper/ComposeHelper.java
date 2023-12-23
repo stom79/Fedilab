@@ -14,17 +14,15 @@ package app.fedilab.android.mastodon.helper;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.mastodon.helper.Helper.mentionLongPattern;
-import static app.fedilab.android.mastodon.helper.Helper.mentionPattern;
+
 import static app.fedilab.android.mastodon.helper.Helper.mentionPatternALL;
-import static app.fedilab.android.mastodon.helper.MastodonHelper.countWithEmoji;
 
 import android.util.Patterns;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-import app.fedilab.android.mastodon.ui.drawer.ComposeAdapter;
+
 
 public class ComposeHelper {
 

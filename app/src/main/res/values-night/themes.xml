@@ -45,6 +45,7 @@
         </item>
         <item name="android:windowSharedElementExitTransition">@transition/change_image_transform
         </item>
+        <item name="alertDialogTheme">@style/AppThemeAlertDialog</item>
     </style>
 
     <style name="AppThemeBar" parent="Theme.Material3.Dark">
@@ -81,6 +82,7 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
         <item name="android:isLightTheme" tools:targetApi="q">false</item>
+        <item name="alertDialogTheme">@style/AppThemeAlertDialog</item>
     </style>
 
 
@@ -98,6 +100,7 @@
         </item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="alertDialogTheme">@style/AppThemeAlertDialog</item>
     </style>
 
     <style name="AppThemeAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
@@ -168,6 +171,7 @@
         <item name="colorOnSurfaceInverse">@color/solarized_md_theme_dark_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/solarized_md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/solarized_md_theme_dark_inversePrimary</item>
+        <item name="alertDialogTheme">@style/SolarizedAlertDialog</item>
     </style>
 
     <style name="SolarizedAppThemeBar" parent="AppThemeBar">
@@ -203,6 +207,7 @@
         <item name="colorOnSurfaceInverse">@color/solarized_md_theme_dark_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/solarized_md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/solarized_md_theme_dark_inversePrimary</item>
+        <item name="alertDialogTheme">@style/SolarizedAlertDialog</item>
     </style>
 
     <style name="TransparentSolarized" parent="SolarizedAppThemeBar">
@@ -221,6 +226,7 @@
         </item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="alertDialogTheme">@style/SolarizedAlertDialog</item>
     </style>
 
     <style name="SolarizedAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
@@ -289,6 +295,7 @@
         <item name="colorOnSurfaceInverse">@color/black</item>
         <item name="colorSurfaceInverse">@color/white</item>
         <item name="colorPrimaryInverse">@color/black</item>
+        <item name="alertDialogTheme">@style/BlackAlertDialog</item>
     </style>
 
     <style name="BlackAppThemeBar" parent="AppThemeBar">
@@ -320,6 +327,7 @@
         <item name="colorOnSurfaceInverse">@color/black</item>
         <item name="colorSurfaceInverse">@color/white</item>
         <item name="colorPrimaryInverse">@color/black</item>
+        <item name="alertDialogTheme">@style/BlackAlertDialog</item>
     </style>
 
     <style name="TransparentBlack" parent="BlackAppThemeBar">
@@ -337,6 +345,7 @@
         </item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="alertDialogTheme">@style/BlackAlertDialog</item>
     </style>
 
     <style name="BlackAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
@@ -402,6 +411,7 @@
         <item name="colorOnSurfaceInverse">@color/dracula_comment</item>
         <item name="colorSurfaceInverse">@color/dracula_foreground</item>
         <item name="colorPrimaryInverse">@color/dracula_comment</item>
+        <item name="alertDialogTheme">@style/DraculaAlertDialog</item>
     </style>
 
 
@@ -434,6 +444,7 @@
         <item name="colorOnSurfaceInverse">@color/dracula_comment</item>
         <item name="colorSurfaceInverse">@color/dracula_foreground</item>
         <item name="colorPrimaryInverse">@color/dracula_comment</item>
+        <item name="alertDialogTheme">@style/DraculaAlertDialog</item>
     </style>
 
     <style name="TransparentDracula" parent="DraculaAppThemeBar">
@@ -452,6 +463,7 @@
         </item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="alertDialogTheme">@style/DraculaAlertDialog</item>
     </style>
 
     <style name="DraculaAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">

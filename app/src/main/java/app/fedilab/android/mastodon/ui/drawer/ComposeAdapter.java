@@ -59,6 +59,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
@@ -103,11 +104,13 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ComposeAttachmentItemBinding;
 import app.fedilab.android.databinding.ComposePollBinding;
 import app.fedilab.android.databinding.ComposePollItemBinding;
+import app.fedilab.android.databinding.CustomEmojiPickerBinding;
 import app.fedilab.android.databinding.DrawerMediaListBinding;
 import app.fedilab.android.databinding.DrawerStatusComposeBinding;
 import app.fedilab.android.databinding.DrawerStatusSimpleBinding;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
 import app.fedilab.android.mastodon.activities.MediaActivity;
+import app.fedilab.android.mastodon.activities.SearchResultTabActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Emoji;
@@ -173,6 +176,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<Emoji> emojisList = new ArrayList<>();
     private boolean unlisted_changed = false;
     private RecyclerView mRecyclerView;
+    private boolean proceedToSplit = false;
+    private boolean splitChoiceDone = false;
 
 
     public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, Account mentionedAccount, String visibility, String editMessageId) {
@@ -530,7 +535,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextWatcher textw;
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-        final boolean[] proceedToSplit = {false};
         textw = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -545,7 +549,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
                     String defaultFormat = sharedpreferences.getString(context.getString(R.string.SET_THREAD_MESSAGE), context.getString(R.string.DEFAULT_THREAD_VALUE));
                     //User asked to be prompted for threading long messages
-                    if(defaultFormat.compareToIgnoreCase("ASK") == 0) {
+                    if(defaultFormat.compareToIgnoreCase("ASK") == 0 && !splitChoiceDone) {
+                        splitChoiceDone = true;
                         AlertDialog.Builder threadConfirm = new MaterialAlertDialogBuilder(context);
                         threadConfirm.setTitle(context.getString(R.string.thread_long_this_message));
                         threadConfirm.setMessage(context.getString(R.string.thread_long_message_message));
@@ -569,7 +574,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         });
                         threadConfirm.show();
                     } else if(defaultFormat.compareToIgnoreCase("ENABLE") == 0) { //User wants to automatically thread long messages
-                        proceedToSplit[0] = true;
+                        proceedToSplit = true;
                         ArrayList<String> splitText = ComposeHelper.splitToots(s.toString(), max_car);
                         int statusListSize = statusList.size();
                         int i = 0;
@@ -589,7 +594,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void afterTextChanged(Editable s) {
                 String contentString = s.toString();
-                if(proceedToSplit[0]) {
+                if(proceedToSplit) {
                     int max_car = MastodonHelper.getInstanceMaxChars(context);
                     ArrayList<String> splitText = ComposeHelper.splitToots(contentString, max_car);
                     contentString = splitText.get(0);
@@ -1381,7 +1386,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             holder.binding.statusContent.setText(
                     status.getSpanContent(context,
-                            new WeakReference<>(holder.binding.statusContent), () -> notifyItemChanged(position)),
+                            new WeakReference<>(holder.binding.statusContent), () -> mRecyclerView.post(() -> notifyItemChanged(position))),
                     TextView.BufferType.SPANNABLE);
             holder.binding.statusContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
             MastodonHelper.loadPPMastodon(holder.binding.avatar, status.account);
@@ -1650,7 +1655,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //Last compose drawer
             buttonVisibility(holder);
 
-
+            if (emojis != null && emojis.size() > 0) {
+                holder.binding.buttonEmoji.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.buttonEmoji.setVisibility(View.GONE);
+            }
             holder.binding.buttonEmoji.setOnClickListener(v -> {
                 try {
                     displayEmojiPicker(holder, account.instance);
@@ -2113,29 +2122,57 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      * @param holder - view for the message {@link ComposeViewHolder}
      */
     private void displayEmojiPicker(ComposeViewHolder holder, String instance) throws DBException {
-
         final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
-        int paddingPixel = 15;
-        float density = context.getResources().getDisplayMetrics().density;
-        int paddingDp = (int) (paddingPixel * density);
         builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setTitle(R.string.insert_emoji);
+        CustomEmojiPickerBinding customEmojiPickerBinding = CustomEmojiPickerBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);
         if (emojis != null && emojis.size() > 0) {
-            GridView gridView = new GridView(context);
-            gridView.setAdapter(new EmojiAdapter(emojis.get(instance)));
-            gridView.setNumColumns(5);
-            gridView.setOnItemClickListener((parent, view, position, id) -> {
+            customEmojiPickerBinding.gridview.setAdapter(new EmojiAdapter(emojis.get(instance)));
+            customEmojiPickerBinding.gridview.setOnItemClickListener((parent, view, position, id) -> {
                 holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + Objects.requireNonNull(emojis.get(instance)).get(position).shortcode + ": ");
                 alertDialogEmoji.dismiss();
             });
-            gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
-            builder.setView(gridView);
-        } else {
-            TextView textView = new TextView(context);
-            textView.setText(context.getString(R.string.no_emoji));
-            textView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
-            builder.setView(textView);
         }
+        customEmojiPickerBinding.toolbarSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(customEmojiPickerBinding.toolbarSearch.getWindowToken(), 0);
+                try {
+                    new EmojiInstance(context).getEmojiListFiltered(instance, query.trim(), emojiList -> {
+                        if (emojiList != null && emojiList.size() > 0) {
+                            customEmojiPickerBinding.gridview.setAdapter(new EmojiAdapter(emojiList));
+                            customEmojiPickerBinding.gridview.setOnItemClickListener((parent, view, position, id) -> {
+                                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojiList.get(position).shortcode + ": ");
+                                alertDialogEmoji.dismiss();
+                            });
+                        }
+                    });
+                } catch (DBException e) {
+                    throw new RuntimeException(e);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                try {
+                    new EmojiInstance(context).getEmojiListFiltered(instance, newText.trim(), emojiList -> {
+                        if (emojiList != null && emojiList.size() > 0) {
+                            customEmojiPickerBinding.gridview.setAdapter(new EmojiAdapter(emojiList));
+                            customEmojiPickerBinding.gridview.setOnItemClickListener((parent, view, position, id) -> {
+                                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojiList.get(position).shortcode + ": ");
+                                alertDialogEmoji.dismiss();
+                            });
+                        }
+                    });
+                } catch (DBException e) {
+                    throw new RuntimeException(e);
+                }
+                return false;
+            }
+        });
+        builder.setView(customEmojiPickerBinding.getRoot());
         alertDialogEmoji = builder.show();
     }
 
