@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentNightMode;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -65,7 +67,7 @@ public class BaseBarActivity extends AppCompatActivity {
         }
         String currentTheme = sharedpreferences.getString(getString(R.string.SET_THEME_BASE), getString(R.string.SET_DEFAULT_THEME));
         //Default automatic switch
-        int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         if (currentTheme.equals(getString(R.string.SET_DEFAULT_THEME))) {
             switch (currentNightMode) {
                 case Configuration.UI_MODE_NIGHT_NO -> {

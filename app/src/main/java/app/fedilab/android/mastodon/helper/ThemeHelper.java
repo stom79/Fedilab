@@ -16,6 +16,7 @@ package app.fedilab.android.mastodon.helper;
 
 import static android.content.Context.WINDOW_SERVICE;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
+import static app.fedilab.android.BaseMainActivity.currentNightMode;
 import static app.fedilab.android.BaseMainActivity.currentUserID;
 
 import android.app.Activity;
@@ -286,7 +287,6 @@ public class ThemeHelper {
     }
 
     public static void applyThemeColor(Activity activity) {
-        int currentNightMode = activity.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean dynamicColor = sharedpreferences.getBoolean(activity.getString(R.string.SET_DYNAMICCOLOR), false);
         boolean customAccentEnabled = sharedpreferences.getBoolean(activity.getString(R.string.SET_CUSTOM_ACCENT) + currentUserID + currentInstance, false);

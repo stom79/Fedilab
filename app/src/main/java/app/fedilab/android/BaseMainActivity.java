@@ -36,6 +36,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.MatrixCursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
@@ -214,6 +215,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static BaseAccount currentAccount;
     public static iconLauncher mLauncher = iconLauncher.BUBBLES;
     public static boolean headerMenuOpen;
+    public static int currentNightMode;
     Fragment currentFragment;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;

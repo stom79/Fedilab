@@ -16,6 +16,7 @@ package app.fedilab.android.mastodon.helper;
 
 
 import static app.fedilab.android.BaseMainActivity.currentAccount;
+import static app.fedilab.android.BaseMainActivity.currentNightMode;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -113,7 +114,6 @@ public class SpannableHelper {
             return null;
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
         boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
         underlineLinks = sharedpreferences.getBoolean(context.getString(R.string.SET_UNDERLINE_CLICKABLE), false);
