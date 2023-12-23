@@ -6,6 +6,7 @@ Added:
 - Allow to disable relative date in messages
 - Add a scroll bar for timelines (default: disabled)
 - Add a search bar for custom emojis
+- Links clickable in media descriptions
 
 Changed:
 - Counters close to action buttons
