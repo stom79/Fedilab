@@ -16,6 +16,7 @@ Changed:
 
 Fixed:
 - Avoid error 429 with NTFY
+- Fix custom colors (Android 14)
 - Fix a crash when composing
 - Display issue with followed tags
 - Crashes with profiles
