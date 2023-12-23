@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static android.util.Patterns.WEB_URL;
+
 import android.Manifest;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -21,12 +23,18 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.method.ScrollingMovementMethod;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -34,6 +42,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,11 +51,13 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityMediaPagerBinding;
@@ -152,8 +163,8 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             });
         }
 
-        binding.mediaDescription.setMovementMethod(new ScrollingMovementMethod());
-        binding.mediaDescriptionTranslated.setMovementMethod(new ScrollingMovementMethod());
+        binding.mediaDescription.setMovementMethod(LinkMovementMethod.getInstance());
+        binding.mediaDescriptionTranslated.setMovementMethod(LinkMovementMethod.getInstance());
 
         if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
             binding.mediaDescription.setText(description);
@@ -195,7 +206,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 }
                 handler = new Handler();
                 if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
-                    binding.mediaDescription.setText(description);
+                    binding.mediaDescription.setText(linkify(MediaActivity.this, description), TextView.BufferType.SPANNABLE);
                 }
                 binding.translate.setOnClickListener(v -> {
                     String descriptionToTranslate = attachments.get(position).description;
@@ -226,6 +237,40 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             }
         });
         setFullscreen(true);
+    }
+
+    private Spannable linkify(Context context, String content) {
+        if(content == null) {
+            return new SpannableString("");
+        }
+        Matcher matcher = WEB_URL.matcher(content);
+        Spannable contentSpan = new SpannableString(content);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean underlineLinks = sharedpreferences.getBoolean(context.getString(R.string.SET_UNDERLINE_CLICKABLE), false);
+
+
+        while (matcher.find()) {
+            int matchStart = matcher.start();
+            int matchEnd = matcher.end();
+            String url = content.substring(matchStart, matchEnd);
+            if (matchStart >= 0 && matchEnd <= content.length() && matchEnd >= matchStart) {
+                contentSpan.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(@NonNull View textView) {
+                        Helper.openBrowser(context, url);
+                    }
+
+                    @Override
+                    public void updateDrawState(@NonNull TextPaint ds) {
+                        super.updateDrawState(ds);
+                        if(!underlineLinks) {
+                            ds.setUnderlineText(status != null && status.underlined);
+                        }
+                    }
+                }, matchStart, matchEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            }
+        }
+        return contentSpan;
     }
 
     @Override
@@ -337,7 +382,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         if (!fullscreen) {
             String description = attachments.get(binding.mediaViewpager.getCurrentItem()).description;
             if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
-                binding.mediaDescription.setText(description);
+                binding.mediaDescription.setText(linkify(MediaActivity.this, description), TextView.BufferType.SPANNABLE);
                 if (attachments.get(binding.mediaViewpager.getCurrentItem()).translation != null) {
                     binding.mediaDescription.setVisibility(View.GONE);
                     binding.mediaDescriptionTranslated.setText(attachments.get(binding.mediaViewpager.getCurrentItem()).translation);
