@@ -275,7 +275,7 @@ public class ThemeHelper {
     public static void switchTo(String themePref) {
         if (themes.LIGHT.name().equals(themePref) || themes.SOLARIZED_LIGHT.name().equals(themePref)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        } else if (themes.DARK.name().equals(themePref) || themes.SOLARIZED_DARK.name().equals(themePref)) {
+        } else if (themes.DARK.name().equals(themePref) || themes.SOLARIZED_DARK.name().equals(themePref) || themes.DRACULA.name().equals(themePref) || themes.BLACK.name().equals(themePref)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -314,6 +314,8 @@ public class ThemeHelper {
     public enum themes {
         LIGHT,
         DARK,
+        BLACK,
+        DRACULA,
         SYSTEM,
         SOLARIZED_LIGHT,
         SOLARIZED_DARK

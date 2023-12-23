@@ -46,6 +46,7 @@
         <item name="android:windowSharedElementExitTransition">@transition/change_image_transform
         </item>
         <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="alertDialogTheme">@style/AppThemeAlertDialog</item>
     </style>
 
     <style name="AppThemeBar" parent="Theme.Material3.Light">
@@ -82,6 +83,7 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="android:isLightTheme" tools:targetApi="q">true</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="alertDialogTheme">@style/AppThemeAlertDialog</item>
     </style>
 
     <style name="Transparent" parent="AppThemeBar">
@@ -98,6 +100,7 @@
         </item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="alertDialogTheme">@style/AppThemeAlertDialog</item>
     </style>
 
     <style name="AppThemeAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
@@ -167,6 +170,7 @@
         <item name="colorOnSurfaceInverse">@color/solarized_md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/solarized_md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/solarized_md_theme_light_inversePrimary</item>
+        <item name="alertDialogTheme">@style/SolarizedAlertDialog</item>
     </style>
 
     <style name="TransparentSolarized" parent="SolarizedAppThemeBar">
@@ -183,6 +187,7 @@
         </item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="alertDialogTheme">@style/SolarizedAlertDialog</item>
     </style>
 
     <style name="SolarizedAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
@@ -254,6 +259,7 @@
         <item name="colorOnSurfaceInverse">@color/solarized_md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/solarized_md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/solarized_md_theme_light_inversePrimary</item>
+        <item name="alertDialogTheme">@style/SolarizedAlertDialog</item>
     </style>
 
     <style name="Fedilab.SmallIconButton" parent="Widget.Material3.Button.IconButton">
