@@ -1782,7 +1782,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (statusToDeal.poll != null && statusToDeal.poll.options != null) {
             int normalize;
-            if(statusToDeal.poll.multiple && statusToDeal.poll.voters_count != 0) {
+            if(statusToDeal.poll.multiple && statusToDeal.poll.voters_count > 1) {
                 normalize = statusToDeal.poll.voters_count;
             } else {
                 normalize = statusToDeal.poll.votes_count;
