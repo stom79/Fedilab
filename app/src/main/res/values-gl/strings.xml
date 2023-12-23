@@ -1067,4 +1067,5 @@
     <string name="copy_version">Copiar información</string>
     <string name="underline_links">Subliñar os elementos clicables</string>
     <string name="tag_already_followed">Xa segues ese cancelo!</string>
+    <string name="timeline_scrollbar">Mostrar barra de desprazamento nas cronoloxías</string>
 </resources>
