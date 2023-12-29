@@ -43,8 +43,8 @@
     <string name="favourite">المفضلة</string>
     <string name="follow">متابِعون جدد</string>
     <string name="mention">الإشارات</string>
-    <string name="reblog">الترقيات</string>
-    <string name="show_boosts">عرض الترقيات</string>
+    <string name="reblog">المعاد نشرها</string>
+    <string name="show_boosts">عرض المعاد نشرها</string>
     <string name="show_replies">عرض الردود</string>
     <string name="action_open_in_web">افتح في المتصفح</string>
     <string name="translate">ترجمة</string>
@@ -208,12 +208,12 @@
     <string name="set_toots_page">عدد الرسائل التي يتم تحميلها كل مرة</string>
     <string name="set_disable_gif">تعطيل الصور الرمزية المتحركة</string>
     <string name="set_notif_follow">تنبيهي عندما يتبعني أحدهم</string>
-    <string name="set_notif_follow_share">تنبيهي عندما يقوم أحدهم بترقية منشوري</string>
+    <string name="set_notif_follow_share">إشعاري عندما يقوم أحدهم بإعادة نشر منشوري</string>
     <string name="set_notif_follow_add">إخطاري عندما يُعجَب أحدهم بأحد منشوراتي</string>
     <string name="set_notif_follow_mention">إخطاري عندما يُشار إليّ</string>
     <string name="set_notif_follow_poll">أرسل إشعاراً عند انتهاء استطلاع الرأي</string>
     <string name="set_notif_status">إشعار بالمشاركات الجديدة</string>
-    <string name="set_share_validation">عرض مربع حوار للتأكيد قبل ترقية أي تبويق</string>
+    <string name="set_share_validation">عرض مربع حوار للتأكيد قبل إعادة نشر أي منشور</string>
     <string name="set_share_validation_fav">عرض مربع حوار للتأكيد قبل إضافة أي تبويق إلى المفضلة</string>
     <string name="set_notify">هل تود الإشعار؟</string>
     <string name="set_notif_silent">كتم الاشعارات</string>
@@ -258,7 +258,7 @@
     <string name="keywords_header_custom_sharing">الكلمات المفتاحية</string>
     <string name="keywords_hint_custom_sharing">الكلمات المفتاحية…</string>
     <!-- ACTIVITY CACHE -->
-    <string name="v_public">العمومية</string>
+    <string name="v_public">للعامة</string>
     <string name="v_unlisted">غير المدرجة</string>
     <string name="v_private">الخاصة</string>
     <string name="v_direct">المباشرة</string>
@@ -291,16 +291,16 @@
     <string name="follow_instance">متابعة مثيل الخادم</string>
     <string name="toast_instance_already_added">إنّك مُتابِع لمثيل الخادم هذا!</string>
     <string name="action_partnership">الشراكات</string>
-    <string name="hide_boost">إخفاء ترقيات %s</string>
+    <string name="hide_boost">إخفاء المعاد نشرها مِن طرف %s</string>
     <string name="endorse">أوصِ به على صفحتك</string>
-    <string name="show_boost">إظهار ترقيات %s</string>
+    <string name="show_boost">إظهار المعاد نشرها مِن %s</string>
     <string name="unendorse">إلغاء التوصية مِن صفحتك</string>
     <string name="direct_message">رسالة مباشِرة</string>
     <string name="filters">عوامل التصفية</string>
     <string name="action_filters_empty_content">ليس هناك أي عامل تصفية بعدُ. يمكنك إنشاء واحد بالنقر على زر \"+\".</string>
     <string name="filter_keyword">كلمة مفتاحية أو عبارة</string>
     <string name="context_home">الخط الزمني الرئيسي</string>
-    <string name="context_public">الخطوط الزمنية العمومية</string>
+    <string name="context_public">الخطوط الزمنية العامة</string>
     <string name="context_notification">الإشعارات</string>
     <string name="context_conversation">المحادثات</string>
     <string name="filter_keyword_explanations">سوف يتم العثور عليه بغض النظر عن حالة الأحرف في النص أو حتى و إن كان في الرسالة تحذير عن المحتوى</string>
@@ -316,7 +316,7 @@
     <string name="action_list_add">لم تقم بعد بإنشاء قائمة. اضغط على زر \"+\" لإنشاء قائمة.</string>
     <string name="expand_image">توسيع الوسائط المخفية تلقائيًا</string>
     <string name="channel_notif_follow">مُتابِع جديد</string>
-    <string name="channel_notif_boost">ترقية جديدة</string>
+    <string name="channel_notif_boost">إعادة نشر جديدة</string>
     <string name="channel_notif_fav">مفضلة جديدة</string>
     <string name="channel_notif_mention">إشارة جديدة</string>
     <string name="channel_notif_poll">انتهى استطلاع الرأي</string>
@@ -340,9 +340,9 @@
     <string name="display_toot_truncate">عرض المزيد</string>
     <string name="hide_toot_truncate">اعرض أقل</string>
     <string name="tags_already_stored">الوسم موجود مِن قَبل!</string>
-    <string name="schedule_boost">برمجة الترقية</string>
-    <string name="boost_scheduled">تمت برمجة الترقية!</string>
-    <string name="no_scheduled_boosts">ليس هناك أية برمجة للترقية للعرض!</string>
+    <string name="schedule_boost">برمجة إعادة نشر</string>
+    <string name="boost_scheduled">تمت برمجة إعادة النشر!</string>
+    <string name="no_scheduled_boosts">ليس هناك أية إعادة نشر للعرض!</string>
     <string name="open_menu">فتح القائمة</string>
     <string name="profile_picture">الصورة الشخصية</string>
     <string name="profile_banner">رأسية الصفحة الشخصية</string>
@@ -581,7 +581,7 @@
     <string name="verified_by">تم التحقق منه عبر %1$s (%2$s)</string>
     <string name="action_disabled">الإجراء مُعطّل</string>
     <string name="action_unfollow">إلغاء المتابعة</string>
-    <string name="error_destination_path">حدث خطأ ما، الرجاء التحقق من مسار التحميلات في الإعدادات.</string>
+    <string name="error_destination_path">حدث خطأ ما، الرجاء التحقق من مسار التنزيلات في الإعدادات.</string>
     <string name="action_announcements">الإعلانات</string>
     <string name="no_announcements">ليس هناك إعلانات!</string>
     <string name="add_reaction">إضافة ردة فعل</string>
@@ -699,7 +699,7 @@
     <string name="add_field">إضافة حقل</string>
     <string name="unlocked">غير مقفَل</string>
     <string name="locked">مُقفَل</string>
-    <string name="scheduled">مُبَرمَج</string>
+    <string name="scheduled">المُبَرمَجة</string>
     <string name="bottom_menu">القائمة الدنيا</string>
     <string name="action_lists_edit">تعديل القائمة</string>
     <string name="select_a_theme">اختر حُلة</string>
@@ -865,4 +865,20 @@
     <string name="push_distributors">موزع الإشعارات</string>
     <string name="report_indication_title_status">أخبرنا ما الخَطب مع هذا المنشور</string>
     <string name="set_alt_text_mandatory">وصف إلزامي للوسائط</string>
+    <string name="Suggestions">الاقتراحات</string>
+    <string name="no_blocked_domains">لم تقم بحجب أي نطاق بعد</string>
+    <string name="following">المُتابَعون</string>
+    <string name="thread_long_message">قِسمة الرسائل الطويلة في الردود</string>
+    <string name="put_all_accounts_in_home_muted">يقوم بكتم كافة الحسابات على الخيط الرئيس.</string>
+    <string name="thread_long_message_yes">قَسِّم الرسالة</string>
+    <string name="unmute_home">إلغاء كتمه على الخيط الرئيس</string>
+    <string name="followed_tags">الوسوم المتابَعة</string>
+    <string name="pref_customize">تخصيص الألوان</string>
+    <string name="thread_long_message_no">لا تقم بتقسيمها</string>
+    <string name="manage_tags">إدارة الوسوم</string>
+    <string name="set_extand_extra_features_title">ميزات إضافية</string>
+    <string name="blocked_domains">النطاقات المحظورة</string>
+    <string name="thread_long_this_message">أتريد تقسيم هذه الرسائل في الردود؟</string>
+    <string name="Directory">دليل الحسابات</string>
+    <string name="mute_home">كتمه على الخيط الرئيس</string>
 </resources>
