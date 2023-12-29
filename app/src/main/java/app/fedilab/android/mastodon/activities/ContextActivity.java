@@ -30,9 +30,12 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
+
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -87,6 +90,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        manageTopBarScrolling(binding.toolbar, sharedpreferences);
         displayCW = sharedpreferences.getBoolean(getString(R.string.SET_EXPAND_CW), false);
         focusedStatus = null; // or other values
         MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
@@ -129,6 +133,22 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.clear();
+    }
+
+    private void manageTopBarScrolling(Toolbar toolbar, SharedPreferences sharedpreferences) {
+        final boolean topBarScrolling = !sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_TOPBAR_SCROLLING), false);
+
+        final AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+
+        int scrollFlags = toolbarLayoutParams.getScrollFlags();
+
+        if (topBarScrolling) {
+            scrollFlags |= AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL;
+
+        } else {
+            scrollFlags &= ~AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL;
+        }
+        toolbarLayoutParams.setScrollFlags(scrollFlags);
     }
 
     private void loadLocalConversation() {

@@ -71,6 +71,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -97,6 +98,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
@@ -1377,6 +1379,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
         }
+        manageTopBarScrolling(binding.toolbar);
         rateThisApp();
 
         binding.compose.setOnClickListener(v -> startActivity(new Intent(this, ComposeActivity.class)));
@@ -1598,6 +1601,23 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }).start();
         }
         fetchRecentAccounts(BaseMainActivity.this, headerMainBinding);
+    }
+
+    private void manageTopBarScrolling(Toolbar toolbar) {
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final boolean topBarScrolling = !sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_TOPBAR_SCROLLING), false);
+
+        final AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+
+        int scrollFlags = toolbarLayoutParams.getScrollFlags();
+
+        if (topBarScrolling) {
+            scrollFlags |= AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL;
+
+        } else {
+            scrollFlags &= ~AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL;
+        }
+        toolbarLayoutParams.setScrollFlags(scrollFlags);
     }
 
     private void manageFilters(int position) {

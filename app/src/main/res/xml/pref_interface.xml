@@ -15,6 +15,13 @@
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
+        app:key="@string/SET_DISABLE_TOPBAR_SCROLLING"
+        app:singleLineTitle="false"
+        app:title="@string/set_disable_topbar_scrolling_title" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
         app:key="@string/SET_TIMELINES_IN_A_LIST"
         app:singleLineTitle="false"
         app:summary="@string/set_timelines_in_a_list"
