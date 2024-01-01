@@ -1066,4 +1066,5 @@
     <string name="thumbnail">缩略图</string>
     <string name="thread_long_message_message">消息将分为几个回复，以满足您所在实例的最大字数。</string>
     <string name="thread_long_this_message">是否将长消息分为回复？</string>
+    <string name="clipboard_version">信息已复制到剪贴板</string>
 </resources>
