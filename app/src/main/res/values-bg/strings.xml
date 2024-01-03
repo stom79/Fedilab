@@ -1,2 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="close">Затваряне</string>
+    <string name="action_open_in_web">Отваряне в браузъра</string>
+    <string name="action_cache">Кеш</string>
+    <string name="action_about">Относно</string>
+    <string name="password">Парола</string>
+    <string name="action_logout">Излизане</string>
+    <string name="accounts">Акаунти</string>
+    <string name="translate">Превеждане</string>
+    <string name="no">Не</string>
+    <string name="action_privacy">Поверителност</string>
+    <string name="tags">Тагове</string>
+    <string name="yes">Да</string>
+    <string name="download_file">Сваляне на %1$s</string>
+    <string name="instance_example">Инстанция: mastodon.social</string>
+    <string name="mention">Споменавания</string>
+    <string name="instance">Инстанция</string>
+    <string name="toots">Съобщения</string>
+    <string name="download">Сваляне</string>
+    <string name="action_about_instance">Относно инстанцията</string>
+    <string name="cancel">Отмяна</string>
+    <string name="media">Мултимедия</string>
+    <string name="replies">Отговори</string>
+    <string name="camera">Камера</string>
+    <string name="home_menu">Начало</string>
+    <string name="share_with">Споделяне с</string>
+    <string name="add_account">Добавяне на акаунт</string>
+    <string name="follow">Нови последователи</string>
+</resources>
