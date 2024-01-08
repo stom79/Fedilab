@@ -27,4 +27,74 @@
     <string name="share_with">Споделяне с</string>
     <string name="add_account">Добавяне на акаунт</string>
     <string name="follow">Нови последователи</string>
+    <string name="delete_all">Изтриване на всички</string>
+    <string name="text_size">Размер на текста</string>
+    <string name="next">Следващо</string>
+    <string name="previous">Предишно</string>
+    <string name="open_with">Отваряне чрез</string>
+    <string name="validate">Потвърждаване</string>
+    <string name="shared_via">Споделяне чрез Федилаб</string>
+    <string name="username">Потребителско име</string>
+    <string name="drafts">Чернови</string>
+    <string name="favourite">Любими</string>
+    <string name="show_replies">Показване на отговори</string>
+    <string name="muted_menu">Заглушени потребители</string>
+    <string name="blocked_menu">Блокирани потребители</string>
+    <string name="notifications">Известия</string>
+    <string name="follow_request">Заявки за последване</string>
+    <string name="no_status">Няма съобщения за показване</string>
+    <string name="more_action_1">Заглушаване</string>
+    <string name="more_action_2">Блокиране</string>
+    <string name="more_action_3">Докладване</string>
+    <string name="more_action_4">Изтриване</string>
+    <string name="more_action_5">Копиране</string>
+    <string name="bookmarks">Отметки</string>
+    <string name="date_seconds">%d сек</string>
+    <string name="date_minutes">%d мин</string>
+    <string name="date_hours">%d ч</string>
+    <string name="date_day">%d д</string>
+    <plurals name="date_seconds_polls">
+        <item quantity="one">%d секунда</item>
+        <item quantity="other">%d секунди</item>
+    </plurals>
+    <plurals name="date_minutes_polls">
+        <item quantity="one">%d минута</item>
+        <item quantity="other">%d минути</item>
+    </plurals>
+    <plurals name="date_hours_polls">
+        <item quantity="one">%d час</item>
+        <item quantity="other">%d часа</item>
+    </plurals>
+    <plurals name="date_day_polls">
+        <item quantity="one">%d ден</item>
+        <item quantity="other">%d дни</item>
+    </plurals>
+    <string name="no_draft">Няма чернови!</string>
+    <string name="choose_accounts">Избиране на акаунт</string>
+    <string name="remove_draft">Изтриване на черновата?</string>
+    <string name="about_developer">Разработчик:</string>
+    <string name="about_license">Лиценз:</string>
+    <string name="about_license_action">GNU GPL V3</string>
+    <string name="about_code">Програмен код:</string>
+    <string name="about_thekinrar">Търсене на инстанции:</string>
+    <string name="no_follow_request">Няма заявка за последване</string>
+    <string name="status_cnt">Съобщения
+\n %1$s</string>
+    <string name="reject">Отхвърляне</string>
+    <string name="settings_time_to">и</string>
+    <string name="action_mute">Заглушаване</string>
+    <string name="save_over">Мултимедията е запазена</string>
+    <string name="download_from" formatted="false">Файл: %1$s</string>
+    <string name="email">Е-поща</string>
+    <string name="save">Запазване</string>
+    <string name="clipboard">Съдържанието на съобщението е копирано в клипборда</string>
+    <string name="clipboard_version">Информацията е копирана в клипборда</string>
+    <string name="settings_time_from">Между</string>
+    <string name="action_follow">Последване</string>
+    s
+    <string name="icon_size">Размер на иконките</string>
+    <string name="settings">Настройки</string>
+    <string name="insert_emoji">Вмъкване на емоджи</string>
+    <string name="more_action_6">Споделяне</string>
+    <string name="more_action_7">Споменаване</string>
 </resources>
