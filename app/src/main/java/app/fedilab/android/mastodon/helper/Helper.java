@@ -210,6 +210,8 @@ public class Helper {
     public static final String RECEIVE_REDRAW_PROFILE = "RECEIVE_REDRAW_PROFILE";
 
     public static final String ARG_TIMELINE_TYPE = "ARG_TIMELINE_TYPE";
+
+    public static final String ARG_INTENT_ID = "ARG_INTENT_ID";
     public static final String ARG_PEERTUBE_NAV_REMOTE = "ARG_PEERTUBE_NAV_REMOTE";
 
     public static final String ARG_REMOTE_INSTANCE_STRING = "ARG_REMOTE_INSTANCE_STRING";

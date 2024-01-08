@@ -57,10 +57,12 @@ import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.Statuses;
 import app.fedilab.android.mastodon.client.entities.app.BubbleTimeline;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.RemoteInstance;
 import app.fedilab.android.mastodon.client.entities.app.TagTimeline;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.GlideApp;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -346,29 +348,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
-        accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
-        initialStatuses = null;
-        lockForResumeCall = 0;
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        max_id = statusReport != null ? statusReport.id : null;
-        offset = 0;
-
-        rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
-        //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
-        if (max_id == null && !isViewInitialized && rememberPosition) {
-            max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
-        }
         if (search != null) {
             binding.swipeContainer.setRefreshing(false);
             binding.swipeContainer.setEnabled(false);
         }
-        //Only fragment in main view pager should not have the view initialized
-        //AND Only the first fragment will initialize its view
-        flagLoading = false;
-
     }
 
     @Override
@@ -378,89 +363,112 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
+        accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
+        initialStatuses = null;
+        lockForResumeCall = 0;
         timelineType = Timeline.TimeLineEnum.HOME;
         canBeFederated = true;
         retry_for_home_done = false;
-        if (getArguments() != null) {
-            timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
-            lemmy_post_id = getArguments().getString(Helper.ARG_LEMMY_POST_ID, null);
-            list_id = getArguments().getString(Helper.ARG_LIST_ID, null);
-            search = getArguments().getString(Helper.ARG_SEARCH_KEYWORD, null);
-            searchCache = getArguments().getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
-            pinnedTimeline = (PinnedTimeline) getArguments().getSerializable(Helper.ARG_REMOTE_INSTANCE);
-            if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
-                if (pinnedTimeline.remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
-                    remoteInstance = pinnedTimeline.remoteInstance.host;
-                } else {
-                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-                    remoteInstance = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
-                    canBeFederated = false;
-                }
-            }
-            if (timelineType == Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC) {
-                canBeFederated = false;
-            }
-            publicTrendsDomain = getArguments().getString(Helper.ARG_REMOTE_INSTANCE_STRING, null);
-            isViewInitialized = getArguments().getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
-            isNotPinnedTimeline = isViewInitialized;
-            tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
-            bubbleTimeline = (BubbleTimeline) getArguments().getSerializable(Helper.ARG_BUBBLE_TIMELINE);
-            accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
-            exclude_replies = !getArguments().getBoolean(Helper.ARG_SHOW_REPLIES, true);
-            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
-            show_pinned = getArguments().getBoolean(Helper.ARG_SHOW_PINNED, false);
-            exclude_reblogs = !getArguments().getBoolean(Helper.ARG_SHOW_REBLOGS, true);
-            media_only = getArguments().getBoolean(Helper.ARG_SHOW_MEDIA_ONY, false);
-            viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
-            minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
-            statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
-            initialStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
-        }
-
-
-        //When visiting a profile without being authenticated
-        if (checkRemotely) {
-            String[] acctArray = accountTimeline.acct.split("@");
-            if (acctArray.length > 1) {
-                remoteInstance = acctArray[1];
-            }
-            if (remoteInstance != null && remoteInstance.equalsIgnoreCase(currentInstance)) {
-                checkRemotely = false;
-            } else if (remoteInstance == null) {
-                checkRemotely = false;
-            }
-        }
-        if (tagTimeline != null) {
-            ident = "@T@" + tagTimeline.name;
-            if (tagTimeline.isART) {
-                timelineType = Timeline.TimeLineEnum.ART;
-            }
-        } else if (bubbleTimeline != null) {
-            ident = "@B@Bubble";
-        } else if (list_id != null) {
-            ident = "@l@" + list_id;
-        } else if (remoteInstance != null && !checkRemotely) {
-            if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
-                ident = "@R@" + pinnedTimeline.remoteInstance.host;
-            } else {
-                ident = "@R@" + remoteInstance;
-            }
-        } else if (search != null) {
-            ident = "@S@" + search;
-        } else {
-            ident = null;
-        }
-        if (timelineType != null) {
-            slug = timelineType != Timeline.TimeLineEnum.ART ? timelineType.getValue() + (ident != null ? "|" + ident : "") : Timeline.TimeLineEnum.TAG.getValue() + (ident != null ? "|" + ident : "");
-        }
-
-
-        ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        max_id = statusReport != null ? statusReport.id : null;
+        offset = 0;
+        rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
+        //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
+        if (max_id == null && !isViewInitialized && rememberPosition) {
+            max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
+        }
+        //Only fragment in main view pager should not have the view initialized
+        //AND Only the first fragment will initialize its view
+        flagLoading = false;
+        if (getArguments() != null) {
+            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(requireActivity()).getBundle(bundleId, this::initializeAfterBundle);
+        }
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
         binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
         return binding.getRoot();
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+        new Thread(()->{
+            if (bundle != null) {
+                timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
+                lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);
+                list_id = bundle.getString(Helper.ARG_LIST_ID, null);
+                search = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
+                searchCache = bundle.getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
+                pinnedTimeline = (PinnedTimeline) bundle.getSerializable(Helper.ARG_REMOTE_INSTANCE);
+                if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
+                    if (pinnedTimeline.remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
+                        remoteInstance = pinnedTimeline.remoteInstance.host;
+                    } else {
+                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                        remoteInstance = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+                        canBeFederated = false;
+                    }
+                }
+                if (timelineType == Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC) {
+                    canBeFederated = false;
+                }
+                publicTrendsDomain = bundle.getString(Helper.ARG_REMOTE_INSTANCE_STRING, null);
+                isViewInitialized = bundle.getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
+                isNotPinnedTimeline = isViewInitialized;
+                tagTimeline = (TagTimeline) bundle.getSerializable(Helper.ARG_TAG_TIMELINE);
+                bubbleTimeline = (BubbleTimeline) bundle.getSerializable(Helper.ARG_BUBBLE_TIMELINE);
+                accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+                exclude_replies = !bundle.getBoolean(Helper.ARG_SHOW_REPLIES, true);
+                checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+                show_pinned = bundle.getBoolean(Helper.ARG_SHOW_PINNED, false);
+                exclude_reblogs = !bundle.getBoolean(Helper.ARG_SHOW_REBLOGS, true);
+                media_only = bundle.getBoolean(Helper.ARG_SHOW_MEDIA_ONY, false);
+                viewModelKey = bundle.getString(Helper.ARG_VIEW_MODEL_KEY, "");
+                minified = bundle.getBoolean(Helper.ARG_MINIFIED, false);
+                statusReport = (Status) bundle.getSerializable(Helper.ARG_STATUS_REPORT);
+                initialStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> {
+                //When visiting a profile without being authenticated
+                if (checkRemotely) {
+                    String[] acctArray = accountTimeline.acct.split("@");
+                    if (acctArray.length > 1) {
+                        remoteInstance = acctArray[1];
+                    }
+                    if (remoteInstance != null && remoteInstance.equalsIgnoreCase(currentInstance)) {
+                        checkRemotely = false;
+                    } else if (remoteInstance == null) {
+                        checkRemotely = false;
+                    }
+                }
+                if (tagTimeline != null) {
+                    ident = "@T@" + tagTimeline.name;
+                    if (tagTimeline.isART) {
+                        timelineType = Timeline.TimeLineEnum.ART;
+                    }
+                } else if (bubbleTimeline != null) {
+                    ident = "@B@Bubble";
+                } else if (list_id != null) {
+                    ident = "@l@" + list_id;
+                } else if (remoteInstance != null && !checkRemotely) {
+                    if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
+                        ident = "@R@" + pinnedTimeline.remoteInstance.host;
+                    } else {
+                        ident = "@R@" + remoteInstance;
+                    }
+                } else if (search != null) {
+                    ident = "@S@" + search;
+                } else {
+                    ident = null;
+                }
+                if (timelineType != null) {
+                    slug = timelineType != Timeline.TimeLineEnum.ART ? timelineType.getValue() + (ident != null ? "|" + ident : "") : Timeline.TimeLineEnum.TAG.getValue() + (ident != null ? "|" + ident : "");
+                }
+                ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
+            };
+            mainHandler.post(myRunnable);
+        }).start();
     }
 
     /**
