@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.activities.admin;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
@@ -99,7 +101,7 @@ public class AdminAccountActivity extends BaseActivity {
 
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(AdminAccountActivity.this).getBundle(bundleId, this::initializeAfterBundle);
+            new CachedBundle(AdminAccountActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }

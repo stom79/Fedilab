@@ -137,7 +137,7 @@ public class ProfileActivity extends BaseActivity {
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
                 if(bundleId != -1 ) {
-                    new CachedBundle(ProfileActivity.this).getBundle(bundleId, bundle -> {
+                    new CachedBundle(ProfileActivity.this).getBundle(bundleId, currentAccount, bundle -> {
                         Account accountReceived = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
                         if (bundle.getBoolean(Helper.RECEIVE_REDRAW_PROFILE, false) && accountReceived != null) {
                             if (account != null && accountReceived.id != null && account.id != null && accountReceived.id.equalsIgnoreCase(account.id)) {
@@ -190,7 +190,7 @@ public class ProfileActivity extends BaseActivity {
         homeMuted = false;
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(ProfileActivity.this).getBundle(bundleId, this::initializeAfterBundle);
+            new CachedBundle(ProfileActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
@@ -468,7 +468,7 @@ public class ProfileActivity extends BaseActivity {
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_ACCOUNT, account);
             args.putSerializable(Helper.ARG_CHECK_REMOTELY, true);
-            new CachedBundle(ProfileActivity.this).insertBundle(args, bundleId -> {
+            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);
@@ -655,7 +655,7 @@ public class ProfileActivity extends BaseActivity {
                     Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_ACCOUNT, account);
-                    new CachedBundle(ProfileActivity.this).insertBundle(args, bundleId -> {
+                    new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);
@@ -1055,7 +1055,7 @@ public class ProfileActivity extends BaseActivity {
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_ACCOUNT_MENTION, account);
             args.putString(Helper.ARG_VISIBILITY, "direct");
-            new CachedBundle(ProfileActivity.this).insertBundle(args, bundleId -> {
+            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);
@@ -1146,7 +1146,7 @@ public class ProfileActivity extends BaseActivity {
             intent = new Intent(ProfileActivity.this, ComposeActivity.class);
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_ACCOUNT_MENTION, account);
-            new CachedBundle(ProfileActivity.this).insertBundle(args, bundleId -> {
+            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);

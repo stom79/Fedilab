@@ -61,7 +61,7 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
             case 0 -> {
                 fragmentProfileTimeline = new FragmentMastodonTimeline();
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-                bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                bundle.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
                 bundle.putBoolean(Helper.ARG_SHOW_PINNED, true);
                 bundle.putBoolean(Helper.ARG_SHOW_REPLIES, false);
                 bundle.putBoolean(Helper.ARG_SHOW_REBLOGS, true);
@@ -72,7 +72,7 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
             case 1 -> {
                 fragmentProfileTimeline = new FragmentMastodonTimeline();
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-                bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                bundle.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
                 bundle.putBoolean(Helper.ARG_SHOW_PINNED, false);
                 bundle.putBoolean(Helper.ARG_SHOW_REPLIES, true);
                 bundle.putBoolean(Helper.ARG_SHOW_REBLOGS, false);
@@ -82,7 +82,7 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
             }
             case 2 -> {
                 FragmentMediaProfile fragmentMediaProfile = new FragmentMediaProfile();
-                bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                bundle.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
                 bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                 fragmentMediaProfile.setArguments(bundle);
                 return fragmentMediaProfile;

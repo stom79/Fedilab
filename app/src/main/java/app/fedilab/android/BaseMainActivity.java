@@ -662,7 +662,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 Intent intentAccount = new Intent(activity, ProfileActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_ACCOUNT, account);
-                new CachedBundle(activity).insertBundle(args, bundleId -> {
+                new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
                     Bundle bundleCached = new Bundle();
                     bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intentAccount.putExtras(bundleCached);
@@ -673,7 +673,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 Intent intentContext = new Intent(activity, ContextActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_STATUS, status);
-                new CachedBundle(activity).insertBundle(args, bundleId -> {
+                new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
                     Bundle bundleCached = new Bundle();
                     bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intentContext.putExtras(bundleCached);
@@ -1048,7 +1048,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                     Intent intent = new Intent(activity, ProfileActivity.class);
                                     Bundle args = new Bundle();
                                     args.putSerializable(Helper.ARG_ACCOUNT, account);
-                                    new CachedBundle(activity).insertBundle(args, bundleId -> {
+                                    new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
                                         Bundle bundle = new Bundle();
                                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                         intent.putExtras(bundle);
@@ -1435,7 +1435,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_ACCOUNT, currentAccount.mastodon_account);
-            new CachedBundle(BaseMainActivity.this).insertBundle(args, bundleId -> {
+            new CachedBundle(BaseMainActivity.this).insertBundle(args, currentAccount, bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);

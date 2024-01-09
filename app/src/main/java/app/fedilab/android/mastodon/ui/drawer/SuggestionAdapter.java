@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -90,7 +92,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Intent intent = new Intent(context, ProfileActivity.class);
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_ACCOUNT, account);
-            new CachedBundle(context).insertBundle(args, bundleId -> {
+            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);

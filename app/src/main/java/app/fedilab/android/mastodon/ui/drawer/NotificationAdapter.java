@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentNightMode;
 import static app.fedilab.android.mastodon.ui.drawer.StatusAdapter.statusManagement;
 
@@ -275,7 +276,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Intent intent = new Intent(context, ProfileActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_ACCOUNT, notification.account);
-                new CachedBundle(context).insertBundle(args, bundleId -> {
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
@@ -388,7 +389,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         Intent intent = new Intent(context, ProfileActivity.class);
                         Bundle args = new Bundle();
                         args.putSerializable(Helper.ARG_ACCOUNT, notification.account);
-                        new CachedBundle(context).insertBundle(args, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intent.putExtras(bundle);
@@ -438,7 +439,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             Intent intent = new Intent(context, ProfileActivity.class);
                             Bundle args = new Bundle();
                             args.putSerializable(Helper.ARG_ACCOUNT, relativeNotif.account);
-                            new CachedBundle(context).insertBundle(args, bundleId -> {
+                            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                                 Bundle bundle = new Bundle();
                                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                 intent.putExtras(bundle);
@@ -455,7 +456,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     Intent intent = new Intent(context, ProfileActivity.class);
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_ACCOUNT, notification.account);
-                    new CachedBundle(context).insertBundle(args, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);
@@ -466,7 +467,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     Intent intent = new Intent(context, ProfileActivity.class);
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_ACCOUNT, notification.account);
-                    new CachedBundle(context).insertBundle(args, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);

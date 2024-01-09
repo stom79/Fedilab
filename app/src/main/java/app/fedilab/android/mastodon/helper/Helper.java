@@ -244,6 +244,8 @@ public class Helper {
     public static final String ARG_STATUS_REPLY_ID = "ARG_STATUS_REPLY_ID";
     public static final String ARG_ACCOUNT = "ARG_ACCOUNT";
     public static final String ARG_ACCOUNT_ID = "ARG_ACCOUNT_ID";
+    public static final String ARG_CACHED_ACCOUNT_ID = "ARG_CACHED_ACCOUNT_ID";
+    public static final String ARG_CACHED_STATUS_ID = "ARG_CACHED_STATUS_ID";
     public static final String ARG_ADMIN_DOMAINBLOCK = "ARG_ADMIN_DOMAINBLOCK";
     public static final String ARG_ADMIN_DOMAINBLOCK_DELETE = "ARG_ADMIN_DOMAINBLOCK_DELETE";
     public static final String FEDILAB_MUTED_HASHTAGS = "Fedilab muted hashtags";
@@ -1557,49 +1559,50 @@ public class Helper {
         String channelTitle;
 
         switch (notifType) {
-            case FAV:
+            case FAV -> {
                 channelId = "channel_favourite";
                 channelTitle = context.getString(R.string.channel_notif_fav);
-                break;
-            case FOLLLOW:
+            }
+            case FOLLLOW -> {
                 channelId = "channel_follow";
                 channelTitle = context.getString(R.string.channel_notif_follow);
-                break;
-            case MENTION:
+            }
+            case MENTION -> {
                 channelId = "channel_mention";
                 channelTitle = context.getString(R.string.channel_notif_mention);
-                break;
-            case POLL:
+            }
+            case POLL -> {
                 channelId = "channel_poll";
                 channelTitle = context.getString(R.string.channel_notif_poll);
-                break;
-            case BACKUP:
+            }
+            case BACKUP -> {
                 channelId = "channel_backup";
                 channelTitle = context.getString(R.string.channel_notif_backup);
-                break;
-            case STORE:
+            }
+            case STORE -> {
                 channelId = "channel_media";
                 channelTitle = context.getString(R.string.channel_notif_media);
-                break;
-            case TOOT:
+            }
+            case TOOT -> {
                 channelId = "channel_status";
                 channelTitle = context.getString(R.string.channel_notif_status);
-                break;
-            case UPDATE:
+            }
+            case UPDATE -> {
                 channelId = "channel_update";
                 channelTitle = context.getString(R.string.channel_notif_update);
-                break;
-            case SIGN_UP:
+            }
+            case SIGN_UP -> {
                 channelId = "channel_signup";
                 channelTitle = context.getString(R.string.channel_notif_signup);
-                break;
-            case REPORT:
+            }
+            case REPORT -> {
                 channelId = "channel_report";
                 channelTitle = context.getString(R.string.channel_notif_report);
-                break;
-            default:
+            }
+            default -> {
                 channelId = "channel_boost";
                 channelTitle = context.getString(R.string.channel_notif_boost);
+            }
         }
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(getNotificationIcon(context)).setTicker(message);
@@ -1615,24 +1618,18 @@ public class Helper {
         int prefColor;
         prefColor = Integer.parseInt(sharedpreferences.getString(context.getString(R.string.SET_LED_COLOUR_VAL_N), String.valueOf(LED_COLOUR)));
         switch (prefColor) {
-            case 1: // CYAN
-                ledColour = Color.CYAN;
-                break;
-            case 2: // MAGENTA
-                ledColour = Color.MAGENTA;
-                break;
-            case 3: // GREEN
-                ledColour = Color.GREEN;
-                break;
-            case 4: // RED
-                ledColour = Color.RED;
-                break;
-            case 5: // YELLOW
-                ledColour = Color.YELLOW;
-                break;
-            case 6: // WHITE
-                ledColour = Color.WHITE;
-                break;
+            case 1 -> // CYAN
+                    ledColour = Color.CYAN;
+            case 2 -> // MAGENTA
+                    ledColour = Color.MAGENTA;
+            case 3 -> // GREEN
+                    ledColour = Color.GREEN;
+            case 4 -> // RED
+                    ledColour = Color.RED;
+            case 5 -> // YELLOW
+                    ledColour = Color.YELLOW;
+            case 6 -> // WHITE
+                    ledColour = Color.WHITE;
         }
 
 
@@ -1927,7 +1924,7 @@ public class Helper {
                                 Intent intent = new Intent(activity, ProfileActivity.class);
                                 Bundle args = new Bundle();
                                 args.putSerializable(Helper.ARG_ACCOUNT, account);
-                                new CachedBundle(activity).insertBundle(args, bundleId -> {
+                                new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
                                     Bundle bundle = new Bundle();
                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                     intent.putExtras(bundle);

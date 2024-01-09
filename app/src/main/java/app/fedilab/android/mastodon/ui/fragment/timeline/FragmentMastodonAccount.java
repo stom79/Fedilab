@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.mastodon.helper.MastodonHelper.ACCOUNTS_PER_CALL;
@@ -83,7 +84,7 @@ public class FragmentMastodonAccount extends Fragment {
         token = currentToken;
         if (getArguments() != null) {
             long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(requireActivity()).getBundle(bundleId, this::initializeAfterBundle);
+            new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
@@ -217,7 +218,7 @@ public class FragmentMastodonAccount extends Fragment {
             }
         } else if (timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME) {
             if (firstLoad) {
-                accountsVM.getMutedHome(MainActivity.currentAccount)
+                accountsVM.getMutedHome(currentAccount)
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             }
         } else if (timelineType == Timeline.TimeLineEnum.BLOCKED_TIMELINE) {

@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -95,9 +97,9 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             accountViewHolder.binding.muteHome.setChecked(muted);
             accountViewHolder.binding.muteHome.setOnClickListener(v -> {
                 if (muted) {
-                    accountsVM.unmuteHome(MainActivity.currentAccount, account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
+                    accountsVM.unmuteHome(currentAccount, account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
                 } else {
-                    accountsVM.muteHome(MainActivity.currentAccount, account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
+                    accountsVM.muteHome(currentAccount, account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
                 }
             });
         } else {
@@ -114,7 +116,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Intent intent = new Intent(context, ProfileActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_ACCOUNT, account);
-                new CachedBundle(context).insertBundle(args, bundleId -> {
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
@@ -130,7 +132,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 Intent intent = new Intent(context, ProfileActivity.class);
                                 Bundle args = new Bundle();
                                 args.putSerializable(Helper.ARG_ACCOUNT, accountSearch);
-                                new CachedBundle(context).insertBundle(args, bundleId -> {
+                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                                     Bundle bundle = new Bundle();
                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                     intent.putExtras(bundle);

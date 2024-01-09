@@ -935,7 +935,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     Intent intent = new Intent(context, ProfileActivity.class);
                                     Bundle args = new Bundle();
                                     args.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.reblog != null ? fetchedStatus.reblog.account : fetchedStatus.account);
-                                    new CachedBundle(context).insertBundle(args, bundleId -> {
+                                    new CachedBundle(context).insertBundle(args, currentAccount,bundleId -> {
                                         Bundle bundle = new Bundle();
                                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                         intent.putExtras(bundle);
@@ -949,7 +949,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Intent intent = new Intent(context, ProfileActivity.class);
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_ACCOUNT, status.reblog != null ? status.reblog.account : status.account);
-                    new CachedBundle(context).insertBundle(args, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);
@@ -967,7 +967,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     Intent intent = new Intent(context, ProfileActivity.class);
                                     Bundle args = new Bundle();
                                     args.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.account);
-                                    new CachedBundle(context).insertBundle(args, bundleId -> {
+                                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                                         Bundle bundle = new Bundle();
                                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                         intent.putExtras(bundle);
@@ -981,7 +981,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Intent intent = new Intent(context, ProfileActivity.class);
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_ACCOUNT, status.account);
-                    new CachedBundle(context).insertBundle(args, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);
@@ -3159,7 +3159,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Intent intent = new Intent(context, ProfileActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_ACCOUNT, status.account);
-                new CachedBundle(context).insertBundle(args, bundleId -> {
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
@@ -3215,7 +3215,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Intent intent = new Intent(context, ProfileActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_ACCOUNT, statusToDeal.account);
-                new CachedBundle(context).insertBundle(args, bundleId -> {
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);

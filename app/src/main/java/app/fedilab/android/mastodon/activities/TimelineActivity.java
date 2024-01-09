@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -65,7 +67,7 @@ public class TimelineActivity extends BaseBarActivity {
         if (status != null) {
             args.putSerializable(Helper.ARG_STATUS, status);
         }
-        new CachedBundle(TimelineActivity.this).insertBundle(args, bundleId -> {
+        new CachedBundle(TimelineActivity.this).insertBundle(args, currentAccount, bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
             fragmentMastodonTimeline.setArguments(bundle);

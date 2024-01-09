@@ -263,7 +263,7 @@ public class EditProfileActivity extends BaseBarActivity {
         Bundle args = new Bundle();
         args.putBoolean(Helper.RECEIVE_REDRAW_PROFILE, true);
         args.putSerializable(Helper.ARG_ACCOUNT, account);
-        new CachedBundle(EditProfileActivity.this).insertBundle(args, bundleId -> {
+        new CachedBundle(EditProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
             Intent intentBD = new Intent(Helper.BROADCAST_DATA);

@@ -647,7 +647,7 @@ public class SpannableHelper {
                         Intent intent = new Intent(context, ProfileActivity.class);
                         Bundle args = new Bundle();
                         args.putSerializable(Helper.ARG_ACCOUNT, account);
-                        new CachedBundle(context).insertBundle(args, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intent.putExtras(bundle);
@@ -683,7 +683,7 @@ public class SpannableHelper {
                         Intent intent = new Intent(context, ProfileActivity.class);
                         Bundle args = new Bundle();
                         args.putSerializable(Helper.ARG_ACCOUNT, account);
-                        new CachedBundle(context).insertBundle(args, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intent.putExtras(bundle);
@@ -719,7 +719,7 @@ public class SpannableHelper {
                         Intent intent = new Intent(context, ProfileActivity.class);
                         Bundle args = new Bundle();
                         args.putSerializable(Helper.ARG_ACCOUNT, account);
-                        new CachedBundle(context).insertBundle(args, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intent.putExtras(bundle);
@@ -905,7 +905,7 @@ public class SpannableHelper {
                                                 Intent intent = new Intent(context, ProfileActivity.class);
                                                 Bundle args = new Bundle();
                                                 args.putSerializable(Helper.ARG_ACCOUNT, account.moved);
-                                                new CachedBundle(context).insertBundle(args, bundleId -> {
+                                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                                                     Bundle bundle = new Bundle();
                                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                                     intent.putExtras(bundle);

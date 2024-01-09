@@ -15,6 +15,8 @@ package app.fedilab.android.ui.fragment;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -146,7 +148,7 @@ public class FragmentLoginPickInstanceMastodon extends Fragment implements Insta
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_REMOTE_INSTANCE_STRING, clickedInstance.domain);
             args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC);
-            new CachedBundle(requireActivity()).insertBundle(args, bundleId -> {
+            new CachedBundle(requireActivity()).insertBundle(args, currentAccount, bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 Helper.addFragment(

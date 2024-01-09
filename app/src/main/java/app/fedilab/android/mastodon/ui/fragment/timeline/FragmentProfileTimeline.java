@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -51,7 +53,7 @@ public class FragmentProfileTimeline extends Fragment {
         if (getArguments() != null) {
             long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
             if(bundleId != -1 ) {
-                new CachedBundle(requireActivity()).getBundle(bundleId, bundle -> {
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
                     account = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
                     checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
                 });
@@ -127,7 +129,7 @@ public class FragmentProfileTimeline extends Fragment {
                     args.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                     args.putBoolean(Helper.ARG_SHOW_REBLOGS, show_boosts);
                     args.putBoolean(Helper.ARG_SHOW_REPLIES, show_replies);
-                    new CachedBundle(requireActivity()).insertBundle(args, bundleId -> {
+                    new CachedBundle(requireActivity()).insertBundle(args, currentAccount, bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         fragmentMastodonTimeline.setArguments(bundle);

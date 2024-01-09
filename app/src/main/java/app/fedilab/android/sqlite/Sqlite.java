@@ -108,6 +108,7 @@ public class Sqlite extends SQLiteOpenHelper {
     public static final String TABLE_INTENT = "INTENT";
 
     public static final String COL_BUNDLE = "BUNDLE";
+    public static final String COL_TARGET_ID = "TARGET_ID";
 
 
     private static final String CREATE_TABLE_USER_ACCOUNT = "CREATE TABLE " + TABLE_USER_ACCOUNT + " ("
@@ -239,7 +240,11 @@ public class Sqlite extends SQLiteOpenHelper {
     private final String CREATE_TABLE_INTENT = "CREATE TABLE "
             + TABLE_INTENT + "("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COL_BUNDLE + " TEXT NOT NULL, "
+            + COL_INSTANCE + " TEXT, "
+            + COL_USER_ID + " TEXT, "
+            + COL_TYPE + " TEXT NOT NULL DEFAULT 'ARGS', "
+            + COL_TARGET_ID + " TEXT, "
+            + COL_BUNDLE + " TEXT, "
             + COL_CREATED_AT + " TEXT NOT NULL)";
 
 

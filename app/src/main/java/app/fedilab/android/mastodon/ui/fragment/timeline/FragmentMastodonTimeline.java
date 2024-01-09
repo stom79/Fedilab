@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.networkAvailable;
 
@@ -385,7 +386,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (getArguments() != null) {
             long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
             if(bundleId != -1 ) {
-                new CachedBundle(requireActivity()).getBundle(bundleId, this::initializeAfterBundle);
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
             } else {
                 initializeAfterBundle(getArguments());
             }

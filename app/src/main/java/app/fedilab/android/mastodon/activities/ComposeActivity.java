@@ -488,7 +488,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if(b != null) {
             long bundleId = b.getLong(Helper.ARG_INTENT_ID, -1);
             if(bundleId != -1 ) {
-                new CachedBundle(ComposeActivity.this).getBundle(bundleId, this::initializeAfterBundle);
+                new CachedBundle(ComposeActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
             } else {
                 initializeAfterBundle(b);
             }

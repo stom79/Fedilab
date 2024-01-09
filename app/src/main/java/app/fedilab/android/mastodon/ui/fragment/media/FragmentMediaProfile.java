@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.ui.fragment.media;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -72,7 +74,7 @@ public class FragmentMediaProfile extends Fragment {
 
         if (getArguments() != null) {
             long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(requireActivity()).getBundle(bundleId, bundle -> {
+            new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
                 if(bundle != null) {
                     accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
                     checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);

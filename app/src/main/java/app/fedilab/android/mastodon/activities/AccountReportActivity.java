@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -66,7 +68,7 @@ public class AccountReportActivity extends BaseBarActivity {
         Bundle args = getIntent().getExtras();
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(AccountReportActivity.this).getBundle(bundleId, this::initializeAfterBundle);
+            new CachedBundle(AccountReportActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
