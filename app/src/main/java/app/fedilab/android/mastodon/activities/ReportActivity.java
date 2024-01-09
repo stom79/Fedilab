@@ -74,9 +74,9 @@ public class ReportActivity extends BaseBarActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         Bundle args = getIntent().getExtras();
-        if(args != null) {
+        if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            if(bundleId != -1 ) {
+            if (bundleId != -1) {
                 new CachedBundle(ReportActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
             } else {
                 initializeAfterBundle(args);

@@ -56,7 +56,9 @@ public class CachedBundle {
 
     private transient Context context;
 
-    public CachedBundle() {}
+    public CachedBundle() {
+    }
+
     public CachedBundle(Context context) {
         //Creation of the DB with tables
         this.context = context;
@@ -79,11 +81,11 @@ public class CachedBundle {
         values.put(Sqlite.COL_BUNDLE, serializeBundle(bundle));
         values.put(Sqlite.COL_CREATED_AT, Helper.dateToString(new Date()));
         values.put(Sqlite.COL_TYPE, CacheType.ARGS.getValue());
-        if( bundle.containsKey(Helper.ARG_ACCOUNT) && currentUser != null) {
+        if (bundle.containsKey(Helper.ARG_ACCOUNT) && currentUser != null) {
             ContentValues valuesAccount = new ContentValues();
             Bundle bundleAccount = new Bundle();
             Account account = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
-            if(account != null) {
+            if (account != null) {
                 bundleAccount.putSerializable(Helper.ARG_ACCOUNT, account);
                 valuesAccount.put(Sqlite.COL_BUNDLE, serializeBundle(bundleAccount));
                 valuesAccount.put(Sqlite.COL_CREATED_AT, Helper.dateToString(new Date()));
@@ -95,11 +97,11 @@ public class CachedBundle {
                 db.insertOrThrow(Sqlite.TABLE_INTENT, null, valuesAccount);
             }
         }
-        if( bundle.containsKey(Helper.ARG_STATUS) && currentUser != null) {
+        if (bundle.containsKey(Helper.ARG_STATUS) && currentUser != null) {
             ContentValues valuesAccount = new ContentValues();
             Bundle bundleStatus = new Bundle();
             Status status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
-            if(status != null) {
+            if (status != null) {
                 bundleStatus.putSerializable(Helper.ARG_STATUS, status);
                 valuesAccount.put(Sqlite.COL_BUNDLE, serializeBundle(bundleStatus));
                 valuesAccount.put(Sqlite.COL_CREATED_AT, Helper.dateToString(new Date()));
@@ -119,36 +121,29 @@ public class CachedBundle {
         }
     }
 
-    public interface BundleCallback{
-        void get(Bundle bundle);
-    }
-
-    public interface BundleInsertCallback{
-        void inserted(long bundleId);
-    }
-
     public void getBundle(long id, BaseAccount Account, BundleCallback callback) {
-        new Thread(()->{
+        new Thread(() -> {
             Bundle bundle = null;
             try {
                 CachedBundle cachedBundle = getCachedBundle(String.valueOf(id));
                 if (cachedBundle != null) {
                     bundle = cachedBundle.bundle;
-                    if(bundle != null && bundle.containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
+                    if (bundle != null && bundle.containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
                         Account cachedAccount = getCachedAccount(Account, bundle.getString(Helper.ARG_CACHED_ACCOUNT_ID));
-                        if(cachedAccount != null) {
+                        if (cachedAccount != null) {
                             bundle.putSerializable(Helper.ARG_ACCOUNT, cachedAccount);
                         }
                     }
-                    if(bundle != null && bundle.containsKey(Helper.ARG_CACHED_STATUS_ID)) {
+                    if (bundle != null && bundle.containsKey(Helper.ARG_CACHED_STATUS_ID)) {
                         Status cachedStatus = getCachedStatus(Account, bundle.getString(Helper.ARG_CACHED_STATUS_ID));
-                        if(cachedStatus != null) {
+                        if (cachedStatus != null) {
                             bundle.putSerializable(Helper.ARG_STATUS, cachedStatus);
                         }
                     }
                 }
                 removeIntent(String.valueOf(id));
-            } catch (DBException ignored) {}
+            } catch (DBException ignored) {
+            }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Bundle finalBundle = bundle;
             Runnable myRunnable = () -> callback.get(finalBundle);
@@ -157,19 +152,18 @@ public class CachedBundle {
     }
 
     public void insertBundle(Bundle bundle, BaseAccount Account, BundleInsertCallback callback) {
-        new Thread(()->{
+        new Thread(() -> {
             long dbBundleId = -1;
             try {
                 dbBundleId = insertIntent(bundle, Account);
-            } catch (DBException ignored) {}
+            } catch (DBException ignored) {
+            }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             long finalDbBundleId = dbBundleId;
             Runnable myRunnable = () -> callback.inserted(finalDbBundleId);
             mainHandler.post(myRunnable);
         }).start();
     }
-
-
 
     /**
      * Returns a bundle by targeted account id
@@ -181,24 +175,23 @@ public class CachedBundle {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
-        if(account == null || target_id == null) {
+        if (account == null || target_id == null) {
             return null;
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_INTENT, null, Sqlite.COL_USER_ID + " = '" + account.user_id + "' AND "
-                    + Sqlite.COL_INSTANCE + " = '" + account.instance+ "' AND "
+                    + Sqlite.COL_INSTANCE + " = '" + account.instance + "' AND "
                     + Sqlite.COL_TYPE + " = '" + CacheType.ACCOUNT.getValue() + "' AND "
                     + Sqlite.COL_TARGET_ID + " = '" + target_id + "'", null, null, null, null, "1");
             CachedBundle cachedBundle = cursorToCachedBundle(c);
-            if(cachedBundle != null && cachedBundle.bundle.containsKey(Helper.ARG_ACCOUNT) ) {
-                return  (Account) cachedBundle.bundle.getSerializable(Helper.ARG_ACCOUNT);
+            if (cachedBundle != null && cachedBundle.bundle.containsKey(Helper.ARG_ACCOUNT)) {
+                return (Account) cachedBundle.bundle.getSerializable(Helper.ARG_ACCOUNT);
             }
         } catch (Exception e) {
             return null;
         }
         return null;
     }
-
 
     /**
      * Returns a bundle by targeted status id
@@ -210,24 +203,23 @@ public class CachedBundle {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
-        if(account == null || target_id == null) {
+        if (account == null || target_id == null) {
             return null;
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_INTENT, null, Sqlite.COL_USER_ID + " = '" + account.user_id + "' AND "
-                    + Sqlite.COL_INSTANCE + " = '" + account.instance+ "' AND "
+                    + Sqlite.COL_INSTANCE + " = '" + account.instance + "' AND "
                     + Sqlite.COL_TYPE + " = '" + CacheType.STATUS.getValue() + "' AND "
                     + Sqlite.COL_TARGET_ID + " = '" + target_id + "'", null, null, null, null, "1");
             CachedBundle cachedBundle = cursorToCachedBundle(c);
-            if(cachedBundle != null && cachedBundle.bundle.containsKey(Helper.ARG_STATUS) ) {
-                return  (Status) cachedBundle.bundle.getSerializable(Helper.ARG_STATUS);
+            if (cachedBundle != null && cachedBundle.bundle.containsKey(Helper.ARG_STATUS)) {
+                return (Status) cachedBundle.bundle.getSerializable(Helper.ARG_STATUS);
             }
         } catch (Exception e) {
             return null;
         }
         return null;
     }
-
 
     /**
      * Returns a bundle by its ID
@@ -259,23 +251,20 @@ public class CachedBundle {
         db.delete(Sqlite.TABLE_INTENT, Sqlite.COL_ID + " = '" + id + "'", null);
     }
 
-
     /**
      * Remove a bundle from db
-     *
      */
     private void removeIntent(BaseAccount account, String target_id) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
-        if(account == null || target_id == null) {
+        if (account == null || target_id == null) {
             return;
         }
         db.delete(Sqlite.TABLE_INTENT, Sqlite.COL_USER_ID + " = '" + account.user_id + "' AND "
-                + Sqlite.COL_INSTANCE + " = '" + account.instance+ "' AND "
+                + Sqlite.COL_INSTANCE + " = '" + account.instance + "' AND "
                 + Sqlite.COL_TARGET_ID + " = '" + target_id + "'", null);
     }
-
 
     /***
      * Method to hydrate an CachedBundle from database
@@ -325,7 +314,7 @@ public class CachedBundle {
             zos.write(parcel.marshall());
             zos.close();
             base64 = Base64.encodeToString(bos.toByteArray(), 0);
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             parcel.recycle();
@@ -350,12 +339,11 @@ public class CachedBundle {
             bundle = parcel.readBundle(getClass().getClassLoader());
         } catch (IOException e) {
             e.printStackTrace();
-        }  finally {
+        } finally {
             parcel.recycle();
         }
         return bundle;
     }
-
 
     public enum CacheType {
         @SerializedName("ARGS")
@@ -370,9 +358,19 @@ public class CachedBundle {
         CacheType(String value) {
             this.value = value;
         }
+
         public String getValue() {
             return value;
         }
+    }
+
+    public interface BundleCallback {
+        void get(Bundle bundle);
+    }
+
+
+    public interface BundleInsertCallback {
+        void inserted(long bundleId);
     }
 
 }

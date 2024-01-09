@@ -66,14 +66,14 @@ public class CustomReceiver extends MessagingReceiver {
     @Override
     public void onNewEndpoint(@Nullable Context context, @NotNull String endpoint, @NotNull String slug) {
         if (context != null) {
-            synchronized(this) {
+            synchronized (this) {
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                String storedEnpoint = sharedpreferences.getString(context.getString(R.string.SET_STORED_ENDPOINT)+slug, null);
-                if(storedEnpoint == null || !storedEnpoint.equals(endpoint)) {
+                String storedEnpoint = sharedpreferences.getString(context.getString(R.string.SET_STORED_ENDPOINT) + slug, null);
+                if (storedEnpoint == null || !storedEnpoint.equals(endpoint)) {
                     PushNotifications
                             .registerPushNotifications(context, endpoint, slug);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString(context.getString(R.string.SET_STORED_ENDPOINT)+slug, endpoint);
+                    editor.putString(context.getString(R.string.SET_STORED_ENDPOINT) + slug, endpoint);
                     editor.commit();
                 }
             }

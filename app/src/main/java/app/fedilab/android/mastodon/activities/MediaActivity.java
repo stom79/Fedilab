@@ -240,7 +240,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
     }
 
     private Spannable linkify(Context context, String content) {
-        if(content == null) {
+        if (content == null) {
             return new SpannableString("");
         }
         Matcher matcher = WEB_URL.matcher(content);
@@ -263,7 +263,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        if(!underlineLinks) {
+                        if (!underlineLinks) {
                             ds.setUnderlineText(status != null && status.underlined);
                         }
                     }
@@ -300,7 +300,8 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             finish();
             try {
                 ActivityCompat.finishAfterTransition(MediaActivity.this);
-            }catch (Exception ignored){}
+            } catch (Exception ignored) {
+            }
             return true;
         } else if (item.getItemId() == R.id.action_save) {
             int position = binding.mediaViewpager.getCurrentItem();

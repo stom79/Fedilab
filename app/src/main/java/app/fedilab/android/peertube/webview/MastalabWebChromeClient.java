@@ -109,11 +109,10 @@ public class MastalabWebChromeClient extends WebChromeClient implements MediaPla
 
     @Override
     public void onShowCustomView(View view, CustomViewCallback callback) {
-        if (view instanceof FrameLayout) {
+        if (view instanceof FrameLayout frameLayout) {
             if (((AppCompatActivity) activity).getSupportActionBar() != null)
                 ((AppCompatActivity) activity).getSupportActionBar().hide();
             // A video wants to be shown
-            FrameLayout frameLayout = (FrameLayout) view;
             View focusedChild = frameLayout.getFocusedChild();
 
             // Save video related variables
@@ -125,9 +124,8 @@ public class MastalabWebChromeClient extends WebChromeClient implements MediaPla
             activityNonVideoView.setVisibility(View.INVISIBLE);
             activityVideoView.addView(videoViewContainer, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             activityVideoView.setVisibility(View.VISIBLE);
-            if (focusedChild instanceof android.widget.VideoView) {
+            if (focusedChild instanceof android.widget.VideoView videoView) {
                 // android.widget.VideoView (typically API level <11)
-                android.widget.VideoView videoView = (android.widget.VideoView) focusedChild;
                 // Handle all the required events
                 videoView.setOnCompletionListener(this);
                 videoView.setOnErrorListener(this);

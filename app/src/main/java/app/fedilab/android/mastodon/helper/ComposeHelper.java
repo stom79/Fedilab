@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 
-
 public class ComposeHelper {
 
 
@@ -44,13 +43,13 @@ public class ComposeHelper {
         Matcher matcher = mentionPatternALL.matcher(content);
         while (matcher.find()) {
             String mentionLong = matcher.group(1);
-            if(mentionLong != null) {
+            if (mentionLong != null) {
                 if (!mentions.contains(mentionLong)) {
                     mentions.add(mentionLong);
                 }
             }
             String mentionShort = matcher.group(2);
-            if(mentionShort != null) {
+            if (mentionShort != null) {
                 if (!mentions.contains(mentionShort)) {
                     mentions.add(mentionShort);
                 }

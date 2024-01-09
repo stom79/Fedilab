@@ -36,7 +36,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.database.MatrixCursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
@@ -73,7 +72,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.cursoradapter.widget.CursorAdapter;
@@ -81,7 +79,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -1625,8 +1622,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             if (binding.viewPager.getAdapter() != null) {
                 int tabPosition = binding.tabLayout.getSelectedTabPosition();
                 Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, Math.max(tabPosition, 0));
-                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                    FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                if (fragment instanceof FragmentMastodonTimeline fragmentMastodonTimeline && fragment.isVisible()) {
                     fragmentMastodonTimeline.refreshAllAdapters();
                 }
             }
@@ -1921,14 +1917,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         int position = binding.tabLayout.getSelectedTabPosition();
         if (binding.viewPager.getAdapter() != null) {
             Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, Math.max(position, 0));
-            if (fragment instanceof FragmentMastodonTimeline) {
-                FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+            if (fragment instanceof FragmentMastodonTimeline fragmentMastodonTimeline) {
                 fragmentMastodonTimeline.scrollToTop();
-            } else if (fragment instanceof FragmentMastodonConversation) {
-                FragmentMastodonConversation fragmentMastodonConversation = ((FragmentMastodonConversation) fragment);
+            } else if (fragment instanceof FragmentMastodonConversation fragmentMastodonConversation) {
                 fragmentMastodonConversation.scrollToTop();
-            } else if (fragment instanceof FragmentNotificationContainer) {
-                FragmentNotificationContainer fragmentNotificationContainer = ((FragmentNotificationContainer) fragment);
+            } else if (fragment instanceof FragmentNotificationContainer fragmentNotificationContainer) {
                 fragmentNotificationContainer.scrollToTop();
             }
         }

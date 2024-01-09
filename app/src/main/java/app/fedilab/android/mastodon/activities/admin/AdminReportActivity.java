@@ -48,7 +48,6 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -115,7 +114,7 @@ public class AdminReportActivity extends BaseBarActivity {
 
 
     private void initializeAfterBundle(Bundle bundle) {
-        if(bundle != null) {
+        if (bundle != null) {
             adminAccount = (AdminAccount) bundle.getSerializable(Helper.ARG_ACCOUNT);
             if (adminAccount != null) {
                 account = adminAccount.account;

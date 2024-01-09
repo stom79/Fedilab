@@ -52,6 +52,7 @@ public class AccountReportActivity extends BaseBarActivity {
     private ActivityAdminReportBinding binding;
     private AdminVM adminVM;
     private AdminAccount targeted_account;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +74,10 @@ public class AccountReportActivity extends BaseBarActivity {
             initializeAfterBundle(null);
         }
     }
+
     private void initializeAfterBundle(Bundle bundle) {
 
-        if(bundle != null) {
+        if (bundle != null) {
             account_id = bundle.getString(Helper.ARG_ACCOUNT_ID, null);
             targeted_account = (AdminAccount) bundle.getSerializable(Helper.ARG_ACCOUNT);
             report = (AdminReport) bundle.getSerializable(Helper.ARG_REPORT);

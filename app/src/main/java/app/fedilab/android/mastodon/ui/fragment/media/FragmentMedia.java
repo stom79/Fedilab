@@ -111,11 +111,15 @@ public class FragmentMedia extends Fragment {
             }
         });
         binding.mediaPicture.setOnClickListener(v -> {
-            if(isAdded()){((MediaActivity) requireActivity()).toogleFullScreen();}
+            if (isAdded()) {
+                ((MediaActivity) requireActivity()).toogleFullScreen();
+            }
         });
 
         binding.mediaVideo.setOnClickListener(v -> {
-            if(isAdded()) {((MediaActivity) requireActivity()).toogleFullScreen();}
+            if (isAdded()) {
+                ((MediaActivity) requireActivity()).toogleFullScreen();
+            }
         });
 
         String type = attachment.type;
@@ -367,7 +371,8 @@ public class FragmentMedia extends Fragment {
                                 binding.videoLayout.setVisibility(View.GONE);
                                 try {
                                     ActivityCompat.finishAfterTransition(requireActivity());
-                                }catch (Exception ignored){}
+                                } catch (Exception ignored) {
+                                }
                             }
                         }
 

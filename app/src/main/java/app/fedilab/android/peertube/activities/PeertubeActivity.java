@@ -1591,7 +1591,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 }
             }
         };
-        ContextCompat.registerReceiver(PeertubeActivity.this, mPowerKeyReceiver, theFilter,  ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(PeertubeActivity.this, mPowerKeyReceiver, theFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     private void unregisterReceiver() {

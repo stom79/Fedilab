@@ -52,7 +52,7 @@ public class FragmentProfileTimeline extends Fragment {
         binding = FragmentProfileTimelinesBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
             long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
-            if(bundleId != -1 ) {
+            if (bundleId != -1) {
                 new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
                     account = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
                     checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
@@ -91,10 +91,7 @@ public class FragmentProfileTimeline extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
                 if (binding.viewpager.getAdapter() != null && binding.viewpager
                         .getAdapter()
-                        .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem()) instanceof FragmentMastodonTimeline) {
-                    FragmentMastodonTimeline fragmentMastodonTimeline = (FragmentMastodonTimeline) binding.viewpager
-                            .getAdapter()
-                            .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem());
+                        .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem()) instanceof FragmentMastodonTimeline fragmentMastodonTimeline) {
                     fragmentMastodonTimeline.goTop();
                 }
             }
@@ -116,10 +113,7 @@ public class FragmentProfileTimeline extends Fragment {
             popup.setOnDismissListener(menu1 -> {
                 if (binding.viewpager.getAdapter() != null && binding.viewpager
                         .getAdapter()
-                        .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem()) instanceof FragmentMastodonTimeline) {
-                    FragmentMastodonTimeline fragmentMastodonTimeline = (FragmentMastodonTimeline) binding.viewpager
-                            .getAdapter()
-                            .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem());
+                        .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem()) instanceof FragmentMastodonTimeline fragmentMastodonTimeline) {
                     FragmentTransaction fragTransaction = getChildFragmentManager().beginTransaction();
                     fragTransaction.detach(fragmentMastodonTimeline).commit();
                     Bundle args = new Bundle();

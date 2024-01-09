@@ -114,14 +114,11 @@ public class SearchResultTabActivity extends BaseBarActivity {
                 Fragment fragment;
                 if (binding.searchViewpager.getAdapter() != null) {
                     fragment = (Fragment) binding.searchViewpager.getAdapter().instantiateItem(binding.searchViewpager, tab.getPosition());
-                    if (fragment instanceof FragmentMastodonAccount) {
-                        FragmentMastodonAccount fragmentMastodonAccount = ((FragmentMastodonAccount) fragment);
+                    if (fragment instanceof FragmentMastodonAccount fragmentMastodonAccount) {
                         fragmentMastodonAccount.scrollToTop();
-                    } else if (fragment instanceof FragmentMastodonTimeline) {
-                        FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                    } else if (fragment instanceof FragmentMastodonTimeline fragmentMastodonTimeline) {
                         fragmentMastodonTimeline.scrollToTop();
-                    } else if (fragment instanceof FragmentMastodonTag) {
-                        FragmentMastodonTag fragmentMastodonTag = ((FragmentMastodonTag) fragment);
+                    } else if (fragment instanceof FragmentMastodonTag fragmentMastodonTag) {
                         fragmentMastodonTag.scrollToTop();
                     }
                 }

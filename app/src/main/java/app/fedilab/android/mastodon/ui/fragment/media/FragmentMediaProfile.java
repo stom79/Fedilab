@@ -75,7 +75,7 @@ public class FragmentMediaProfile extends Fragment {
         if (getArguments() != null) {
             long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
             new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
-                if(bundle != null) {
+                if (bundle != null) {
                     accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
                     checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
                 }

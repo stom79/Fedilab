@@ -36,7 +36,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,7 +62,6 @@ import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.RemoteInstance;
 import app.fedilab.android.mastodon.client.entities.app.TagTimeline;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
-import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.GlideApp;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -385,7 +383,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         flagLoading = false;
         if (getArguments() != null) {
             long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
-            if(bundleId != -1 ) {
+            if (bundleId != -1) {
                 new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
             } else {
                 initializeAfterBundle(getArguments());
@@ -397,7 +395,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     private void initializeAfterBundle(Bundle bundle) {
-        new Thread(()->{
+        new Thread(() -> {
             if (bundle != null) {
                 timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
                 lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);

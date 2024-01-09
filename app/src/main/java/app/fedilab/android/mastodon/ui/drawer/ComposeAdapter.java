@@ -51,7 +51,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -110,7 +109,6 @@ import app.fedilab.android.databinding.DrawerStatusComposeBinding;
 import app.fedilab.android.databinding.DrawerStatusSimpleBinding;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
 import app.fedilab.android.mastodon.activities.MediaActivity;
-import app.fedilab.android.mastodon.activities.SearchResultTabActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Emoji;
@@ -549,7 +547,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
                     String defaultFormat = sharedpreferences.getString(context.getString(R.string.SET_THREAD_MESSAGE), context.getString(R.string.DEFAULT_THREAD_VALUE));
                     //User asked to be prompted for threading long messages
-                    if(defaultFormat.compareToIgnoreCase("ASK") == 0 && !splitChoiceDone) {
+                    if (defaultFormat.compareToIgnoreCase("ASK") == 0 && !splitChoiceDone) {
                         splitChoiceDone = true;
                         AlertDialog.Builder threadConfirm = new MaterialAlertDialogBuilder(context);
                         threadConfirm.setTitle(context.getString(R.string.thread_long_this_message));
@@ -561,29 +559,29 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             holder.binding.content.setText(splitText.get(0));
                             int statusListSize = statusList.size();
                             int i = 0;
-                            for(String message: splitText) {
-                                if(i==0) {
+                            for (String message : splitText) {
+                                if (i == 0) {
                                     i++;
                                     continue;
                                 }
-                                manageDrafts.onItemDraftAdded(statusListSize+(i-1), message);
+                                manageDrafts.onItemDraftAdded(statusListSize + (i - 1), message);
                                 buttonVisibility(holder);
                                 i++;
                             }
                             dialog.dismiss();
                         });
                         threadConfirm.show();
-                    } else if(defaultFormat.compareToIgnoreCase("ENABLE") == 0) { //User wants to automatically thread long messages
+                    } else if (defaultFormat.compareToIgnoreCase("ENABLE") == 0) { //User wants to automatically thread long messages
                         proceedToSplit = true;
                         ArrayList<String> splitText = ComposeHelper.splitToots(s.toString(), max_car);
                         int statusListSize = statusList.size();
                         int i = 0;
-                        for(String message: splitText) {
-                            if(i==0) {
+                        for (String message : splitText) {
+                            if (i == 0) {
                                 i++;
                                 continue;
                             }
-                            manageDrafts.onItemDraftAdded(statusListSize+(i-1), message);
+                            manageDrafts.onItemDraftAdded(statusListSize + (i - 1), message);
                             buttonVisibility(holder);
                             i++;
                         }
@@ -594,7 +592,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void afterTextChanged(Editable s) {
                 String contentString = s.toString();
-                if(proceedToSplit) {
+                if (proceedToSplit) {
                     int max_car = MastodonHelper.getInstanceMaxChars(context);
                     ArrayList<String> splitText = ComposeHelper.splitToots(contentString, max_car);
                     contentString = splitText.get(0);
@@ -1352,21 +1350,21 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (getItemViewType(position) == TYPE_NORMAL) {
             Status status = statusList.get(position);
             StatusSimpleViewHolder holder = (StatusSimpleViewHolder) viewHolder;
-            if(status.media_attachments != null && status.media_attachments.size() > 0 ) {
+            if (status.media_attachments != null && status.media_attachments.size() > 0) {
                 holder.binding.simpleMedia.removeAllViews();
                 List<Attachment> attachmentList = statusList.get(position).media_attachments;
-                for(Attachment attachment: attachmentList) {
+                for (Attachment attachment : attachmentList) {
                     DrawerMediaListBinding drawerMediaListBinding = DrawerMediaListBinding.inflate(LayoutInflater.from(context), holder.binding.simpleMedia, false);
                     Glide.with(drawerMediaListBinding.media.getContext())
                             .load(attachment.preview_url)
                             .into(drawerMediaListBinding.media);
 
-                    if(attachment.filename != null) {
+                    if (attachment.filename != null) {
                         drawerMediaListBinding.mediaName.setText(attachment.filename);
-                    } else if (attachment.preview_url != null){
+                    } else if (attachment.preview_url != null) {
                         drawerMediaListBinding.mediaName.setText(URLUtil.guessFileName(attachment.preview_url, null, null));
                     }
-                    drawerMediaListBinding.getRoot().setOnClickListener(v->{
+                    drawerMediaListBinding.getRoot().setOnClickListener(v -> {
                         Intent mediaIntent = new Intent(context, MediaActivity.class);
                         Bundle b = new Bundle();
                         ArrayList<Attachment> attachments = new ArrayList<>();

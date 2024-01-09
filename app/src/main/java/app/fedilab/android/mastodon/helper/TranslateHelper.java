@@ -81,7 +81,7 @@ public class TranslateHelper {
         String translate;
         if (translates == null || translates.size() <= 1) {
             translate = MyTransL.getLocale();
-            if(translates != null && translates.size() == 1 ) {
+            if (translates != null && translates.size() == 1) {
                 for (String val : translates) {
                     translate = val;
                 }

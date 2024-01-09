@@ -32,7 +32,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-
 import androidx.preference.PreferenceManager;
 import androidx.work.Data;
 import androidx.work.ForegroundInfo;

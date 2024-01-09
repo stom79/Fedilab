@@ -60,63 +60,63 @@ class InstanceHealthActivity : DialogFragment() {
 
     private fun checkInstance() {
         val instanceSocialVM =
-            ViewModelProvider(this@InstanceHealthActivity)[InstanceSocialVM::class.java]
+                ViewModelProvider(this@InstanceHealthActivity)[InstanceSocialVM::class.java]
         instanceSocialVM.getInstances(BaseMainActivity.currentInstance.trim { it <= ' ' })
-            .observe(this@InstanceHealthActivity) { instanceSocialList: InstanceSocial? ->
-                val instance = instanceSocialList?.instances?.firstOrNull { instance ->
-                    instance.name.equals(
-                        BaseMainActivity.currentInstance.trim { it <= ' ' },
-                        ignoreCase = true
-                    )
-                }
-                if (instance != null) {
-                    instance.thumbnail?.takeIf { it != "null" }?.let { thumbnail ->
-                        Glide.with(this@InstanceHealthActivity)
-                            .asBitmap()
-                            .placeholder(R.drawable.default_banner)
-                            .load(thumbnail)
-                            .into(binding.backgroundImage)
+                .observe(this@InstanceHealthActivity) { instanceSocialList: InstanceSocial? ->
+                    val instance = instanceSocialList?.instances?.firstOrNull { instance ->
+                        instance.name.equals(
+                                BaseMainActivity.currentInstance.trim { it <= ' ' },
+                                ignoreCase = true
+                        )
                     }
-                    binding.name.text = instance.name
-                    if (instance.up) {
-                        binding.up.setText(R.string.is_up)
-                        binding.up.setTextColor(
-                            ThemeHelper.getAttColor(
-                                requireContext(),
-                                R.attr.colorPrimary
+                    if (instance != null) {
+                        instance.thumbnail?.takeIf { it != "null" }?.let { thumbnail ->
+                            Glide.with(this@InstanceHealthActivity)
+                                    .asBitmap()
+                                    .placeholder(R.drawable.default_banner)
+                                    .load(thumbnail)
+                                    .into(binding.backgroundImage)
+                        }
+                        binding.name.text = instance.name
+                        if (instance.up) {
+                            binding.up.setText(R.string.is_up)
+                            binding.up.setTextColor(
+                                    ThemeHelper.getAttColor(
+                                            requireContext(),
+                                            R.attr.colorPrimary
+                                    )
                             )
+                        } else {
+                            binding.up.setText(R.string.is_down)
+                            binding.up.setTextColor(
+                                    ThemeHelper.getAttColor(
+                                            requireContext(),
+                                            R.attr.colorError
+                                    )
+                            )
+                        }
+                        binding.uptime.text = getString(
+                                R.string.instance_health_uptime,
+                                instance.uptime * 100
+                        )
+                        if (instance.checked_at != null)
+                            binding.checkedAt.text =
+                                    getString(
+                                            R.string.instance_health_checkedat,
+                                            Helper.dateToString(instance.checked_at)
+                                    )
+                        binding.values.text = getString(
+                                R.string.instance_health_indication,
+                                instance.version,
+                                Helper.withSuffix(instance.active_users.toLong()),
+                                Helper.withSuffix(instance.statuses.toLong())
                         )
                     } else {
-                        binding.up.setText(R.string.is_down)
-                        binding.up.setTextColor(
-                            ThemeHelper.getAttColor(
-                                requireContext(),
-                                R.attr.colorError
-                            )
-                        )
+                        binding.instanceData.isVisible = false
+                        binding.noInstance.isVisible = true
                     }
-                    binding.uptime.text = getString(
-                        R.string.instance_health_uptime,
-                        instance.uptime * 100
-                    )
-                    if (instance.checked_at != null)
-                        binding.checkedAt.text =
-                            getString(
-                                R.string.instance_health_checkedat,
-                                Helper.dateToString(instance.checked_at)
-                            )
-                    binding.values.text = getString(
-                        R.string.instance_health_indication,
-                        instance.version,
-                        Helper.withSuffix(instance.active_users.toLong()),
-                        Helper.withSuffix(instance.statuses.toLong())
-                    )
-                } else {
-                    binding.instanceData.isVisible = false
-                    binding.noInstance.isVisible = true
+                    binding.loader.isVisible = false
                 }
-                binding.loader.isVisible = false
-            }
     }
 
     override fun onDestroyView() {

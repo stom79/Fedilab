@@ -31,6 +31,7 @@ import app.fedilab.android.mastodon.helper.Helper;
 public class FragmentTimelinesSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     boolean recreate;
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.pref_timelines);

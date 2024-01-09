@@ -21,7 +21,6 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +30,6 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -59,7 +57,6 @@ public class FragmentMastodonContext extends Fragment {
     private StatusesVM statusesVM;
     private List<Status> statuses;
     private StatusAdapter statusAdapter;
-    private boolean refresh;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -128,6 +125,7 @@ public class FragmentMastodonContext extends Fragment {
             }
         }
     };
+    private boolean refresh;
     private Status focusedStatus;
     private String remote_instance, focusedStatusURI;
     private Status firstStatus;

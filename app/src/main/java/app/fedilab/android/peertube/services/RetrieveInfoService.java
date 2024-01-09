@@ -54,7 +54,7 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
         super.onCreate();
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
-        ContextCompat.registerReceiver(RetrieveInfoService.this, networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION),  ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(RetrieveInfoService.this, networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
                     getString(R.string.notification_channel_name),

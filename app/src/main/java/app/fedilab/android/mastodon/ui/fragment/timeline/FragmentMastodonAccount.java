@@ -39,7 +39,6 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.mastodon.activities.SearchResultTabActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
@@ -98,7 +97,7 @@ public class FragmentMastodonAccount extends Fragment {
     }
 
     private void initializeAfterBundle(Bundle bundle) {
-        if(bundle != null) {
+        if (bundle != null) {
             search = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
             accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
             followType = (FedilabProfileTLPageAdapter.follow_type) bundle.getSerializable(Helper.ARG_FOLLOW_TYPE);

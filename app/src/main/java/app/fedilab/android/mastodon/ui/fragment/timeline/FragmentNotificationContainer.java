@@ -224,8 +224,7 @@ public class FragmentNotificationContainer extends Fragment {
                 Fragment fragment;
                 if (binding.viewpagerNotificationContainer.getAdapter() != null) {
                     fragment = (Fragment) binding.viewpagerNotificationContainer.getAdapter().instantiateItem(binding.viewpagerNotificationContainer, tab.getPosition());
-                    if (fragment instanceof FragmentMastodonNotification) {
-                        FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
+                    if (fragment instanceof FragmentMastodonNotification fragmentMastodonNotification) {
                         fragmentMastodonNotification.scrollToTop();
                     }
                 }

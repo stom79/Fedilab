@@ -112,7 +112,7 @@ public class AdminAccountActivity extends BaseActivity {
 
     private void initializeAfterBundle(Bundle bundle) {
 
-        if(bundle !=null) {
+        if (bundle != null) {
             adminAccount = (AdminAccount) bundle.getSerializable(Helper.ARG_ACCOUNT);
             account_id = bundle.getString(Helper.ARG_ACCOUNT_ID, null);
         }

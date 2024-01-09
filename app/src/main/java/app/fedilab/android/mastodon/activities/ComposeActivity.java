@@ -50,7 +50,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.work.Data;
@@ -485,9 +484,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
         statusList = new ArrayList<>();
         Bundle b = getIntent().getExtras();
-        if(b != null) {
+        if (b != null) {
             long bundleId = b.getLong(Helper.ARG_INTENT_ID, -1);
-            if(bundleId != -1 ) {
+            if (bundleId != -1) {
                 new CachedBundle(ComposeActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
             } else {
                 initializeAfterBundle(b);
@@ -497,7 +496,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
     private void initializeAfterBundle(Bundle b) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        new Thread(()->{
+        new Thread(() -> {
             if (b != null) {
                 statusReply = (Status) b.getSerializable(Helper.ARG_STATUS_REPLY);
                 statusQuoted = (Status) b.getSerializable(Helper.ARG_QUOTED_MESSAGE);
@@ -802,7 +801,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         status.id = Helper.generateIdString();
         status.mentions = statusList.get(position - 1).mentions;
         status.visibility = statusList.get(position - 1).visibility;
-        if(initialContent != null) {
+        if (initialContent != null) {
             status.text = initialContent;
         }
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);

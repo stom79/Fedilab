@@ -88,7 +88,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -935,7 +934,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     Intent intent = new Intent(context, ProfileActivity.class);
                                     Bundle args = new Bundle();
                                     args.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.reblog != null ? fetchedStatus.reblog.account : fetchedStatus.account);
-                                    new CachedBundle(context).insertBundle(args, currentAccount,bundleId -> {
+                                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
                                         Bundle bundle = new Bundle();
                                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                         intent.putExtras(bundle);
@@ -1299,13 +1298,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     holder.binding.replyCount.setVisibility(View.GONE);
                 }
-                if(statusToDeal.reblogs_count > 0) {
+                if (statusToDeal.reblogs_count > 0) {
                     holder.binding.boostCount.setText(String.valueOf(statusToDeal.reblogs_count));
                     holder.binding.boostCount.setVisibility(View.VISIBLE);
                 } else {
                     holder.binding.boostCount.setVisibility(View.GONE);
                 }
-                if(statusToDeal.favourites_count > 0) {
+                if (statusToDeal.favourites_count > 0) {
                     holder.binding.favoriteCount.setText(String.valueOf(statusToDeal.favourites_count));
                     holder.binding.favoriteCount.setVisibility(View.VISIBLE);
                 } else {
@@ -1330,7 +1329,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.binding.dateShort.setCompoundDrawables(null, null, null, null);
             }
-            if(relativeDate) {
+            if (relativeDate) {
                 if (originalDateForBoost || status.reblog == null) {
                     holder.binding.dateShort.setText(Helper.dateDiff(context, statusToDeal.created_at));
                 } else {
@@ -1795,7 +1794,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (statusToDeal.poll != null && statusToDeal.poll.options != null) {
             int normalize;
-            if(statusToDeal.poll.multiple && statusToDeal.poll.voters_count > 1) {
+            if (statusToDeal.poll.multiple && statusToDeal.poll.voters_count > 1) {
                 normalize = statusToDeal.poll.voters_count;
             } else {
                 normalize = statusToDeal.poll.votes_count;
@@ -3238,8 +3237,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder viewHolder) {
         super.onViewRecycled(viewHolder);
-        if (viewHolder instanceof StatusViewHolder) {
-            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+        if (viewHolder instanceof StatusViewHolder holder) {
             if (holder.binding != null) {
                 PlayerView doubleTapPlayerView = holder.binding.media.getRoot().findViewById(R.id.media_video);
                 if (doubleTapPlayerView != null && doubleTapPlayerView.getPlayer() != null) {

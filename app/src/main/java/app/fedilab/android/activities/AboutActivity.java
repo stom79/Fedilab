@@ -28,7 +28,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -87,10 +86,10 @@ public class AboutActivity extends BaseBarActivity {
 
 
         String finalVersion = version;
-        binding.aboutVersionCopy.setOnClickListener(v->{
+        binding.aboutVersionCopy.setOnClickListener(v -> {
 
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            String content = "Fedilab v" + finalVersion + " for " + (BuildConfig.DONATIONS?"FDroid":"Google");
+            String content = "Fedilab v" + finalVersion + " for " + (BuildConfig.DONATIONS ? "FDroid" : "Google");
 
             ClipData clip = ClipData.newPlainText(Helper.CLIP_BOARD, content);
             if (clipboard != null) {

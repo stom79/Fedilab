@@ -39,7 +39,6 @@ import org.conscrypt.Conscrypt;
 
 import java.security.Security;
 
-import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;

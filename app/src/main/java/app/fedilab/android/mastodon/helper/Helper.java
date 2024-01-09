@@ -78,7 +78,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -89,7 +88,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -848,7 +846,7 @@ public class Helper {
 
     @SuppressLint("DefaultLocale")
     public static String withSuffix(long count) {
-        if (count < 1000) return "" + count;
+        if (count < 1000) return String.valueOf(count);
         int exp = (int) (Math.log(count) / Math.log(1000));
         Locale locale = null;
         try {
@@ -1000,8 +998,7 @@ public class Helper {
         if (context == null) {
             return false;
         }
-        if (context instanceof Activity) {
-            final Activity activity = (Activity) context;
+        if (context instanceof Activity activity) {
             return !activity.isDestroyed() && !activity.isFinishing();
         }
         return true;
@@ -1611,7 +1608,7 @@ public class Helper {
                 message = message.substring(0, 499) + "…";
             }
         }*/
-        notificationBuilder.setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "" + "@" + account.instance)
+        notificationBuilder.setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "@" + account.instance)
                 .setContentIntent(pIntent)
                 .setContentText(message);
         int ledColour = Color.BLUE;
@@ -1673,7 +1670,7 @@ public class Helper {
                 .setLargeIcon(icon)
                 .setSmallIcon(getNotificationIcon(context))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "" + "@" + account.instance)
+                .setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "@" + account.instance)
                 .setGroupSummary(true)
                 .build();
 

@@ -54,7 +54,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -136,7 +135,7 @@ public class ProfileActivity extends BaseActivity {
             Bundle args = intent.getExtras();
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-                if(bundleId != -1 ) {
+                if (bundleId != -1) {
                     new CachedBundle(ProfileActivity.this).getBundle(bundleId, currentAccount, bundle -> {
                         Account accountReceived = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
                         if (bundle.getBoolean(Helper.RECEIVE_REDRAW_PROFILE, false) && accountReceived != null) {

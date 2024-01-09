@@ -312,7 +312,7 @@ public class SpannableHelper {
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        if(!underlineLinks) {
+                        if (!underlineLinks) {
                             ds.setUnderlineText(status != null && status.underlined);
                         }
                         if (linkColor != -1) {
@@ -604,7 +604,7 @@ public class SpannableHelper {
             @Override
             public void updateDrawState(@NonNull TextPaint ds) {
                 super.updateDrawState(ds);
-                if(!underlineLinks) {
+                if (!underlineLinks) {
                     ds.setUnderlineText(status != null && status.underlined);
                 }
                 if (linkColor != -1) {
@@ -763,7 +763,7 @@ public class SpannableHelper {
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        if(!underlineLinks) {
+                        if (!underlineLinks) {
                             ds.setUnderlineText(status != null && status.underlined);
                         }
                         if (linkColor != -1) {
@@ -916,7 +916,7 @@ public class SpannableHelper {
                                             @Override
                                             public void updateDrawState(@NonNull TextPaint ds) {
                                                 super.updateDrawState(ds);
-                                                if(!underlineLinks) {
+                                                if (!underlineLinks) {
                                                     ds.setUnderlineText(false);
                                                 }
                                                 if (linkColor != -1) {

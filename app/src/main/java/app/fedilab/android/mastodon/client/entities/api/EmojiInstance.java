@@ -19,16 +19,13 @@ import static app.fedilab.android.BaseMainActivity.emojis;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteBlobTooBigException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Looper;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
@@ -41,7 +38,6 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.mastodon.client.endpoints.MastodonInstanceService;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
-import app.fedilab.android.mastodon.viewmodel.mastodon.InstancesVM;
 import app.fedilab.android.sqlite.Sqlite;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -230,17 +226,12 @@ public class EmojiInstance implements Serializable {
         }
     }
 
-    public interface EmojiFilteredCallBack{
-        void get(List<Emoji> emojiList);
-    }
-
     /**
      * Returns the emojis for an instance
      *
      * @param instance String
-     * @param filter String
+     * @param filter   String
      * @param callBack EmojiFilteredCallBack  - Get filtered emojis
-     *
      * @return List<Emoji> - List of {@link Emoji}
      */
     public void getEmojiListFiltered(@NonNull String instance, @NonNull String filter, EmojiFilteredCallBack callBack) throws DBException {
@@ -248,12 +239,12 @@ public class EmojiInstance implements Serializable {
             throw new DBException("db is null. Wrong initialization.");
         }
         new Thread(() -> {
-            List<Emoji> emojiArrayList= new ArrayList<>();
-            List<Emoji> emojiFiltered= new ArrayList<>();
+            List<Emoji> emojiArrayList = new ArrayList<>();
+            List<Emoji> emojiFiltered = new ArrayList<>();
             if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance) || emojis.get(BaseMainActivity.currentInstance) == null) {
                 try {
                     Cursor c = db.query(Sqlite.TABLE_EMOJI_INSTANCE, null, Sqlite.COL_INSTANCE + " = '" + instance + "'", null, null, null, null, "1");
-                    emojiArrayList =  cursorToEmojiList(c);
+                    emojiArrayList = cursorToEmojiList(c);
                 } catch (Exception e) {
                     MastodonInstanceService mastodonInstanceService = init(instance);
                     Call<List<Emoji>> emojiCall = mastodonInstanceService.customEmoji();
@@ -271,9 +262,9 @@ public class EmojiInstance implements Serializable {
             } else {
                 emojiArrayList = emojis.get(instance);
             }
-            if(emojiArrayList != null && emojiArrayList.size() > 0 ) {
-                for(Emoji emoji: emojiArrayList) {
-                    if(emoji.shortcode.contains(filter)) {
+            if (emojiArrayList != null && emojiArrayList.size() > 0) {
+                for (Emoji emoji : emojiArrayList) {
+                    if (emoji.shortcode.contains(filter)) {
                         emojiFiltered.add(emoji);
                     }
                 }
@@ -310,5 +301,9 @@ public class EmojiInstance implements Serializable {
             }
         }
         return filteredEmojis;
+    }
+
+    public interface EmojiFilteredCallBack {
+        void get(List<Emoji> emojiList);
     }
 }
