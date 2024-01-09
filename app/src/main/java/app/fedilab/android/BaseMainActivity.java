@@ -163,6 +163,7 @@ import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.BottomMenu;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.MutedAccounts;
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
@@ -659,16 +660,26 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             Status status = (Status) bundle.getSerializable(Helper.INTENT_TARGETED_STATUS);
             if (account != null) {
                 Intent intentAccount = new Intent(activity, ProfileActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable(Helper.ARG_ACCOUNT, account);
-                intentAccount.putExtras(b);
-                intentAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intentAccount);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, account);
+                new CachedBundle(activity).insertBundle(args, bundleId -> {
+                    Bundle bundleCached = new Bundle();
+                    bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intentAccount.putExtras(bundleCached);
+                    intentAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intentAccount);
+                });
             } else if (status != null) {
                 Intent intentContext = new Intent(activity, ContextActivity.class);
-                intentContext.putExtra(Helper.ARG_STATUS, status);
-                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intentContext);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, status);
+                new CachedBundle(activity).insertBundle(args, bundleId -> {
+                    Bundle bundleCached = new Bundle();
+                    bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intentContext.putExtras(bundleCached);
+                    intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intentContext);
+                });
             }
         }
         final Handler handler = new Handler();
@@ -1035,11 +1046,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
                                 if (account != null) {
                                     Intent intent = new Intent(activity, ProfileActivity.class);
-                                    Bundle b = new Bundle();
-                                    b.putSerializable(Helper.ARG_ACCOUNT, account);
-                                    intent.putExtras(b);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    activity.startActivity(intent);
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(Helper.ARG_ACCOUNT, account);
+                                    new CachedBundle(activity).insertBundle(args, bundleId -> {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                        intent.putExtras(bundle);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        activity.startActivity(intent);
+                                    });
                                 } else {
                                     Toasty.error(activity, activity.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                 }
@@ -1418,10 +1433,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         headerMainBinding.instanceInfo.setOnClickListener(v -> (new InstanceHealthActivity()).show(getSupportFragmentManager(), null));
         headerMainBinding.accountProfilePicture.setOnClickListener(v -> {
             Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
-            Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT, currentAccount.mastodon_account);
-            intent.putExtras(b);
-            startActivity(intent);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_ACCOUNT, currentAccount.mastodon_account);
+            new CachedBundle(BaseMainActivity.this).insertBundle(args, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            });
+
         });
 
         headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());

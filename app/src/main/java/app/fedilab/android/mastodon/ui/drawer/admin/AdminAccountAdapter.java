@@ -34,6 +34,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerAdminAccountBinding;
 import app.fedilab.android.mastodon.activities.admin.AdminAccountActivity;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminAccount;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 
@@ -77,11 +78,15 @@ public class AdminAccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         MastodonHelper.loadPPMastodon(holder.binding.pp, adminAccount.account);
         holder.binding.cardviewContainer.setOnClickListener(v -> {
             Intent intent = new Intent(context, AdminAccountActivity.class);
-            Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT, adminAccount);
-            intent.putExtras(b);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_ACCOUNT, adminAccount);
+            new CachedBundle(context).insertBundle(args, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            });
         });
         holder.binding.username.setText(adminAccount.account.display_name);
         holder.binding.acct.setText(String.format(Locale.getDefault(), "@%s", adminAccount.account.acct));

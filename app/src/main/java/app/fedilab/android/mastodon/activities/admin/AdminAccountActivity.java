@@ -61,6 +61,7 @@ import app.fedilab.android.mastodon.activities.MediaActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminAccount;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminIp;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
@@ -87,17 +88,31 @@ public class AdminAccountActivity extends BaseActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
-        Bundle b = getIntent().getExtras();
+        Bundle args = getIntent().getExtras();
         adminAccount = null;
-        if (b != null) {
-            adminAccount = (AdminAccount) b.getSerializable(Helper.ARG_ACCOUNT);
-            account_id = b.getString(Helper.ARG_ACCOUNT_ID, null);
-        }
         postponeEnterTransition();
 
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
+        }
+
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(AdminAccountActivity.this).getBundle(bundleId, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+
+
+    }
+
+
+    private void initializeAfterBundle(Bundle bundle) {
+
+        if(bundle !=null) {
+            adminAccount = (AdminAccount) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            account_id = bundle.getString(Helper.ARG_ACCOUNT_ID, null);
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
@@ -175,8 +190,6 @@ public class AdminAccountActivity extends BaseActivity {
                 initializeView(adminAccount);
             }
         });
-
-
     }
 
     private void initializeView(AdminAccount adminAccount) {

@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityTimelineBinding;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -57,17 +58,21 @@ public class TimelineActivity extends BaseBarActivity {
             setTitle(pinnedTimeline.remoteInstance.host);
         }
         FragmentMastodonTimeline fragmentMastodonTimeline = new FragmentMastodonTimeline();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, timelineType);
-        bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinnedTimeline);
-        bundle.putSerializable(Helper.ARG_LEMMY_POST_ID, lemmy_post_id);
+        Bundle args = new Bundle();
+        args.putSerializable(Helper.ARG_TIMELINE_TYPE, timelineType);
+        args.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinnedTimeline);
+        args.putSerializable(Helper.ARG_LEMMY_POST_ID, lemmy_post_id);
         if (status != null) {
-            bundle.putSerializable(Helper.ARG_STATUS, status);
+            args.putSerializable(Helper.ARG_STATUS, status);
         }
-        fragmentMastodonTimeline.setArguments(bundle);
+        new CachedBundle(TimelineActivity.this).insertBundle(args, bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            fragmentMastodonTimeline.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container_view, fragmentMastodonTimeline).commit();
+        });
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container_view, fragmentMastodonTimeline).commit();
     }
 
 

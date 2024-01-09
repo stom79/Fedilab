@@ -56,9 +56,10 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
         bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + position);
+        FragmentMastodonTimeline fragmentProfileTimeline;
         switch (position) {
-            case 0:
-                FragmentMastodonTimeline fragmentProfileTimeline = new FragmentMastodonTimeline();
+            case 0 -> {
+                fragmentProfileTimeline = new FragmentMastodonTimeline();
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
                 bundle.putSerializable(Helper.ARG_ACCOUNT, account);
                 bundle.putBoolean(Helper.ARG_SHOW_PINNED, true);
@@ -67,7 +68,8 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
                 bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                 fragmentProfileTimeline.setArguments(bundle);
                 return fragmentProfileTimeline;
-            case 1:
+            }
+            case 1 -> {
                 fragmentProfileTimeline = new FragmentMastodonTimeline();
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
                 bundle.putSerializable(Helper.ARG_ACCOUNT, account);
@@ -77,14 +79,17 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
                 bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                 fragmentProfileTimeline.setArguments(bundle);
                 return fragmentProfileTimeline;
-            case 2:
+            }
+            case 2 -> {
                 FragmentMediaProfile fragmentMediaProfile = new FragmentMediaProfile();
                 bundle.putSerializable(Helper.ARG_ACCOUNT, account);
                 bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                 fragmentMediaProfile.setArguments(bundle);
                 return fragmentMediaProfile;
-            default:
+            }
+            default -> {
                 return new FragmentMastodonTimeline();
+            }
         }
     }
 

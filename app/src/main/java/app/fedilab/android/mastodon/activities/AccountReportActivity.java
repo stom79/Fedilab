@@ -35,6 +35,7 @@ import app.fedilab.android.databinding.ActivityAdminReportBinding;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminAccount;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminReport;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.ui.drawer.StatusReportAdapter;
@@ -48,7 +49,7 @@ public class AccountReportActivity extends BaseBarActivity {
     private AdminReport report;
     private ActivityAdminReportBinding binding;
     private AdminVM adminVM;
-
+    private AdminAccount targeted_account;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +62,21 @@ public class AccountReportActivity extends BaseBarActivity {
         }
 
         report = null;
-        AdminAccount targeted_account = null;
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            account_id = b.getString(Helper.ARG_ACCOUNT_ID, null);
-            targeted_account = (AdminAccount) b.getSerializable(Helper.ARG_ACCOUNT);
-            report = (AdminReport) b.getSerializable(Helper.ARG_REPORT);
+        targeted_account = null;
+        Bundle args = getIntent().getExtras();
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(AccountReportActivity.this).getBundle(bundleId, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+    }
+    private void initializeAfterBundle(Bundle bundle) {
+
+        if(bundle != null) {
+            account_id = bundle.getString(Helper.ARG_ACCOUNT_ID, null);
+            targeted_account = (AdminAccount) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            report = (AdminReport) bundle.getSerializable(Helper.ARG_REPORT);
         }
 
         binding.allow.getBackground().setColorFilter(ThemeHelper.getAttColor(this, R.attr.colorPrimary), PorterDuff.Mode.MULTIPLY);
@@ -102,7 +112,6 @@ public class AccountReportActivity extends BaseBarActivity {
             fillReport(targeted_account, null);
             account_id = targeted_account.username;
         }
-
 
     }
 

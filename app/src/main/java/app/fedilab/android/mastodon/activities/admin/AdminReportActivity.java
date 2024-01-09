@@ -62,6 +62,7 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminAccount;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminIp;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
@@ -87,25 +88,36 @@ public class AdminReportActivity extends BaseBarActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            adminAccount = (AdminAccount) b.getSerializable(Helper.ARG_ACCOUNT);
-            if (adminAccount != null) {
-                account = adminAccount.account;
-            }
-        }
+        Bundle args = getIntent().getExtras();
         postponeEnterTransition();
-
-        //Remove title
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
         binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        //Remove title
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(AdminReportActivity.this).getBundle(bundleId, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+    }
+
+
+    private void initializeAfterBundle(Bundle bundle) {
+        if(bundle != null) {
+            adminAccount = (AdminAccount) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            if (adminAccount != null) {
+                account = adminAccount.account;
+            }
         }
         if (account != null) {
             initializeView(account);

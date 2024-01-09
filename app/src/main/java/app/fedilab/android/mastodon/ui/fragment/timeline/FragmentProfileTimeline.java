@@ -33,6 +33,7 @@ import com.google.android.material.tabs.TabLayout;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentProfileTimelinesBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.pageadapter.FedilabProfilePageAdapter;
@@ -46,12 +47,20 @@ public class FragmentProfileTimeline extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        if (getArguments() != null) {
-            account = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
-            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
-        }
         binding = FragmentProfileTimelinesBinding.inflate(inflater, container, false);
+        if (getArguments() != null) {
+            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+            if(bundleId != -1 ) {
+                new CachedBundle(requireActivity()).getBundle(bundleId, bundle -> {
+                    account = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+                    checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+                });
+            } else {
+                account = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
+                checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+            }
+        }
+
         return binding.getRoot();
     }
 
@@ -111,18 +120,22 @@ public class FragmentProfileTimeline extends Fragment {
                             .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem());
                     FragmentTransaction fragTransaction = getChildFragmentManager().beginTransaction();
                     fragTransaction.detach(fragmentMastodonTimeline).commit();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-                    bundle.putSerializable(Helper.ARG_ACCOUNT, account);
-                    bundle.putBoolean(Helper.ARG_SHOW_PINNED, true);
-                    bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
-                    bundle.putBoolean(Helper.ARG_SHOW_REBLOGS, show_boosts);
-                    bundle.putBoolean(Helper.ARG_SHOW_REPLIES, show_replies);
-                    fragmentMastodonTimeline.setArguments(bundle);
-                    FragmentTransaction fragTransaction2 = getChildFragmentManager().beginTransaction();
-                    fragTransaction2.attach(fragmentMastodonTimeline);
-                    fragTransaction2.commit();
-                    fragmentMastodonTimeline.recreate();
+                    Bundle args = new Bundle();
+                    args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
+                    args.putSerializable(Helper.ARG_ACCOUNT, account);
+                    args.putBoolean(Helper.ARG_SHOW_PINNED, true);
+                    args.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
+                    args.putBoolean(Helper.ARG_SHOW_REBLOGS, show_boosts);
+                    args.putBoolean(Helper.ARG_SHOW_REPLIES, show_replies);
+                    new CachedBundle(requireActivity()).insertBundle(args, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        fragmentMastodonTimeline.setArguments(bundle);
+                        FragmentTransaction fragTransaction2 = getChildFragmentManager().beginTransaction();
+                        fragTransaction2.attach(fragmentMastodonTimeline);
+                        fragTransaction2.commit();
+                        fragmentMastodonTimeline.recreate();
+                    });
                 }
 
             });

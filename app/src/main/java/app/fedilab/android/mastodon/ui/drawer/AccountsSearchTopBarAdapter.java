@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.ui.drawer;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,10 +21,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
 import java.util.List;
@@ -33,6 +30,7 @@ import java.util.List;
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 
 
@@ -61,16 +59,18 @@ public class AccountsSearchTopBarAdapter extends SimpleCursorAdapter {
 
         LinearLayoutCompat container = view.findViewById(R.id.account_container);
         container.setTag(cursor.getPosition());
-        ImageView account_pp = view.findViewById(R.id.account_pp);
         container.setOnClickListener(v -> {
             int position = (int) v.getTag();
             if (accountList != null && accountList.size() > position) {
                 Intent intent = new Intent(context, ProfileActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable(Helper.ARG_ACCOUNT, accountList.get(position));
-                intent.putExtras(b);
-                // start the new activity
-                context.startActivity(intent);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, accountList.get(position));
+                new CachedBundle(context).insertBundle(args, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             }
         });
     }

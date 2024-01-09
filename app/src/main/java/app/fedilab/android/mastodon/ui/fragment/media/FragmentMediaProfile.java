@@ -38,6 +38,7 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.Statuses;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
@@ -68,10 +69,15 @@ public class FragmentMediaProfile extends Fragment {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
         binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
-            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+
+        if (getArguments() != null) {
+            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(requireActivity()).getBundle(bundleId, bundle -> {
+                if(bundle != null) {
+                    accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+                    checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+                }
+            });
         }
         return binding.getRoot();
     }

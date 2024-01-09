@@ -45,6 +45,7 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Accounts;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.RelationShip;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
@@ -77,19 +78,35 @@ public class FragmentMastodonAccount extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        if (getArguments() != null) {
-            search = getArguments().getString(Helper.ARG_SEARCH_KEYWORD, null);
-            accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
-            followType = (FedilabProfileTLPageAdapter.follow_type) getArguments().getSerializable(Helper.ARG_FOLLOW_TYPE);
-            viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
-            timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
-            order = getArguments().getString(Helper.ARG_DIRECTORY_ORDER, "active");
-            local = getArguments().getBoolean(Helper.ARG_DIRECTORY_LOCAL, false);
-            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
-        }
+
         instance = currentInstance;
         token = currentToken;
+        if (getArguments() != null) {
+            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(requireActivity()).getBundle(bundleId, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
 
+        flagLoading = false;
+        binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
+        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
+        return binding.getRoot();
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+        if(bundle != null) {
+            search = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
+            accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            followType = (FedilabProfileTLPageAdapter.follow_type) bundle.getSerializable(Helper.ARG_FOLLOW_TYPE);
+            viewModelKey = bundle.getString(Helper.ARG_VIEW_MODEL_KEY, "");
+            timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
+            order = bundle.getString(Helper.ARG_DIRECTORY_ORDER, "active");
+            local = bundle.getBoolean(Helper.ARG_DIRECTORY_LOCAL, false);
+            checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+        }
         if (checkRemotely) {
             String[] acctArray = accountTimeline.acct.split("@");
             if (acctArray.length > 1) {
@@ -103,12 +120,6 @@ public class FragmentMastodonAccount extends Fragment {
             }
         }
 
-        flagLoading = false;
-        binding = FragmentPaginationBinding.inflate(inflater, container, false);
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
-        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
-        return binding.getRoot();
     }
 
     @Override

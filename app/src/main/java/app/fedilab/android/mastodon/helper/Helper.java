@@ -157,6 +157,7 @@ import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.ReleaseNote;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -1924,10 +1925,14 @@ public class Helper {
                             binding.accountUn.setText(account.acct);
                             binding.accountPp.setOnClickListener(v -> {
                                 Intent intent = new Intent(activity, ProfileActivity.class);
-                                Bundle b = new Bundle();
-                                b.putSerializable(Helper.ARG_ACCOUNT, account);
-                                intent.putExtras(b);
-                                activity.startActivity(intent);
+                                Bundle args = new Bundle();
+                                args.putSerializable(Helper.ARG_ACCOUNT, account);
+                                new CachedBundle(activity).insertBundle(args, bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    intent.putExtras(bundle);
+                                    activity.startActivity(intent);
+                                });
                             });
 
                             AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(AccountsVM.class);

@@ -48,6 +48,7 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.DrawerAccountBinding;
 import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
@@ -111,11 +112,14 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         accountViewHolder.binding.avatar.setOnClickListener(v -> {
             if (remoteInstance == null) {
                 Intent intent = new Intent(context, ProfileActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable(Helper.ARG_ACCOUNT, account);
-                intent.putExtras(b);
-                // start the new activity
-                context.startActivity(intent);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, account);
+                new CachedBundle(context).insertBundle(args, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             } else {
                 Toasty.info(context, context.getString(R.string.retrieve_remote_account), Toasty.LENGTH_SHORT).show();
                 SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
@@ -124,11 +128,14 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (results != null && results.accounts != null && results.accounts.size() > 0) {
                                 Account accountSearch = results.accounts.get(0);
                                 Intent intent = new Intent(context, ProfileActivity.class);
-                                Bundle b = new Bundle();
-                                b.putSerializable(Helper.ARG_ACCOUNT, accountSearch);
-                                intent.putExtras(b);
-                                // start the new activity
-                                context.startActivity(intent);
+                                Bundle args = new Bundle();
+                                args.putSerializable(Helper.ARG_ACCOUNT, accountSearch);
+                                new CachedBundle(context).insertBundle(args, bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    intent.putExtras(bundle);
+                                    context.startActivity(intent);
+                                });
                             } else {
                                 Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                             }

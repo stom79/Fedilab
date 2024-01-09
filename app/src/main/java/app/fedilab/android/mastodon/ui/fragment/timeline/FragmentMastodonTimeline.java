@@ -384,7 +384,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         flagLoading = false;
         if (getArguments() != null) {
             long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(requireActivity()).getBundle(bundleId, this::initializeAfterBundle);
+            if(bundleId != -1 ) {
+                new CachedBundle(requireActivity()).getBundle(bundleId, this::initializeAfterBundle);
+            } else {
+                initializeAfterBundle(getArguments());
+            }
         }
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
         binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);

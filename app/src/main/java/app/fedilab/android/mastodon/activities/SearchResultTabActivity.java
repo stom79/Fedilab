@@ -302,27 +302,32 @@ public class SearchResultTabActivity extends BaseBarActivity {
         @Override
         public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
+            FragmentMastodonTimeline fragmentMastodonTimeline;
             switch (position) {
-                case 0:
+                case 0 -> {
                     FragmentMastodonTag fragmentMastodonTag = new FragmentMastodonTag();
                     bundle.putString(Helper.ARG_SEARCH_KEYWORD, search);
                     fragmentMastodonTag.setArguments(bundle);
                     return fragmentMastodonTag;
-                case 1:
+                }
+                case 1 -> {
                     FragmentMastodonAccount fragmentMastodonAccount = new FragmentMastodonAccount();
                     bundle.putString(Helper.ARG_SEARCH_KEYWORD, search);
                     fragmentMastodonAccount.setArguments(bundle);
                     return fragmentMastodonAccount;
-                case 2:
-                    FragmentMastodonTimeline fragmentMastodonTimeline = new FragmentMastodonTimeline();
+                }
+                case 2 -> {
+                    fragmentMastodonTimeline = new FragmentMastodonTimeline();
                     bundle.putString(Helper.ARG_SEARCH_KEYWORD, search);
                     fragmentMastodonTimeline.setArguments(bundle);
                     return fragmentMastodonTimeline;
-                default:
+                }
+                default -> {
                     fragmentMastodonTimeline = new FragmentMastodonTimeline();
                     bundle.putString(Helper.ARG_SEARCH_KEYWORD_CACHE, search);
                     fragmentMastodonTimeline.setArguments(bundle);
                     return fragmentMastodonTimeline;
+                }
             }
         }
 

@@ -40,6 +40,7 @@ import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
@@ -119,10 +120,14 @@ public class AboutActivity extends BaseBarActivity {
                     binding.accountUn.setText(account.acct);
                     binding.accountPp.setOnClickListener(v -> {
                         Intent intent = new Intent(AboutActivity.this, ProfileActivity.class);
-                        Bundle b = new Bundle();
-                        b.putSerializable(Helper.ARG_ACCOUNT, account);
-                        intent.putExtras(b);
-                        startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_ACCOUNT, account);
+                        new CachedBundle(AboutActivity.this).insertBundle(args, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        });
                     });
                     AccountsVM accountsVM = new ViewModelProvider(AboutActivity.this).get(AccountsVM.class);
                     List<String> ids = new ArrayList<>();

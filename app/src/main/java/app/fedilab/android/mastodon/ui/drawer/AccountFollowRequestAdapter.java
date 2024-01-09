@@ -38,6 +38,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerFollowBinding;
 import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
@@ -103,11 +104,14 @@ public class AccountFollowRequestAdapter extends RecyclerView.Adapter<RecyclerVi
                 }));
         holderFollow.binding.avatar.setOnClickListener(v -> {
             Intent intent = new Intent(context, ProfileActivity.class);
-            Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT, account);
-            intent.putExtras(b);
-            // start the new activity
-            context.startActivity(intent);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_ACCOUNT, account);
+            new CachedBundle(context).insertBundle(args, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            });
         });
     }
 

@@ -32,6 +32,7 @@ import java.util.List;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentLoginPickInstanceMastodonBinding;
 import app.fedilab.android.mastodon.client.entities.api.JoinMastodonInstance;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.drawer.InstanceRegAdapter;
@@ -145,10 +146,13 @@ public class FragmentLoginPickInstanceMastodon extends Fragment implements Insta
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_REMOTE_INSTANCE_STRING, clickedInstance.domain);
             args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC);
-
-            Helper.addFragment(
-                    getParentFragmentManager(), android.R.id.content, new FragmentMastodonTimeline(),
-                    args, null, FragmentLoginRegisterMastodon.class.getName());
+            new CachedBundle(requireActivity()).insertBundle(args, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                Helper.addFragment(
+                        getParentFragmentManager(), android.R.id.content, new FragmentMastodonTimeline(),
+                        bundle, null, FragmentLoginRegisterMastodon.class.getName());
+            });
         }
     }
 }

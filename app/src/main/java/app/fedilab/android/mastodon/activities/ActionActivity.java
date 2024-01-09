@@ -100,24 +100,12 @@ public class ActionActivity extends BaseBarActivity {
 
         }
         switch (type) {
-            case MUTED_TIMELINE:
-                setTitle(R.string.muted_menu);
-                break;
-            case FAVOURITE_TIMELINE:
-                setTitle(R.string.favourite);
-                break;
-            case BLOCKED_TIMELINE:
-                setTitle(R.string.blocked_menu);
-                break;
-            case BOOKMARK_TIMELINE:
-                setTitle(R.string.bookmarks);
-                break;
-            case BLOCKED_DOMAIN_TIMELINE:
-                setTitle(R.string.blocked_domains);
-                break;
-            case MUTED_TIMELINE_HOME:
-                setTitle(R.string.muted_menu_home);
-                break;
+            case MUTED_TIMELINE -> setTitle(R.string.muted_menu);
+            case FAVOURITE_TIMELINE -> setTitle(R.string.favourite);
+            case BLOCKED_TIMELINE -> setTitle(R.string.blocked_menu);
+            case BOOKMARK_TIMELINE -> setTitle(R.string.bookmarks);
+            case BLOCKED_DOMAIN_TIMELINE -> setTitle(R.string.blocked_domains);
+            case MUTED_TIMELINE_HOME -> setTitle(R.string.muted_menu_home);
         }
     }
 

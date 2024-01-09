@@ -153,6 +153,7 @@ import app.fedilab.android.mastodon.client.entities.api.Reaction;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.RemoteInstance;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
@@ -932,22 +933,28 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 if (results != null && results.statuses != null && results.statuses.size() > 0) {
                                     Status fetchedStatus = results.statuses.get(0);
                                     Intent intent = new Intent(context, ProfileActivity.class);
-                                    Bundle b = new Bundle();
-                                    b.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.reblog != null ? fetchedStatus.reblog.account : fetchedStatus.account);
-                                    intent.putExtras(b);
-                                    // start the new activity
-                                    context.startActivity(intent);
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.reblog != null ? fetchedStatus.reblog.account : fetchedStatus.account);
+                                    new CachedBundle(context).insertBundle(args, bundleId -> {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                        intent.putExtras(bundle);
+                                        context.startActivity(intent);
+                                    });
                                 } else {
                                     Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                                 }
                             });
                 } else {
                     Intent intent = new Intent(context, ProfileActivity.class);
-                    Bundle b = new Bundle();
-                    b.putSerializable(Helper.ARG_ACCOUNT, status.reblog != null ? status.reblog.account : status.account);
-                    intent.putExtras(b);
-                    // start the new activity
-                    context.startActivity(intent);
+                    Bundle args = new Bundle();
+                    args.putSerializable(Helper.ARG_ACCOUNT, status.reblog != null ? status.reblog.account : status.account);
+                    new CachedBundle(context).insertBundle(args, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    });
                 }
             });
             holder.binding.statusBoosterInfo.setOnClickListener(v -> {
@@ -958,22 +965,28 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 if (results != null && results.statuses != null && results.statuses.size() > 0) {
                                     Status fetchedStatus = results.statuses.get(0);
                                     Intent intent = new Intent(context, ProfileActivity.class);
-                                    Bundle b = new Bundle();
-                                    b.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.account);
-                                    intent.putExtras(b);
-                                    // start the new activity
-                                    context.startActivity(intent);
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.account);
+                                    new CachedBundle(context).insertBundle(args, bundleId -> {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                        intent.putExtras(bundle);
+                                        context.startActivity(intent);
+                                    });
                                 } else {
                                     Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                                 }
                             });
                 } else {
                     Intent intent = new Intent(context, ProfileActivity.class);
-                    Bundle b = new Bundle();
-                    b.putSerializable(Helper.ARG_ACCOUNT, status.account);
-                    intent.putExtras(b);
-                    // start the new activity
-                    context.startActivity(intent);
+                    Bundle args = new Bundle();
+                    args.putSerializable(Helper.ARG_ACCOUNT, status.account);
+                    new CachedBundle(context).insertBundle(args, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    });
                 }
             });
             //---> REBLOG/UNREBLOG
@@ -3144,10 +3157,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.bindingArt.artAcct.setText(String.format(Locale.getDefault(), "@%s", status.account.acct));
             holder.bindingArt.artPp.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ProfileActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable(Helper.ARG_ACCOUNT, status.account);
-                intent.putExtras(b);
-                context.startActivity(intent);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, status.account);
+                new CachedBundle(context).insertBundle(args, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             });
             holder.bindingArt.artMedia.setOnClickListener(v -> {
                 if (status.art_attachment != null) {
@@ -3196,10 +3213,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.bindingPixelfed.artAcct.setText(String.format(Locale.getDefault(), "@%s", statusToDeal.account.acct));
             holder.bindingPixelfed.artPp.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ProfileActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable(Helper.ARG_ACCOUNT, statusToDeal.account);
-                intent.putExtras(b);
-                context.startActivity(intent);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, statusToDeal.account);
+                new CachedBundle(context).insertBundle(args, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             });
             holder.bindingPixelfed.bottomBanner.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ContextActivity.class);

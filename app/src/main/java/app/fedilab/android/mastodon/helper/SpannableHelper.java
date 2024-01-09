@@ -86,6 +86,7 @@ import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.MarkdownConverter;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.FiltersVM;
@@ -644,11 +645,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedAccount(Account account) {
                         Intent intent = new Intent(context, ProfileActivity.class);
-                        Bundle b = new Bundle();
-                        b.putSerializable(Helper.ARG_ACCOUNT, account);
-                        intent.putExtras(b);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_ACCOUNT, account);
+                        new CachedBundle(context).insertBundle(args, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
                 });
             }
@@ -676,11 +681,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedAccount(Account account) {
                         Intent intent = new Intent(context, ProfileActivity.class);
-                        Bundle b = new Bundle();
-                        b.putSerializable(Helper.ARG_ACCOUNT, account);
-                        intent.putExtras(b);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_ACCOUNT, account);
+                        new CachedBundle(context).insertBundle(args, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
                 });
             }
@@ -708,11 +717,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedAccount(Account account) {
                         Intent intent = new Intent(context, ProfileActivity.class);
-                        Bundle b = new Bundle();
-                        b.putSerializable(Helper.ARG_ACCOUNT, account);
-                        intent.putExtras(b);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_ACCOUNT, account);
+                        new CachedBundle(context).insertBundle(args, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
                 });
             }
@@ -890,10 +903,14 @@ public class SpannableHelper {
                                             @Override
                                             public void onClick(@NonNull View textView) {
                                                 Intent intent = new Intent(context, ProfileActivity.class);
-                                                Bundle b = new Bundle();
-                                                b.putSerializable(Helper.ARG_ACCOUNT, account.moved);
-                                                intent.putExtras(b);
-                                                context.startActivity(intent);
+                                                Bundle args = new Bundle();
+                                                args.putSerializable(Helper.ARG_ACCOUNT, account.moved);
+                                                new CachedBundle(context).insertBundle(args, bundleId -> {
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                                    intent.putExtras(bundle);
+                                                    context.startActivity(intent);
+                                                });
                                             }
 
                                             @Override

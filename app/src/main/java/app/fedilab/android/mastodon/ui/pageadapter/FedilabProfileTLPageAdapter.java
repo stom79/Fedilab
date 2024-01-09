@@ -54,16 +54,17 @@ public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
+        Bundle bundle;
         switch (position) {
-            case 0:
+            case 0 -> {
                 FragmentProfileTimeline fragmentProfileTimeline = new FragmentProfileTimeline();
-                Bundle bundle = new Bundle();
+                bundle = new Bundle();
                 bundle.putSerializable(Helper.ARG_ACCOUNT, account);
                 bundle.putSerializable(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                 fragmentProfileTimeline.setArguments(bundle);
                 return fragmentProfileTimeline;
-            case 1:
-            case 2:
+            }
+            case 1, 2 -> {
                 FragmentMastodonAccount fragmentMastodonAccount = new FragmentMastodonAccount();
                 bundle = new Bundle();
                 bundle.putSerializable(Helper.ARG_ACCOUNT, account);
@@ -72,8 +73,10 @@ public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
                 bundle.putSerializable(Helper.ARG_FOLLOW_TYPE, position == 1 ? follow_type.FOLLOWING : follow_type.FOLLOWERS);
                 fragmentMastodonAccount.setArguments(bundle);
                 return fragmentMastodonAccount;
-            default:
+            }
+            default -> {
                 return new FragmentMastodonTimeline();
+            }
         }
     }
 
