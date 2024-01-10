@@ -304,9 +304,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     Snackbar.make(binding.displaySnackBar, getString(R.string.message_has_been_sent), Snackbar.LENGTH_LONG)
                             .setAction(getString(R.string.display), view -> {
                                 Intent intentContext = new Intent(BaseMainActivity.this, ContextActivity.class);
-                                intentContext.putExtra(Helper.ARG_STATUS, statusSent);
-                                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intentContext);
+                                Bundle args = new Bundle();
+                                args.putSerializable(Helper.ARG_STATUS, statusSent);
+                                new CachedBundle(BaseMainActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    intentContext.putExtras(bundle);
+                                    intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intentContext);
+                                });
                             })
                             .show();
                     //The message was edited, we need to update the timeline
@@ -782,9 +788,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     public void federatedStatus(Status status) {
                         if (status != null) {
                             Intent intent = new Intent(activity, ContextActivity.class);
-                            intent.putExtra(Helper.ARG_STATUS, status);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            activity.startActivity(intent);
+                            Bundle args = new Bundle();
+                            args.putSerializable(Helper.ARG_STATUS, status);
+                            new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(bundle);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                activity.startActivity(intent);
+                            });
                         }
                     }
 
@@ -1021,9 +1033,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             public void federatedStatus(Status status) {
                                 if (status != null) {
                                     Intent intent = new Intent(activity, ContextActivity.class);
-                                    intent.putExtra(Helper.ARG_STATUS, status);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    activity.startActivity(intent);
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(Helper.ARG_STATUS, status);
+                                    new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                        intent.putExtras(bundle);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        activity.startActivity(intent);
+                                    });
                                 } else {
                                     Toasty.error(activity, activity.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                 }

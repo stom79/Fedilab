@@ -14,6 +14,7 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.activities.ContextActivity.displayCW;
 import static app.fedilab.android.mastodon.activities.ContextActivity.expand;
 
@@ -42,6 +43,7 @@ import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.mastodon.activities.ContextActivity;
 import app.fedilab.android.mastodon.client.entities.api.Context;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.DividerDecoration;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -158,10 +160,21 @@ public class FragmentMastodonContext extends Fragment {
         pullToRefresh = false;
         focusedStatusURI = null;
         refresh = true;
+        binding = FragmentPaginationBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
-            focusedStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
-            remote_instance = getArguments().getString(Helper.ARG_REMOTE_INSTANCE, null);
-            focusedStatusURI = getArguments().getString(Helper.ARG_FOCUSED_STATUS_URI, null);
+            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+        return binding.getRoot();
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+        if (bundle != null) {
+            focusedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+            remote_instance = bundle.getString(Helper.ARG_REMOTE_INSTANCE, null);
+            focusedStatusURI = bundle.getString(Helper.ARG_FOCUSED_STATUS_URI, null);
         }
         if (remote_instance != null) {
             user_instance = remote_instance;
@@ -174,7 +187,7 @@ public class FragmentMastodonContext extends Fragment {
             getChildFragmentManager().beginTransaction().remove(this).commit();
         }
 
-        binding = FragmentPaginationBinding.inflate(inflater, container, false);
+
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
         binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
@@ -202,8 +215,8 @@ public class FragmentMastodonContext extends Fragment {
         }
 
         ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
-        return binding.getRoot();
     }
+
 
     public void refresh() {
         if (statuses != null) {

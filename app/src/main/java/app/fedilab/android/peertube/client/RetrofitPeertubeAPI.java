@@ -43,7 +43,6 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.IDN;
 import java.net.URL;
 import java.net.URLDecoder;

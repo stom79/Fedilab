@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.ui.drawer;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +33,7 @@ import app.fedilab.android.databinding.DrawerMediaBinding;
 import app.fedilab.android.mastodon.activities.ContextActivity;
 import app.fedilab.android.mastodon.activities.MediaActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.fragment.media.FragmentMediaProfile;
 
@@ -89,13 +92,19 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         holder.binding.media.setOnLongClickListener(v -> {
             Intent intentContext = new Intent(context, ContextActivity.class);
+            Bundle args = new Bundle();
             if (attachment != null) {
-                intentContext.putExtra(Helper.ARG_STATUS, attachment.status);
+                args.putSerializable(Helper.ARG_STATUS, attachment.status);
             } else {
                 return false;
             }
-            intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intentContext);
+            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intentContext.putExtras(bundle);
+                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intentContext);
+            });
             return false;
         });
     }

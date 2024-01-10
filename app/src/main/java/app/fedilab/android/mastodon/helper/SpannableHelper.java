@@ -627,9 +627,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedStatus(Status status) {
                         Intent intent = new Intent(context, ContextActivity.class);
-                        intent.putExtra(Helper.ARG_STATUS, status);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_STATUS, status);
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
 
                     @Override
@@ -663,9 +669,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedStatus(Status status) {
                         Intent intent = new Intent(context, ContextActivity.class);
-                        intent.putExtra(Helper.ARG_STATUS, status);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_STATUS, status);
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
 
                     @Override
@@ -699,9 +711,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedStatus(Status status) {
                         Intent intent = new Intent(context, ContextActivity.class);
-                        intent.putExtra(Helper.ARG_STATUS, status);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_STATUS, status);
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
 
                     @Override

@@ -82,6 +82,7 @@ import app.fedilab.android.mastodon.client.entities.api.Context;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
 import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -131,8 +132,21 @@ public class FragmentMastodonDirectMessage extends Fragment {
 
         focusedStatus = null;
         pullToRefresh = false;
+        binding = FragmentDirectMessageBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
-            focusedStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
+            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+        return binding.getRoot();
+    }
+
+
+    private void initializeAfterBundle(Bundle bundle) {
+
+        if (bundle != null) {
+            focusedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);
         }
         user_instance = MainActivity.currentInstance;
         user_token = MainActivity.currentToken;
@@ -140,7 +154,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
         if (focusedStatus == null) {
             getChildFragmentManager().beginTransaction().remove(this).commit();
         }
-        binding = FragmentDirectMessageBinding.inflate(inflater, container, false);
+
         statusesVM = new ViewModelProvider(FragmentMastodonDirectMessage.this).get(StatusesVM.class);
         binding.recyclerView.setNestedScrollingEnabled(true);
         this.statuses = new ArrayList<>();
@@ -216,9 +230,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
             }
         });
 
-        return binding.getRoot();
     }
-
 
     private void onSubmit(StatusDraft statusDraft) {
         new Thread(() -> {

@@ -503,8 +503,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     return;
                 }
                 Intent intent = new Intent(context, ContextActivity.class);
-                intent.putExtra(Helper.ARG_STATUS, statusToDeal.quote);
-                context.startActivity(intent);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, statusToDeal.quote);
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             });
             holder.binding.quotedMessage.cardviewContainer.setStrokeColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
             holder.binding.quotedMessage.statusContent.setText(
@@ -1773,20 +1779,32 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.reblogInfo.setOnClickListener(v -> {
             if (statusToDeal.reblogs_count > 0) {
                 Intent intent = new Intent(context, StatusInfoActivity.class);
-                intent.putExtra(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.BOOSTED_BY);
-                intent.putExtra(Helper.ARG_STATUS, statusToDeal);
-                intent.putExtra(Helper.ARG_CHECK_REMOTELY, remote);
-                context.startActivity(intent);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, statusToDeal);
+                args.putSerializable(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.BOOSTED_BY);
+                args.putBoolean(Helper.ARG_CHECK_REMOTELY, remote);
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             }
         });
 
         holder.binding.favouriteInfo.setOnClickListener(v -> {
             if (statusToDeal.favourites_count > 0) {
                 Intent intent = new Intent(context, StatusInfoActivity.class);
-                intent.putExtra(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.LIKED_BY);
-                intent.putExtra(Helper.ARG_STATUS, statusToDeal);
-                intent.putExtra(Helper.ARG_CHECK_REMOTELY, remote);
-                context.startActivity(intent);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, statusToDeal);
+                args.putSerializable(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.LIKED_BY);
+                args.putBoolean(Helper.ARG_CHECK_REMOTELY, remote);
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             }
         });
 
@@ -2002,22 +2020,31 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     return;
                 }
                 if (context instanceof ContextActivity && !remote) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Helper.ARG_STATUS, statusToDeal);
-                    Fragment fragment = Helper.addFragment(((AppCompatActivity) context).getSupportFragmentManager(), R.id.nav_host_fragment_content_main, new FragmentMastodonContext(), bundle, null, FragmentMastodonContext.class.getName());
-                    ((ContextActivity) context).setCurrentFragment((FragmentMastodonContext) fragment);
+                    Bundle args = new Bundle();
+                    args.putSerializable(Helper.ARG_STATUS, statusToDeal);
+                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        Fragment fragment = Helper.addFragment(((AppCompatActivity) context).getSupportFragmentManager(), R.id.nav_host_fragment_content_main, new FragmentMastodonContext(), bundle, null, FragmentMastodonContext.class.getName());
+                        ((ContextActivity) context).setCurrentFragment((FragmentMastodonContext) fragment);
+                    });
                 } else {
                     if (remote) {
                         //Lemmy main post that should open Lemmy threads
                         if (adapter instanceof StatusAdapter && ((StatusAdapter) adapter).type == RemoteInstance.InstanceType.LEMMY && status.lemmy_post_id != null) {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, ((StatusAdapter) adapter).pinnedTimeline);
-                            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
-                            bundle.putString(Helper.ARG_LEMMY_POST_ID, status.lemmy_post_id);
-                            bundle.putSerializable(Helper.ARG_STATUS, status);
+                            Bundle args = new Bundle();
+                            args.putSerializable(Helper.ARG_REMOTE_INSTANCE, ((StatusAdapter) adapter).pinnedTimeline);
+                            args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
+                            args.putString(Helper.ARG_LEMMY_POST_ID, status.lemmy_post_id);
+                            args.putSerializable(Helper.ARG_STATUS, status);
                             Intent intent = new Intent(context, TimelineActivity.class);
-                            intent.putExtras(bundle);
-                            context.startActivity(intent);
+                            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(bundle);
+                                context.startActivity(intent);
+                            });
+
                         } //Classic other cases for remote instances that will search the remote context
                         else if (!(context instanceof ContextActivity)) { //We are not already checking a remote conversation
                             Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
@@ -2026,8 +2053,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         if (results != null && results.statuses != null && results.statuses.size() > 0) {
                                             Status fetchedStatus = results.statuses.get(0);
                                             Intent intent = new Intent(context, ContextActivity.class);
-                                            intent.putExtra(Helper.ARG_STATUS, fetchedStatus);
-                                            context.startActivity(intent);
+                                            Bundle args = new Bundle();
+                                            args.putSerializable(Helper.ARG_STATUS, fetchedStatus);
+                                            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                                Bundle bundle = new Bundle();
+                                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                                intent.putExtras(bundle);
+                                                context.startActivity(intent);
+                                            });
                                         } else {
                                             Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                                         }
@@ -2047,8 +2080,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                     } else {
                         Intent intent = new Intent(context, ContextActivity.class);
-                        intent.putExtra(Helper.ARG_STATUS, statusToDeal);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_STATUS, statusToDeal);
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        });
                     }
                 }
             });
@@ -2262,8 +2301,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     return true;
                 } else if (itemId == R.id.action_report) {
                     Intent intent = new Intent(context, ReportActivity.class);
-                    intent.putExtra(Helper.ARG_STATUS, statusToDeal);
-                    context.startActivity(intent);
+                    Bundle args = new Bundle();
+                    args.putSerializable(Helper.ARG_STATUS, statusToDeal);
+                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    });
                 } else if (itemId == R.id.action_copy) {
                     ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                     String content;
@@ -2317,8 +2362,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.share_with)));
                 } else if (itemId == R.id.action_custom_sharing) {
                     Intent intent = new Intent(context, CustomSharingActivity.class);
-                    intent.putExtra(Helper.ARG_STATUS, statusToDeal);
-                    context.startActivity(intent);
+                    Bundle args = new Bundle();
+                    args.putSerializable(Helper.ARG_STATUS, statusToDeal);
+                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    });
                 } else if (itemId == R.id.action_mention) {
                     Intent intent = new Intent(context, ComposeActivity.class);
                     Bundle b = new Bundle();
@@ -3183,8 +3234,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.bindingArt.bottomBanner.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ContextActivity.class);
-                intent.putExtra(Helper.ARG_STATUS, status);
-                context.startActivity(intent);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, status);
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             });
         } else if (viewHolder.getItemViewType() == STATUS_PIXELFED) {
             Status statusToDeal = status.reblog != null ? status.reblog : status;
@@ -3223,8 +3280,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.bindingPixelfed.bottomBanner.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ContextActivity.class);
-                intent.putExtra(Helper.ARG_STATUS, statusToDeal);
-                context.startActivity(intent);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, statusToDeal);
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             });
         }
     }

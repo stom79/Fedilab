@@ -45,16 +45,25 @@ public class TimelineActivity extends BaseBarActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        Bundle b = getIntent().getExtras();
+        Bundle args = getIntent().getExtras();
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(TimelineActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
         Timeline.TimeLineEnum timelineType = null;
         String lemmy_post_id = null;
         PinnedTimeline pinnedTimeline = null;
         Status status = null;
-        if (b != null) {
-            timelineType = (Timeline.TimeLineEnum) b.get(Helper.ARG_TIMELINE_TYPE);
-            lemmy_post_id = b.getString(Helper.ARG_LEMMY_POST_ID, null);
-            pinnedTimeline = (PinnedTimeline) b.getSerializable(Helper.ARG_REMOTE_INSTANCE);
-            status = (Status) b.getSerializable(Helper.ARG_STATUS);
+        if (bundle != null) {
+            timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
+            lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);
+            pinnedTimeline = (PinnedTimeline) bundle.getSerializable(Helper.ARG_REMOTE_INSTANCE);
+            status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
         }
         if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
             setTitle(pinnedTimeline.remoteInstance.host);
@@ -68,13 +77,12 @@ public class TimelineActivity extends BaseBarActivity {
             args.putSerializable(Helper.ARG_STATUS, status);
         }
         new CachedBundle(TimelineActivity.this).insertBundle(args, currentAccount, bundleId -> {
-            Bundle bundle = new Bundle();
-            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-            fragmentMastodonTimeline.setArguments(bundle);
+            Bundle bundle1 = new Bundle();
+            bundle1.putLong(Helper.ARG_INTENT_ID, bundleId);
+            fragmentMastodonTimeline.setArguments(bundle1);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container_view, fragmentMastodonTimeline).commit();
         });
-
     }
 
 

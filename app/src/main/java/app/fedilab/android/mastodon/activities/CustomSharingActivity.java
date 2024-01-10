@@ -37,6 +37,7 @@ import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.customsharing.CustomSharingAsyncTask;
 import app.fedilab.android.mastodon.helper.customsharing.CustomSharingResponse;
@@ -65,23 +66,34 @@ public class CustomSharingActivity extends BaseBarActivity implements OnCustomSh
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(CustomSharingActivity.this);
+
         binding = ActivityCustomSharingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        Bundle b = getIntent().getExtras();
+        Bundle args = getIntent().getExtras();
         status = null;
-        if (b != null) {
-            status = (Status) b.getSerializable(Helper.ARG_STATUS);
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(CustomSharingActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+
+        if (bundle != null) {
+            status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
         }
         if (status == null) {
             finish();
             return;
         }
-
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(CustomSharingActivity.this);
         bundle_creator = status.account.acct;
         bundle_url = status.url;
         bundle_id = status.uri;
