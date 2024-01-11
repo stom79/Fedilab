@@ -872,13 +872,17 @@ public class Helper {
      */
     public static void sendToastMessage(Context context, String type, String content) {
         Intent intentBC = new Intent(context, ToastMessage.class);
-        Bundle b = new Bundle();
-        b.putString(RECEIVE_TOAST_TYPE, type);
-        b.putString(RECEIVE_TOAST_CONTENT, content);
+        Bundle args = new Bundle();
+        args.putString(RECEIVE_TOAST_TYPE, type);
+        args.putString(RECEIVE_TOAST_CONTENT, content);
         intentBC.setAction(Helper.RECEIVE_TOAST_MESSAGE);
-        intentBC.putExtras(b);
-        intentBC.setPackage(BuildConfig.APPLICATION_ID);
-        context.sendBroadcast(intentBC);
+        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            intentBC.putExtras(bundle);
+            intentBC.setPackage(BuildConfig.APPLICATION_ID);
+            context.sendBroadcast(intentBC);
+        });
     }
 
     /**
@@ -1514,12 +1518,16 @@ public class Helper {
      * @param activity - Activity
      */
     public static void recreateMainActivity(Activity activity) {
-        Bundle b = new Bundle();
-        b.putBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, true);
+        Bundle args = new Bundle();
+        args.putBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, true);
         Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-        intentBD.putExtras(b);
-        intentBD.setPackage(BuildConfig.APPLICATION_ID);
-        activity.sendBroadcast(intentBD);
+        new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            intentBD.putExtras(bundle);
+            intentBD.setPackage(BuildConfig.APPLICATION_ID);
+            activity.sendBroadcast(intentBD);
+        });
     }
 
     public static void showKeyboard(Context context, View view) {

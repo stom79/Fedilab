@@ -94,88 +94,91 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
-                String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
-                String delete_all_for_account_id = b.getString(Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID);
-                Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
-                Status status_to_update = (Status) b.getSerializable(Helper.ARG_STATUS_UPDATED);
-                Status statusPosted = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
-                boolean refreshAll = b.getBoolean(Helper.ARG_TIMELINE_REFRESH_ALL, false);
-                if (receivedStatus != null && statusAdapter != null) {
-                    int position = getPosition(receivedStatus);
-                    if (position >= 0) {
-                        if (receivedStatus.reblog != null) {
-                            timelineStatuses.get(position).reblog = receivedStatus.reblog;
-                        }
-                        if (timelineStatuses.get(position).reblog != null) {
-                            timelineStatuses.get(position).reblog.reblogged = receivedStatus.reblogged;
-                            timelineStatuses.get(position).reblog.favourited = receivedStatus.favourited;
-                            timelineStatuses.get(position).reblog.bookmarked = receivedStatus.bookmarked;
-                            timelineStatuses.get(position).reblog.reblogs_count = receivedStatus.reblogs_count;
-                            timelineStatuses.get(position).reblog.favourites_count = receivedStatus.favourites_count;
-                        } else {
-                            timelineStatuses.get(position).reblogged = receivedStatus.reblogged;
-                            timelineStatuses.get(position).favourited = receivedStatus.favourited;
-                            timelineStatuses.get(position).bookmarked = receivedStatus.bookmarked;
-                            timelineStatuses.get(position).reblogs_count = receivedStatus.reblogs_count;
-                            timelineStatuses.get(position).favourites_count = receivedStatus.favourites_count;
-                        }
-
-
-                        statusAdapter.notifyItemChanged(position);
-                    }
-                } else if (delete_statuses_for_user != null && statusAdapter != null) {
-                    List<Status> statusesToRemove = new ArrayList<>();
-                    for (Status status : timelineStatuses) {
-                        if (status != null && status.account != null && status.account.id != null && status.account.id.equals(delete_statuses_for_user)) {
-                            statusesToRemove.add(status);
-                        }
-                    }
-                    for (Status statusToRemove : statusesToRemove) {
-                        int position = getPosition(statusToRemove);
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
+                    Status receivedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS_ACTION);
+                    String delete_statuses_for_user = bundle.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
+                    String delete_all_for_account_id = bundle.getString(Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID);
+                    Status status_to_delete = (Status) bundle.getSerializable(Helper.ARG_STATUS_DELETED);
+                    Status status_to_update = (Status) bundle.getSerializable(Helper.ARG_STATUS_UPDATED);
+                    Status statusPosted = (Status) bundle.getSerializable(Helper.ARG_STATUS_DELETED);
+                    boolean refreshAll = bundle.getBoolean(Helper.ARG_TIMELINE_REFRESH_ALL, false);
+                    if (receivedStatus != null && statusAdapter != null) {
+                        int position = getPosition(receivedStatus);
                         if (position >= 0) {
-                            timelineStatuses.remove(position);
-                            statusAdapter.notifyItemRemoved(position);
+                            if (receivedStatus.reblog != null) {
+                                timelineStatuses.get(position).reblog = receivedStatus.reblog;
+                            }
+                            if (timelineStatuses.get(position).reblog != null) {
+                                timelineStatuses.get(position).reblog.reblogged = receivedStatus.reblogged;
+                                timelineStatuses.get(position).reblog.favourited = receivedStatus.favourited;
+                                timelineStatuses.get(position).reblog.bookmarked = receivedStatus.bookmarked;
+                                timelineStatuses.get(position).reblog.reblogs_count = receivedStatus.reblogs_count;
+                                timelineStatuses.get(position).reblog.favourites_count = receivedStatus.favourites_count;
+                            } else {
+                                timelineStatuses.get(position).reblogged = receivedStatus.reblogged;
+                                timelineStatuses.get(position).favourited = receivedStatus.favourited;
+                                timelineStatuses.get(position).bookmarked = receivedStatus.bookmarked;
+                                timelineStatuses.get(position).reblogs_count = receivedStatus.reblogs_count;
+                                timelineStatuses.get(position).favourites_count = receivedStatus.favourites_count;
+                            }
+
+
+                            statusAdapter.notifyItemChanged(position);
                         }
-                    }
-                } else if (status_to_delete != null && statusAdapter != null) {
-                    int position = getPosition(status_to_delete);
-                    if (position >= 0) {
-                        timelineStatuses.remove(position);
-                        statusAdapter.notifyItemRemoved(position);
-                    }
-                } else if (status_to_update != null && statusAdapter != null) {
-                    int position = getPosition(status_to_update);
-                    if (position >= 0) {
-                        timelineStatuses.set(position, status_to_update);
-                        statusAdapter.notifyItemChanged(position);
-                    }
-                } else if (statusPosted != null && statusAdapter != null && timelineType == Timeline.TimeLineEnum.HOME) {
-                    timelineStatuses.add(0, statusPosted);
-                    statusAdapter.notifyItemInserted(0);
-                } else if (delete_all_for_account_id != null) {
-                    List<Status> toRemove = new ArrayList<>();
-                    if (timelineStatuses != null) {
-                        for (int position = 0; position < timelineStatuses.size(); position++) {
-                            if (timelineStatuses.get(position).account.id.equals(delete_all_for_account_id)) {
-                                toRemove.add(timelineStatuses.get(position));
+                    } else if (delete_statuses_for_user != null && statusAdapter != null) {
+                        List<Status> statusesToRemove = new ArrayList<>();
+                        for (Status status : timelineStatuses) {
+                            if (status != null && status.account != null && status.account.id != null && status.account.id.equals(delete_statuses_for_user)) {
+                                statusesToRemove.add(status);
                             }
                         }
-                    }
-                    if (toRemove.size() > 0) {
-                        for (int i = 0; i < toRemove.size(); i++) {
-                            int position = getPosition(toRemove.get(i));
+                        for (Status statusToRemove : statusesToRemove) {
+                            int position = getPosition(statusToRemove);
                             if (position >= 0) {
                                 timelineStatuses.remove(position);
                                 statusAdapter.notifyItemRemoved(position);
                             }
                         }
+                    } else if (status_to_delete != null && statusAdapter != null) {
+                        int position = getPosition(status_to_delete);
+                        if (position >= 0) {
+                            timelineStatuses.remove(position);
+                            statusAdapter.notifyItemRemoved(position);
+                        }
+                    } else if (status_to_update != null && statusAdapter != null) {
+                        int position = getPosition(status_to_update);
+                        if (position >= 0) {
+                            timelineStatuses.set(position, status_to_update);
+                            statusAdapter.notifyItemChanged(position);
+                        }
+                    } else if (statusPosted != null && statusAdapter != null && timelineType == Timeline.TimeLineEnum.HOME) {
+                        timelineStatuses.add(0, statusPosted);
+                        statusAdapter.notifyItemInserted(0);
+                    } else if (delete_all_for_account_id != null) {
+                        List<Status> toRemove = new ArrayList<>();
+                        if (timelineStatuses != null) {
+                            for (int position = 0; position < timelineStatuses.size(); position++) {
+                                if (timelineStatuses.get(position).account.id.equals(delete_all_for_account_id)) {
+                                    toRemove.add(timelineStatuses.get(position));
+                                }
+                            }
+                        }
+                        if (toRemove.size() > 0) {
+                            for (int i = 0; i < toRemove.size(); i++) {
+                                int position = getPosition(toRemove.get(i));
+                                if (position >= 0) {
+                                    timelineStatuses.remove(position);
+                                    statusAdapter.notifyItemRemoved(position);
+                                }
+                            }
+                        }
+                    } else if (refreshAll) {
+                        refreshAllAdapters();
                     }
-                } else if (refreshAll) {
-                    refreshAllAdapters();
-                }
+                });
             }
         }
     };

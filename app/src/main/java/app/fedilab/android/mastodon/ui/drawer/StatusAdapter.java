@@ -2171,9 +2171,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 }
                                 statusDeleted.id = null;
                                 statusDraft.statusDraftList.add(statusDeleted);
-                                intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
-                                intent.putExtra(Helper.ARG_STATUS_REPLY_ID, statusDeleted.in_reply_to_id);
-                                context.startActivity(intent);
+                                Bundle args = new Bundle();
+                                args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
+                                args.putSerializable(Helper.ARG_STATUS_REPLY_ID, statusDeleted.in_reply_to_id);
+                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    intent.putExtras(bundle);
+                                    context.startActivity(intent);
+                                });
                                 sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
                             });
                         }
@@ -2194,10 +2200,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         statusToDeal.spoilerChecked = true;
                                     }
                                     statusDraft.statusDraftList.add(statusToDeal);
-                                    intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
-                                    intent.putExtra(Helper.ARG_EDIT_STATUS_ID, statusToDeal.id);
-                                    intent.putExtra(Helper.ARG_STATUS_REPLY_ID, statusToDeal.in_reply_to_id);
-                                    context.startActivity(intent);
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
+                                    args.putString(Helper.ARG_EDIT_STATUS_ID, statusToDeal.id);
+                                    args.putString(Helper.ARG_STATUS_REPLY_ID, statusToDeal.in_reply_to_id);
+                                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                        intent.putExtras(bundle);
+                                        context.startActivity(intent);
+                                    });
                                 } else {
                                     Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                 }
@@ -2372,10 +2384,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     });
                 } else if (itemId == R.id.action_mention) {
                     Intent intent = new Intent(context, ComposeActivity.class);
-                    Bundle b = new Bundle();
-                    b.putSerializable(Helper.ARG_STATUS_MENTION, statusToDeal);
-                    intent.putExtras(b);
-                    context.startActivity(intent);
+                    Bundle args = new Bundle();
+                    args.putSerializable(Helper.ARG_STATUS_MENTION, statusToDeal);
+                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    });
                 } else if (itemId == R.id.action_open_with) {
                     new Thread(() -> {
                         try {
@@ -2475,19 +2491,31 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if (results != null && results.statuses != null && results.statuses.size() > 0) {
                                 Status fetchedStatus = results.statuses.get(0);
                                 Intent intent = new Intent(context, ComposeActivity.class);
-                                intent.putExtra(Helper.ARG_STATUS_REPLY, fetchedStatus);
-                                context.startActivity(intent);
+                                Bundle args = new Bundle();
+                                args.putSerializable(Helper.ARG_STATUS_REPLY, fetchedStatus);
+                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    intent.putExtras(bundle);
+                                    context.startActivity(intent);
+                                });
                             } else {
                                 Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                             }
                         });
             } else {
                 Intent intent = new Intent(context, ComposeActivity.class);
-                intent.putExtra(Helper.ARG_STATUS_REPLY, statusToDeal);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS_REPLY, statusToDeal);
                 if (status.reblog != null) {
-                    intent.putExtra(Helper.ARG_MENTION_BOOSTER, status.account);
+                    args.putSerializable(Helper.ARG_MENTION_BOOSTER, status.account);
                 }
-                context.startActivity(intent);
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             }
         });
         //For reports
@@ -2811,20 +2839,24 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * @param id      - Id of an account (can be null)
      */
     public static void sendAction(@NonNull Context context, @NonNull String type, @Nullable Status status, @Nullable String id) {
-        Bundle b = new Bundle();
+        Bundle args = new Bundle();
         if (status != null) {
-            b.putSerializable(type, status);
+            args.putSerializable(type, status);
         }
         if (id != null) {
-            b.putString(type, id);
+            args.putString(type, id);
         }
         if (type.equals(ARG_TIMELINE_REFRESH_ALL)) {
-            b.putBoolean(ARG_TIMELINE_REFRESH_ALL, true);
+            args.putBoolean(ARG_TIMELINE_REFRESH_ALL, true);
         }
         Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
-        intentBC.putExtras(b);
-        intentBC.setPackage(BuildConfig.APPLICATION_ID);
-        context.sendBroadcast(intentBC);
+        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            intentBC.putExtras(bundle);
+            intentBC.setPackage(BuildConfig.APPLICATION_ID);
+            context.sendBroadcast(intentBC);
+        });
     }
 
 

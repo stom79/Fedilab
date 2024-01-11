@@ -41,6 +41,7 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityHashtagBinding;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
@@ -158,10 +159,14 @@ public class HashTagActivity extends BaseActivity {
             List<Status> statuses = new ArrayList<>();
             statuses.add(status);
             statusDraft.statusDraftList = statuses;
-            Bundle _b = new Bundle();
-            _b.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
-            intentToot.putExtras(_b);
-            startActivity(intentToot);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
+            new CachedBundle(HashTagActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundleCached = new Bundle();
+                bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intentToot.putExtras(bundleCached);
+                startActivity(intentToot);
+            });
         });
     }
 
@@ -188,13 +193,18 @@ public class HashTagActivity extends BaseActivity {
                     }
                     pinnedTag = false;
                     invalidateOptionsMenu();
-                    Bundle b = new Bundle();
-                    b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                    Bundle args = new Bundle();
+                    args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                     Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                    intentBD.putExtras(b);
-                    intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                    sendBroadcast(intentBD);
-                    dialog.dismiss();
+                    new CachedBundle(HashTagActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intentBD.putExtras(bundle);
+                        intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                        sendBroadcast(intentBD);
+                        dialog.dismiss();
+                    });
+
                 });
                 unpinConfirm.show();
             } else {
@@ -243,12 +253,16 @@ public class HashTagActivity extends BaseActivity {
                         } else {
                             new Pinned(HashTagActivity.this).insertPinned(pinned);
                         }
-                        Bundle b = new Bundle();
-                        b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                        Bundle args = new Bundle();
+                        args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                         Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                        intentBD.putExtras(b);
-                        intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                        sendBroadcast(intentBD);
+                        new CachedBundle(HashTagActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intentBD.putExtras(bundle);
+                            intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                            sendBroadcast(intentBD);
+                        });
                         pinnedTag = true;
                         invalidateOptionsMenu();
                     } catch (DBException e) {

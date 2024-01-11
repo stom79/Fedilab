@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +49,7 @@ import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.api.Notifications;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -71,43 +74,46 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
-                String delete_all_for_account_id = b.getString(Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID);
-                boolean refreshNotifications = b.getBoolean(Helper.ARG_REFRESH_NOTFICATION, false);
-                if (refreshNotifications) {
-                    scrollToTop();
-                } else if (receivedStatus != null && notificationAdapter != null) {
-                    int position = getPosition(receivedStatus);
-                    if (position >= 0) {
-                        if (notificationList.get(position).status != null) {
-                            notificationList.get(position).status.reblog = receivedStatus.reblog;
-                            notificationList.get(position).status.reblogged = receivedStatus.reblogged;
-                            notificationList.get(position).status.favourited = receivedStatus.favourited;
-                            notificationList.get(position).status.bookmarked = receivedStatus.bookmarked;
-                            notificationList.get(position).status.favourites_count = receivedStatus.favourites_count;
-                            notificationList.get(position).status.reblogs_count = receivedStatus.reblogs_count;
-                            notificationAdapter.notifyItemChanged(position);
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
+                    Status receivedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS_ACTION);
+                    String delete_all_for_account_id = bundle.getString(Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID);
+                    boolean refreshNotifications = bundle.getBoolean(Helper.ARG_REFRESH_NOTFICATION, false);
+                    if (refreshNotifications) {
+                        scrollToTop();
+                    } else if (receivedStatus != null && notificationAdapter != null) {
+                        int position = getPosition(receivedStatus);
+                        if (position >= 0) {
+                            if (notificationList.get(position).status != null) {
+                                notificationList.get(position).status.reblog = receivedStatus.reblog;
+                                notificationList.get(position).status.reblogged = receivedStatus.reblogged;
+                                notificationList.get(position).status.favourited = receivedStatus.favourited;
+                                notificationList.get(position).status.bookmarked = receivedStatus.bookmarked;
+                                notificationList.get(position).status.favourites_count = receivedStatus.favourites_count;
+                                notificationList.get(position).status.reblogs_count = receivedStatus.reblogs_count;
+                                notificationAdapter.notifyItemChanged(position);
+                            }
                         }
-                    }
-                } else if (delete_all_for_account_id != null) {
-                    List<Notification> toRemove = new ArrayList<>();
-                    if (notificationList != null) {
-                        for (int position = 0; position < notificationList.size(); position++) {
-                            if (notificationList.get(position).account.id.equals(delete_all_for_account_id)) {
-                                toRemove.add(notificationList.get(position));
+                    } else if (delete_all_for_account_id != null) {
+                        List<Notification> toRemove = new ArrayList<>();
+                        if (notificationList != null) {
+                            for (int position = 0; position < notificationList.size(); position++) {
+                                if (notificationList.get(position).account.id.equals(delete_all_for_account_id)) {
+                                    toRemove.add(notificationList.get(position));
+                                }
+                            }
+                        }
+                        if (toRemove.size() > 0) {
+                            for (int i = 0; i < toRemove.size(); i++) {
+                                int position = getPosition(toRemove.get(i));
+                                notificationList.remove(position);
+                                notificationAdapter.notifyItemRemoved(position);
                             }
                         }
                     }
-                    if (toRemove.size() > 0) {
-                        for (int i = 0; i < toRemove.size(); i++) {
-                            int position = getPosition(toRemove.get(i));
-                            notificationList.remove(position);
-                            notificationAdapter.notifyItemRemoved(position);
-                        }
-                    }
-                }
+                });
             }
         }
     };

@@ -112,17 +112,19 @@ public class FragmentMastodonDirectMessage extends Fragment {
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-
-                if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
-                    Status statusReceived = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
-                    if (statusReceived != null) {
-                        statuses.add(statusReceived);
-                        statusDirectMessageAdapter.notifyItemInserted(statuses.size() - 1);
-                        initiliazeStatus();
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
+                    if (bundle.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
+                        Status statusReceived = (Status) bundle.getSerializable(Helper.RECEIVE_STATUS_ACTION);
+                        if (statusReceived != null) {
+                            statuses.add(statusReceived);
+                            statusDirectMessageAdapter.notifyItemInserted(statuses.size() - 1);
+                            initiliazeStatus();
+                        }
                     }
-                }
+                });
             }
         }
     };

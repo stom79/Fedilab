@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,12 +47,12 @@ import java.util.Objects;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityListBinding;
 import app.fedilab.android.databinding.PopupAddListBinding;
 import app.fedilab.android.databinding.PopupManageAccountsListBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.MastodonList;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
@@ -175,7 +177,7 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                 timelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, null, null, 0)
                         .observe(MastodonListActivity.this, accounts -> {
                             if (accounts != null && accounts.size() > 0) {
-                                accountsVM.muteAccountsHome(MainActivity.currentAccount, accounts);
+                                accountsVM.muteAccountsHome(currentAccount, accounts);
                             }
                         });
                 dialog.dismiss();
@@ -307,13 +309,17 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                 } else {
                     binding.notContent.setVisibility(View.GONE);
                 }
-                Bundle b = new Bundle();
-                b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                Bundle args = new Bundle();
+                args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                 Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                b.putSerializable(Helper.RECEIVE_MASTODON_LIST, mastodonListList);
-                intentBD.putExtras(b);
-                intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                sendBroadcast(intentBD);
+                args.putSerializable(Helper.RECEIVE_MASTODON_LIST, mastodonListList);
+                new CachedBundle(MastodonListActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intentBD.putExtras(bundle);
+                    intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                    sendBroadcast(intentBD);
+                });
             });
             alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
             AlertDialog alert = alt_bld.create();
@@ -343,13 +349,17 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                                 } else {
                                     Toasty.error(MastodonListActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
                                 }
-                                Bundle b = new Bundle();
-                                b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                                Bundle args = new Bundle();
+                                args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                                 Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                                b.putSerializable(Helper.RECEIVE_MASTODON_LIST, mastodonListList);
-                                intentBD.putExtras(b);
-                                intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                                sendBroadcast(intentBD);
+                                args.putSerializable(Helper.RECEIVE_MASTODON_LIST, mastodonListList);
+                                new CachedBundle(MastodonListActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    intentBD.putExtras(bundle);
+                                    intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                                    sendBroadcast(intentBD);
+                                });
                             });
                     dialog.dismiss();
                 } else {
@@ -392,12 +402,16 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                                                                         new Thread(() -> {
                                                                             try {
                                                                                 new Pinned(MastodonListActivity.this).updatePinned(pinned);
-                                                                                Bundle b = new Bundle();
-                                                                                b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                                                                                Bundle args = new Bundle();
+                                                                                args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                                                                                 Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                                                                                intentBD.putExtras(b);
-                                                                                intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                                                                                sendBroadcast(intentBD);
+                                                                                new CachedBundle(MastodonListActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                                                                    Bundle bundle = new Bundle();
+                                                                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                                                                    intentBD.putExtras(bundle);
+                                                                                    intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                                                                                    sendBroadcast(intentBD);
+                                                                                });
                                                                             } catch (
                                                                                     DBException e) {
                                                                                 e.printStackTrace();

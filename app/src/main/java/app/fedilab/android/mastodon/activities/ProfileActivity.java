@@ -135,23 +135,14 @@ public class ProfileActivity extends BaseActivity {
             Bundle args = intent.getExtras();
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-                if (bundleId != -1) {
-                    new CachedBundle(ProfileActivity.this).getBundle(bundleId, currentAccount, bundle -> {
-                        Account accountReceived = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
-                        if (bundle.getBoolean(Helper.RECEIVE_REDRAW_PROFILE, false) && accountReceived != null) {
-                            if (account != null && accountReceived.id != null && account.id != null && accountReceived.id.equalsIgnoreCase(account.id)) {
-                                initializeView(accountReceived);
-                            }
-                        }
-                    });
-                } else {
-                    Account accountReceived = (Account) args.getSerializable(Helper.ARG_ACCOUNT);
-                    if (args.getBoolean(Helper.RECEIVE_REDRAW_PROFILE, false) && accountReceived != null) {
+                new CachedBundle(ProfileActivity.this).getBundle(bundleId, currentAccount, bundle -> {
+                    Account accountReceived = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+                    if (bundle.getBoolean(Helper.RECEIVE_REDRAW_PROFILE, false) && accountReceived != null) {
                         if (account != null && accountReceived.id != null && account.id != null && accountReceived.id.equalsIgnoreCase(account.id)) {
                             initializeView(accountReceived);
                         }
                     }
-                }
+                });
             }
         }
     };
@@ -926,12 +917,16 @@ public class ProfileActivity extends BaseActivity {
                             new Pinned(ProfileActivity.this).insertPinned(finalPinned);
                         }
                         runOnUiThread(() -> {
-                            Bundle b = new Bundle();
-                            b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                            Bundle args = new Bundle();
+                            args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                             Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                            intentBD.putExtras(b);
-                            intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                            sendBroadcast(intentBD);
+                            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intentBD.putExtras(bundle);
+                                intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                                sendBroadcast(intentBD);
+                            });
                         });
                     } catch (DBException e) {
                         e.printStackTrace();

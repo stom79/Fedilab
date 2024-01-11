@@ -1,6 +1,8 @@
 package app.fedilab.android.mastodon.imageeditor;
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -41,6 +43,7 @@ import java.io.InputStream;
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityEditImageBinding;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.CirclesDrawingView;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.imageeditor.base.BaseActivity;
@@ -283,7 +286,8 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                         binding.photoEditorView.getSource().setImageURI(Uri.fromFile(new File(imagePath)));
                         if (exit) {
                             Intent intentImage = new Intent(Helper.INTENT_SEND_MODIFIED_IMAGE);
-                            intentImage.putExtra("imgpath", imagePath);
+                            Bundle args = new Bundle();
+                            args.putString("imgpath", imagePath);
                             CirclesDrawingView.CircleArea circleArea = binding.focusCircle.getTouchedCircle();
                             if (circleArea != null) {
                                 //Dimension of the editor containing the image
@@ -323,13 +327,16 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                                 } else if (focusY < -1) {
                                     focusY = -1;
                                 }
-                                intentImage.putExtra("focusX", focusX);
-                                intentImage.putExtra("focusY", focusY);
-
+                                args.putFloat("focusX", focusX);
+                                args.putFloat("focusY", focusY);
                             }
-                            intentImage.setPackage(BuildConfig.APPLICATION_ID);
-                            sendBroadcast(intentImage);
-                            finish();
+                            new CachedBundle(EditImageActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                intentImage.putExtras(args);
+                                intentImage.setPackage(BuildConfig.APPLICATION_ID);
+                                sendBroadcast(intentImage);
+                                finish();
+                            });
+
                         }
                     }
 

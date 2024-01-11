@@ -63,67 +63,71 @@ public class FragmentMastodonContext extends Fragment {
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
-                String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
-                Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
-                Status statusPosted = (Status) b.getSerializable(Helper.ARG_STATUS_POSTED);
-                Status status_to_update = (Status) b.getSerializable(Helper.ARG_STATUS_UPDATED);
-                if (receivedStatus != null && statusAdapter != null) {
-                    int position = getPosition(receivedStatus);
-                    if (position >= 0) {
-                        statuses.get(position).reblog = receivedStatus.reblog;
-                        statuses.get(position).reblogged = receivedStatus.reblogged;
-                        statuses.get(position).favourited = receivedStatus.favourited;
-                        statuses.get(position).bookmarked = receivedStatus.bookmarked;
-                        statuses.get(position).reblogs_count = receivedStatus.reblogs_count;
-                        statuses.get(position).favourites_count = receivedStatus.favourites_count;
-                        statusAdapter.notifyItemChanged(position);
-                    }
-                } else if (delete_statuses_for_user != null && statusAdapter != null) {
-                    List<Status> statusesToRemove = new ArrayList<>();
-                    for (Status status : statuses) {
-                        if (status.account.id.equals(delete_statuses_for_user)) {
-                            statusesToRemove.add(status);
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
+                    Status receivedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS_ACTION);
+                    String delete_statuses_for_user = bundle.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
+                    Status status_to_delete = (Status) bundle.getSerializable(Helper.ARG_STATUS_DELETED);
+                    Status statusPosted = (Status) bundle.getSerializable(Helper.ARG_STATUS_POSTED);
+                    Status status_to_update = (Status) bundle.getSerializable(Helper.ARG_STATUS_UPDATED);
+                    if (receivedStatus != null && statusAdapter != null) {
+                        int position = getPosition(receivedStatus);
+                        if (position >= 0) {
+                            statuses.get(position).reblog = receivedStatus.reblog;
+                            statuses.get(position).reblogged = receivedStatus.reblogged;
+                            statuses.get(position).favourited = receivedStatus.favourited;
+                            statuses.get(position).bookmarked = receivedStatus.bookmarked;
+                            statuses.get(position).reblogs_count = receivedStatus.reblogs_count;
+                            statuses.get(position).favourites_count = receivedStatus.favourites_count;
+                            statusAdapter.notifyItemChanged(position);
                         }
-                    }
-                    for (Status statusToRemove : statusesToRemove) {
-                        int position = getPosition(statusToRemove);
+                    } else if (delete_statuses_for_user != null && statusAdapter != null) {
+                        List<Status> statusesToRemove = new ArrayList<>();
+                        for (Status status : statuses) {
+                            if (status.account.id.equals(delete_statuses_for_user)) {
+                                statusesToRemove.add(status);
+                            }
+                        }
+                        for (Status statusToRemove : statusesToRemove) {
+                            int position = getPosition(statusToRemove);
+                            if (position >= 0) {
+                                statuses.remove(position);
+                                statusAdapter.notifyItemRemoved(position);
+                            }
+                        }
+                    } else if (status_to_delete != null && statusAdapter != null) {
+                        int position = getPosition(status_to_delete);
                         if (position >= 0) {
                             statuses.remove(position);
                             statusAdapter.notifyItemRemoved(position);
                         }
-                    }
-                } else if (status_to_delete != null && statusAdapter != null) {
-                    int position = getPosition(status_to_delete);
-                    if (position >= 0) {
-                        statuses.remove(position);
-                        statusAdapter.notifyItemRemoved(position);
-                    }
-                } else if (status_to_update != null && statusAdapter != null) {
-                    int position = getPosition(status_to_update);
-                    if (position >= 0) {
-                        statuses.set(position, status_to_update);
-                        statusAdapter.notifyItemChanged(position);
-                    }
-                } else if (statusPosted != null && statusAdapter != null) {
-                    if (requireActivity() instanceof ContextActivity) {
-                        int i = 0;
-                        for (Status status : statuses) {
-                            if (status.id.equals(statusPosted.in_reply_to_id)) {
-                                statuses.add((i + 1), statusPosted);
-                                statusAdapter.notifyItemInserted((i + 1));
-                                if (requireActivity() instanceof ContextActivity) {
-                                    //Redraw decorations
-                                    statusAdapter.notifyItemRangeChanged(0, statuses.size());
+                    } else if (status_to_update != null && statusAdapter != null) {
+                        int position = getPosition(status_to_update);
+                        if (position >= 0) {
+                            statuses.set(position, status_to_update);
+                            statusAdapter.notifyItemChanged(position);
+                        }
+                    } else if (statusPosted != null && statusAdapter != null) {
+                        if (requireActivity() instanceof ContextActivity) {
+                            int i = 0;
+                            for (Status status : statuses) {
+                                if (status.id.equals(statusPosted.in_reply_to_id)) {
+                                    statuses.add((i + 1), statusPosted);
+                                    statusAdapter.notifyItemInserted((i + 1));
+                                    if (requireActivity() instanceof ContextActivity) {
+                                        //Redraw decorations
+                                        statusAdapter.notifyItemRangeChanged(0, statuses.size());
+                                    }
+                                    break;
                                 }
-                                break;
+                                i++;
                             }
-                            i++;
                         }
                     }
-                }
+                });
+
             }
         }
     };

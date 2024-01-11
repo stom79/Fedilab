@@ -84,10 +84,10 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
     private final BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             if (downloadID == id) {
                 DownloadManager manager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
-                assert manager != null;
                 Uri uri = manager.getUriForDownloadedFile(downloadID);
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
