@@ -17,8 +17,6 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
 import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,20 +52,15 @@ public class FragmentProfileTimeline extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfileTimelinesBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
-            new Thread(() -> {
-                String cached_account_id = getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID);
-                try {
-                    account = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, cached_account_id);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-                checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = this::initializeAfterBundle;
-                mainHandler.post(myRunnable);
-            }).start();
+            String cached_account_id = getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID);
+            try {
+                account = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, cached_account_id);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+            initializeAfterBundle();
         }
-
         return binding.getRoot();
     }
 

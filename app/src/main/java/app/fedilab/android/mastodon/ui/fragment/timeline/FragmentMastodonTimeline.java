@@ -27,7 +27,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -180,7 +179,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         }
     };
-    private boolean bundleInitialized;
     private boolean retry_for_home_done;
     private String lemmy_post_id;
     private boolean checkRemotely;
@@ -233,10 +231,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     @Override
     public void onResume() {
         super.onResume();
-        Log.v(Helper.TAG, "onResume bundleInitialized: " + bundleInitialized);
-        if (!bundleInitialized) {
-            return;
-        }
         if (!isViewInitialized) {
             isViewInitialized = true;
             if (initialStatuses != null) {
@@ -370,141 +364,125 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        bundleInitialized = false;
+        timelineType = Timeline.TimeLineEnum.HOME;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
             long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
-            Log.v(Helper.TAG, "onCreateView bundleId: " + bundleId);
             if (bundleId != -1) {
                 new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
             } else {
                 if (getArguments().containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
-                    new Thread(() -> {
-                        try {
-                            accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID));
-                        } catch (DBException e) {
-                            throw new RuntimeException(e);
-                        }
-                        Handler mainHandler = new Handler(Looper.getMainLooper());
-                        Runnable myRunnable = () -> {
-                            initializeAfterBundle(getArguments());
-                        };
-                        mainHandler.post(myRunnable);
-                    }).start();
-                } else {
-                    initializeAfterBundle(getArguments());
+                    try {
+                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
                 }
+                initializeAfterBundle(getArguments());
+
             }
         }
         return binding.getRoot();
     }
 
     private void initializeAfterBundle(Bundle bundle) {
-        Log.v(Helper.TAG, "initializeAfterBundle: " + bundle);
-        new Thread(() -> {
-            if (bundle != null) {
-                timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
-                lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);
-                list_id = bundle.getString(Helper.ARG_LIST_ID, null);
-                search = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
-                searchCache = bundle.getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
-                pinnedTimeline = (PinnedTimeline) bundle.getSerializable(Helper.ARG_REMOTE_INSTANCE);
+        if (bundle != null) {
+            timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
+            lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);
+            list_id = bundle.getString(Helper.ARG_LIST_ID, null);
+            search = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
+            searchCache = bundle.getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
+            pinnedTimeline = (PinnedTimeline) bundle.getSerializable(Helper.ARG_REMOTE_INSTANCE);
 
-                if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
-                    if (pinnedTimeline.remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
-                        remoteInstance = pinnedTimeline.remoteInstance.host;
-                    } else {
-                        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-                        remoteInstance = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
-                        canBeFederated = false;
-                    }
-                }
-                if (timelineType == Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC) {
+            if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
+                if (pinnedTimeline.remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
+                    remoteInstance = pinnedTimeline.remoteInstance.host;
+                } else {
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                    remoteInstance = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
                     canBeFederated = false;
                 }
-                publicTrendsDomain = bundle.getString(Helper.ARG_REMOTE_INSTANCE_STRING, null);
-                isViewInitialized = bundle.getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
-                isNotPinnedTimeline = isViewInitialized;
-                tagTimeline = (TagTimeline) bundle.getSerializable(Helper.ARG_TAG_TIMELINE);
-                bubbleTimeline = (BubbleTimeline) bundle.getSerializable(Helper.ARG_BUBBLE_TIMELINE);
-                if (bundle.containsKey(Helper.ARG_ACCOUNT)) {
-                    accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
-                }
-                exclude_replies = !bundle.getBoolean(Helper.ARG_SHOW_REPLIES, true);
-                checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
-                show_pinned = bundle.getBoolean(Helper.ARG_SHOW_PINNED, false);
-                exclude_reblogs = !bundle.getBoolean(Helper.ARG_SHOW_REBLOGS, true);
-                media_only = bundle.getBoolean(Helper.ARG_SHOW_MEDIA_ONY, false);
-                viewModelKey = bundle.getString(Helper.ARG_VIEW_MODEL_KEY, "");
-                minified = bundle.getBoolean(Helper.ARG_MINIFIED, false);
-                statusReport = (Status) bundle.getSerializable(Helper.ARG_STATUS_REPORT);
-                initialStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);
-                Log.v(Helper.TAG, "accountTimeline: " + accountTimeline);
             }
-            bundleInitialized = true;
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            Runnable myRunnable = () -> {
-                timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
-                accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
-                initialStatuses = null;
-                lockForResumeCall = 0;
-                timelineType = Timeline.TimeLineEnum.HOME;
-                canBeFederated = true;
-                retry_for_home_done = false;
-                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-                boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
-                binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
-                max_id = statusReport != null ? statusReport.id : null;
-                offset = 0;
-                rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
-                //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
-                if (max_id == null && !isViewInitialized && rememberPosition) {
-                    max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
-                }
-                //Only fragment in main view pager should not have the view initialized
-                //AND Only the first fragment will initialize its view
-                flagLoading = false;
+            if (timelineType == Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC) {
+                canBeFederated = false;
+            }
+            publicTrendsDomain = bundle.getString(Helper.ARG_REMOTE_INSTANCE_STRING, null);
+            isViewInitialized = bundle.getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
+            isNotPinnedTimeline = isViewInitialized;
+            tagTimeline = (TagTimeline) bundle.getSerializable(Helper.ARG_TAG_TIMELINE);
+            bubbleTimeline = (BubbleTimeline) bundle.getSerializable(Helper.ARG_BUBBLE_TIMELINE);
+            if (bundle.containsKey(Helper.ARG_ACCOUNT)) {
+                accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            }
+            exclude_replies = !bundle.getBoolean(Helper.ARG_SHOW_REPLIES, true);
+            checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+            show_pinned = bundle.getBoolean(Helper.ARG_SHOW_PINNED, false);
+            exclude_reblogs = !bundle.getBoolean(Helper.ARG_SHOW_REBLOGS, true);
+            media_only = bundle.getBoolean(Helper.ARG_SHOW_MEDIA_ONY, false);
+            viewModelKey = bundle.getString(Helper.ARG_VIEW_MODEL_KEY, "");
+            minified = bundle.getBoolean(Helper.ARG_MINIFIED, false);
+            statusReport = (Status) bundle.getSerializable(Helper.ARG_STATUS_REPORT);
+            initialStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+        }
 
-                //When visiting a profile without being authenticated
-                if (checkRemotely) {
-                    String[] acctArray = accountTimeline.acct.split("@");
-                    if (acctArray.length > 1) {
-                        remoteInstance = acctArray[1];
-                    }
-                    if (remoteInstance != null && remoteInstance.equalsIgnoreCase(currentInstance)) {
-                        checkRemotely = false;
-                    } else if (remoteInstance == null) {
-                        checkRemotely = false;
-                    }
-                }
-                if (tagTimeline != null) {
-                    ident = "@T@" + tagTimeline.name;
-                    if (tagTimeline.isART) {
-                        timelineType = Timeline.TimeLineEnum.ART;
-                    }
-                } else if (bubbleTimeline != null) {
-                    ident = "@B@Bubble";
-                } else if (list_id != null) {
-                    ident = "@l@" + list_id;
-                } else if (remoteInstance != null && !checkRemotely) {
-                    if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
-                        ident = "@R@" + pinnedTimeline.remoteInstance.host;
-                    } else {
-                        ident = "@R@" + remoteInstance;
-                    }
-                } else if (search != null) {
-                    ident = "@S@" + search;
-                } else {
-                    ident = null;
-                }
-                if (timelineType != null) {
-                    slug = timelineType != Timeline.TimeLineEnum.ART ? timelineType.getValue() + (ident != null ? "|" + ident : "") : Timeline.TimeLineEnum.TAG.getValue() + (ident != null ? "|" + ident : "");
-                }
+        timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
+        accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
+        initialStatuses = null;
+        lockForResumeCall = 0;
 
-                ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
-            };
-            mainHandler.post(myRunnable);
-        }).start();
+        canBeFederated = true;
+        retry_for_home_done = false;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
+        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
+        max_id = statusReport != null ? statusReport.id : null;
+        offset = 0;
+        rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
+        //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
+        if (max_id == null && !isViewInitialized && rememberPosition) {
+            max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
+        }
+        //Only fragment in main view pager should not have the view initialized
+        //AND Only the first fragment will initialize its view
+        flagLoading = false;
+
+        //When visiting a profile without being authenticated
+        if (checkRemotely) {
+            String[] acctArray = accountTimeline.acct.split("@");
+            if (acctArray.length > 1) {
+                remoteInstance = acctArray[1];
+            }
+            if (remoteInstance != null && remoteInstance.equalsIgnoreCase(currentInstance)) {
+                checkRemotely = false;
+            } else if (remoteInstance == null) {
+                checkRemotely = false;
+            }
+        }
+        if (tagTimeline != null) {
+            ident = "@T@" + tagTimeline.name;
+            if (tagTimeline.isART) {
+                timelineType = Timeline.TimeLineEnum.ART;
+            }
+        } else if (bubbleTimeline != null) {
+            ident = "@B@Bubble";
+        } else if (list_id != null) {
+            ident = "@l@" + list_id;
+        } else if (remoteInstance != null && !checkRemotely) {
+            if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
+                ident = "@R@" + pinnedTimeline.remoteInstance.host;
+            } else {
+                ident = "@R@" + remoteInstance;
+            }
+        } else if (search != null) {
+            ident = "@S@" + search;
+        } else {
+            ident = null;
+        }
+        if (timelineType != null) {
+            slug = timelineType != Timeline.TimeLineEnum.ART ? timelineType.getValue() + (ident != null ? "|" + ident : "") : Timeline.TimeLineEnum.TAG.getValue() + (ident != null ? "|" + ident : "");
+        }
+
+        ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     /**

@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.ui.pageadapter;
  * see <http://www.gnu.org/licenses>. */
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -58,8 +57,6 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
         Bundle bundle = new Bundle();
         bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + position);
         FragmentMastodonTimeline fragmentMastodonTimeline;
-        Log.v(Helper.TAG, ">>>>>>>>>FedilabProfilePageAdapter: " + account);
-        Log.v(Helper.TAG, ">>>>>>>>>FedilabProfilePageAdapter ID: " + account.id);
         switch (position) {
             case 0 -> {
                 fragmentMastodonTimeline = new FragmentMastodonTimeline();

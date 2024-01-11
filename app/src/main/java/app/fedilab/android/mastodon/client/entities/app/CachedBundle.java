@@ -23,7 +23,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcel;
 import android.util.Base64;
-import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -83,12 +82,10 @@ public class CachedBundle {
         values.put(Sqlite.COL_BUNDLE, serializeBundle(bundle));
         values.put(Sqlite.COL_CREATED_AT, Helper.dateToString(new Date()));
         values.put(Sqlite.COL_TYPE, CacheType.ARGS.getValue());
-        Log.v(Helper.TAG, "insertIntent --> " + currentUser);
         if (bundle.containsKey(Helper.ARG_ACCOUNT) && currentUser != null) {
             ContentValues valuesAccount = new ContentValues();
             Bundle bundleAccount = new Bundle();
             Account account = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
-            Log.v(Helper.TAG, "account --> " + account);
             if (account != null) {
                 bundleAccount.putSerializable(Helper.ARG_ACCOUNT, account);
                 valuesAccount.put(Sqlite.COL_BUNDLE, serializeBundle(bundleAccount));
@@ -130,12 +127,8 @@ public class CachedBundle {
             Bundle bundle = null;
             try {
                 CachedBundle cachedBundle = getCachedBundle(String.valueOf(id));
-                Log.v(Helper.TAG, "cachedBundle --> " + cachedBundle);
                 if (cachedBundle != null) {
                     bundle = cachedBundle.bundle;
-                    if (bundle != null) {
-                        Log.v(Helper.TAG, "bundle.containsKey(Helper.ARG_CACHED_ACCOUNT_ID) --> " + bundle.containsKey(Helper.ARG_CACHED_ACCOUNT_ID));
-                    }
                     if (bundle != null && bundle.containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
                         Account cachedAccount = getCachedAccount(Account, bundle.getString(Helper.ARG_CACHED_ACCOUNT_ID));
                         if (cachedAccount != null) {
@@ -183,7 +176,6 @@ public class CachedBundle {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
-        Log.v(Helper.TAG, "getCachedAccount --> " + account + " -> " + target_id);
         if (account == null || target_id == null) {
             return null;
         }
@@ -193,9 +185,6 @@ public class CachedBundle {
                     + Sqlite.COL_TYPE + " = '" + CacheType.ACCOUNT.getValue() + "' AND "
                     + Sqlite.COL_TARGET_ID + " = '" + target_id + "'", null, null, null, null, "1");
             CachedBundle cachedBundle = cursorToCachedBundle(c);
-            if (cachedBundle != null) {
-                Log.v(Helper.TAG, "cachedBundle.bundle --> " + cachedBundle.bundle);
-            }
             if (cachedBundle != null && cachedBundle.bundle.containsKey(Helper.ARG_ACCOUNT)) {
                 return (Account) cachedBundle.bundle.getSerializable(Helper.ARG_ACCOUNT);
             }

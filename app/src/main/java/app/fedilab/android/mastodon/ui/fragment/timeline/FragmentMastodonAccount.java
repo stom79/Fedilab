@@ -22,8 +22,6 @@ import static app.fedilab.android.mastodon.helper.MastodonHelper.ACCOUNTS_PER_CA
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,21 +88,14 @@ public class FragmentMastodonAccount extends Fragment {
                 new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
             } else {
                 if (getArguments().containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
-                    new Thread(() -> {
-                        try {
-                            accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID));
-                        } catch (DBException e) {
-                            throw new RuntimeException(e);
-                        }
-                        Handler mainHandler = new Handler(Looper.getMainLooper());
-                        Runnable myRunnable = () -> {
-                            initializeAfterBundle(getArguments());
-                        };
-                        mainHandler.post(myRunnable);
-                    }).start();
-                } else {
-                    initializeAfterBundle(getArguments());
+                    try {
+                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
                 }
+                initializeAfterBundle(getArguments());
+
             }
         } else {
             initializeAfterBundle(null);
