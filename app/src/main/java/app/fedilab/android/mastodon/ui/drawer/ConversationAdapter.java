@@ -51,6 +51,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerConversationBinding;
 import app.fedilab.android.databinding.ThumbnailBinding;
 import app.fedilab.android.mastodon.activities.ContextActivity;
+import app.fedilab.android.mastodon.activities.DirectMessageActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Conversation;
@@ -58,7 +59,6 @@ import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
-import app.fedilab.android.mastodon.activities.DirectMessageActivity;
 
 
 public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

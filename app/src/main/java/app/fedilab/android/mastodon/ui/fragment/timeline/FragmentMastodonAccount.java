@@ -22,6 +22,8 @@ import static app.fedilab.android.mastodon.helper.MastodonHelper.ACCOUNTS_PER_CA
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +49,7 @@ import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.RelationShip;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.ui.drawer.AccountAdapter;
@@ -83,7 +86,26 @@ public class FragmentMastodonAccount extends Fragment {
         token = currentToken;
         if (getArguments() != null) {
             long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            if (bundleId != -1) {
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            } else {
+                if (getArguments().containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
+                    new Thread(() -> {
+                        try {
+                            accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                        } catch (DBException e) {
+                            throw new RuntimeException(e);
+                        }
+                        Handler mainHandler = new Handler(Looper.getMainLooper());
+                        Runnable myRunnable = () -> {
+                            initializeAfterBundle(getArguments());
+                        };
+                        mainHandler.post(myRunnable);
+                    }).start();
+                } else {
+                    initializeAfterBundle(getArguments());
+                }
+            }
         } else {
             initializeAfterBundle(null);
         }
@@ -99,7 +121,9 @@ public class FragmentMastodonAccount extends Fragment {
     private void initializeAfterBundle(Bundle bundle) {
         if (bundle != null) {
             search = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
-            accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            if (bundle.containsKey(Helper.ARG_ACCOUNT)) {
+                accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            }
             followType = (FedilabProfileTLPageAdapter.follow_type) bundle.getSerializable(Helper.ARG_FOLLOW_TYPE);
             viewModelKey = bundle.getString(Helper.ARG_VIEW_MODEL_KEY, "");
             timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
@@ -119,14 +143,6 @@ public class FragmentMastodonAccount extends Fragment {
                 token = currentToken;
             }
         }
-
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        binding.loader.setVisibility(View.VISIBLE);
-        binding.recyclerView.setVisibility(View.GONE);
         accountsVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, AccountsVM.class);
         max_id = null;
         offset = 0;
@@ -135,6 +151,14 @@ public class FragmentMastodonAccount extends Fragment {
             binding.swipeContainer.setEnabled(false);
         }
         router(true);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.recyclerView.setVisibility(View.GONE);
+
     }
 
     /**
