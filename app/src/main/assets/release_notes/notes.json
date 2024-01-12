@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.27-beta-2",
+    "code": "507",
+    "note": "- Compose issue\n- This release should fix crashes (TransactionTooLargeException). If you got crashes, rollback the version through FDdroid."
+  },
+  {
     "version": "3.27-beta-1",
     "code": "506",
     "note": "This release should fix crashes (TransactionTooLargeException). If you got crashes, rollback the version through FDdroid."

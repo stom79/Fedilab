@@ -496,6 +496,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             } else {
                 initializeAfterBundle(b);
             }
+        } else {
+            initializeAfterBundle(null);
         }
     }
 
