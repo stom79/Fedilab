@@ -321,7 +321,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                     args2.putSerializable(Helper.ARG_STATUS, statusSent);
                                     new CachedBundle(BaseMainActivity.this).insertBundle(args2, currentAccount, bundleId2 -> {
                                         Bundle bundle2 = new Bundle();
-                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId2);
+                                        bundle2.putLong(Helper.ARG_INTENT_ID, bundleId2);
                                         intentContext.putExtras(bundle2);
                                         intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intentContext);
@@ -348,7 +348,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         }
                     }
                 });
-
             }
         }
     };
@@ -378,6 +377,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 //Delete cache older than 7 days
                 new StatusCache(activity).deleteForAllAccountAfter7Days();
                 new TimelineCacheLogs(activity).deleteForAllAccountAfter7Days();
+                new CachedBundle(activity).deleteOldIntent();
             } catch (DBException e) {
                 e.printStackTrace();
             }

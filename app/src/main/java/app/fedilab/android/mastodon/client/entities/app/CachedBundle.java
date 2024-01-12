@@ -30,6 +30,7 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -142,8 +143,10 @@ public class CachedBundle {
                         }
                     }
                 }
-                removeIntent(String.valueOf(id));
             } catch (DBException ignored) {
+            }
+            if( bundle == null) {
+                bundle = new Bundle();
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Bundle finalBundle = bundle;
@@ -251,6 +254,27 @@ public class CachedBundle {
             throw new DBException("db is null. Wrong initialization.");
         }
         db.delete(Sqlite.TABLE_INTENT, Sqlite.COL_ID + " = '" + id + "'", null);
+    }
+
+    /**
+     * Remove a bundle from db
+     *
+     */
+    public long deleteOldIntent() throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, -1);
+        Date date = cal.getTime();
+        String dateStr = Helper.dateToString(date);
+        try {
+            return db.delete(Sqlite.TABLE_INTENT, Sqlite.COL_CREATED_AT + " <  ?", new String[]{dateStr});
+        }catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 
     /**
