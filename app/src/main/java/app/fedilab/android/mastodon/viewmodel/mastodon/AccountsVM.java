@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.viewmodel.mastodon;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.app.Application;
 import android.net.Uri;
 import android.os.Handler;
@@ -30,6 +32,7 @@ import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.client.endpoints.MastodonAccountsService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Accounts;
@@ -52,6 +55,7 @@ import app.fedilab.android.mastodon.client.entities.api.Suggestions;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.api.Token;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.MutedAccounts;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -342,6 +346,7 @@ public class AccountsVM extends AndroidViewModel {
                     Response<Account> accountResponse = accountCall.execute();
                     if (accountResponse.isSuccessful()) {
                         account = accountResponse.body();
+                        new CachedBundle(getApplication().getApplicationContext()).insertAccountBundle(account, currentAccount);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1073,6 +1078,9 @@ public class AccountsVM extends AndroidViewModel {
                     Response<List<Account>> searchResponse = searchCall.execute();
                     if (searchResponse.isSuccessful()) {
                         accountList = searchResponse.body();
+                        if(accountList != null && accountList.size() > 0 ) {
+                            new CachedBundle(getApplication().getApplicationContext()).insertAccountBundle(accountList.get(0), currentAccount);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

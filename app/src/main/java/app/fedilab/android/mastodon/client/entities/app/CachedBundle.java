@@ -68,6 +68,26 @@ public class CachedBundle {
     }
 
 
+    public long insertAccountBundle(Account account, BaseAccount currentUser) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        ContentValues valuesAccount = new ContentValues();
+        Bundle bundleAccount = new Bundle();
+        if (account != null) {
+            bundleAccount.putSerializable(Helper.ARG_ACCOUNT, account);
+            valuesAccount.put(Sqlite.COL_BUNDLE, serializeBundle(bundleAccount));
+            valuesAccount.put(Sqlite.COL_CREATED_AT, Helper.dateToString(new Date()));
+            valuesAccount.put(Sqlite.COL_TARGET_ID, account.id);
+            valuesAccount.put(Sqlite.COL_USER_ID, currentUser.user_id);
+            valuesAccount.put(Sqlite.COL_INSTANCE, currentUser.instance);
+            valuesAccount.put(Sqlite.COL_TYPE, CacheType.ACCOUNT.getValue());
+            removeIntent(currentUser, account.id);
+            return db.insertOrThrow(Sqlite.TABLE_INTENT, null, valuesAccount);
+        }
+        return -1;
+    }
+
     /**
      * Insert a bundle in db
      *

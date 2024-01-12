@@ -70,17 +70,26 @@ public class HashTagActivity extends BaseActivity {
     private Filter.KeywordsAttributes keyword;
     private PinnedTimeline pinnedTimeline;
     private Pinned pinned;
+    private ActivityHashtagBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityHashtagBinding binding = ActivityHashtagBinding.inflate(getLayoutInflater());
-
+        binding = ActivityHashtagBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            tag = b.getString(Helper.ARG_SEARCH_KEYWORD, null);
+        Bundle args = getIntent().getExtras();
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(HashTagActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+        if( bundle != null) {
+            tag = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
         }
         if (tag == null)
             finish();
@@ -147,10 +156,10 @@ public class HashTagActivity extends BaseActivity {
             invalidateOptionsMenu();
         }
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
-        bundle.putString(Helper.ARG_SEARCH_KEYWORD, tag);
-        Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_tags, new FragmentMastodonTimeline(), bundle, null, null);
+        Bundle bundleFragment = new Bundle();
+        bundleFragment.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
+        bundleFragment.putString(Helper.ARG_SEARCH_KEYWORD, tag);
+        Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_tags, new FragmentMastodonTimeline(), bundleFragment, null, null);
         binding.compose.setOnClickListener(v -> {
             Intent intentToot = new Intent(HashTagActivity.this, ComposeActivity.class);
             StatusDraft statusDraft = new StatusDraft();

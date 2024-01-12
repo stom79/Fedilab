@@ -279,19 +279,23 @@ public class SpannableHelper {
                     public void onClick(@NonNull View textView) {
                         textView.setTag(CLICKABLE_SPAN);
                         Intent intent;
-                        Bundle b;
+                        Bundle args;
                         if (word.startsWith("#")) {
                             intent = new Intent(context, HashTagActivity.class);
-                            b = new Bundle();
-                            b.putString(Helper.ARG_SEARCH_KEYWORD, word.trim());
-                            intent.putExtras(b);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
+                            args = new Bundle();
+                            args.putString(Helper.ARG_SEARCH_KEYWORD, word.trim());
+                            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(bundle);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            });
+
                         } else if (word.startsWith("@")) {
                             intent = new Intent(context, ProfileActivity.class);
-                            b = new Bundle();
+                            args = new Bundle();
                             Mention targetedMention = null;
-
                             for (Mention mention : mentions) {
                                 if (word.compareToIgnoreCase("@" + mention.username) == 0) {
                                     targetedMention = mention;
@@ -299,13 +303,17 @@ public class SpannableHelper {
                                 }
                             }
                             if (targetedMention != null) {
-                                b.putString(Helper.ARG_USER_ID, targetedMention.id);
+                                args.putString(Helper.ARG_USER_ID, targetedMention.id);
                             } else {
-                                b.putString(Helper.ARG_MENTION, word);
+                                args.putString(Helper.ARG_MENTION, word);
                             }
-                            intent.putExtras(b);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
+                            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(bundle);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            });
                         }
                     }
 
