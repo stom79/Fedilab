@@ -40,4 +40,7 @@
     <string name="favourite">Favoritos</string>
     <string name="share_with">Compartir con</string>
     <string name="add_account">Adder un conto</string>
+    <string name="clipboard_version">Le information ha essite copiate al area de transferentia</string>
+    <string name="shared_via">Compartite per Fedilab</string>
+    <string name="camera">Camera</string>
 </resources>

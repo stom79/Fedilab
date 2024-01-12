@@ -1042,8 +1042,8 @@
     <string name="requested_by">Folgeanfrage gestellt</string>
     <string name="warn_boost_no_media_description">Vor dem Teilen warnen, falls der Beitrag keine Medienbeschreibung hat</string>
     <string name="reblog_missing_description">Diesem Beitrag fehlt die Medienbeschreibung. Dennoch teilen\?</string>
-    <string name="fetch_remote_media">Automatisches Abrufen entfernter Medien, wenn diese nicht verfügbar sind</string>
-    <string name="fetching_messages">Rufe Beiträge ab</string>
+    <string name="fetch_remote_media">Automatisch entfernte Medien abrufen, wenn diese nicht verfügbar sind</string>
+    <string name="fetching_messages">Beiträge abrufen</string>
     <string name="add_description">Beschreibung hinzufügen</string>
     <string name="retrieve_remote_account">Entferntes Konto abrufen!</string>
     <string name="exit">Beenden</string>
@@ -1065,7 +1065,7 @@
     <string name="thread_long_message">Teile lange Beiträge in Antworten auf</string>
     <string name="thread_long_message_yes">Den Beitrag aufteilen</string>
     <string name="thread_long_message_no">Nicht aufteilen</string>
-    <string name="thumbnail">Vorschau</string>
+    <string name="thumbnail">Vorschaubild</string>
     <string name="thread_long_message_message">Der Beitrag wird in mehrere Antworten aufgeteilt, um die maximale Zeichenanzahl Ihrer Instanz einzuhalten.</string>
     <string name="thread_long_this_message">Diese Beiträge in Antworten aufteilen?</string>
     <string name="clipboard_version">Informationen wurden in die Zwischenablage kopiert</string>
