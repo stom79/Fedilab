@@ -75,19 +75,20 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
         holder.binding.media.setOnClickListener(v -> {
             Intent mediaIntent = new Intent(context, MediaActivity.class);
-            Bundle b = new Bundle();
-            b.putInt(Helper.ARG_MEDIA_POSITION, position + 1);
-            b.putBoolean(Helper.ARG_MEDIA_ARRAY_PROFILE, true);
-            mediaIntent.putExtras(b);
-            ActivityOptionsCompat options = null;
+            Bundle args = new Bundle();
+            args.putInt(Helper.ARG_MEDIA_POSITION, position + 1);
+            args.putBoolean(Helper.ARG_MEDIA_ARRAY_PROFILE, true);
             if (attachment != null) {
-                options = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation((Activity) context, holder.binding.media, attachment.url);
-            } else {
-                return;
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    mediaIntent.putExtras(bundle);
+                    ActivityOptionsCompat options = null;
+                    options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation((Activity) context, holder.binding.media, attachment.url);
+                    context.startActivity(mediaIntent, options.toBundle());
+                });
             }
-            // start the new activity
-            context.startActivity(mediaIntent, options.toBundle());
         });
 
         holder.binding.media.setOnLongClickListener(v -> {

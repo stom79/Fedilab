@@ -1674,14 +1674,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     return;
                                 }
                                 Intent mediaIntent = new Intent(context, MediaActivity.class);
-                                Bundle b = new Bundle();
-                                b.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
-                                b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
-                                mediaIntent.putExtras(b);
-                                ActivityOptionsCompat options = ActivityOptionsCompat
-                                        .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
-                                // start the new activity
-                                context.startActivity(mediaIntent, options.toBundle());
+                                Bundle args = new Bundle();
+                                args.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
+                                args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
+                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    mediaIntent.putExtras(bundle);
+                                    ActivityOptionsCompat options = ActivityOptionsCompat
+                                            .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
+                                    context.startActivity(mediaIntent, options.toBundle());
+                                });
                             });
                             layoutMediaBinding.viewHide.setOnClickListener(v -> {
                                 statusToDeal.sensitive = !statusToDeal.sensitive;
@@ -1742,14 +1745,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     return;
                                 }
                                 Intent mediaIntent = new Intent(context, MediaActivity.class);
-                                Bundle b = new Bundle();
-                                b.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
-                                b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
-                                mediaIntent.putExtras(b);
-                                ActivityOptionsCompat options = ActivityOptionsCompat
-                                        .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
-                                // start the new activity
-                                context.startActivity(mediaIntent, options.toBundle());
+                                Bundle args = new Bundle();
+                                args.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
+                                args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
+                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    mediaIntent.putExtras(bundle);
+                                    ActivityOptionsCompat options = ActivityOptionsCompat
+                                            .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
+                                    context.startActivity(mediaIntent, options.toBundle());
+                                });
                             });
                             layoutMediaBinding.viewHide.setOnClickListener(v -> {
                                 statusToDeal.sensitive = !statusToDeal.sensitive;
@@ -2782,14 +2788,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return;
             }
             Intent mediaIntent = new Intent(context, MediaActivity.class);
-            Bundle b = new Bundle();
-            b.putInt(Helper.ARG_MEDIA_POSITION, mediaPosition);
-            b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
-            mediaIntent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
-            // start the new activity
-            context.startActivity(mediaIntent, options.toBundle());
+            Bundle args = new Bundle();
+            args.putInt(Helper.ARG_MEDIA_POSITION, mediaPosition);
+            args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
+            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                mediaIntent.putExtras(bundle);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
+                context.startActivity(mediaIntent, options.toBundle());
+            });
         });
         layoutMediaBinding.viewHide.setOnClickListener(v -> {
             statusToDeal.sensitive = !statusToDeal.sensitive;
@@ -3251,15 +3260,19 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.bindingArt.artMedia.setOnClickListener(v -> {
                 if (status.art_attachment != null) {
                     Intent mediaIntent = new Intent(context, MediaActivity.class);
-                    Bundle b = new Bundle();
-                    b.putInt(Helper.ARG_MEDIA_POSITION, 1);
+                    Bundle args = new Bundle();
+                    args.putInt(Helper.ARG_MEDIA_POSITION, 1);
                     ArrayList<Attachment> attachments = new ArrayList<>();
                     attachments.add(status.art_attachment);
-                    b.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
-                    mediaIntent.putExtras(b);
-                    ActivityOptionsCompat options = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation((Activity) context, holder.bindingArt.artMedia, status.art_attachment.url);
-                    context.startActivity(mediaIntent, options.toBundle());
+                    args.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
+                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        mediaIntent.putExtras(bundle);
+                        ActivityOptionsCompat options = ActivityOptionsCompat
+                                .makeSceneTransitionAnimation((Activity) context, holder.bindingArt.artMedia, status.art_attachment.url);
+                        context.startActivity(mediaIntent, options.toBundle());
+                    });
                 } else {
                     Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                 }

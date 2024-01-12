@@ -52,14 +52,12 @@ public class FedilabScheduledPageAdapter extends FragmentStatePagerAdapter {
         bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + position);
         FragmentScheduled fragmentScheduled = new FragmentScheduled();
         switch (position) {
-            case 1:
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.SCHEDULED_TOOT_CLIENT);
-                break;
-            case 2:
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.SCHEDULED_BOOST);
-                break;
-            default:
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.SCHEDULED_TOOT_SERVER);
+            case 1 ->
+                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.SCHEDULED_TOOT_CLIENT);
+            case 2 ->
+                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.SCHEDULED_BOOST);
+            default ->
+                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.SCHEDULED_TOOT_SERVER);
         }
         fragmentScheduled.setArguments(bundle);
         return fragmentScheduled;

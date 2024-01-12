@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.ui.drawer.StatusAdapter.prepareRequestBuilder;
 
 import android.app.Activity;
@@ -77,6 +78,7 @@ import app.fedilab.android.mastodon.activities.MediaActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.CacheDataSourceFactory;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.LongClickLinkMovementMethod;
@@ -191,14 +193,17 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                 return;
             }
             Intent mediaIntent = new Intent(context, MediaActivity.class);
-            Bundle b = new Bundle();
-            b.putInt(Helper.ARG_MEDIA_POSITION, mediaPosition);
-            b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
-            mediaIntent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, status.media_attachments.get(0).url);
-            // start the new activity
-            context.startActivity(mediaIntent, options.toBundle());
+            Bundle args = new Bundle();
+            args.putInt(Helper.ARG_MEDIA_POSITION, mediaPosition);
+            args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
+            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                mediaIntent.putExtras(bundle);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, status.media_attachments.get(0).url);
+                context.startActivity(mediaIntent, options.toBundle());
+            });
         });
         layoutMediaBinding.viewHide.setOnClickListener(v -> {
             status.sensitive = !status.sensitive;
@@ -667,14 +672,17 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                             return;
                         }
                         Intent mediaIntent = new Intent(context, MediaActivity.class);
-                        Bundle b = new Bundle();
-                        b.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
-                        b.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
-                        mediaIntent.putExtras(b);
-                        ActivityOptionsCompat options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, status.media_attachments.get(0).url);
-                        // start the new activity
-                        context.startActivity(mediaIntent, options.toBundle());
+                        Bundle args = new Bundle();
+                        args.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
+                        args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            mediaIntent.putExtras(bundle);
+                            ActivityOptionsCompat options = ActivityOptionsCompat
+                                    .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, status.media_attachments.get(0).url);
+                            context.startActivity(mediaIntent, options.toBundle());
+                        });
                     });
                     layoutMediaBinding.viewHide.setOnClickListener(v -> {
                         status.sensitive = !status.sensitive;

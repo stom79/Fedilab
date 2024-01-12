@@ -95,7 +95,6 @@ public class FragmentMastodonAccount extends Fragment {
                     }
                 }
                 initializeAfterBundle(getArguments());
-
             }
         } else {
             initializeAfterBundle(null);

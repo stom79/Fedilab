@@ -53,45 +53,33 @@ public class FedilabNotificationPageAdapter extends FragmentStatePagerAdapter {
         FragmentMastodonNotification fragmentMastodonNotification = new FragmentMastodonNotification();
         if (!extended) {
             switch (position) {
-                case 0:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.ALL);
-                    break;
-                case 1:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.MENTIONS);
-                    break;
+                case 0 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.ALL);
+                case 1 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.MENTIONS);
             }
         } else {
             switch (position) {
-                case 0:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.ALL);
-                    break;
-                case 1:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.MENTIONS);
-                    break;
-                case 2:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.FAVOURITES);
-                    break;
-                case 3:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.REBLOGS);
-                    break;
-                case 4:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.POLLS);
-                    break;
-                case 5:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.TOOTS);
-                    break;
-                case 6:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.FOLLOWS);
-                    break;
-                case 7:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.UPDATES);
-                    break;
-                case 8:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.ADMIN_SIGNUP);
-                    break;
-                case 9:
-                    bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.ADMIN_REPORT);
-                    break;
+                case 0 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.ALL);
+                case 1 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.MENTIONS);
+                case 2 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.FAVOURITES);
+                case 3 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.REBLOGS);
+                case 4 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.POLLS);
+                case 5 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.TOOTS);
+                case 6 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.FOLLOWS);
+                case 7 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.UPDATES);
+                case 8 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.ADMIN_SIGNUP);
+                case 9 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.ADMIN_REPORT);
             }
         }
         fragmentMastodonNotification.setArguments(bundle);

@@ -118,6 +118,7 @@ import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.CamelTag;
 import app.fedilab.android.mastodon.client.entities.app.Languages;
 import app.fedilab.android.mastodon.client.entities.app.Quotes;
@@ -1366,14 +1367,18 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                     drawerMediaListBinding.getRoot().setOnClickListener(v -> {
                         Intent mediaIntent = new Intent(context, MediaActivity.class);
-                        Bundle b = new Bundle();
+                        Bundle args = new Bundle();
                         ArrayList<Attachment> attachments = new ArrayList<>();
                         attachments.add(attachment);
-                        b.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
-                        mediaIntent.putExtras(b);
-                        ActivityOptionsCompat options = ActivityOptionsCompat
-                                .makeSceneTransitionAnimation((Activity) context, drawerMediaListBinding.media, attachment.url);
-                        context.startActivity(mediaIntent, options.toBundle());
+                        args.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            mediaIntent.putExtras(bundle);
+                            ActivityOptionsCompat options = ActivityOptionsCompat
+                                    .makeSceneTransitionAnimation((Activity) context, drawerMediaListBinding.media, attachment.url);
+                            context.startActivity(mediaIntent, options.toBundle());
+                        });
                     });
                     holder.binding.simpleMedia.addView(drawerMediaListBinding.getRoot());
 

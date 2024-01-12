@@ -382,7 +382,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     }
                 }
                 initializeAfterBundle(getArguments());
-
             }
         }
         return binding.getRoot();
