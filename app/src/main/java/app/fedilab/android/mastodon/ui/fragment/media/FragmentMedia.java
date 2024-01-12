@@ -395,7 +395,9 @@ public class FragmentMedia extends Fragment {
             @Override
             public boolean onPreDraw() {
                 imageView.getViewTreeObserver().removeOnPreDrawListener(this);
-                ActivityCompat.startPostponedEnterTransition(requireActivity());
+                if (isAdded()) {
+                    ActivityCompat.startPostponedEnterTransition(requireActivity());
+                }
                 return true;
             }
         });
