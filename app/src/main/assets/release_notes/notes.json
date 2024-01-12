@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.27-beta-1",
+    "code": "506",
+    "note": "This release should fix crashes (TransactionTooLargeException). If you got crashes, rollback the version through FDdroid."
+  },
+  {
     "version": "3.26.0",
     "code": "505",
     "note": "Added:\n- Android 14 support\n- Automatically split long messages in threads (default: ASK)\n- Links and media are clickable when composing\n- Allow to underline clickable elements (Settings > Timelines - default: disabled)\n- Allow to disable relative date in messages\n- Add a scroll bar for timelines (default: disabled)\n- Add a search bar for custom emojis\n- Links clickable in media descriptions\n\nChanged:\n- Counters close to action buttons\n- Hide emoji picker if the instance has no emoji\n- Followed tags are ordered\n- Account picker when opening with another account\n\nFixed:\n- Avoid error 429 with NTFY\n- Fix custom colors (Android 14)\n- Fix a crash when composing\n- Display issue with followed tags\n- Crashes with profiles\n- Fix an issue with poll and Pleroma\n- Emoji not displayed in the picker\n- Several crashes are fixed"
