@@ -445,13 +445,13 @@
     <string name="password_too_short">O contrasinal debe conter ao menos 8 caracteres</string>
     <string name="username_error">O nome de usuaria debería ter só letras, números e guión baixo</string>
     <string name="account_created">Conta creada!</string>
-    <string name="account_created_message"> Xa tes unha conta!
-\n
-\n Lembra validar o email nas seguintes 48 horas.
-\n
-\n Xa podes acceder coa túa conta escribindo <b>%1$s</b> no primeiro campo e premendo <b>Acceder</b>.
-\n
-\n <b>Importante</b>: se a túa instancia require validación, recibirás un correo unha vez sexa validada! </string>
+    <string name="account_created_message"> Xa tes unha conta! 
+\n 
+\n Lembra validar o email nas seguintes 48 horas. 
+\n 
+\n Xa podes acceder coa túa conta escribindo <b>%1$s</b> no primeiro campo e premendo <b>Acceder</b>. 
+\n 
+\n <b>Importante</b>: se a túa instancia require validación, recibirás un correo unha vez sexa validada! \u0020</string>
     <string name="save_draft">¿Gardar mensaxe en borradores?</string>
     <string name="administration">Administración</string>
     <string name="reports">Informes</string>
