@@ -170,7 +170,7 @@ public class FragmentMastodonTag extends Fragment {
             Collections.sort(tags, (obj1, obj2) -> Integer.compare(obj2.getWeight(), obj1.getWeight()));
             boolean isInCollection = false;
             for (Tag tag : tags) {
-                if (tag.name.compareToIgnoreCase(search) == 0) {
+                if (tag.name.trim().compareToIgnoreCase(search.trim()) == 0) {
                     isInCollection = true;
                     break;
                 }

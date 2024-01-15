@@ -133,6 +133,9 @@ public class SearchResultTabActivity extends BaseBarActivity {
         inflater.inflate(R.menu.menu_search, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        if(searchView == null) {
+            return true;
+        }
         if (search != null) {
             searchView.setQuery(search, false);
         }
