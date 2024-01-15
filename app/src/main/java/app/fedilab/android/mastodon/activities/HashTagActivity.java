@@ -91,8 +91,10 @@ public class HashTagActivity extends BaseActivity {
         if( bundle != null) {
             tag = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
         }
-        if (tag == null)
+        if (tag == null) {
             finish();
+            return;
+        }
         pinnedTag = null;
         followedTag = null;
         mutedTag = null;
