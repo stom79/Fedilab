@@ -68,12 +68,13 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
     private Status focusedStatus;
     private String focusedStatusURI;
     private boolean checkRemotely;
+    private ActivityConversationBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityConversationBinding binding = ActivityConversationBinding.inflate(getLayoutInflater());
+        binding = ActivityConversationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -93,7 +94,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         manageTopBarScrolling(binding.toolbar, sharedpreferences);
         displayCW = sharedpreferences.getBoolean(getString(R.string.SET_EXPAND_CW), false);
         focusedStatus = null; // or other values
-        MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
+
 
         Bundle args = getIntent().getExtras();
         if (args != null) {
@@ -125,6 +126,9 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         } else {
             loadRemotelyConversation(true);
             invalidateOptionsMenu();
+        }
+        if(currentAccount != null) {
+            MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
         }
     }
 
