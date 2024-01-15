@@ -1,8 +1,13 @@
 [
   {
+    "version": "3.27-beta-4",
+    "code": "509",
+    "note": "Added:\n- Fixed top bar (default: disabled)\n- Usage frequency of tags when composing\n\nFixed:\n- Some crashes"
+  },
+  {
     "version": "3.27-beta-3",
     "code": "508",
-    "note": "- - Fix remember position"
+    "note": "- Fix remember position"
   },
   {
     "version": "3.27-beta-2",
