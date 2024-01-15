@@ -120,6 +120,9 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
                     editor.putString(getString(R.string.SET_LOGO_LAUNCHER), newLauncher);
                 }
             }
+            if (key.compareToIgnoreCase(getString(R.string.SET_DISABLE_TOPBAR_SCROLLING)) == 0) {
+                recreate = true;
+            }
             editor.apply();
         }
     }
