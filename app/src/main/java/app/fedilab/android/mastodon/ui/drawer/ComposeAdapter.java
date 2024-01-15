@@ -890,6 +890,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                             Tag tag = new Tag();
                                             tag.name = camelTag;
                                             if (!results.hashtags.contains(tag)) {
+
+                                                for(Tag realTag: results.hashtags) {
+                                                    if(realTag.name.equalsIgnoreCase(camelTag)) {
+                                                        tag.history = realTag.history;
+                                                        break;
+                                                    }
+                                                }
                                                 results.hashtags.add(0, tag);
                                             }
                                         }
