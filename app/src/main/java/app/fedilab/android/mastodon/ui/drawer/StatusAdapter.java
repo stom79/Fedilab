@@ -481,7 +481,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
 
-        if (statusToDeal.quote != null) {
+        if (statusToDeal.quote != null && (statusToDeal.spoiler_text == null || statusToDeal.spoiler_text.trim().isEmpty() || statusToDeal.isExpended)) {
             holder.binding.quotedMessage.cardviewContainer.setCardElevation((int) Helper.convertDpToPixel(5, context));
             holder.binding.quotedMessage.dividerCard.setVisibility(View.GONE);
             holder.binding.quotedMessage.cardviewContainer.setStrokeWidth((int) Helper.convertDpToPixel(1, context));
@@ -1466,6 +1466,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         } else {
             holder.binding.statusContent.setVisibility(View.GONE);
+            holder.binding.quotedMessage.cardviewContainer.setVisibility(View.GONE);
             holder.binding.mediaContainer.setVisibility(View.GONE);
             holder.binding.card.setVisibility(View.GONE);
         }
