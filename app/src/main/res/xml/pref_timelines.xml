@@ -59,7 +59,7 @@
         app:title="@string/timeline_scrollbar" />
 
     <SwitchPreferenceCompat
-        android:defaultValue="true"
+        android:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_MARKDOWN_SUPPORT"
         app:singleLineTitle="false"

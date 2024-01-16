@@ -155,7 +155,7 @@ public class SpannableHelper {
         } else {
             initialContent = new SpannableString(text);
         }
-        boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), true);
+        boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), false);
         //Get all links
         SpannableStringBuilder content;
         if (markdownSupport && convertMarkdown) {
