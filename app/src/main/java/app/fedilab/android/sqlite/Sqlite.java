@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 11;
+    public static final int DB_VERSION = 12;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -105,6 +105,10 @@ public class Sqlite extends SQLiteOpenHelper {
     public static final String COL_TAG = "TAG";
 
     public static final String TABLE_TIMELINE_CACHE_LOGS = "TIMELINE_CACHE_LOGS";
+    public static final String TABLE_INTENT = "INTENT";
+
+    public static final String COL_BUNDLE = "BUNDLE";
+    public static final String COL_TARGET_ID = "TARGET_ID";
 
 
     private static final String CREATE_TABLE_USER_ACCOUNT = "CREATE TABLE " + TABLE_USER_ACCOUNT + " ("
@@ -233,6 +237,16 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_TYPE + " TEXT NOT NULL, "
             + COL_CREATED_AT + " TEXT NOT NULL)";
 
+    private final String CREATE_TABLE_INTENT = "CREATE TABLE "
+            + TABLE_INTENT + "("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_INSTANCE + " TEXT, "
+            + COL_USER_ID + " TEXT, "
+            + COL_TYPE + " TEXT NOT NULL DEFAULT 'ARGS', "
+            + COL_TARGET_ID + " TEXT, "
+            + COL_BUNDLE + " TEXT, "
+            + COL_CREATED_AT + " TEXT NOT NULL)";
+
 
     public Sqlite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -263,6 +277,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_STORED_INSTANCES);
         db.execSQL(CREATE_TABLE_CACHE_TAGS);
         db.execSQL(CREATE_TABLE_TIMELINE_CACHE_LOGS);
+        db.execSQL(CREATE_TABLE_INTENT);
     }
 
     @Override
@@ -295,6 +310,8 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL(CREATE_TABLE_CACHE_TAGS);
             case 10:
                 db.execSQL(CREATE_TABLE_TIMELINE_CACHE_LOGS);
+            case 11:
+                db.execSQL(CREATE_TABLE_INTENT);
             default:
                 break;
         }

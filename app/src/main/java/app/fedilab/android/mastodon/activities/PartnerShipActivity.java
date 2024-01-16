@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityPartnershipBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
@@ -78,10 +80,14 @@ public class PartnerShipActivity extends BaseBarActivity {
                     binding.accountUn.setText(account.acct);
                     binding.accountPp.setOnClickListener(v -> {
                         Intent intent = new Intent(PartnerShipActivity.this, ProfileActivity.class);
-                        Bundle b = new Bundle();
-                        b.putSerializable(Helper.ARG_ACCOUNT, account);
-                        intent.putExtras(b);
-                        startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_ACCOUNT, account);
+                        new CachedBundle(PartnerShipActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        });
                     });
                     AccountsVM accountsVM = new ViewModelProvider(PartnerShipActivity.this).get(AccountsVM.class);
                     List<String> ids = new ArrayList<>();

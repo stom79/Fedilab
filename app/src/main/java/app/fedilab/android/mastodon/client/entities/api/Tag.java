@@ -32,7 +32,8 @@ public class Tag implements Serializable {
     @SerializedName("following")
     public boolean following = false;
 
-    public Tag() {}
+    public Tag() {
+    }
 
     public Tag(String name) {
         this.name = name;

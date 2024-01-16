@@ -1,0 +1,6 @@
+Added:
+- Fixed top bar (default: disabled)
+- Usage frequency of tags when composing
+
+Fixed:
+- Some crashes

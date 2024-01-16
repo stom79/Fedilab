@@ -114,6 +114,22 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
             Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+
+        //Theme for dialogs
+        ListPreference SET_THEME_BASE = findPreference(getString(R.string.SET_THEME_BASE));
+        if (SET_THEME_BASE != null) {
+            SET_THEME_BASE.getContext().setTheme(Helper.dialogStyle());
+        }
+        ListPreference SET_THEME_DEFAULT_LIGHT = findPreference(getString(R.string.SET_THEME_DEFAULT_LIGHT));
+        if (SET_THEME_DEFAULT_LIGHT != null) {
+            SET_THEME_DEFAULT_LIGHT.getContext().setTheme(Helper.dialogStyle());
+        }
+        ListPreference SET_THEME_DEFAULT_DARK = findPreference(getString(R.string.SET_THEME_DEFAULT_DARK));
+        if (SET_THEME_DEFAULT_DARK != null) {
+            SET_THEME_DEFAULT_DARK.getContext().setTheme(Helper.dialogStyle());
+        }
+        //---------
+
         SwitchPreferenceCompat SET_DYNAMIC_COLOR = findPreference(getString(R.string.SET_DYNAMICCOLOR));
         SwitchPreferenceCompat SET_CUSTOM_ACCENT = findPreference(getString(R.string.SET_CUSTOM_ACCENT));
         ColorPreferenceCompat SET_CUSTOM_ACCENT_DARK_VALUE = findPreference(getString(R.string.SET_CUSTOM_ACCENT_DARK_VALUE));

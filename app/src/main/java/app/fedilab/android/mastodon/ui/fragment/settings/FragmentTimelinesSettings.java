@@ -31,6 +31,7 @@ import app.fedilab.android.mastodon.helper.Helper;
 public class FragmentTimelinesSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     boolean recreate;
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.pref_timelines);
@@ -47,7 +48,18 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
         ListPreference SET_TRANSLATOR = findPreference(getString(R.string.SET_TRANSLATOR));
 
         ListPreference SET_TRANSLATOR_VERSION = findPreference(getString(R.string.SET_TRANSLATOR_VERSION));
-
+        //Theme for dialogs
+        if (SET_TRANSLATOR_VERSION != null) {
+            SET_TRANSLATOR_VERSION.getContext().setTheme(Helper.dialogStyle());
+        }
+        if (SET_TRANSLATOR != null) {
+            SET_TRANSLATOR.getContext().setTheme(Helper.dialogStyle());
+        }
+        ListPreference SET_LOAD_MEDIA_TYPE = findPreference(getString(R.string.SET_LOAD_MEDIA_TYPE));
+        if (SET_LOAD_MEDIA_TYPE != null) {
+            SET_LOAD_MEDIA_TYPE.getContext().setTheme(Helper.dialogStyle());
+        }
+        //---------
         EditTextPreference SET_TRANSLATOR_API_KEY = findPreference(getString(R.string.SET_TRANSLATOR_API_KEY));
         EditTextPreference SET_TRANSLATOR_DOMAIN = findPreference(getString(R.string.SET_TRANSLATOR_DOMAIN));
         if (SET_TRANSLATOR != null && !SET_TRANSLATOR.getValue().equals("DEEPL")) {

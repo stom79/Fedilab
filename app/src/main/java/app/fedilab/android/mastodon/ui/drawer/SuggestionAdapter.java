@@ -15,7 +15,8 @@ package app.fedilab.android.mastodon.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
-import android.app.Activity;
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +27,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
@@ -41,6 +41,7 @@ import app.fedilab.android.databinding.DrawerSuggestionBinding;
 import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Suggestion;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
@@ -87,11 +88,14 @@ public class SuggestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         holder.binding.avatar.setOnClickListener(v -> {
             Intent intent = new Intent(context, ProfileActivity.class);
-            Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT, account);
-            intent.putExtras(b);
-            // start the new activity
-            context.startActivity(intent);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_ACCOUNT, account);
+            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            });
         });
         holder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
         if (account == null) {

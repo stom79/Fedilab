@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -22,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityTimelineBinding;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -42,32 +45,44 @@ public class TimelineActivity extends BaseBarActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        Bundle b = getIntent().getExtras();
+        Bundle args = getIntent().getExtras();
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(TimelineActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
         Timeline.TimeLineEnum timelineType = null;
         String lemmy_post_id = null;
         PinnedTimeline pinnedTimeline = null;
         Status status = null;
-        if (b != null) {
-            timelineType = (Timeline.TimeLineEnum) b.get(Helper.ARG_TIMELINE_TYPE);
-            lemmy_post_id = b.getString(Helper.ARG_LEMMY_POST_ID, null);
-            pinnedTimeline = (PinnedTimeline) b.getSerializable(Helper.ARG_REMOTE_INSTANCE);
-            status = (Status) b.getSerializable(Helper.ARG_STATUS);
+        if (bundle != null) {
+            timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
+            lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);
+            pinnedTimeline = (PinnedTimeline) bundle.getSerializable(Helper.ARG_REMOTE_INSTANCE);
+            status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
         }
         if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
             setTitle(pinnedTimeline.remoteInstance.host);
         }
         FragmentMastodonTimeline fragmentMastodonTimeline = new FragmentMastodonTimeline();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, timelineType);
-        bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinnedTimeline);
-        bundle.putSerializable(Helper.ARG_LEMMY_POST_ID, lemmy_post_id);
+        Bundle args = new Bundle();
+        args.putSerializable(Helper.ARG_TIMELINE_TYPE, timelineType);
+        args.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinnedTimeline);
+        args.putSerializable(Helper.ARG_LEMMY_POST_ID, lemmy_post_id);
         if (status != null) {
-            bundle.putSerializable(Helper.ARG_STATUS, status);
+            args.putSerializable(Helper.ARG_STATUS, status);
         }
-        fragmentMastodonTimeline.setArguments(bundle);
-
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container_view, fragmentMastodonTimeline).commit();
+        new CachedBundle(TimelineActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            Bundle bundle1 = new Bundle();
+            bundle1.putLong(Helper.ARG_INTENT_ID, bundleId);
+            fragmentMastodonTimeline.setArguments(bundle1);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container_view, fragmentMastodonTimeline).commit();
+        });
     }
 
 

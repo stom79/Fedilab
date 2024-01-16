@@ -78,7 +78,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
@@ -89,7 +88,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -157,6 +155,7 @@ import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.ReleaseNote;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -210,6 +209,8 @@ public class Helper {
     public static final String RECEIVE_REDRAW_PROFILE = "RECEIVE_REDRAW_PROFILE";
 
     public static final String ARG_TIMELINE_TYPE = "ARG_TIMELINE_TYPE";
+
+    public static final String ARG_INTENT_ID = "ARG_INTENT_ID";
     public static final String ARG_PEERTUBE_NAV_REMOTE = "ARG_PEERTUBE_NAV_REMOTE";
 
     public static final String ARG_REMOTE_INSTANCE_STRING = "ARG_REMOTE_INSTANCE_STRING";
@@ -241,6 +242,8 @@ public class Helper {
     public static final String ARG_STATUS_REPLY_ID = "ARG_STATUS_REPLY_ID";
     public static final String ARG_ACCOUNT = "ARG_ACCOUNT";
     public static final String ARG_ACCOUNT_ID = "ARG_ACCOUNT_ID";
+    public static final String ARG_CACHED_ACCOUNT_ID = "ARG_CACHED_ACCOUNT_ID";
+    public static final String ARG_CACHED_STATUS_ID = "ARG_CACHED_STATUS_ID";
     public static final String ARG_ADMIN_DOMAINBLOCK = "ARG_ADMIN_DOMAINBLOCK";
     public static final String ARG_ADMIN_DOMAINBLOCK_DELETE = "ARG_ADMIN_DOMAINBLOCK_DELETE";
     public static final String FEDILAB_MUTED_HASHTAGS = "Fedilab muted hashtags";
@@ -843,7 +846,7 @@ public class Helper {
 
     @SuppressLint("DefaultLocale")
     public static String withSuffix(long count) {
-        if (count < 1000) return "" + count;
+        if (count < 1000) return String.valueOf(count);
         int exp = (int) (Math.log(count) / Math.log(1000));
         Locale locale = null;
         try {
@@ -869,13 +872,17 @@ public class Helper {
      */
     public static void sendToastMessage(Context context, String type, String content) {
         Intent intentBC = new Intent(context, ToastMessage.class);
-        Bundle b = new Bundle();
-        b.putString(RECEIVE_TOAST_TYPE, type);
-        b.putString(RECEIVE_TOAST_CONTENT, content);
+        Bundle args = new Bundle();
+        args.putString(RECEIVE_TOAST_TYPE, type);
+        args.putString(RECEIVE_TOAST_CONTENT, content);
         intentBC.setAction(Helper.RECEIVE_TOAST_MESSAGE);
-        intentBC.putExtras(b);
-        intentBC.setPackage(BuildConfig.APPLICATION_ID);
-        context.sendBroadcast(intentBC);
+        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            intentBC.putExtras(bundle);
+            intentBC.setPackage(BuildConfig.APPLICATION_ID);
+            context.sendBroadcast(intentBC);
+        });
     }
 
     /**
@@ -995,8 +1002,7 @@ public class Helper {
         if (context == null) {
             return false;
         }
-        if (context instanceof Activity) {
-            final Activity activity = (Activity) context;
+        if (context instanceof Activity activity) {
             return !activity.isDestroyed() && !activity.isFinishing();
         }
         return true;
@@ -1512,12 +1518,16 @@ public class Helper {
      * @param activity - Activity
      */
     public static void recreateMainActivity(Activity activity) {
-        Bundle b = new Bundle();
-        b.putBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, true);
+        Bundle args = new Bundle();
+        args.putBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, true);
         Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-        intentBD.putExtras(b);
-        intentBD.setPackage(BuildConfig.APPLICATION_ID);
-        activity.sendBroadcast(intentBD);
+        new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            intentBD.putExtras(bundle);
+            intentBD.setPackage(BuildConfig.APPLICATION_ID);
+            activity.sendBroadcast(intentBD);
+        });
     }
 
     public static void showKeyboard(Context context, View view) {
@@ -1554,49 +1564,50 @@ public class Helper {
         String channelTitle;
 
         switch (notifType) {
-            case FAV:
+            case FAV -> {
                 channelId = "channel_favourite";
                 channelTitle = context.getString(R.string.channel_notif_fav);
-                break;
-            case FOLLLOW:
+            }
+            case FOLLLOW -> {
                 channelId = "channel_follow";
                 channelTitle = context.getString(R.string.channel_notif_follow);
-                break;
-            case MENTION:
+            }
+            case MENTION -> {
                 channelId = "channel_mention";
                 channelTitle = context.getString(R.string.channel_notif_mention);
-                break;
-            case POLL:
+            }
+            case POLL -> {
                 channelId = "channel_poll";
                 channelTitle = context.getString(R.string.channel_notif_poll);
-                break;
-            case BACKUP:
+            }
+            case BACKUP -> {
                 channelId = "channel_backup";
                 channelTitle = context.getString(R.string.channel_notif_backup);
-                break;
-            case STORE:
+            }
+            case STORE -> {
                 channelId = "channel_media";
                 channelTitle = context.getString(R.string.channel_notif_media);
-                break;
-            case TOOT:
+            }
+            case TOOT -> {
                 channelId = "channel_status";
                 channelTitle = context.getString(R.string.channel_notif_status);
-                break;
-            case UPDATE:
+            }
+            case UPDATE -> {
                 channelId = "channel_update";
                 channelTitle = context.getString(R.string.channel_notif_update);
-                break;
-            case SIGN_UP:
+            }
+            case SIGN_UP -> {
                 channelId = "channel_signup";
                 channelTitle = context.getString(R.string.channel_notif_signup);
-                break;
-            case REPORT:
+            }
+            case REPORT -> {
                 channelId = "channel_report";
                 channelTitle = context.getString(R.string.channel_notif_report);
-                break;
-            default:
+            }
+            default -> {
                 channelId = "channel_boost";
                 channelTitle = context.getString(R.string.channel_notif_boost);
+            }
         }
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(getNotificationIcon(context)).setTicker(message);
@@ -1605,31 +1616,25 @@ public class Helper {
                 message = message.substring(0, 499) + "…";
             }
         }*/
-        notificationBuilder.setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "" + "@" + account.instance)
+        notificationBuilder.setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "@" + account.instance)
                 .setContentIntent(pIntent)
                 .setContentText(message);
         int ledColour = Color.BLUE;
         int prefColor;
         prefColor = Integer.parseInt(sharedpreferences.getString(context.getString(R.string.SET_LED_COLOUR_VAL_N), String.valueOf(LED_COLOUR)));
         switch (prefColor) {
-            case 1: // CYAN
-                ledColour = Color.CYAN;
-                break;
-            case 2: // MAGENTA
-                ledColour = Color.MAGENTA;
-                break;
-            case 3: // GREEN
-                ledColour = Color.GREEN;
-                break;
-            case 4: // RED
-                ledColour = Color.RED;
-                break;
-            case 5: // YELLOW
-                ledColour = Color.YELLOW;
-                break;
-            case 6: // WHITE
-                ledColour = Color.WHITE;
-                break;
+            case 1 -> // CYAN
+                    ledColour = Color.CYAN;
+            case 2 -> // MAGENTA
+                    ledColour = Color.MAGENTA;
+            case 3 -> // GREEN
+                    ledColour = Color.GREEN;
+            case 4 -> // RED
+                    ledColour = Color.RED;
+            case 5 -> // YELLOW
+                    ledColour = Color.YELLOW;
+            case 6 -> // WHITE
+                    ledColour = Color.WHITE;
         }
 
 
@@ -1673,7 +1678,7 @@ public class Helper {
                 .setLargeIcon(icon)
                 .setSmallIcon(getNotificationIcon(context))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "" + "@" + account.instance)
+                .setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "@" + account.instance)
                 .setGroupSummary(true)
                 .build();
 
@@ -1922,10 +1927,14 @@ public class Helper {
                             binding.accountUn.setText(account.acct);
                             binding.accountPp.setOnClickListener(v -> {
                                 Intent intent = new Intent(activity, ProfileActivity.class);
-                                Bundle b = new Bundle();
-                                b.putSerializable(Helper.ARG_ACCOUNT, account);
-                                intent.putExtras(b);
-                                activity.startActivity(intent);
+                                Bundle args = new Bundle();
+                                args.putSerializable(Helper.ARG_ACCOUNT, account);
+                                new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    intent.putExtras(bundle);
+                                    activity.startActivity(intent);
+                                });
                             });
 
                             AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(AccountsVM.class);

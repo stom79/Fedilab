@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.activities.admin;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,7 +29,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
@@ -38,6 +39,7 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityAdminDomainblockBinding;
 import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminDomainBlock;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AdminVM;
 import es.dmoral.toasty.Toasty;
@@ -110,10 +112,17 @@ public class AdminDomainBlockActivity extends BaseBarActivity {
                                 } else {
                                     Toasty.error(AdminDomainBlockActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                 }
-                                Intent intent = new Intent(Helper.BROADCAST_DATA).putExtra(Helper.ARG_ADMIN_DOMAINBLOCK, adminDomainBlockResult);
-                                intent.setPackage(BuildConfig.APPLICATION_ID);
-                                sendBroadcast(intent);
-                                finish();
+                                Intent intent = new Intent(Helper.BROADCAST_DATA);
+                                Bundle args = new Bundle();
+                                args.putSerializable(Helper.ARG_ADMIN_DOMAINBLOCK, adminDomainBlockResult);
+                                new CachedBundle(AdminDomainBlockActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    intent.putExtras(bundle);
+                                    intent.setPackage(BuildConfig.APPLICATION_ID);
+                                    sendBroadcast(intent);
+                                    finish();
+                                });
                             }
                     );
         });
@@ -139,10 +148,18 @@ public class AdminDomainBlockActivity extends BaseBarActivity {
                         .setPositiveButton(R.string.unblock_domain, (dialog, which) -> {
                             adminVM.deleteDomain(MainActivity.currentInstance, MainActivity.currentToken, adminDomainBlock.id)
                                     .observe(AdminDomainBlockActivity.this, adminDomainBlockResult -> {
-                                                Intent intent = new Intent(Helper.BROADCAST_DATA).putExtra(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE, adminDomainBlock);
-                                                intent.setPackage(BuildConfig.APPLICATION_ID);
-                                                sendBroadcast(intent);
-                                                finish();
+                                                Intent intent = new Intent(Helper.BROADCAST_DATA);
+                                                Bundle args = new Bundle();
+                                                args.putSerializable(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE, adminDomainBlock);
+                                                new CachedBundle(AdminDomainBlockActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                                    intent.putExtras(bundle);
+                                                    intent.setPackage(BuildConfig.APPLICATION_ID);
+                                                    sendBroadcast(intent);
+                                                    finish();
+                                                });
+
                                             }
                                     );
                             dialog.dismiss();

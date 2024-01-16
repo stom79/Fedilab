@@ -33,7 +33,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
-
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
@@ -50,6 +49,7 @@ import app.fedilab.android.databinding.AccountFieldItemBinding;
 import app.fedilab.android.databinding.ActivityEditProfileBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Field;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
@@ -259,13 +259,18 @@ public class EditProfileActivity extends BaseBarActivity {
     }
 
     private void sendBroadCast(Account account) {
-        Bundle b = new Bundle();
-        b.putBoolean(Helper.RECEIVE_REDRAW_PROFILE, true);
-        b.putSerializable(Helper.ARG_ACCOUNT, account);
-        Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-        intentBD.putExtras(b);
-        intentBD.setPackage(BuildConfig.APPLICATION_ID);
-        sendBroadcast(intentBD);
+        Bundle args = new Bundle();
+        args.putBoolean(Helper.RECEIVE_REDRAW_PROFILE, true);
+        args.putSerializable(Helper.ARG_ACCOUNT, account);
+        new CachedBundle(EditProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            Intent intentBD = new Intent(Helper.BROADCAST_DATA);
+            intentBD.putExtras(bundle);
+            intentBD.setPackage(BuildConfig.APPLICATION_ID);
+            sendBroadcast(intentBD);
+        });
+
     }
 
     private Intent prepareIntent() {

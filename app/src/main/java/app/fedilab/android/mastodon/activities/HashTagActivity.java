@@ -29,7 +29,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -42,6 +41,7 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityHashtagBinding;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
@@ -70,20 +70,31 @@ public class HashTagActivity extends BaseActivity {
     private Filter.KeywordsAttributes keyword;
     private PinnedTimeline pinnedTimeline;
     private Pinned pinned;
+    private ActivityHashtagBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityHashtagBinding binding = ActivityHashtagBinding.inflate(getLayoutInflater());
-
+        binding = ActivityHashtagBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            tag = b.getString(Helper.ARG_SEARCH_KEYWORD, null);
+        Bundle args = getIntent().getExtras();
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(HashTagActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
         }
-        if (tag == null)
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+        if( bundle != null) {
+            tag = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
+        }
+        if (tag == null) {
             finish();
+            return;
+        }
         pinnedTag = null;
         followedTag = null;
         mutedTag = null;
@@ -147,10 +158,10 @@ public class HashTagActivity extends BaseActivity {
             invalidateOptionsMenu();
         }
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
-        bundle.putString(Helper.ARG_SEARCH_KEYWORD, tag);
-        Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_tags, new FragmentMastodonTimeline(), bundle, null, null);
+        Bundle bundleFragment = new Bundle();
+        bundleFragment.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
+        bundleFragment.putString(Helper.ARG_SEARCH_KEYWORD, tag);
+        Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_tags, new FragmentMastodonTimeline(), bundleFragment, null, null);
         binding.compose.setOnClickListener(v -> {
             Intent intentToot = new Intent(HashTagActivity.this, ComposeActivity.class);
             StatusDraft statusDraft = new StatusDraft();
@@ -159,10 +170,14 @@ public class HashTagActivity extends BaseActivity {
             List<Status> statuses = new ArrayList<>();
             statuses.add(status);
             statusDraft.statusDraftList = statuses;
-            Bundle _b = new Bundle();
-            _b.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
-            intentToot.putExtras(_b);
-            startActivity(intentToot);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
+            new CachedBundle(HashTagActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundleCached = new Bundle();
+                bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intentToot.putExtras(bundleCached);
+                startActivity(intentToot);
+            });
         });
     }
 
@@ -189,13 +204,18 @@ public class HashTagActivity extends BaseActivity {
                     }
                     pinnedTag = false;
                     invalidateOptionsMenu();
-                    Bundle b = new Bundle();
-                    b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                    Bundle args = new Bundle();
+                    args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                     Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                    intentBD.putExtras(b);
-                    intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                    sendBroadcast(intentBD);
-                    dialog.dismiss();
+                    new CachedBundle(HashTagActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intentBD.putExtras(bundle);
+                        intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                        sendBroadcast(intentBD);
+                        dialog.dismiss();
+                    });
+
                 });
                 unpinConfirm.show();
             } else {
@@ -244,12 +264,16 @@ public class HashTagActivity extends BaseActivity {
                         } else {
                             new Pinned(HashTagActivity.this).insertPinned(pinned);
                         }
-                        Bundle b = new Bundle();
-                        b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                        Bundle args = new Bundle();
+                        args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                         Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                        intentBD.putExtras(b);
-                        intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                        sendBroadcast(intentBD);
+                        new CachedBundle(HashTagActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intentBD.putExtras(bundle);
+                            intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                            sendBroadcast(intentBD);
+                        });
                         pinnedTag = true;
                         invalidateOptionsMenu();
                     } catch (DBException e) {

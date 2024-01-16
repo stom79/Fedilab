@@ -33,6 +33,7 @@ import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.helper.ImageListPreference;
 import app.fedilab.android.mastodon.helper.LogoHelper;
 import es.dmoral.toasty.Toasty;
 
@@ -54,6 +55,13 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
             Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
             return;
         }
+
+        //Theme for dialogs
+        ImageListPreference SET_LOGO_LAUNCHER = findPreference(getString(R.string.SET_LOGO_LAUNCHER));
+        if (SET_LOGO_LAUNCHER != null) {
+            SET_LOGO_LAUNCHER.getContext().setTheme(Helper.dialogStyle());
+        }
+        //---------
         SeekBarPreference SET_FONT_SCALE = findPreference(getString(R.string.SET_FONT_SCALE_INT));
         if (SET_FONT_SCALE != null) {
             SET_FONT_SCALE.setMax(180);
@@ -64,7 +72,6 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
             SET_FONT_SCALE_ICON.setMax(180);
             SET_FONT_SCALE_ICON.setMin(80);
         }
-        ListPreference SET_LOGO_LAUNCHER = findPreference(getString(R.string.SET_LOGO_LAUNCHER));
         if (SET_LOGO_LAUNCHER != null) {
             SET_LOGO_LAUNCHER.setIcon(LogoHelper.getDrawable(SET_LOGO_LAUNCHER.getValue()));
         }
@@ -119,6 +126,9 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
                     setDrawable(newLauncher);
                     editor.putString(getString(R.string.SET_LOGO_LAUNCHER), newLauncher);
                 }
+            }
+            if (key.compareToIgnoreCase(getString(R.string.SET_DISABLE_TOPBAR_SCROLLING)) == 0) {
+                recreate = true;
             }
             editor.apply();
         }

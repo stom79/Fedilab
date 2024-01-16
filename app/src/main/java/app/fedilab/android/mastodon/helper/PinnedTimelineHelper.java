@@ -679,8 +679,7 @@ public class PinnedTimelineHelper {
         popup.setOnDismissListener(menu1 -> {
             if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
                 Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
-                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                    FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                if (fragment instanceof FragmentMastodonTimeline fragmentMastodonTimeline && fragment.isVisible()) {
                     fragmentMastodonTimeline.refreshAllAdapters();
                 }
             }

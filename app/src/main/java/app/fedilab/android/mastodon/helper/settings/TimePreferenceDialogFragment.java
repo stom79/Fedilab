@@ -73,8 +73,7 @@ public class TimePreferenceDialogFragment extends PreferenceDialogFragmentCompat
             // Generate value to save
             String time = hour + ":" + minute;
             DialogPreference preference = getPreference();
-            if (preference instanceof TimePreference) {
-                TimePreference timePreference = ((TimePreference) preference);
+            if (preference instanceof TimePreference timePreference) {
                 if (timePreference.callChangeListener(time)) {
                     timePreference.setTime(time);
                 }

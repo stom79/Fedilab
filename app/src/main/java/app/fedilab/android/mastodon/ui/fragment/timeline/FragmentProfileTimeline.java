@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,7 +35,9 @@ import com.google.android.material.tabs.TabLayout;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentProfileTimelinesBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.pageadapter.FedilabProfilePageAdapter;
 
@@ -46,19 +50,22 @@ public class FragmentProfileTimeline extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        if (getArguments() != null) {
-            account = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
-            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
-        }
         binding = FragmentProfileTimelinesBinding.inflate(inflater, container, false);
+        if (getArguments() != null) {
+            String cached_account_id = getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID);
+            try {
+                account = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, cached_account_id);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+            initializeAfterBundle();
+        }
         return binding.getRoot();
     }
 
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    private void initializeAfterBundle() {
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.toots)));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.replies)));
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.media)));
@@ -80,10 +87,7 @@ public class FragmentProfileTimeline extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
                 if (binding.viewpager.getAdapter() != null && binding.viewpager
                         .getAdapter()
-                        .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem()) instanceof FragmentMastodonTimeline) {
-                    FragmentMastodonTimeline fragmentMastodonTimeline = (FragmentMastodonTimeline) binding.viewpager
-                            .getAdapter()
-                            .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem());
+                        .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem()) instanceof FragmentMastodonTimeline fragmentMastodonTimeline) {
                     fragmentMastodonTimeline.goTop();
                 }
             }
@@ -105,24 +109,25 @@ public class FragmentProfileTimeline extends Fragment {
             popup.setOnDismissListener(menu1 -> {
                 if (binding.viewpager.getAdapter() != null && binding.viewpager
                         .getAdapter()
-                        .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem()) instanceof FragmentMastodonTimeline) {
-                    FragmentMastodonTimeline fragmentMastodonTimeline = (FragmentMastodonTimeline) binding.viewpager
-                            .getAdapter()
-                            .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem());
+                        .instantiateItem(binding.viewpager, binding.viewpager.getCurrentItem()) instanceof FragmentMastodonTimeline fragmentMastodonTimeline) {
                     FragmentTransaction fragTransaction = getChildFragmentManager().beginTransaction();
                     fragTransaction.detach(fragmentMastodonTimeline).commit();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-                    bundle.putSerializable(Helper.ARG_ACCOUNT, account);
-                    bundle.putBoolean(Helper.ARG_SHOW_PINNED, true);
-                    bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
-                    bundle.putBoolean(Helper.ARG_SHOW_REBLOGS, show_boosts);
-                    bundle.putBoolean(Helper.ARG_SHOW_REPLIES, show_replies);
-                    fragmentMastodonTimeline.setArguments(bundle);
-                    FragmentTransaction fragTransaction2 = getChildFragmentManager().beginTransaction();
-                    fragTransaction2.attach(fragmentMastodonTimeline);
-                    fragTransaction2.commit();
-                    fragmentMastodonTimeline.recreate();
+                    Bundle args = new Bundle();
+                    args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
+                    args.putSerializable(Helper.ARG_ACCOUNT, account);
+                    args.putBoolean(Helper.ARG_SHOW_PINNED, true);
+                    args.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
+                    args.putBoolean(Helper.ARG_SHOW_REBLOGS, show_boosts);
+                    args.putBoolean(Helper.ARG_SHOW_REPLIES, show_replies);
+                    new CachedBundle(requireActivity()).insertBundle(args, currentAccount, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        fragmentMastodonTimeline.setArguments(bundle);
+                        FragmentTransaction fragTransaction2 = getChildFragmentManager().beginTransaction();
+                        fragTransaction2.attach(fragmentMastodonTimeline);
+                        fragTransaction2.commit();
+                        fragmentMastodonTimeline.recreate();
+                    });
                 }
 
             });
@@ -156,6 +161,11 @@ public class FragmentProfileTimeline extends Fragment {
             return true;
         });
 
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
 

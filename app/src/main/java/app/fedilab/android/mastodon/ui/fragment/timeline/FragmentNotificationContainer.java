@@ -114,42 +114,42 @@ public class FragmentNotificationContainer extends Fragment {
                 String[] categoriesArray = excludedCategories.split("\\|");
                 for (String category : categoriesArray) {
                     switch (category) {
-                        case "mention":
+                        case "mention" -> {
                             excludedCategoriesList.add("mention");
                             dialogView.displayMentions.setChecked(false);
-                            break;
-                        case "favourite":
+                        }
+                        case "favourite" -> {
                             excludedCategoriesList.add("favourite");
                             dialogView.displayFavourites.setChecked(false);
-                            break;
-                        case "reblog":
+                        }
+                        case "reblog" -> {
                             excludedCategoriesList.add("reblog");
                             dialogView.displayReblogs.setChecked(false);
-                            break;
-                        case "poll":
+                        }
+                        case "poll" -> {
                             excludedCategoriesList.add("poll");
                             dialogView.displayPollResults.setChecked(false);
-                            break;
-                        case "status":
+                        }
+                        case "status" -> {
                             excludedCategoriesList.add("status");
                             dialogView.displayUpdatesFromPeople.setChecked(false);
-                            break;
-                        case "follow":
+                        }
+                        case "follow" -> {
                             excludedCategoriesList.add("follow");
                             dialogView.displayFollows.setChecked(false);
-                            break;
-                        case "update":
+                        }
+                        case "update" -> {
                             excludedCategoriesList.add("update");
                             dialogView.displayUpdates.setChecked(false);
-                            break;
-                        case "admin.sign_up":
+                        }
+                        case "admin.sign_up" -> {
                             excludedCategoriesList.add("admin.sign_up");
                             dialogView.displaySignups.setChecked(false);
-                            break;
-                        case "admin.report":
+                        }
+                        case "admin.report" -> {
                             excludedCategoriesList.add("admin.report");
                             dialogView.displayReports.setChecked(false);
-                            break;
+                        }
                     }
                 }
             }
@@ -224,8 +224,7 @@ public class FragmentNotificationContainer extends Fragment {
                 Fragment fragment;
                 if (binding.viewpagerNotificationContainer.getAdapter() != null) {
                     fragment = (Fragment) binding.viewpagerNotificationContainer.getAdapter().instantiateItem(binding.viewpagerNotificationContainer, tab.getPosition());
-                    if (fragment instanceof FragmentMastodonNotification) {
-                        FragmentMastodonNotification fragmentMastodonNotification = ((FragmentMastodonNotification) fragment);
+                    if (fragment instanceof FragmentMastodonNotification fragmentMastodonNotification) {
                         fragmentMastodonNotification.scrollToTop();
                     }
                 }

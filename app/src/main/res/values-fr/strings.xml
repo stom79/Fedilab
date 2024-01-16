@@ -948,7 +948,7 @@
     <string name="bubble">Bulle</string>
     <string name="reply_visibility">Visibilité des réponses</string>
     <string name="v_list">Liste</string>
-    <string name="following">Suivant</string>
+    <string name="following">Abonnements</string>
     <string name="icons_visibility">Visibilité des icônes</string>
     <string name="translator">Traducteur</string>
     <string name="set_translator">Traducteur</string>
@@ -1062,4 +1062,7 @@
     <string name="set_remote_conversation">L\'application affichera publiquement les conversations pour obtenir tous les messages. Les interactions auront besoin d\'une étape supplémentaire pour fédérer les messages.</string>
     <string name="show_my_messages">Afficher mes messages</string>
     <string name="frequency_count_minutes">%d fréquence (minutes)</string>
+    <string name="thumbnail">Miniature</string>
+    <string name="timeline_scrollbar">Afficher une barre de défilement pour les fils</string>
+    <string name="underline_links">Souligner les éléments cliquables</string>
 </resources>

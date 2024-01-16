@@ -86,6 +86,7 @@ import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.MarkdownConverter;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.FiltersVM;
@@ -154,7 +155,7 @@ public class SpannableHelper {
         } else {
             initialContent = new SpannableString(text);
         }
-        boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), true);
+        boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), false);
         //Get all links
         SpannableStringBuilder content;
         if (markdownSupport && convertMarkdown) {
@@ -278,19 +279,23 @@ public class SpannableHelper {
                     public void onClick(@NonNull View textView) {
                         textView.setTag(CLICKABLE_SPAN);
                         Intent intent;
-                        Bundle b;
+                        Bundle args;
                         if (word.startsWith("#")) {
                             intent = new Intent(context, HashTagActivity.class);
-                            b = new Bundle();
-                            b.putString(Helper.ARG_SEARCH_KEYWORD, word.trim());
-                            intent.putExtras(b);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
+                            args = new Bundle();
+                            args.putString(Helper.ARG_SEARCH_KEYWORD, word.trim());
+                            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(bundle);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            });
+
                         } else if (word.startsWith("@")) {
                             intent = new Intent(context, ProfileActivity.class);
-                            b = new Bundle();
+                            args = new Bundle();
                             Mention targetedMention = null;
-
                             for (Mention mention : mentions) {
                                 if (word.compareToIgnoreCase("@" + mention.username) == 0) {
                                     targetedMention = mention;
@@ -298,20 +303,24 @@ public class SpannableHelper {
                                 }
                             }
                             if (targetedMention != null) {
-                                b.putString(Helper.ARG_USER_ID, targetedMention.id);
+                                args.putString(Helper.ARG_USER_ID, targetedMention.id);
                             } else {
-                                b.putString(Helper.ARG_MENTION, word);
+                                args.putString(Helper.ARG_MENTION, word);
                             }
-                            intent.putExtras(b);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
+                            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(bundle);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            });
                         }
                     }
 
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        if(!underlineLinks) {
+                        if (!underlineLinks) {
                             ds.setUnderlineText(status != null && status.underlined);
                         }
                         if (linkColor != -1) {
@@ -603,7 +612,7 @@ public class SpannableHelper {
             @Override
             public void updateDrawState(@NonNull TextPaint ds) {
                 super.updateDrawState(ds);
-                if(!underlineLinks) {
+                if (!underlineLinks) {
                     ds.setUnderlineText(status != null && status.underlined);
                 }
                 if (linkColor != -1) {
@@ -626,9 +635,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedStatus(Status status) {
                         Intent intent = new Intent(context, ContextActivity.class);
-                        intent.putExtra(Helper.ARG_STATUS, status);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_STATUS, status);
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
 
                     @Override
@@ -644,11 +659,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedAccount(Account account) {
                         Intent intent = new Intent(context, ProfileActivity.class);
-                        Bundle b = new Bundle();
-                        b.putSerializable(Helper.ARG_ACCOUNT, account);
-                        intent.putExtras(b);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_ACCOUNT, account);
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
                 });
             }
@@ -658,9 +677,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedStatus(Status status) {
                         Intent intent = new Intent(context, ContextActivity.class);
-                        intent.putExtra(Helper.ARG_STATUS, status);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_STATUS, status);
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
 
                     @Override
@@ -676,11 +701,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedAccount(Account account) {
                         Intent intent = new Intent(context, ProfileActivity.class);
-                        Bundle b = new Bundle();
-                        b.putSerializable(Helper.ARG_ACCOUNT, account);
-                        intent.putExtras(b);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_ACCOUNT, account);
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
                 });
             }
@@ -690,9 +719,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedStatus(Status status) {
                         Intent intent = new Intent(context, ContextActivity.class);
-                        intent.putExtra(Helper.ARG_STATUS, status);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_STATUS, status);
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
 
                     @Override
@@ -708,11 +743,15 @@ public class SpannableHelper {
                     @Override
                     public void federatedAccount(Account account) {
                         Intent intent = new Intent(context, ProfileActivity.class);
-                        Bundle b = new Bundle();
-                        b.putSerializable(Helper.ARG_ACCOUNT, account);
-                        intent.putExtras(b);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_ACCOUNT, account);
+                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        });
                     }
                 });
             }
@@ -750,7 +789,7 @@ public class SpannableHelper {
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        if(!underlineLinks) {
+                        if (!underlineLinks) {
                             ds.setUnderlineText(status != null && status.underlined);
                         }
                         if (linkColor != -1) {
@@ -890,16 +929,20 @@ public class SpannableHelper {
                                             @Override
                                             public void onClick(@NonNull View textView) {
                                                 Intent intent = new Intent(context, ProfileActivity.class);
-                                                Bundle b = new Bundle();
-                                                b.putSerializable(Helper.ARG_ACCOUNT, account.moved);
-                                                intent.putExtras(b);
-                                                context.startActivity(intent);
+                                                Bundle args = new Bundle();
+                                                args.putSerializable(Helper.ARG_ACCOUNT, account.moved);
+                                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                                    intent.putExtras(bundle);
+                                                    context.startActivity(intent);
+                                                });
                                             }
 
                                             @Override
                                             public void updateDrawState(@NonNull TextPaint ds) {
                                                 super.updateDrawState(ds);
-                                                if(!underlineLinks) {
+                                                if (!underlineLinks) {
                                                     ds.setUnderlineText(false);
                                                 }
                                                 if (linkColor != -1) {

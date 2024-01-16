@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.fedilab.android.R;
+import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.PushHelper;
 import app.fedilab.android.mastodon.helper.settings.TimePreference;
 import app.fedilab.android.mastodon.helper.settings.TimePreferenceDialogFragment;
@@ -76,13 +77,37 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
         getPreferenceScreen().removeAll();
         addPreferencesFromResource(R.xml.pref_notifications);
         PreferenceScreen preferenceScreen = getPreferenceScreen();
+
+        //Theme for dialogs
+        ListPreference SET_NOTIFICATION_TYPE = findPreference(getString(R.string.SET_NOTIFICATION_TYPE));
+        if (SET_NOTIFICATION_TYPE != null) {
+            SET_NOTIFICATION_TYPE.getContext().setTheme(Helper.dialogStyle());
+        }
+        ListPreference SET_NOTIFICATION_DELAY_VALUE = findPreference(getString(R.string.SET_NOTIFICATION_DELAY_VALUE));
+        if (SET_NOTIFICATION_DELAY_VALUE != null) {
+            SET_NOTIFICATION_DELAY_VALUE.getContext().setTheme(Helper.dialogStyle());
+        }
+        ListPreference SET_PUSH_DISTRIBUTOR = findPreference(getString(R.string.SET_PUSH_DISTRIBUTOR));
+        if (SET_PUSH_DISTRIBUTOR != null) {
+            SET_PUSH_DISTRIBUTOR.getContext().setTheme(Helper.dialogStyle());
+        }
+        ListPreference SET_LED_COLOUR_VAL_N = findPreference(getString(R.string.SET_LED_COLOUR_VAL_N));
+        if (SET_LED_COLOUR_VAL_N != null) {
+            SET_LED_COLOUR_VAL_N.getContext().setTheme(Helper.dialogStyle());
+        }
+        ListPreference SET_NOTIFICATION_ACTION = findPreference(getString(R.string.SET_NOTIFICATION_ACTION));
+        if (SET_NOTIFICATION_ACTION != null) {
+            SET_NOTIFICATION_ACTION.getContext().setTheme(Helper.dialogStyle());
+        }
+        //---------
+
+
         if (preferenceScreen == null) {
             Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
             return;
         }
 
 
-        ListPreference SET_NOTIFICATION_TYPE = findPreference(getString(R.string.SET_NOTIFICATION_TYPE));
         String[] notificationValues = getResources().getStringArray(R.array.SET_NOTIFICATION_TYPE_VALUE);
         if (SET_NOTIFICATION_TYPE != null && SET_NOTIFICATION_TYPE.getValue().equals(notificationValues[2])) {
             PreferenceCategory notification_sounds = findPreference("notification_sounds");
@@ -97,26 +122,21 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
             if (notification_time_slot != null) {
                 preferenceScreen.removePreference(notification_time_slot);
             }
-            ListPreference SET_NOTIFICATION_DELAY_VALUE = findPreference("SET_NOTIFICATION_DELAY_VALUE");
             if (SET_NOTIFICATION_DELAY_VALUE != null) {
                 preferenceScreen.removePreferenceRecursively("SET_NOTIFICATION_DELAY_VALUE");
             }
-            ListPreference SET_PUSH_DISTRIBUTOR = findPreference("SET_PUSH_DISTRIBUTOR");
             if (SET_PUSH_DISTRIBUTOR != null) {
                 preferenceScreen.removePreferenceRecursively("SET_PUSH_DISTRIBUTOR");
             }
             return;
         } else if (SET_NOTIFICATION_TYPE != null && SET_NOTIFICATION_TYPE.getValue().equals(notificationValues[1])) {
-            ListPreference SET_PUSH_DISTRIBUTOR = findPreference("SET_PUSH_DISTRIBUTOR");
             if (SET_PUSH_DISTRIBUTOR != null) {
                 preferenceScreen.removePreferenceRecursively("SET_PUSH_DISTRIBUTOR");
             }
         } else {
-            ListPreference SET_NOTIFICATION_DELAY_VALUE = findPreference("SET_NOTIFICATION_DELAY_VALUE");
             if (SET_NOTIFICATION_DELAY_VALUE != null) {
                 preferenceScreen.removePreferenceRecursively("SET_NOTIFICATION_DELAY_VALUE");
             }
-            ListPreference SET_PUSH_DISTRIBUTOR = findPreference(getString(R.string.SET_PUSH_DISTRIBUTOR));
             if (SET_PUSH_DISTRIBUTOR != null) {
                 List<String> distributors = UnifiedPush.getDistributors(requireActivity(), new ArrayList<>());
                 SET_PUSH_DISTRIBUTOR.setValue(UnifiedPush.getDistributor(requireActivity()));

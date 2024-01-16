@@ -43,10 +43,10 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.IDN;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -178,11 +178,8 @@ public class RetrofitPeertubeAPI {
                 error.printStackTrace();
                 return;
             }
-            try {
-                //At the state the instance can be encoded
-                instance = URLDecoder.decode(instance, "utf-8");
-            } catch (UnsupportedEncodingException ignored) {
-            }
+            //At the state the instance can be encoded
+            instance = URLDecoder.decode(instance, StandardCharsets.UTF_8);
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
             account.token = token;
             account.client_id = client_id;

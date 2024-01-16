@@ -16,10 +16,12 @@ package app.fedilab.android.mastodon.ui.drawer;
 
 
 import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.Html;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
@@ -44,6 +46,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerStatusScheduledBinding;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
 import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.ScheduledBoost;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -126,10 +129,15 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
         holder.binding.cardviewContainer.setOnClickListener(v -> {
             if (statusDraft != null) {
                 Intent intent = new Intent(context, ComposeActivity.class);
-                intent.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
-                context.startActivity(intent);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             }
-
         });
         holder.binding.delete.setOnClickListener(v -> {
             AlertDialog.Builder unfollowConfirm = new MaterialAlertDialogBuilder(context);

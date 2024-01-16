@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.ui.fragment.media;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -38,6 +40,8 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.Statuses;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
@@ -68,17 +72,37 @@ public class FragmentMediaProfile extends Fragment {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
         binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
-            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+
+        if (getArguments() != null) {
+            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+            if (bundleId != -1) {
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            } else {
+                if (getArguments().containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
+                    try {
+                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+                initializeAfterBundle(getArguments());
+
+            }
+        } else {
+            initializeAfterBundle(null);
         }
         return binding.getRoot();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    private void initializeAfterBundle(Bundle bundle) {
+
+        if (bundle != null) {
+            if (bundle.containsKey(Helper.ARG_ACCOUNT)) {
+                accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            }
+            checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+        }
+
         flagLoading = false;
         accountsVM = new ViewModelProvider(requireActivity()).get(AccountsVM.class);
         mediaStatuses = new ArrayList<>();
@@ -114,7 +138,12 @@ public class FragmentMediaProfile extends Fragment {
             accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, null, null, true, false, MastodonHelper.statusesPerCall(requireActivity()))
                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
         }
+    }
 
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     /**

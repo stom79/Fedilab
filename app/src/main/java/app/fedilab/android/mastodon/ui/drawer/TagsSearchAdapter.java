@@ -11,10 +11,14 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.data.Entry;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerTagSearchBinding;
+import app.fedilab.android.mastodon.client.entities.api.History;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
 
 /* Copyright 2021 Thomas Schneider
@@ -37,6 +41,7 @@ public class TagsSearchAdapter extends ArrayAdapter<Tag> implements Filterable {
     private final List<Tag> tags;
     private final List<Tag> tempTags;
     private final List<Tag> suggestions;
+    private final Context context;
 
     private final Filter searchFilter = new Filter() {
         @Override
@@ -75,6 +80,7 @@ public class TagsSearchAdapter extends ArrayAdapter<Tag> implements Filterable {
 
     public TagsSearchAdapter(Context context, List<Tag> tags) {
         super(context, android.R.layout.simple_list_item_1, tags);
+        this.context = context;
         this.tags = tags;
         this.tempTags = new ArrayList<>(tags);
         this.suggestions = new ArrayList<>(tags);
@@ -110,6 +116,21 @@ public class TagsSearchAdapter extends ArrayAdapter<Tag> implements Filterable {
             holder = (TagSearchViewHolder) convertView.getTag();
         }
         holder.binding.tagName.setText(String.format("#%s", tag.name));
+        List<History> historyList = tag.history;
+
+        int stat = 0;
+
+        if (historyList != null) {
+            for (History history : historyList) {
+                stat += Integer.parseInt(history.accounts);
+            }
+        }
+        if(stat > 0 ) {
+            holder.binding.tagCount.setText("(" + context.getString(R.string.talking_about, stat) + ")");
+            holder.binding.tagCount.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.tagCount.setVisibility(View.GONE);
+        }
 
         return holder.view;
     }

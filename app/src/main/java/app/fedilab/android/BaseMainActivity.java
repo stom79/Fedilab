@@ -36,7 +36,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.database.MatrixCursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
@@ -72,8 +71,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.cursoradapter.widget.CursorAdapter;
@@ -81,7 +80,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-
+import androidx.multidex.BuildConfig;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -99,6 +98,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
@@ -163,6 +163,7 @@ import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.BottomMenu;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.MutedAccounts;
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
@@ -222,24 +223,34 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     private final BroadcastReceiver broadcast_error_message = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                if (b.getBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, false)) {
-                    String errorMessage = b.getString(Helper.RECEIVE_ERROR_MESSAGE);
-                    StatusDraft statusDraft = (StatusDraft) b.getSerializable(Helper.ARG_STATUS_DRAFT);
-                    Snackbar snackbar = Snackbar.make(binding.getRoot(), errorMessage, 5000);
-                    View snackbarView = snackbar.getView();
-                    TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                    textView.setMaxLines(5);
-                    snackbar
-                            .setAction(getString(R.string.open_draft), view -> {
-                                Intent intentCompose = new Intent(context, ComposeActivity.class);
-                                intentCompose.putExtra(Helper.ARG_STATUS_DRAFT, statusDraft);
-                                intentCompose.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intentCompose);
-                            })
-                            .show();
-                }
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(BaseMainActivity.this).getBundle(bundleId, currentAccount, bundle -> {
+                    if (bundle.getBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, false)) {
+                        String errorMessage = bundle.getString(Helper.RECEIVE_ERROR_MESSAGE);
+                        StatusDraft statusDraft = (StatusDraft) bundle.getSerializable(Helper.ARG_STATUS_DRAFT);
+                        Snackbar snackbar = Snackbar.make(binding.getRoot(), errorMessage, 5000);
+                        View snackbarView = snackbar.getView();
+                        TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                        textView.setMaxLines(5);
+                        snackbar
+                                .setAction(getString(R.string.open_draft), view -> {
+                                    Intent intentCompose = new Intent(context, ComposeActivity.class);
+                                    Bundle args2 = new Bundle();
+                                    args2.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
+                                    new CachedBundle(BaseMainActivity.this).insertBundle(args2, currentAccount, bundleId2 -> {
+                                        Bundle bundle2 = new Bundle();
+                                        bundle2.putLong(Helper.ARG_INTENT_ID, bundleId2);
+                                        intentCompose.putExtras(bundle2);
+                                        intentCompose.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(intentCompose);
+                                    });
+                                })
+                                .show();
+                    }
+                });
+
             }
         }
     };
@@ -248,88 +259,97 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                if (b.getBoolean(Helper.RECEIVE_REDRAW_TOPBAR, false)) {
-                    List<MastodonList> mastodonLists = (List<MastodonList>) b.getSerializable(Helper.RECEIVE_MASTODON_LIST);
-                    redrawPinned(mastodonLists);
-                }
-                if (b.getBoolean(Helper.RECEIVE_REDRAW_BOTTOM, false)) {
-                    bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
-                    if (bottomMenu != null) {
-                        //ManageClick on bottom menu items
-                        if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
-                            binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
-                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_home);
-                                if (position >= 0) {
-                                    manageFilters(position);
-                                }
-                                return false;
-                            });
-                        }
-                        if (binding.bottomNavView.findViewById(R.id.nav_local) != null) {
-                            binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
-                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_local);
-                                if (position >= 0) {
-                                    manageFilters(position);
-                                }
-                                return false;
-                            });
-                        }
-                        if (binding.bottomNavView.findViewById(R.id.nav_public) != null) {
-                            binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
-                                int position = BottomMenu.getPosition(bottomMenu, R.id.nav_public);
-                                if (position >= 0) {
-                                    manageFilters(position);
-                                }
-                                return false;
-                            });
-                        }
-                        binding.bottomNavView.setOnItemSelectedListener(item -> {
-                            int itemId = item.getItemId();
-                            int position = BottomMenu.getPosition(bottomMenu, itemId);
-                            if (position >= 0) {
-                                if (binding.viewPager.getCurrentItem() == position) {
-                                    scrollToTop();
-                                } else {
-                                    binding.viewPager.setCurrentItem(position, false);
-                                }
-                            }
-                            return true;
-                        });
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(BaseMainActivity.this).getBundle(bundleId, currentAccount, bundle -> {
+                    if (bundle.getBoolean(Helper.RECEIVE_REDRAW_TOPBAR, false)) {
+                        List<MastodonList> mastodonLists = (List<MastodonList>) bundle.getSerializable(Helper.RECEIVE_MASTODON_LIST);
+                        redrawPinned(mastodonLists);
                     }
-                } else if (b.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
-                    recreate();
-                } else if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
-                    Status statusSent = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
-                    String statusEditId = b.getString(Helper.ARG_EDIT_STATUS_ID, null);
-                    Snackbar.make(binding.displaySnackBar, getString(R.string.message_has_been_sent), Snackbar.LENGTH_LONG)
-                            .setAction(getString(R.string.display), view -> {
-                                Intent intentContext = new Intent(BaseMainActivity.this, ContextActivity.class);
-                                intentContext.putExtra(Helper.ARG_STATUS, statusSent);
-                                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intentContext);
-                            })
-                            .show();
-                    //The message was edited, we need to update the timeline
-                    if (statusEditId != null) {
-                        //Update message in cache
-                        new Thread(() -> {
-                            StatusCache statusCache = new StatusCache();
-                            statusCache.instance = BaseMainActivity.currentInstance;
-                            statusCache.user_id = BaseMainActivity.currentUserID;
-                            statusCache.status = statusSent;
-                            statusCache.status_id = statusEditId;
-                            try {
-                                new StatusCache(BaseMainActivity.this).updateIfExists(statusCache);
-                            } catch (DBException e) {
-                                e.printStackTrace();
+                    if (bundle.getBoolean(Helper.RECEIVE_REDRAW_BOTTOM, false)) {
+                        bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
+                        if (bottomMenu != null) {
+                            //ManageClick on bottom menu items
+                            if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
+                                binding.bottomNavView.findViewById(R.id.nav_home).setOnLongClickListener(view -> {
+                                    int position = BottomMenu.getPosition(bottomMenu, R.id.nav_home);
+                                    if (position >= 0) {
+                                        manageFilters(position);
+                                    }
+                                    return false;
+                                });
                             }
-                        }).start();
-                        //Update timelines
-                        sendAction(context, Helper.ARG_STATUS_UPDATED, statusSent, null);
+                            if (binding.bottomNavView.findViewById(R.id.nav_local) != null) {
+                                binding.bottomNavView.findViewById(R.id.nav_local).setOnLongClickListener(view -> {
+                                    int position = BottomMenu.getPosition(bottomMenu, R.id.nav_local);
+                                    if (position >= 0) {
+                                        manageFilters(position);
+                                    }
+                                    return false;
+                                });
+                            }
+                            if (binding.bottomNavView.findViewById(R.id.nav_public) != null) {
+                                binding.bottomNavView.findViewById(R.id.nav_public).setOnLongClickListener(view -> {
+                                    int position = BottomMenu.getPosition(bottomMenu, R.id.nav_public);
+                                    if (position >= 0) {
+                                        manageFilters(position);
+                                    }
+                                    return false;
+                                });
+                            }
+                            binding.bottomNavView.setOnItemSelectedListener(item -> {
+                                int itemId = item.getItemId();
+                                int position = BottomMenu.getPosition(bottomMenu, itemId);
+                                if (position >= 0) {
+                                    if (binding.viewPager.getCurrentItem() == position) {
+                                        scrollToTop();
+                                    } else {
+                                        binding.viewPager.setCurrentItem(position, false);
+                                    }
+                                }
+                                return true;
+                            });
+                        }
+                    } else if (bundle.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
+                        recreate();
+                    } else if (bundle.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
+                        Status statusSent = (Status) bundle.getSerializable(Helper.RECEIVE_STATUS_ACTION);
+                        String statusEditId = bundle.getString(Helper.ARG_EDIT_STATUS_ID, null);
+                        Snackbar.make(binding.displaySnackBar, getString(R.string.message_has_been_sent), Snackbar.LENGTH_LONG)
+                                .setAction(getString(R.string.display), view -> {
+                                    Intent intentContext = new Intent(BaseMainActivity.this, ContextActivity.class);
+                                    Bundle args2 = new Bundle();
+                                    args2.putSerializable(Helper.ARG_STATUS, statusSent);
+                                    new CachedBundle(BaseMainActivity.this).insertBundle(args2, currentAccount, bundleId2 -> {
+                                        Bundle bundle2 = new Bundle();
+                                        bundle2.putLong(Helper.ARG_INTENT_ID, bundleId2);
+                                        intentContext.putExtras(bundle2);
+                                        intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intentContext);
+                                    });
+                                })
+                                .show();
+                        //The message was edited, we need to update the timeline
+                        if (statusEditId != null) {
+                            //Update message in cache
+                            new Thread(() -> {
+                                StatusCache statusCache = new StatusCache();
+                                statusCache.instance = BaseMainActivity.currentInstance;
+                                statusCache.user_id = BaseMainActivity.currentUserID;
+                                statusCache.status = statusSent;
+                                statusCache.status_id = statusEditId;
+                                try {
+                                    new StatusCache(BaseMainActivity.this).updateIfExists(statusCache);
+                                } catch (DBException e) {
+                                    e.printStackTrace();
+                                }
+                            }).start();
+                            //Update timelines
+                            sendAction(context, Helper.ARG_STATUS_UPDATED, statusSent, null);
+                        }
                     }
-                }
+                });
             }
         }
     };
@@ -359,6 +379,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 //Delete cache older than 7 days
                 new StatusCache(activity).deleteForAllAccountAfter7Days();
                 new TimelineCacheLogs(activity).deleteForAllAccountAfter7Days();
+                new CachedBundle(activity).deleteOldIntent();
             } catch (DBException e) {
                 e.printStackTrace();
             }
@@ -659,16 +680,26 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             Status status = (Status) bundle.getSerializable(Helper.INTENT_TARGETED_STATUS);
             if (account != null) {
                 Intent intentAccount = new Intent(activity, ProfileActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable(Helper.ARG_ACCOUNT, account);
-                intentAccount.putExtras(b);
-                intentAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intentAccount);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, account);
+                new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundleCached = new Bundle();
+                    bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intentAccount.putExtras(bundleCached);
+                    intentAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intentAccount);
+                });
             } else if (status != null) {
                 Intent intentContext = new Intent(activity, ContextActivity.class);
-                intentContext.putExtra(Helper.ARG_STATUS, status);
-                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intentContext);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, status);
+                new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundleCached = new Bundle();
+                    bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intentContext.putExtras(bundleCached);
+                    intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intentContext);
+                });
             }
         }
         final Handler handler = new Handler();
@@ -693,12 +724,17 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     }
                     viewPager.setCurrentItem(position);
                 }
-                Bundle b = new Bundle();
-                b.putBoolean(ARG_REFRESH_NOTFICATION, true);
+                Bundle args = new Bundle();
+                args.putBoolean(ARG_REFRESH_NOTFICATION, true);
                 Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
                 intentBC.setPackage(BuildConfig.APPLICATION_ID);
-                intentBC.putExtras(b);
-                activity.sendBroadcast(intentBC);
+                new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intentBC.putExtras(bundle);
+                    activity.sendBroadcast(intentBC);
+                });
+
             }
         }, 1000);
         intent.removeExtra(Helper.INTENT_ACTION);
@@ -774,9 +810,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     public void federatedStatus(Status status) {
                         if (status != null) {
                             Intent intent = new Intent(activity, ContextActivity.class);
-                            intent.putExtra(Helper.ARG_STATUS, status);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            activity.startActivity(intent);
+                            Bundle args = new Bundle();
+                            args.putSerializable(Helper.ARG_STATUS, status);
+                            new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(bundle);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                activity.startActivity(intent);
+                            });
                         }
                     }
 
@@ -1013,9 +1055,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             public void federatedStatus(Status status) {
                                 if (status != null) {
                                     Intent intent = new Intent(activity, ContextActivity.class);
-                                    intent.putExtra(Helper.ARG_STATUS, status);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    activity.startActivity(intent);
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(Helper.ARG_STATUS, status);
+                                    new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                        intent.putExtras(bundle);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        activity.startActivity(intent);
+                                    });
                                 } else {
                                     Toasty.error(activity, activity.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                 }
@@ -1035,11 +1083,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
                                 if (account != null) {
                                     Intent intent = new Intent(activity, ProfileActivity.class);
-                                    Bundle b = new Bundle();
-                                    b.putSerializable(Helper.ARG_ACCOUNT, account);
-                                    intent.putExtras(b);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    activity.startActivity(intent);
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(Helper.ARG_ACCOUNT, account);
+                                    new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                        intent.putExtras(bundle);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        activity.startActivity(intent);
+                                    });
                                 } else {
                                     Toasty.error(activity, activity.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                 }
@@ -1327,6 +1379,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
         }
+        manageTopBarScrolling(binding.toolbar);
         rateThisApp();
 
         binding.compose.setOnClickListener(v -> startActivity(new Intent(this, ComposeActivity.class)));
@@ -1418,10 +1471,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         headerMainBinding.instanceInfo.setOnClickListener(v -> (new InstanceHealthActivity()).show(getSupportFragmentManager(), null));
         headerMainBinding.accountProfilePicture.setOnClickListener(v -> {
             Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
-            Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT, currentAccount.mastodon_account);
-            intent.putExtras(b);
-            startActivity(intent);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_ACCOUNT, currentAccount.mastodon_account);
+            new CachedBundle(BaseMainActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            });
+
         });
 
         headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
@@ -1545,6 +1603,23 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         fetchRecentAccounts(BaseMainActivity.this, headerMainBinding);
     }
 
+    private void manageTopBarScrolling(Toolbar toolbar) {
+        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final boolean topBarScrolling = !sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_TOPBAR_SCROLLING), false);
+
+        final AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+
+        int scrollFlags = toolbarLayoutParams.getScrollFlags();
+
+        if (topBarScrolling) {
+            scrollFlags |= AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL;
+
+        } else {
+            scrollFlags &= ~AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL;
+        }
+        toolbarLayoutParams.setScrollFlags(scrollFlags);
+    }
+
     private void manageFilters(int position) {
         View view = binding.bottomNavView.findViewById(R.id.nav_home);
         boolean showExtendedFilter = true;
@@ -1605,8 +1680,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             if (binding.viewPager.getAdapter() != null) {
                 int tabPosition = binding.tabLayout.getSelectedTabPosition();
                 Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, Math.max(tabPosition, 0));
-                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                    FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                if (fragment instanceof FragmentMastodonTimeline fragmentMastodonTimeline && fragment.isVisible()) {
                     fragmentMastodonTimeline.refreshAllAdapters();
                 }
             }
@@ -1901,14 +1975,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         int position = binding.tabLayout.getSelectedTabPosition();
         if (binding.viewPager.getAdapter() != null) {
             Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, Math.max(position, 0));
-            if (fragment instanceof FragmentMastodonTimeline) {
-                FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+            if (fragment instanceof FragmentMastodonTimeline fragmentMastodonTimeline) {
                 fragmentMastodonTimeline.scrollToTop();
-            } else if (fragment instanceof FragmentMastodonConversation) {
-                FragmentMastodonConversation fragmentMastodonConversation = ((FragmentMastodonConversation) fragment);
+            } else if (fragment instanceof FragmentMastodonConversation fragmentMastodonConversation) {
                 fragmentMastodonConversation.scrollToTop();
-            } else if (fragment instanceof FragmentNotificationContainer) {
-                FragmentNotificationContainer fragmentNotificationContainer = ((FragmentNotificationContainer) fragment);
+            } else if (fragment instanceof FragmentNotificationContainer fragmentNotificationContainer) {
                 fragmentNotificationContainer.scrollToTop();
             }
         }

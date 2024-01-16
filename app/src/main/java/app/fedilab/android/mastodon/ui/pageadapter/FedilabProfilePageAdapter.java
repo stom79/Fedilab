@@ -56,35 +56,46 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
         bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + position);
+        FragmentMastodonTimeline fragmentMastodonTimeline;
         switch (position) {
-            case 0:
-                FragmentMastodonTimeline fragmentProfileTimeline = new FragmentMastodonTimeline();
+            case 0 -> {
+                fragmentMastodonTimeline = new FragmentMastodonTimeline();
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-                bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                if(account != null) {
+                    bundle.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
+                }
                 bundle.putBoolean(Helper.ARG_SHOW_PINNED, true);
                 bundle.putBoolean(Helper.ARG_SHOW_REPLIES, false);
                 bundle.putBoolean(Helper.ARG_SHOW_REBLOGS, true);
                 bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
-                fragmentProfileTimeline.setArguments(bundle);
-                return fragmentProfileTimeline;
-            case 1:
-                fragmentProfileTimeline = new FragmentMastodonTimeline();
+                fragmentMastodonTimeline.setArguments(bundle);
+                return fragmentMastodonTimeline;
+            }
+            case 1 -> {
+                fragmentMastodonTimeline = new FragmentMastodonTimeline();
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-                bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                if(account != null) {
+                    bundle.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
+                }
                 bundle.putBoolean(Helper.ARG_SHOW_PINNED, false);
                 bundle.putBoolean(Helper.ARG_SHOW_REPLIES, true);
                 bundle.putBoolean(Helper.ARG_SHOW_REBLOGS, false);
                 bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
-                fragmentProfileTimeline.setArguments(bundle);
-                return fragmentProfileTimeline;
-            case 2:
+                fragmentMastodonTimeline.setArguments(bundle);
+                return fragmentMastodonTimeline;
+            }
+            case 2 -> {
                 FragmentMediaProfile fragmentMediaProfile = new FragmentMediaProfile();
-                bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+                if(account != null) {
+                    bundle.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
+                }
                 bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
                 fragmentMediaProfile.setArguments(bundle);
                 return fragmentMediaProfile;
-            default:
+            }
+            default -> {
                 return new FragmentMastodonTimeline();
+            }
         }
     }
 

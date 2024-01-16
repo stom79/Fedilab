@@ -32,7 +32,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-
 import androidx.preference.PreferenceManager;
 import androidx.work.Data;
 import androidx.work.ForegroundInfo;
@@ -61,6 +60,7 @@ import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.CamelTag;
 import app.fedilab.android.mastodon.client.entities.app.PostState;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
@@ -224,14 +224,24 @@ public class ComposeWorker extends Worker {
                 }
                 Call<Status> statusCall;
                 if (error) {
-                    Bundle b = new Bundle();
-                    b.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
+                    Bundle args = new Bundle();
+                    args.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
                     Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
-                    b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, context.getString(R.string.media_cannot_be_uploaded));
-                    b.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
-                    intentBD.putExtras(b);
-                    intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                    context.sendBroadcast(intentBD);
+                    args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, context.getString(R.string.media_cannot_be_uploaded));
+                    args.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
+                    BaseAccount account = null;
+                    try {
+                        account = new Account(context).getAccountByToken(dataPost.token);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                    new CachedBundle(context).insertBundle(args, account, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intentBD.putExtras(bundle);
+                        intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                        context.sendBroadcast(intentBD);
+                    });
                     return;
                 }
                 if (statuses.get(i).local_only) {
@@ -305,30 +315,51 @@ public class ComposeWorker extends Worker {
                                 }
                             }
                         } else if (statusResponse.errorBody() != null) {
-                            Bundle b = new Bundle();
-                            b.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
+                            Bundle args = new Bundle();
+                            args.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
                             Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
-                            b.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
+                            args.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
                             String err = statusResponse.errorBody().string();
                             if (err.contains("{\"error\":\"")) {
                                 err = err.replaceAll("\\{\"error\":\"(.*)\"\\}", "$1");
                             }
-                            b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, err);
-                            intentBD.putExtras(b);
-                            intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                            context.sendBroadcast(intentBD);
+                            args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, err);
+
+                            BaseAccount account = null;
+                            try {
+                                account = new Account(context).getAccountByToken(dataPost.token);
+                            } catch (DBException e) {
+                                e.printStackTrace();
+                            }
+                            new CachedBundle(context).insertBundle(args, account, bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intentBD.putExtras(bundle);
+                                intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                                context.sendBroadcast(intentBD);
+                            });
                             return;
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Bundle b = new Bundle();
-                        b.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
-                        b.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
+                        Bundle args = new Bundle();
+                        args.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
+                        args.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
                         Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
-                        b.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, e.getMessage());
-                        intentBD.putExtras(b);
-                        intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                        context.sendBroadcast(intentBD);
+                        args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, e.getMessage());
+                        BaseAccount account = null;
+                        try {
+                            account = new Account(context).getAccountByToken(dataPost.token);
+                        } catch (DBException e2) {
+                            e2.printStackTrace();
+                        }
+                        new CachedBundle(context).insertBundle(args, account, bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intentBD.putExtras(bundle);
+                            intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                            context.sendBroadcast(intentBD);
+                        });
                         return;
                     }
                 } else {
@@ -376,14 +407,24 @@ public class ComposeWorker extends Worker {
         }
 
         if (dataPost.scheduledDate == null && dataPost.token != null && firstSendMessage != null) {
-            Bundle b = new Bundle();
-            b.putBoolean(Helper.RECEIVE_NEW_MESSAGE, true);
-            b.putString(Helper.ARG_EDIT_STATUS_ID, dataPost.statusEditId);
+            Bundle args = new Bundle();
+            args.putBoolean(Helper.RECEIVE_NEW_MESSAGE, true);
+            args.putString(Helper.ARG_EDIT_STATUS_ID, dataPost.statusEditId);
             Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-            b.putSerializable(Helper.RECEIVE_STATUS_ACTION, firstSendMessage);
-            intentBD.putExtras(b);
-            intentBD.setPackage(BuildConfig.APPLICATION_ID);
-            context.sendBroadcast(intentBD);
+            args.putSerializable(Helper.RECEIVE_STATUS_ACTION, firstSendMessage);
+            BaseAccount account = null;
+            try {
+                account = new Account(context).getAccountByToken(dataPost.token);
+            } catch (DBException e2) {
+                e2.printStackTrace();
+            }
+            new CachedBundle(context).insertBundle(args, account, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intentBD.putExtras(bundle);
+                intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                context.sendBroadcast(intentBD);
+            });
         }
     }
 

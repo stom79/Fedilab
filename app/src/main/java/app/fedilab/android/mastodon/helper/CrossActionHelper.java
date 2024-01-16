@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.helper;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,6 +46,7 @@ import app.fedilab.android.mastodon.client.entities.api.Results;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.ui.drawer.AccountsSearchAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
@@ -183,77 +186,89 @@ public class CrossActionHelper {
             statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get("crossactions", StatusesVM.class);
         }
         switch (actionType) {
-            case MUTE_ACTION:
+            case MUTE_ACTION -> {
                 assert accountsVM != null;
                 accountsVM.mute(ownerAccount.instance, ownerAccount.token, targetedAccount.id, true, 0)
                         .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_SHORT).show());
-                break;
-            case UNMUTE_ACTION:
+            }
+            case UNMUTE_ACTION -> {
                 assert accountsVM != null;
                 accountsVM.unmute(ownerAccount.instance, ownerAccount.token, targetedAccount.id)
                         .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_unmute), Toasty.LENGTH_SHORT).show());
-                break;
-            case BLOCK_ACTION:
+            }
+            case BLOCK_ACTION -> {
                 assert accountsVM != null;
                 accountsVM.block(ownerAccount.instance, ownerAccount.token, targetedAccount.id)
                         .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_block), Toasty.LENGTH_SHORT).show());
-                break;
-            case UNBLOCK_ACTION:
+            }
+            case UNBLOCK_ACTION -> {
                 assert accountsVM != null;
                 accountsVM.unblock(ownerAccount.instance, ownerAccount.token, targetedAccount.id)
                         .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_unblock), Toasty.LENGTH_SHORT).show());
-                break;
-            case FOLLOW_ACTION:
+            }
+            case FOLLOW_ACTION -> {
                 assert accountsVM != null;
                 accountsVM.follow(ownerAccount.instance, ownerAccount.token, targetedAccount.id, true, false, null)
                         .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_follow), Toasty.LENGTH_SHORT).show());
-                break;
-            case UNFOLLOW_ACTION:
+            }
+            case UNFOLLOW_ACTION -> {
                 assert accountsVM != null;
                 accountsVM.unfollow(ownerAccount.instance, ownerAccount.token, targetedAccount.id)
                         .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_unfollow), Toasty.LENGTH_SHORT).show());
-                break;
-            case FAVOURITE_ACTION:
+            }
+            case FAVOURITE_ACTION -> {
                 assert statusesVM != null;
                 statusesVM.favourite(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_favourite), Toasty.LENGTH_SHORT).show());
-                break;
-            case UNFAVOURITE_ACTION:
+            }
+            case UNFAVOURITE_ACTION -> {
                 assert statusesVM != null;
                 statusesVM.unFavourite(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_unfavourite), Toasty.LENGTH_SHORT).show());
-                break;
-            case BOOKMARK_ACTION:
+            }
+            case BOOKMARK_ACTION -> {
                 assert statusesVM != null;
                 statusesVM.bookmark(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_bookmark), Toasty.LENGTH_SHORT).show());
-                break;
-            case UNBOOKMARK_ACTION:
+            }
+            case UNBOOKMARK_ACTION -> {
                 assert statusesVM != null;
                 statusesVM.unBookmark(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_unbookmark), Toasty.LENGTH_SHORT).show());
-                break;
-            case REBLOG_ACTION:
+            }
+            case REBLOG_ACTION -> {
                 assert statusesVM != null;
                 statusesVM.reblog(ownerAccount.instance, ownerAccount.token, targetedStatus.id, null)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_reblog), Toasty.LENGTH_SHORT).show());
-                break;
-            case UNREBLOG_ACTION:
+            }
+            case UNREBLOG_ACTION -> {
                 assert statusesVM != null;
                 statusesVM.unReblog(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_unreblog), Toasty.LENGTH_SHORT).show());
-                break;
-            case REPLY_ACTION:
+            }
+            case REPLY_ACTION -> {
                 Intent intent = new Intent(context, ComposeActivity.class);
-                intent.putExtra(Helper.ARG_STATUS_REPLY, targetedStatus);
-                intent.putExtra(Helper.ARG_ACCOUNT, ownerAccount);
-                context.startActivity(intent);
-                break;
-            case COMPOSE:
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS_REPLY, targetedStatus);
+                args.putSerializable(Helper.ARG_ACCOUNT, ownerAccount);
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
+            }
+            case COMPOSE -> {
                 Intent intentCompose = new Intent(context, ComposeActivity.class);
-                intentCompose.putExtra(Helper.ARG_ACCOUNT, ownerAccount);
-                context.startActivity(intentCompose);
-                break;
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, ownerAccount);
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intentCompose.putExtras(bundle);
+                    context.startActivity(intentCompose);
+                });
+            }
         }
     }
 
@@ -430,10 +445,15 @@ public class CrossActionHelper {
                     final BaseAccount account = accountArray[which];
                     Intent intentToot = new Intent(context, ComposeActivity.class);
                     bundle.putSerializable(Helper.ARG_ACCOUNT, account);
-                    intentToot.putExtras(bundle);
-                    context.startActivity(intentToot);
-                    ((BaseActivity) context).finish();
-                    dialog.dismiss();
+                    new CachedBundle(context).insertBundle(bundle, currentAccount, bundleId -> {
+                        Bundle bundleCached = new Bundle();
+                        bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intentToot.putExtras(bundleCached);
+                        context.startActivity(intentToot);
+                        ((BaseActivity) context).finish();
+                        dialog.dismiss();
+                    });
+
                 });
                 builderSingle.show();
             }

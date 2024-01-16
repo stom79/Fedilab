@@ -51,11 +51,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -90,6 +88,7 @@ import app.fedilab.android.mastodon.client.entities.api.Field;
 import app.fedilab.android.mastodon.client.entities.api.IdentityProof;
 import app.fedilab.android.mastodon.client.entities.api.MastodonList;
 import app.fedilab.android.mastodon.client.entities.api.RelationShip;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Languages;
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
@@ -133,14 +132,17 @@ public class ProfileActivity extends BaseActivity {
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                Account accountReceived = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
-                if (b.getBoolean(Helper.RECEIVE_REDRAW_PROFILE, false) && accountReceived != null) {
-                    if (account != null && accountReceived.id != null && account.id != null && accountReceived.id.equalsIgnoreCase(account.id)) {
-                        initializeView(accountReceived);
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(ProfileActivity.this).getBundle(bundleId, currentAccount, bundle -> {
+                    Account accountReceived = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+                    if (bundle.getBoolean(Helper.RECEIVE_REDRAW_PROFILE, false) && accountReceived != null) {
+                        if (account != null && accountReceived.id != null && account.id != null && accountReceived.id.equalsIgnoreCase(account.id)) {
+                            initializeView(accountReceived);
+                        }
                     }
-                }
+                });
             }
         }
     };
@@ -154,17 +156,11 @@ public class ProfileActivity extends BaseActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
-        Bundle b = getIntent().getExtras();
+        Bundle args = getIntent().getExtras();
         binding.accountFollow.setEnabled(false);
         checkRemotely = false;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        homeMuted = false;
-        if (b != null) {
-            account = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
-            account_id = b.getString(Helper.ARG_USER_ID, null);
-            mention_str = b.getString(Helper.ARG_MENTION, null);
-            checkRemotely = b.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
-        }
+
         if (!checkRemotely) {
             checkRemotely = sharedpreferences.getBoolean(getString(R.string.SET_PROFILE_REMOTELY), false);
         }
@@ -181,6 +177,22 @@ public class ProfileActivity extends BaseActivity {
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
         binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
         accountsVM = new ViewModelProvider(ProfileActivity.this).get(AccountsVM.class);
+        homeMuted = false;
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(ProfileActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+        if (bundle != null) {
+            account = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            account_id = bundle.getString(Helper.ARG_USER_ID, null);
+            mention_str = bundle.getString(Helper.ARG_MENTION, null);
+            checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+        }
         if (account != null) {
             initializeView(account);
         } else if (account_id != null) {
@@ -443,12 +455,16 @@ public class ProfileActivity extends BaseActivity {
         }
         binding.openRemoteProfile.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
-            Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT, account);
-            b.putSerializable(Helper.ARG_CHECK_REMOTELY, true);
-            intent.putExtras(b);
-            startActivity(intent);
-            finish();
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_ACCOUNT, account);
+            args.putSerializable(Helper.ARG_CHECK_REMOTELY, true);
+            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+            });
         });
         //Fields for profile
         List<Field> fields = account.fields;
@@ -484,7 +500,7 @@ public class ProfileActivity extends BaseActivity {
 
         binding.accountPp.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, MediaActivity.class);
-            Bundle b = new Bundle();
+            Bundle args = new Bundle();
             Attachment attachment = new Attachment();
             attachment.description = account.acct;
             attachment.preview_url = account.avatar;
@@ -493,13 +509,17 @@ public class ProfileActivity extends BaseActivity {
             attachment.type = "image";
             ArrayList<Attachment> attachments = new ArrayList<>();
             attachments.add(attachment);
-            b.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
-            b.putInt(Helper.ARG_MEDIA_POSITION, 1);
-            intent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(ProfileActivity.this, binding.accountPp, attachment.url);
-            // start the new activity
-            startActivity(intent, options.toBundle());
+            args.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
+            args.putInt(Helper.ARG_MEDIA_POSITION, 1);
+            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(ProfileActivity.this, binding.accountPp, attachment.url);
+                // start the new activity
+                startActivity(intent, options.toBundle());
+            });
         });
 
 
@@ -627,11 +647,15 @@ public class ProfileActivity extends BaseActivity {
                 notificationsRelatedAccountsBinding.acc.setText(account.username);
                 notificationsRelatedAccountsBinding.relatedAccountContainer.setOnClickListener(v -> {
                     Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
-                    Bundle b = new Bundle();
-                    b.putSerializable(Helper.ARG_ACCOUNT, account);
-                    intent.putExtras(b);
-                    // start the new activity
-                    startActivity(intent);
+                    Bundle args = new Bundle();
+                    args.putSerializable(Helper.ARG_ACCOUNT, account);
+                    new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    });
+
                 });
                 binding.relatedAccounts.addView(notificationsRelatedAccountsBinding.getRoot());
             }
@@ -897,12 +921,16 @@ public class ProfileActivity extends BaseActivity {
                             new Pinned(ProfileActivity.this).insertPinned(finalPinned);
                         }
                         runOnUiThread(() -> {
-                            Bundle b = new Bundle();
-                            b.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
+                            Bundle args = new Bundle();
+                            args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                             Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                            intentBD.putExtras(b);
-                            intentBD.setPackage(BuildConfig.APPLICATION_ID);
-                            sendBroadcast(intentBD);
+                            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intentBD.putExtras(bundle);
+                                intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                                sendBroadcast(intentBD);
+                            });
                         });
                     } catch (DBException e) {
                         e.printStackTrace();
@@ -1022,11 +1050,15 @@ public class ProfileActivity extends BaseActivity {
             return true;
         } else if (itemId == R.id.action_direct_message) {
             Intent intent = new Intent(ProfileActivity.this, ComposeActivity.class);
-            Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT_MENTION, account);
-            b.putString(Helper.ARG_VISIBILITY, "direct");
-            intent.putExtras(b);
-            startActivity(intent);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_ACCOUNT_MENTION, account);
+            args.putString(Helper.ARG_VISIBILITY, "direct");
+            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            });
             return true;
         } else if (itemId == R.id.action_add_to_list) {
             TimelinesVM timelinesVM = new ViewModelProvider(ProfileActivity.this).get(TimelinesVM.class);
@@ -1109,12 +1141,15 @@ public class ProfileActivity extends BaseActivity {
             return true;
         } else if (itemId == R.id.action_mention) {
             Intent intent;
-            Bundle b;
             intent = new Intent(ProfileActivity.this, ComposeActivity.class);
-            b = new Bundle();
-            b.putSerializable(Helper.ARG_ACCOUNT_MENTION, account);
-            intent.putExtras(b);
-            startActivity(intent);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_ACCOUNT_MENTION, account);
+            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            });
             return true;
         } else if (itemId == R.id.action_mute) {
             AlertDialog.Builder builderInner;

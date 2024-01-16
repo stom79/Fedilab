@@ -176,12 +176,10 @@ public class ThemeHelper {
         String[] list;
         try {
             list = context.getAssets().list("themes/contributors");
-            if (list.length > 0) {
-                for (String file : list) {
-                    InputStream is = context.getAssets().open("themes/contributors/" + file);
-                    LinkedHashMap<String, String> data = readCSVFile(is);
-                    linkedHashMaps.add(data);
-                }
+            for (String file : list) {
+                InputStream is = context.getAssets().open("themes/contributors/" + file);
+                LinkedHashMap<String, String> data = readCSVFile(is);
+                linkedHashMaps.add(data);
             }
         } catch (IOException e) {
             e.printStackTrace();

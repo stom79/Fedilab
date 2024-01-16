@@ -257,7 +257,7 @@
     <!-- About lists -->
     <string name="action_lists">Listoj</string>
     <string name="action_lists_confirm_delete">Ĉu vi certas, ke vi volas porĉiame forigi ĉi tiun liston?</string>
-    <string name="action_lists_add_to">Aldoni al la listo</string>
+    <string name="action_lists_add_to">Aldoni al listo</string>
     <string name="action_lists_delete">Forigi la liston</string>
     <string name="action_lists_title_placeholder">Nova listo titolo</string>
     <string name="action_lists_add_user">La konto estis aldonita al la listo!</string>
@@ -354,14 +354,14 @@
     <string name="languages">Lingvoj</string>
     <string name="show_media_only">Nur aŭdvidaĵo</string>
     <string name="show_media_nsfw">Montru NSFW</string>
-    <string name="bot">Boto</string>
-    <string name="pixelfed_instance">Pixelfed instenco</string>
-    <string name="mastodon_instance">Mastodono Instenco</string>
+    <string name="bot">Roboto</string>
+    <string name="pixelfed_instance">Pixelfed servilo</string>
+    <string name="mastodon_instance">Mastodono-servilo</string>
     <string name="any_tags">Iu ajn de ĉi tiuj</string>
     <string name="all_tags">Ĉiuj de ĉi tiuj</string>
-    <string name="none_tags">None of these</string>
-    <string name="some_words_any">Any of these words (space-separated)</string>
-    <string name="some_words_all">All these words (space-separated)</string>
+    <string name="none_tags">Neniom</string>
+    <string name="some_words_any">Iuj ajn vortoj (apartigitaj per spacetoj)</string>
+    <string name="some_words_all">Ĉiuj ajn vortoj (apartigitaj per spacetoj)</string>
     <string name="some_tags">Add some words to filter (space-separated)</string>
     <string name="change_tag_column">Change column name</string>
     <string name="misskey_instance">Misskey instance</string>
@@ -386,11 +386,11 @@
     <string name="no_tags">No tags</string>
     <string name="set_retrieve_metadata_share_from_extras">Attach an image when sharing a URL</string>
     <!-- end languages -->
-    <string name="create_poll">Krei Baloto</string>
-    <string name="poll_choice_s">Elekta %d</string>
-    <string name="poll_invalid_choices">Vi bezonas du elektoj malpleje por la baloto!</string>
+    <string name="create_poll">Krei enketon</string>
+    <string name="poll_choice_s">Opcio %d</string>
+    <string name="poll_invalid_choices">Havendas almenaŭ du opciojn por la enketo!</string>
     <string name="done">Farite</string>
-    <string name="poll_finish_at">end at %s</string>
+    <string name="poll_finish_at">finiĝis je %s</string>
     <string name="vote">Voĉdoni</string>
     <string name="notif_poll">Partoprenita balotenketo finiĝis</string>
     <string name="notif_poll_self">A poll you tooted has ended</string>
@@ -417,7 +417,7 @@
     <string name="saving">Saving…</string>
     <string name="image_saved">Image Saved Successfully!</string>
     <string name="save_image_failed">Failed to save Image</string>
-    <string name="add_poll_item">Add a poll item</string>
+    <string name="add_poll_item">Aldoni enketeron</string>
     <string name="mute_conversation">Mute conversation</string>
     <string name="unmute_conversation">Unmute conversation</string>
     <string name="toast_unmute_conversation">The conversation is no longer muted!</string>
@@ -477,9 +477,9 @@
     <string name="settings_title_custom_sharing_indication">Allow content creators to share statuses to their RSS feeds</string>
     <string name="compose">Verki</string>
     <string name="select">Elekti</string>
-    <string name="add_instances">Aldoni instencon</string>
-    <string name="set_enable_crash_report">Enable crash reports</string>
-    <string name="set_enable_crash_report_indication">If enabled, a crash report will be created locally and then you will be able to share it.</string>
+    <string name="add_instances">Aldoni servilon</string>
+    <string name="set_enable_crash_report">Ŝalti kolaps-raportojn</string>
+    <string name="set_enable_crash_report_indication">Se ŝaltita, kolaps-raporto estos kreita loke, kaj poste vi eblos disvastigi ĝin.</string>
     <string name="crash_title">Fedilab haltis :(</string>
     <string name="crash_message">You can send me by email the crash report. It will help to fix it :)\n\nYou can add additional content. Thank you!</string>
     <string name="visibility">Visibility</string>
@@ -608,4 +608,11 @@
     <string name="notif_display_mentions">Mencioj</string>
     <string name="notif_display_favourites">Stelumoj</string>
     <string name="save_changes">Konservi ŝanĝojn</string>
+    <string name="saved_changes">Ŝanĝoj estis konservitaj!</string>
+    <string name="updated_count">%d ĝisdatigitaj mesaĝoj</string>
+    <string name="silenced">Silentigita</string>
+    <string name="follow_tag">Sekvi etikedon</string>
+    <string name="action_lists_edit">Redakti liston</string>
+    <string name="private_comment">Privata komento</string>
+    <string name="copy_version">Kopii informon</string>
 </resources>

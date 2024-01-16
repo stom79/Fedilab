@@ -14,6 +14,7 @@ package app.fedilab.android.mastodon.activities.admin;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.activities.admin.AdminActionActivity.AdminEnum.ACCOUNT;
 import static app.fedilab.android.mastodon.activities.admin.AdminActionActivity.AdminEnum.DOMAIN;
 import static app.fedilab.android.mastodon.activities.admin.AdminActionActivity.AdminEnum.REPORT;
@@ -43,6 +44,7 @@ import app.fedilab.android.databinding.PopupAdminFilterAccountsBinding;
 import app.fedilab.android.databinding.PopupAdminFilterReportsBinding;
 import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminDomainBlock;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.ui.fragment.admin.FragmentAdminAccount;
@@ -63,18 +65,21 @@ public class AdminActionActivity extends BaseBarActivity {
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                AdminDomainBlock adminDomainBlock = (AdminDomainBlock) b.getSerializable(Helper.ARG_ADMIN_DOMAINBLOCK);
-                AdminDomainBlock adminDomainBlockDelete = (AdminDomainBlock) b.getSerializable(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE);
-                if (adminDomainBlock != null && adminDomainBlock.domain != null && fragmentAdminDomain != null) {
-                    fragmentAdminDomain.update(adminDomainBlock);
-                }
-                if (adminDomainBlockDelete != null && fragmentAdminDomain != null) {
-                    fragmentAdminDomain.delete(adminDomainBlockDelete);
-                }
-            }
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(AdminActionActivity.this).getBundle(bundleId, currentAccount, bundle -> {
+                    AdminDomainBlock adminDomainBlock = (AdminDomainBlock) bundle.getSerializable(Helper.ARG_ADMIN_DOMAINBLOCK);
+                    AdminDomainBlock adminDomainBlockDelete = (AdminDomainBlock) bundle.getSerializable(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE);
+                    if (adminDomainBlock != null && adminDomainBlock.domain != null && fragmentAdminDomain != null) {
+                        fragmentAdminDomain.update(adminDomainBlock);
+                    }
+                    if (adminDomainBlockDelete != null && fragmentAdminDomain != null) {
+                        fragmentAdminDomain.delete(adminDomainBlockDelete);
+                    }
+                });
 
+            }
         }
     };
 

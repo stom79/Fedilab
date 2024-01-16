@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.activities.admin;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
@@ -61,6 +63,7 @@ import app.fedilab.android.mastodon.activities.MediaActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminAccount;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminIp;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
@@ -87,17 +90,31 @@ public class AdminAccountActivity extends BaseActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
-        Bundle b = getIntent().getExtras();
+        Bundle args = getIntent().getExtras();
         adminAccount = null;
-        if (b != null) {
-            adminAccount = (AdminAccount) b.getSerializable(Helper.ARG_ACCOUNT);
-            account_id = b.getString(Helper.ARG_ACCOUNT_ID, null);
-        }
         postponeEnterTransition();
 
         //Remove title
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
+        }
+
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(AdminAccountActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+
+
+    }
+
+
+    private void initializeAfterBundle(Bundle bundle) {
+
+        if (bundle != null) {
+            adminAccount = (AdminAccount) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            account_id = bundle.getString(Helper.ARG_ACCOUNT_ID, null);
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
@@ -175,8 +192,6 @@ public class AdminAccountActivity extends BaseActivity {
                 initializeView(adminAccount);
             }
         });
-
-
     }
 
     private void initializeView(AdminAccount adminAccount) {
@@ -329,7 +344,7 @@ public class AdminAccountActivity extends BaseActivity {
         MastodonHelper.loadPPMastodon(binding.accountPp, adminAccount.account);
         binding.accountPp.setOnClickListener(v -> {
             Intent intent = new Intent(AdminAccountActivity.this, MediaActivity.class);
-            Bundle b = new Bundle();
+            Bundle args = new Bundle();
             Attachment attachment = new Attachment();
             attachment.description = adminAccount.account.acct;
             attachment.preview_url = adminAccount.account.avatar;
@@ -338,13 +353,17 @@ public class AdminAccountActivity extends BaseActivity {
             attachment.type = "image";
             ArrayList<Attachment> attachments = new ArrayList<>();
             attachments.add(attachment);
-            b.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
-            b.putInt(Helper.ARG_MEDIA_POSITION, 1);
-            intent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(AdminAccountActivity.this, binding.accountPp, attachment.url);
-            // start the new activity
-            startActivity(intent, options.toBundle());
+            args.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
+            args.putInt(Helper.ARG_MEDIA_POSITION, 1);
+            new CachedBundle(AdminAccountActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(AdminAccountActivity.this, binding.accountPp, attachment.url);
+                // start the new activity
+                startActivity(intent, options.toBundle());
+            });
         });
 
 

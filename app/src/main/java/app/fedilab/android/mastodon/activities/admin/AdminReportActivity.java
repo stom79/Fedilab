@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.activities.admin;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
@@ -46,7 +48,6 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -62,6 +63,7 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminAccount;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminIp;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
@@ -87,25 +89,36 @@ public class AdminReportActivity extends BaseBarActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            adminAccount = (AdminAccount) b.getSerializable(Helper.ARG_ACCOUNT);
-            if (adminAccount != null) {
-                account = adminAccount.account;
-            }
-        }
+        Bundle args = getIntent().getExtras();
         postponeEnterTransition();
-
-        //Remove title
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
         binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        //Remove title
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(AdminReportActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+    }
+
+
+    private void initializeAfterBundle(Bundle bundle) {
+        if (bundle != null) {
+            adminAccount = (AdminAccount) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            if (adminAccount != null) {
+                account = adminAccount.account;
+            }
         }
         if (account != null) {
             initializeView(account);
@@ -344,7 +357,7 @@ public class AdminReportActivity extends BaseBarActivity {
         MastodonHelper.loadPPMastodon(binding.accountPp, account);
         binding.accountPp.setOnClickListener(v -> {
             Intent intent = new Intent(AdminReportActivity.this, MediaActivity.class);
-            Bundle b = new Bundle();
+            Bundle args = new Bundle();
             Attachment attachment = new Attachment();
             attachment.description = account.acct;
             attachment.preview_url = account.avatar;
@@ -353,13 +366,16 @@ public class AdminReportActivity extends BaseBarActivity {
             attachment.type = "image";
             ArrayList<Attachment> attachments = new ArrayList<>();
             attachments.add(attachment);
-            b.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
-            b.putInt(Helper.ARG_MEDIA_POSITION, 1);
-            intent.putExtras(b);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(AdminReportActivity.this, binding.accountPp, attachment.url);
-            // start the new activity
-            startActivity(intent, options.toBundle());
+            args.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
+            args.putInt(Helper.ARG_MEDIA_POSITION, 1);
+            new CachedBundle(AdminReportActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(AdminReportActivity.this, binding.accountPp, attachment.url);
+                startActivity(intent, options.toBundle());
+            });
         });
 
 

@@ -50,7 +50,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.work.Data;
@@ -83,6 +82,7 @@ import app.fedilab.android.mastodon.client.entities.api.Context;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
 import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -112,17 +112,19 @@ public class FragmentMastodonDirectMessage extends Fragment {
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-
-                if (b.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
-                    Status statusReceived = (Status) b.getSerializable(Helper.RECEIVE_STATUS_ACTION);
-                    if (statusReceived != null) {
-                        statuses.add(statusReceived);
-                        statusDirectMessageAdapter.notifyItemInserted(statuses.size() - 1);
-                        initiliazeStatus();
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
+                    if (bundle.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
+                        Status statusReceived = (Status) bundle.getSerializable(Helper.RECEIVE_STATUS_ACTION);
+                        if (statusReceived != null) {
+                            statuses.add(statusReceived);
+                            statusDirectMessageAdapter.notifyItemInserted(statuses.size() - 1);
+                            initiliazeStatus();
+                        }
                     }
-                }
+                });
             }
         }
     };
@@ -132,8 +134,21 @@ public class FragmentMastodonDirectMessage extends Fragment {
 
         focusedStatus = null;
         pullToRefresh = false;
+        binding = FragmentDirectMessageBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
-            focusedStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
+            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+        return binding.getRoot();
+    }
+
+
+    private void initializeAfterBundle(Bundle bundle) {
+
+        if (bundle != null) {
+            focusedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);
         }
         user_instance = MainActivity.currentInstance;
         user_token = MainActivity.currentToken;
@@ -141,7 +156,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
         if (focusedStatus == null) {
             getChildFragmentManager().beginTransaction().remove(this).commit();
         }
-        binding = FragmentDirectMessageBinding.inflate(inflater, container, false);
+
         statusesVM = new ViewModelProvider(FragmentMastodonDirectMessage.this).get(StatusesVM.class);
         binding.recyclerView.setNestedScrollingEnabled(true);
         this.statuses = new ArrayList<>();
@@ -217,9 +232,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
             }
         });
 
-        return binding.getRoot();
     }
-
 
     private void onSubmit(StatusDraft statusDraft) {
         new Thread(() -> {

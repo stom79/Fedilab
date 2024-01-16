@@ -110,9 +110,17 @@ public class FragmentMedia extends Fragment {
                 enableSliding(true);
             }
         });
-        binding.mediaPicture.setOnClickListener(v -> ((MediaActivity) requireActivity()).toogleFullScreen());
+        binding.mediaPicture.setOnClickListener(v -> {
+            if (isAdded()) {
+                ((MediaActivity) requireActivity()).toogleFullScreen();
+            }
+        });
 
-        binding.mediaVideo.setOnClickListener(v -> ((MediaActivity) requireActivity()).toogleFullScreen());
+        binding.mediaVideo.setOnClickListener(v -> {
+            if (isAdded()) {
+                ((MediaActivity) requireActivity()).toogleFullScreen();
+            }
+        });
 
         String type = attachment.type;
         String preview_url = attachment.preview_url;
@@ -363,7 +371,8 @@ public class FragmentMedia extends Fragment {
                                 binding.videoLayout.setVisibility(View.GONE);
                                 try {
                                     ActivityCompat.finishAfterTransition(requireActivity());
-                                }catch (Exception ignored){}
+                                } catch (Exception ignored) {
+                                }
                             }
                         }
 
@@ -386,7 +395,9 @@ public class FragmentMedia extends Fragment {
             @Override
             public boolean onPreDraw() {
                 imageView.getViewTreeObserver().removeOnPreDrawListener(this);
-                ActivityCompat.startPostponedEnterTransition(requireActivity());
+                if (isAdded()) {
+                    ActivityCompat.startPostponedEnterTransition(requireActivity());
+                }
                 return true;
             }
         });

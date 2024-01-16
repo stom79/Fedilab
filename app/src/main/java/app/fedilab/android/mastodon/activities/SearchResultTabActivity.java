@@ -114,14 +114,11 @@ public class SearchResultTabActivity extends BaseBarActivity {
                 Fragment fragment;
                 if (binding.searchViewpager.getAdapter() != null) {
                     fragment = (Fragment) binding.searchViewpager.getAdapter().instantiateItem(binding.searchViewpager, tab.getPosition());
-                    if (fragment instanceof FragmentMastodonAccount) {
-                        FragmentMastodonAccount fragmentMastodonAccount = ((FragmentMastodonAccount) fragment);
+                    if (fragment instanceof FragmentMastodonAccount fragmentMastodonAccount) {
                         fragmentMastodonAccount.scrollToTop();
-                    } else if (fragment instanceof FragmentMastodonTimeline) {
-                        FragmentMastodonTimeline fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                    } else if (fragment instanceof FragmentMastodonTimeline fragmentMastodonTimeline) {
                         fragmentMastodonTimeline.scrollToTop();
-                    } else if (fragment instanceof FragmentMastodonTag) {
-                        FragmentMastodonTag fragmentMastodonTag = ((FragmentMastodonTag) fragment);
+                    } else if (fragment instanceof FragmentMastodonTag fragmentMastodonTag) {
                         fragmentMastodonTag.scrollToTop();
                     }
                 }
@@ -136,6 +133,9 @@ public class SearchResultTabActivity extends BaseBarActivity {
         inflater.inflate(R.menu.menu_search, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        if(searchView == null) {
+            return true;
+        }
         if (search != null) {
             searchView.setQuery(search, false);
         }
@@ -302,27 +302,32 @@ public class SearchResultTabActivity extends BaseBarActivity {
         @Override
         public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
+            FragmentMastodonTimeline fragmentMastodonTimeline;
             switch (position) {
-                case 0:
+                case 0 -> {
                     FragmentMastodonTag fragmentMastodonTag = new FragmentMastodonTag();
                     bundle.putString(Helper.ARG_SEARCH_KEYWORD, search);
                     fragmentMastodonTag.setArguments(bundle);
                     return fragmentMastodonTag;
-                case 1:
+                }
+                case 1 -> {
                     FragmentMastodonAccount fragmentMastodonAccount = new FragmentMastodonAccount();
                     bundle.putString(Helper.ARG_SEARCH_KEYWORD, search);
                     fragmentMastodonAccount.setArguments(bundle);
                     return fragmentMastodonAccount;
-                case 2:
-                    FragmentMastodonTimeline fragmentMastodonTimeline = new FragmentMastodonTimeline();
+                }
+                case 2 -> {
+                    fragmentMastodonTimeline = new FragmentMastodonTimeline();
                     bundle.putString(Helper.ARG_SEARCH_KEYWORD, search);
                     fragmentMastodonTimeline.setArguments(bundle);
                     return fragmentMastodonTimeline;
-                default:
+                }
+                default -> {
                     fragmentMastodonTimeline = new FragmentMastodonTimeline();
                     bundle.putString(Helper.ARG_SEARCH_KEYWORD_CACHE, search);
                     fragmentMastodonTimeline.setArguments(bundle);
                     return fragmentMastodonTimeline;
+                }
             }
         }
 

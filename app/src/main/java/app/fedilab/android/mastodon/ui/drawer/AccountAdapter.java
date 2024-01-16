@@ -15,7 +15,8 @@ package app.fedilab.android.mastodon.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
-import android.app.Activity;
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,7 +30,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -48,6 +48,7 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.DrawerAccountBinding;
 import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
@@ -94,9 +95,9 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             accountViewHolder.binding.muteHome.setChecked(muted);
             accountViewHolder.binding.muteHome.setOnClickListener(v -> {
                 if (muted) {
-                    accountsVM.unmuteHome(MainActivity.currentAccount, account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
+                    accountsVM.unmuteHome(currentAccount, account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
                 } else {
-                    accountsVM.muteHome(MainActivity.currentAccount, account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
+                    accountsVM.muteHome(currentAccount, account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
                 }
             });
         } else {
@@ -111,11 +112,14 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         accountViewHolder.binding.avatar.setOnClickListener(v -> {
             if (remoteInstance == null) {
                 Intent intent = new Intent(context, ProfileActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable(Helper.ARG_ACCOUNT, account);
-                intent.putExtras(b);
-                // start the new activity
-                context.startActivity(intent);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, account);
+                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             } else {
                 Toasty.info(context, context.getString(R.string.retrieve_remote_account), Toasty.LENGTH_SHORT).show();
                 SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
@@ -124,11 +128,14 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (results != null && results.accounts != null && results.accounts.size() > 0) {
                                 Account accountSearch = results.accounts.get(0);
                                 Intent intent = new Intent(context, ProfileActivity.class);
-                                Bundle b = new Bundle();
-                                b.putSerializable(Helper.ARG_ACCOUNT, accountSearch);
-                                intent.putExtras(b);
-                                // start the new activity
-                                context.startActivity(intent);
+                                Bundle args = new Bundle();
+                                args.putSerializable(Helper.ARG_ACCOUNT, accountSearch);
+                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    intent.putExtras(bundle);
+                                    context.startActivity(intent);
+                                });
                             } else {
                                 Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                             }

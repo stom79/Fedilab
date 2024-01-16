@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +38,7 @@ import app.fedilab.android.databinding.ActivityReportBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.RelationShip;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.drawer.RulesAdapter;
@@ -70,11 +73,21 @@ public class ReportActivity extends BaseBarActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        Bundle args = getIntent().getExtras();
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            if (bundleId != -1) {
+                new CachedBundle(ReportActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            } else {
+                initializeAfterBundle(args);
+            }
+        }
+    }
 
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            status = (Status) b.getSerializable(Helper.ARG_STATUS);
-            account = (Account) b.getSerializable(Helper.ARG_ACCOUNT);
+    private void initializeAfterBundle(Bundle bundle) {
+        if (bundle != null) {
+            status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+            account = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
         }
         if (account == null && status != null) {
             account = status.account;
@@ -138,7 +151,6 @@ public class ReportActivity extends BaseBarActivity {
             }
         });
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -222,21 +234,25 @@ public class ReportActivity extends BaseBarActivity {
     private void switchToSpam() {
 
         fragment = new FragmentMastodonTimeline();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-        bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+        Bundle args = new Bundle();
+        args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
+        args.putSerializable(Helper.ARG_ACCOUNT, account);
         //Set to display statuses with less options
-        bundle.putBoolean(Helper.ARG_MINIFIED, true);
+        args.putBoolean(Helper.ARG_MINIFIED, true);
         if (status != null) {
             status.isChecked = true;
-            bundle.putSerializable(Helper.ARG_STATUS_REPORT, status);
+            args.putSerializable(Helper.ARG_STATUS_REPORT, status);
         }
-        fragment.setArguments(bundle);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction =
-                fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fram_spam_container, fragment);
-        fragmentTransaction.commit();
+        new CachedBundle(ReportActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            fragment.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction =
+                    fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fram_spam_container, fragment);
+            fragmentTransaction.commit();
+        });
 
         binding.actionButton.setText(R.string.next);
         binding.actionButton.setOnClickListener(v -> {
@@ -248,22 +264,25 @@ public class ReportActivity extends BaseBarActivity {
     private void switchToSomethingElse() {
 
         fragment = new FragmentMastodonTimeline();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-        bundle.putSerializable(Helper.ARG_ACCOUNT, account);
+        Bundle args = new Bundle();
+        args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
+        args.putSerializable(Helper.ARG_ACCOUNT, account);
         //Set to display statuses with less options
-        bundle.putBoolean(Helper.ARG_MINIFIED, true);
+        args.putBoolean(Helper.ARG_MINIFIED, true);
         if (status != null) {
             status.isChecked = true;
-            bundle.putSerializable(Helper.ARG_STATUS_REPORT, status);
+            args.putSerializable(Helper.ARG_STATUS_REPORT, status);
         }
-        fragment.setArguments(bundle);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction =
-                fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fram_se_container, fragment);
-        fragmentTransaction.commit();
-
+        new CachedBundle(ReportActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            fragment.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction =
+                    fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fram_se_container, fragment);
+            fragmentTransaction.commit();
+        });
         binding.actionButton.setText(R.string.next);
         binding.actionButton.setOnClickListener(v -> {
             if (category == null) {

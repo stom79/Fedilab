@@ -39,6 +39,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityDirectMessageBinding;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -71,53 +72,71 @@ public class DirectMessageActivity extends BaseActivity implements FragmentMasto
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
         binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-
+        MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        Bundle b = getIntent().getExtras();
+        Bundle args = getIntent().getExtras();
         displayCW = sharedpreferences.getBoolean(getString(R.string.SET_EXPAND_CW), false);
-        Status focusedStatus = null; // or other values
-        if (b != null) {
-            focusedStatus = (Status) b.getSerializable(Helper.ARG_STATUS);
-            remote_instance = b.getString(Helper.ARG_REMOTE_INSTANCE, null);
+
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(DirectMessageActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
         }
+
+
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+        Status focusedStatus = null; // or other values
+        if (bundle != null) {
+            focusedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+            remote_instance = bundle.getString(Helper.ARG_REMOTE_INSTANCE, null);
+        }
+
         if (focusedStatus == null || currentAccount == null || currentAccount.mastodon_account == null) {
             finish();
             return;
         }
-        MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Helper.ARG_STATUS, focusedStatus);
-        bundle.putString(Helper.ARG_REMOTE_INSTANCE, remote_instance);
-        FragmentMastodonDirectMessage FragmentMastodonDirectMessage = new FragmentMastodonDirectMessage();
-        FragmentMastodonDirectMessage.firstMessage = this;
-        currentFragment = (FragmentMastodonDirectMessage) Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, FragmentMastodonDirectMessage, bundle, null, null);
-        StatusesVM timelinesVM = new ViewModelProvider(DirectMessageActivity.this).get(StatusesVM.class);
-        timelinesVM.getStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, focusedStatus.id).observe(DirectMessageActivity.this, status -> {
-            if (status != null) {
-                StatusCache statusCache = new StatusCache();
-                statusCache.instance = BaseMainActivity.currentInstance;
-                statusCache.user_id = BaseMainActivity.currentUserID;
-                statusCache.status = status;
-                statusCache.status_id = status.id;
-                //Update cache
-                new Thread(() -> {
-                    try {
-                        new StatusCache(getApplication()).updateIfExists(statusCache);
-                        Handler mainHandler = new Handler(Looper.getMainLooper());
-                        //Update UI
-                        Runnable myRunnable = () -> StatusAdapter.sendAction(DirectMessageActivity.this, Helper.ARG_STATUS_ACTION, status, null);
-                        mainHandler.post(myRunnable);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-            }
-        });
-    }
 
+        Bundle args = new Bundle();
+        args.putSerializable(Helper.ARG_STATUS, focusedStatus);
+        args.putString(Helper.ARG_REMOTE_INSTANCE, remote_instance);
+        Status finalFocusedStatus = focusedStatus;
+        new CachedBundle(DirectMessageActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            Bundle args2 = new Bundle();
+            args2.putLong(Helper.ARG_INTENT_ID, bundleId);
+            FragmentMastodonDirectMessage FragmentMastodonDirectMessage = new FragmentMastodonDirectMessage();
+            FragmentMastodonDirectMessage.firstMessage = this;
+            currentFragment = (FragmentMastodonDirectMessage) Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, FragmentMastodonDirectMessage, args2, null, null);
+            StatusesVM timelinesVM = new ViewModelProvider(DirectMessageActivity.this).get(StatusesVM.class);
+            timelinesVM.getStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, finalFocusedStatus.id).observe(DirectMessageActivity.this, status -> {
+                if (status != null) {
+                    StatusCache statusCache = new StatusCache();
+                    statusCache.instance = BaseMainActivity.currentInstance;
+                    statusCache.user_id = BaseMainActivity.currentUserID;
+                    statusCache.status = status;
+                    statusCache.status_id = status.id;
+                    //Update cache
+                    new Thread(() -> {
+                        try {
+                            new StatusCache(getApplication()).updateIfExists(statusCache);
+                            Handler mainHandler = new Handler(Looper.getMainLooper());
+                            //Update UI
+                            Runnable myRunnable = () -> StatusAdapter.sendAction(DirectMessageActivity.this, Helper.ARG_STATUS_ACTION, status, null);
+                            mainHandler.post(myRunnable);
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            });
+        });
+
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

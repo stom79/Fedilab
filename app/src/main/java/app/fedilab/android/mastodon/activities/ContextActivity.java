@@ -30,9 +30,12 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
+
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -44,6 +47,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityConversationBinding;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -64,12 +68,13 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
     private Status focusedStatus;
     private String focusedStatusURI;
     private boolean checkRemotely;
+    private ActivityConversationBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityConversationBinding binding = ActivityConversationBinding.inflate(getLayoutInflater());
+        binding = ActivityConversationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -86,14 +91,25 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        Bundle b = getIntent().getExtras();
+        manageTopBarScrolling(binding.toolbar, sharedpreferences);
         displayCW = sharedpreferences.getBoolean(getString(R.string.SET_EXPAND_CW), false);
         focusedStatus = null; // or other values
-        if (b != null) {
-            focusedStatus = (Status) b.getSerializable(Helper.ARG_STATUS);
-            remote_instance = b.getString(Helper.ARG_REMOTE_INSTANCE, null);
-            focusedStatusURI = b.getString(Helper.ARG_FOCUSED_STATUS_URI, null);
 
+
+        Bundle args = getIntent().getExtras();
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(ContextActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+        if (bundle != null) {
+            focusedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+            remote_instance = bundle.getString(Helper.ARG_REMOTE_INSTANCE, null);
+            focusedStatusURI = bundle.getString(Helper.ARG_FOCUSED_STATUS_URI, null);
         }
         if (focusedStatus == null || currentAccount == null || currentAccount.mastodon_account == null) {
             finish();
@@ -102,7 +118,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         if (focusedStatusURI == null && remote_instance == null) {
             focusedStatusURI = focusedStatus.uri;
         }
-        MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         checkRemotely = sharedpreferences.getBoolean(getString(R.string.SET_CONVERSATION_REMOTELY), false);
         if (!checkRemotely) {
@@ -111,7 +127,11 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
             loadRemotelyConversation(true);
             invalidateOptionsMenu();
         }
+        if(currentAccount != null) {
+            MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
+        }
     }
+
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -119,38 +139,58 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         outState.clear();
     }
 
-    private void loadLocalConversation() {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Helper.ARG_STATUS, focusedStatus);
-        bundle.putString(Helper.ARG_REMOTE_INSTANCE, remote_instance);
-        FragmentMastodonContext fragmentMastodonContext = new FragmentMastodonContext();
-        fragmentMastodonContext.firstMessage = this;
-        currentFragment = Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, fragmentMastodonContext, bundle, null, null);
-        //Update the status
-        if (remote_instance == null) {
-            StatusesVM timelinesVM = new ViewModelProvider(ContextActivity.this).get(StatusesVM.class);
-            timelinesVM.getStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, focusedStatus.id).observe(ContextActivity.this, status -> {
-                if (status != null) {
-                    StatusCache statusCache = new StatusCache();
-                    statusCache.instance = BaseMainActivity.currentInstance;
-                    statusCache.user_id = BaseMainActivity.currentUserID;
-                    statusCache.status = status;
-                    statusCache.status_id = status.id;
-                    //Update cache
-                    new Thread(() -> {
-                        try {
-                            new StatusCache(getApplication()).updateIfExists(statusCache);
-                            Handler mainHandler = new Handler(Looper.getMainLooper());
-                            //Update UI
-                            Runnable myRunnable = () -> StatusAdapter.sendAction(ContextActivity.this, Helper.ARG_STATUS_ACTION, status, null);
-                            mainHandler.post(myRunnable);
-                        } catch (DBException e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-                }
-            });
+    private void manageTopBarScrolling(Toolbar toolbar, SharedPreferences sharedpreferences) {
+        final boolean topBarScrolling = !sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_TOPBAR_SCROLLING), false);
+
+        final AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+
+        int scrollFlags = toolbarLayoutParams.getScrollFlags();
+
+        if (topBarScrolling) {
+            scrollFlags |= AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL;
+
+        } else {
+            scrollFlags &= ~AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL;
         }
+        toolbarLayoutParams.setScrollFlags(scrollFlags);
+    }
+
+    private void loadLocalConversation() {
+        Bundle args = new Bundle();
+        args.putSerializable(Helper.ARG_STATUS, focusedStatus);
+        args.putString(Helper.ARG_REMOTE_INSTANCE, remote_instance);
+        new CachedBundle(ContextActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            FragmentMastodonContext fragmentMastodonContext = new FragmentMastodonContext();
+            fragmentMastodonContext.firstMessage = this;
+            currentFragment = Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, fragmentMastodonContext, bundle, null, null);
+            //Update the status
+            if (remote_instance == null) {
+                StatusesVM timelinesVM = new ViewModelProvider(ContextActivity.this).get(StatusesVM.class);
+                timelinesVM.getStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, focusedStatus.id).observe(ContextActivity.this, status -> {
+                    if (status != null) {
+                        StatusCache statusCache = new StatusCache();
+                        statusCache.instance = BaseMainActivity.currentInstance;
+                        statusCache.user_id = BaseMainActivity.currentUserID;
+                        statusCache.status = status;
+                        statusCache.status_id = status.id;
+                        //Update cache
+                        new Thread(() -> {
+                            try {
+                                new StatusCache(getApplication()).updateIfExists(statusCache);
+                                Handler mainHandler = new Handler(Looper.getMainLooper());
+                                //Update UI
+                                Runnable myRunnable = () -> StatusAdapter.sendAction(ContextActivity.this, Helper.ARG_STATUS_ACTION, status, null);
+                                mainHandler.post(myRunnable);
+                            } catch (DBException e) {
+                                e.printStackTrace();
+                            }
+                        }).start();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -245,13 +285,17 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                             String finalInstance = instance;
                             statusesVM.getStatus(instance, null, remoteId).observe(ContextActivity.this, status -> {
                                 if (status != null) {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable(Helper.ARG_STATUS, status);
-                                    bundle.putString(Helper.ARG_REMOTE_INSTANCE, finalInstance);
-                                    bundle.putString(Helper.ARG_FOCUSED_STATUS_URI, focusedStatusURI);
-                                    FragmentMastodonContext fragmentMastodonContext = new FragmentMastodonContext();
-                                    fragmentMastodonContext.firstMessage = ContextActivity.this;
-                                    currentFragment = Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, fragmentMastodonContext, bundle, null, null);
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(Helper.ARG_STATUS, status);
+                                    args.putString(Helper.ARG_REMOTE_INSTANCE, finalInstance);
+                                    args.putString(Helper.ARG_FOCUSED_STATUS_URI, focusedStatusURI);
+                                    new CachedBundle(ContextActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                        FragmentMastodonContext fragmentMastodonContext = new FragmentMastodonContext();
+                                        fragmentMastodonContext.firstMessage = ContextActivity.this;
+                                        currentFragment = Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_content_main, fragmentMastodonContext, bundle, null, null);
+                                    });
                                 } else {
                                     loadLocalConversation();
                                 }
@@ -293,11 +337,17 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                     statusesVM.getStatus(instance, null, remoteId).observe(ContextActivity.this, status -> {
                         if (status != null) {
                             Intent intentContext = new Intent(ContextActivity.this, ContextActivity.class);
-                            intentContext.putExtra(Helper.ARG_STATUS, status);
-                            intentContext.putExtra(Helper.ARG_FOCUSED_STATUS_URI, focusedStatusURI);
-                            intentContext.putExtra(Helper.ARG_REMOTE_INSTANCE, finalInstance);
-                            intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intentContext);
+                            Bundle args = new Bundle();
+                            args.putSerializable(Helper.ARG_STATUS, status);
+                            args.putString(Helper.ARG_FOCUSED_STATUS_URI, focusedStatusURI);
+                            args.putString(Helper.ARG_REMOTE_INSTANCE, finalInstance);
+                            new CachedBundle(ContextActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intentContext.putExtras(bundle);
+                                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intentContext);
+                            });
                         } else {
                             Toasty.warning(ContextActivity.this, getString(R.string.toast_error_fetch_message), Toasty.LENGTH_SHORT).show();
                         }

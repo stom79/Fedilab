@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.networkAvailable;
 
@@ -35,7 +36,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,10 +57,12 @@ import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.Statuses;
 import app.fedilab.android.mastodon.client.entities.app.BubbleTimeline;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.RemoteInstance;
 import app.fedilab.android.mastodon.client.entities.app.TagTimeline;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.GlideApp;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -92,88 +94,91 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
-                String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
-                String delete_all_for_account_id = b.getString(Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID);
-                Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
-                Status status_to_update = (Status) b.getSerializable(Helper.ARG_STATUS_UPDATED);
-                Status statusPosted = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
-                boolean refreshAll = b.getBoolean(Helper.ARG_TIMELINE_REFRESH_ALL, false);
-                if (receivedStatus != null && statusAdapter != null) {
-                    int position = getPosition(receivedStatus);
-                    if (position >= 0) {
-                        if (receivedStatus.reblog != null) {
-                            timelineStatuses.get(position).reblog = receivedStatus.reblog;
-                        }
-                        if (timelineStatuses.get(position).reblog != null) {
-                            timelineStatuses.get(position).reblog.reblogged = receivedStatus.reblogged;
-                            timelineStatuses.get(position).reblog.favourited = receivedStatus.favourited;
-                            timelineStatuses.get(position).reblog.bookmarked = receivedStatus.bookmarked;
-                            timelineStatuses.get(position).reblog.reblogs_count = receivedStatus.reblogs_count;
-                            timelineStatuses.get(position).reblog.favourites_count = receivedStatus.favourites_count;
-                        } else {
-                            timelineStatuses.get(position).reblogged = receivedStatus.reblogged;
-                            timelineStatuses.get(position).favourited = receivedStatus.favourited;
-                            timelineStatuses.get(position).bookmarked = receivedStatus.bookmarked;
-                            timelineStatuses.get(position).reblogs_count = receivedStatus.reblogs_count;
-                            timelineStatuses.get(position).favourites_count = receivedStatus.favourites_count;
-                        }
-
-
-                        statusAdapter.notifyItemChanged(position);
-                    }
-                } else if (delete_statuses_for_user != null && statusAdapter != null) {
-                    List<Status> statusesToRemove = new ArrayList<>();
-                    for (Status status : timelineStatuses) {
-                        if (status != null && status.account != null && status.account.id != null && status.account.id.equals(delete_statuses_for_user)) {
-                            statusesToRemove.add(status);
-                        }
-                    }
-                    for (Status statusToRemove : statusesToRemove) {
-                        int position = getPosition(statusToRemove);
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
+                    Status receivedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS_ACTION);
+                    String delete_statuses_for_user = bundle.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
+                    String delete_all_for_account_id = bundle.getString(Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID);
+                    Status status_to_delete = (Status) bundle.getSerializable(Helper.ARG_STATUS_DELETED);
+                    Status status_to_update = (Status) bundle.getSerializable(Helper.ARG_STATUS_UPDATED);
+                    Status statusPosted = (Status) bundle.getSerializable(Helper.ARG_STATUS_DELETED);
+                    boolean refreshAll = bundle.getBoolean(Helper.ARG_TIMELINE_REFRESH_ALL, false);
+                    if (receivedStatus != null && statusAdapter != null) {
+                        int position = getPosition(receivedStatus);
                         if (position >= 0) {
-                            timelineStatuses.remove(position);
-                            statusAdapter.notifyItemRemoved(position);
+                            if (receivedStatus.reblog != null) {
+                                timelineStatuses.get(position).reblog = receivedStatus.reblog;
+                            }
+                            if (timelineStatuses.get(position).reblog != null) {
+                                timelineStatuses.get(position).reblog.reblogged = receivedStatus.reblogged;
+                                timelineStatuses.get(position).reblog.favourited = receivedStatus.favourited;
+                                timelineStatuses.get(position).reblog.bookmarked = receivedStatus.bookmarked;
+                                timelineStatuses.get(position).reblog.reblogs_count = receivedStatus.reblogs_count;
+                                timelineStatuses.get(position).reblog.favourites_count = receivedStatus.favourites_count;
+                            } else {
+                                timelineStatuses.get(position).reblogged = receivedStatus.reblogged;
+                                timelineStatuses.get(position).favourited = receivedStatus.favourited;
+                                timelineStatuses.get(position).bookmarked = receivedStatus.bookmarked;
+                                timelineStatuses.get(position).reblogs_count = receivedStatus.reblogs_count;
+                                timelineStatuses.get(position).favourites_count = receivedStatus.favourites_count;
+                            }
+
+
+                            statusAdapter.notifyItemChanged(position);
                         }
-                    }
-                } else if (status_to_delete != null && statusAdapter != null) {
-                    int position = getPosition(status_to_delete);
-                    if (position >= 0) {
-                        timelineStatuses.remove(position);
-                        statusAdapter.notifyItemRemoved(position);
-                    }
-                } else if (status_to_update != null && statusAdapter != null) {
-                    int position = getPosition(status_to_update);
-                    if (position >= 0) {
-                        timelineStatuses.set(position, status_to_update);
-                        statusAdapter.notifyItemChanged(position);
-                    }
-                } else if (statusPosted != null && statusAdapter != null && timelineType == Timeline.TimeLineEnum.HOME) {
-                    timelineStatuses.add(0, statusPosted);
-                    statusAdapter.notifyItemInserted(0);
-                } else if (delete_all_for_account_id != null) {
-                    List<Status> toRemove = new ArrayList<>();
-                    if (timelineStatuses != null) {
-                        for (int position = 0; position < timelineStatuses.size(); position++) {
-                            if (timelineStatuses.get(position).account.id.equals(delete_all_for_account_id)) {
-                                toRemove.add(timelineStatuses.get(position));
+                    } else if (delete_statuses_for_user != null && statusAdapter != null) {
+                        List<Status> statusesToRemove = new ArrayList<>();
+                        for (Status status : timelineStatuses) {
+                            if (status != null && status.account != null && status.account.id != null && status.account.id.equals(delete_statuses_for_user)) {
+                                statusesToRemove.add(status);
                             }
                         }
-                    }
-                    if (toRemove.size() > 0) {
-                        for (int i = 0; i < toRemove.size(); i++) {
-                            int position = getPosition(toRemove.get(i));
+                        for (Status statusToRemove : statusesToRemove) {
+                            int position = getPosition(statusToRemove);
                             if (position >= 0) {
                                 timelineStatuses.remove(position);
                                 statusAdapter.notifyItemRemoved(position);
                             }
                         }
+                    } else if (status_to_delete != null && statusAdapter != null) {
+                        int position = getPosition(status_to_delete);
+                        if (position >= 0) {
+                            timelineStatuses.remove(position);
+                            statusAdapter.notifyItemRemoved(position);
+                        }
+                    } else if (status_to_update != null && statusAdapter != null) {
+                        int position = getPosition(status_to_update);
+                        if (position >= 0) {
+                            timelineStatuses.set(position, status_to_update);
+                            statusAdapter.notifyItemChanged(position);
+                        }
+                    } else if (statusPosted != null && statusAdapter != null && timelineType == Timeline.TimeLineEnum.HOME) {
+                        timelineStatuses.add(0, statusPosted);
+                        statusAdapter.notifyItemInserted(0);
+                    } else if (delete_all_for_account_id != null) {
+                        List<Status> toRemove = new ArrayList<>();
+                        if (timelineStatuses != null) {
+                            for (int position = 0; position < timelineStatuses.size(); position++) {
+                                if (timelineStatuses.get(position).account.id.equals(delete_all_for_account_id)) {
+                                    toRemove.add(timelineStatuses.get(position));
+                                }
+                            }
+                        }
+                        if (toRemove.size() > 0) {
+                            for (int i = 0; i < toRemove.size(); i++) {
+                                int position = getPosition(toRemove.get(i));
+                                if (position >= 0) {
+                                    timelineStatuses.remove(position);
+                                    statusAdapter.notifyItemRemoved(position);
+                                }
+                            }
+                        }
+                    } else if (refreshAll) {
+                        refreshAllAdapters();
                     }
-                } else if (refreshAll) {
-                    refreshAllAdapters();
-                }
+                });
             }
         }
     };
@@ -346,29 +351,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
-        accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
-        initialStatuses = null;
-        lockForResumeCall = 0;
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        max_id = statusReport != null ? statusReport.id : null;
-        offset = 0;
-
-        rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
-        //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
-        if (max_id == null && !isViewInitialized && rememberPosition) {
-            max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
-        }
         if (search != null) {
             binding.swipeContainer.setRefreshing(false);
             binding.swipeContainer.setEnabled(false);
         }
-        //Only fragment in main view pager should not have the view initialized
-        //AND Only the first fragment will initialize its view
-        flagLoading = false;
-
     }
 
     @Override
@@ -378,16 +366,36 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         timelineType = Timeline.TimeLineEnum.HOME;
-        canBeFederated = true;
-        retry_for_home_done = false;
+        binding = FragmentPaginationBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
-            timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
-            lemmy_post_id = getArguments().getString(Helper.ARG_LEMMY_POST_ID, null);
-            list_id = getArguments().getString(Helper.ARG_LIST_ID, null);
-            search = getArguments().getString(Helper.ARG_SEARCH_KEYWORD, null);
-            searchCache = getArguments().getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
-            pinnedTimeline = (PinnedTimeline) getArguments().getSerializable(Helper.ARG_REMOTE_INSTANCE);
+            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+            if (bundleId != -1) {
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            } else {
+                if (getArguments().containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
+                    try {
+                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+                initializeAfterBundle(getArguments());
+            }
+        }
+        return binding.getRoot();
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+        if (bundle != null) {
+            timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
+            lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);
+            list_id = bundle.getString(Helper.ARG_LIST_ID, null);
+            search = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
+            searchCache = bundle.getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
+            pinnedTimeline = (PinnedTimeline) bundle.getSerializable(Helper.ARG_REMOTE_INSTANCE);
+
             if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
                 if (pinnedTimeline.remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
                     remoteInstance = pinnedTimeline.remoteInstance.host;
@@ -400,24 +408,24 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (timelineType == Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC) {
                 canBeFederated = false;
             }
-            publicTrendsDomain = getArguments().getString(Helper.ARG_REMOTE_INSTANCE_STRING, null);
-            isViewInitialized = getArguments().getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
+            publicTrendsDomain = bundle.getString(Helper.ARG_REMOTE_INSTANCE_STRING, null);
+            isViewInitialized = bundle.getBoolean(Helper.ARG_INITIALIZE_VIEW, true);
             isNotPinnedTimeline = isViewInitialized;
-            tagTimeline = (TagTimeline) getArguments().getSerializable(Helper.ARG_TAG_TIMELINE);
-            bubbleTimeline = (BubbleTimeline) getArguments().getSerializable(Helper.ARG_BUBBLE_TIMELINE);
-            accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
-            exclude_replies = !getArguments().getBoolean(Helper.ARG_SHOW_REPLIES, true);
-            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
-            show_pinned = getArguments().getBoolean(Helper.ARG_SHOW_PINNED, false);
-            exclude_reblogs = !getArguments().getBoolean(Helper.ARG_SHOW_REBLOGS, true);
-            media_only = getArguments().getBoolean(Helper.ARG_SHOW_MEDIA_ONY, false);
-            viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
-            minified = getArguments().getBoolean(Helper.ARG_MINIFIED, false);
-            statusReport = (Status) getArguments().getSerializable(Helper.ARG_STATUS_REPORT);
-            initialStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
+            tagTimeline = (TagTimeline) bundle.getSerializable(Helper.ARG_TAG_TIMELINE);
+            bubbleTimeline = (BubbleTimeline) bundle.getSerializable(Helper.ARG_BUBBLE_TIMELINE);
+            if (bundle.containsKey(Helper.ARG_ACCOUNT)) {
+                accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            }
+            exclude_replies = !bundle.getBoolean(Helper.ARG_SHOW_REPLIES, true);
+            checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+            show_pinned = bundle.getBoolean(Helper.ARG_SHOW_PINNED, false);
+            exclude_reblogs = !bundle.getBoolean(Helper.ARG_SHOW_REBLOGS, true);
+            media_only = bundle.getBoolean(Helper.ARG_SHOW_MEDIA_ONY, false);
+            viewModelKey = bundle.getString(Helper.ARG_VIEW_MODEL_KEY, "");
+            minified = bundle.getBoolean(Helper.ARG_MINIFIED, false);
+            statusReport = (Status) bundle.getSerializable(Helper.ARG_STATUS_REPORT);
+            initialStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);
         }
-
-
         //When visiting a profile without being authenticated
         if (checkRemotely) {
             String[] acctArray = accountTimeline.acct.split("@");
@@ -454,13 +462,28 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             slug = timelineType != Timeline.TimeLineEnum.ART ? timelineType.getValue() + (ident != null ? "|" + ident : "") : Timeline.TimeLineEnum.TAG.getValue() + (ident != null ? "|" + ident : "");
         }
 
+        timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
+        accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
+        initialStatuses = null;
+        lockForResumeCall = 0;
 
-        ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
-        binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        canBeFederated = true;
+        retry_for_home_done = false;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
         binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
-        return binding.getRoot();
+        max_id = statusReport != null ? statusReport.id : null;
+        offset = 0;
+        rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
+        //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
+        if (max_id == null && !isViewInitialized && rememberPosition) {
+            max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
+        }
+        //Only fragment in main view pager should not have the view initialized
+        //AND Only the first fragment will initialize its view
+        flagLoading = false;
+
+        ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     /**

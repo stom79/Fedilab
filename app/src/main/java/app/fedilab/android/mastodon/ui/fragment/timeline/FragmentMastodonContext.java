@@ -14,6 +14,7 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.activities.ContextActivity.displayCW;
 import static app.fedilab.android.mastodon.activities.ContextActivity.expand;
 
@@ -21,7 +22,6 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +31,6 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -44,6 +43,7 @@ import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.mastodon.activities.ContextActivity;
 import app.fedilab.android.mastodon.client.entities.api.Context;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.DividerDecoration;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -59,75 +59,79 @@ public class FragmentMastodonContext extends Fragment {
     private StatusesVM statusesVM;
     private List<Status> statuses;
     private StatusAdapter statusAdapter;
-    private boolean refresh;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                Status receivedStatus = (Status) b.getSerializable(Helper.ARG_STATUS_ACTION);
-                String delete_statuses_for_user = b.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
-                Status status_to_delete = (Status) b.getSerializable(Helper.ARG_STATUS_DELETED);
-                Status statusPosted = (Status) b.getSerializable(Helper.ARG_STATUS_POSTED);
-                Status status_to_update = (Status) b.getSerializable(Helper.ARG_STATUS_UPDATED);
-                if (receivedStatus != null && statusAdapter != null) {
-                    int position = getPosition(receivedStatus);
-                    if (position >= 0) {
-                        statuses.get(position).reblog = receivedStatus.reblog;
-                        statuses.get(position).reblogged = receivedStatus.reblogged;
-                        statuses.get(position).favourited = receivedStatus.favourited;
-                        statuses.get(position).bookmarked = receivedStatus.bookmarked;
-                        statuses.get(position).reblogs_count = receivedStatus.reblogs_count;
-                        statuses.get(position).favourites_count = receivedStatus.favourites_count;
-                        statusAdapter.notifyItemChanged(position);
-                    }
-                } else if (delete_statuses_for_user != null && statusAdapter != null) {
-                    List<Status> statusesToRemove = new ArrayList<>();
-                    for (Status status : statuses) {
-                        if (status.account.id.equals(delete_statuses_for_user)) {
-                            statusesToRemove.add(status);
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
+                    Status receivedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS_ACTION);
+                    String delete_statuses_for_user = bundle.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
+                    Status status_to_delete = (Status) bundle.getSerializable(Helper.ARG_STATUS_DELETED);
+                    Status statusPosted = (Status) bundle.getSerializable(Helper.ARG_STATUS_POSTED);
+                    Status status_to_update = (Status) bundle.getSerializable(Helper.ARG_STATUS_UPDATED);
+                    if (receivedStatus != null && statusAdapter != null) {
+                        int position = getPosition(receivedStatus);
+                        if (position >= 0) {
+                            statuses.get(position).reblog = receivedStatus.reblog;
+                            statuses.get(position).reblogged = receivedStatus.reblogged;
+                            statuses.get(position).favourited = receivedStatus.favourited;
+                            statuses.get(position).bookmarked = receivedStatus.bookmarked;
+                            statuses.get(position).reblogs_count = receivedStatus.reblogs_count;
+                            statuses.get(position).favourites_count = receivedStatus.favourites_count;
+                            statusAdapter.notifyItemChanged(position);
                         }
-                    }
-                    for (Status statusToRemove : statusesToRemove) {
-                        int position = getPosition(statusToRemove);
+                    } else if (delete_statuses_for_user != null && statusAdapter != null) {
+                        List<Status> statusesToRemove = new ArrayList<>();
+                        for (Status status : statuses) {
+                            if (status.account.id.equals(delete_statuses_for_user)) {
+                                statusesToRemove.add(status);
+                            }
+                        }
+                        for (Status statusToRemove : statusesToRemove) {
+                            int position = getPosition(statusToRemove);
+                            if (position >= 0) {
+                                statuses.remove(position);
+                                statusAdapter.notifyItemRemoved(position);
+                            }
+                        }
+                    } else if (status_to_delete != null && statusAdapter != null) {
+                        int position = getPosition(status_to_delete);
                         if (position >= 0) {
                             statuses.remove(position);
                             statusAdapter.notifyItemRemoved(position);
                         }
-                    }
-                } else if (status_to_delete != null && statusAdapter != null) {
-                    int position = getPosition(status_to_delete);
-                    if (position >= 0) {
-                        statuses.remove(position);
-                        statusAdapter.notifyItemRemoved(position);
-                    }
-                } else if (status_to_update != null && statusAdapter != null) {
-                    int position = getPosition(status_to_update);
-                    if (position >= 0) {
-                        statuses.set(position, status_to_update);
-                        statusAdapter.notifyItemChanged(position);
-                    }
-                } else if (statusPosted != null && statusAdapter != null) {
-                    if (requireActivity() instanceof ContextActivity) {
-                        int i = 0;
-                        for (Status status : statuses) {
-                            if (status.id.equals(statusPosted.in_reply_to_id)) {
-                                statuses.add((i + 1), statusPosted);
-                                statusAdapter.notifyItemInserted((i + 1));
-                                if (requireActivity() instanceof ContextActivity) {
-                                    //Redraw decorations
-                                    statusAdapter.notifyItemRangeChanged(0, statuses.size());
+                    } else if (status_to_update != null && statusAdapter != null) {
+                        int position = getPosition(status_to_update);
+                        if (position >= 0) {
+                            statuses.set(position, status_to_update);
+                            statusAdapter.notifyItemChanged(position);
+                        }
+                    } else if (statusPosted != null && statusAdapter != null) {
+                        if (requireActivity() instanceof ContextActivity) {
+                            int i = 0;
+                            for (Status status : statuses) {
+                                if (status.id.equals(statusPosted.in_reply_to_id)) {
+                                    statuses.add((i + 1), statusPosted);
+                                    statusAdapter.notifyItemInserted((i + 1));
+                                    if (requireActivity() instanceof ContextActivity) {
+                                        //Redraw decorations
+                                        statusAdapter.notifyItemRangeChanged(0, statuses.size());
+                                    }
+                                    break;
                                 }
-                                break;
+                                i++;
                             }
-                            i++;
                         }
                     }
-                }
+                });
+
             }
         }
     };
+    private boolean refresh;
     private Status focusedStatus;
     private String remote_instance, focusedStatusURI;
     private Status firstStatus;
@@ -160,10 +164,21 @@ public class FragmentMastodonContext extends Fragment {
         pullToRefresh = false;
         focusedStatusURI = null;
         refresh = true;
+        binding = FragmentPaginationBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
-            focusedStatus = (Status) getArguments().getSerializable(Helper.ARG_STATUS);
-            remote_instance = getArguments().getString(Helper.ARG_REMOTE_INSTANCE, null);
-            focusedStatusURI = getArguments().getString(Helper.ARG_FOCUSED_STATUS_URI, null);
+            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
+        }
+        return binding.getRoot();
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+        if (bundle != null) {
+            focusedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+            remote_instance = bundle.getString(Helper.ARG_REMOTE_INSTANCE, null);
+            focusedStatusURI = bundle.getString(Helper.ARG_FOCUSED_STATUS_URI, null);
         }
         if (remote_instance != null) {
             user_instance = remote_instance;
@@ -176,7 +191,7 @@ public class FragmentMastodonContext extends Fragment {
             getChildFragmentManager().beginTransaction().remove(this).commit();
         }
 
-        binding = FragmentPaginationBinding.inflate(inflater, container, false);
+
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
         binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
@@ -204,8 +219,8 @@ public class FragmentMastodonContext extends Fragment {
         }
 
         ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
-        return binding.getRoot();
     }
+
 
     public void refresh() {
         if (statuses != null) {

@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.mastodon.helper.MastodonHelper.ACCOUNTS_PER_CALL;
@@ -38,14 +39,15 @@ import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.mastodon.activities.SearchResultTabActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Accounts;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.RelationShip;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.ui.drawer.AccountAdapter;
@@ -77,19 +79,49 @@ public class FragmentMastodonAccount extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        if (getArguments() != null) {
-            search = getArguments().getString(Helper.ARG_SEARCH_KEYWORD, null);
-            accountTimeline = (Account) getArguments().getSerializable(Helper.ARG_ACCOUNT);
-            followType = (FedilabProfileTLPageAdapter.follow_type) getArguments().getSerializable(Helper.ARG_FOLLOW_TYPE);
-            viewModelKey = getArguments().getString(Helper.ARG_VIEW_MODEL_KEY, "");
-            timelineType = (Timeline.TimeLineEnum) getArguments().get(Helper.ARG_TIMELINE_TYPE);
-            order = getArguments().getString(Helper.ARG_DIRECTORY_ORDER, "active");
-            local = getArguments().getBoolean(Helper.ARG_DIRECTORY_LOCAL, false);
-            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
-        }
+
         instance = currentInstance;
         token = currentToken;
+        flagLoading = false;
+        binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
+        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
+        if (getArguments() != null) {
+            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+            if (bundleId != -1) {
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            } else {
+                if (getArguments().containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
+                    try {
+                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+                initializeAfterBundle(getArguments());
+            }
+        } else {
+            initializeAfterBundle(null);
+        }
 
+
+        return binding.getRoot();
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+        if (bundle != null) {
+            search = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
+            if (bundle.containsKey(Helper.ARG_ACCOUNT)) {
+                accountTimeline = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            }
+            followType = (FedilabProfileTLPageAdapter.follow_type) bundle.getSerializable(Helper.ARG_FOLLOW_TYPE);
+            viewModelKey = bundle.getString(Helper.ARG_VIEW_MODEL_KEY, "");
+            timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
+            order = bundle.getString(Helper.ARG_DIRECTORY_ORDER, "active");
+            local = bundle.getBoolean(Helper.ARG_DIRECTORY_LOCAL, false);
+            checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+        }
         if (checkRemotely) {
             String[] acctArray = accountTimeline.acct.split("@");
             if (acctArray.length > 1) {
@@ -102,20 +134,6 @@ public class FragmentMastodonAccount extends Fragment {
                 token = currentToken;
             }
         }
-
-        flagLoading = false;
-        binding = FragmentPaginationBinding.inflate(inflater, container, false);
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
-        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        binding.loader.setVisibility(View.VISIBLE);
-        binding.recyclerView.setVisibility(View.GONE);
         accountsVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, AccountsVM.class);
         max_id = null;
         offset = 0;
@@ -124,6 +142,14 @@ public class FragmentMastodonAccount extends Fragment {
             binding.swipeContainer.setEnabled(false);
         }
         router(true);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.recyclerView.setVisibility(View.GONE);
+
     }
 
     /**
@@ -206,7 +232,7 @@ public class FragmentMastodonAccount extends Fragment {
             }
         } else if (timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME) {
             if (firstLoad) {
-                accountsVM.getMutedHome(MainActivity.currentAccount)
+                accountsVM.getMutedHome(currentAccount)
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             }
         } else if (timelineType == Timeline.TimeLineEnum.BLOCKED_TIMELINE) {

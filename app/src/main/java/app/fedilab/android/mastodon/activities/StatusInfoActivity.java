@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 
@@ -38,6 +39,7 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Accounts;
 import app.fedilab.android.mastodon.client.entities.api.RelationShip;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.drawer.AccountAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
@@ -70,12 +72,23 @@ public class StatusInfoActivity extends BaseActivity {
         }
         accountList = new ArrayList<>();
         checkRemotely = false;
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            type = (typeOfInfo) b.getSerializable(Helper.ARG_TYPE_OF_INFO);
-            status = (Status) b.getSerializable(Helper.ARG_STATUS);
-            checkRemotely = b.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+        Bundle args = getIntent().getExtras();
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(StatusInfoActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
         }
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+
+        if (bundle != null) {
+            type = (typeOfInfo) bundle.getSerializable(Helper.ARG_TYPE_OF_INFO);
+            status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+            checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+        }
+
         if (type == null || status == null) {
             finish();
             return;
@@ -137,6 +150,7 @@ public class StatusInfoActivity extends BaseActivity {
             statusesVM.favouritedBy(instance, token, status.id, null, null, null).observe(StatusInfoActivity.this, this::manageView);
         }
     }
+
 
     private void manageView(Accounts accounts) {
         binding.loadingNextAccounts.setVisibility(View.GONE);

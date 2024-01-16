@@ -57,7 +57,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import androidx.preference.PreferenceManager;
 
 import com.avatarfirst.avatargenlib.AvatarGenerator;
@@ -276,7 +275,7 @@ public class Helper {
      * @return String rounded value to be displayed
      */
     public static String withSuffix(long count) {
-        if (count < 1000) return "" + count;
+        if (count < 1000) return String.valueOf(count);
         int exp = (int) (Math.log(count) / Math.log(1000));
         Locale locale = null;
         try {

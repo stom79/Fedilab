@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 import static android.util.Patterns.WEB_URL;
+import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.Manifest;
 import android.app.DownloadManager;
@@ -63,6 +64,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityMediaPagerBinding;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MediaHelper;
 import app.fedilab.android.mastodon.helper.TranslateHelper;
@@ -82,10 +84,10 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
     private final BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             if (downloadID == id) {
                 DownloadManager manager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
-                assert manager != null;
                 Uri uri = manager.getUriForDownloadedFile(downloadID);
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -124,13 +126,26 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
 
         fullscreen = false;
         flags = getWindow().getDecorView().getSystemUiVisibility();
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            mediaPosition = b.getInt(Helper.ARG_MEDIA_POSITION, 1);
-            attachments = (ArrayList<Attachment>) b.getSerializable(Helper.ARG_MEDIA_ARRAY);
-            mediaFromProfile = b.getBoolean(Helper.ARG_MEDIA_ARRAY_PROFILE, false);
-            status = (Status) b.getSerializable(Helper.ARG_STATUS);
+        Bundle args = getIntent().getExtras();
+        if (args != null) {
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(MediaActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+        } else {
+            initializeAfterBundle(null);
         }
+
+
+    }
+
+    private void initializeAfterBundle(Bundle bundle) {
+
+        if (bundle != null) {
+            mediaPosition = bundle.getInt(Helper.ARG_MEDIA_POSITION, 1);
+            attachments = (ArrayList<Attachment>) bundle.getSerializable(Helper.ARG_MEDIA_ARRAY);
+            mediaFromProfile = bundle.getBoolean(Helper.ARG_MEDIA_ARRAY_PROFILE, false);
+            status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+        }
+
         if (mediaFromProfile && FragmentMediaProfile.mediaAttachmentProfile != null) {
             attachments = new ArrayList<>();
             attachments.addAll(FragmentMediaProfile.mediaAttachmentProfile);
@@ -146,7 +161,6 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         }
 
         setTitle("");
-
         ScreenSlidePagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         binding.mediaViewpager.setAdapter(mPagerAdapter);
         binding.mediaViewpager.setSaveEnabled(false);
@@ -239,8 +253,9 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         setFullscreen(true);
     }
 
+
     private Spannable linkify(Context context, String content) {
-        if(content == null) {
+        if (content == null) {
             return new SpannableString("");
         }
         Matcher matcher = WEB_URL.matcher(content);
@@ -263,7 +278,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        if(!underlineLinks) {
+                        if (!underlineLinks) {
                             ds.setUnderlineText(status != null && status.underlined);
                         }
                     }
@@ -300,7 +315,8 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             finish();
             try {
                 ActivityCompat.finishAfterTransition(MediaActivity.this);
-            }catch (Exception ignored){}
+            } catch (Exception ignored) {
+            }
             return true;
         } else if (item.getItemId() == R.id.action_save) {
             int position = binding.mediaViewpager.getCurrentItem();
