@@ -68,7 +68,7 @@ public class CachedBundle {
     }
 
 
-    public long insertAccountBundle(Account account, BaseAccount currentUser) throws DBException {
+    public void insertAccountBundle(Account account, BaseAccount currentUser) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -83,9 +83,8 @@ public class CachedBundle {
             valuesAccount.put(Sqlite.COL_INSTANCE, currentUser.instance);
             valuesAccount.put(Sqlite.COL_TYPE, CacheType.ACCOUNT.getValue());
             removeIntent(currentUser, account.id);
-            return db.insertOrThrow(Sqlite.TABLE_INTENT, null, valuesAccount);
+            db.insertOrThrow(Sqlite.TABLE_INTENT, null, valuesAccount);
         }
-        return -1;
     }
 
     /**
@@ -272,21 +271,8 @@ public class CachedBundle {
 
     /**
      * Remove a bundle from db
-     *
-     * @param id - intent id
      */
-    private void removeIntent(String id) throws DBException {
-        if (db == null) {
-            throw new DBException("db is null. Wrong initialization.");
-        }
-        db.delete(Sqlite.TABLE_INTENT, Sqlite.COL_ID + " = '" + id + "'", null);
-    }
-
-    /**
-     * Remove a bundle from db
-     *
-     */
-    public long deleteOldIntent() throws DBException {
+    public void deleteOldIntent() throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
@@ -296,10 +282,9 @@ public class CachedBundle {
         Date date = cal.getTime();
         String dateStr = Helper.dateToString(date);
         try {
-            return db.delete(Sqlite.TABLE_INTENT, Sqlite.COL_CREATED_AT + " <  ?", new String[]{dateStr});
+            db.delete(Sqlite.TABLE_INTENT, Sqlite.COL_CREATED_AT + " <  ?", new String[]{dateStr});
         }catch (Exception e) {
             e.printStackTrace();
-            return -1;
         }
     }
 
