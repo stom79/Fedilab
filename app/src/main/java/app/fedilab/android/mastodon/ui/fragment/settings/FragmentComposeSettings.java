@@ -19,6 +19,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -30,6 +31,7 @@ import java.util.Set;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.entities.app.Languages;
+import app.fedilab.android.mastodon.helper.Helper;
 
 public class FragmentComposeSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -43,11 +45,20 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
     private void createPref() {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+
+        //Theme for dialogs
+        ListPreference SET_THREAD_MESSAGE = findPreference(getString(R.string.SET_THREAD_MESSAGE));
+        if (SET_THREAD_MESSAGE != null) {
+            SET_THREAD_MESSAGE.getContext().setTheme(Helper.dialogStyle());
+        }
+        //---------
+
         EditTextPreference SET_WATERMARK_TEXT = findPreference(getString(R.string.SET_WATERMARK_TEXT));
         if (SET_WATERMARK_TEXT != null) {
             String val = sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT), null));
             SET_WATERMARK_TEXT.setText(val);
         }
+
 
         MultiSelectListPreference SET_SELECTED_LANGUAGE = findPreference(getString(R.string.SET_SELECTED_LANGUAGE));
         if (SET_SELECTED_LANGUAGE != null) {

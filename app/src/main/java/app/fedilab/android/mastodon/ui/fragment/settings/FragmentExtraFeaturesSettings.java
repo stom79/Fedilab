@@ -25,6 +25,7 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.mastodon.helper.Helper;
 
 public class FragmentExtraFeaturesSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -41,6 +42,18 @@ public class FragmentExtraFeaturesSettings extends PreferenceFragmentCompat impl
         addPreferencesFromResource(R.xml.pref_extra_features);
         PreferenceScreen preferenceScreen = getPreferenceScreen();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+
+        //Theme for dialogs
+        ListPreference SET_POST_FORMAT = findPreference(getString(R.string.SET_POST_FORMAT));
+        if (SET_POST_FORMAT != null) {
+            SET_POST_FORMAT.getContext().setTheme(Helper.dialogStyle());
+        }
+        ListPreference SET_COMPOSE_LOCAL_ONLY = findPreference(getString(R.string.SET_DEFAULT_LOCALE_NEW));
+        if (SET_COMPOSE_LOCAL_ONLY != null) {
+            SET_COMPOSE_LOCAL_ONLY.getContext().setTheme(Helper.dialogStyle());
+        }
+        //---------
+
         SwitchPreferenceCompat SET_EXTAND_EXTRA_FEATURES = findPreference(getString(R.string.SET_EXTAND_EXTRA_FEATURES));
         if (SET_EXTAND_EXTRA_FEATURES != null) {
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
@@ -69,13 +82,11 @@ public class FragmentExtraFeaturesSettings extends PreferenceFragmentCompat impl
             SET_DISPLAY_REACTIONS.setChecked(checked);
         }
 
-        ListPreference SET_POST_FORMAT = findPreference(getString(R.string.SET_POST_FORMAT));
         if (SET_POST_FORMAT != null) {
             String format = sharedpreferences.getString(getString(R.string.SET_POST_FORMAT) + MainActivity.currentUserID + MainActivity.currentInstance, "text/plain");
             SET_POST_FORMAT.setValue(format);
         }
 
-        ListPreference SET_COMPOSE_LOCAL_ONLY = findPreference(getString(R.string.SET_COMPOSE_LOCAL_ONLY));
         if (SET_COMPOSE_LOCAL_ONLY != null) {
             int localOnly = sharedpreferences.getInt(getString(R.string.SET_COMPOSE_LOCAL_ONLY) + MainActivity.currentUserID + MainActivity.currentInstance, 0);
             SET_COMPOSE_LOCAL_ONLY.setValue(String.valueOf(localOnly));

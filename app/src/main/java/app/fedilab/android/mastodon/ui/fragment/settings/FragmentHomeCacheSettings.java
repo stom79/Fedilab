@@ -63,13 +63,21 @@ public class FragmentHomeCacheSettings extends PreferenceFragmentCompat implemen
             return;
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+
+        //Theme for dialogs
+        ListPreference SET_FETCH_HOME_DELAY_VALUE = findPreference(getString(R.string.SET_FETCH_HOME_DELAY_VALUE));
+        if (SET_FETCH_HOME_DELAY_VALUE != null) {
+            SET_FETCH_HOME_DELAY_VALUE.getContext().setTheme(Helper.dialogStyle());
+        }
+        //---------
+
+
         SwitchPreference SET_FETCH_HOME = findPreference(getString(R.string.SET_FETCH_HOME));
         if (SET_FETCH_HOME != null) {
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_FETCH_HOME) + MainActivity.currentUserID + MainActivity.currentInstance, false);
             SET_FETCH_HOME.setChecked(checked);
         }
 
-        ListPreference SET_FETCH_HOME_DELAY_VALUE = findPreference(getString(R.string.SET_FETCH_HOME_DELAY_VALUE));
         if (SET_FETCH_HOME_DELAY_VALUE != null) {
             String timeRefresh = sharedpreferences.getString(getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + MainActivity.currentUserID + MainActivity.currentInstance, "60");
             SET_FETCH_HOME_DELAY_VALUE.setValue(timeRefresh);

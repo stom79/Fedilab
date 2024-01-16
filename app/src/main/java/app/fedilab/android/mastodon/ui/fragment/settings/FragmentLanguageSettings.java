@@ -18,6 +18,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -37,6 +38,14 @@ public class FragmentLanguageSettings extends PreferenceFragmentCompat implement
     private void createPref() {
         Preference SET_TRANSLATE_VALUES_RESET = findPreference(getString(R.string.SET_TRANSLATE_VALUES_RESET));
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+
+        //Theme for dialogs
+        ListPreference SET_DEFAULT_LOCALE_NEW = findPreference(getString(R.string.SET_DEFAULT_LOCALE_NEW));
+        if (SET_DEFAULT_LOCALE_NEW != null) {
+            SET_DEFAULT_LOCALE_NEW.getContext().setTheme(Helper.dialogStyle());
+        }
+        //---------
+
         if (SET_TRANSLATE_VALUES_RESET != null) {
             SET_TRANSLATE_VALUES_RESET.setOnPreferenceClickListener(preference -> {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
