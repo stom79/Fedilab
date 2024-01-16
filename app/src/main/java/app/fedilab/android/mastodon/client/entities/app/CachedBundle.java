@@ -106,7 +106,10 @@ public class CachedBundle {
         if (bundle.containsKey(Helper.ARG_ACCOUNT) && currentUser != null) {
             ContentValues valuesAccount = new ContentValues();
             Bundle bundleAccount = new Bundle();
-            Account account = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            Account account = null;
+            try {
+                account = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
+            }catch (ClassCastException ignored){}
             if (account != null) {
                 bundleAccount.putSerializable(Helper.ARG_ACCOUNT, account);
                 valuesAccount.put(Sqlite.COL_BUNDLE, serializeBundle(bundleAccount));
@@ -122,7 +125,10 @@ public class CachedBundle {
         if (bundle.containsKey(Helper.ARG_STATUS) && currentUser != null) {
             ContentValues valuesAccount = new ContentValues();
             Bundle bundleStatus = new Bundle();
-            Status status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+            Status status = null;
+            try {
+                status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+            }catch (ClassCastException ignored){}
             if (status != null) {
                 bundleStatus.putSerializable(Helper.ARG_STATUS, status);
                 valuesAccount.put(Sqlite.COL_BUNDLE, serializeBundle(bundleStatus));
