@@ -1,23 +1,8 @@
 [
   {
-    "version": "3.27-beta-4",
-    "code": "509",
-    "note": "Added:\n- Fixed top bar (default: disabled)\n- Usage frequency of tags when composing\n\nFixed:\n- Some crashes"
-  },
-  {
-    "version": "3.27-beta-3",
-    "code": "508",
-    "note": "- Fix remember position"
-  },
-  {
-    "version": "3.27-beta-2",
-    "code": "507",
-    "note": "- Compose issue\n- This release should fix crashes (TransactionTooLargeException). If you got crashes, rollback the version through FDdroid."
-  },
-  {
-    "version": "3.27-beta-1",
-    "code": "506",
-    "note": "This release should fix crashes (TransactionTooLargeException). If you got crashes, rollback the version through FDdroid."
+    "version": "3.27.0",
+    "code": "510",
+    "note": "Added:\n- Fixed top bar (default: disabled)\n- Usage frequency of tags when composing\n\nChanged:\n- Markdown support disabled by default\n\nFixed:\n- Fix crashes during interactions or when opening a new screen\n- Fix color of dialogs in Settings\n- Some minor crashes"
   },
   {
     "version": "3.26.0",

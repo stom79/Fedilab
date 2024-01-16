@@ -1,0 +1,11 @@
+Added:
+- Fixed top bar (default: disabled)
+- Usage frequency of tags when composing
+
+Changed:
+- Markdown support disabled by default
+
+Fixed:
+- Fix crashes during interactions or when opening a new screen
+- Fix color of dialogs in Settings
+- Some minor crashes
