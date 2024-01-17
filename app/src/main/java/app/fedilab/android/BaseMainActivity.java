@@ -675,32 +675,35 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
      */
     private static void openNotifications(Activity activity, Intent intent) {
         if (intent != null && intent.getExtras() != null) {
-            Bundle bundle = intent.getExtras();
-            app.fedilab.android.mastodon.client.entities.api.Account account = (app.fedilab.android.mastodon.client.entities.api.Account) bundle.getSerializable(Helper.INTENT_TARGETED_ACCOUNT);
-            Status status = (Status) bundle.getSerializable(Helper.INTENT_TARGETED_STATUS);
-            if (account != null) {
-                Intent intentAccount = new Intent(activity, ProfileActivity.class);
-                Bundle args = new Bundle();
-                args.putSerializable(Helper.ARG_ACCOUNT, account);
-                new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
-                    Bundle bundleCached = new Bundle();
-                    bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
-                    intentAccount.putExtras(bundleCached);
-                    intentAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    activity.startActivity(intentAccount);
-                });
-            } else if (status != null) {
-                Intent intentContext = new Intent(activity, ContextActivity.class);
-                Bundle args = new Bundle();
-                args.putSerializable(Helper.ARG_STATUS, status);
-                new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
-                    Bundle bundleCached = new Bundle();
-                    bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
-                    intentContext.putExtras(bundleCached);
-                    intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    activity.startActivity(intentContext);
-                });
-            }
+            Bundle args = intent.getExtras();
+            long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+            new CachedBundle(activity).getBundle(bundleId, currentAccount, bundle -> {
+                app.fedilab.android.mastodon.client.entities.api.Account account = (app.fedilab.android.mastodon.client.entities.api.Account) bundle.getSerializable(Helper.INTENT_TARGETED_ACCOUNT);
+                Status status = (Status) bundle.getSerializable(Helper.INTENT_TARGETED_STATUS);
+                if (account != null) {
+                    Intent intentAccount = new Intent(activity, ProfileActivity.class);
+                    Bundle args2 = new Bundle();
+                    args2.putSerializable(Helper.ARG_ACCOUNT, account);
+                    new CachedBundle(activity).insertBundle(args2, currentAccount, bundleId2 -> {
+                        Bundle bundleCached = new Bundle();
+                        bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId2);
+                        intentAccount.putExtras(bundleCached);
+                        intentAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivity(intentAccount);
+                    });
+                } else if (status != null) {
+                    Intent intentContext = new Intent(activity, ContextActivity.class);
+                    Bundle args2 = new Bundle();
+                    args2.putSerializable(Helper.ARG_STATUS, status);
+                    new CachedBundle(activity).insertBundle(args2, currentAccount, bundleId2 -> {
+                        Bundle bundleCached = new Bundle();
+                        bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId2);
+                        intentContext.putExtras(bundleCached);
+                        intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivity(intentContext);
+                    });
+                }
+            });
         }
         final Handler handler = new Handler();
         handler.postDelayed(() -> {

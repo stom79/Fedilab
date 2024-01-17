@@ -54,6 +54,7 @@ import app.fedilab.android.mastodon.client.entities.api.Notifications;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import okhttp3.OkHttpClient;
@@ -398,48 +399,48 @@ public class NotificationsHelper {
                 //Some others notification
                 final Intent intent = new Intent(context, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Bundle args = new Bundle();
                 intent.putExtra(Helper.INTENT_ACTION, Helper.NOTIFICATION_INTENT);
                 intent.putExtra(Helper.PREF_USER_ID, account.user_id);
                 if (targeted_account != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Helper.INTENT_TARGETED_ACCOUNT, targeted_account);
-                    intent.putExtras(bundle);
+                    args.putSerializable(Helper.INTENT_TARGETED_ACCOUNT, targeted_account);
                 } else if (targeted_status != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Helper.INTENT_TARGETED_STATUS, targeted_status);
-                    intent.putExtras(bundle);
+                    args.putSerializable(Helper.INTENT_TARGETED_STATUS, targeted_status);
                 }
-                intent.putExtra(Helper.PREF_USER_INSTANCE, account.instance);
-                notificationUrl = notification.account.avatar;
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                final String finalNotificationUrl = notificationUrl;
-                Helper.NotifType finalNotifType = notifType;
-                String finalMessage = message;
-                String finalTitle = title;
-                StatusAdapter.sendAction(context, Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION, null, null);
-                Runnable myRunnable = () -> Glide.with(context)
-                        .asBitmap()
-                        .load(finalNotificationUrl != null ? finalNotificationUrl : R.drawable.fedilab_logo_bubbles)
-                        .into(new CustomTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                                Helper.notify_user(context, account, intent, resource, finalNotifType, finalTitle, finalMessage);
-                            }
+                String finalMessage1 = message;
+                String finalTitle1 = title;
+                Helper.NotifType finalNotifType1 = notifType;
+                new CachedBundle(context).insertBundle(args, account, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    intent.putExtra(Helper.PREF_USER_INSTANCE, account.instance);
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    final String finalNotificationUrl = notification.account.avatar;
+                    StatusAdapter.sendAction(context, Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION, null, null);
+                    Runnable myRunnable = () -> Glide.with(context)
+                            .asBitmap()
+                            .load(finalNotificationUrl != null ? finalNotificationUrl : R.drawable.fedilab_logo_bubbles)
+                            .into(new CustomTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
+                                    Helper.notify_user(context, account, intent, resource, finalNotifType1, finalTitle1, finalMessage1);
+                                }
 
-                            @Override
-                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                                super.onLoadFailed(errorDrawable);
-                                Helper.notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
-                                        getMainLogo(context)), finalNotifType, finalTitle, finalMessage);
-                            }
+                                @Override
+                                public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                    super.onLoadFailed(errorDrawable);
+                                    Helper.notify_user(context, account, intent, BitmapFactory.decodeResource(context.getResources(),
+                                            getMainLogo(context)), finalNotifType1, finalTitle1, finalMessage1);
+                                }
 
-                            @Override
-                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                                @Override
+                                public void onLoadCleared(@Nullable Drawable placeholder) {
 
-                            }
-                        });
-                mainHandler.post(myRunnable);
-
+                                }
+                            });
+                    mainHandler.post(myRunnable);
+                });
             }
         }
 

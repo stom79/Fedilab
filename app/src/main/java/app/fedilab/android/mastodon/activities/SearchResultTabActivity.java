@@ -82,7 +82,6 @@ public class SearchResultTabActivity extends BaseBarActivity {
         Bundle b = getIntent().getExtras();
         if (b != null) {
             search = b.getString(Helper.ARG_SEARCH_KEYWORD, null);
-
         }
         if (search == null) {
             Toasty.error(SearchResultTabActivity.this, getString(R.string.toast_error_search), Toast.LENGTH_LONG).show();

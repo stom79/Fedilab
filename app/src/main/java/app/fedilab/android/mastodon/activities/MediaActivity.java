@@ -171,9 +171,15 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         if (attachments.get(mediaPosition - 1).status != null) {
             binding.originalMessage.setOnClickListener(v -> {
                 Intent intentContext = new Intent(MediaActivity.this, ContextActivity.class);
-                intentContext.putExtra(Helper.ARG_STATUS, attachments.get(mediaPosition - 1).status);
-                intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intentContext);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, attachments.get(mediaPosition - 1).status);
+                new CachedBundle(MediaActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                    Bundle bundleCached = new Bundle();
+                    bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intentContext.putExtras(bundleCached);
+                    intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intentContext);
+                });
             });
         }
 

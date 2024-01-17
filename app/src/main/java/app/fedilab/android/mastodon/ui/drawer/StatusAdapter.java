@@ -2225,8 +2225,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.BOOST, statusToDeal, null, null);
                 } else if (itemId == R.id.action_admin) {
                     Intent intent = new Intent(context, AdminAccountActivity.class);
-                    intent.putExtra(Helper.ARG_ACCOUNT_ID, statusToDeal.account.id);
-                    context.startActivity(intent);
+                    Bundle args = new Bundle();
+                    args.putString(Helper.ARG_ACCOUNT_ID, statusToDeal.account.id);
+                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    });
                 } else if (itemId == R.id.action_open_browser) {
                     Helper.openBrowser(context, statusToDeal.url);
                 } else if (itemId == R.id.action_remove) {
@@ -2487,8 +2493,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         });
         holder.binding.actionButtonQuote.setOnClickListener(v -> {
             Intent intent = new Intent(context, ComposeActivity.class);
-            intent.putExtra(Helper.ARG_QUOTED_MESSAGE, statusToDeal);
-            context.startActivity(intent);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_QUOTED_MESSAGE, statusToDeal);
+            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            });
         });
         holder.binding.actionButtonReply.setOnClickListener(v -> {
             if (remote) {
