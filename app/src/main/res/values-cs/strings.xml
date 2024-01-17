@@ -1079,4 +1079,11 @@
     <string name="thumbnail">Náhled</string>
     <string name="thread_long_message_message">Vaše zpráva bude rozdělena do několika odpovědí, aby se dodržel limit maximálních znaků daný vaší instancí.</string>
     <string name="thread_long_this_message">Rozdělit zprávu do odpovědí?</string>
+    <string name="copy_version">Zkopírovat informace</string>
+    <string name="set_disable_topbar_scrolling_title">Vypnout posouvání horní lišty</string>
+    <string name="set_display_relative_date">Zobrazovat pro zprávy relativní datum</string>
+    <string name="clipboard_version">Informace byly zkopírovány do schránky</string>
+    <string name="tag_already_followed">Tento tag už sledujete!</string>
+    <string name="timeline_scrollbar">Zobrazovat u časových os posuvník</string>
+    <string name="underline_links">Podtrhávat klikatelné prvky</string>
 </resources>
