@@ -1,12 +1,23 @@
-Il prend en charge :
-- Mastodon, Pleroma, Pixelfed et Friendica.
+Il prend en charge :
+- Mastodon, Peertube, Pixelfed, Misskey, GNU Social, Pleroma et Friendica.
 
-L’application possède des fonctionnalités avancées :
-
+L’application possède des fonctionnalités avancées :
 - Composition de fils
 - Support multicomptes
 - Planification de messages depuis l'application
 - Abonnement et interaction avec des instances distantes
 - Actions entre comptes grâce aux appuis longs
 - Option de traduction
-- Fils artistiques
+- Plusieurs options de notification
+  - Notifications push via UnifiedPush (y compris ntfy sur FDroid)
+  - Notifications en direct en restant connecté
+  - Notifications différées (se connecte toutes les 30 secondes)
+- Remplacement des liens youtube et twitter par des liens vers des instances invidious et nitter
+- Thèmes personnalisés, import export, et définition
+- Import et export de la base de donnée de l'application
+- Clavier emoji avec emoji personnalisés
+- Plusieurs icônes de lancement
+- Filtrage avancé des pouets
+- Fil artistique pour le tag mastoart
+- Export de pouets
+- Partage d'URL personnalisable pour faciliter le partage avec d'autres services
