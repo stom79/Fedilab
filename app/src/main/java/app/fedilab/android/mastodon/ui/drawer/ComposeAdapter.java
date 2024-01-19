@@ -1395,7 +1395,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.simpleMediaContainer.setVisibility(View.GONE);
             }
             holder.binding.statusContent.setText(
-                    status.getSpanContent(context,
+                    status.getSpanContent(context, false,
                             new WeakReference<>(holder.binding.statusContent), () -> mRecyclerView.post(() -> notifyItemChanged(position))),
                     TextView.BufferType.SPANNABLE);
             holder.binding.statusContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());

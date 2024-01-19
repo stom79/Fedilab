@@ -209,7 +209,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         //--- MAIN CONTENT ---
         holder.binding.statusContent.setText(
-                conversation.last_status.getSpanContent(context,
+                conversation.last_status.getSpanContent(context, false,
                         new WeakReference<>(holder.binding.statusContent), () -> mRecyclerView.post(() -> notifyItemChanged(holder.getBindingAdapterPosition()))),
                 TextView.BufferType.SPANNABLE);
         //--- DATE ---

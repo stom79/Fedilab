@@ -514,7 +514,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.binding.quotedMessage.cardviewContainer.setStrokeColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
             holder.binding.quotedMessage.statusContent.setText(
-                    statusToDeal.quote.getSpanContent(context,
+                    statusToDeal.quote.getSpanContent(context, remote,
                             new WeakReference<>(holder.binding.quotedMessage.statusContent), null),
                     TextView.BufferType.SPANNABLE);
             MastodonHelper.loadPPMastodon(holder.binding.quotedMessage.avatar, statusToDeal.quote.account);
@@ -1413,10 +1413,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             case "direct" -> holder.binding.actionButtonBoost.setVisibility(View.GONE);
         }
-
         //--- MAIN CONTENT ---
         holder.binding.statusContent.setText(
-                statusToDeal.getSpanContent(context,
+                statusToDeal.getSpanContent(context, remote,
                         new WeakReference<>(holder.binding.statusContent), () -> {
                             recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
                         }),

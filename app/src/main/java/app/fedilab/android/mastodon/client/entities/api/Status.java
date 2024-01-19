@@ -28,6 +28,7 @@ import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
 
+import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
 import de.timfreiheit.mathjax.android.MathJaxView;
 
@@ -152,9 +153,9 @@ public class Status implements Serializable, Cloneable {
         return same;
     }
 
-    public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference, Callback callback) {
+    public synchronized Spannable getSpanContent(Context context, boolean checkRemotely, WeakReference<View> viewWeakReference, Callback callback) {
         if (contentSpan == null) {
-            contentSpan = SpannableHelper.convert(context, content, this, null, null, viewWeakReference, callback, true, true);
+            contentSpan = SpannableHelper.convert(context, content, this, null, null, checkRemotely, viewWeakReference, callback, true, true);
         }
         return contentSpan;
     }

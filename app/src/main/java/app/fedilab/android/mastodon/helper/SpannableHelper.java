@@ -111,6 +111,12 @@ public class SpannableHelper {
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
                                     WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml, boolean convertMarkdown) {
+        return convert(context, text, status, account, announcement, false, viewWeakReference, callback, convertHtml, convertMarkdown);
+    }
+
+    public static Spannable convert(Context context, String text,
+                                    Status status, Account account, Announcement announcement, boolean checkRemotely,
+                                    WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml, boolean convertMarkdown) {
         if (text == null) {
             return null;
         }
@@ -296,14 +302,23 @@ public class SpannableHelper {
                             intent = new Intent(context, ProfileActivity.class);
                             args = new Bundle();
                             Mention targetedMention = null;
+                            String acct = null;
+
                             for (Mention mention : mentions) {
                                 if (word.compareToIgnoreCase("@" + mention.username) == 0) {
-                                    targetedMention = mention;
+                                    if(!checkRemotely) {
+                                        targetedMention = mention;
+                                    } else {
+                                        acct = mention.acct;
+                                    }
                                     break;
                                 }
                             }
+
                             if (targetedMention != null) {
                                 args.putString(Helper.ARG_USER_ID, targetedMention.id);
+                            } else if( acct != null){
+                                args.putString(Helper.ARG_MENTION, acct);
                             } else {
                                 args.putString(Helper.ARG_MENTION, word);
                             }

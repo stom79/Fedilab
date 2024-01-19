@@ -55,7 +55,7 @@ public class StatusHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
         StatusHistoryViewHolder holder = (StatusHistoryViewHolder) viewHolder;
         Status status = statuses.get(position);
         holder.binding.statusContent.setText(
-                status.getSpanContent(context,
+                status.getSpanContent(context, false,
                         new WeakReference<>(holder.binding.statusContent), null),
                 TextView.BufferType.SPANNABLE);
         if (status.spoiler_text != null && !status.spoiler_text.trim().isEmpty()) {

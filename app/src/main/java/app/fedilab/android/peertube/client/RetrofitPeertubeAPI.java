@@ -28,7 +28,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 

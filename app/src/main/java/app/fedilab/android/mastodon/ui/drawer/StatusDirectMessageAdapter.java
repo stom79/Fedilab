@@ -241,7 +241,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         status.underlined = true;
         holder.binding.messageContent.setText(
-                status.getSpanContent(context,
+                status.getSpanContent(context, false,
                         new WeakReference<>(holder.binding.messageContent),
                         () -> mRecyclerView.post(() -> notifyItemChanged(holder.getBindingAdapterPosition()))),
                 TextView.BufferType.SPANNABLE);
