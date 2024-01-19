@@ -90,6 +90,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
+    private Bundle arguments;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -348,16 +349,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        binding.loader.setVisibility(View.VISIBLE);
-        binding.recyclerView.setVisibility(View.GONE);
-        if (search != null) {
-            binding.swipeContainer.setRefreshing(false);
-            binding.swipeContainer.setEnabled(false);
-        }
-    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -369,24 +361,37 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
         timelineType = Timeline.TimeLineEnum.HOME;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
-        if (getArguments() != null) {
-            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+        arguments = getArguments();
+        return binding.getRoot();
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.recyclerView.setVisibility(View.GONE);
+        if (search != null) {
+            binding.swipeContainer.setRefreshing(false);
+            binding.swipeContainer.setEnabled(false);
+        }
+
+        if (arguments != null) {
+            long bundleId = arguments.getLong(Helper.ARG_INTENT_ID, -1);
             if (bundleId != -1) {
                 new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
             } else {
-                if (getArguments().containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
+                if (arguments.containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
                     try {
-                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, arguments.getString(Helper.ARG_CACHED_ACCOUNT_ID));
                     } catch (DBException e) {
                         e.printStackTrace();
                     }
                 }
-                initializeAfterBundle(getArguments());
+                initializeAfterBundle(arguments);
             }
         }
-        return binding.getRoot();
     }
-
     private void initializeAfterBundle(Bundle bundle) {
         if (bundle != null) {
             timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);

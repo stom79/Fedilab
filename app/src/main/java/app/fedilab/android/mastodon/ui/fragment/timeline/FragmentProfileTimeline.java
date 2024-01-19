@@ -47,21 +47,26 @@ public class FragmentProfileTimeline extends Fragment {
     private FragmentProfileTimelinesBinding binding;
     private boolean checkRemotely;
     private boolean show_boosts = true, show_replies = true;
-
+    private Bundle arguments;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfileTimelinesBinding.inflate(inflater, container, false);
-        if (getArguments() != null) {
-            String cached_account_id = getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID);
+        arguments = getArguments();
+        return binding.getRoot();
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (arguments != null) {
+            String cached_account_id = arguments.getString(Helper.ARG_CACHED_ACCOUNT_ID);
             try {
                 account = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, cached_account_id);
             } catch (DBException e) {
                 e.printStackTrace();
             }
-            checkRemotely = getArguments().getBoolean(Helper.ARG_CHECK_REMOTELY, false);
+            checkRemotely = arguments.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
             initializeAfterBundle();
         }
-        return binding.getRoot();
     }
 
 
@@ -163,10 +168,6 @@ public class FragmentProfileTimeline extends Fragment {
 
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
 
 
 }

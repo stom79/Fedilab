@@ -76,6 +76,7 @@ public class FragmentMastodonAccount extends Fragment {
     private Boolean local;
     private boolean checkRemotely;
     private String instance, token, remoteAccountId;
+    private Bundle arguments;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -84,27 +85,8 @@ public class FragmentMastodonAccount extends Fragment {
         token = currentToken;
         flagLoading = false;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
-        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
-        if (getArguments() != null) {
-            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
-            if (bundleId != -1) {
-                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
-            } else {
-                if (getArguments().containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
-                    try {
-                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID));
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                }
-                initializeAfterBundle(getArguments());
-            }
-        } else {
-            initializeAfterBundle(null);
-        }
 
+        arguments = getArguments();
 
         return binding.getRoot();
     }
@@ -149,7 +131,26 @@ public class FragmentMastodonAccount extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
-
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
+        binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
+        if (arguments != null) {
+            long bundleId = arguments.getLong(Helper.ARG_INTENT_ID, -1);
+            if (bundleId != -1) {
+                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            } else {
+                if (arguments.containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
+                    try {
+                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, arguments.getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+                initializeAfterBundle(arguments);
+            }
+        } else {
+            initializeAfterBundle(null);
+        }
     }
 
     /**

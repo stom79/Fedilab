@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -157,6 +158,8 @@ public class FragmentMastodonContext extends Fragment {
         return found ? position : -1;
     }
 
+    private Bundle arguments;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -165,13 +168,19 @@ public class FragmentMastodonContext extends Fragment {
         focusedStatusURI = null;
         refresh = true;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
-        if (getArguments() != null) {
-            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+        arguments = getArguments();
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (arguments != null) {
+            long bundleId = arguments.getLong(Helper.ARG_INTENT_ID, -1);
             new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
-        return binding.getRoot();
     }
 
     private void initializeAfterBundle(Bundle bundle) {
