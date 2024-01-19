@@ -498,6 +498,30 @@ public class ProfileActivity extends BaseActivity {
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
 
 
+        binding.bannerPp.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, MediaActivity.class);
+            Bundle args = new Bundle();
+            Attachment attachment = new Attachment();
+            attachment.description = account.acct;
+            attachment.preview_url = account.header;
+            attachment.url = account.header;
+            attachment.remote_url = account.header;
+            attachment.type = "image";
+            ArrayList<Attachment> attachments = new ArrayList<>();
+            attachments.add(attachment);
+            args.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
+            args.putInt(Helper.ARG_MEDIA_POSITION, 1);
+            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(ProfileActivity.this, binding.accountPp, attachment.url);
+                // start the new activity
+                startActivity(intent, options.toBundle());
+            });
+        });
+
         binding.accountPp.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, MediaActivity.class);
             Bundle args = new Bundle();
