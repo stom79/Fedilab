@@ -516,34 +516,26 @@ public class RetrofitPeertubeAPI {
         Call<VideoData> videoCall = null;
         ArrayList<String> filter = selection != null ? new ArrayList<>(selection) : null;
         switch (timelineType) {
-            case MY_VIDEOS:
-                videoCall = peertubeService.getMyVideos(getToken(), max_id, count);
-                break;
-            case ACCOUNT_VIDEOS:
-                videoCall = peertubeService.getVideosForAccount(forAccount, max_id, count, showNSFWVideos);
-                break;
-            case SUBSCRIBTIONS:
+            case MY_VIDEOS -> videoCall = peertubeService.getMyVideos(getToken(), max_id, count);
+            case ACCOUNT_VIDEOS ->
+                    videoCall = peertubeService.getVideosForAccount(forAccount, max_id, count, showNSFWVideos);
+            case SUBSCRIBTIONS -> {
                 if (forAccount == null) {
                     videoCall = peertubeService.getSubscriptionVideos(getToken(), max_id, count, filter);
                 } else {
                     videoCall = peertubeService.getChannelVideos(forAccount, max_id, count, showNSFWVideos);
                 }
-                break;
-            case MOST_LIKED:
-                videoCall = peertubeService.getMostLikedVideos(getToken(), max_id, count, showNSFWVideos, filter);
-                break;
-            case LOCAL:
-                videoCall = peertubeService.getLocalVideos(getToken(), max_id, count, showNSFWVideos, filter);
-                break;
-            case TRENDING:
-                videoCall = peertubeService.getTrendingVideos(getToken(), max_id, count, showNSFWVideos, filter);
-                break;
-            case HISTORY:
-                videoCall = peertubeService.getHistory(getToken(), max_id, count, showNSFWVideos, null, null);
-                break;
-            case RECENT:
-                videoCall = peertubeService.getRecentlyAddedVideos(getToken(), max_id, count, showNSFWVideos, filter);
-                break;
+            }
+            case MOST_LIKED ->
+                    videoCall = peertubeService.getMostLikedVideos(getToken(), max_id, count, showNSFWVideos, filter);
+            case LOCAL ->
+                    videoCall = peertubeService.getLocalVideos(getToken(), max_id, count, showNSFWVideos, filter);
+            case TRENDING ->
+                    videoCall = peertubeService.getTrendingVideos(getToken(), max_id, count, showNSFWVideos, filter);
+            case HISTORY ->
+                    videoCall = peertubeService.getHistory(getToken(), max_id, count, showNSFWVideos, null, null);
+            case RECENT ->
+                    videoCall = peertubeService.getRecentlyAddedVideos(getToken(), max_id, count, showNSFWVideos, filter);
         }
         if (videoCall != null) {
             try {

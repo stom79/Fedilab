@@ -242,7 +242,7 @@ public interface PeertubeService {
             @Query("languageOneOf") List<String> languageOneOf);
 
     //Local videos
-    @GET("videos?sort=-publishedAt&filter=local")
+    @GET("videos?sort=-publishedAt&isLocal=true")
     Call<VideoData> getLocalVideos(
             @Header("Authorization") String credentials,
             @Query("start") String maxId,
