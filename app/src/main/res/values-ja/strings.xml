@@ -1052,4 +1052,17 @@
     <string name="show_self_replies">自分の返信を表示する</string>
     <string name="markdown_support">Markdownをレンダリングする</string>
     <string name="show_my_messages">自分の投稿を表示する</string>
+    <string name="thread_long_message">返信で長い投稿を分割する</string>
+    <string name="thumbnail">サムネイル</string>
+    <string name="clipboard_version">クリップボードに情報をコピーしました</string>
+    <string name="thread_long_message_no">分割しない</string>
+    <string name="tag_already_followed">そのタグはフォロー済みです！</string>
+    <string name="copy_version">情報をコピー</string>
+    <string name="set_display_relative_date">投稿日時を相対日時で表示する</string>
+    <string name="thread_long_message_yes">投稿を分割する</string>
+    <string name="underline_links">クリック可能な要素に下線を表示</string>
+    <string name="set_disable_topbar_scrolling_title">トップバーのスクロールを無効化</string>
+    <string name="thread_long_this_message">この返信の投稿を分割しますか？</string>
+    <string name="thread_long_message_message">サーバーの最大文字数に合わせて投稿は複数の返信に分割されます。</string>
+    <string name="timeline_scrollbar">タイムラインにスクロールバーを表示する</string>
 </resources>
