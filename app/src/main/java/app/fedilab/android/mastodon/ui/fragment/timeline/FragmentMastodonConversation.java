@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +41,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.mastodon.client.entities.api.Conversation;
 import app.fedilab.android.mastodon.client.entities.api.Conversations;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -229,7 +232,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     }
 
 
-    private void storeMarker() {
+    private void storeMarker(BaseAccount connectedAccount) {
         if (mLayoutManager != null) {
             int position = mLayoutManager.findFirstVisibleItemPosition();
             if (conversationList != null && conversationList.size() > position) {
@@ -237,7 +240,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
                     Conversation conversation = conversationList.get(position);
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                     SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + Timeline.TimeLineEnum.CONVERSATION, conversation.id);
+                    editor.putString(getString(R.string.SET_INNER_MARKER) + connectedAccount.user_id + connectedAccount.instance + Timeline.TimeLineEnum.CONVERSATION, conversation.id);
                     editor.apply();
                 } catch (Exception ignored) {
                 }
@@ -355,14 +358,14 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     @Override
     public void onDestroyView() {
         if (isAdded()) {
-            storeMarker();
+            storeMarker(currentAccount);
         }
         super.onDestroyView();
     }
 
     @Override
     public void onPause() {
-        storeMarker();
+        storeMarker(currentAccount);
         super.onPause();
     }
 

@@ -49,6 +49,7 @@ import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.api.Notifications;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
@@ -554,7 +555,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     }
 
 
-    private void storeMarker() {
+    private void storeMarker(BaseAccount connectedAccount) {
         if (mLayoutManager != null) {
             int position = mLayoutManager.findFirstVisibleItemPosition();
             if (notificationList != null && notificationList.size() > position) {
@@ -563,10 +564,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                         Notification notification = notificationList.get(position);
                         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                         SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + Timeline.TimeLineEnum.NOTIFICATION, notification.id);
+                        editor.putString(getString(R.string.SET_INNER_MARKER) + connectedAccount.user_id + connectedAccount.instance + Timeline.TimeLineEnum.NOTIFICATION, notification.id);
                         editor.apply();
                         TimelinesVM timelinesVM = new ViewModelProvider(FragmentMastodonNotification.this).get(TimelinesVM.class);
-                        timelinesVM.addMarker(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, notification.id);
+                        timelinesVM.addMarker(connectedAccount.instance, connectedAccount.token, null, notification.id);
                     }
                 } catch (Exception ignored) {
                 }
@@ -690,14 +691,14 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             e.printStackTrace();
         }
         if (isAdded()) {
-            storeMarker();
+            storeMarker(currentAccount);
         }
         super.onDestroyView();
     }
 
     @Override
     public void onPause() {
-        storeMarker();
+        storeMarker(currentAccount);
         super.onPause();
     }
 

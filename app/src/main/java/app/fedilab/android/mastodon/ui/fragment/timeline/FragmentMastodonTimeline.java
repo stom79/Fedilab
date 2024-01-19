@@ -56,6 +56,7 @@ import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.Statuses;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.BubbleTimeline;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
@@ -855,7 +856,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     @Override
     public void onPause() {
-        storeMarker();
+        storeMarker(currentAccount);
         super.onPause();
     }
 
@@ -863,7 +864,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     public void onDestroyView() {
         //Update last read id for home timeline
         if (isAdded()) {
-            storeMarker();
+            storeMarker(currentAccount);
         }
         try {
             requireActivity().unregisterReceiver(receive_action);
@@ -873,7 +874,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
 
-    private void storeMarker() {
+    private void storeMarker(BaseAccount connectedAccount) {
         if (mLayoutManager != null) {
             int position = mLayoutManager.findFirstVisibleItemPosition();
             if (timelineStatuses != null && timelineStatuses.size() > position) {
@@ -881,10 +882,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     Status status = timelineStatuses.get(position);
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                     SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, status.id);
+                    editor.putString(getString(R.string.SET_INNER_MARKER) + connectedAccount.user_id + connectedAccount.instance + slug, status.id);
                     editor.apply();
                     if (timelineType == Timeline.TimeLineEnum.HOME) {
-                        timelinesVM.addMarker(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status.id, null);
+                        timelinesVM.addMarker(connectedAccount.instance, connectedAccount.token, status.id, null);
                     }
                 } catch (Exception ignored) {
                 }
