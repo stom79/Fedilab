@@ -87,7 +87,6 @@ public class FragmentLoginPickInstancePeertube extends Fragment implements Insta
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentLoginPickInstancePeertubeBinding.inflate(inflater, container, false);
 
-
         if (peertubeInformation == null || peertubeInformation.getLanguages() == null) {
             new Thread(() -> {
                 peertubeInformation = new PeertubeInformation();

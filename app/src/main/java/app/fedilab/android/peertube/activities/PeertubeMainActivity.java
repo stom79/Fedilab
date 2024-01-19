@@ -227,7 +227,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 }
                 return true;
             });
-            startInForeground();
         } else {
             binding.navView.setOnItemSelectedListener(item -> {
                 int itemId = item.getItemId();
@@ -247,7 +246,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 return true;
             });
         }
-
+        startInForeground();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
@@ -513,13 +512,8 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     private void startInForeground() {
         Intent notificationIntent = new Intent(this, RetrieveInfoService.class);
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(notificationIntent);
-            } else {
-                startService(notificationIntent);
-            }
-        } catch (Exception ignored) {
-        }
+            startService(notificationIntent);
+        } catch (Exception ignored) {}
     }
 
     @Override

@@ -18,6 +18,7 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,6 +28,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 
@@ -866,6 +868,7 @@ public class RetrofitPeertubeAPI {
                             String value = (String) obj.get(key);
                             data.put(Integer.valueOf(key), value);
                         } catch (JSONException ignored) {
+                            ignored.printStackTrace();
                         }
                     }
                     peertubeInformation.setCategories(data);
