@@ -1,0 +1,9 @@
+Added:
+- Tap on account banners to display them as media
+
+Fixed:
+- Position lost when switching between accounts
+- Wrong profiles when enabling remote conversations
+- Peertube local timeline
+- Peertube instances search
+- Crashes of the previous release
