@@ -909,7 +909,9 @@ public class Helper {
             if (args != null) fragment.setArguments(args);
             ft.add(containerViewId, fragment, tag);
             if (backStackName != null) ft.addToBackStack(backStackName);
-            ft.commit();
+            if(!fragmentManager.isDestroyed()) {
+                ft.commit();
+            }
         }
         fragmentManager.executePendingTransactions();
         return fragment;
@@ -1138,11 +1140,13 @@ public class Helper {
                         .toSquare()
                         .setBackgroundColor(fetchAccentColor(activity))
                         .build();
-                Glide.with(activity)
-                        .asDrawable()
-                        .load(avatar)
-                        .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
-                        .into(view);
+                if (Helper.isValidContextForGlide(activity)) {
+                    Glide.with(activity)
+                            .asDrawable()
+                            .load(avatar)
+                            .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
+                            .into(view);
+                }
                 return;
             }
         }

@@ -64,35 +64,40 @@ public class FragmentMediaProfile extends Fragment {
     private ImageAdapter imageAdapter;
     private boolean checkRemotely;
     private String accountId;
-
+    private Bundle arguments;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
+        arguments = getArguments();
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
         binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
 
-        if (getArguments() != null) {
-            long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
+        if (arguments != null) {
+            long bundleId = arguments.getLong(Helper.ARG_INTENT_ID, -1);
             if (bundleId != -1) {
                 new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
             } else {
-                if (getArguments().containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
+                if (arguments.containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
                     try {
-                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, getArguments().getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, arguments.getString(Helper.ARG_CACHED_ACCOUNT_ID));
                     } catch (DBException e) {
                         e.printStackTrace();
                     }
                 }
-                initializeAfterBundle(getArguments());
-
+                initializeAfterBundle(arguments);
             }
-        } else {
-            initializeAfterBundle(null);
         }
-        return binding.getRoot();
     }
+
+
 
     private void initializeAfterBundle(Bundle bundle) {
 
@@ -102,7 +107,9 @@ public class FragmentMediaProfile extends Fragment {
             }
             checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
         }
-
+        if(accountTimeline == null) {
+            return;
+        }
         flagLoading = false;
         accountsVM = new ViewModelProvider(requireActivity()).get(AccountsVM.class);
         mediaStatuses = new ArrayList<>();
@@ -141,10 +148,6 @@ public class FragmentMediaProfile extends Fragment {
     }
 
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
 
     /**
      * Intialize the common view for statuses on different timelines
