@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
-    <com.google.android.exoplayer2.ui.PlayerView
+    <androidx.media3.ui.PlayerView
         android:id="@+id/media_video"
         app:shutter_background_color="@color/transparent"
         app:surface_type="texture_view"

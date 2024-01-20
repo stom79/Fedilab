@@ -28,9 +28,9 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.media3.common.Player;
 
 
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.jetbrains.annotations.NotNull;
@@ -53,7 +53,7 @@ public class BasePeertubeActivity extends BaseBarActivity {
 
     protected ActivityPeertubeBinding binding;
     protected VideoData.Video peertube;
-    protected ExoPlayer player;
+    protected Player player;
     protected String videoURL;
     protected String subtitlesStr;
 

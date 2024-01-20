@@ -132,14 +132,18 @@ dependencies {
     implementation project(path: ':sparkbutton')
     implementation project(path: ':colorPicker')
     implementation project(path: ':mathjaxandroid')
-
+    implementation project(path: ':doubletapplayerview')
 
     implementation 'com.burhanrashid52:photoeditor:1.5.1'
     implementation("com.vanniktech:android-image-cropper:4.3.3")
     annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
     implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.23.0'
-    implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
+    implementation "androidx.media3:media3-exoplayer:1.2.1"
+    implementation "androidx.media3:media3-exoplayer-dash:1.2.1"
+    implementation "androidx.media3:media3-ui:1.2.1"
+
+
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'com.github.piasy:rxandroidaudio:1.7.0'
     implementation 'com.github.piasy:AudioProcessor:1.7.0'
@@ -177,14 +181,13 @@ dependencies {
     implementation 'androidx.browser:browser:1.7.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'com.github.amoskorir:avatarimagegenerator:1.5.0'
-    implementation 'com.google.android.exoplayer:extension-mediasession:2.19.1'
+
     implementation "com.github.mabbas007:TagsEditText:1.0.5"
     implementation "net.gotev:uploadservice:4.9.2"
     implementation "net.gotev:uploadservice-okhttp:4.9.2"
     implementation 'androidx.media:media:1.7.0'
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 
-    implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.0'
 
 
     implementation 'io.noties.markwon:core:4.6.2'

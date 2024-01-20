@@ -65,14 +65,14 @@
             android:layout_height="match_parent"
             android:visibility="gone">
 
-            <com.google.android.exoplayer2.ui.PlayerView
+            <androidx.media3.ui.PlayerView
                 android:id="@+id/media_video"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 app:use_controller="false" />
 
-            <com.google.android.exoplayer2.ui.PlayerControlView
+            <androidx.media3.ui.PlayerControlView
                 android:id="@+id/controls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
