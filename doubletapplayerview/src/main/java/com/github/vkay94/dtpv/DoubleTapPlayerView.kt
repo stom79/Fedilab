@@ -33,7 +33,7 @@ open class DoubleTapPlayerView @JvmOverloads constructor(
     private var controllerRef: Int = -1
 
     init {
-        gestureDetector = GestureDetectorCompat(context, gestureListener)
+        gestureDetector = GestureDetectorCompat(context!!, gestureListener)
 
         // Check whether controller is set through XML
         attrs?.let {

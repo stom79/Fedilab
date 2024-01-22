@@ -47,12 +47,12 @@ import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -77,6 +77,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -86,6 +87,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.C;
 import androidx.media3.common.Format;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.MimeTypes;
@@ -96,19 +98,23 @@ import androidx.media3.common.VideoSize;
 import androidx.media3.datasource.DataSource;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.hls.HlsMediaSource;
 import androidx.media3.exoplayer.source.MergingMediaSource;
 import androidx.media3.exoplayer.source.ProgressiveMediaSource;
 import androidx.media3.exoplayer.source.SingleSampleMediaSource;
 import androidx.media3.exoplayer.trackselection.AdaptiveTrackSelection;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.exoplayer.trackselection.TrackSelector;
+import androidx.media3.session.MediaSession;
 import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.PlayerControlView;
+import androidx.media3.ui.DefaultTimeBar;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.github.vkay94.dtpv.DoubleTapPlayerView;
 import com.github.vkay94.dtpv.youtube.YouTubeOverlay;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
@@ -203,7 +209,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private Status status;
     private int flags;
     private boolean humanInteraction;
-
+    private MediaSession mediaSession;
     public static void hideKeyboard(Activity activity) {
         if (activity != null && activity.getWindow() != null) {
             activity.getWindow().getDecorView();
@@ -368,6 +374,26 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             binding.doubleTapPlayerView.setDoubleTapEnabled(true);
             binding.doubleTapPlayerView.setControllerShowTimeoutMs(0);
             binding.mediaVideo.performListener(new YouTubeOverlay.PerformListener() {
+                @Nullable
+                @Override
+                public Boolean shouldForward(@NonNull Player player, @NonNull DoubleTapPlayerView playerView, float posX) {
+                    if (player.getPlaybackState() == PlaybackState.STATE_ERROR ||
+                            player.getPlaybackState() == PlaybackState.STATE_NONE ||
+                            player.getPlaybackState() == Player.STATE_ENDED) {
+
+                        playerView.cancelInDoubleTapMode();
+                        return null;
+                    }
+
+                    if (player.getCurrentPosition() > 500 && posX < playerView.getWidth() * 0.35)
+                        return false;
+
+                    if (player.getCurrentPosition() < player.getDuration() && posX > playerView.getWidth() * 0.65)
+                        return true;
+
+                    return null;
+                }
+
                 @Override
                 public void onAnimationStart() {
                     binding.mediaVideo.setVisibility(View.VISIBLE);
@@ -1533,6 +1559,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         binding = null;
         if (player != null) {
             player.release();
+            mediaSession = null;
         }
         unregisterReceiver();
     }
@@ -1612,13 +1639,10 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (playInMinimized && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && player != null) {
             isPlayInMinimized = true;
             setRequestedOrientationCustom(initialOrientation);
-            MediaSessionCompat mediaSession = new MediaSessionCompat(this, getPackageName());
-            MediaSessionConnector mediaSessionConnector = new MediaSessionConnector(mediaSession);
-            mediaSessionConnector.setPlayer(player);
+            mediaSession = new MediaSession.Builder(this, player).build();
             PlayerControlView controlView = binding.doubleTapPlayerView.findViewById(R.id.exo_controller);
             controlView.hide();
             binding.doubleTapPlayerView.setControllerAutoShow(false);
-            mediaSession.setActive(true);
             PictureInPictureParams params = new PictureInPictureParams.Builder().build();
             enterPictureInPictureMode(params);
         }
