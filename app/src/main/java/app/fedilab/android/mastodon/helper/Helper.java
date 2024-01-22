@@ -907,6 +907,7 @@ public class Helper {
             fragment = _fragment;
         } else {
             if (args != null) fragment.setArguments(args);
+            ft = fragmentManager.beginTransaction();
             ft.add(containerViewId, fragment, tag);
             if (backStackName != null) ft.addToBackStack(backStackName);
             if(!fragmentManager.isDestroyed()) {
