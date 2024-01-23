@@ -40,12 +40,9 @@
             style="@style/ExoMediaButton.Previous" />
 
 
-        <ImageButton
-            android:id="@id/exo_play"
-            style="@style/ExoMediaButton.Play" />
 
         <ImageButton
-            android:id="@id/exo_pause"
+            android:id="@id/exo_play_pause"
             style="@style/ExoMediaButton.Pause" />
 
 

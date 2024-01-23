@@ -209,7 +209,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private Status status;
     private int flags;
     private boolean humanInteraction;
-    private MediaSession mediaSession;
     public static void hideKeyboard(Activity activity) {
         if (activity != null && activity.getWindow() != null) {
             activity.getWindow().getDecorView();
@@ -1559,7 +1558,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         binding = null;
         if (player != null) {
             player.release();
-            mediaSession = null;
         }
         unregisterReceiver();
     }
@@ -1639,7 +1637,6 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (playInMinimized && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && player != null) {
             isPlayInMinimized = true;
             setRequestedOrientationCustom(initialOrientation);
-            mediaSession = new MediaSession.Builder(this, player).build();
             PlayerControlView controlView = binding.doubleTapPlayerView.findViewById(R.id.exo_controller);
             controlView.hide();
             binding.doubleTapPlayerView.setControllerAutoShow(false);
@@ -2225,7 +2222,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
         if (fullScreenButton != null) {
             fullScreenButton.setOnClickListener(v -> toggleFullScreen());
         }
-        ImageButton playButton = controlView.findViewById(R.id.exo_play);
+        ImageButton playButton = controlView.findViewById(R.id.exo_play_pause);
         if (playButton != null) {
             playButton.setOnClickListener(v -> {
                 if (autoFullscreen && !fullScreenMode) {

@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +31,14 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DataSource;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
@@ -89,6 +92,15 @@ public class FragmentMedia extends Fragment {
         return binding.getRoot();
     }
 
+
+    @OptIn(markerClass = UnstableApi.class)
+    public void toggleController(boolean display) {
+        if(display) {
+            binding.controls.show();
+        } else {
+            binding.controls.hide();
+        }
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -275,14 +287,6 @@ public class FragmentMedia extends Fragment {
             player.setRepeatMode(Player.REPEAT_MODE_ONE);
             binding.mediaVideo.setUseController(false);
         }
-        binding.mediaVideo.setOnTouchListener((view, motionEvent) -> {
-            if (binding.controls.getVisibility() != View.VISIBLE) {
-                binding.controls.setVisibility(View.VISIBLE);
-                final Handler handler = new Handler(Looper.getMainLooper());
-                handler.postDelayed(() -> binding.controls.setVisibility(View.GONE), 2000);
-            }
-            return false;
-        });
         binding.mediaVideo.setPlayer(player);
         binding.controls.setPlayer(player);
         binding.loader.setVisibility(View.GONE);

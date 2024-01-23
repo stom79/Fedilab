@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="50dp"
-                app:show_timeout="2000" />
+                app:show_timeout="0" />
 
         </FrameLayout>
 
