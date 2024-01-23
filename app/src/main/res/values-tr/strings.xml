@@ -445,13 +445,13 @@
     <string name="password_too_short">Parola en az 8 karakter içermelidir</string>
     <string name="username_error">Kullanıcı adı yalnızca harf, rakam ve alt çizgi içermelidir</string>
     <string name="account_created">Hesap oluşturuldu!</string>
-    <string name="account_created_message"> Hesabınız oluşturuldu!
-\n
-\n E-posta adresinizi önümüzdeki 48 saat içinde doğrulamayı düşünün.
-\n
-\n Şimdi ilk alana <b>%1$s</b> yazarak ve <b>Connect</b> seçeneğine tıklayarak hesabınızı bağlayabilirsiniz.
-\n
-\n <b>Önemli</b>: Sunucunuz doğrulama gerektiriyorsa, doğrulandıktan sonra bir e-posta alacaksınız! </string>
+    <string name="account_created_message"> Hesabınız oluşturuldu! 
+\n 
+\n E-posta adresinizi önümüzdeki 48 saat içinde doğrulamayı düşünün. 
+\n 
+\n Şimdi ilk alana <b>%1$s</b> yazarak ve <b>Connect</b> seçeneğine tıklayarak hesabınızı bağlayabilirsiniz. 
+\n 
+\n <b>Önemli</b>: Sunucunuz doğrulama gerektiriyorsa, doğrulandıktan sonra bir e-posta alacaksınız! \u0020</string>
     <string name="save_draft">Mesaj, taslaklara kaydedilsin mi?</string>
     <string name="administration">Yönetim</string>
     <string name="reports">Raporlar</string>
@@ -1072,4 +1072,5 @@
     <string name="underline_links">Tıklanabilir ögelerin altını çiz</string>
     <string name="tag_already_followed">Bu etiketi zaten takip ediyorsunuz!</string>
     <string name="timeline_scrollbar">Zaman çizelgeleri için kaydırma çubuğu göster</string>
+    <string name="set_disable_topbar_scrolling_title">Üst çubuk kaydırmasını devre dışı bırak</string>
 </resources>
