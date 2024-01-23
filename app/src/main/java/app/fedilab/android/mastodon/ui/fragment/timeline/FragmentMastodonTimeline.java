@@ -1144,7 +1144,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                                     }
                                                     initializeStatusesCommonView(otherStatuses);
                                                 }));
-                            } else {
+                            } else if(accountTimeline != null){
                                 tempToken[0] = MainActivity.currentToken;
                                 tempInstance[0] = currentInstance;
                                 accountId[0] = accountTimeline.id;
@@ -1155,12 +1155,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 } else {
                     accountId[0] = accountIDInRemoteInstance;
                 }
-            } else {
+            } else if(accountTimeline != null){
                 tempToken[0] = MainActivity.currentToken;
                 tempInstance[0] = currentInstance;
                 accountId[0] = accountTimeline.id;
             }
-            if (accountId[0] == null) {
+            if (accountId[0] == null && accountTimeline != null) {
                 accountId[0] = accountTimeline.id;
             }
             displayStatuses(direction, accountId[0], tempInstance[0], tempToken[0], fetchStatus);
