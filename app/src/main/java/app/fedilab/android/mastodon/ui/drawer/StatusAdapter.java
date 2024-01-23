@@ -58,6 +58,7 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -1512,9 +1513,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //--- MEDIA ATTACHMENT ---
         boolean cardDisplayed = (statusToDeal.card != null && (display_card || statusToDeal.isFocused) && statusToDeal.quote_id == null);
         if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0 && (!hideSingleMediaWithCard || !cardDisplayed || statusToDeal.media_attachments.size() > 1)) {
-
             if ((loadMediaType.equals("ASK") || (loadMediaType.equals("WIFI") && !TimelineHelper.isOnWIFI(context))) && !statusToDeal.canLoadMedia) {
                 holder.binding.mediaContainer.setVisibility(View.GONE);
+                holder.binding.media.mediaContainer.setVisibility(View.GONE);
                 holder.binding.displayMedia.setVisibility(View.VISIBLE);
                 holder.binding.displayMedia.setOnClickListener(v -> {
                     statusToDeal.canLoadMedia = true;
@@ -1523,6 +1524,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 });
             } else {
+                holder.binding.displayMedia.setVisibility(View.GONE);
+                holder.binding.media.mediaContainer.setVisibility(View.VISIBLE);
                 int mediaPosition = 1;
                 boolean autoplaygif = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_PLAY_GIG_MEDIA), true);
                 if (!fullAttachement || statusToDeal.sensitive) {
