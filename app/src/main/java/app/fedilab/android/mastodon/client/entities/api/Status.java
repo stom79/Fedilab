@@ -143,6 +143,8 @@ public class Status implements Serializable, Cloneable {
     public transient MathJaxView mathJaxView;
     public String lemmy_post_id;
 
+    public transient String pronouns = null;
+
     @Override
     public boolean equals(@Nullable Object obj) {
         boolean same = false;

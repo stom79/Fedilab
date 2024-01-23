@@ -638,6 +638,8 @@
     <string name="followers_only">Followers only</string>
     <string name="other">Other</string>
     <string name="eg_sensitive_content">Eg.: Sensitive Content</string>
+    <string name="Pronouns">Pronouns</string>
+
     <string name="add_status">Add status</string>
     <string name="remove_status">Remove status</string>
     <string name="post_message">Posting message…</string>

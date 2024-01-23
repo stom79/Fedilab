@@ -163,13 +163,25 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/display_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            tools:text="@tools:sample/full_names" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/pronouns"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
                             android:layout_weight="1"
+                            android:visibility="invisible"
+                            tools:visibility="visible"
+                            android:textColor="?colorPrimary"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            tools:text="@tools:sample/full_names" />
+                            tools:text="He/Him" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/local_only"

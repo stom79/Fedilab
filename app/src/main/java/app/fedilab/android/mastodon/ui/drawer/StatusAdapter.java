@@ -58,7 +58,6 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -148,6 +147,7 @@ import app.fedilab.android.mastodon.activities.StatusInfoActivity;
 import app.fedilab.android.mastodon.activities.TimelineActivity;
 import app.fedilab.android.mastodon.activities.admin.AdminAccountActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
+import app.fedilab.android.mastodon.client.entities.api.Field;
 import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Reaction;
 import app.fedilab.android.mastodon.client.entities.api.Status;
@@ -482,7 +482,23 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
-
+        if(statusToDeal.pronouns == null && statusToDeal.account.fields != null && statusToDeal.account.fields.size() > 0) {
+            for(Field field: statusToDeal.account.fields) {
+                if(field.name.toLowerCase().startsWith("pronoun")) {
+                    statusToDeal.pronouns = field.value;
+                    break;
+                }
+            }
+            if(statusToDeal.pronouns == null) {
+                statusToDeal.pronouns = "none";
+            }
+        }
+        if(statusToDeal.pronouns != null && !statusToDeal.pronouns.equalsIgnoreCase("none")) {
+            holder.binding.pronouns.setVisibility(View.VISIBLE);
+            holder.binding.pronouns.setText(statusToDeal.pronouns);
+        } else {
+            holder.binding.pronouns.setVisibility(View.INVISIBLE);
+        }
         if (statusToDeal.quote != null && (statusToDeal.spoiler_text == null || statusToDeal.spoiler_text.trim().isEmpty() || statusToDeal.isExpended)) {
             holder.binding.quotedMessage.cardviewContainer.setCardElevation((int) Helper.convertDpToPixel(5, context));
             holder.binding.quotedMessage.dividerCard.setVisibility(View.GONE);

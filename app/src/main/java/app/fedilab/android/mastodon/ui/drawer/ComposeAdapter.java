@@ -113,6 +113,7 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.EmojiInstance;
+import app.fedilab.android.mastodon.client.entities.api.Field;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
 import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Status;
@@ -1358,6 +1359,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (getItemViewType(position) == TYPE_NORMAL) {
             Status status = statusList.get(position);
             StatusSimpleViewHolder holder = (StatusSimpleViewHolder) viewHolder;
+
             if (status.media_attachments != null && status.media_attachments.size() > 0) {
                 holder.binding.simpleMedia.removeAllViews();
                 List<Attachment> attachmentList = statusList.get(position).media_attachments;
@@ -1421,13 +1423,30 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         } else if (getItemViewType(position) == TYPE_COMPOSE) {
             Status statusDraft = statusList.get(position);
-
+            if(position > 0 && getItemViewType(position -1 ) == TYPE_NORMAL) {
+                Status statusFromUser = statusList.get(position-1);
+                Account accountFromUser = statusFromUser.account;
+                statusFromUser.pronouns = null;
+                if(accountFromUser.fields != null && accountFromUser.fields.size() > 0) {
+                    for(Field field: accountFromUser.fields) {
+                        if(field.name.toLowerCase().startsWith("pronoun")) {
+                            statusList.get(position).pronouns = field.value;
+                            break;
+                        }
+                    }
+                }
+            }
             ComposeViewHolder holder = (ComposeViewHolder) viewHolder;
             boolean extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
             boolean mathsComposer = sharedpreferences.getBoolean(context.getString(R.string.SET_MATHS_COMPOSER), true);
             boolean forwardTag = sharedpreferences.getBoolean(context.getString(R.string.SET_FORWARD_TAGS_IN_REPLY), false);
 
-
+            if(statusDraft.pronouns != null) {
+                holder.binding.genders.setVisibility(View.VISIBLE);
+                holder.binding.pronouns.setText(statusDraft.pronouns);
+            } else {
+                holder.binding.genders.setVisibility(View.GONE);
+            }
             if (mathsComposer) {
                 holder.binding.buttonMathsComposer.setVisibility(View.VISIBLE);
                 holder.binding.buttonMathsComposer.setOnClickListener(v -> {

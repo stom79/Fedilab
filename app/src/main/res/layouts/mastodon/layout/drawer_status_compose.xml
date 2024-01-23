@@ -42,8 +42,31 @@
             app:layout_constraintTop_toTopOf="parent">
 
         </androidx.core.widget.NestedScrollView>
-
-
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/genders"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/button_emoji"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/laTexView_container"
+            android:orientation="horizontal"
+            android:layout_marginStart="6dp"
+            >
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Pronouns"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_marginStart="10dp"
+                android:id="@+id/pronouns"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:textColor="?colorPrimary"
+                tools:text="He/Him"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/content_spoiler"
             android:layout_width="0dp"
@@ -57,7 +80,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/button_emoji"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/laTexView_container"
+            app:layout_constraintTop_toBottomOf="@+id/genders"
             tools:visibility="visible" />
 
         <com.google.android.material.button.MaterialButton
