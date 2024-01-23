@@ -88,8 +88,7 @@
             style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:text="@string/load_media_remotely"
             android:visibility="gone"
             tools:visibility="visible" />
