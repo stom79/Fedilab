@@ -30,6 +30,7 @@ import java.util.List;
 
 import app.fedilab.android.databinding.DrawerAccountSearchBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.api.Field;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 
 
@@ -116,6 +117,19 @@ public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filt
         holder.binding.accountUn.setText(String.format("@%s", account.acct));
         holder.binding.accountDn.setText(account.display_name);
         holder.binding.accountDn.setVisibility(View.VISIBLE);
+        account.pronouns = null;
+        for(Field field: account.fields) {
+            if(field.name.trim().equalsIgnoreCase("pronouns")) {
+                account.pronouns = field.value;
+                break;
+            }
+        }
+        if(account.pronouns != null) {
+            holder.binding.pronouns.setText(account.pronouns);
+            holder.binding.pronouns.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.pronouns.setVisibility(View.GONE);
+        }
         MastodonHelper.loadPPMastodon(holder.binding.accountPp, account);
         return holder.view;
     }

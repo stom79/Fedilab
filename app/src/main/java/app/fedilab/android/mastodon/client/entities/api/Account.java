@@ -88,6 +88,7 @@ public class Account implements Serializable {
     @SerializedName("role")
     public Role role;
     public transient RelationShip relationShip;
+    public transient String pronouns = null;
 
 
     public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference) {
