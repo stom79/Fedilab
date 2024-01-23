@@ -91,7 +91,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
     private List<Status> timelineStatuses;
-    private Bundle arguments;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -184,6 +183,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         }
     };
+    private Bundle arguments;
     private boolean retry_for_home_done;
     private String lemmy_post_id;
     private boolean checkRemotely;
@@ -351,7 +351,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -393,6 +392,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         }
     }
+
     private void initializeAfterBundle(Bundle bundle) {
         if (bundle != null) {
             timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);

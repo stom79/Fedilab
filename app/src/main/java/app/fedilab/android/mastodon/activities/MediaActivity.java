@@ -196,7 +196,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                         binding.mediaDescriptionTranslated.setText(translated);
                         binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
                         binding.mediaDescription.setVisibility(View.GONE);
-                        if(mCurrentFragment != null) {
+                        if (mCurrentFragment != null) {
                             mCurrentFragment.toggleController(false);
                         }
                     } else {
@@ -206,14 +206,14 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             });
             if (attachments.get(mediaPosition - 1).translation != null) {
                 binding.mediaDescription.setVisibility(View.GONE);
-                if(mCurrentFragment != null) {
+                if (mCurrentFragment != null) {
                     mCurrentFragment.toggleController(false);
                 }
                 binding.mediaDescriptionTranslated.setText(attachments.get(mediaPosition - 1).translation);
                 binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
             } else {
                 binding.mediaDescription.setVisibility(View.VISIBLE);
-                if(mCurrentFragment != null) {
+                if (mCurrentFragment != null) {
                     mCurrentFragment.toggleController(true);
                 }
                 binding.mediaDescriptionTranslated.setVisibility(View.GONE);
@@ -245,7 +245,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                             binding.mediaDescriptionTranslated.setText(translated);
                             binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
                             binding.mediaDescription.setVisibility(View.GONE);
-                            if(mCurrentFragment != null) {
+                            if (mCurrentFragment != null) {
                                 mCurrentFragment.toggleController(false);
                             }
                         } else {
@@ -256,21 +256,21 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 if (!fullscreen) {
                     if (attachments.get(position).translation != null) {
                         binding.mediaDescription.setVisibility(View.GONE);
-                        if(mCurrentFragment != null) {
+                        if (mCurrentFragment != null) {
                             mCurrentFragment.toggleController(false);
                         }
                         binding.mediaDescriptionTranslated.setText(attachments.get(position).translation);
                         binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
                     } else {
                         binding.mediaDescription.setVisibility(View.VISIBLE);
-                        if(mCurrentFragment != null) {
+                        if (mCurrentFragment != null) {
                             mCurrentFragment.toggleController(true);
                         }
                         binding.mediaDescriptionTranslated.setVisibility(View.GONE);
                     }
                 } else {
                     binding.mediaDescription.setVisibility(View.GONE);
-                    if(mCurrentFragment != null) {
+                    if (mCurrentFragment != null) {
                         mCurrentFragment.toggleController(false);
                     }
                     binding.mediaDescriptionTranslated.setVisibility(View.GONE);
@@ -428,14 +428,14 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 binding.mediaDescription.setText(linkify(MediaActivity.this, description), TextView.BufferType.SPANNABLE);
                 if (attachments.get(binding.mediaViewpager.getCurrentItem()).translation != null) {
                     binding.mediaDescription.setVisibility(View.GONE);
-                    if(mCurrentFragment != null) {
+                    if (mCurrentFragment != null) {
                         mCurrentFragment.toggleController(false);
                     }
                     binding.mediaDescriptionTranslated.setText(attachments.get(binding.mediaViewpager.getCurrentItem()).translation);
                     binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
                 } else {
                     binding.mediaDescription.setVisibility(View.VISIBLE);
-                    if(mCurrentFragment != null) {
+                    if (mCurrentFragment != null) {
                         mCurrentFragment.toggleController(true);
                     }
                     binding.mediaDescriptionTranslated.setVisibility(View.GONE);
@@ -449,7 +449,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 }
                 binding.mediaDescriptionTranslated.setVisibility(View.GONE);
                 binding.mediaDescription.setVisibility(View.GONE);
-                if(mCurrentFragment != null) {
+                if (mCurrentFragment != null) {
                     mCurrentFragment.toggleController(false);
                 }
             }
@@ -458,7 +458,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             binding.translate.setVisibility(View.GONE);
             binding.mediaDescriptionTranslated.setVisibility(View.GONE);
             binding.mediaDescription.setVisibility(View.GONE);
-            if(mCurrentFragment != null) {
+            if (mCurrentFragment != null) {
                 mCurrentFragment.toggleController(false);
             }
         }
@@ -509,7 +509,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         if (!fullscreen) {
             showSystemUI();
             binding.mediaDescription.setVisibility(View.VISIBLE);
-            if(mCurrentFragment != null) {
+            if (mCurrentFragment != null) {
                 mCurrentFragment.toggleController(true);
             }
             binding.translate.setVisibility(View.VISIBLE);
@@ -519,7 +519,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         } else {
             hideSystemUI();
             binding.mediaDescription.setVisibility(View.GONE);
-            if(mCurrentFragment != null) {
+            if (mCurrentFragment != null) {
                 mCurrentFragment.toggleController(false);
             }
             binding.translate.setVisibility(View.GONE);

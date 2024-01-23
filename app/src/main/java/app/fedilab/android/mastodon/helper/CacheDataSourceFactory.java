@@ -19,9 +19,6 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.media3.database.ExoDatabaseProvider;
-import androidx.media3.exoplayer.upstream.DefaultBandwidthMeter;
-import androidx.preference.PreferenceManager;
-
 import androidx.media3.datasource.DataSource;
 import androidx.media3.datasource.DefaultDataSourceFactory;
 import androidx.media3.datasource.DefaultHttpDataSource;
@@ -30,6 +27,8 @@ import androidx.media3.datasource.cache.CacheDataSink;
 import androidx.media3.datasource.cache.CacheDataSource;
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor;
 import androidx.media3.datasource.cache.SimpleCache;
+import androidx.media3.exoplayer.upstream.DefaultBandwidthMeter;
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 

@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.TrackSelectionDialogBinding;
 

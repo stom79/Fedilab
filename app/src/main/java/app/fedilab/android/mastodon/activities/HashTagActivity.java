@@ -88,7 +88,7 @@ public class HashTagActivity extends BaseActivity {
     }
 
     private void initializeAfterBundle(Bundle bundle) {
-        if( bundle != null) {
+        if (bundle != null) {
             tag = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
         }
         if (tag == null) {

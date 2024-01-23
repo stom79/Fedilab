@@ -138,6 +138,7 @@ public class FragmentMastodonContext extends Fragment {
     private Status firstStatus;
     private boolean pullToRefresh;
     private String user_token, user_instance;
+    private Bundle arguments;
 
     /**
      * Return the position of the status in the ArrayList
@@ -157,8 +158,6 @@ public class FragmentMastodonContext extends Fragment {
         }
         return found ? position : -1;
     }
-
-    private Bundle arguments;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

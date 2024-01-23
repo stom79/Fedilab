@@ -48,12 +48,14 @@ public class FragmentProfileTimeline extends Fragment {
     private boolean checkRemotely;
     private boolean show_boosts = true, show_replies = true;
     private Bundle arguments;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfileTimelinesBinding.inflate(inflater, container, false);
         arguments = getArguments();
         return binding.getRoot();
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -167,7 +169,6 @@ public class FragmentProfileTimeline extends Fragment {
         });
 
     }
-
 
 
 }

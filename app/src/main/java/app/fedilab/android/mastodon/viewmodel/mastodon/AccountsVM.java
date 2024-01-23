@@ -32,7 +32,6 @@ import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
-import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.client.endpoints.MastodonAccountsService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Accounts;
@@ -1078,7 +1077,7 @@ public class AccountsVM extends AndroidViewModel {
                     Response<List<Account>> searchResponse = searchCall.execute();
                     if (searchResponse.isSuccessful()) {
                         accountList = searchResponse.body();
-                        if(accountList != null && accountList.size() > 0 ) {
+                        if (accountList != null && accountList.size() > 0) {
                             new CachedBundle(getApplication().getApplicationContext()).insertAccountBundle(accountList.get(0), currentAccount);
                         }
                     }

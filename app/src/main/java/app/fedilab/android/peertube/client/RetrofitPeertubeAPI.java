@@ -18,7 +18,6 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
 import android.app.Activity;
 import android.content.Context;

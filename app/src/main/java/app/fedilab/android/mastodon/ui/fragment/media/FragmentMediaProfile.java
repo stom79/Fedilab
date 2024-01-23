@@ -65,6 +65,7 @@ public class FragmentMediaProfile extends Fragment {
     private boolean checkRemotely;
     private String accountId;
     private Bundle arguments;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -98,7 +99,6 @@ public class FragmentMediaProfile extends Fragment {
     }
 
 
-
     private void initializeAfterBundle(Bundle bundle) {
 
         if (bundle != null) {
@@ -107,7 +107,7 @@ public class FragmentMediaProfile extends Fragment {
             }
             checkRemotely = bundle.getBoolean(Helper.ARG_CHECK_REMOTELY, false);
         }
-        if(accountTimeline == null) {
+        if (accountTimeline == null) {
             return;
         }
         flagLoading = false;
@@ -146,7 +146,6 @@ public class FragmentMediaProfile extends Fragment {
                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
         }
     }
-
 
 
     /**

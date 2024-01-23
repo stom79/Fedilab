@@ -61,7 +61,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestBuilder;
 
-
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;

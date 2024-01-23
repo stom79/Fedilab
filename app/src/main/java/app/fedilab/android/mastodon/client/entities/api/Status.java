@@ -28,7 +28,6 @@ import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
 
-import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
 import de.timfreiheit.mathjax.android.MathJaxView;
 

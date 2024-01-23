@@ -105,10 +105,9 @@ import androidx.media3.exoplayer.source.SingleSampleMediaSource;
 import androidx.media3.exoplayer.trackselection.AdaptiveTrackSelection;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.exoplayer.trackselection.TrackSelector;
-import androidx.media3.session.MediaSession;
 import androidx.media3.ui.AspectRatioFrameLayout;
-import androidx.media3.ui.PlayerControlView;
 import androidx.media3.ui.DefaultTimeBar;
+import androidx.media3.ui.PlayerControlView;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -209,6 +208,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     private Status status;
     private int flags;
     private boolean humanInteraction;
+
     public static void hideKeyboard(Activity activity) {
         if (activity != null && activity.getWindow() != null) {
             activity.getWindow().getDecorView();

@@ -11,8 +11,6 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.mikephil.charting.data.Entry;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,7 +123,7 @@ public class TagsSearchAdapter extends ArrayAdapter<Tag> implements Filterable {
                 stat += Integer.parseInt(history.accounts);
             }
         }
-        if(stat > 0 ) {
+        if (stat > 0) {
             holder.binding.tagCount.setText("(" + context.getString(R.string.talking_about, stat) + ")");
             holder.binding.tagCount.setVisibility(View.VISIBLE);
         } else {

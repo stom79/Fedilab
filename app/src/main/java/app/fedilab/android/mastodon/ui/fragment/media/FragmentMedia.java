@@ -21,8 +21,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +95,7 @@ public class FragmentMedia extends Fragment {
 
     @OptIn(markerClass = UnstableApi.class)
     public void toggleController(boolean display) {
-        if(display) {
+        if (display) {
             binding.controls.show();
         } else {
             binding.controls.hide();
@@ -241,9 +239,7 @@ public class FragmentMedia extends Fragment {
                     );
         }
         switch (type.toLowerCase()) {
-            case "video":
-            case "audio":
-            case "gifv":
+            case "video", "audio", "gifv" -> {
                 if (attachment.peertubeId != null) {
                     //It's a peertube video, we are fetching data
                     TimelinesVM timelinesVM = new ViewModelProvider(requireActivity()).get(TimelinesVM.class);
@@ -258,7 +254,7 @@ public class FragmentMedia extends Fragment {
                 } else {
                     loadVideo(url, type);
                 }
-                break;
+            }
         }
     }
 

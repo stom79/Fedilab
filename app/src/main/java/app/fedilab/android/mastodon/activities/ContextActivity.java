@@ -127,7 +127,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
             loadRemotelyConversation(true);
             invalidateOptionsMenu();
         }
-        if(currentAccount != null) {
+        if (currentAccount != null) {
             MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
         }
     }

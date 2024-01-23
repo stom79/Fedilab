@@ -61,7 +61,7 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
             case 0 -> {
                 fragmentMastodonTimeline = new FragmentMastodonTimeline();
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-                if(account != null) {
+                if (account != null) {
                     bundle.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
                 }
                 bundle.putBoolean(Helper.ARG_SHOW_PINNED, true);
@@ -74,7 +74,7 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
             case 1 -> {
                 fragmentMastodonTimeline = new FragmentMastodonTimeline();
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-                if(account != null) {
+                if (account != null) {
                     bundle.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
                 }
                 bundle.putBoolean(Helper.ARG_SHOW_PINNED, false);
@@ -86,7 +86,7 @@ public class FedilabProfilePageAdapter extends FragmentStatePagerAdapter {
             }
             case 2 -> {
                 FragmentMediaProfile fragmentMediaProfile = new FragmentMediaProfile();
-                if(account != null) {
+                if (account != null) {
                     bundle.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
                 }
                 bundle.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);

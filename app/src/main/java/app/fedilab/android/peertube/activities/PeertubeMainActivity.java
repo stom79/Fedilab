@@ -40,7 +40,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -513,7 +512,8 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         Intent notificationIntent = new Intent(this, RetrieveInfoService.class);
         try {
             startService(notificationIntent);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     @Override

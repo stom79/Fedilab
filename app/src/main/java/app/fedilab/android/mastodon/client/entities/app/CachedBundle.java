@@ -108,7 +108,8 @@ public class CachedBundle {
             Account account = null;
             try {
                 account = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
-            }catch (ClassCastException ignored){}
+            } catch (ClassCastException ignored) {
+            }
             if (account != null) {
                 bundleAccount.putSerializable(Helper.ARG_ACCOUNT, account);
                 valuesAccount.put(Sqlite.COL_BUNDLE, serializeBundle(bundleAccount));
@@ -127,7 +128,8 @@ public class CachedBundle {
             Status status = null;
             try {
                 status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
-            }catch (ClassCastException ignored){}
+            } catch (ClassCastException ignored) {
+            }
             if (status != null) {
                 bundleStatus.putSerializable(Helper.ARG_STATUS, status);
                 valuesAccount.put(Sqlite.COL_BUNDLE, serializeBundle(bundleStatus));
@@ -170,7 +172,7 @@ public class CachedBundle {
                 }
             } catch (DBException ignored) {
             }
-            if( bundle == null) {
+            if (bundle == null) {
                 bundle = new Bundle();
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -283,7 +285,7 @@ public class CachedBundle {
         String dateStr = Helper.dateToString(date);
         try {
             db.delete(Sqlite.TABLE_INTENT, Sqlite.COL_CREATED_AT + " <  ?", new String[]{dateStr});
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

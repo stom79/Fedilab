@@ -306,7 +306,7 @@ public class SpannableHelper {
 
                             for (Mention mention : mentions) {
                                 if (word.compareToIgnoreCase("@" + mention.username) == 0) {
-                                    if(!checkRemotely) {
+                                    if (!checkRemotely) {
                                         targetedMention = mention;
                                     } else {
                                         acct = mention.acct;
@@ -317,7 +317,7 @@ public class SpannableHelper {
 
                             if (targetedMention != null) {
                                 args.putString(Helper.ARG_USER_ID, targetedMention.id);
-                            } else if( acct != null){
+                            } else if (acct != null) {
                                 args.putString(Helper.ARG_MENTION, acct);
                             } else {
                                 args.putString(Helper.ARG_MENTION, word);
