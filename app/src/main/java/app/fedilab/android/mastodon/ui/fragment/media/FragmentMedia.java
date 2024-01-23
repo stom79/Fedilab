@@ -81,6 +81,7 @@ public class FragmentMedia extends Fragment {
     }
 
 
+    @OptIn(markerClass = UnstableApi.class)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -89,6 +90,7 @@ public class FragmentMedia extends Fragment {
         if (bundle != null) {
             attachment = (Attachment) bundle.getSerializable(Helper.ARG_MEDIA_ATTACHMENT);
         }
+        binding.controls.hide();
         return binding.getRoot();
     }
 
