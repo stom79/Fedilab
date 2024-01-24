@@ -23,7 +23,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
 import com.google.android.gms.cast.framework.CastButtonFactory;
@@ -38,7 +37,7 @@ import app.fedilab.android.databinding.ActivityPeertubeBinding;
 import app.fedilab.android.mastodon.activities.BaseBarActivity;
 import app.fedilab.android.peertube.client.data.VideoData;
 import app.fedilab.android.peertube.helper.Helper;
-
+import androidx.media3.exoplayer.ExoPlayer;
 
 public class BasePeertubeActivity extends BaseBarActivity {
 
