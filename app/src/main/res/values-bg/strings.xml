@@ -19,7 +19,7 @@
     <string name="toots">Съобщения</string>
     <string name="download">Сваляне</string>
     <string name="action_about_instance">Относно инстанцията</string>
-    <string name="cancel">Отмяна</string>
+    <string name="cancel">Отказ</string>
     <string name="media">Мултимедия</string>
     <string name="replies">Отговори</string>
     <string name="camera">Камера</string>
@@ -128,7 +128,7 @@
     <string name="show_boost">Показване на споделяния от %s</string>
     <string name="filters">Филтри</string>
     <string name="context_notification">Известия</string>
-    <string name="context_conversation">Разговори</string>
+    <string name="context_conversation">Беседи</string>
     <string name="block_domain">Блокиране на домейна</string>
     <string name="information">Информация</string>
     <string name="set_change_locale">Промяна на езика</string>
@@ -221,7 +221,7 @@
     <string name="scheduled">Планирани</string>
     <string name="moderator">Модератор</string>
     <string name="blocked_domains">Блокирани домейни</string>
-    <string name="set_post_format">Формат на публикацията</string>
+    <string name="set_post_format">Формат на публикация</string>
     <string name="bubble">Балон</string>
     <string name="Directory">Директория</string>
     <string name="my_account">Моят акаунт</string>
@@ -408,4 +408,22 @@
     <string name="tags_deleted">Хаштагът е премахнат!</string>
     <string name="tags_renamed">Хаштагът е сменен!</string>
     <string name="send_anyway">Изпращане въпреки това</string>
+    <string name="more_action_8">Временно заглушаване</string>
+    <string name="channel_notif_status">Нови публикации</string>
+    <string name="saving">Запазване…</string>
+    <string name="mute_conversation">Заглушаване на беседата</string>
+    <string name="toast_unmute_conversation">Беседата вече не е заглушена!</string>
+    <string name="toast_mute_conversation">Беседата е заглушена</string>
+    <string name="background_status_title">Публикации</string>
+    <string name="open_other_app">Отваряне с друго приложение</string>
+    <string name="post_message">Публикуване на съобщение…</string>
+    <string name="exit">Изход</string>
+    <string name="thumbnail">Миниатюра</string>
+    <string name="display_remote_conversation">Показване на отдалечената беседа</string>
+    <string name="open_with_account">Отваряне с друг акаунт</string>
+    <string name="expand_conversation">Разгъване на беседата</string>
+    <string name="set_remote_conversation_title">Отдалечени беседи</string>
+    <string name="toast_unpin">Съобщението вече не е закачено!</string>
+    <string name="post_format">Формат на публикация</string>
+    <string name="Pronouns">Местоимения</string>
 </resources>
