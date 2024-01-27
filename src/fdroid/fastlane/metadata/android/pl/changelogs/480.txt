@@ -1,0 +1,7 @@
+Zmienił:
+Pierwszy układ media będzie zależny od jego proporcji.
+
+Fixed:
+Niemożliwe jest dodawanie mediów z widokiem czatowym.
+Chat view ograniczony jest w chrzcie.
+Freezes / bad behavior ze względu na prezentację mediów

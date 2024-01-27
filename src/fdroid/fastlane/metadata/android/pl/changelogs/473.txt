@@ -1,0 +1,8 @@
+Added:
+Edit description and focus for media (następna wersja Mastodona).
+
+Zmienił:
+Peertube: usunięcie wsparcia rolnej w celu uniknięcia rozbicia ze starszymi instancjami.
+
+Fixed:
+Fix niektóre z nich rozbiły się

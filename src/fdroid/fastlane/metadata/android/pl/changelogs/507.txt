@@ -1,0 +1,2 @@
+- Problem z kompilacją
+- To wydanie powinno naprawić awarie (wyjątek TransactionTooLargeException). Jeśli wystąpią awarie, należy przywrócić wersję za pośrednictwem FDdroid.

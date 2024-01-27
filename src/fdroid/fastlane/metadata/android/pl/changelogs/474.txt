@@ -1,0 +1,15 @@
+Added:
+Peertube support
+- Kompozycja krótkotrwała (ang.)
+- Długotrwała prasa komponuje przycisk do napisania kolejnego konta.
+Edit description and focus for media (następna wersja Mastodona).
+
+Zmienił:
+Akcje krzyżowe z dwoma opisami wyświetlają dialog.
+Order & compact og values when sharing > title - url.
+Tap on top message (user info) – otwarte wątki.
+
+Fixed:
+- tekst wyjaśniony, kiedy dodał media.
+Fix Maths nie pracuje z cytatami.
+- katastrofa fix
