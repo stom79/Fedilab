@@ -1,0 +1,9 @@
+Engadido:
+- Ao tocar na cabeceira dunha conta móstrase a imaxe
+
+Arranxos:
+- perda da posición ao cambiar entre contras
+- perfil incorrecto ao activar as conversas remotas
+- cronoloxía local peertube
+- busca de instancias peertube
+- fallos da versión anterior
