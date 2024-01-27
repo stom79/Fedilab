@@ -1074,4 +1074,19 @@
     <string name="show_my_messages">Pokaż moje wiadomości</string>
     <string name="markdown_support">Obsługa Markdown</string>
     <string name="lemmy_instance">Instancja Lemmy</string>
+    <string name="thread_long_message">Dziel długie wiadomości w odpowiedziach</string>
+    <string name="thread_long_message_yes">Podziel wiadomość</string>
+    <string name="Pronouns">Zaimki</string>
+    <string name="set_disable_topbar_scrolling_title">Wyłącz przewijanie górnego paska</string>
+    <string name="thread_long_message_no">Nie dziel tego</string>
+    <string name="timeline_scrollbar">Wyświetl pasek przewijania osi czasu</string>
+    <string name="underline_links">Podkreśl klikalne elementy</string>
+    <string name="chart_home_cache">Home pamięci podręcznej na godzinę</string>
+    <string name="clipboard_version">Informacje zostały skopiowane do schowka</string>
+    <string name="copy_version">Skopiuj informacje</string>
+    <string name="set_display_relative_date">Wyświetla względną datę wiadomości</string>
+    <string name="thumbnail">Miniatura</string>
+    <string name="tag_already_followed">Już podążasz za tym tagiem!</string>
+    <string name="thread_long_this_message">Podzielić tę wiadomość w odpowiedziach?</string>
+    <string name="thread_long_message_message">Wiadomość zostanie podzielona na kilka odpowiedzi, aby uwzględnić maksymalną liczbę znaków instancji.</string>
 </resources>
