@@ -375,7 +375,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             binding.swipeContainer.setRefreshing(false);
             binding.swipeContainer.setEnabled(false);
         }
-
         if (arguments != null) {
             long bundleId = arguments.getLong(Helper.ARG_INTENT_ID, -1);
             if (bundleId != -1) {

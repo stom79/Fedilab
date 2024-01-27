@@ -14,8 +14,12 @@ package app.fedilab.android.mastodon.client.entities.app;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
+import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
+
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -23,6 +27,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcel;
 import android.util.Base64;
+
+import androidx.preference.PreferenceManager;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -35,6 +41,7 @@ import java.util.Date;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import app.fedilab.android.MainApplication;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -206,8 +213,14 @@ public class CachedBundle {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
-        if (account == null || target_id == null) {
+        if (target_id == null) {
             return null;
+        }
+        if (account == null) {
+            account = new BaseAccount();
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            account.user_id = sharedpreferences.getString(PREF_USER_ID, null);
+            account.instance = sharedpreferences.getString(PREF_USER_INSTANCE, null);
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_INTENT, null, Sqlite.COL_USER_ID + " = '" + account.user_id + "' AND "
@@ -235,8 +248,14 @@ public class CachedBundle {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
-        if (account == null || target_id == null) {
+        if (target_id == null) {
             return null;
+        }
+        if (account == null) {
+            account = new BaseAccount();
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            account.user_id = sharedpreferences.getString(PREF_USER_ID, null);
+            account.instance = sharedpreferences.getString(PREF_USER_INSTANCE, null);
         }
         try {
             Cursor c = db.query(Sqlite.TABLE_INTENT, null, Sqlite.COL_USER_ID + " = '" + account.user_id + "' AND "
