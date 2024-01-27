@@ -1073,4 +1073,5 @@
     <string name="tag_already_followed">Bu etiketi zaten takip ediyorsunuz!</string>
     <string name="timeline_scrollbar">Zaman çizelgeleri için kaydırma çubuğu göster</string>
     <string name="set_disable_topbar_scrolling_title">Üst çubuk kaydırmasını devre dışı bırak</string>
+    <string name="Pronouns">Zamirler</string>
 </resources>
