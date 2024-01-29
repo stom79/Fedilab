@@ -5,4 +5,4 @@ Changed:
 - Use Media3 library
 
 Fixed:
-- Crashes in preview release
+- Crashes from previous release
