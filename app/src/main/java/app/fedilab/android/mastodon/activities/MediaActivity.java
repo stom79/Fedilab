@@ -245,7 +245,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                             binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
                             binding.mediaDescription.setVisibility(View.GONE);
                             if (mCurrentFragment != null) {
-                                mCurrentFragment.toggleController(false);
+                                mCurrentFragment.toggleController(true);
                             }
                         } else {
                             Toasty.error(MediaActivity.this, getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
@@ -427,16 +427,10 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 binding.mediaDescription.setText(linkify(MediaActivity.this, description), TextView.BufferType.SPANNABLE);
                 if (attachments.get(binding.mediaViewpager.getCurrentItem()).translation != null) {
                     binding.mediaDescription.setVisibility(View.GONE);
-                    if (mCurrentFragment != null) {
-                        mCurrentFragment.toggleController(false);
-                    }
                     binding.mediaDescriptionTranslated.setText(attachments.get(binding.mediaViewpager.getCurrentItem()).translation);
                     binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
                 } else {
                     binding.mediaDescription.setVisibility(View.VISIBLE);
-                    if (mCurrentFragment != null) {
-                        mCurrentFragment.toggleController(true);
-                    }
                     binding.mediaDescriptionTranslated.setVisibility(View.GONE);
                 }
             } else {
@@ -448,18 +442,12 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 }
                 binding.mediaDescriptionTranslated.setVisibility(View.GONE);
                 binding.mediaDescription.setVisibility(View.GONE);
-                if (mCurrentFragment != null) {
-                    mCurrentFragment.toggleController(false);
-                }
             }
         } else {
             binding.originalMessage.setVisibility(View.INVISIBLE);
             binding.translate.setVisibility(View.GONE);
             binding.mediaDescriptionTranslated.setVisibility(View.GONE);
             binding.mediaDescription.setVisibility(View.GONE);
-            if (mCurrentFragment != null) {
-                mCurrentFragment.toggleController(false);
-            }
         }
     }
 
