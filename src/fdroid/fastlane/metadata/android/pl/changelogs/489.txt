@@ -1,0 +1,2 @@
+Dodano:
+- Android 12+: Dostosuj kolory akcentów dla jasnego/ciemnego motywu i dla konta (Ustawienia > Motyw > Niestandardowy kolor akcentu).

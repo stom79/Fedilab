@@ -1,0 +1,15 @@
+Added:
+- Wsparcie wielbłądów (automatycznie nagrywane podczas kompozycji)
+Manage tags when composing (top right menu) (ang.).
+Tablice zwyczajowe (obronne: ulepszona)
+
+Zmienił:
+- Media heights wykorzystuje rozmiary ekranu.
+Remove horyzontalny zwój dla mediów.
+Reduce wielkości emoji, gdy rozmiar tekstu wzrasta.
+- Update dostępne języki w wyborze
+
+Fixed:
+- Naprzód dodawane są znaki po usunięciu.
+TalkBack issue (ang.).
+Część z nich – kilka wypadków

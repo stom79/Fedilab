@@ -1,0 +1,6 @@
+Zmienił:
+Addd instance name (ang.).
+
+Fixed:
+Fix – katastrofa w wyniku usunięcia mediów.
+Innymi drobnymi ułożeniami są inne

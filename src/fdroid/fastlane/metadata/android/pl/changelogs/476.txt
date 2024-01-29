@@ -1,0 +1,7 @@
+Added:
+Cache home in background (default disabled ->) Nowe kategorie i konto) / zmienia częstotliwość częstotliwości.
+Auto-fetch missing messages for the Home (default disabled -> in Settings - Timelines) (ang.).
+Automatycznie przełącza się pomiędzy tabami podczas przeszukania tabeli.
+
+Fixed:
+Część z nich – kilka wypadków

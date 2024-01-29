@@ -1,0 +1,12 @@
+Zmienił:
+Peertube support
+- Kompozycja krótkotrwała
+- Długotrwała prasa komponuje przycisk do napisania kolejnego konta.
+
+Zmienił:
+Akcje krzyżowe z dwoma opisami wyświetlają dialog.
+Order & compact og values when sharing > title - url.
+
+Fixed:
+- tekst wyjaśniony, kiedy dodał media.
+- katastrofa fix

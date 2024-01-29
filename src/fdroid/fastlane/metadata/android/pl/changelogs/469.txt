@@ -1,0 +1,12 @@
+Added:
+Maths support (ang.).
+Filter DMs in HOME (ang.).
+Języki filterowe dla użytkowników w czasopiśmie domowym (od ich profilu).
+Addd – kilka języków przeznaczonych dla tłumaczy.
+
+Zmienił:
+Hide Single Media with preview to obecnie ustawa (default: disability).
+Grupa – przedmioty w menu wiadomości.
+
+Fixed:
+- nie wyświetlały przykładów konta

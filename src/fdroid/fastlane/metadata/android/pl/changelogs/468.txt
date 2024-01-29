@@ -1,0 +1,5 @@
+Added:
+Maths support (ang.).
+
+Zmienił:
+Hide Single Media with preview to obecnie ustawa (default: disability)
