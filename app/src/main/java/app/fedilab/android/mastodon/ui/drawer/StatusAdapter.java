@@ -16,7 +16,6 @@ package app.fedilab.android.mastodon.ui.drawer;
 
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentNightMode;
 import static app.fedilab.android.BaseMainActivity.currentUserID;
 import static app.fedilab.android.BaseMainActivity.emojis;
@@ -482,18 +481,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
-        if(statusToDeal.pronouns == null && statusToDeal.account.fields != null && statusToDeal.account.fields.size() > 0) {
-            for(Field field: statusToDeal.account.fields) {
-                if(field.name.toLowerCase().startsWith("pronoun")) {
+        if (statusToDeal.pronouns == null && statusToDeal.account.fields != null && statusToDeal.account.fields.size() > 0) {
+            for (Field field : statusToDeal.account.fields) {
+                if (field.name.toLowerCase().startsWith("pronoun")) {
                     statusToDeal.pronouns = field.value;
                     break;
                 }
             }
-            if(statusToDeal.pronouns == null) {
+            if (statusToDeal.pronouns == null) {
                 statusToDeal.pronouns = "none";
             }
         }
-        if(statusToDeal.pronouns != null && !statusToDeal.pronouns.equalsIgnoreCase("none")) {
+        if (statusToDeal.pronouns != null && !statusToDeal.pronouns.equalsIgnoreCase("none")) {
             holder.binding.pronouns.setVisibility(View.VISIBLE);
             holder.binding.pronouns.setText(statusToDeal.pronouns);
         } else {
@@ -523,7 +522,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Intent intent = new Intent(context, ContextActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_STATUS, statusToDeal.quote);
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
@@ -559,7 +558,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.quotedMessage.cardviewContainer.setVisibility(View.GONE);
         }
 
-        if (currentAccount != null && currentAccount.api == Account.API.PLEROMA || status.reactions != null) {
+        if (Helper.getCurrentAccount(context) != null && Helper.getCurrentAccount(context).api == Account.API.PLEROMA || status.reactions != null) {
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && status.pleroma.emoji_reactions.size() > 0) {
                 holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions, true);
@@ -958,7 +957,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     Intent intent = new Intent(context, ProfileActivity.class);
                                     Bundle args = new Bundle();
                                     args.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.reblog != null ? fetchedStatus.reblog.account : fetchedStatus.account);
-                                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                         Bundle bundle = new Bundle();
                                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                         intent.putExtras(bundle);
@@ -972,7 +971,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Intent intent = new Intent(context, ProfileActivity.class);
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_ACCOUNT, status.reblog != null ? status.reblog.account : status.account);
-                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);
@@ -990,7 +989,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     Intent intent = new Intent(context, ProfileActivity.class);
                                     Bundle args = new Bundle();
                                     args.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.account);
-                                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                         Bundle bundle = new Bundle();
                                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                         intent.putExtras(bundle);
@@ -1004,7 +1003,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Intent intent = new Intent(context, ProfileActivity.class);
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_ACCOUNT, status.account);
-                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);
@@ -1697,7 +1696,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 Bundle args = new Bundle();
                                 args.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
                                 args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
-                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                     Bundle bundle = new Bundle();
                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                     mediaIntent.putExtras(bundle);
@@ -1768,7 +1767,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 Bundle args = new Bundle();
                                 args.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
                                 args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
-                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                     Bundle bundle = new Bundle();
                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                     mediaIntent.putExtras(bundle);
@@ -1809,7 +1808,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 args.putSerializable(Helper.ARG_STATUS, statusToDeal);
                 args.putSerializable(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.BOOSTED_BY);
                 args.putBoolean(Helper.ARG_CHECK_REMOTELY, remote);
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
@@ -1825,7 +1824,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 args.putSerializable(Helper.ARG_STATUS, statusToDeal);
                 args.putSerializable(Helper.ARG_TYPE_OF_INFO, StatusInfoActivity.typeOfInfo.LIKED_BY);
                 args.putBoolean(Helper.ARG_CHECK_REMOTELY, remote);
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
@@ -2048,7 +2047,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (context instanceof ContextActivity && !remote) {
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_STATUS, statusToDeal);
-                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         Fragment fragment = Helper.addFragment(((AppCompatActivity) context).getSupportFragmentManager(), R.id.nav_host_fragment_content_main, new FragmentMastodonContext(), bundle, null, FragmentMastodonContext.class.getName());
@@ -2064,7 +2063,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             args.putString(Helper.ARG_LEMMY_POST_ID, status.lemmy_post_id);
                             args.putSerializable(Helper.ARG_STATUS, status);
                             Intent intent = new Intent(context, TimelineActivity.class);
-                            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                 Bundle bundle = new Bundle();
                                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                 intent.putExtras(bundle);
@@ -2081,7 +2080,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                             Intent intent = new Intent(context, ContextActivity.class);
                                             Bundle args = new Bundle();
                                             args.putSerializable(Helper.ARG_STATUS, fetchedStatus);
-                                            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                                 Bundle bundle = new Bundle();
                                                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                                 intent.putExtras(bundle);
@@ -2108,7 +2107,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         Intent intent = new Intent(context, ContextActivity.class);
                         Bundle args = new Bundle();
                         args.putSerializable(Helper.ARG_STATUS, statusToDeal);
-                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intent.putExtras(bundle);
@@ -2169,7 +2168,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
                 stringArrayConf = context.getResources().getStringArray(R.array.more_action_confirm);
             }
-            popup.getMenu().findItem(R.id.action_admin).setVisible(currentAccount.admin);
+            popup.getMenu().findItem(R.id.action_admin).setVisible(Helper.getCurrentAccount(context).admin);
 
             boolean custom_sharing = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOM_SHARING), false);
             if (custom_sharing && statusToDeal.visibility.equals("public"))
@@ -2200,7 +2199,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 Bundle args = new Bundle();
                                 args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
                                 args.putSerializable(Helper.ARG_STATUS_REPLY_ID, statusDeleted.in_reply_to_id);
-                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                     Bundle bundle = new Bundle();
                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                     intent.putExtras(bundle);
@@ -2230,7 +2229,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
                                     args.putString(Helper.ARG_EDIT_STATUS_ID, statusToDeal.id);
                                     args.putString(Helper.ARG_STATUS_REPLY_ID, statusToDeal.in_reply_to_id);
-                                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                         Bundle bundle = new Bundle();
                                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                         intent.putExtras(bundle);
@@ -2246,7 +2245,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Intent intent = new Intent(context, AdminAccountActivity.class);
                     Bundle args = new Bundle();
                     args.putString(Helper.ARG_ACCOUNT_ID, statusToDeal.account.id);
-                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);
@@ -2303,7 +2302,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     builderInner.setTitle(R.string.mute_home);
                     builderInner.setMessage(statusToDeal.account.acct);
                     builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(currentAccount, statusToDeal.account)
+                    builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(Helper.getCurrentAccount(context), statusToDeal.account)
                             .observe((LifecycleOwner) context, account -> Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show()));
                     builderInner.show();
                 } else if (itemId == R.id.action_mute_conversation) {
@@ -2347,7 +2346,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Intent intent = new Intent(context, ReportActivity.class);
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_STATUS, statusToDeal);
-                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);
@@ -2408,7 +2407,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Intent intent = new Intent(context, CustomSharingActivity.class);
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_STATUS, statusToDeal);
-                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);
@@ -2418,7 +2417,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Intent intent = new Intent(context, ComposeActivity.class);
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_STATUS_MENTION, statusToDeal);
-                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);
@@ -2453,7 +2452,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         BaseMainActivity.currentToken = account.token;
                                         BaseMainActivity.currentUserID = account.user_id;
                                         BaseMainActivity.currentInstance = account.instance;
-                                        currentAccount = account;
+                                        Helper.setCurrentAccount(account);
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
                                         editor.putString(PREF_USER_TOKEN, account.token);
                                         editor.putString(PREF_USER_SOFTWARE, account.software);
@@ -2479,7 +2478,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     BaseMainActivity.currentToken = account.token;
                                     BaseMainActivity.currentUserID = account.user_id;
                                     BaseMainActivity.currentInstance = account.instance;
-                                    currentAccount = account;
+                                    Helper.setCurrentAccount(account);
                                     SharedPreferences.Editor editor = sharedpreferences.edit();
                                     editor.putString(PREF_USER_TOKEN, account.token);
                                     editor.putString(PREF_USER_SOFTWARE, account.software);
@@ -2514,7 +2513,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Intent intent = new Intent(context, ComposeActivity.class);
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_QUOTED_MESSAGE, statusToDeal);
-            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);
@@ -2531,7 +2530,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 Intent intent = new Intent(context, ComposeActivity.class);
                                 Bundle args = new Bundle();
                                 args.putSerializable(Helper.ARG_STATUS_REPLY, fetchedStatus);
-                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                     Bundle bundle = new Bundle();
                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                     intent.putExtras(bundle);
@@ -2548,7 +2547,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (status.reblog != null) {
                     args.putSerializable(Helper.ARG_MENTION_BOOSTER, status.account);
                 }
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
@@ -2823,7 +2822,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Bundle args = new Bundle();
             args.putInt(Helper.ARG_MEDIA_POSITION, mediaPosition);
             args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(statusToDeal.media_attachments));
-            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 mediaIntent.putExtras(bundle);
@@ -2891,7 +2890,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             args.putBoolean(ARG_TIMELINE_REFRESH_ALL, true);
         }
         Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
-        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
             intentBC.putExtras(bundle);
@@ -3282,7 +3281,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Intent intent = new Intent(context, ProfileActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_ACCOUNT, status.account);
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
@@ -3297,7 +3296,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ArrayList<Attachment> attachments = new ArrayList<>();
                     attachments.add(status.art_attachment);
                     args.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
-                    new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         mediaIntent.putExtras(bundle);
@@ -3313,7 +3312,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Intent intent = new Intent(context, ContextActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_STATUS, status);
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
@@ -3348,7 +3347,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Intent intent = new Intent(context, ProfileActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_ACCOUNT, statusToDeal.account);
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
@@ -3359,7 +3358,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Intent intent = new Intent(context, ContextActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_STATUS, statusToDeal);
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);

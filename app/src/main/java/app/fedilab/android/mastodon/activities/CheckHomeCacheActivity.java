@@ -54,12 +54,12 @@ import java.util.List;
 import java.util.Locale;
 
 import app.fedilab.android.R;
-import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityCheckHomeCachetBinding;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.TimelineCacheLogs;
 import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import es.dmoral.toasty.Toasty;
 
@@ -88,7 +88,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        if (MainActivity.currentAccount == null || MainActivity.currentAccount.mastodon_account == null) {
+        if (Helper.getCurrentAccount(CheckHomeCacheActivity.this) == null || Helper.getCurrentAccount(CheckHomeCacheActivity.this).mastodon_account == null) {
             finish();
             return;
         }
@@ -107,7 +107,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
             try {
                 if (myRange == range.ALL) {
                     if (statuses == null) {
-                        statuses = new StatusCache(this).getHome(MainActivity.currentAccount);
+                        statuses = new StatusCache(this).getHome(Helper.getCurrentAccount(CheckHomeCacheActivity.this));
                         sortAsc(statuses);
                     }
                 } else if (myRange == range.DAY) {
@@ -247,7 +247,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
             try {
                 if (myRange == range.ALL) {
                     if (timelineCacheLogsList == null) {
-                        timelineCacheLogsList = new TimelineCacheLogs(this).getHome(MainActivity.currentAccount);
+                        timelineCacheLogsList = new TimelineCacheLogs(this).getHome(Helper.getCurrentAccount(CheckHomeCacheActivity.this));
                     }
                 } else if (myRange == range.DAY) {
                     if (timelineCacheLogsDayList == null && timelineCacheLogsList != null) {

@@ -15,8 +15,6 @@ package app.fedilab.android.mastodon.activities.admin;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
-
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
@@ -106,7 +104,7 @@ public class AdminReportActivity extends BaseBarActivity {
 
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(AdminReportActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            new CachedBundle(AdminReportActivity.this).getBundle(bundleId, Helper.getCurrentAccount(AdminReportActivity.this), this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
@@ -368,7 +366,7 @@ public class AdminReportActivity extends BaseBarActivity {
             attachments.add(attachment);
             args.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
             args.putInt(Helper.ARG_MEDIA_POSITION, 1);
-            new CachedBundle(AdminReportActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            new CachedBundle(AdminReportActivity.this).insertBundle(args, Helper.getCurrentAccount(AdminReportActivity.this), bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);

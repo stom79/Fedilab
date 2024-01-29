@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.viewmodel.mastodon;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.app.Application;
 import android.os.Handler;
@@ -27,6 +26,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
 import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.helper.Helper;
 
 
 public class TopBarVM extends AndroidViewModel {
@@ -44,7 +44,7 @@ public class TopBarVM extends AndroidViewModel {
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Pinned pinnedTimeline = null;
             try {
-                pinnedTimeline = pinned.getPinned(currentAccount);
+                pinnedTimeline = pinned.getPinned(Helper.getCurrentAccount(getApplication().getApplicationContext()));
             } catch (DBException e) {
                 e.printStackTrace();
             }

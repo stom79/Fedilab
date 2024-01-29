@@ -213,7 +213,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static boolean filterFetched;
     public static boolean show_boosts, show_replies, show_dms, show_art_nsfw, show_self_boosts, show_self_replies, show_my_messages;
     public static String regex_home, regex_local, regex_public;
-    public static BaseAccount currentAccount;
     public static iconLauncher mLauncher = iconLauncher.BUBBLES;
     public static boolean headerMenuOpen;
     public static int currentNightMode;
@@ -226,7 +225,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             Bundle args = intent.getExtras();
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-                new CachedBundle(BaseMainActivity.this).getBundle(bundleId, currentAccount, bundle -> {
+                new CachedBundle(BaseMainActivity.this).getBundle(bundleId, Helper.getCurrentAccount(BaseMainActivity.this), bundle -> {
                     if (bundle.getBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, false)) {
                         String errorMessage = bundle.getString(Helper.RECEIVE_ERROR_MESSAGE);
                         StatusDraft statusDraft = (StatusDraft) bundle.getSerializable(Helper.ARG_STATUS_DRAFT);
@@ -239,7 +238,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                     Intent intentCompose = new Intent(context, ComposeActivity.class);
                                     Bundle args2 = new Bundle();
                                     args2.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
-                                    new CachedBundle(BaseMainActivity.this).insertBundle(args2, currentAccount, bundleId2 -> {
+                                    new CachedBundle(BaseMainActivity.this).insertBundle(args2, Helper.getCurrentAccount(BaseMainActivity.this), bundleId2 -> {
                                         Bundle bundle2 = new Bundle();
                                         bundle2.putLong(Helper.ARG_INTENT_ID, bundleId2);
                                         intentCompose.putExtras(bundle2);
@@ -262,13 +261,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             Bundle args = intent.getExtras();
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-                new CachedBundle(BaseMainActivity.this).getBundle(bundleId, currentAccount, bundle -> {
+                new CachedBundle(BaseMainActivity.this).getBundle(bundleId, Helper.getCurrentAccount(BaseMainActivity.this), bundle -> {
                     if (bundle.getBoolean(Helper.RECEIVE_REDRAW_TOPBAR, false)) {
                         List<MastodonList> mastodonLists = (List<MastodonList>) bundle.getSerializable(Helper.RECEIVE_MASTODON_LIST);
                         redrawPinned(mastodonLists);
                     }
                     if (bundle.getBoolean(Helper.RECEIVE_REDRAW_BOTTOM, false)) {
-                        bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
+                        bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(Helper.getCurrentAccount(BaseMainActivity.this), binding.bottomNavView);
                         if (bottomMenu != null) {
                             //ManageClick on bottom menu items
                             if (binding.bottomNavView.findViewById(R.id.nav_home) != null) {
@@ -321,7 +320,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                     Intent intentContext = new Intent(BaseMainActivity.this, ContextActivity.class);
                                     Bundle args2 = new Bundle();
                                     args2.putSerializable(Helper.ARG_STATUS, statusSent);
-                                    new CachedBundle(BaseMainActivity.this).insertBundle(args2, currentAccount, bundleId2 -> {
+                                    new CachedBundle(BaseMainActivity.this).insertBundle(args2, Helper.getCurrentAccount(BaseMainActivity.this), bundleId2 -> {
                                         Bundle bundle2 = new Bundle();
                                         bundle2.putLong(Helper.ARG_INTENT_ID, bundleId2);
                                         intentContext.putExtras(bundle2);
@@ -360,18 +359,18 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         //Fetch some db values to initialize data
         new Thread(() -> {
             try {
-                if (currentAccount == null) {
+                if (Helper.getCurrentAccount(activity) == null) {
                     if (currentToken == null || currentToken.trim().isEmpty()) {
                         currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
                     }
                     try {
-                        currentAccount = new Account(activity).getConnectedAccount();
+                        Helper.setCurrentAccount(new Account(activity).getConnectedAccount());
                     } catch (DBException e) {
                         e.printStackTrace();
                     }
                 }
-                if (currentAccount != null) {
-                    MutedAccounts mutedAccounts = new MutedAccounts(activity).getMutedAccount(currentAccount);
+                if (Helper.getCurrentAccount(activity) != null) {
+                    MutedAccounts mutedAccounts = new MutedAccounts(activity).getMutedAccount(Helper.getCurrentAccount(activity));
                     if (mutedAccounts != null && mutedAccounts.accounts != null) {
                         filteredAccounts = mutedAccounts.accounts;
                     }
@@ -620,9 +619,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }).start();
         } else {
             navigationView.getMenu().clear();
-            if (MainActivity.currentAccount.mastodon_account != null) {
+            if (Helper.getCurrentAccount(activity).mastodon_account != null) {
                 navigationView.inflateMenu(R.menu.activity_main_drawer);
-            } else if (MainActivity.currentAccount.peertube_account != null) {
+            } else if (Helper.getCurrentAccount(activity).peertube_account != null) {
                 navigationView.inflateMenu(R.menu.activity_main_drawer_peertube);
             }
             headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
@@ -640,10 +639,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             if (itemId == R.id.action_logout_account) {
                 AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity);
                 alt_bld.setTitle(R.string.action_logout);
-                if (currentAccount.mastodon_account != null && currentAccount.instance != null) {
-                    alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, currentAccount.mastodon_account.username, currentAccount.instance));
-                } else if (currentAccount.peertube_account != null && currentAccount.instance != null) {
-                    alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, currentAccount.peertube_account.getUsername(), currentAccount.instance));
+                if (Helper.getCurrentAccount(activity).mastodon_account != null && Helper.getCurrentAccount(activity).instance != null) {
+                    alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, Helper.getCurrentAccount(activity).mastodon_account.username, Helper.getCurrentAccount(activity).instance));
+                } else if (Helper.getCurrentAccount(activity).peertube_account != null && Helper.getCurrentAccount(activity).instance != null) {
+                    alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, Helper.getCurrentAccount(activity).peertube_account.getUsername(), Helper.getCurrentAccount(activity).instance));
                 } else {
                     alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, "", ""));
                 }
@@ -677,14 +676,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         if (intent != null && intent.getExtras() != null) {
             Bundle args = intent.getExtras();
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(activity).getBundle(bundleId, currentAccount, bundle -> {
+            new CachedBundle(activity).getBundle(bundleId, Helper.getCurrentAccount(activity), bundle -> {
                 app.fedilab.android.mastodon.client.entities.api.Account account = (app.fedilab.android.mastodon.client.entities.api.Account) bundle.getSerializable(Helper.INTENT_TARGETED_ACCOUNT);
                 Status status = (Status) bundle.getSerializable(Helper.INTENT_TARGETED_STATUS);
                 if (account != null) {
                     Intent intentAccount = new Intent(activity, ProfileActivity.class);
                     Bundle args2 = new Bundle();
                     args2.putSerializable(Helper.ARG_ACCOUNT, account);
-                    new CachedBundle(activity).insertBundle(args2, currentAccount, bundleId2 -> {
+                    new CachedBundle(activity).insertBundle(args2, Helper.getCurrentAccount(activity), bundleId2 -> {
                         Bundle bundleCached = new Bundle();
                         bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId2);
                         intentAccount.putExtras(bundleCached);
@@ -695,7 +694,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     Intent intentContext = new Intent(activity, ContextActivity.class);
                     Bundle args2 = new Bundle();
                     args2.putSerializable(Helper.ARG_STATUS, status);
-                    new CachedBundle(activity).insertBundle(args2, currentAccount, bundleId2 -> {
+                    new CachedBundle(activity).insertBundle(args2, Helper.getCurrentAccount(activity), bundleId2 -> {
                         Bundle bundleCached = new Bundle();
                         bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId2);
                         intentContext.putExtras(bundleCached);
@@ -731,7 +730,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 args.putBoolean(ARG_REFRESH_NOTFICATION, true);
                 Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
                 intentBC.setPackage(BuildConfig.APPLICATION_ID);
-                new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(activity).insertBundle(args, Helper.getCurrentAccount(activity), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intentBC.putExtras(bundle);
@@ -808,14 +807,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_NOTIFICATION) {
                 openNotifications(activity, intent);
             } else if (extras.getInt(Helper.INTENT_ACTION) == Helper.OPEN_WITH_ANOTHER_ACCOUNT) {
-                CrossActionHelper.fetchRemoteStatus(activity, MainActivity.currentAccount, urlOfMessage, new CrossActionHelper.Callback() {
+                CrossActionHelper.fetchRemoteStatus(activity, Helper.getCurrentAccount(activity), urlOfMessage, new CrossActionHelper.Callback() {
                     @Override
                     public void federatedStatus(Status status) {
                         if (status != null) {
                             Intent intent = new Intent(activity, ContextActivity.class);
                             Bundle args = new Bundle();
                             args.putSerializable(Helper.ARG_STATUS, status);
-                            new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                            new CachedBundle(activity).insertBundle(args, Helper.getCurrentAccount(activity), bundleId -> {
                                 Bundle bundle = new Bundle();
                                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                 intent.putExtras(bundle);
@@ -1041,26 +1040,26 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 Matcher matcherLink;
                 matcherLink = link.matcher(url);
                 if (matcherLink.find()) {
-                    if (currentAccount == null) {
+                    if (Helper.getCurrentAccount(activity) == null) {
                         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
                         if (currentToken == null || currentToken.trim().isEmpty()) {
                             currentToken = sharedpreferences.getString(Helper.PREF_USER_TOKEN, null);
                         }
                         try {
-                            currentAccount = new Account(activity).getConnectedAccount();
+                            Helper.setCurrentAccount(new Account(activity).getConnectedAccount());
                         } catch (DBException e) {
                             e.printStackTrace();
                         }
                     }
                     if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
-                        CrossActionHelper.fetchRemoteStatus(activity, currentAccount, url, new CrossActionHelper.Callback() {
+                        CrossActionHelper.fetchRemoteStatus(activity, Helper.getCurrentAccount(activity), url, new CrossActionHelper.Callback() {
                             @Override
                             public void federatedStatus(Status status) {
                                 if (status != null) {
                                     Intent intent = new Intent(activity, ContextActivity.class);
                                     Bundle args = new Bundle();
                                     args.putSerializable(Helper.ARG_STATUS, status);
-                                    new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                                    new CachedBundle(activity).insertBundle(args, Helper.getCurrentAccount(activity), bundleId -> {
                                         Bundle bundle = new Bundle();
                                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                         intent.putExtras(bundle);
@@ -1077,7 +1076,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             }
                         });
                     } else {//It's an account
-                        CrossActionHelper.fetchRemoteAccount(activity, currentAccount, matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
+                        CrossActionHelper.fetchRemoteAccount(activity, Helper.getCurrentAccount(activity), matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
                             @Override
                             public void federatedStatus(Status status) {
                             }
@@ -1088,7 +1087,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                     Intent intent = new Intent(activity, ProfileActivity.class);
                                     Bundle args = new Bundle();
                                     args.putSerializable(Helper.ARG_ACCOUNT, account);
-                                    new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                                    new CachedBundle(activity).insertBundle(args, Helper.getCurrentAccount(activity), bundleId -> {
                                         Bundle bundle = new Bundle();
                                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                         intent.putExtras(bundle);
@@ -1148,27 +1147,26 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
         }
         NavHeaderMainBinding headerMainBinding = NavHeaderMainBinding.inflate(getLayoutInflater());
-        currentAccount = null;
         //Update account details
         new Thread(() -> {
             try {
                 if (currentToken == null) {
                     currentToken = sharedpreferences.getString(PREF_USER_TOKEN, null);
                 }
-                currentAccount = new Account(BaseMainActivity.this).getConnectedAccount();
+                Helper.setCurrentAccount(new Account(BaseMainActivity.this).getConnectedAccount());
             } catch (DBException e) {
                 e.printStackTrace();
             }
             //Apply the custom theme
-            if (currentAccount != null && currentInstance == null) {
-                currentInstance = currentAccount.instance;
-                currentUserID = currentAccount.user_id;
+            if (Helper.getCurrentAccount(BaseMainActivity.this) != null && currentInstance == null) {
+                currentInstance = Helper.getCurrentAccount(BaseMainActivity.this).instance;
+                currentUserID = Helper.getCurrentAccount(BaseMainActivity.this).user_id;
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = this::recreate;
                 mainHandler.post(myRunnable);
             }
 
-            if (currentAccount != null && currentAccount.peertube_account != null) {
+            if (Helper.getCurrentAccount(BaseMainActivity.this) != null && Helper.getCurrentAccount(BaseMainActivity.this).peertube_account != null) {
                 //It is a peertube user
                 Intent intent = getIntent();
                 Intent myIntent = new Intent(this, PeertubeMainActivity.class);
@@ -1189,7 +1187,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 return;
             }
             //If the attached account is null, the app will fetch remote instance to get up-to-date values
-            if (currentAccount != null && currentAccount.mastodon_account == null) {
+            if (Helper.getCurrentAccount(BaseMainActivity.this) != null && Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account == null) {
                 OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("https://" + (MainActivity.currentInstance != null ? IDN.toASCII(MainActivity.currentInstance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
@@ -1202,7 +1200,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     try {
                         retrofit2.Response<app.fedilab.android.mastodon.client.entities.api.Account> accountResponse = accountCall.execute();
                         if (accountResponse.isSuccessful()) {
-                            currentAccount.mastodon_account = accountResponse.body();
+                            Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account = accountResponse.body();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1211,9 +1209,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
-                if (currentAccount == null || (currentAccount.mastodon_account == null && currentAccount.peertube_account == null)) {
+                if (Helper.getCurrentAccount(BaseMainActivity.this) == null || (Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account == null && Helper.getCurrentAccount(BaseMainActivity.this).peertube_account == null)) {
                     //It is not, the user is redirected to the login page
-                    if (currentAccount != null) {
+                    if (Helper.getCurrentAccount(BaseMainActivity.this) != null) {
                         try {
                             Helper.removeAccount(BaseMainActivity.this);
                         } catch (DBException e) {
@@ -1229,11 +1227,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     }
                     return;
                 }
-                bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(currentAccount, binding.bottomNavView);
-                if (currentAccount.mastodon_account.locked) {
+                bottomMenu = new BottomMenu(BaseMainActivity.this).hydrate(Helper.getCurrentAccount(BaseMainActivity.this), binding.bottomNavView);
+                if (Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account.locked) {
                     binding.navView.getMenu().findItem(R.id.nav_follow_requests).setVisible(true);
                 }
-                if (currentAccount.admin) {
+                if (Helper.getCurrentAccount(BaseMainActivity.this).admin) {
                     binding.navView.getMenu().findItem(R.id.nav_administration).setVisible(true);
                 }
                 if (bottomMenu != null) {
@@ -1280,8 +1278,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     });
                 }
 
-                currentInstance = currentAccount.instance;
-                currentUserID = currentAccount.user_id;
+                currentInstance = Helper.getCurrentAccount(BaseMainActivity.this).instance;
+                currentUserID = Helper.getCurrentAccount(BaseMainActivity.this).user_id;
 
                 show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, true);
                 show_my_messages = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance, true);
@@ -1295,22 +1293,22 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 show_art_nsfw = sharedpreferences.getBoolean(getString(R.string.SET_ART_WITH_NSFW) + currentUserID + currentInstance, false);
 
                 binding.profilePicture.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.START));
-                Helper.loadPP(BaseMainActivity.this, binding.profilePicture, currentAccount);
-                headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.mastodon_account.username, currentAccount.instance));
-                if (currentAccount.mastodon_account.display_name == null || currentAccount.mastodon_account.display_name.isEmpty()) {
-                    currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
+                Helper.loadPP(BaseMainActivity.this, binding.profilePicture, Helper.getCurrentAccount(BaseMainActivity.this));
+                headerMainBinding.accountAcc.setText(String.format("%s@%s", Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account.username, Helper.getCurrentAccount(BaseMainActivity.this).instance));
+                if (Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account.display_name == null || Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account.display_name.isEmpty()) {
+                    Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account.display_name = Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account.acct;
                 }
                 if (!isFinishing()) {
                     headerMainBinding.accountName.setText(
-                            currentAccount.mastodon_account.getSpanDisplayNameEmoji(BaseMainActivity.this,
+                            Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account.getSpanDisplayNameEmoji(BaseMainActivity.this,
                                     new WeakReference<>(headerMainBinding.accountName)),
                             TextView.BufferType.SPANNABLE);
                 }
                 float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
                 headerMainBinding.accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
                 headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-                Helper.loadPP(BaseMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
-                MastodonHelper.loadProfileMediaMastodon(BaseMainActivity.this, headerMainBinding.backgroundImage, currentAccount.mastodon_account, MastodonHelper.MediaAccountType.HEADER);
+                Helper.loadPP(BaseMainActivity.this, headerMainBinding.accountProfilePicture, Helper.getCurrentAccount(BaseMainActivity.this), false);
+                MastodonHelper.loadProfileMediaMastodon(BaseMainActivity.this, headerMainBinding.backgroundImage, Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account, MastodonHelper.MediaAccountType.HEADER);
                 headerMainBinding.backgroundImage.setAlpha(0.5f);
                 /*
                  * Some general data are loaded when the app starts such;
@@ -1351,13 +1349,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class).getConnectedAccount(currentInstance, currentToken)
                         .observe(BaseMainActivity.this, mastodonAccount -> {
                             //Initialize static var
-                            if (mastodonAccount != null && currentAccount != null) {
-                                currentAccount.mastodon_account = mastodonAccount;
+                            if (mastodonAccount != null && Helper.getCurrentAccount(BaseMainActivity.this) != null) {
+                                Helper.setCurrentAccountMastodonAccount(BaseMainActivity.this, mastodonAccount);
                                 displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
                                 new Thread(() -> {
                                     try {
                                         //Update account in db
-                                        new Account(BaseMainActivity.this).insertOrUpdate(currentAccount);
+                                        new Account(BaseMainActivity.this).insertOrUpdate(Helper.getCurrentAccount(BaseMainActivity.this));
                                     } catch (DBException e) {
                                         e.printStackTrace();
                                     }
@@ -1475,8 +1473,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         headerMainBinding.accountProfilePicture.setOnClickListener(v -> {
             Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
             Bundle args = new Bundle();
-            args.putSerializable(Helper.ARG_ACCOUNT, currentAccount.mastodon_account);
-            new CachedBundle(BaseMainActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            args.putSerializable(Helper.ARG_ACCOUNT, Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account);
+            new CachedBundle(BaseMainActivity.this).insertBundle(args, Helper.getCurrentAccount(BaseMainActivity.this), bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);

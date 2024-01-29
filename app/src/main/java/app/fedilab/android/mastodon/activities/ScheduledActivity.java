@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityScheduledBinding;
+import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.ui.pageadapter.FedilabScheduledPageAdapter;
 
@@ -55,7 +55,7 @@ public class ScheduledActivity extends BaseActivity {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
         binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-        MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
+        MastodonHelper.loadPPMastodon(binding.profilePicture, Helper.getCurrentAccount(ScheduledActivity.this).mastodon_account);
         binding.title.setText(R.string.scheduled);
         binding.scheduleTablayout.addTab(binding.scheduleTablayout.newTab().setText(getString(R.string.toots_server)));
         binding.scheduleTablayout.addTab(binding.scheduleTablayout.newTab().setText(getString(R.string.toots_client)));

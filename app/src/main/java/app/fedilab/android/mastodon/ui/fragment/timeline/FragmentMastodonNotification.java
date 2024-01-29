@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -78,7 +77,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             Bundle args = intent.getExtras();
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
+                new CachedBundle(requireActivity()).getBundle(bundleId, Helper.getCurrentAccount(requireActivity()), bundle -> {
                     Status receivedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS_ACTION);
                     String delete_all_for_account_id = bundle.getString(Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID);
                     boolean refreshNotifications = bundle.getBoolean(Helper.ARG_REFRESH_NOTFICATION, false);
@@ -691,14 +690,14 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             e.printStackTrace();
         }
         if (isAdded()) {
-            storeMarker(currentAccount);
+            storeMarker(Helper.getCurrentAccount(requireActivity()));
         }
         super.onDestroyView();
     }
 
     @Override
     public void onPause() {
-        storeMarker(currentAccount);
+        storeMarker(Helper.getCurrentAccount(requireActivity()));
         super.onPause();
     }
 

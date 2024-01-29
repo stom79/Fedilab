@@ -133,7 +133,7 @@ public class FragmentHomeCacheSettings extends PreferenceFragmentCompat implemen
                     editor.putBoolean(getString(R.string.SET_FETCH_HOME) + MainActivity.currentUserID + MainActivity.currentInstance, SET_FETCH_HOME.isChecked());
                     editor.commit();
                     if (SET_FETCH_HOME.isChecked()) {
-                        FetchHomeWorker.setRepeatHome(requireActivity(), MainActivity.currentAccount, inputData);
+                        FetchHomeWorker.setRepeatHome(requireActivity(), Helper.getCurrentAccount(requireActivity()), inputData);
                     } else {
                         WorkManager.getInstance(requireActivity()).cancelAllWorkByTag(Helper.WORKER_REFRESH_HOME + MainActivity.currentUserID + MainActivity.currentInstance);
                     }
@@ -145,7 +145,7 @@ public class FragmentHomeCacheSettings extends PreferenceFragmentCompat implemen
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString(getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_FETCH_HOME_DELAY_VALUE.getValue());
                     editor.commit();
-                    FetchHomeWorker.setRepeatHome(requireActivity(), MainActivity.currentAccount, inputData);
+                    FetchHomeWorker.setRepeatHome(requireActivity(), Helper.getCurrentAccount(requireActivity()), inputData);
                 }
             }
         }

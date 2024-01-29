@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -77,7 +76,7 @@ public class ReportActivity extends BaseBarActivity {
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
             if (bundleId != -1) {
-                new CachedBundle(ReportActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+                new CachedBundle(ReportActivity.this).getBundle(bundleId, Helper.getCurrentAccount(ReportActivity.this), this::initializeAfterBundle);
             } else {
                 initializeAfterBundle(args);
             }
@@ -243,7 +242,7 @@ public class ReportActivity extends BaseBarActivity {
             status.isChecked = true;
             args.putSerializable(Helper.ARG_STATUS_REPORT, status);
         }
-        new CachedBundle(ReportActivity.this).insertBundle(args, currentAccount, bundleId -> {
+        new CachedBundle(ReportActivity.this).insertBundle(args, Helper.getCurrentAccount(ReportActivity.this), bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
             fragment.setArguments(bundle);
@@ -273,7 +272,7 @@ public class ReportActivity extends BaseBarActivity {
             status.isChecked = true;
             args.putSerializable(Helper.ARG_STATUS_REPORT, status);
         }
-        new CachedBundle(ReportActivity.this).insertBundle(args, currentAccount, bundleId -> {
+        new CachedBundle(ReportActivity.this).insertBundle(args, Helper.getCurrentAccount(ReportActivity.this), bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
             fragment.setArguments(bundle);

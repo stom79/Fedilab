@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import static android.content.Context.DOWNLOAD_SERVICE;
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.helper.LogoHelper.getMainLogo;
 
 import android.app.Activity;
@@ -172,7 +171,7 @@ public class MediaHelper {
                             intent.setDataAndType(uri, mime);
                             MediaScannerConnection.scanFile(context, new String[]{backupFile.getAbsolutePath()}, null, null);
                             if (!share) {
-                                Helper.notify_user(context, currentAccount, intent, BitmapFactory.decodeResource(context.getResources(),
+                                Helper.notify_user(context, Helper.getCurrentAccount(context), intent, BitmapFactory.decodeResource(context.getResources(),
                                         getMainLogo(context)), Helper.NotifType.STORE, context.getString(R.string.save_over), context.getString(R.string.download_from, fileName));
                                 Toasty.success(context, context.getString(R.string.save_over), Toasty.LENGTH_LONG).show();
                             } else {

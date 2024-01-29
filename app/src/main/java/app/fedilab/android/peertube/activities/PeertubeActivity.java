@@ -16,7 +16,6 @@ package app.fedilab.android.peertube.activities;
 
 
 import static androidx.media3.common.Player.MEDIA_ITEM_TRANSITION_REASON_AUTO;
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
@@ -289,8 +288,8 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
             sepiaSearch = b.getBoolean("sepia_search", false);
             peertube = (VideoData.Video) b.getSerializable("video");
         }
-        if (currentAccount != null && currentAccount.peertube_account != null) {
-            binding.myAcct.setText(String.format("@%s@%s", currentAccount.peertube_account.getUsername(), currentAccount.instance));
+        if (app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeActivity.this) != null && app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeActivity.this).peertube_account != null) {
+            binding.myAcct.setText(String.format("@%s@%s", app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeActivity.this).peertube_account.getUsername(), app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeActivity.this).instance));
         }
         //If the activity was called from a URL
         willPlayFromIntent = manageIntentUrl(intent);

@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -82,7 +81,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
         } else if (type == Timeline.TimeLineEnum.SCHEDULED_TOOT_CLIENT) {
             new Thread(() -> {
                 try {
-                    List<StatusDraft> scheduledDrafts = new StatusDraft(requireActivity()).geStatusDraftScheduledList(currentAccount);
+                    List<StatusDraft> scheduledDrafts = new StatusDraft(requireActivity()).geStatusDraftScheduledList(Helper.getCurrentAccount(requireActivity()));
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     Runnable myRunnable = () -> {
                         binding.loader.setVisibility(View.GONE);
@@ -107,7 +106,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
         } else if (type == Timeline.TimeLineEnum.SCHEDULED_BOOST) {
             new Thread(() -> {
                 try {
-                    List<ScheduledBoost> scheduledBoosts = new ScheduledBoost(requireActivity()).getScheduled(currentAccount);
+                    List<ScheduledBoost> scheduledBoosts = new ScheduledBoost(requireActivity()).getScheduled(Helper.getCurrentAccount(requireActivity()));
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     Runnable myRunnable = () -> {
                         binding.loader.setVisibility(View.GONE);

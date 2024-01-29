@@ -1,8 +1,6 @@
 package app.fedilab.android.mastodon.imageeditor;
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -330,7 +328,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                                 args.putFloat("focusX", focusX);
                                 args.putFloat("focusY", focusY);
                             }
-                            new CachedBundle(EditImageActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                            new CachedBundle(EditImageActivity.this).insertBundle(args, Helper.getCurrentAccount(EditImageActivity.this), bundleId -> {
                                 intentImage.putExtras(args);
                                 intentImage.setPackage(BuildConfig.APPLICATION_ID);
                                 sendBroadcast(intentImage);

@@ -14,7 +14,7 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.BaseMainActivity.currentUserID;
@@ -115,7 +115,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
             Bundle args = intent.getExtras();
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
+                new CachedBundle(requireActivity()).getBundle(bundleId, Helper.getCurrentAccount(requireActivity()), bundle -> {
                     if (bundle.getBoolean(Helper.RECEIVE_NEW_MESSAGE, false)) {
                         Status statusReceived = (Status) bundle.getSerializable(Helper.RECEIVE_STATUS_ACTION);
                         if (statusReceived != null) {
@@ -137,7 +137,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
         binding = FragmentDirectMessageBinding.inflate(inflater, container, false);
         if (getArguments() != null) {
             long bundleId = getArguments().getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            new CachedBundle(requireActivity()).getBundle(bundleId, Helper.getCurrentAccount(requireActivity()), this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
@@ -569,7 +569,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
             statusCompose.in_reply_to_id = lastStatus.id;
             statusCompose.visibility = "direct";
             statusCompose.mentions = new ArrayList<>();
-            if (lastStatus.account.acct != null && currentAccount.mastodon_account != null && !lastStatus.account.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+            if (lastStatus.account.acct != null && Helper.getCurrentAccount(requireActivity()).mastodon_account != null && !lastStatus.account.acct.equalsIgnoreCase(Helper.getCurrentAccount(requireActivity()).mastodon_account.acct)) {
                 Mention mention = new Mention();
                 mention.acct = "@" + lastStatus.account.acct;
                 mention.url = lastStatus.account.url;
@@ -579,7 +579,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
             //There are other mentions to
             if (lastStatus.mentions != null && lastStatus.mentions.size() > 0) {
                 for (Mention mentionTmp : lastStatus.mentions) {
-                    if (currentAccount.mastodon_account != null && !mentionTmp.acct.equalsIgnoreCase(currentAccount.mastodon_account.acct)) {
+                    if (Helper.getCurrentAccount(requireActivity()).mastodon_account != null && !mentionTmp.acct.equalsIgnoreCase(Helper.getCurrentAccount(requireActivity()).mastodon_account.acct)) {
                         statusCompose.mentions.add(mentionTmp);
                     }
                 }

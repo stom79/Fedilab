@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.networkAvailable;
 
@@ -98,7 +97,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             Bundle args = intent.getExtras();
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
+                new CachedBundle(requireActivity()).getBundle(bundleId, Helper.getCurrentAccount(requireActivity()), bundle -> {
                     Status receivedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS_ACTION);
                     String delete_statuses_for_user = bundle.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
                     String delete_all_for_account_id = bundle.getString(Helper.ARG_DELETE_ALL_FOR_ACCOUNT_ID);
@@ -378,11 +377,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (arguments != null) {
             long bundleId = arguments.getLong(Helper.ARG_INTENT_ID, -1);
             if (bundleId != -1) {
-                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+                new CachedBundle(requireActivity()).getBundle(bundleId, Helper.getCurrentAccount(requireActivity()), this::initializeAfterBundle);
             } else {
                 if (arguments.containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
                     try {
-                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, arguments.getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(Helper.getCurrentAccount(requireActivity()), arguments.getString(Helper.ARG_CACHED_ACCOUNT_ID));
                     } catch (DBException e) {
                         e.printStackTrace();
                     }
@@ -855,7 +854,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     @Override
     public void onPause() {
-        storeMarker(currentAccount);
+        storeMarker(Helper.getCurrentAccount(requireActivity()));
         super.onPause();
     }
 
@@ -863,7 +862,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     public void onDestroyView() {
         //Update last read id for home timeline
         if (isAdded()) {
-            storeMarker(currentAccount);
+            storeMarker(Helper.getCurrentAccount(requireActivity()));
         }
         try {
             requireActivity().unregisterReceiver(receive_action);
@@ -1143,7 +1142,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                                     }
                                                     initializeStatusesCommonView(otherStatuses);
                                                 }));
-                            } else if(accountTimeline != null){
+                            } else if (accountTimeline != null) {
                                 tempToken[0] = MainActivity.currentToken;
                                 tempInstance[0] = currentInstance;
                                 accountId[0] = accountTimeline.id;
@@ -1154,7 +1153,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 } else {
                     accountId[0] = accountIDInRemoteInstance;
                 }
-            } else if(accountTimeline != null){
+            } else if (accountTimeline != null) {
                 tempToken[0] = MainActivity.currentToken;
                 tempInstance[0] = currentInstance;
                 accountId[0] = accountTimeline.id;

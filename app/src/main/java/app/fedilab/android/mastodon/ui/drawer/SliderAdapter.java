@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.ui.drawer;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.app.Activity;
 import android.content.Context;
@@ -108,7 +107,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                 Bundle args = new Bundle();
                 args.putInt(Helper.ARG_MEDIA_POSITION, position + 1);
                 args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     mediaIntent.putExtras(bundle);

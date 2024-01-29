@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.ui.fragment.media;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -84,11 +83,11 @@ public class FragmentMediaProfile extends Fragment {
         if (arguments != null) {
             long bundleId = arguments.getLong(Helper.ARG_INTENT_ID, -1);
             if (bundleId != -1) {
-                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+                new CachedBundle(requireActivity()).getBundle(bundleId, Helper.getCurrentAccount(requireActivity()), this::initializeAfterBundle);
             } else {
                 if (arguments.containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
                     try {
-                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, arguments.getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(Helper.getCurrentAccount(requireActivity()), arguments.getString(Helper.ARG_CACHED_ACCOUNT_ID));
                     } catch (DBException e) {
                         e.printStackTrace();
                     }

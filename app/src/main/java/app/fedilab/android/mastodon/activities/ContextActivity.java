@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 
 import android.content.Intent;
@@ -99,7 +98,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         Bundle args = getIntent().getExtras();
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(ContextActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            new CachedBundle(ContextActivity.this).getBundle(bundleId, Helper.getCurrentAccount(ContextActivity.this), this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
@@ -111,7 +110,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
             remote_instance = bundle.getString(Helper.ARG_REMOTE_INSTANCE, null);
             focusedStatusURI = bundle.getString(Helper.ARG_FOCUSED_STATUS_URI, null);
         }
-        if (focusedStatus == null || currentAccount == null || currentAccount.mastodon_account == null) {
+        if (focusedStatus == null || Helper.getCurrentAccount(ContextActivity.this) == null || Helper.getCurrentAccount(ContextActivity.this).mastodon_account == null) {
             finish();
             return;
         }
@@ -127,8 +126,8 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
             loadRemotelyConversation(true);
             invalidateOptionsMenu();
         }
-        if (currentAccount != null) {
-            MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
+        if (Helper.getCurrentAccount(ContextActivity.this) != null) {
+            MastodonHelper.loadPPMastodon(binding.profilePicture, Helper.getCurrentAccount(ContextActivity.this).mastodon_account);
         }
     }
 
@@ -159,7 +158,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         Bundle args = new Bundle();
         args.putSerializable(Helper.ARG_STATUS, focusedStatus);
         args.putString(Helper.ARG_REMOTE_INSTANCE, remote_instance);
-        new CachedBundle(ContextActivity.this).insertBundle(args, currentAccount, bundleId -> {
+        new CachedBundle(ContextActivity.this).insertBundle(args, Helper.getCurrentAccount(ContextActivity.this), bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
             FragmentMastodonContext fragmentMastodonContext = new FragmentMastodonContext();
@@ -289,7 +288,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                                     args.putSerializable(Helper.ARG_STATUS, status);
                                     args.putString(Helper.ARG_REMOTE_INSTANCE, finalInstance);
                                     args.putString(Helper.ARG_FOCUSED_STATUS_URI, focusedStatusURI);
-                                    new CachedBundle(ContextActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                    new CachedBundle(ContextActivity.this).insertBundle(args, Helper.getCurrentAccount(ContextActivity.this), bundleId -> {
                                         Bundle bundle = new Bundle();
                                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                         FragmentMastodonContext fragmentMastodonContext = new FragmentMastodonContext();
@@ -341,7 +340,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                             args.putSerializable(Helper.ARG_STATUS, status);
                             args.putString(Helper.ARG_FOCUSED_STATUS_URI, focusedStatusURI);
                             args.putString(Helper.ARG_REMOTE_INSTANCE, finalInstance);
-                            new CachedBundle(ContextActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                            new CachedBundle(ContextActivity.this).insertBundle(args, Helper.getCurrentAccount(ContextActivity.this), bundleId -> {
                                 Bundle bundle = new Bundle();
                                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                 intentContext.putExtras(bundle);

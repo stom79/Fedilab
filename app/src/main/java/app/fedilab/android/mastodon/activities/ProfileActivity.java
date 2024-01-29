@@ -15,8 +15,6 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
-
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -135,7 +133,7 @@ public class ProfileActivity extends BaseActivity {
             Bundle args = intent.getExtras();
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-                new CachedBundle(ProfileActivity.this).getBundle(bundleId, currentAccount, bundle -> {
+                new CachedBundle(ProfileActivity.this).getBundle(bundleId, Helper.getCurrentAccount(ProfileActivity.this), bundle -> {
                     Account accountReceived = (Account) bundle.getSerializable(Helper.ARG_ACCOUNT);
                     if (bundle.getBoolean(Helper.RECEIVE_REDRAW_PROFILE, false) && accountReceived != null) {
                         if (account != null && accountReceived.id != null && account.id != null && accountReceived.id.equalsIgnoreCase(account.id)) {
@@ -180,7 +178,7 @@ public class ProfileActivity extends BaseActivity {
         homeMuted = false;
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(ProfileActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            new CachedBundle(ProfileActivity.this).getBundle(bundleId, Helper.getCurrentAccount(ProfileActivity.this), this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
@@ -215,7 +213,7 @@ public class ProfileActivity extends BaseActivity {
             finish();
         }
         //Check if account is homeMuted
-        accountsVM.isMuted(currentAccount, account).observe(this, result -> homeMuted = result != null && result);
+        accountsVM.isMuted(Helper.getCurrentAccount(ProfileActivity.this), account).observe(this, result -> homeMuted = result != null && result);
         ContextCompat.registerReceiver(ProfileActivity.this, broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
 
 
@@ -458,7 +456,7 @@ public class ProfileActivity extends BaseActivity {
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_ACCOUNT, account);
             args.putSerializable(Helper.ARG_CHECK_REMOTELY, true);
-            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            new CachedBundle(ProfileActivity.this).insertBundle(args, Helper.getCurrentAccount(ProfileActivity.this), bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);
@@ -511,7 +509,7 @@ public class ProfileActivity extends BaseActivity {
             attachments.add(attachment);
             args.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
             args.putInt(Helper.ARG_MEDIA_POSITION, 1);
-            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            new CachedBundle(ProfileActivity.this).insertBundle(args, Helper.getCurrentAccount(ProfileActivity.this), bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);
@@ -535,7 +533,7 @@ public class ProfileActivity extends BaseActivity {
             attachments.add(attachment);
             args.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
             args.putInt(Helper.ARG_MEDIA_POSITION, 1);
-            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            new CachedBundle(ProfileActivity.this).insertBundle(args, Helper.getCurrentAccount(ProfileActivity.this), bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);
@@ -636,7 +634,7 @@ public class ProfileActivity extends BaseActivity {
      * This methode is called to update the view once an action has been performed
      */
     private void updateAccount() {
-        if (currentAccount == null || account == null) {
+        if (Helper.getCurrentAccount(ProfileActivity.this) == null || account == null) {
             return;
         }
 
@@ -673,7 +671,7 @@ public class ProfileActivity extends BaseActivity {
                     Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
                     Bundle args = new Bundle();
                     args.putSerializable(Helper.ARG_ACCOUNT, account);
-                    new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                    new CachedBundle(ProfileActivity.this).insertBundle(args, Helper.getCurrentAccount(ProfileActivity.this), bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intent.putExtras(bundle);
@@ -736,7 +734,7 @@ public class ProfileActivity extends BaseActivity {
 
             //The value for account is from same server so id can be used
 
-            if (account.id.equals(currentAccount.user_id)) {
+            if (account.id.equals(Helper.getCurrentAccount(ProfileActivity.this).user_id)) {
                 binding.accountFollow.setVisibility(View.GONE);
                 binding.headerEditProfile.setVisibility(View.VISIBLE);
                 binding.headerEditProfile.bringToFront();
@@ -948,7 +946,7 @@ public class ProfileActivity extends BaseActivity {
                             Bundle args = new Bundle();
                             args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                             Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                            new CachedBundle(ProfileActivity.this).insertBundle(args, Helper.getCurrentAccount(ProfileActivity.this), bundleId -> {
                                 Bundle bundle = new Bundle();
                                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                 intentBD.putExtras(bundle);
@@ -1077,7 +1075,7 @@ public class ProfileActivity extends BaseActivity {
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_ACCOUNT_MENTION, account);
             args.putString(Helper.ARG_VISIBILITY, "direct");
-            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            new CachedBundle(ProfileActivity.this).insertBundle(args, Helper.getCurrentAccount(ProfileActivity.this), bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);
@@ -1168,7 +1166,7 @@ public class ProfileActivity extends BaseActivity {
             intent = new Intent(ProfileActivity.this, ComposeActivity.class);
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_ACCOUNT_MENTION, account);
-            new CachedBundle(ProfileActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            new CachedBundle(ProfileActivity.this).insertBundle(args, Helper.getCurrentAccount(ProfileActivity.this), bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intent.putExtras(bundle);
@@ -1217,7 +1215,7 @@ public class ProfileActivity extends BaseActivity {
             builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
             if (homeMuted) {
                 builderInner.setTitle(R.string.unmute_home);
-                builderInner.setPositiveButton(R.string.action_unmute, (dialog, which) -> accountsVM.unmuteHome(currentAccount, account)
+                builderInner.setPositiveButton(R.string.action_unmute, (dialog, which) -> accountsVM.unmuteHome(Helper.getCurrentAccount(ProfileActivity.this), account)
                         .observe(ProfileActivity.this, account -> {
                             homeMuted = false;
                             invalidateOptionsMenu();
@@ -1225,7 +1223,7 @@ public class ProfileActivity extends BaseActivity {
                         }));
             } else {
                 builderInner.setTitle(R.string.mute_home);
-                builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(currentAccount, account)
+                builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(Helper.getCurrentAccount(ProfileActivity.this), account)
                         .observe(ProfileActivity.this, account -> {
                             homeMuted = true;
                             invalidateOptionsMenu();

@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 
@@ -75,7 +74,7 @@ public class StatusInfoActivity extends BaseActivity {
         Bundle args = getIntent().getExtras();
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(StatusInfoActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            new CachedBundle(StatusInfoActivity.this).getBundle(bundleId, Helper.getCurrentAccount(StatusInfoActivity.this), this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }

@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -77,7 +76,7 @@ public class CustomSharingActivity extends BaseBarActivity implements OnCustomSh
         status = null;
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(CustomSharingActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            new CachedBundle(CustomSharingActivity.this).getBundle(bundleId, Helper.getCurrentAccount(CustomSharingActivity.this), this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
@@ -110,7 +109,7 @@ public class CustomSharingActivity extends BaseBarActivity implements OnCustomSh
             bundle_thumbnailurl = status.account.avatar;
         }
         if (!bundle_creator.contains("@")) {
-            bundle_creator = bundle_creator + "@" + currentAccount.instance;
+            bundle_creator = bundle_creator + "@" + Helper.getCurrentAccount(CustomSharingActivity.this).instance;
         }
 
         binding.setCustomSharingTitle.setEllipsize(TextUtils.TruncateAt.END);

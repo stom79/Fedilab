@@ -118,13 +118,13 @@ public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filt
         holder.binding.accountDn.setText(account.display_name);
         holder.binding.accountDn.setVisibility(View.VISIBLE);
         account.pronouns = null;
-        for(Field field: account.fields) {
-            if(field.name.trim().equalsIgnoreCase("pronouns")) {
+        for (Field field : account.fields) {
+            if (field.name.trim().equalsIgnoreCase("pronouns")) {
                 account.pronouns = field.value;
                 break;
             }
         }
-        if(account.pronouns != null) {
+        if (account.pronouns != null) {
             holder.binding.pronouns.setText(account.pronouns);
             holder.binding.pronouns.setVisibility(View.VISIBLE);
         } else {

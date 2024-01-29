@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.activities.ComposeActivity.PICK_MEDIA;
 
 import android.content.ClipData;
@@ -72,7 +71,7 @@ public class DirectMessageActivity extends BaseActivity implements FragmentMasto
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
         binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-        MastodonHelper.loadPPMastodon(binding.profilePicture, currentAccount.mastodon_account);
+        MastodonHelper.loadPPMastodon(binding.profilePicture, Helper.getCurrentAccount(DirectMessageActivity.this).mastodon_account);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -82,7 +81,7 @@ public class DirectMessageActivity extends BaseActivity implements FragmentMasto
 
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(DirectMessageActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            new CachedBundle(DirectMessageActivity.this).getBundle(bundleId, Helper.getCurrentAccount(DirectMessageActivity.this), this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
@@ -97,7 +96,7 @@ public class DirectMessageActivity extends BaseActivity implements FragmentMasto
             remote_instance = bundle.getString(Helper.ARG_REMOTE_INSTANCE, null);
         }
 
-        if (focusedStatus == null || currentAccount == null || currentAccount.mastodon_account == null) {
+        if (focusedStatus == null || Helper.getCurrentAccount(DirectMessageActivity.this) == null || Helper.getCurrentAccount(DirectMessageActivity.this).mastodon_account == null) {
             finish();
             return;
         }
@@ -106,7 +105,7 @@ public class DirectMessageActivity extends BaseActivity implements FragmentMasto
         args.putSerializable(Helper.ARG_STATUS, focusedStatus);
         args.putString(Helper.ARG_REMOTE_INSTANCE, remote_instance);
         Status finalFocusedStatus = focusedStatus;
-        new CachedBundle(DirectMessageActivity.this).insertBundle(args, currentAccount, bundleId -> {
+        new CachedBundle(DirectMessageActivity.this).insertBundle(args, Helper.getCurrentAccount(DirectMessageActivity.this), bundleId -> {
             Bundle args2 = new Bundle();
             args2.putLong(Helper.ARG_INTENT_ID, bundleId);
             FragmentMastodonDirectMessage FragmentMastodonDirectMessage = new FragmentMastodonDirectMessage();

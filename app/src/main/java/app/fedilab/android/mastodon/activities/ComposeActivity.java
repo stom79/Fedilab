@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.emojis;
 
@@ -123,7 +122,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             Bundle args = intent.getExtras();
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-                new CachedBundle(ComposeActivity.this).getBundle(bundleId, currentAccount, bundle -> {
+                new CachedBundle(ComposeActivity.this).getBundle(bundleId, Helper.getCurrentAccount(ComposeActivity.this), bundle -> {
                     String imgpath = bundle.getString("imgpath");
                     float focusX = bundle.getFloat("focusX", -2);
                     float focusY = bundle.getFloat("focusY", -2);
@@ -492,7 +491,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (b != null) {
             long bundleId = b.getLong(Helper.ARG_INTENT_ID, -1);
             if (bundleId != -1) {
-                new CachedBundle(ComposeActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+                new CachedBundle(ComposeActivity.this).getBundle(bundleId, Helper.getCurrentAccount(ComposeActivity.this), this::initializeAfterBundle);
             } else {
                 initializeAfterBundle(b);
             }
@@ -513,7 +512,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 statusMention = (Status) b.getSerializable(Helper.ARG_STATUS_MENTION);
                 account = (BaseAccount) b.getSerializable(Helper.ARG_ACCOUNT);
                 if (account == null) {
-                    account = currentAccount;
+                    account = Helper.getCurrentAccount(ComposeActivity.this);
                 }
                 editMessageId = b.getString(Helper.ARG_EDIT_STATUS_ID, null);
                 instance = b.getString(Helper.ARG_INSTANCE, null);
@@ -521,8 +520,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 visibility = b.getString(Helper.ARG_VISIBILITY, null);
                 if (visibility == null && statusReply != null) {
                     visibility = getVisibility(account, statusReply.visibility);
-                } else if (visibility == null && currentAccount != null && currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
-                    visibility = currentAccount.mastodon_account.source.privacy;
+                } else if (visibility == null && Helper.getCurrentAccount(ComposeActivity.this) != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source != null) {
+                    visibility = Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source.privacy;
                 }
                 mentionBooster = (Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
                 accountMention = (Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
@@ -569,7 +568,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     statusDraft.statusDraftList = statuses;
                 }
                 if (account == null) {
-                    account = currentAccount;
+                    account = Helper.getCurrentAccount(ComposeActivity.this);
                 }
                 if (account == null) {
                     Toasty.error(ComposeActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();

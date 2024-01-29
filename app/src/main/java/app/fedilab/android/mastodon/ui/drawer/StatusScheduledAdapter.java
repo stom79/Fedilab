@@ -16,7 +16,6 @@ package app.fedilab.android.mastodon.ui.drawer;
 
 
 import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.Context;
 import android.content.Intent;
@@ -131,7 +130,7 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
                 Intent intent = new Intent(context, ComposeActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);

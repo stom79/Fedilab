@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -45,6 +44,7 @@ import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.drawer.StatusDraftAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
 
@@ -82,7 +82,7 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         timelinesVM = new ViewModelProvider(DraftActivity.this).get(TimelinesVM.class);
-        timelinesVM.getDrafts(currentAccount)
+        timelinesVM.getDrafts(Helper.getCurrentAccount(DraftActivity.this))
                 .observe(DraftActivity.this, this::initializeDraftView);
     }
 
@@ -178,7 +178,7 @@ public class DraftActivity extends BaseActivity implements StatusDraftAdapter.Dr
         super.onResume();
         //We need to check if drafts changed (ie when coming back from the compose activity)
         if (statusDrafts != null && timelinesVM != null) {
-            timelinesVM.getDrafts(currentAccount)
+            timelinesVM.getDrafts(Helper.getCurrentAccount(DraftActivity.this))
                     .observe(DraftActivity.this, this::updateDrafts);
         }
     }

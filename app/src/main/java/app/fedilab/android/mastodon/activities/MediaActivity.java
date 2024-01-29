@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 import static android.util.Patterns.WEB_URL;
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.Manifest;
 import android.app.DownloadManager;
@@ -129,7 +128,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         Bundle args = getIntent().getExtras();
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(MediaActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            new CachedBundle(MediaActivity.this).getBundle(bundleId, Helper.getCurrentAccount(MediaActivity.this), this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
@@ -173,7 +172,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 Intent intentContext = new Intent(MediaActivity.this, ContextActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_STATUS, attachments.get(mediaPosition - 1).status);
-                new CachedBundle(MediaActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(MediaActivity.this).insertBundle(args, Helper.getCurrentAccount(MediaActivity.this), bundleId -> {
                     Bundle bundleCached = new Bundle();
                     bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intentContext.putExtras(bundleCached);

@@ -42,6 +42,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentNotificationContainerBinding;
 import app.fedilab.android.databinding.PopupNotificationSettingsBinding;
+import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.pageadapter.FedilabNotificationPageAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.NotificationsVM;
 import es.dmoral.toasty.Toasty;
@@ -258,9 +259,9 @@ public class FragmentNotificationContainer extends Fragment {
     public void onResume() {
         super.onResume();
         NotificationManager mNotificationManager = (NotificationManager) requireActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && BaseMainActivity.currentAccount != null && BaseMainActivity.currentAccount.mastodon_account != null) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Helper.getCurrentAccount(requireActivity()) != null && Helper.getCurrentAccount(requireActivity()).mastodon_account != null) {
             for (StatusBarNotification statusBarNotification : mNotificationManager.getActiveNotifications()) {
-                if (statusBarNotification.getGroupKey().contains(BaseMainActivity.currentAccount.mastodon_account.acct + "@" + BaseMainActivity.currentAccount.instance)) {
+                if (statusBarNotification.getGroupKey().contains(Helper.getCurrentAccount(requireActivity()).mastodon_account.acct + "@" + Helper.getCurrentAccount(requireActivity()).instance)) {
                     mNotificationManager.cancel(statusBarNotification.getId());
                 }
             }

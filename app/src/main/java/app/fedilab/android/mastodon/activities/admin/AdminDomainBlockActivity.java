@@ -15,8 +15,6 @@ package app.fedilab.android.mastodon.activities.admin;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -115,7 +113,7 @@ public class AdminDomainBlockActivity extends BaseBarActivity {
                                 Intent intent = new Intent(Helper.BROADCAST_DATA);
                                 Bundle args = new Bundle();
                                 args.putSerializable(Helper.ARG_ADMIN_DOMAINBLOCK, adminDomainBlockResult);
-                                new CachedBundle(AdminDomainBlockActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                new CachedBundle(AdminDomainBlockActivity.this).insertBundle(args, Helper.getCurrentAccount(AdminDomainBlockActivity.this), bundleId -> {
                                     Bundle bundle = new Bundle();
                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                     intent.putExtras(bundle);
@@ -151,7 +149,7 @@ public class AdminDomainBlockActivity extends BaseBarActivity {
                                                 Intent intent = new Intent(Helper.BROADCAST_DATA);
                                                 Bundle args = new Bundle();
                                                 args.putSerializable(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE, adminDomainBlock);
-                                                new CachedBundle(AdminDomainBlockActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                                new CachedBundle(AdminDomainBlockActivity.this).insertBundle(args, Helper.getCurrentAccount(AdminDomainBlockActivity.this), bundleId -> {
                                                     Bundle bundle = new Bundle();
                                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                                     intent.putExtras(bundle);

@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import static android.content.Context.DOWNLOAD_SERVICE;
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.activities.BaseActivity.currentThemeId;
 import static app.fedilab.android.mastodon.helper.LogoHelper.getNotificationIcon;
 import static app.fedilab.android.mastodon.helper.ThemeHelper.fetchAccentColor;
@@ -165,6 +164,7 @@ import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.OauthVM;
 import app.fedilab.android.mastodon.watermark.androidwm.WatermarkBuilder;
 import app.fedilab.android.mastodon.watermark.androidwm.bean.WatermarkText;
+import app.fedilab.android.peertube.client.data.AccountData;
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -423,6 +423,7 @@ public class Helper {
     private static int notificationId = 1;
     //Allow to store in shared preference first visible fragment when the app starts
     private static String slugOfFirstFragment;
+    private static BaseAccount baseAccount;
 
     static {
         LinkedHashMap<PatternType, Pattern> aMap = new LinkedHashMap<>();
@@ -432,7 +433,6 @@ public class Helper {
         aMap.put(PatternType.GROUP, groupPattern);
         patternHashMap = Collections.unmodifiableMap(aMap);
     }
-
 
     /**
      * Manage downloads with URLs
@@ -476,7 +476,6 @@ public class Helper {
             v.getIcon().setColorFilter(colorFilter);
         }
     }
-
 
     /***
      *  Check if the user is connected to Internet
@@ -876,7 +875,7 @@ public class Helper {
         args.putString(RECEIVE_TOAST_TYPE, type);
         args.putString(RECEIVE_TOAST_CONTENT, content);
         intentBC.setAction(Helper.RECEIVE_TOAST_MESSAGE);
-        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
             intentBC.putExtras(bundle);
@@ -917,7 +916,6 @@ public class Helper {
         fragmentManager.executePendingTransactions();
         return fragment;
     }
-
 
     /**
      * Load a media into a view
@@ -961,11 +959,11 @@ public class Helper {
 
         OauthVM oauthVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(OauthVM.class);
 
-        if (currentAccount != null) {
+        if (Helper.getCurrentAccount(activity) != null) {
             //Revoke the token
-            oauthVM.revokeToken(currentAccount.instance, currentAccount.token, currentAccount.client_id, currentAccount.client_secret);
+            oauthVM.revokeToken(Helper.getCurrentAccount(activity).instance, Helper.getCurrentAccount(activity).token, Helper.getCurrentAccount(activity).client_id, Helper.getCurrentAccount(activity).client_secret);
             //Log out the current user
-            accountDB.removeUser(currentAccount);
+            accountDB.removeUser(Helper.getCurrentAccount(activity));
         }
         BaseAccount newAccount = accountDB.getLastUsedAccount();
         SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -979,7 +977,7 @@ public class Helper {
             activity.startActivity(loginActivity);
             activity.finish();
         } else {
-            currentAccount = newAccount;
+            Helper.setCurrentAccount(newAccount);
             editor.putString(PREF_USER_TOKEN, newAccount.token);
             editor.putString(PREF_USER_SOFTWARE, newAccount.software);
             editor.putString(PREF_USER_INSTANCE, newAccount.instance);
@@ -1367,7 +1365,6 @@ public class Helper {
         }).start();
     }
 
-
     public static void createFileFromUri(Context context, Uri uri, OnFileCopied callBack) {
         new Thread(() -> {
             InputStream selectedFileInputStream;
@@ -1526,7 +1523,7 @@ public class Helper {
         Bundle args = new Bundle();
         args.putBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, true);
         Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-        new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+        new CachedBundle(activity).insertBundle(args, Helper.getCurrentAccount(activity), bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
             intentBD.putExtras(bundle);
@@ -1693,7 +1690,6 @@ public class Helper {
         }
     }
 
-
     public static String dateDiffFull(Date dateToot) {
         SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.MEDIUM, Locale.getDefault());
         try {
@@ -1702,7 +1698,6 @@ public class Helper {
             return "";
         }
     }
-
 
     public static String dateDiffFullShort(Date dateToot) {
         SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
@@ -1934,7 +1929,7 @@ public class Helper {
                                 Intent intent = new Intent(activity, ProfileActivity.class);
                                 Bundle args = new Bundle();
                                 args.putSerializable(Helper.ARG_ACCOUNT, account);
-                                new CachedBundle(activity).insertBundle(args, currentAccount, bundleId -> {
+                                new CachedBundle(activity).insertBundle(args, Helper.getCurrentAccount(activity), bundleId -> {
                                     Bundle bundle = new Bundle();
                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                     intent.putExtras(bundle);
@@ -2022,7 +2017,6 @@ public class Helper {
         Runtime.getRuntime().exit(0);
     }
 
-
     public static void forwardToBrowser(Activity activity, Intent i) {
         Intent intent = new Intent();
         intent.setAction(android.content.Intent.ACTION_VIEW);
@@ -2046,7 +2040,6 @@ public class Helper {
             activity.startActivity(chooserIntent);
         }
     }
-
 
     public static int dialogStyle() {
         if (R.style.AppThemeBar == currentThemeId || R.style.AppTheme == currentThemeId) {
@@ -2074,6 +2067,33 @@ public class Helper {
         if (MainActivity.filteredAccounts != null) {
             MainActivity.filteredAccounts.remove(target);
         }
+    }
+
+    public static BaseAccount getCurrentAccount(Context context) {
+        if (baseAccount == null && context != null) {
+            baseAccount = new BaseAccount();
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            baseAccount.user_id = sharedpreferences.getString(PREF_USER_ID, null);
+            baseAccount.instance = sharedpreferences.getString(PREF_USER_INSTANCE, null);
+            baseAccount.token = sharedpreferences.getString(PREF_USER_TOKEN, null);
+        }
+        return baseAccount;
+    }
+
+    public static void setCurrentAccount(BaseAccount newBaseAccount) {
+        baseAccount = newBaseAccount;
+    }
+
+    public static void setCurrentAccountMastodonAccount(Context context, app.fedilab.android.mastodon.client.entities.api.Account newAccount) {
+        BaseAccount tempBaseAccount = getCurrentAccount(context);
+        tempBaseAccount.mastodon_account = newAccount;
+        setCurrentAccount(tempBaseAccount);
+    }
+
+    public static void setCurrentAccountPeertubeAccount(Context context, AccountData.PeertubeAccount newAccount) {
+        BaseAccount tempBaseAccount = getCurrentAccount(context);
+        tempBaseAccount.peertube_account = newAccount;
+        setCurrentAccount(tempBaseAccount);
     }
 
     public static boolean isNumeric(String str) {

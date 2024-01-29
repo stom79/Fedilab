@@ -16,7 +16,6 @@ package app.fedilab.android.mastodon.ui.drawer;
 
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
 import static app.fedilab.android.mastodon.activities.ComposeActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
@@ -1136,9 +1135,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (attachmentList != null && attachmentList.size() > 0) {
                 holder.binding.sensitiveMedia.setVisibility(View.VISIBLE);
                 if (!statusList.get(position).sensitive) {
-                    if (currentAccount != null && currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
-                        holder.binding.sensitiveMedia.setChecked(currentAccount.mastodon_account.source.sensitive);
-                        statusList.get(position).sensitive = currentAccount.mastodon_account.source.sensitive;
+                    if (Helper.getCurrentAccount(context) != null && Helper.getCurrentAccount(context).mastodon_account != null && Helper.getCurrentAccount(context).mastodon_account.source != null) {
+                        holder.binding.sensitiveMedia.setChecked(Helper.getCurrentAccount(context).mastodon_account.source.sensitive);
+                        statusList.get(position).sensitive = Helper.getCurrentAccount(context).mastodon_account.source.sensitive;
                     } else {
                         statusList.get(position).sensitive = false;
                     }
@@ -1380,7 +1379,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         ArrayList<Attachment> attachments = new ArrayList<>();
                         attachments.add(attachment);
                         args.putSerializable(Helper.ARG_MEDIA_ARRAY, attachments);
-                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             mediaIntent.putExtras(bundle);
@@ -1423,13 +1422,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         } else if (getItemViewType(position) == TYPE_COMPOSE) {
             Status statusDraft = statusList.get(position);
-            if(position > 0 && getItemViewType(position -1 ) == TYPE_NORMAL) {
-                Status statusFromUser = statusList.get(position-1);
+            if (position > 0 && getItemViewType(position - 1) == TYPE_NORMAL) {
+                Status statusFromUser = statusList.get(position - 1);
                 Account accountFromUser = statusFromUser.account;
                 statusFromUser.pronouns = null;
-                if(accountFromUser.fields != null && accountFromUser.fields.size() > 0) {
-                    for(Field field: accountFromUser.fields) {
-                        if(field.name.toLowerCase().startsWith("pronoun")) {
+                if (accountFromUser.fields != null && accountFromUser.fields.size() > 0) {
+                    for (Field field : accountFromUser.fields) {
+                        if (field.name.toLowerCase().startsWith("pronoun")) {
                             statusList.get(position).pronouns = field.value;
                             break;
                         }
@@ -1441,7 +1440,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             boolean mathsComposer = sharedpreferences.getBoolean(context.getString(R.string.SET_MATHS_COMPOSER), true);
             boolean forwardTag = sharedpreferences.getBoolean(context.getString(R.string.SET_FORWARD_TAGS_IN_REPLY), false);
 
-            if(statusDraft.pronouns != null) {
+            if (statusDraft.pronouns != null) {
                 holder.binding.genders.setVisibility(View.VISIBLE);
                 holder.binding.pronouns.setText(statusDraft.pronouns);
             } else {
@@ -1604,8 +1603,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (statusDraft.visibility == null) {
                 if (position > 0) {
                     statusDraft.visibility = statusList.get(position - 1).visibility;
-                } else if (currentAccount.mastodon_account != null && currentAccount.mastodon_account.source != null) {
-                    statusDraft.visibility = currentAccount.mastodon_account.source.privacy;
+                } else if (Helper.getCurrentAccount(context).mastodon_account != null && Helper.getCurrentAccount(context).mastodon_account.source != null) {
+                    statusDraft.visibility = Helper.getCurrentAccount(context).mastodon_account.source.privacy;
                 } else {
                     statusDraft.visibility = "public";
                 }

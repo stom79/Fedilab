@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentUserID;
 import static app.fedilab.android.BaseMainActivity.show_boosts;
@@ -186,7 +185,7 @@ public class PinnedTimelineHelper {
         }
         if (extraFeatures) {
             try {
-                Pinned pinnedAll = new Pinned(activity).getAllPinned(currentAccount);
+                Pinned pinnedAll = new Pinned(activity).getAllPinned(Helper.getCurrentAccount(activity));
                 if (pinnedAll == null) {
                     pinnedAll = new Pinned();
                     pinnedAll.user_id = currentUserID;
@@ -262,7 +261,7 @@ public class PinnedTimelineHelper {
             for (MastodonList mastodonList : mastodonLists) {
                 boolean present = false;
                 try {
-                    Pinned pinnedAll = new Pinned(activity).getAllPinned(currentAccount);
+                    Pinned pinnedAll = new Pinned(activity).getAllPinned(Helper.getCurrentAccount(activity));
                     if (pinnedAll == null) {
                         pinnedAll = pinned;
                     }
@@ -793,7 +792,7 @@ public class PinnedTimelineHelper {
         int toRemove = 0;
         try {
             //If some menu items have been hidden we should not create tab for them
-            bottomMenuDb = new BottomMenu(activity).getAllBottomMenu(currentAccount);
+            bottomMenuDb = new BottomMenu(activity).getAllBottomMenu(Helper.getCurrentAccount(activity));
             if (bottomMenuDb != null) {
                 List<BottomMenu.MenuItem> menuItemList = bottomMenuDb.bottom_menu;
                 if (menuItemList != null) {

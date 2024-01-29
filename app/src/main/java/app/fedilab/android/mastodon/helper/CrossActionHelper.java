@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.helper;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.content.Context;
 import android.content.Intent;
@@ -251,7 +250,7 @@ public class CrossActionHelper {
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_STATUS_REPLY, targetedStatus);
                 args.putSerializable(Helper.ARG_ACCOUNT, ownerAccount);
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
@@ -262,7 +261,7 @@ public class CrossActionHelper {
                 Intent intentCompose = new Intent(context, ComposeActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_ACCOUNT, ownerAccount);
-                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intentCompose.putExtras(bundle);
@@ -445,7 +444,7 @@ public class CrossActionHelper {
                     final BaseAccount account = accountArray[which];
                     Intent intentToot = new Intent(context, ComposeActivity.class);
                     bundle.putSerializable(Helper.ARG_ACCOUNT, account);
-                    new CachedBundle(context).insertBundle(bundle, currentAccount, bundleId -> {
+                    new CachedBundle(context).insertBundle(bundle, Helper.getCurrentAccount(context), bundleId -> {
                         Bundle bundleCached = new Bundle();
                         bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intentToot.putExtras(bundleCached);

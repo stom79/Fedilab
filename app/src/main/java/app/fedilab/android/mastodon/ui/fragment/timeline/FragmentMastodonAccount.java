@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.mastodon.helper.MastodonHelper.ACCOUNTS_PER_CALL;
@@ -137,11 +136,11 @@ public class FragmentMastodonAccount extends Fragment {
         if (arguments != null) {
             long bundleId = arguments.getLong(Helper.ARG_INTENT_ID, -1);
             if (bundleId != -1) {
-                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+                new CachedBundle(requireActivity()).getBundle(bundleId, Helper.getCurrentAccount(requireActivity()), this::initializeAfterBundle);
             } else {
                 if (arguments.containsKey(Helper.ARG_CACHED_ACCOUNT_ID)) {
                     try {
-                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(currentAccount, arguments.getString(Helper.ARG_CACHED_ACCOUNT_ID));
+                        accountTimeline = new CachedBundle(requireActivity()).getCachedAccount(Helper.getCurrentAccount(requireActivity()), arguments.getString(Helper.ARG_CACHED_ACCOUNT_ID));
                     } catch (DBException e) {
                         e.printStackTrace();
                     }
@@ -233,7 +232,7 @@ public class FragmentMastodonAccount extends Fragment {
             }
         } else if (timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME) {
             if (firstLoad) {
-                accountsVM.getMutedHome(currentAccount)
+                accountsVM.getMutedHome(Helper.getCurrentAccount(requireActivity()))
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             }
         } else if (timelineType == Timeline.TimeLineEnum.BLOCKED_TIMELINE) {

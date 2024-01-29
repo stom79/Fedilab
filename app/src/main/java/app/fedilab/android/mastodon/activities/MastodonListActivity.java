@@ -15,8 +15,6 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -177,7 +175,7 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                 timelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, null, null, 0)
                         .observe(MastodonListActivity.this, accounts -> {
                             if (accounts != null && accounts.size() > 0) {
-                                accountsVM.muteAccountsHome(currentAccount, accounts);
+                                accountsVM.muteAccountsHome(Helper.getCurrentAccount(MastodonListActivity.this), accounts);
                             }
                         });
                 dialog.dismiss();
@@ -313,7 +311,7 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                 args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                 Intent intentBD = new Intent(Helper.BROADCAST_DATA);
                 args.putSerializable(Helper.RECEIVE_MASTODON_LIST, mastodonListList);
-                new CachedBundle(MastodonListActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                new CachedBundle(MastodonListActivity.this).insertBundle(args, Helper.getCurrentAccount(MastodonListActivity.this), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intentBD.putExtras(bundle);
@@ -353,7 +351,7 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                                 args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                                 Intent intentBD = new Intent(Helper.BROADCAST_DATA);
                                 args.putSerializable(Helper.RECEIVE_MASTODON_LIST, mastodonListList);
-                                new CachedBundle(MastodonListActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                new CachedBundle(MastodonListActivity.this).insertBundle(args, Helper.getCurrentAccount(MastodonListActivity.this), bundleId -> {
                                     Bundle bundle = new Bundle();
                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                     intentBD.putExtras(bundle);
@@ -405,7 +403,7 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                                                                                 Bundle args = new Bundle();
                                                                                 args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                                                                                 Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                                                                                new CachedBundle(MastodonListActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                                                                                new CachedBundle(MastodonListActivity.this).insertBundle(args, Helper.getCurrentAccount(MastodonListActivity.this), bundleId -> {
                                                                                     Bundle bundle = new Bundle();
                                                                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                                                                     intentBD.putExtras(bundle);

@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.viewmodel.mastodon;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 
 import android.app.Application;
 import android.net.Uri;
@@ -345,7 +344,7 @@ public class AccountsVM extends AndroidViewModel {
                     Response<Account> accountResponse = accountCall.execute();
                     if (accountResponse.isSuccessful()) {
                         account = accountResponse.body();
-                        new CachedBundle(getApplication().getApplicationContext()).insertAccountBundle(account, currentAccount);
+                        new CachedBundle(getApplication().getApplicationContext()).insertAccountBundle(account, Helper.getCurrentAccount(getApplication().getApplicationContext()));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1078,7 +1077,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (searchResponse.isSuccessful()) {
                         accountList = searchResponse.body();
                         if (accountList != null && accountList.size() > 0) {
-                            new CachedBundle(getApplication().getApplicationContext()).insertAccountBundle(accountList.get(0), currentAccount);
+                            new CachedBundle(getApplication().getApplicationContext()).insertAccountBundle(accountList.get(0), Helper.getCurrentAccount(getApplication().getApplicationContext()));
                         }
                     }
                 } catch (Exception e) {

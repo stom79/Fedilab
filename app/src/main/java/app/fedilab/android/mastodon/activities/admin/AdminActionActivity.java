@@ -14,7 +14,7 @@ package app.fedilab.android.mastodon.activities.admin;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import static app.fedilab.android.mastodon.activities.admin.AdminActionActivity.AdminEnum.ACCOUNT;
 import static app.fedilab.android.mastodon.activities.admin.AdminActionActivity.AdminEnum.DOMAIN;
 import static app.fedilab.android.mastodon.activities.admin.AdminActionActivity.AdminEnum.REPORT;
@@ -68,7 +68,7 @@ public class AdminActionActivity extends BaseBarActivity {
             Bundle args = intent.getExtras();
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-                new CachedBundle(AdminActionActivity.this).getBundle(bundleId, currentAccount, bundle -> {
+                new CachedBundle(AdminActionActivity.this).getBundle(bundleId, Helper.getCurrentAccount(AdminActionActivity.this), bundle -> {
                     AdminDomainBlock adminDomainBlock = (AdminDomainBlock) bundle.getSerializable(Helper.ARG_ADMIN_DOMAINBLOCK);
                     AdminDomainBlock adminDomainBlockDelete = (AdminDomainBlock) bundle.getSerializable(Helper.ARG_ADMIN_DOMAINBLOCK_DELETE);
                     if (adminDomainBlock != null && adminDomainBlock.domain != null && fragmentAdminDomain != null) {

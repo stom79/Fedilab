@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.BaseMainActivity.currentNightMode;
 
 import android.app.Activity;
@@ -290,7 +289,7 @@ public class SpannableHelper {
                             intent = new Intent(context, HashTagActivity.class);
                             args = new Bundle();
                             args.putString(Helper.ARG_SEARCH_KEYWORD, word.trim());
-                            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                 Bundle bundle = new Bundle();
                                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                 intent.putExtras(bundle);
@@ -322,7 +321,7 @@ public class SpannableHelper {
                             } else {
                                 args.putString(Helper.ARG_MENTION, word);
                             }
-                            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                 Bundle bundle = new Bundle();
                                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                 intent.putExtras(bundle);
@@ -646,13 +645,13 @@ public class SpannableHelper {
         Matcher matcherUserWithoutAt = userWithoutAt.matcher(finalUrl);
         if (matcherLink.find() && !finalUrl.contains("medium.com")) {
             if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
-                CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
+                CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), finalUrl, new CrossActionHelper.Callback() {
                     @Override
                     public void federatedStatus(Status status) {
                         Intent intent = new Intent(context, ContextActivity.class);
                         Bundle args = new Bundle();
                         args.putSerializable(Helper.ARG_STATUS, status);
-                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intent.putExtras(bundle);
@@ -666,7 +665,7 @@ public class SpannableHelper {
                     }
                 });
             } else {//It's an account
-                CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
+                CrossActionHelper.fetchRemoteAccount(context, Helper.getCurrentAccount(context), matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
                     @Override
                     public void federatedStatus(Status status) {
                     }
@@ -676,7 +675,7 @@ public class SpannableHelper {
                         Intent intent = new Intent(context, ProfileActivity.class);
                         Bundle args = new Bundle();
                         args.putSerializable(Helper.ARG_ACCOUNT, account);
-                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intent.putExtras(bundle);
@@ -688,13 +687,13 @@ public class SpannableHelper {
             }
         } else if (matcherLinkLong.find() && !finalUrl.contains("medium.com")) {
             if (matcherLinkLong.group(3) != null && Objects.requireNonNull(matcherLinkLong.group(3)).length() > 0) { //It's a toot
-                CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
+                CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), finalUrl, new CrossActionHelper.Callback() {
                     @Override
                     public void federatedStatus(Status status) {
                         Intent intent = new Intent(context, ContextActivity.class);
                         Bundle args = new Bundle();
                         args.putSerializable(Helper.ARG_STATUS, status);
-                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intent.putExtras(bundle);
@@ -708,7 +707,7 @@ public class SpannableHelper {
                     }
                 });
             } else if (matcherLinkLong.group(2) != null) {//It's an account
-                CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherLinkLong.group(2), new CrossActionHelper.Callback() {
+                CrossActionHelper.fetchRemoteAccount(context, Helper.getCurrentAccount(context), matcherLinkLong.group(2), new CrossActionHelper.Callback() {
                     @Override
                     public void federatedStatus(Status status) {
                     }
@@ -718,7 +717,7 @@ public class SpannableHelper {
                         Intent intent = new Intent(context, ProfileActivity.class);
                         Bundle args = new Bundle();
                         args.putSerializable(Helper.ARG_ACCOUNT, account);
-                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intent.putExtras(bundle);
@@ -730,13 +729,13 @@ public class SpannableHelper {
             }
         } else if (matcherUserWithoutAt.find() && !finalUrl.contains("medium.com")) {
             if (matcherUserWithoutAt.group(4) != null && Objects.requireNonNull(matcherUserWithoutAt.group(4)).length() > 0) { //It's a toot
-                CrossActionHelper.fetchRemoteStatus(context, currentAccount, finalUrl, new CrossActionHelper.Callback() {
+                CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), finalUrl, new CrossActionHelper.Callback() {
                     @Override
                     public void federatedStatus(Status status) {
                         Intent intent = new Intent(context, ContextActivity.class);
                         Bundle args = new Bundle();
                         args.putSerializable(Helper.ARG_STATUS, status);
-                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intent.putExtras(bundle);
@@ -750,7 +749,7 @@ public class SpannableHelper {
                     }
                 });
             } else {//It's an account
-                CrossActionHelper.fetchRemoteAccount(context, currentAccount, matcherUserWithoutAt.group(3) + "@" + matcherUserWithoutAt.group(1), new CrossActionHelper.Callback() {
+                CrossActionHelper.fetchRemoteAccount(context, Helper.getCurrentAccount(context), matcherUserWithoutAt.group(3) + "@" + matcherUserWithoutAt.group(1), new CrossActionHelper.Callback() {
                     @Override
                     public void federatedStatus(Status status) {
                     }
@@ -760,7 +759,7 @@ public class SpannableHelper {
                         Intent intent = new Intent(context, ProfileActivity.class);
                         Bundle args = new Bundle();
                         args.putSerializable(Helper.ARG_ACCOUNT, account);
-                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intent.putExtras(bundle);
@@ -946,7 +945,7 @@ public class SpannableHelper {
                                                 Intent intent = new Intent(context, ProfileActivity.class);
                                                 Bundle args = new Bundle();
                                                 args.putSerializable(Helper.ARG_ACCOUNT, account.moved);
-                                                new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                                                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                                     Bundle bundle = new Bundle();
                                                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                                                     intent.putExtras(bundle);

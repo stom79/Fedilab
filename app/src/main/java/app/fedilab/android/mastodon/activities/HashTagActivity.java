@@ -15,8 +15,6 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -81,7 +79,7 @@ public class HashTagActivity extends BaseActivity {
         Bundle args = getIntent().getExtras();
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(HashTagActivity.this).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            new CachedBundle(HashTagActivity.this).getBundle(bundleId, Helper.getCurrentAccount(HashTagActivity.this), this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }
@@ -172,7 +170,7 @@ public class HashTagActivity extends BaseActivity {
             statusDraft.statusDraftList = statuses;
             Bundle args = new Bundle();
             args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
-            new CachedBundle(HashTagActivity.this).insertBundle(args, currentAccount, bundleId -> {
+            new CachedBundle(HashTagActivity.this).insertBundle(args, Helper.getCurrentAccount(HashTagActivity.this), bundleId -> {
                 Bundle bundleCached = new Bundle();
                 bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
                 intentToot.putExtras(bundleCached);
@@ -207,7 +205,7 @@ public class HashTagActivity extends BaseActivity {
                     Bundle args = new Bundle();
                     args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                     Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                    new CachedBundle(HashTagActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                    new CachedBundle(HashTagActivity.this).insertBundle(args, Helper.getCurrentAccount(HashTagActivity.this), bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                         intentBD.putExtras(bundle);
@@ -221,7 +219,7 @@ public class HashTagActivity extends BaseActivity {
             } else {
                 new Thread(() -> {
                     try {
-                        Pinned pinned = new Pinned(HashTagActivity.this).getPinned(currentAccount);
+                        Pinned pinned = new Pinned(HashTagActivity.this).getPinned(Helper.getCurrentAccount(HashTagActivity.this));
                         boolean canBeAdded = true;
                         boolean update = true;
                         if (pinned == null) {
@@ -267,7 +265,7 @@ public class HashTagActivity extends BaseActivity {
                         Bundle args = new Bundle();
                         args.putBoolean(Helper.RECEIVE_REDRAW_TOPBAR, true);
                         Intent intentBD = new Intent(Helper.BROADCAST_DATA);
-                        new CachedBundle(HashTagActivity.this).insertBundle(args, currentAccount, bundleId -> {
+                        new CachedBundle(HashTagActivity.this).insertBundle(args, Helper.getCurrentAccount(HashTagActivity.this), bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             intentBD.putExtras(bundle);

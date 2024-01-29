@@ -15,8 +15,6 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -358,14 +356,14 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     @Override
     public void onDestroyView() {
         if (isAdded()) {
-            storeMarker(currentAccount);
+            storeMarker(Helper.getCurrentAccount(requireActivity()));
         }
         super.onDestroyView();
     }
 
     @Override
     public void onPause() {
-        storeMarker(currentAccount);
+        storeMarker(Helper.getCurrentAccount(requireActivity()));
         super.onPause();
     }
 

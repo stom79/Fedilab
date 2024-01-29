@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.helper.LogoHelper.getMainLogo;
 import static app.fedilab.android.sqlite.Sqlite.DB_NAME;
 import static app.fedilab.android.sqlite.Sqlite.db;
@@ -111,7 +110,7 @@ public class ZipHelper {
             Uri uri = Uri.parse("file://" + zipFile);
             intentOpen.setDataAndType(uri, "application/zip");
             String title = context.getString(R.string.data_export_settings);
-            Helper.notify_user(context, currentAccount, intentOpen, BitmapFactory.decodeResource(context.getResources(),
+            Helper.notify_user(context, Helper.getCurrentAccount(context), intentOpen, BitmapFactory.decodeResource(context.getResources(),
                     getMainLogo(context)), Helper.NotifType.BACKUP, title, message);
         }
     }

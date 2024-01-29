@@ -14,7 +14,7 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import static app.fedilab.android.mastodon.activities.ContextActivity.displayCW;
 import static app.fedilab.android.mastodon.activities.ContextActivity.expand;
 
@@ -67,7 +67,7 @@ public class FragmentMastodonContext extends Fragment {
             Bundle args = intent.getExtras();
             if (args != null) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
-                new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, bundle -> {
+                new CachedBundle(requireActivity()).getBundle(bundleId, Helper.getCurrentAccount(requireActivity()), bundle -> {
                     Status receivedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS_ACTION);
                     String delete_statuses_for_user = bundle.getString(Helper.ARG_STATUS_ACCOUNT_ID_DELETED);
                     Status status_to_delete = (Status) bundle.getSerializable(Helper.ARG_STATUS_DELETED);
@@ -176,7 +176,7 @@ public class FragmentMastodonContext extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         if (arguments != null) {
             long bundleId = arguments.getLong(Helper.ARG_INTENT_ID, -1);
-            new CachedBundle(requireActivity()).getBundle(bundleId, currentAccount, this::initializeAfterBundle);
+            new CachedBundle(requireActivity()).getBundle(bundleId, Helper.getCurrentAccount(requireActivity()), this::initializeAfterBundle);
         } else {
             initializeAfterBundle(null);
         }

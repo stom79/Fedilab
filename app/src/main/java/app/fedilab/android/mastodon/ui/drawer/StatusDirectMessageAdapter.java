@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
 import static app.fedilab.android.mastodon.ui.drawer.StatusAdapter.prepareRequestBuilder;
 
 import android.app.Activity;
@@ -196,7 +195,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             Bundle args = new Bundle();
             args.putInt(Helper.ARG_MEDIA_POSITION, mediaPosition);
             args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
-            new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                 mediaIntent.putExtras(bundle);
@@ -675,7 +674,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                         Bundle args = new Bundle();
                         args.putInt(Helper.ARG_MEDIA_POSITION, finalMediaPosition);
                         args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
-                        new CachedBundle(context).insertBundle(args, currentAccount, bundleId -> {
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                             mediaIntent.putExtras(bundle);

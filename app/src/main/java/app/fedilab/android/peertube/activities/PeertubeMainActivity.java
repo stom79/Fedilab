@@ -14,7 +14,7 @@ package app.fedilab.android.peertube.activities;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.BaseMainActivity.currentAccount;
+
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.BaseMainActivity.currentUserID;
@@ -275,7 +275,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         mostLikedFragment.setArguments(bundle);
 
 
-        currentAccount = null;
+        app.fedilab.android.mastodon.helper.Helper.setCurrentAccount(null);
         if (Helper.isLoggedIn()) {
             NavHeaderMainBinding headerMainBinding = NavHeaderMainBinding.inflate(getLayoutInflater());
             new Thread(() -> {
@@ -283,20 +283,20 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     if (currentToken == null) {
                         currentToken = sharedpreferences.getString(app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN, null);
                     }
-                    currentAccount = new Account(PeertubeMainActivity.this).getConnectedAccount();
-                    if (currentAccount == null) {
+                    app.fedilab.android.mastodon.helper.Helper.setCurrentAccount(new Account(PeertubeMainActivity.this).getConnectedAccount());
+                    if (app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this) == null) {
                         if (currentUserID == null) {
                             currentUserID = sharedpreferences.getString(PREF_USER_ID, null);
                         }
                         if (currentInstance == null) {
                             currentInstance = sharedpreferences.getString(PREF_USER_INSTANCE, null);
                         }
-                        currentAccount = new Account(PeertubeMainActivity.this).getUniqAccount(currentUserID, currentInstance);
+                        app.fedilab.android.mastodon.helper.Helper.setCurrentAccount(new Account(PeertubeMainActivity.this).getUniqAccount(currentUserID, currentInstance));
                     }
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
-                if (currentAccount != null && currentAccount.mastodon_account != null && typeOfConnection != TypeOfConnection.REMOTE_ACCOUNT) {
+                if (app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this) != null && app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).mastodon_account != null && typeOfConnection != TypeOfConnection.REMOTE_ACCOUNT) {
                     //It is a Mastodon User
                     Intent myIntent = new Intent(PeertubeMainActivity.this, MainActivity.class);
                     startActivity(myIntent);
@@ -304,10 +304,10 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     return;
                 }
                 //If the attached account is null, the app will fetch remote instance to get up-to-date values
-                if (currentAccount != null && currentAccount.peertube_account == null) {
+                if (app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this) != null && app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).peertube_account == null) {
                     try {
                         userMe = new RetrofitPeertubeAPI(PeertubeMainActivity.this, currentInstance, currentToken).verifyCredentials();
-                        currentAccount.peertube_account = userMe.getAccount();
+                        app.fedilab.android.mastodon.helper.Helper.setCurrentAccountPeertubeAccount(PeertubeMainActivity.this, userMe.getAccount());
                     } catch (Error e) {
                         e.printStackTrace();
                     }
@@ -315,15 +315,15 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 Runnable myRunnable = () -> {
                     if (typeOfConnection == TypeOfConnection.REMOTE_ACCOUNT) {
-                        headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.mastodon_account.username, currentAccount.instance));
-                        if (currentAccount.mastodon_account.display_name == null || currentAccount.mastodon_account.display_name.isEmpty()) {
-                            currentAccount.mastodon_account.display_name = currentAccount.mastodon_account.acct;
+                        headerMainBinding.accountAcc.setText(String.format("%s@%s", app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).mastodon_account.username, app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).instance));
+                        if (app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).mastodon_account.display_name == null || app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).mastodon_account.display_name.isEmpty()) {
+                            app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).mastodon_account.display_name = app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).mastodon_account.acct;
                         }
-                        headerMainBinding.accountName.setText(currentAccount.mastodon_account.display_name);
+                        headerMainBinding.accountName.setText(app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).mastodon_account.display_name);
                         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
                         headerMainBinding.accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
                         headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-                        app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
+                        app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeMainActivity.this, headerMainBinding.accountProfilePicture, app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this), false);
                         headerMainBinding.backgroundImage.setAlpha(0.5f);
                         headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
                         headerMainBinding.changeAccount.setOnClickListener(v -> {
@@ -332,15 +332,15 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                             manageDrawerMenu(PeertubeMainActivity.this, binding.drawerNavView, headerMainBinding);
                         });
                     } else {
-                        headerMainBinding.accountAcc.setText(String.format("%s@%s", currentAccount.peertube_account.getUsername(), currentAccount.instance));
-                        if (currentAccount.peertube_account.getDisplayName() == null || currentAccount.peertube_account.getDisplayName().isEmpty()) {
-                            currentAccount.peertube_account.setDisplayName(currentAccount.peertube_account.getAcct());
+                        headerMainBinding.accountAcc.setText(String.format("%s@%s", app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).peertube_account.getUsername(), app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).instance));
+                        if (app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).peertube_account.getDisplayName() == null || app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).peertube_account.getDisplayName().isEmpty()) {
+                            app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).peertube_account.setDisplayName(app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).peertube_account.getAcct());
                         }
-                        headerMainBinding.accountName.setText(currentAccount.peertube_account.getDisplayName());
+                        headerMainBinding.accountName.setText(app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this).peertube_account.getDisplayName());
                         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
                         headerMainBinding.accountName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
                         headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
-                        app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeMainActivity.this, headerMainBinding.accountProfilePicture, currentAccount, false);
+                        app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeMainActivity.this, headerMainBinding.accountProfilePicture, app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this), false);
                         headerMainBinding.backgroundImage.setAlpha(0.5f);
                         headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
                         headerMainBinding.changeAccount.setOnClickListener(v -> {
@@ -419,7 +419,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                     currentToken = sharedpreferences.getString(app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN, null);
                 }
                 try {
-                    currentAccount = new Account(PeertubeMainActivity.this).getConnectedAccount();
+                    app.fedilab.android.mastodon.helper.Helper.setCurrentAccount(new Account(PeertubeMainActivity.this).getConnectedAccount());
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
@@ -427,7 +427,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 Runnable myRunnable = () -> {
                     binding.navView.inflateMenu(R.menu.bottom_nav_menu_peertube);
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                    app.fedilab.android.mastodon.helper.Helper.loadPP(this, binding.profilePicture, currentAccount);
+                    app.fedilab.android.mastodon.helper.Helper.loadPP(this, binding.profilePicture, app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this));
                 };
                 mainHandler.post(myRunnable);
             }).start();
