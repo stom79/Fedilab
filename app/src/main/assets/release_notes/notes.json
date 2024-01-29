@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.28-beta-1",
+    "code": "512",
+    "note": "Added:\n- Pronouns support (Timeline/Compose/Autocomplete)\n\nChanged:\n- Use Media3 library\n\nFixed:\n- Crashes in preview release\n"
+  },
+  {
     "version": "3.27.1",
     "code": "511",
     "note": "Added:\n- Tap on account banners to display them as media\n\nFixed:\n- Position lost when switching between accounts\n- Wrong profiles when enabling remote conversations\n- Peertube local timeline\n- Peertube instances search\n- Crashes of the previous release"

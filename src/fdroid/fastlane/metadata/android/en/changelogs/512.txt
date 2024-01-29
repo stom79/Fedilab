@@ -1,0 +1,8 @@
+Added:
+- Pronouns support (Timeline/Compose/Autocomplete)
+
+Changed:
+- Use Media3 library
+
+Fixed:
+- Crashes in preview release
