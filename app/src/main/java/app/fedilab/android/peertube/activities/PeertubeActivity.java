@@ -2227,7 +2227,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                 if (autoFullscreen && !fullScreenMode) {
                     setFullScreen();
                 }
-                player.setPlayWhenReady(true);
+                player.setPlayWhenReady(!player.isPlaying());
             });
         }
         View exo_next = controlView.findViewById(R.id.exo_next);
