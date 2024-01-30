@@ -1,8 +1,8 @@
 [
   {
-    "version": "3.28-beta-1",
-    "code": "512",
-    "note": "Added:\n- Pronouns support (Timeline/Compose/Autocomplete)\n\nChanged:\n- Use Media3 library\n\nFixed:\n- Crashes from previous release"
+    "version": "3.28.0",
+    "code": "513",
+    "note": "Added:\n- Pronouns support (Timeline/Compose/Autocomplete)\n\nChanged:\n- Use Media3 library\n\nFixed:\n- Timed mute duration too long\n- Sharing videos only download them\n- Crashes from previous release"
   },
   {
     "version": "3.27.1",

@@ -1,0 +1,10 @@
+Added:
+- Pronouns support (Timeline/Compose/Autocomplete)
+
+Changed:
+- Use Media3 library
+
+Fixed:
+- Timed mute duration too long
+- Sharing videos only download them
+- Crashes from previous release
