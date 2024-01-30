@@ -1429,7 +1429,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (accountFromUser.fields != null && accountFromUser.fields.size() > 0) {
                     for (Field field : accountFromUser.fields) {
                         if (field.name.toLowerCase().startsWith("pronoun")) {
-                            statusList.get(position).pronouns = field.value;
+                            statusList.get(position).pronouns = Helper.parseHtml(field.value);
                             break;
                         }
                     }

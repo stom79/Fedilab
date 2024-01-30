@@ -57,6 +57,7 @@ import android.os.Looper;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -2119,6 +2120,15 @@ public class Helper {
                 .callTimeout(60, TimeUnit.SECONDS)
                 .proxy(Helper.getProxy(context))
                 .build();
+    }
+
+    public static String parseHtml(String html) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY).toString();
+        } else {
+            //noinspection deprecation
+            return Html.fromHtml(html).toString();
+        }
     }
 
     //Enum that described actions to replace inside a toot content

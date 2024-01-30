@@ -31,6 +31,7 @@ import java.util.List;
 import app.fedilab.android.databinding.DrawerAccountSearchBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Field;
+import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 
 
@@ -120,7 +121,7 @@ public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filt
         account.pronouns = null;
         for (Field field : account.fields) {
             if (field.name.trim().equalsIgnoreCase("pronouns")) {
-                account.pronouns = field.value;
+                account.pronouns = Helper.parseHtml(field.value);
                 break;
             }
         }
