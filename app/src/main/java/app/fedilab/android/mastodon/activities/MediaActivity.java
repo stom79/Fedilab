@@ -95,7 +95,8 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                     shareIntent.setType(cR.getType(uri));
                     try {
                         startActivity(shareIntent);
-                    } catch (Exception ignored) {
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 } else {
                     Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
@@ -164,7 +165,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         binding.mediaViewpager.setAdapter(mPagerAdapter);
         binding.mediaViewpager.setSaveEnabled(false);
         binding.mediaViewpager.setCurrentItem(mediaPosition - 1);
-        ContextCompat.registerReceiver(MediaActivity.this, onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), ContextCompat.RECEIVER_NOT_EXPORTED);
+        ContextCompat.registerReceiver(MediaActivity.this, onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), ContextCompat.RECEIVER_EXPORTED);
         String description = attachments.get(mediaPosition - 1).description;
         handler = new Handler();
         if (attachments.get(mediaPosition - 1).status != null) {
@@ -463,9 +464,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
     }
 
     @Override
-    public void onDownloaded(String saveFilePath, String downloadUrl, Error error) {
-
-    }
+    public void onDownloaded(String saveFilePath, String downloadUrl, Error error) {}
 
     @Override
     public void onUpdateProgress(int progress) {
