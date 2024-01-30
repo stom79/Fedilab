@@ -368,7 +368,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             statusManagement(context, statusesVM, searchVM, holderStatus, mRecyclerView, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, false, null);
             holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));
-
+            holderStatus.bindingNotification.status.pronouns.setVisibility(View.INVISIBLE);
             if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS || getItemViewType(position) == TYPE_REACTION) {
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.VISIBLE);
                 String title = "";
