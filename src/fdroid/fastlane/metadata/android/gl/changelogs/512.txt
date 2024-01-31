@@ -1,0 +1,8 @@
+Engadido:
+- Soporte para pronomes (Cronoloxía/Editor/Autocompletado)
+
+Cambiou:
+- Uso da biblioteca Media3
+
+Arranxos:
+- Fallos da última versión

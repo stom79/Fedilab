@@ -1,0 +1,11 @@
+Engadido:
+- Arranxo da barra superior (desactivada por defecto)
+- Frecuencia do uso de cancelos ao escribir
+
+Cambios:
+- Markdown desactivado por defecto
+
+Arranxos:
+- Fallos durante as interaccións ou ao abrir unha nova pantalla
+- Das cores dos diálogos nos Axustes
+- Algúns fallos menores
