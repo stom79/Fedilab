@@ -1259,7 +1259,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (show_pinned) {
                 //Fetch pinned statuses to display them at the top
                 accountsVM.getAccountStatuses(currentInstance, MainActivity.currentToken, accountId, null, null, null, null, null, false, true, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                        .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountId, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
                                 .observe(getViewLifecycleOwner(), otherStatuses -> {
                                     if (otherStatuses != null && otherStatuses.statuses != null && pinnedStatuses != null && pinnedStatuses.statuses != null) {
                                         for (Status status : pinnedStatuses.statuses) {
