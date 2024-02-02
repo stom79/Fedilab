@@ -2,6 +2,8 @@ package app.fedilab.android.mastodon.client.entities.api;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /* Copyright 2021 Thomas Schneider
  *
  * This file is a part of Fedilab
@@ -16,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
-public class History {
+public class History implements Serializable {
     @SerializedName("day")
     public String day;
     @SerializedName("uses")

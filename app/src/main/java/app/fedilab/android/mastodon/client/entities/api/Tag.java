@@ -45,8 +45,7 @@ public class Tag implements Serializable {
             for (History h : history) {
                 try {
                     weight += Integer.parseInt(h.accounts);
-                } catch (Exception ignored) {
-                }
+                } catch (Exception ignored) {}
             }
         }
         return weight;
