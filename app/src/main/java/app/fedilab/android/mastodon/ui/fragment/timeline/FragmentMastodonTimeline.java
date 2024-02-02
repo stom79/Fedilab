@@ -432,7 +432,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         //When visiting a profile without being authenticated
         if (checkRemotely) {
-            String[] acctArray = accountTimeline.acct.split("@");
+            String[] acctArray = accountTimeline!=null?accountTimeline.acct.split("@"):new String[]{};
             if (acctArray.length > 1) {
                 remoteInstance = acctArray[1];
             }
