@@ -763,7 +763,7 @@
     <string name="pref_theme_base">Базовая тема</string>
     <string name="_new">Новый</string>
     <string name="stop_recording">Стоп запись</string>
-    <string name="eg_sensitive_content">Например, Конфиденциальный Контент</string>
+    <string name="eg_sensitive_content">Например, деликатный контент</string>
     <string name="toots_visibility_title">Видимость сообщений по умолчанию:</string>
     <string name="report_1_mute_title">Заглушены %1$s</string>
     <string name="instance_not_valid">Узел не кажется действительным!</string>
