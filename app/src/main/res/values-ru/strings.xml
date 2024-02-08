@@ -742,13 +742,13 @@
     <string name="report_more_additional">Дополнительные комментарии</string>
     <string name="report_more">Есть ли что-то ещё, что нам надо знать\?</string>
     <string name="channel_notif_update">Новое обновление</string>
-    <string name="report_1_mute">Вы не увидите их посты. Они все еще могут следить за вами и видеть ваши посты и не будут знать, что они заглушены.</string>
+    <string name="report_1_mute">Вы не будете видеть публикации этого пользователя. Он всё ещё может быть подписан на вас и видеть ваши публикации, однако не будет знать, что вы заглушили его.</string>
     <string name="unlocked">Разблокировано</string>
     <string name="more_actions">Больше действий</string>
     <string name="bottom_menu">Нижнее меню</string>
     <string name="top_menu">Верхнее меню</string>
     <string name="report_1_title_more">Вот ваши варианты контроля того, что вы видите на Mastodon:</string>
-    <string name="report_1_unfollow_title">Неследуйте %1$s</string>
+    <string name="report_1_unfollow_title">Отписаться от %1$s</string>
     <string name="poll_type_single">Единый выбор</string>
     <string name="poll_type_multiple">Несколько вариантов</string>
     <string name="muted_menu_home">Заглушённые юзеры</string>
@@ -762,7 +762,7 @@
     <string name="show_privates">Показать личные сообщения</string>
     <string name="pref_theme_base">Базовая тема</string>
     <string name="_new">Новый</string>
-    <string name="stop_recording">Стоп запись</string>
+    <string name="stop_recording">Остановить запись</string>
     <string name="eg_sensitive_content">Например, деликатный контент</string>
     <string name="toots_visibility_title">Видимость сообщений по умолчанию:</string>
     <string name="report_1_mute_title">Заглушены %1$s</string>
