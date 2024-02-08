@@ -17,19 +17,19 @@
     <string name="password">Пароль</string>
     <string name="email">Email</string>
     <string name="accounts">Аккаунты</string>
-    <string name="toots">Туты</string>
+    <string name="toots">Сообщения</string>
     <string name="tags">Теги</string>
     <string name="save">Сохранить</string>
     <string name="instance">Инстанс</string>
     <string name="instance_example">Инстанс: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Теперь работает с аккаунтом %1$s</string>
     <string name="add_account">Добавление аккаунта</string>
-    <string name="clipboard">Содержимое тута было скопировано в буфер обмена</string>
-    <string name="clipboard_url">URL тута был скопирован в буфер обмена</string>
+    <string name="clipboard">Содержимое сообщения было скопировано в буфер обмена</string>
+    <string name="clipboard_url">URL сообщения был скопирован в буфер обмена</string>
     <string name="camera">Камера</string>
     <string name="delete_all">Удалить все</string>
     <string name="schedule">Запланировать</string>
-    <string name="text_size">Размеры текста и значков</string>
+    <string name="text_size">Размеры текста</string>
     <string name="next">Следующий</string>
     <string name="previous">Предыдущий</string>
     <string name="open_with">Открыть с помощью</string>
@@ -57,17 +57,17 @@
     <string name="follow_request">Запросы на подписку</string>
     <string name="settings">Настройки</string>
     <string name="send_email">Отправить email</string>
-    <string name="scheduled_toots">Запланированные туты</string>
+    <string name="scheduled_toots">Запланированные сообщения</string>
     <string name="disclaimer_full">Информация, приведенная ниже, может не соответствовать профилю пользователя.</string>
     <string name="insert_emoji">Вставить эмодзи</string>
     <string name="no_emoji">На данный момент приложение не собирает пользовательские эмодзи.</string>
     <string name="logout_account_confirmation">Вы уверены, что хотите выйти @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">Нет тутов для отображения</string>
-    <string name="favourite_add">Добавить этот тут в избранное?</string>
-    <string name="favourite_remove">Удалить этот тут из избранного?</string>
-    <string name="reblog_add">Продвинуть этот тут?</string>
-    <string name="reblog_remove">Не продвигать этот тут?</string>
+    <string name="no_status">Нет сообщений для отображения</string>
+    <string name="favourite_add">Добавить это сообщение в избранные?</string>
+    <string name="favourite_remove">Убрать это сообщение из избранных?</string>
+    <string name="reblog_add">Продвинуть это сообщение?</string>
+    <string name="reblog_remove">Перестать продвигать это сообщение?</string>
     <string name="more_action_1">Игнорировать</string>
     <string name="more_action_2">Заблокировать</string>
     <string name="more_action_3">Пожаловаться</string>
@@ -130,8 +130,8 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">При выборе медиафайла произошла ошибка!</string>
     <string name="toot_delete_media">Удалить этот медиафайл?</string>
-    <string name="toot_error_no_content">Ваш тут пуст!</string>
-    <string name="toot_sent">Тут отправлен!</string>
+    <string name="toot_error_no_content">Ваше сообщение пусто!</string>
+    <string name="toot_sent">Сообщение было отправлено!</string>
     <string name="toot_sensitive">Деликатный контент?</string>
     <string name="no_draft">Черновиков нет!</string>
     <string name="choose_accounts">Выберите аккаунт</string>
@@ -151,14 +151,15 @@
     <!-- Accounts -->
     <string name="no_accounts">Никого</string>
     <string name="no_follow_request">Нет запросов на подписку</string>
-    <string name="status_cnt">Туты \n %1$s</string>
+    <string name="status_cnt">Сообщения
+\n %1$s</string>
     <string name="following_cnt">Подписки \n %1$s</string>
     <string name="followers_cnt">Подписчики \n %1$s</string>
     <string name="reject">Отклонить</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Нет запланированных тутов для отображения!</string>
-    <string name="remove_scheduled">Удалить запланированный тут?</string>
-    <string name="toot_scheduled">Тут запланирован!</string>
+    <string name="no_scheduled_toots">Нет запланированных сообщений для отображения!</string>
+    <string name="remove_scheduled">Удалить запланированное сообщение?</string>
+    <string name="toot_scheduled">Сообщение было запланировано!</string>
     <string name="toot_scheduled_date">Запланированная дата должна быть в будущем!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">Время игнорирования должно быть больше одной минуты.</string>
@@ -168,7 +169,7 @@
     <string name="no_notifications">Нет уведомлений для отображения</string>
     <string name="notif_mention">упомянул(а) вас</string>
     <string name="notif_status">написал новое сообщение</string>
-    <string name="notif_reblog">ваш статус продвинут</string>
+    <string name="notif_reblog">продвинул ваш статус</string>
     <string name="notif_favourite">добавил ваш статус в избранные</string>
     <string name="notif_follow">подписался на вас</string>
     <string name="notif_follow_request">попросил подписаться на вас</string>
@@ -184,10 +185,10 @@
     <string name="toast_unmute">Этот аккаунт больше не игнорируется!</string>
     <string name="toast_follow">Вы подписались на этот аккаунт!</string>
     <string name="toast_unfollow">Вы больше не подписаны на этот аккаунт!</string>
-    <string name="toast_reblog">Этот тут был продвинут!</string>
-    <string name="toast_unreblog">Этот тут больше не продвигается!</string>
-    <string name="toast_favourite">Этот тут был добавлен в ваше избранное!</string>
-    <string name="toast_unfavourite">Этот тут был удален из вашего избранного!</string>
+    <string name="toast_reblog">Это сообщение было продвинуто!</string>
+    <string name="toast_unreblog">Это сооб больше не продвигается!</string>
+    <string name="toast_favourite">Это сообщение было добавлено в избранные!</string>
+    <string name="toast_unfavourite">Это сообщение было убрано из избранных!</string>
     <string name="toast_error">Упс ! Произошла ошибка!</string>
     <string name="toast_code_error">Произошла ошибка! Инстанс не вернул код авторизации!</string>
     <string name="toast_error_instance">Этот домен инстанса недействителен!</string>
@@ -196,11 +197,11 @@
     <string name="nothing_to_do">Ничего нельзя сделать</string>
     <string name="toast_error_translate">При переводе произошла ошибка!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Количество тутов на загрузку</string>
+    <string name="set_toots_page">Кол-во сообщений на загрузку</string>
     <string name="set_disable_gif">Отключить GIF-аватары</string>
     <string name="set_notif_follow">Уведомлять, когда кто-то подписывается на вас</string>
     <string name="set_notif_follow_share">Уведомлять, когда кто-то продвигает ваш статус</string>
-    <string name="set_notif_follow_add">Уведомлять, если кто-то добавил ваш статус в избранное</string>
+    <string name="set_notif_follow_add">Уведомлять, если кто-то добавил ваш статус в избранные</string>
     <string name="set_notif_follow_mention">Уведомлять, когда кто-то вас упоминает</string>
     <string name="set_notif_follow_poll">Уведомлять об окончании опроса</string>
     <string name="set_notif_status">Уведомлять о новых записях</string>
@@ -218,7 +219,7 @@
     <string name="settings_time_from">Между</string>
     <string name="settings_time_to">и</string>
     <string name="embedded_browser">Использовать встроенный браузер</string>
-    <string name="custom_tabs">Внешний браузер</string>
+    <string name="custom_tabs">Встроенный браузер</string>
     <string name="expand_cw">Автоматически раскрывать 18+</string>
     <string name="set_led_colour">Цвет светодиода:</string>
     <string-array name="led_colours">
@@ -275,7 +276,7 @@
     <string name="poxy_port">Порт</string>
     <string name="poxy_login">Имя пользователя</string>
     <string name="poxy_password">Пароль</string>
-    <string name="set_share_details">Добавлять детали тута при перепосте</string>
+    <string name="set_share_details">Добавлять детали сообщения при перепосте</string>
     <string name="support_the_app_on_liberapay">Поддержать приложение на Liberapay</string>
     <string name="alert_regex">В регулярном выражении есть ошибка!</string>
     <string name="toast_instance_unavailable">На этом инстансе лент не найдено!</string>
@@ -294,9 +295,9 @@
     <string name="context_public">Публичные ленты</string>
     <string name="context_notification">Уведомления</string>
     <string name="context_conversation">Разговоры</string>
-    <string name="filter_keyword_explanations">Сравнение будет выполнено независимо от регистра текста и предупреждения о содержании тута</string>
+    <string name="filter_keyword_explanations">Сравнение будет выполнено независимо от регистра текста и предупреждения о содержании сообщения</string>
     <string name="context_drop">Удалить вместо скрытия</string>
-    <string name="context_drop_explanations">Отфильтрованные туты исчезнут необратимо, даже если фильтр будет позже удален</string>
+    <string name="context_drop_explanations">Отфильтрованные сообщения исчезнут необратимо, даже если фильтр будет позже удален</string>
     <string name="context_whole_word_explanations">Если ключевое слово или фраза состоит из букв и цифр, он будет применен только если совпадает со словом целиком</string>
     <string name="context_whole_word">Слово целиком</string>
     <string name="filter_context">Фильтр контекстов</string>
@@ -311,7 +312,7 @@
     <string name="channel_notif_fav">Новое избранное</string>
     <string name="channel_notif_mention">Новое упоминание</string>
     <string name="channel_notif_poll">Опрос закончен</string>
-    <string name="channel_notif_backup">Резервирование тутов</string>
+    <string name="channel_notif_backup">Резервирование сообщений</string>
     <string name="channel_notif_status">Новые сообщения</string>
     <string name="channel_notif_media">Загрузка медиа</string>
     <string name="select_sound">Выбрать сигнал</string>
@@ -325,11 +326,11 @@
     <string name="peertube_instance">Инстанс Peertube</string>
     <string name="set_display_emoji">Использовать Emoji One</string>
     <string name="information">Информация</string>
-    <string name="set_display_card">Отображать превью для всех тутов</string>
+    <string name="set_display_card">Отображать превью для всех сообщений</string>
     <string name="account_id_clipbloard">Идентификатор учетной записи скопирован в буфер обмена!</string>
     <string name="set_change_locale">Изменить язык</string>
-    <string name="truncate_long_toots">Усекать длинные туты</string>
-    <string name="set_truncate_toot">Усекать туты более \'x\' строк. Ноль означает отключено.</string>
+    <string name="truncate_long_toots">Укорачивать длинные сообщения</string>
+    <string name="set_truncate_toot">Укорачивать сообщения, содержащие более \'X\' строк. Чтобы отключить, выберите ноль.</string>
     <string name="display_toot_truncate">Развернуть</string>
     <string name="hide_toot_truncate">Свернуть</string>
     <string name="tags_already_stored">Тег уже существует!</string>
@@ -375,8 +376,8 @@
     <string name="category">Категория</string>
     <string name="description">Описание</string>
     <string name="share">Поделиться</string>
-    <string name="toots_server">Туты (Сервер)</string>
-    <string name="toots_client">Туты (Устройство)</string>
+    <string name="toots_server">Сообщения (Сервер)</string>
+    <string name="toots_client">Сообщения (Устройство)</string>
     <string name="settings_category_label_timelines">Ленты</string>
     <string name="settings_category_label_interface">Интерфейс</string>
     <string name="contact">Контакты</string>
@@ -402,7 +403,7 @@
     <string name="settings_category_notif_categories">Категории</string>
     <string name="move_timeline">Переместить ленту</string>
     <string name="hide_timeline">Скрыть ленту</string>
-    <string name="reorder_timelines">Изменить порядок лент</string>
+    <string name="reorder_timelines">Управление лентами</string>
     <string name="reorder_list_deleted">Список окончательно удален</string>
     <string name="reorder_instance_removed">Отслеживаемый инстанс удален</string>
     <string name="reorder_tag_removed">Закрепленный тег удален</string>
@@ -422,7 +423,7 @@
     <string name="saving">Сохранение…</string>
     <string name="image_saved">Изображение сохранено успешно!</string>
     <string name="save_image_failed">Не удалось сохранить изображение</string>
-    <string name="add_poll_item">Добавить элемент опроса</string>
+    <string name="add_poll_item">Добавить вариант</string>
     <string name="mute_conversation">Игнорировать разговор</string>
     <string name="unmute_conversation">Не игнорировать разговор</string>
     <string name="toast_unmute_conversation">Этот разговор больше не игнорируется!</string>
@@ -541,7 +542,7 @@
     <string name="make_an_action">Предпринять действие</string>
     <string name="translation">Перевод</string>
     <string name="text_color_title">Цвет текста</string>
-    <string name="text_color">Изменить цвет текста в записях</string>
+    <string name="text_color">Изменить цвет текста в сообщениях</string>
     <string name="pref_custom_theme">Использовать собственную тему</string>
     <string name="theming">Настройки оформления</string>
     <string name="data_export_theme">Тема была экспортирована</string>
@@ -817,4 +818,7 @@
     <string name="cached_messages">Кэшированные сообщения</string>
     <string name="last_active">Последняя активность</string>
     <string name="messages_in_cache_for_other_timelines">Сообщения в кэше для других лент</string>
+    <string name="clipboard_version">Информация была скопирована в буфер обмена</string>
+    <string name="tag_already_followed">Вы уже подписаны на этот тег!</string>
+    <string name="show_self_boosts">Показать самопродвижения</string>
 </resources>
