@@ -835,4 +835,11 @@
     <string name="copy_version">Скопировать информацию</string>
     <string name="set_display_relative_date">Показывать относительную дату для сообщений</string>
     <string name="set_live_translate">Принудительно переводить на определённый язык. Чтобы вернуть системное значение по умолчанию, выберите первый пункт</string>
+    <string name="edited_message_at">Изменено в %1$s</string>
+    <string name="status_history">История сообщений</string>
+    <string name="created_message_at">Создано в %1$s</string>
+    <string name="recent_ip">Недавний IP</string>
+    <string name="notif_display_updates">Изменения</string>
+    <string name="Suggestions">Предложения</string>
+    <string name="Directory">Каталог</string>
 </resources>
