@@ -197,8 +197,8 @@
     <string name="nothing_to_do">Ничего нельзя сделать</string>
     <string name="toast_error_translate">При переводе произошла ошибка!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Кол-во сообщений на загрузку</string>
-    <string name="set_disable_gif">Отключить GIF-аватары</string>
+    <string name="set_toots_page">Количество сообщений на загрузку</string>
+    <string name="set_disable_gif">Отключить анимированные аватары</string>
     <string name="set_notif_follow">Уведомлять, когда кто-то подписывается на вас</string>
     <string name="set_notif_follow_share">Уведомлять, когда кто-то продвигает ваш статус</string>
     <string name="set_notif_follow_add">Уведомлять, если кто-то добавил ваш статус в избранные</string>
@@ -287,7 +287,7 @@
     <string name="endorse">Отображать в профиле</string>
     <string name="show_boost">Показать продвигаемые от %s</string>
     <string name="unendorse">Не показывать в профиле</string>
-    <string name="direct_message">Прямое сообщение</string>
+    <string name="direct_message">Личное сообщение</string>
     <string name="filters">Фильтры</string>
     <string name="action_filters_empty_content">Нет фильтров для отображения. Вы можете создать первый, нажав \"+\".</string>
     <string name="filter_keyword">Ключевое слово или фраза</string>
@@ -514,7 +514,7 @@
     <string name="set_clear_cache_exit">Очистить кеш при выходе</string>
     <string name="set_clear_cache_exit_indication">Кэш (медиа, кэшированные сообщения, данные из встроенного браузера) будут автоматически очищаться при выходе из приложения.</string>
     <string name="unfollow_confirm">Вы хотите отписаться от этого аккаунта?</string>
-    <string name="set_unfollow_validation">Предупреждать перед отменой подписки</string>
+    <string name="set_unfollow_validation">Показать предупреждение перед отпиской</string>
     <string name="replace_medium">Replace Medium links</string>
     <string name="replace_medium_description">Использовать альтернативный интерфейс для Medium</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
@@ -544,7 +544,7 @@
     <string name="text_color_title">Цвет текста</string>
     <string name="text_color">Изменить цвет текста в сообщениях</string>
     <string name="pref_custom_theme">Использовать собственную тему</string>
-    <string name="theming">Настройки оформления</string>
+    <string name="theming">Оформление</string>
     <string name="data_export_theme">Тема была экспортирована</string>
     <string name="data_export_theme_success">Тема была успешна экспортирована в формат CSV</string>
     <string name="import_theme">Импортировать тему</string>
@@ -672,7 +672,7 @@
     <string name="translator">Переводчик</string>
     <string name="api_key">API-ключ переводчика</string>
     <string name="set_notifications_page">Количество уведомлений на загрузку</string>
-    <string name="report_indication_title_status">Скажите нам, что не так с этим постом\?</string>
+    <string name="report_indication_title_status">Опишите нам проблему этой публикации</string>
     <string name="report_indication_title_status_more">Выберите наиболее подходящее</string>
     <string name="action_unfollow_tag">Отписаться от тега</string>
     <string name="action_unfollow_tag_confirm">Вы уверены, что хотите отписаться от этого тега\?</string>
@@ -742,7 +742,7 @@
     <string name="report_more_additional">Дополнительные комментарии</string>
     <string name="report_more">Есть ли что-то ещё, что нам надо знать\?</string>
     <string name="channel_notif_update">Новое обновление</string>
-    <string name="report_1_mute">Вы не будете видеть публикации этого пользователя. Он всё ещё может быть подписан на вас и видеть ваши публикации, однако не будет знать, что вы заглушили его.</string>
+    <string name="report_1_mute">Вы не будете видеть публикации этого пользователя. Он всё ещё может быть подписан на вас и видеть ваши публикации, но он не будет знать, что он игнорируется.</string>
     <string name="unlocked">Разблокировано</string>
     <string name="more_actions">Больше действий</string>
     <string name="bottom_menu">Нижнее меню</string>
@@ -765,7 +765,7 @@
     <string name="stop_recording">Остановить запись</string>
     <string name="eg_sensitive_content">Например, деликатный контент</string>
     <string name="toots_visibility_title">Видимость сообщений по умолчанию:</string>
-    <string name="report_1_mute_title">Заглушены %1$s</string>
+    <string name="report_1_mute_title">Игнорировать %1$s</string>
     <string name="instance_not_valid">Узел не кажется действительным!</string>
     <string name="instance_health_indication">версия: %s
 \n%s пользователей - %s статусы</string>
@@ -821,4 +821,18 @@
     <string name="clipboard_version">Информация была скопирована в буфер обмена</string>
     <string name="tag_already_followed">Вы уже подписаны на этот тег!</string>
     <string name="show_self_boosts">Показать самопродвижения</string>
+    <string name="Pronouns">Местоимения</string>
+    <string name="set_disable_topbar_scrolling_title">Закрепить верхнюю панель</string>
+    <string name="markdown_support">Включить Markdown</string>
+    <string name="truncate_links_max">Максимум символов в ссылках</string>
+    <string name="set_remove_battery">Игнорировать оптимизацию батареи</string>
+    <string name="reply">Ответить</string>
+    <string name="set_live_translate_title">Переводить сообщения</string>
+    <string name="show_my_messages">Показать мои сообщения</string>
+    <string name="show_self_replies">Показать самоответы</string>
+    <string name="set_mention_at_top_indication">При ответе все упоминания будут добавлены в начало сообщения</string>
+    <string name="reply_visibility">Видимость ответа</string>
+    <string name="copy_version">Скопировать информацию</string>
+    <string name="set_display_relative_date">Показывать относительную дату для сообщений</string>
+    <string name="set_live_translate">Принудительно переводить на определённый язык. Чтобы вернуть системное значение по умолчанию, выберите первый пункт</string>
 </resources>
