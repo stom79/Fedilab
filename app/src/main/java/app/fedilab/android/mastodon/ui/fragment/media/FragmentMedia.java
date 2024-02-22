@@ -210,6 +210,9 @@ public class FragmentMedia extends Fragment {
 
                                 @Override
                                 public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                    if (binding == null || !isAdded() || getActivity() == null) {
+                                        return;
+                                    }
                                     scheduleStartPostponedTransition(binding.mediaPicture);
                                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                                     boolean autofetch = sharedpreferences.getBoolean(getString(R.string.SET_FETCH_REMOTE_MEDIA), false);
