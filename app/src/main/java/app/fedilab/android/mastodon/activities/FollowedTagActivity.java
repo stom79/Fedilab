@@ -150,7 +150,7 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
             popupAddFollowedTagtBinding.addTag.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
             dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
                 String name = Objects.requireNonNull(popupAddFollowedTagtBinding.addTag.getText()).toString().trim();
-                if (tagList.contains(new Tag(name))) {
+                if (tagList != null && tagList.contains(new Tag(name))) {
                     Toasty.error(FollowedTagActivity.this, getString(R.string.tag_already_followed), Toasty.LENGTH_LONG).show();
                     return;
                 }
