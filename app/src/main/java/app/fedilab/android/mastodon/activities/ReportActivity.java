@@ -235,7 +235,14 @@ public class ReportActivity extends BaseBarActivity {
         fragment = new FragmentMastodonTimeline();
         Bundle args = new Bundle();
         args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-        args.putSerializable(Helper.ARG_ACCOUNT, account);
+        args.putBoolean(Helper.ARG_SHOW_PINNED, false);
+        args.putBoolean(Helper.ARG_SHOW_REPLIES, true);
+        args.putBoolean(Helper.ARG_SHOW_REBLOGS, false);
+        args.putBoolean(Helper.ARG_CHECK_REMOTELY, false);
+        args.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_REPORT_" + account.acct);
+        if (account != null) {
+            args.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
+        }
         //Set to display statuses with less options
         args.putBoolean(Helper.ARG_MINIFIED, true);
         if (status != null) {
@@ -245,12 +252,7 @@ public class ReportActivity extends BaseBarActivity {
         new CachedBundle(ReportActivity.this).insertBundle(args, Helper.getCurrentAccount(ReportActivity.this), bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-            fragment.setArguments(bundle);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction =
-                    fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fram_spam_container, fragment);
-            fragmentTransaction.commit();
+            Helper.addFragment(getSupportFragmentManager(), R.id.fram_spam_container, fragment, bundle, null, null);
         });
 
         binding.actionButton.setText(R.string.next);
@@ -265,7 +267,14 @@ public class ReportActivity extends BaseBarActivity {
         fragment = new FragmentMastodonTimeline();
         Bundle args = new Bundle();
         args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
-        args.putSerializable(Helper.ARG_ACCOUNT, account);
+        args.putBoolean(Helper.ARG_SHOW_PINNED, false);
+        args.putBoolean(Helper.ARG_SHOW_REPLIES, true);
+        args.putBoolean(Helper.ARG_SHOW_REBLOGS, false);
+        args.putBoolean(Helper.ARG_CHECK_REMOTELY, false);
+        args.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_REPORT_" + account.acct);
+        if (account != null) {
+            args.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
+        }
         //Set to display statuses with less options
         args.putBoolean(Helper.ARG_MINIFIED, true);
         if (status != null) {
@@ -275,12 +284,7 @@ public class ReportActivity extends BaseBarActivity {
         new CachedBundle(ReportActivity.this).insertBundle(args, Helper.getCurrentAccount(ReportActivity.this), bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-            fragment.setArguments(bundle);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction =
-                    fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fram_se_container, fragment);
-            fragmentTransaction.commit();
+            Helper.addFragment(getSupportFragmentManager(), R.id.fram_se_container, fragment, bundle, null, null);
         });
         binding.actionButton.setText(R.string.next);
         binding.actionButton.setOnClickListener(v -> {

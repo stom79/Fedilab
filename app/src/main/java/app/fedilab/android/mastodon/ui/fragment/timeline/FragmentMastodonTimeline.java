@@ -187,7 +187,15 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String lemmy_post_id;
     private boolean checkRemotely;
     private String accountIDInRemoteInstance;
+    //This value is set to true in onResume meaning that the fragment is visible
     private boolean isViewInitialized;
+    //If onResume is called before getting all parameters,  needToCallResume will be set to true so it can call safely initializeView()
+    private boolean needToCallResume;
+    //Some operations need to be done once only in onResume, the lockForResumeCall will be incremented to avoid useless calls
+    private int lockForResumeCall;
+    //All timelines that are not pinned - it will take the initial value of isViewInitialized
+    private boolean isNotPinnedTimeline;
+    private boolean bundleParamsRetrieved;
     private Statuses initialStatuses;
     private String list_id;
     private TagTimeline tagTimeline;
@@ -202,8 +210,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private boolean canBeFederated;
     private boolean rememberPosition;
     private String publicTrendsDomain;
-    private int lockForResumeCall;
-    private boolean isNotPinnedTimeline;
+
 
 
     //Allow to recreate data when detaching/attaching fragment
@@ -235,6 +242,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     @Override
     public void onResume() {
         super.onResume();
+        if(bundleParamsRetrieved) {
+            initializeView();
+        } else {
+            needToCallResume = true;
+        }
+    }
+
+    private void initializeView() {
         if (!isViewInitialized) {
             isViewInitialized = true;
             if (initialStatuses != null) {
@@ -254,6 +269,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             route(DIRECTION.FETCH_NEW, true);
         }
     }
+
 
     /**
      * Return the position of the status in the ArrayList
@@ -359,6 +375,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                              ViewGroup container, Bundle savedInstanceState) {
 
         timelineType = Timeline.TimeLineEnum.HOME;
+        bundleParamsRetrieved = false;
+        needToCallResume = false;
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         arguments = getArguments();
         return binding.getRoot();
@@ -486,7 +504,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //Only fragment in main view pager should not have the view initialized
         //AND Only the first fragment will initialize its view
         flagLoading = false;
-
+        bundleParamsRetrieved = true;
+        if(needToCallResume) {
+            initializeView();
+            needToCallResume = false;
+        }
         ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
