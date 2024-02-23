@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.28.1",
+    "code": "514",
+    "note": "Added:\n- Allow to disable pronouns support (default: enabled)\n- Add more support for pronouns (localization in different languages)\n\nFixed:\n- Fix a crash when reporting messages\n- Fix a crash when following tags\n- Fix some display issues\n- Several fixes from the last release (3.28.0)"
+  },
+  {
     "version": "3.28.0",
     "code": "513",
     "note": "Added:\n- Pronouns support (Timeline/Compose/Autocomplete)\n\nChanged:\n- Use Media3 library\n\nFixed:\n- Timed mute duration too long\n- Sharing videos only download them\n- Crashes from previous release"

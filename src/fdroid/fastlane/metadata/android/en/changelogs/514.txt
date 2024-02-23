@@ -1,0 +1,9 @@
+Added:
+- Allow to disable pronouns support (default: enabled)
+- Add more support for pronouns (localization in different languages)
+
+Fixed:
+- Fix a crash when reporting messages
+- Fix a crash when following tags
+- Fix some display issues
+- Several fixes from the last release (3.28.0)
