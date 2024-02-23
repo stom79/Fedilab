@@ -212,7 +212,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String publicTrendsDomain;
 
 
-
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
         initialStatuses = null;
@@ -242,7 +241,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     @Override
     public void onResume() {
         super.onResume();
-        if(bundleParamsRetrieved) {
+        if (bundleParamsRetrieved) {
             initializeView();
         } else {
             needToCallResume = true;
@@ -450,7 +449,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         //When visiting a profile without being authenticated
         if (checkRemotely) {
-            String[] acctArray = accountTimeline!=null?accountTimeline.acct.split("@"):new String[]{};
+            String[] acctArray = accountTimeline != null ? accountTimeline.acct.split("@") : new String[]{};
             if (acctArray.length > 1) {
                 remoteInstance = acctArray[1];
             }
@@ -505,7 +504,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //AND Only the first fragment will initialize its view
         flagLoading = false;
         bundleParamsRetrieved = true;
-        if(needToCallResume) {
+        if (needToCallResume) {
             initializeView();
             needToCallResume = false;
         }

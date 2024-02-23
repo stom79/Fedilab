@@ -140,56 +140,67 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         String type = notificationList.get(position).type;
         if (type != null) {
             switch (type) {
-                case "follow":
+                case "follow" -> {
                     return TYPE_FOLLOW;
-                case "follow_request":
+                }
+                case "follow_request" -> {
                     return TYPE_FOLLOW_REQUEST;
-                case "mention":
+                }
+                case "mention" -> {
                     if (notificationList.get(position).status != null) {
                         return TYPE_MENTION;
                     } else {
                         return TYPE_HIDDEN;
                     }
-                case "reblog":
+                }
+                case "reblog" -> {
                     if (notificationList.get(position).status != null) {
                         return TYPE_REBLOG;
                     } else {
                         return TYPE_HIDDEN;
                     }
-                case "update":
+                }
+                case "update" -> {
                     if (notificationList.get(position).status != null) {
                         return TYPE_UPDATE;
                     } else {
                         return TYPE_HIDDEN;
                     }
-                case "favourite":
+                }
+                case "favourite" -> {
                     if (notificationList.get(position).status != null) {
                         return TYPE_FAVOURITE;
                     } else {
                         return TYPE_HIDDEN;
                     }
-                case "poll":
+                }
+                case "poll" -> {
                     if (notificationList.get(position).status != null) {
                         return TYPE_POLL;
                     } else {
                         return TYPE_HIDDEN;
                     }
-                case "status":
+                }
+                case "status" -> {
                     if (notificationList.get(position).status != null) {
                         return TYPE_STATUS;
                     } else {
                         return TYPE_HIDDEN;
                     }
-                case "admin.sign_up":
+                }
+                case "admin.sign_up" -> {
                     return TYPE_ADMIN_SIGNUP;
-                case "admin.report":
+                }
+                case "admin.report" -> {
                     return TYPE_ADMIN_REPORT;
-                case "pleroma:emoji_reaction":
+                }
+                case "pleroma:emoji_reaction" -> {
                     if (notificationList.get(position).status != null) {
                         return TYPE_REACTION;
                     } else {
                         return TYPE_HIDDEN;
                     }
+                }
             }
         }
         return super.getItemViewType(position);

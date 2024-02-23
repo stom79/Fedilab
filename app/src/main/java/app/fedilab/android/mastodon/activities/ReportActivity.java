@@ -22,8 +22,6 @@ import android.widget.RadioButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 

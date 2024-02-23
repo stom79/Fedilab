@@ -464,7 +464,8 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
     }
 
     @Override
-    public void onDownloaded(String saveFilePath, String downloadUrl, Error error) {}
+    public void onDownloaded(String saveFilePath, String downloadUrl, Error error) {
+    }
 
     @Override
     public void onUpdateProgress(int progress) {
