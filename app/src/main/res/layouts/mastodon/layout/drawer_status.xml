@@ -125,64 +125,67 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
+                    android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/reply_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="6dp"
+                        android:contentDescription="@string/reply"
+                        android:src="@drawable/ic_baseline_reply_16"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/bot_icon"
+                        tools:visibility="visible" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/bot_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="6dp"
+                        android:src="@drawable/ic_baseline_android_24"
+                        android:visibility="gone"
+                        android:contentDescription="@string/bot"
+                        app:layout_constraintStart_toEndOf="@+id/reply_icon"
+                        app:layout_constraintEnd_toStartOf="@+id/display_name"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="visible" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/display_name"
+                        app:layout_constraintStart_toEndOf="@+id/bot_icon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/pronouns"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        tools:text="@tools:sample/lorem/random" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/pronouns"
+                        app:layout_constraintStart_toEndOf="@+id/display_name"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/date_short_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:visibility="invisible"
+                        tools:visibility="visible"
+                        android:textColor="?colorPrimary"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        tools:text="He/Him" />
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
+                        android:id="@id/date_short_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@+id/pronouns"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:gravity="end"
                         android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/reply_icon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="6dp"
-                            android:contentDescription="@string/reply"
-                            android:src="@drawable/ic_baseline_reply_16"
-                            android:visibility="gone"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            tools:visibility="visible" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/bot_icon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="6dp"
-                            android:src="@drawable/ic_baseline_android_24"
-                            android:visibility="gone"
-                            android:contentDescription="@string/bot"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            tools:visibility="visible" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/display_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:ellipsize="end"
-                            android:singleLine="true"
-                            tools:text="@tools:sample/full_names" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/pronouns"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:layout_weight="1"
-                            android:visibility="invisible"
-                            tools:visibility="visible"
-                            android:textColor="?colorPrimary"
-                            android:ellipsize="end"
-                            android:singleLine="true"
-                            tools:text="He/Him" />
-
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/local_only"
                             android:layout_width="20dp"
@@ -190,7 +193,6 @@
                             android:layout_marginEnd="5dp"
                             android:contentDescription="@string/local_only"
                             android:src="@drawable/ic_baseline_local_only_24" />
-
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/visibility_small"
                             android:layout_width="20dp"
@@ -198,19 +200,17 @@
                             android:contentDescription="@string/visibility"
                             android:layout_marginEnd="5dp"
                             android:src="@drawable/ic_baseline_public_24" />
-
                         <TextView
                             android:id="@+id/date_short"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             tools:text="2m" />
-
                     </androidx.appcompat.widget.LinearLayoutCompat>
-
-
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/username"
+                        app:layout_constraintTop_toBottomOf="@+id/display_name"
+                        app:layout_constraintStart_toStartOf="parent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
@@ -218,8 +218,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         tools:text="\@username\@instance.test" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
