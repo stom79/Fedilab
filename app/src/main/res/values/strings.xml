@@ -639,6 +639,7 @@
     <string name="other">Other</string>
     <string name="eg_sensitive_content">Eg.: Sensitive Content</string>
     <string name="Pronouns">Pronouns</string>
+    <string name="pronouns_support">Pronouns support</string>
 
     <string name="add_status">Add status</string>
     <string name="remove_status">Remove status</string>
@@ -1197,6 +1198,7 @@
     <string name="SET_MARKDOWN_SUPPORT" translatable="false">SET_MARKDOWN_SUPPORT</string>
     <string name="SET_TRUNCATE_LINKS" translatable="false">SET_TRUNCATE_LINKS</string>
     <string name="SET_UNDERLINE_CLICKABLE" translatable="false">SET_UNDERLINE_CLICKABLE</string>
+    <string name="SET_PRONOUNS_SUPPORT" translatable="false">SET_PRONOUNS_SUPPORT</string>
     <string name="SET_TRUNCATE_LINKS_MAX" translatable="false">SET_TRUNCATE_LINKS_MAX</string>
 
     <string name="SET_HIDE_SINGLE_MEDIA_WITH_CARD" translatable="false">SET_HIDE_SINGLE_MEDIA_WITH_CARD</string>

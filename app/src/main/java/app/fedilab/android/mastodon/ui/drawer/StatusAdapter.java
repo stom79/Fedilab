@@ -169,6 +169,7 @@ import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.MediaHelper;
+import app.fedilab.android.mastodon.helper.PronounsHelper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.helper.TimelineHelper;
@@ -481,17 +482,21 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
-        if (statusToDeal.pronouns == null && statusToDeal.account.fields != null && statusToDeal.account.fields.size() > 0) {
-            for (Field field : statusToDeal.account.fields) {
-                if (field.name.toLowerCase().startsWith("pronoun")) {
-                    statusToDeal.pronouns = Helper.parseHtml(field.value);
-                    break;
+        boolean pronounsSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_PRONOUNS_SUPPORT), true);
+        if(pronounsSupport) {
+            if (statusToDeal.pronouns == null && statusToDeal.account.fields != null && statusToDeal.account.fields.size() > 0) {
+                for (Field field : statusToDeal.account.fields) {
+                    if (PronounsHelper.pronouns.contains(field.name.toLowerCase().trim())) {
+                        statusToDeal.pronouns = Helper.parseHtml(field.value);
+                        break;
+                    }
+                }
+                if (statusToDeal.pronouns == null) {
+                    statusToDeal.pronouns = "none";
                 }
             }
-            if (statusToDeal.pronouns == null) {
-                statusToDeal.pronouns = "none";
-            }
         }
+
         if (statusToDeal.pronouns != null && !statusToDeal.pronouns.equalsIgnoreCase("none")) {
             holder.binding.pronouns.setVisibility(View.VISIBLE);
             holder.binding.pronouns.setText(statusToDeal.pronouns);
