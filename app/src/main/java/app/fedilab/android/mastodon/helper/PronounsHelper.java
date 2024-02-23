@@ -25,7 +25,12 @@ public class PronounsHelper {
             add("pronombres");
             add("לשון פנייה");
             add("כינויי גוף");
-            add("Pronomen");
+            add("pronomen");
+            add("pronomina");
+            add("称谓");
+            add("pronomes");
+            add("pronomoj");
+            add("zaimki");
         }
     };
 }
