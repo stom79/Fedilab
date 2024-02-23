@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.ui.drawer;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,13 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerAccountSearchBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Field;
@@ -120,10 +123,14 @@ public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filt
         holder.binding.accountDn.setText(account.display_name);
         holder.binding.accountDn.setVisibility(View.VISIBLE);
         account.pronouns = null;
-        for (Field field : account.fields) {
-            if (PronounsHelper.pronouns.contains(field.name.toLowerCase().trim())) {
-                account.pronouns = Helper.parseHtml(field.value);
-                break;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean pronounsSupport = sharedpreferences.getBoolean(getContext().getString(R.string.SET_PRONOUNS_SUPPORT), true);
+        if(pronounsSupport) {
+            for (Field field : account.fields) {
+                if (PronounsHelper.pronouns.contains(field.name.toLowerCase().trim())) {
+                    account.pronouns = Helper.parseHtml(field.value);
+                    break;
+                }
             }
         }
         if (account.pronouns != null) {

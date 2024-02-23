@@ -79,6 +79,13 @@
         app:singleLineTitle="false"
         app:title="@string/underline_links" />
 
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_PRONOUNS_SUPPORT"
+        app:singleLineTitle="false"
+        app:title="@string/pronouns_support" />
+
     <androidx.preference.SeekBarPreference
         android:defaultValue="30"
         android:max="150"
