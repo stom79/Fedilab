@@ -1069,4 +1069,5 @@
     <string name="tag_already_followed">Xa segues ese cancelo!</string>
     <string name="timeline_scrollbar">Mostrar barra de desprazamento nas cronoloxías</string>
     <string name="set_disable_topbar_scrolling_title">Agochar barra superior ao desprazarse</string>
+    <string name="Pronouns">Pronomes</string>
 </resources>

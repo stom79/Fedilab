@@ -1,0 +1,10 @@
+Engadido:
+- Soporte para pronomes (Cronoloxía/Editor/Autocompletado)
+
+Cambiou:
+- Uso da biblioteca Media3
+
+Arranxos:
+- Duración demasiado longa de Acalar
+- Compartir vídeos só descargándoos
+- Fallos da última versión
