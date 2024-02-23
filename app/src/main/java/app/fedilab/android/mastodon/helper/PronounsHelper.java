@@ -20,8 +20,10 @@ public class PronounsHelper {
 
     public static List<String> pronouns = new ArrayList<>() {
         {
+            add("pronoun");
             add("pronouns");
             add("pronoms");
+            add("pronom");
             add("pronombres");
             add("לשון פנייה");
             add("כינויי גוף");
@@ -29,8 +31,14 @@ public class PronounsHelper {
             add("pronomina");
             add("称谓");
             add("pronomes");
+            add("pronome");
+            add("pronomi");
             add("pronomoj");
             add("zaimki");
+            add("voornaamwoorden");
+            add("riochdairean");
+            add("כינויי גוף");
+            add("personlig pronomen");
         }
     };
 }
