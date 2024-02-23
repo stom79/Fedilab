@@ -128,6 +128,7 @@ import app.fedilab.android.mastodon.helper.ComposeHelper;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
+import app.fedilab.android.mastodon.helper.PronounsHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.imageeditor.EditImageActivity;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
@@ -1428,7 +1429,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 statusFromUser.pronouns = null;
                 if (accountFromUser.fields != null && accountFromUser.fields.size() > 0) {
                     for (Field field : accountFromUser.fields) {
-                        if (field.name.toLowerCase().startsWith("pronoun")) {
+                        if (PronounsHelper.pronouns.contains(field.name.toLowerCase().trim())) {
                             statusList.get(position).pronouns = Helper.parseHtml(field.value);
                             break;
                         }

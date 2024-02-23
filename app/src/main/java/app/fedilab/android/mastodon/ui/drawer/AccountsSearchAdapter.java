@@ -33,6 +33,7 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Field;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
+import app.fedilab.android.mastodon.helper.PronounsHelper;
 
 
 public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filterable {
@@ -120,7 +121,7 @@ public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filt
         holder.binding.accountDn.setVisibility(View.VISIBLE);
         account.pronouns = null;
         for (Field field : account.fields) {
-            if (field.name.trim().equalsIgnoreCase("pronouns")) {
+            if (PronounsHelper.pronouns.contains(field.name.toLowerCase().trim())) {
                 account.pronouns = Helper.parseHtml(field.value);
                 break;
             }

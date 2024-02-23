@@ -169,6 +169,7 @@ import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.MediaHelper;
+import app.fedilab.android.mastodon.helper.PronounsHelper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.helper.TimelineHelper;
@@ -483,7 +484,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
         if (statusToDeal.pronouns == null && statusToDeal.account.fields != null && statusToDeal.account.fields.size() > 0) {
             for (Field field : statusToDeal.account.fields) {
-                if (field.name.toLowerCase().startsWith("pronoun")) {
+                if (PronounsHelper.pronouns.contains(field.name.toLowerCase().trim())) {
                     statusToDeal.pronouns = Helper.parseHtml(field.value);
                     break;
                 }
