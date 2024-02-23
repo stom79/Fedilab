@@ -224,9 +224,11 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/status_pinned"
+                android:layout_marginTop="6dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_gravity="center"
+                android:layout_gravity="top"
+                tools:visibility="visible"
                 android:scaleType="centerInside"
                 android:contentDescription="@string/pinned"
                 android:src="@drawable/ic_baseline_push_pin_24"
@@ -236,9 +238,12 @@
                 android:id="@+id/type_of_notification"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginStart="6dp"
+                android:layout_gravity="top|end"
                 android:layout_marginEnd="6dp"
+                android:layout_marginStart="6dp"
+                tools:src="@drawable/ic_star_outline"
+                tools:visibility="visible"
+                android:layout_marginTop="6dp"
                 android:tint="?colorPrimary"
                 android:visibility="gone" />
 
