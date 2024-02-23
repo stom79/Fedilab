@@ -39,6 +39,8 @@ public class PronounsHelper {
             add("riochdairean");
             add("כינויי גוף");
             add("personlig pronomen");
+            add("人称");
+            add("人稱");
         }
     };
 }
