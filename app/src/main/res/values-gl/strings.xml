@@ -1070,4 +1070,5 @@
     <string name="timeline_scrollbar">Mostrar barra de desprazamento nas cronoloxías</string>
     <string name="set_disable_topbar_scrolling_title">Agochar barra superior ao desprazarse</string>
     <string name="Pronouns">Pronomes</string>
+    <string name="pronouns_support">Soporte para pronomes</string>
 </resources>
