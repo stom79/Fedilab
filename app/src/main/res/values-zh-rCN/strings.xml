@@ -1067,4 +1067,12 @@
     <string name="thread_long_message_message">消息将分为几个回复，以满足您所在实例的最大字数。</string>
     <string name="thread_long_this_message">是否将长消息分为回复？</string>
     <string name="clipboard_version">信息已复制到剪贴板</string>
+    <string name="Pronouns">性别代词</string>
+    <string name="timeline_scrollbar">显示时间线上的滚动条</string>
+    <string name="pronouns_support">性别代词支持</string>
+    <string name="set_disable_topbar_scrolling_title">禁用顶栏滚动</string>
+    <string name="set_display_relative_date">显示消息的相对日期</string>
+    <string name="copy_version">复制信息</string>
+    <string name="tag_already_followed">您已经关注了该话题标签！</string>
+    <string name="underline_links">带下划线的可点击元素</string>
 </resources>
