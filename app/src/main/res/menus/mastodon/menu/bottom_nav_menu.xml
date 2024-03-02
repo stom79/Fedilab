@@ -24,6 +24,6 @@
     <item
         android:id="@+id/nav_privates"
         android:icon="@drawable/ic_baseline_mail_24"
-        android:title="@string/v_private" />
+        android:title="@string/v_direct" />
 
 </menu>
