@@ -1,0 +1,1 @@
+此版本应能修复崩溃 (TransactionTooLargeException)。如果仍出现崩溃，请通过 F-droid 回滚。
