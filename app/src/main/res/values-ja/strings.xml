@@ -1065,4 +1065,6 @@
     <string name="thread_long_this_message">この返信の投稿を分割しますか？</string>
     <string name="thread_long_message_message">サーバーの最大文字数に合わせて投稿は複数の返信に分割されます。</string>
     <string name="timeline_scrollbar">タイムラインにスクロールバーを表示する</string>
+    <string name="Pronouns">代名詞</string>
+    <string name="pronouns_support">代名詞のサポート</string>
 </resources>
