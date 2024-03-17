@@ -29,7 +29,7 @@
     <string name="camera">Takamiṛat</string>
     <string name="delete_all">Kkes kullec</string>
     <string name="schedule">Sγiwes</string>
-    <string name="text_size">Tuɣzi n tignit d uḍris</string>
+    <string name="text_size">Tuɣzi n uḍris</string>
     <string name="next">Γer sdat</string>
     <string name="previous">Γer deffir</string>
     <string name="open_with">Ldi s</string>
@@ -143,7 +143,8 @@
     <!-- Accounts -->
     <string name="no_accounts">Ulac kra n umiḍan ara d-nesken</string>
     <string name="no_follow_request">Ulac isuturen n uneḍfar</string>
-    <string name="status_cnt">Tijewwiqin \n %1$s</string>
+    <string name="status_cnt">Iznan
+\n %1$s</string>
     <string name="following_cnt">Yeṭafaṛ \n %1$s</string>
     <string name="followers_cnt">Imeḍfaṛen \n %1$s</string>
     <string name="reject">Agi</string>
@@ -365,8 +366,8 @@
     <string name="category">Taggayt</string>
     <string name="description">Aglam</string>
     <string name="share">Bḍu</string>
-    <string name="toots_server">Toots (Server)</string>
-    <string name="toots_client">Toots (Device)</string>
+    <string name="toots_server">Iznan (Aqeddac)</string>
+    <string name="toots_client">Iznan (Ibenk)</string>
     <string name="settings_category_label_timelines">Timelines</string>
     <string name="settings_category_label_interface">Agrudem</string>
     <string name="contact">Inermisen</string>
@@ -433,7 +434,7 @@
     <string name="agreement_check">I agree to %1$s and %2$s</string>
     <string name="server_rules">server rules</string>
     <string name="tos">terms of service</string>
-    <string name="sign_up">Sigez</string>
+    <string name="sign_up">Jerred</string>
     <string name="validation_needed">This instance works with invitations. Your account will need to be manually approved by an administrator before being usable.</string>
     <string name="password_error">Passwords don\'t match!</string>
     <string name="email_error">The email doesn\'t seem to be valid!</string>
@@ -570,4 +571,40 @@
     <string name="no_distributors_found">No distributors found!</string>
     <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
     <string name="select_distributors">Select a distributor</string>
+    <string name="administrator">Anedbal</string>
+    <string name="compose_shortcut_short_label1">Azen</string>
+    <string name="title">Azwel</string>
+    <string name="Suggestions">Isumar</string>
+    <string name="domains">Tiɣula</string>
+    <string name="version">Lqem</string>
+    <string name="reply">Tiririt</string>
+    <string name="replace_instagram">Instagram</string>
+    <string name="allow">Sireg</string>
+    <string name="v_list">Tabdart</string>
+    <string name="status">Addad</string>
+    <string name="label_shape">Talɣa</string>
+    <string name="label_rectangle">Asrem</string>
+    <string name="label_line">Izirig</string>
+    <string name="pinned">Yettwasenṭeḍ</string>
+    <string name="restart">Ales tanekra</string>
+    <string name="exit">Tuffɣa</string>
+    <string name="translator">Imsuqqel</string>
+    <string name="replace_reddit">Reddit</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
+    <string name="keepon">Kemmel</string>
+    <string name="notif_display_favourites">Ismenyifen</string>
+    <string name="unfollow">Ur ṭṭafar ara</string>
+    <string name="profiles">Imaɣnuyen</string>
+    <string name="fails">Tuccḍiwin</string>
+    <string name="notif_display_updates">Ileqman</string>
+    <string name="proxy_protocol">Aneggaf</string>
+    <string name="user">Aseqdac</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="_new">Amaynut</string>
+    <string name="replace_youtube">YouTube</string>
+    <string name="replace_twitter">Twitter</string>
+    <string name="set_translator">Imsuqqel</string>
+    <string name="category_music">Aẓawan</string>
+    <string name="other">Wayeḍ</string>
+    <string name="auto">Amurman</string>
 </resources>
