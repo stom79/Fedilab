@@ -15,6 +15,10 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+
+
+import static app.fedilab.android.mastodon.helper.LogoHelper.getMainLogo;
+
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -23,9 +27,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -39,6 +47,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
+import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -62,6 +71,9 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,12 +84,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityProfileBinding;
 import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
+import app.fedilab.android.databinding.PopupQrcodeBinding;
 import app.fedilab.android.databinding.TabProfileCustomViewBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
@@ -275,6 +290,51 @@ public class ProfileActivity extends BaseActivity {
             }
         });
 
+        binding.qrCodeGenerator.setVisibility(View.VISIBLE);
+
+        binding.qrCodeGenerator.setOnClickListener(v->{
+            QRGEncoder qrgEncoder = new QRGEncoder(account.url, null, QRGContents.Type.TEXT, 400);
+            Drawable logoDrawable = ContextCompat.getDrawable(ProfileActivity.this, R.drawable.fedilab_logo_bubbles);
+            if (logoDrawable != null) {
+                Bitmap bitmap = qrgEncoder.getBitmap();
+                MaterialAlertDialogBuilder alertadd = new MaterialAlertDialogBuilder(ProfileActivity.this);
+                PopupQrcodeBinding popupQrcodeBinding = PopupQrcodeBinding.inflate(getLayoutInflater());
+                popupQrcodeBinding.qrcodeImage.setImageBitmap(bitmap);
+                alertadd.setView(popupQrcodeBinding.getRoot());
+                alertadd.setNeutralButton(R.string.close, (dialog, which) -> dialog.dismiss());
+                alertadd.setPositiveButton(R.string.save, (dlg, which) -> {
+                    File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    File targeted_folder = new File(path, getString(R.string.app_name));
+                    if (!targeted_folder.exists()) {
+                        boolean created = targeted_folder.mkdir();
+                        if (!created) {
+                            Toasty.error(ProfileActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    String fileName = URLUtil.guessFileName(account.url, null, null);
+                    if (fileName.endsWith(".bin")) {
+                        fileName = fileName.replace(".bin", ".png");
+                    }
+                    fileName = fileName.replaceAll("@","");
+                    File backupFile = new File(targeted_folder.getAbsolutePath() + "/" + fileName);
+                    try (FileOutputStream out = new FileOutputStream(backupFile)) {
+                        final Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        Uri uri = Uri.fromFile(backupFile);
+                        intent.setDataAndType(uri, "image/jpeg");
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        Helper.notify_user(ProfileActivity.this, Helper.getCurrentAccount(ProfileActivity.this), intent, BitmapFactory.decodeResource(getResources(),
+                                getMainLogo(ProfileActivity.this)), Helper.NotifType.STORE, getString(R.string.save_over), getString(R.string.download_from, fileName));
+                        Toasty.success(ProfileActivity.this, getString(R.string.save_over), Toasty.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                alertadd.show();
+            }
+
+        });
 
         //Retrieve relationship with the connected account
         List<String> accountListToCheck = new ArrayList<>();

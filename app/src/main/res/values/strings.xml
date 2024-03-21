@@ -583,6 +583,7 @@
     <string name="icons_color">Color of bottom icons in timelines</string>
     <string name="logo_of_the_instance">Logo of the instance</string>
     <string name="edit_profile">Edit profile</string>
+    <string name="qr_code_generator">QR generator</string>
     <string name="make_an_action">Make an action</string>
     <string name="translation">Translation</string>
     <string name="text_color_title">Text color</string>

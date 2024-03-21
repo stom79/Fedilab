@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <ImageView
+        android:contentDescription="@string/qr_code_generator"
+        android:id="@+id/qrcode_image"
+        tools:src="@tools:sample/backgrounds/scenic"
+        android:scaleType="centerInside"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
