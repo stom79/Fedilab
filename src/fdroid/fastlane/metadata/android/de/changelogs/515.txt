@@ -1,0 +1,6 @@
+Hinzugefügt:
+- Anzeige eines QR-Codes on Profilen
+
+Repariert:
+- Tippen auf Nachrichten in Gesprächen
+- Namensformen nehmen zuviel Platz weg
