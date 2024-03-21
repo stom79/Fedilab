@@ -910,8 +910,9 @@ public class Helper {
             ft = fragmentManager.beginTransaction();
             ft.add(containerViewId, fragment, tag);
             if (backStackName != null) {
-                ft = fragmentManager.beginTransaction();
-                ft.addToBackStack(backStackName);
+                try {
+                    ft.addToBackStack(backStackName);
+                }catch (Exception ignored){}
             }
             if (!fragmentManager.isDestroyed()) {
                 ft.commit();
