@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.28.2",
+    "code": "515",
+    "note": "Added:\n- Display a QR code on profiles\n\nFixed:\n- Fix tap on messages in conversations\n- Pronouns taking too much place"
+  },
+  {
     "version": "3.28.1",
     "code": "514",
     "note": "Added:\n- Allow to disable pronouns support (default: enabled)\n- Add more support for pronouns (localization in different languages)\n\nFixed:\n- Fix a crash when reporting messages\n- Fix a crash when following tags\n- Fix some display issues\n- Several fixes from the last release (3.28.0)"
