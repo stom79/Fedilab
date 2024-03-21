@@ -219,7 +219,7 @@
     <string name="settings_time_to">a</string>
     <string name="embedded_browser">Použít vestavěný prohlížeč</string>
     <string name="custom_tabs">Prohlížeč v aplikaci</string>
-    <string name="expand_cw">Automaticky ukázat varování před obsahem</string>
+    <string name="expand_cw">Automaticky ukazovat varování před obsahem</string>
     <string name="set_led_colour">Barva LED:</string>
     <string-array name="led_colours">
         <item>Modrá</item>
@@ -365,7 +365,7 @@
     <string name="any_tags">Kterýkoliv</string>
     <string name="all_tags">Všechny</string>
     <string name="none_tags">Žádný</string>
-    <string name="some_words_any">Kterékoliv slovo (odělené mezerami)</string>
+    <string name="some_words_any">Kterékoliv slovo (oddělené mezerami)</string>
     <string name="some_words_all">Všechna slova (oddělená mezerami)</string>
     <string name="some_tags">Přidejte do filtru nějaká slova (oddělená mezerami)</string>
     <string name="change_tag_column">Změnit název sloupce</string>
@@ -380,7 +380,7 @@
     <string name="settings_category_label_timelines">Časové osy</string>
     <string name="settings_category_label_interface">Rozhraní</string>
     <string name="contact">Kontakty</string>
-    <string name="toot_select_file_error">Při výběru zálohového souboru nastala chyba!</string>
+    <string name="toot_select_file_error">Při výběru souboru se zálohou nastala chyba!</string>
     <string name="action_logout_account">Odhlásit účet</string>
     <string name="all">Vše</string>
     <string name="copy_link">Kopírovat odkaz</string>
@@ -1063,7 +1063,7 @@
     <string name="set_custom_accent_value_light_description">Barva, která se použije pro světlé téma</string>
     <string name="set_custom_accent_indication">Definovat barvu tématu pro účet</string>
     <string name="set_custom_accent_value_dark_description">Barva, která se použije pro tmavé téma</string>
-    <string name="requested_by">Žádá o možnost sledovat</string>
+    <string name="requested_by">Žádá o možnost vás sledovat</string>
     <string name="set_alt_text_mandatory_description_warn">Pokud existují chybějící média, zobrazí se dialog s možností odeslat zprávu bez popisu médií</string>
     <string name="set_remote_conversation_title">Vzdálené konverzace</string>
     <string name="set_remote_conversation">Aplikace bude veřejně zobrazovat konverzace, aby získala všechny zprávy. Interakce budou k federaci zpráv potřebovat samostatný krok.</string>
@@ -1071,7 +1071,7 @@
     <string name="self">Vlastní</string>
     <string name="markdown_support">Podpora pro Markdown</string>
     <string name="show_self_boosts">Zobrazit boosty sebe sama</string>
-    <string name="show_self_replies">Zobrazit odpovědi na sebe</string>
+    <string name="show_self_replies">Zobrazit odpovědi na sebe sama</string>
     <string name="show_my_messages">Ukázat mé zprávy</string>
     <string name="thread_long_message">Rozdělit dlouhé zprávy v odpovědích</string>
     <string name="thread_long_message_yes">Rozdělit zprávu</string>
@@ -1088,4 +1088,5 @@
     <string name="underline_links">Podtrhávat klikatelné prvky</string>
     <string name="Pronouns">Zájmena</string>
     <string name="pronouns_support">Podpora zájmen</string>
+    <string name="qr_code_generator">Generátor QR kódů</string>
 </resources>
