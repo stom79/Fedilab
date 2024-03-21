@@ -805,7 +805,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="notif_update_push">Un missatge que havies difós ha estat editat</string>
     <string name="notif_report">Una usuària ha denunciat</string>
     <string name="proxy_protocol_socks">SOCKS</string>
-    <string name="card_picture">"Imatge  de perfil"</string>
+    <string name="card_picture">Imatge de perfil</string>
     <string name="account_silenced">Compte silenciat</string>
     <string name="report">Denúncia</string>
     <string name="restart_the_app">Reinicia l\'app\?</string>
