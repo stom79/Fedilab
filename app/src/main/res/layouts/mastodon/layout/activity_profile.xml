@@ -145,7 +145,6 @@
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:layout_marginTop="6dp"
                     android:layout_marginStart="10dp"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
@@ -154,7 +153,8 @@
                     android:visibility="gone"
                     app:icon="@drawable/baseline_qr_code_24"
                     app:layout_constraintStart_toEndOf="@id/account_dn"
-                    app:layout_constraintTop_toBottomOf="@id/avatar_container"
+                    app:layout_constraintTop_toTopOf="@id/account_dn"
+                    app:layout_constraintBottom_toBottomOf="@+id/account_dn"
                     tools:visibility="visible" />
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/account_un_container"
