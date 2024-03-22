@@ -1,0 +1,9 @@
+Engadido:
+- permitir desactivar o soporte para pronomes (activado por defecto)
+- engadir mellor soporte para os pronomes (traducido a varios idiomas)
+
+Arranxos:
+- do fallo ao denunciar mensaxes
+- do fallo ao seguir cancelos
+- dos problemas ao mostrar algunhas mensaxes
+- varios problemas desde a última versión (3.28.0)

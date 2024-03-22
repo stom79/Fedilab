@@ -1,0 +1,6 @@
+Engadido:
+- Mostrar código QR nos perfís
+
+Arranxos:
+- ao tocar nas mensaxes nas conversas
+- os pronomes ocupaban demasiado espazo

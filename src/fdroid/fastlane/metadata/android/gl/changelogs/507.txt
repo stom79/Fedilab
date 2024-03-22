@@ -1,0 +1,2 @@
+- Problema ao redactar
+- Esta versión debe resolver os fallos de TransactionTooLargeException. Se segue a falla, volve á versión anterior de F-Droid.

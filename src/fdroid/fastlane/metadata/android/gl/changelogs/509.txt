@@ -1,0 +1,6 @@
+Engadido:
+- fixar barra superior (por defecto: desactivado)
+- frecuencia de uso dos cancelos ao escribir
+
+Arranxo:
+- algúns problemiñas
