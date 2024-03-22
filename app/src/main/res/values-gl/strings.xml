@@ -1071,4 +1071,5 @@
     <string name="set_disable_topbar_scrolling_title">Agochar barra superior ao desprazarse</string>
     <string name="Pronouns">Pronomes</string>
     <string name="pronouns_support">Soporte para pronomes</string>
+    <string name="qr_code_generator">Xerador de QR</string>
 </resources>
