@@ -1075,4 +1075,5 @@
     <string name="set_disable_topbar_scrolling_title">Üst çubuk kaydırmasını devre dışı bırak</string>
     <string name="Pronouns">Zamirler</string>
     <string name="qr_code_generator">QR oluşturucu</string>
+    <string name="pronouns_support">Zamir desteği</string>
 </resources>
