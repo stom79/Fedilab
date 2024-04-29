@@ -598,4 +598,5 @@
     <string name="toast_fetch_error">Застосунок не може знайти віддалені дані!</string>
     <string name="set_remote_profile">Застосунок відображатиме профілі у відкритому доступі, щоб отримувати всі повідомлення. Взаємодія потребуватиме додаткового кроку для об\'єднання повідомлень.</string>
     <string name="set_disable_release_notes_indication">Коли публікується нова версія, ви не отримаєте сповіщення в застосунку.</string>
+    <string name="warn">Попередження</string>
 </resources>

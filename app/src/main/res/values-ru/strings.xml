@@ -842,4 +842,14 @@
     <string name="notif_display_updates">Изменения</string>
     <string name="Suggestions">Предложения</string>
     <string name="Directory">Каталог</string>
+    <string name="type_default_theme_light">Светлая тема по умолчанию</string>
+    <string name="toast_pin">Сообщение было закреплено</string>
+    <string name="warn">Предупреждение</string>
+    <string name="type_default_theme_dark">Темная тема по умолчанию</string>
+    <string name="joined">Присоединился</string>
+    <string name="import_data">Импорт данных</string>
+    <string name="action_unpin">Открепить сообщение</string>
+    <string name="toast_unpin">Сообщение больше не прикреплено!</string>
+    <string name="action_pin">Закрепить сообщение</string>
+    <string name="edit_message">Редактировать сообщение</string>
 </resources>
