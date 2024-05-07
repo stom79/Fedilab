@@ -2,7 +2,7 @@
 <resources>
     <string name="close">Clauder</string>
     <string name="download_from" formatted="false">File: %1$s</string>
-    <string name="save">Salvar</string>
+    <string name="save">Salveguardar</string>
     <string name="action_open_in_web">Aperir in le navigator</string>
     <string name="show_replies">Monstrar le responsas</string>
     <string name="action_cache">Cache</string>
@@ -71,4 +71,6 @@
 \n %1$s</string>
     <string name="followers_cnt">Sequitores
 \n %1$s</string>
+    <string name="more_action_7">Mentionar</string>
+    <string name="more_action_3">Signalar</string>
 </resources>
