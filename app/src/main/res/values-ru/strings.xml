@@ -810,7 +810,7 @@
     <string name="location">Местоположение</string>
     <string name="most_recent">Последние</string>
     <string name="approved">Утверждено</string>
-    <string name="type_of_notifications_delay_title">Уведомления проверок</string>
+    <string name="type_of_notifications_delay_title">Время получения уведомлений</string>
     <string name="set_push_notifications_delay">Установите задержку между каждой новой проверкой</string>
     <string name="set_single_topbar">Когда включено, приложение будет иметь только один бар для лент</string>
     <string name="set_timelines_in_a_list">Если включено, все закрепленные ленты будут отображаться в выпадающем меню</string>
@@ -852,4 +852,6 @@
     <string name="toast_unpin">Сообщение больше не прикреплено!</string>
     <string name="action_pin">Закрепить сообщение</string>
     <string name="edit_message">Редактировать сообщение</string>
+    <string name="set_notif_update">Уведомлять об обновлениях</string>
+    <string name="notification_remove_from_cache">Уведомления были удалены из кэша.</string>
 </resources>
