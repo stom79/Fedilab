@@ -854,4 +854,5 @@
     <string name="edit_message">Редактировать сообщение</string>
     <string name="set_notif_update">Уведомлять об обновлениях</string>
     <string name="notification_remove_from_cache">Уведомления были удалены из кэша.</string>
+    <string name="full_date_edited">%1$s отредактировано %2$s</string>
 </resources>
