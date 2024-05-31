@@ -1067,4 +1067,5 @@
     <string name="timeline_scrollbar">タイムラインにスクロールバーを表示する</string>
     <string name="Pronouns">代名詞</string>
     <string name="pronouns_support">代名詞のサポート</string>
+    <string name="qr_code_generator">QRコード作成</string>
 </resources>
