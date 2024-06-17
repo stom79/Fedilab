@@ -104,20 +104,23 @@
     <string name="date_hours">%d h</string>
     <string name="date_day">%d d</string>
     <plurals name="date_seconds_polls">
-        <item quantity="one">%d segundos</item>
-        <item quantity="many"/>
+        <item quantity="one">%d segundo</item>
+        <item quantity="many">%d segundos</item>
         <item quantity="other">%d segundos</item>
     </plurals>
     <plurals name="date_minutes_polls">
         <item quantity="one">%d minuto</item>
+        <item quantity="many">%d minutos</item>
         <item quantity="other">%d minutos</item>
     </plurals>
     <plurals name="date_hours_polls">
         <item quantity="one">%d hora</item>
+        <item quantity="many">%d horas</item>
         <item quantity="other">%d horas</item>
     </plurals>
     <plurals name="date_day_polls">
         <item quantity="one">%d día</item>
+        <item quantity="many">%d días</item>
         <item quantity="other">%d días</item>
     </plurals>
     <!-- TOOT -->
@@ -266,7 +269,7 @@
     <string name="proxy_enable">¿Habilitar proxy?</string>
     <string name="poxy_host">Host</string>
     <string name="poxy_port">Puerto</string>
-    <string name="poxy_login">Usuario</string>
+    <string name="poxy_login">Acceder</string>
     <string name="poxy_password">Contraseña</string>
     <string name="set_share_details">Agregar datos del toot al compartir</string>
     <string name="support_the_app_on_liberapay">Apoya la aplicación en Liberapay</string>
@@ -350,7 +353,7 @@
     <string name="languages">Idiomas</string>
     <string name="show_media_only">Solo media</string>
     <string name="show_media_nsfw">Mostrar NSFW</string>
-    <string name="bot">Bot</string>
+    <string name="bot">Cuenta Bot</string>
     <string name="pixelfed_instance">Instancia Pixelfed</string>
     <string name="mastodon_instance">Instancia de Mastodon</string>
     <string name="any_tags">Cualquiera de estos</string>
@@ -419,7 +422,7 @@
     <string name="toast_unmute_conversation">¡La conversación ya no está silenciada!</string>
     <string name="toast_mute_conversation">La conversación está silenciada</string>
     <string name="category_general">General</string>
-    <string name="category_regional">Regional</string>
+    <string name="category_regional">Región</string>
     <string name="category_art">Arte</string>
     <string name="category_activism">Activismo</string>
     <string name="category_games">Juegos</string>
@@ -483,6 +486,7 @@
     <string name="report_account">Reportar cuenta</string>
     <plurals name="number_of_voters">
         <item quantity="one">%d votante</item>
+        <item quantity="many">%d votantes</item>
         <item quantity="other">%d votantes</item>
     </plurals>
     <string-array name="poll_choice_type">
@@ -504,7 +508,7 @@
     <string name="unfollow_confirm">¿Desea dejar de seguir esta cuenta?</string>
     <string name="set_unfollow_validation">Mostrar diálogo de confirmación antes de dejar de seguir</string>
     <string name="replace_medium">Reemplazar enlaces a Medium</string>
-    <string name="replace_medium_description">Reemplazar los enlaces a medium.com con un front-end alternativo de código abierto centrado en la privacidad.</string>
+    <string name="replace_medium_description">Reemplazar los enlaces a medium.com con un front-end alternativo de código abierto centrado en la privacidad</string>
     <string name="replace_medium_host">Por defecto: scribe.rip</string>
     <string name="set_push_notifications">Usa un sistema de notificaciones push para obtener notificaciones en tiempo real.</string>
     <string name="action_add_notes">Añadir notas</string>
@@ -652,8 +656,7 @@
     <string name="unblock_domain_confirm">Estás seguro de desbloquear %1$s?</string>
     <string name="action_privacy_policy">Política de privacidad</string>
     <string name="unpin_timeline">Eliminar la cronología fijada?</string>
-    <string name="set_notif_admin_report">Nueva denuncia 
-\n(moderadores)</string>
+    <string name="set_notif_admin_report">Nueva denuncia (moderadores)</string>
     <string name="open_with_account">Abrir con otra cuenta</string>
     <string name="admin_domainblock_domain">El bloqueo del dominio no evitará la creación de cuentas en la base de datos, pero aplicará de forma retroactiva y automática acciones de moderación específicas en esas cuentas.</string>
     <string name="admin_reject_media">Rechazar ficheros multimedia</string>
@@ -747,11 +750,10 @@
     <string name="domains">Dominios</string>
     <string name="set_mention_at_top">Menciones en la parte superior</string>
     <string name="set_translator">Traductor</string>
-    <string name="status">Estado</string>
+    <string name="status">Estados</string>
     <string name="type_of_notifications_title">Elige el tipo de notificaciones</string>
     <string name="also_boosted_by">También impulsado por:</string>
-    <string name="set_notif_user_sign_up">Nuevo registro 
-\n(moderadores)</string>
+    <string name="set_notif_user_sign_up">Nuevo registro (moderadores)</string>
     <string name="admin_domainblock_reject_reports">Ignorar todas las denuncias procedentes de este dominio. Irrelevante para suspensiones</string>
     <string name="data_export_settings">Los ajustes se exportaron</string>
     <string name="report_1_title">No quieres ver esto?</string>
@@ -761,11 +763,11 @@
     <string name="not_valid_list_name">El nombre de la lista no es válido!</string>
     <string name="cached_messages">Mensaje en caché</string>
     <string name="display_options">Mostrar opciones</string>
-    <string name="toots_visibility_title">Visibilidad de los mensajes por defecto</string>
+    <string name="toots_visibility_title">Visibilidad de los mensajes por defecto:</string>
     <string name="private_comment">Comentario privado</string>
     <string name="msg_save_image">Quieres salir sin guardar la imagen?</string>
     <string name="types_of_notifications_to_display">Tipos de notificaciones a mostrar</string>
-    <string name="message_has_been_sent">Se ha enviado el mensaje !</string>
+    <string name="message_has_been_sent">Se ha enviado el mensaje!</string>
     <string name="set_display_counters">Mostrar contadores</string>
     <string name="display_timelines">Mostrar cronologías</string>
     <string name="state">Estado</string>
@@ -943,8 +945,7 @@
     <string name="replace_youtube_description">Usar interface alternativa para YouTube</string>
     <string name="delete_keyword">Eliminar palabra clave</string>
     <string name="set_customize_dark_indication">Permite personalizar algunos elementos de los mensajes en el tema oscuro.</string>
-    <string name="also_favourite_by">"También favorito de:
-\n. "</string>
+    <string name="also_favourite_by">"También favorito de: . "</string>
     <string name="replace_twitter_host">Dominio de interfaz para Twitter</string>
     <string name="replace_instagram">Instagram</string>
     <string name="report_1_block">No verás sus publicaciones. No podrá ver tus publicaciones ni seguirte. Podrá comprobar que le has bloqueado.</string>
@@ -1011,7 +1012,7 @@
     <string name="notif_sign_up">Nuevo usuario registrado</string>
     <string name="notif_display_updates_from_people">Actualizaciones de personas</string>
     <string name="card_picture">Imagen de perfil</string>
-    <string name="notif_display_reblogs">Reblogs</string>
+    <string name="notif_display_reblogs">Reimpulsos</string>
     <string name="set_mention_at_top_indication">Cuando respondas las menciones serán añadidas al principio del mensaje</string>
     <string name="show_content">Mostrar contenido &gt;</string>
     <string name="show_self_replies">Mostrar auto respuestas</string>
@@ -1019,4 +1020,54 @@
     <string name="show_my_messages">Mostrar mis mensajes</string>
     <string name="show_privates">Mostrar mensajes directos</string>
     <string name="sign_ups">Registros</string>
+    <string name="data_export_settings_success">Los ajustes se exportaron con éxito</string>
+    <string name="joined">Te uniste</string>
+    <string name="set_dynamic_color_indication">Ajusta la tonalidad con el esquema de color de tu fondo personal.</string>
+    <string name="login_status">Estado de sesión</string>
+    <string name="eg_sensitive_content">Eg.: Contenido Sensible</string>
+    <string name="set_unlisted_replies">Respuestas no listadas</string>
+    <string name="otp_message">Token de segundo factor de autenticación</string>
+    <string name="label_line">Línea</string>
+    <string name="notif_update">Editó un mensaje</string>
+    <string name="not_interested">No interesado</string>
+    <string name="is_up">Funciona!</string>
+    <string name="instance_health_indication">versión: %s
+\n %s usuarios - %s estados</string>
+    <string name="instance_health_checkedat">Comprobado al: %s</string>
+    <string name="followers_only">Sólo seguidores</string>
+    <string name="qr_code_generator">Generador de QR</string>
+    <string name="label_rectangle">Rectángulo</string>
+    <string name="messages_in_cache_for_other_timelines">Mensajes en caché para otras cronologías</string>
+    <string name="delete_cache_message">Estás seguro de querer vaciar la caché? Si tienes borradores que incluyen multimedia, el multimedia se perderá.</string>
+    <string name="type_of_notifications_delay_title">Tiempo de obtención de notificaciones</string>
+    <string name="email_status">Estado de email</string>
+    <string name="max_indentation_thread">Indentación máx en hilos</string>
+    <string name="set_unlisted_replies_indication">Sólo concierne a respuestas \"públicas\". Cuando se activa, tus respuestas automáticamente tendrán la visibilidad \"no listada\" en lugar de \"pública\"</string>
+    <string name="set_remove_left_margin">Eliminar el margen izquierdo en las cronologías para compactar más los mensajes</string>
+    <string name="track_selection_title">Seleccionar calidad</string>
+    <string name="inserted_count">%d nuevos mensajes</string>
+    <string name="is_down">No funciona!</string>
+    <string name="label_oval">Etiqueta Oval</string>
+    <string name="push_distributors">Gestor de notificaciones Push</string>
+    <string name="display_media_notification_summary">Se mostrará multimedia en las notificaciones de RT y FAV</string>
+    <string name="pickup_logo">Elije un logo</string>
+    <string name="admin_domainblock_severity">Silenciar hará que las publicaciones de la cuenta sean invisibles para cualquiera que no la siga. Suspender eliminará todo el contenido de la cuenta, multimedia y datos de perfil. Usa Nada si simplemente quieres rechazar ficheros multimedia.</string>
+    <string name="mute_home">Silenciar de inicio</string>
+    <string name="truncate_links">Acortar enlaces</string>
+    <string name="frequency_minutes">Frecuencia (minutos)</string>
+    <string name="data_import_settings_success">Los ajustes se importaron con exi</string>
+    <string name="messages_stored_in_drafts">Mensajes guardados en borradores</string>
+    <string name="watch_trends_for_instance">Mira los temas relevantes en esta instancia</string>
+    <string name="hide_content">Ocultar contenido &lt;</string>
+    <string name="set_fetch_home">Obtener automáticamente los mensajes de inicio</string>
+    <string name="home_cache">Caché de Inicio</string>
+    <string name="type_of_home_delay_title">Intervalo de obtención de inicio</string>
+    <string name="set_single_topbar_title">Barra de acción única</string>
+    <string name="translate_in">Traducido al</string>
+    <string name="set_unfollow_validation_title">Confirma dejar de seguir</string>
+    <string name="notif_update_push">El mensaje que compartiste se ha editado</string>
+    <string name="other">Otro</string>
+    <string name="stop_recording">Detener grabación</string>
+    <string name="muted_menu_home">Usuarios silenciados en inicio</string>
+    <string name="warn_boost_no_media_description">Avisar si el multimedia del mensaje no tiene descripción antes de impulsarlo</string>
 </resources>
