@@ -147,7 +147,7 @@
     <!-- Accounts -->
     <string name="no_accounts">Ninguna cuenta para mostrar</string>
     <string name="no_follow_request">Ninguna solicitud de seguimiento</string>
-    <string name="status_cnt">Mensajes
+    <string name="status_cnt">Mensajes 
 \n %1$s</string>
     <string name="following_cnt">Siguiendo: \n %1$s</string>
     <string name="followers_cnt">Seguidores \n %1$s</string>
@@ -952,11 +952,11 @@
     <string name="replace_youtube_description">Usar interfaz alternativa para YouTube</string>
     <string name="delete_keyword">Eliminar palabra clave</string>
     <string name="set_customize_dark_indication">Permite personalizar algunos elementos de los mensajes en el tema oscuro.</string>
-    <string name="also_favourite_by">"También favorito de: . "</string>
+    <string name="also_favourite_by">"También favorito de: "</string>
     <string name="replace_twitter_host">Dominio de interfaz para Twitter</string>
     <string name="replace_instagram">Instagram</string>
     <string name="report_1_block">No verás sus publicaciones. No podrá ver tus publicaciones ni seguirte. Podrá comprobar que le has bloqueado.</string>
-    <string name="set_discoverable_content">Cuenta descubrible</string>
+    <string name="set_discoverable_content">La cuenta es detectable</string>
     <string name="pref_custom_theme_new_summary">Permite crear tu tema personalizado</string>
     <string name="type_default_theme_light">Tema claro por defecto</string>
     <string name="replace_twitter">Twitter</string>
@@ -1068,7 +1068,7 @@
     <string name="hide_content">Ocultar contenido &lt;</string>
     <string name="set_fetch_home">Obtener automáticamente los mensajes de inicio</string>
     <string name="home_cache">Caché de Inicio</string>
-    <string name="type_of_home_delay_title">Intervalo de obtención de inicio</string>
+    <string name="type_of_home_delay_title">Intervalo de actualización de la página de inicio</string>
     <string name="set_single_topbar_title">Barra de acción única</string>
     <string name="translate_in">Traducido al</string>
     <string name="set_unfollow_validation_title">Confirma dejar de seguir</string>
