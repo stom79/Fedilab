@@ -64,9 +64,9 @@
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">Nu sunt notițe de afișat</string>
-    <string name="favourite_add">Adauga acestă notiță la favorite?</string>
-    <string name="favourite_remove">Înlaătură acestă notiță de la favorite?</string>
-    <string name="reblog_add">Amplifică aceată notiță?</string>
+    <string name="favourite_add">Adaugă acest mesaj la favoritele tale?</string>
+    <string name="favourite_remove">Înlătură acest mesaj din favoritele tale?</string>
+    <string name="reblog_add">Amplifică acest mesaj?</string>
     <string name="reblog_remove">Oprește amplificarea notiței?</string>
     <string name="more_action_1">Silenţios</string>
     <string name="more_action_2">Blochează</string>
@@ -127,7 +127,7 @@
     <string name="toot_select_image_error">A aparut o eroare în timp ce selectați media!</string>
     <string name="toot_delete_media">Ștergeți?</string>
     <string name="toot_error_no_content">Notița este goală!</string>
-    <string name="toot_sent">Notița a fost trimisă!</string>
+    <string name="toot_sent">Mesajul a fost trimis!</string>
     <string name="toot_sensitive">Conţinut sensibil?</string>
     <string name="no_draft">Nu sunt ciorne!</string>
     <string name="choose_accounts">Alege un cont</string>
@@ -147,14 +147,15 @@
     <!-- Accounts -->
     <string name="no_accounts">Nu există conturi pentru a fi afișate</string>
     <string name="no_follow_request">Nici o cerere de urmărire</string>
-    <string name="status_cnt">Notițe \n %1$s</string>
+    <string name="status_cnt">Mesaje
+\n %1$s</string>
     <string name="following_cnt">Urmăriți \n %1$s</string>
     <string name="followers_cnt">Cei care vă urmăresc \n %1$s</string>
     <string name="reject">Respinge</string>
     <!-- Scheduled toots -->
-    <string name="no_scheduled_toots">Nici o notiță programtă pentru a afișa!</string>
-    <string name="remove_scheduled">Șterge notița planificată?</string>
-    <string name="toot_scheduled">Notița a fost planificată!</string>
+    <string name="no_scheduled_toots">Niciun mesaj programat de afișat!</string>
+    <string name="remove_scheduled">Șterge mesajul planificat?</string>
+    <string name="toot_scheduled">Mesajul a fost planificat!</string>
     <string name="toot_scheduled_date">Data planificării trebuie să fie mai mare decât ora curentă!</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">The time for muting should be greater than one minute.</string>
@@ -180,10 +181,10 @@
     <string name="toast_unmute">Contul nu mai este pe modul silențios!</string>
     <string name="toast_follow">Contul a fost urmat!</string>
     <string name="toast_unfollow">Contul nu mai este urmărit!</string>
-    <string name="toast_reblog">Notița a fost amplificată!</string>
-    <string name="toast_unreblog">Notița nu mai este amplificată!</string>
-    <string name="toast_favourite">Notița a fost adaugată la favorite!</string>
-    <string name="toast_unfavourite">Notița a fost înlăturată de la favorite!</string>
+    <string name="toast_reblog">Mesajul a fost amplificat!</string>
+    <string name="toast_unreblog">Mesajul nu mai este amplificat!</string>
+    <string name="toast_favourite">Mesajul a fost adăugat la favorite!</string>
+    <string name="toast_unfavourite">Mesajul a fost înlăturat de la favorite!</string>
     <string name="toast_error">Oops! A apărut o eroare!</string>
     <string name="toast_code_error">A apărut o eroare! Instanța nu a returnat un cod de autorizare!</string>
     <string name="toast_error_instance">Domeniul de instanță nu pare să fie valid!</string>
@@ -192,7 +193,7 @@
     <string name="nothing_to_do">Nu se poate efectua nici o acțiune</string>
     <string name="toast_error_translate">S-a produs o eroare în timpul traducerii!</string>
     <!-- Settings -->
-    <string name="set_toots_page">Număr de notițe pe încărcare</string>
+    <string name="set_toots_page">Număr de mesaje pe încărcare</string>
     <string name="set_disable_gif">Disable GIF avatars</string>
     <string name="set_notif_follow">Notifică atunci când cineva vă urmărește</string>
     <string name="set_notif_follow_share">Notifica atunci când cineva amplifică statusul</string>
@@ -214,7 +215,7 @@
     <string name="settings_time_from">Între</string>
     <string name="settings_time_to">și</string>
     <string name="embedded_browser">Folosește browser-ul încorporat</string>
-    <string name="custom_tabs">Custom tabs</string>
+    <string name="custom_tabs">Navigator integrat</string>
     <string name="expand_cw">Automatically expand cw</string>
     <string name="set_led_colour">Setează culoarea LED:</string>
     <string-array name="led_colours">
@@ -271,7 +272,7 @@
     <string name="poxy_port">Port</string>
     <string name="poxy_login">Login</string>
     <string name="poxy_password">Password</string>
-    <string name="set_share_details">Add toot details when sharing</string>
+    <string name="set_share_details">Adaugă detaliile mesajului când partajăm</string>
     <string name="support_the_app_on_liberapay">Support the app on Liberapay</string>
     <string name="alert_regex">There is an error in the regular expression!</string>
     <string name="toast_instance_unavailable">No timelines was found on this instance!</string>
@@ -290,9 +291,9 @@
     <string name="context_public">Public timelines</string>
     <string name="context_notification">Notifications</string>
     <string name="context_conversation">Conversations</string>
-    <string name="filter_keyword_explanations">Will be matched regardless of casing in text or content warning of a toot</string>
+    <string name="filter_keyword_explanations">Se va potrivi indiferent de minuscule/majuscule în text sau în atenționarea de conținut a unui mesaj</string>
     <string name="context_drop">Drop instead of hide</string>
-    <string name="context_drop_explanations">Filtered toots will disappear irreversibly, even if filter is later removed</string>
+    <string name="context_drop_explanations">Mesajele filtrate vor dispărea ireversibil, chiar dacă filtrul este ulterior înlăturat</string>
     <string name="context_whole_word_explanations">When the keyword or phrase is alphanumeric only, it will only be applied if it matches the whole word</string>
     <string name="context_whole_word">Whole word</string>
     <string name="filter_context">Filter contexts</string>
@@ -307,7 +308,7 @@
     <string name="channel_notif_fav">New Favourite</string>
     <string name="channel_notif_mention">New Mention</string>
     <string name="channel_notif_poll">Poll Ended</string>
-    <string name="channel_notif_backup">Toots Backup</string>
+    <string name="channel_notif_backup">Copie de siguranță a mesajelor</string>
     <string name="channel_notif_status">New posts</string>
     <string name="channel_notif_media">Media Download</string>
     <string name="select_sound">Select Tone</string>
@@ -575,4 +576,12 @@
     <string name="no_distributors_found">No distributors found!</string>
     <string name="no_distributors_explanation">You need a distributor for receiving push notifications.\nYou will find more details at %1$s.\n\nYou can also disable push notifications in settings for ignoring that message.</string>
     <string name="select_distributors">Select a distributor</string>
+    <string name="set_accounts_page">Număr de conturi pe încărcare</string>
+    <string name="proxy_protocol_http">HTTP</string>
+    <string name="proxy_protocol_socks">SOCKS</string>
+    <string name="channel_notif_update">Actualizare nouă</string>
+    <string name="channel_notif_signup">Înscriere nouă</string>
+    <string name="set_notifications_page">Număr de notificări pe încărcare</string>
+    <string name="proxy_protocol">Protocol</string>
+    <string name="toots_visibility_title">Vizibilitatea implicită a mesajelor:</string>
 </resources>
