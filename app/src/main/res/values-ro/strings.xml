@@ -595,4 +595,10 @@
     <string name="replace_youtube_host">Domeniu de interfață pentru YouTube</string>
     <string name="replace_reddit_description">Folosește o interfață alternativă pentru Reddit</string>
     <string name="replace_reddit_host">Domeniu de interfață pentru Reddit</string>
+    <string name="instance_not_valid">Instanța nu pare să fie validă!</string>
+    <string name="favourited_by">Favorizat de</string>
+    <string name="Pronouns">Pronume</string>
+    <string name="keepon">Continuă</string>
+    <string name="boosted_by">Impulsionat de</string>
+    <string name="category_custom">Personalizat</string>
 </resources>
