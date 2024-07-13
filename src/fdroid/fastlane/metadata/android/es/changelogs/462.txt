@@ -1,0 +1,21 @@
+Añadido:
+
+- Añadir soporte para Bubble timeline en extra-características con filtros.
+- Permitir mostrar perfiles públicos por defecto para obtener todos los mensajes (Ajustes > Interfaz)
+- Fallo: Permitir publicar mensajes localmente (Se puede desactivar en Configuración)
+- Pixelfed: Diseño personalizado para mostrar los medios de comunicación plenamente (También funciona para otro software cuando hay medios de comunicación)
+- Permitir alinear a la izquierda los botones de acción en los mensajes
+
+Cambiado:
+- Revisión completa de los enlaces en los mensajes (también menciones y etiquetas)
+- Añadir la etiqueta "pinned" en "any" para evitar que se pierda al renombrar la línea de tiempo.
+
+Corregido:
+- La aplicación no gestiona los enlaces a mensajes
+- CW al editar un mensaje
+- Corregido: notificaciones push con varias cuentas
+- No se envían notificaciones de nuevos mensajes o ediciones
+- Corrección de citas con etiquetas/menciones
+- Corrección de las notificaciones
+- Corrección del envío de varios medios
+- Corregir fallos

@@ -1,0 +1,8 @@
+Corregido:
+- Composición cruzada: Emojis de instancia errónea
+- Emojis personalizados que no se muestran en las notificaciones
+- Marcadores Fav/Boost con mensajes compartidos
+- Notificaciones vacías
+- Corregir cw eliminado al responder
+- Fijar expandir medios con imágenes de vista previa de ajuste cuando sensible
+- Arreglar un problema con la descarga más mostrada con demasiada frecuencia (limpiar caché ayudará o esperar nuevos mensajes)

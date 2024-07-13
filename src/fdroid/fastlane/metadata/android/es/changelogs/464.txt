@@ -1,0 +1,12 @@
+Añadido:
+- Mostrar seguidores conocidos en los perfiles
+- Visualización y filtrado del directorio de instancias
+
+Modificado:
+- Indicadores de bot y de icono de respuesta más visibles
+- Los medios individuales se ocultan con las vistas previas de enlaces
+
+Corregido:
+- Arreglado un fallo con Art timelines
+- Friendica: los medios no se pueden descargar/compartir
+- Arreglado un fallo con las líneas de tiempo ancladas
