@@ -1,0 +1,8 @@
+Agregado:
+- Mostrar la fecha del mensaje en lugar del impulso (predeterminado: deshabilitado)
+- Permitir deshabilitar la ventana emergente de notas de la versión en Configuración
+
+Solucionado:
+- Se solucionó la ralentización y el tartamudeo de las líneas de tiempo después de algunos desplazamientos.
+- Se corrigen los problemas de color con los botones de seguimiento.
+- Se corrigió la importación desde la configuración (la importación desde el inicio de sesión era correcta)
