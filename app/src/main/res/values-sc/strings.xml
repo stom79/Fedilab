@@ -163,7 +163,7 @@
     <string name="notif_status">at iscritu unu messàgiu nou</string>
     <string name="notif_reblog">at cumpartzidu s\'istadu tuo</string>
     <string name="notif_favourite">at agiuntu s\'istadu tuo a sos preferidos suos</string>
-    <string name="notif_follow">at comintzadu a ti sighire</string>
+    <string name="notif_follow">t\'at comintzadu a sighire</string>
     <string name="notif_follow_request">at pedidu de ti pòdere sighire</string>
     <string name="delete_notification_ask_all">Cantzellare totu sas notìficas?</string>
     <string name="delete_notification_all">Totu is notìficas sunt istadas cantzelladas!</string>
