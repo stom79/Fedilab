@@ -1,0 +1,8 @@
+Cambió:
+- Permitir deslizar medios para perfiles
+
+Solucionado:
+- Se corrigen errores al hacer zoom con los dedos
+- Copiar/Pegar en hilos
+- Se solucionó el fallo al comprobar la redirección en enlaces http
+- El menú de visualización en el visor de medios restablece el zoom con pellizcos

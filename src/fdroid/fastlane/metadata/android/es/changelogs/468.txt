@@ -1,0 +1,5 @@
+Agregado:
+- Soporte matemático (visualización y redacción)
+
+Cambió:
+- Ocultar medios individuales con vista previa ahora es una configuración (predeterminada: deshabilitada)
