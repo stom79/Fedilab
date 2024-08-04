@@ -25,7 +25,7 @@
     <string name="toast_account_changed" formatted="false">Nun funkcias kun la konto %1$s</string>
     <string name="add_account">Aldoni konton</string>
     <string name="clipboard">La enhavo de la mesaĝo estis kopiita al la tondujo</string>
-    <string name="clipboard_url">La URL de la hupo estis kopiita al la tondujo</string>
+    <string name="clipboard_url">La URL de la mesaĝo estis kopiita al la tondujo</string>
     <string name="camera">Fotilo</string>
     <string name="delete_all">Forigi ĉiujn</string>
     <string name="schedule">Plano</string>
