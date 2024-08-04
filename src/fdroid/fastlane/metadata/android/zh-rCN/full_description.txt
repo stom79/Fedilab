@@ -1,12 +1,23 @@
-它支持：
-- Mastodon、Pleroma、Pixelfed 和 Friendica.
+支持：
+- Mastodon、Peertube、Pixelfed、Misskey、GNU Social、Pleroma、Friendica
 
-本应用有下列高级功能 :
-
+本应用含高级功能：
 - 撰写主题讨论帖
-- 多账户支持
+- 支持多账户
 - 定时发送嘟文
-- 关注并和远程实例进行互动
+- 关注并与远程实例互动
 - 长按进行跨账户操作
-- 翻译功能
-- 艺术时间线
+- 翻译
+- 自动更新的多个选项
+  - 通过 UnifiedPush 推送通知 （包括 FDroid 上的 ntfy)
+  - 保持连接获取实时通知）
+  - 延迟通知 （每 30 秒连接）
+- 用 invidious 和 nitter 实例链接替换 youtube 和 twitter 链接
+- 定制主题，导入导出和定义
+- 导入和导出应用数据库
+- 带自定义表情符号的表情符号选择器
+- 多个启动器图标
+- 高级嘟文过滤
+- mastoart 话题的特殊艺术时间线
+- 导出嘟文
+- 自定义url 分享直接将 url 分享到其他服务
