@@ -445,13 +445,13 @@
     <string name="password_too_short">密码应至少包含 8 个字符</string>
     <string name="username_error">用户名只能包含字母、数字和下划线</string>
     <string name="account_created">帐号已创建！</string>
-    <string name="account_created_message">您的帐号已创建！
-\n
+    <string name="account_created_message">您的账号已创建！ 
+\n 
 \n 请考虑在接下来的 48 小时内验证您的电子邮件。
-\n
-\n 您现在可以通过在第一个字段中写入 <b>%1$s</b> 来连接您的帐号，然后点击在 <b>Connect</b> 上。
-\n
-\n <b>重要</b>：如果您的实例需要验证，您将在验证后收到一封电子邮件！ </string>
+\n 
+\n 您现在可以通过在第一个字段中写入 <b>%1$s</b> 并轻按 <b>连接</b> 来连接你的账户。
+\n 
+\n <b>重要</b>：如果您的实例需要验证，您将在验证后收到一封电子邮件！ \u0020</string>
     <string name="save_draft">将消息保存在草稿中？</string>
     <string name="administration">管理</string>
     <string name="reports">举报</string>
@@ -1075,4 +1075,5 @@
     <string name="copy_version">复制信息</string>
     <string name="tag_already_followed">您已经关注了该话题标签！</string>
     <string name="underline_links">带下划线的可点击元素</string>
+    <string name="qr_code_generator">二维码生成器</string>
 </resources>
