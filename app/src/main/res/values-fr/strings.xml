@@ -1066,4 +1066,13 @@
     <string name="timeline_scrollbar">Afficher une barre de défilement pour les fils</string>
     <string name="underline_links">Souligner les éléments cliquables</string>
     <string name="Pronouns">Pronoms</string>
+    <string name="thread_long_this_message">Diviser ce message en réponses ?</string>
+    <string name="thread_long_message_no">Ne pas le diviser</string>
+    <string name="thread_long_message_yes">Diviser le message</string>
+    <string name="thread_long_message">Diviser les messages longs en réponses</string>
+    <string name="clipboard_version">L\'information a été copié dans le presse-papier</string>
+    <string name="tag_already_followed">Vous suivez déjà ce tag !</string>
+    <string name="copy_version">Copier l\'information</string>
+    <string name="qr_code_generator">Générateur de QR Code</string>
+    <string name="set_disable_topbar_scrolling_title">Désactiver le défilement de la barre supérieure</string>
 </resources>
