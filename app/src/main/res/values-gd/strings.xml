@@ -548,7 +548,7 @@
     <string name="clik_reset">Thoir gnogag an-seo a dh’ath-shuidheachadh nan dathan gnàthaichte agad uile</string>
     <string name="action_announcements">Brathan-fios</string>
     <string name="no_announcements">Chan eil brath-fios ann!</string>
-    <string name="add_reaction">Cuir freagairt ris</string>
+    <string name="add_reaction">Cuir frith-ghnìomh ris</string>
     <string name="keepon">Lean air adhart</string>
     <string name="category_custom">Gnàthaichte</string>
     <string name="instance_not_valid">Tha coltas nach eil an t-ionstans dligheach!</string>
@@ -577,13 +577,13 @@
     <string name="notif_display_poll_results">Toraidhean cunntais-bheachd</string>
     <string name="compose_shortcut_short_label1">Sgrìobh</string>
     <string name="account_created">Chaidh an cunntas a chruthachadh!</string>
-    <string name="account_created_message"> Chaidh an cunntas agad a chruthachadh!
-\n
-\n Na dìochuimhnich am post-d agad a ghnìomhachadh am broinn 48 uair a thìde.
-\n
-\n Gus an cunntas agad a cheangal a-nis, sgrìobh <b>%1$s</b> sa chiad raon is thoir gnogag air <b>Ceangail</b> an uairsin.
-\n
-\n <b>Cudromach</b>: Ma dh’iarr an t-ionstans agad dearbhadh, gheibh thu post-d nuair a bhios e air a dhearbhadh! </string>
+    <string name="account_created_message"> Chaidh an cunntas agad a chruthachadh! 
+\n 
+\n Na dìochuimhnich am post-d agad a ghnìomhachadh am broinn 48 uair a thìde. 
+\n 
+\n Gus an cunntas agad a cheangal a-nis, sgrìobh <b>%1$s</b> sa chiad raon is thoir gnogag air <b>Ceangail</b> an uairsin. 
+\n 
+\n <b>Cudromach</b>: Ma dh’iarr an t-ionstans agad dearbhadh, gheibh thu post-d nuair a bhios e air a dhearbhadh! \u0020</string>
     <string name="save_draft">A bheil thu airson an teachdaireachd a shàbhaladh ’na dreachd\?</string>
     <string name="administration">Rianachd</string>
     <string name="remote">Cèin</string>
@@ -944,7 +944,7 @@
     <string name="icons_visibility">Faicsinneachd nan ìomhaigheagan</string>
     <string name="icons_visibility_summary">’S urrainn dhut na h-ìomhaigheagan seo fhalach aig a’ bhonn gu sàbhailte ach am faigh thu barrachd rùim. Tha iad san fho-chlàr-taice cuideachd.</string>
     <string name="icons_extra_features">Ìomhaigheagan do ghleusan a bharrachd</string>
-    <string name="set_display_reaction_indication">Seall am putan “Freagairtean”</string>
+    <string name="set_display_reaction_indication">Seall am putan “Frith-ghnìomh”</string>
     <string name="boost_original_date">Seall an ceann-là tùsail do bhrosnachaidhean</string>
     <string name="set_maths_support">Sgrìobh foirmle</string>
     <string name="icons_extra_features_visibility_summary">Mura gabh an t-ionstans agad ri cuid dhe na gleusan a bharrachd, ’s urrainn dhut na h-ìomhaighean seo fhalach</string>
@@ -1007,4 +1007,23 @@
     <string name="set_remote_conversation_title">Còmhraidhean cèine</string>
     <string name="set_remote_conversation">Seallaidh an aplacaid còmhraidhean poblach airson a h-uile teachdaireachd fhaighinn. Bidh eadar-ghabhail feumach air ceum a bharrachd airson co-nasgadh nan teachdaireachdan.</string>
     <string name="markdown_support">Taic ri Markdown</string>
+    <string name="thread_long_this_message">A bheil thu airson an teachdaireachd seo a sgoltadh na freagairtean?</string>
+    <string name="thread_long_message">Sgoilt teachdaireachdan fada nam freagairtean</string>
+    <string name="thread_long_message_no">Na sgoilt e</string>
+    <string name="Pronouns">Riochdairean</string>
+    <string name="set_disable_topbar_scrolling_title">Cuir à comas sgroladh a’ bhàir aig a’ bharr</string>
+    <string name="set_display_relative_date">Seall ceann-latha dàimheach do theachdaireachdan</string>
+    <string name="thread_long_message_yes">Sgoilt an teachdaireachd</string>
+    <string name="show_self_boosts">Seall na fèin-bhrosnachaidhean</string>
+    <string name="show_self_replies">Seall fèin-fhreagairtean</string>
+    <string name="thumbnail">Dealbhag</string>
+    <string name="clipboard_version">Chaidh lethbhreac dhen fhiosrachadh a chur air an stòr-bhòrd</string>
+    <string name="copy_version">Dèan lethbhreac dhen fhiosrachadh</string>
+    <string name="tag_already_followed">Tha thu a’ leantainn an taga sin mu thràth!</string>
+    <string name="show_my_messages">Seall na teachdaireachdan agam</string>
+    <string name="qr_code_generator">Gineadair QR</string>
+    <string name="pronouns_support">Taic do riochdairean</string>
+    <string name="thread_long_message_message">Thèid an teachdaireachd a sgoltadh na h-iomadh freagairt ach an gèill i ris an àireamh as motha de charactaran air an ionstans agad.</string>
+    <string name="timeline_scrollbar">Seall bàr-sgrolaidh air loidhnichean-ama</string>
+    <string name="underline_links">Cuir loidhne fo eileamaidean a ghabhas briogadh orra</string>
 </resources>
