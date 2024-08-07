@@ -646,4 +646,25 @@
     <string name="replace_reddit_host">Домен клієнтської частини Reddit</string>
     <string name="lemmy_instance">екземпляр Lemmy</string>
     <string name="replace_instagram_description">Використовувати альтернативну клієнську частину для Instagram</string>
+    <string name="report_indication_title_status_more">Виберіть найкращий варіант</string>
+    <string name="hide_content">Приховати вміст &lt;</string>
+    <string name="report_val1">Мені це не подобається</string>
+    <string name="report_val4">Це щось інше</string>
+    <string name="stop_recording">ЗУпинити запис</string>
+    <string name="report_1_title">Не хочеш це бачити?</string>
+    <string name="report_1_unfollow_title">Відписатись від %1$s</string>
+    <string name="instance_health_uptime">Час роботи: %,.2f %%</string>
+    <string name="show_content">Показати вміст &gt;</string>
+    <string name="report_val_more2">Шкідливі посилання, фальшиві контакти або повторювані відповіді</string>
+    <string name="report_val_more3">Ви знаєте, що це порушує певні правила</string>
+    <string name="report_1_title_more">Ось ваші можливості контролювати те, що ви бачите в Mastodon:</string>
+    <string name="report_1_mute_title">Приглушити %1$s</string>
+    <string name="report_val2">Це спам</string>
+    <string name="report_val3">Це порушує правила сервера</string>
+    <string name="report_val_more1">Це не те, що ви хочете бачити</string>
+    <string name="report_val_more4">Проблема не підпадає під інші категорії</string>
+    <string name="report_1_block_title">Заблокувати %1$s</string>
+    <string name="report_indication_title_status">Розкажіть нам, що відбувається з цією публікацією</string>
+    <string name="report_1_unfollow">Ви відстежуєте цю обліковку. Щоб більше не бачити її дописи у своїй стрічці, відпишіться від неї.</string>
+    <string name="report_1_mute">Ви не бачитимете їхніх дописів. Вони все ще можуть підписатися на вас і бачити ваші публікації, але не знатимуть, що вони приглушені.</string>
 </resources>
