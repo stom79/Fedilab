@@ -667,4 +667,12 @@
     <string name="report_indication_title_status">Розкажіть нам, що відбувається з цією публікацією</string>
     <string name="report_1_unfollow">Ви відстежуєте цю обліковку. Щоб більше не бачити її дописи у своїй стрічці, відпишіться від неї.</string>
     <string name="report_1_mute">Ви не бачитимете їхніх дописів. Вони все ще можуть підписатися на вас і бачити ваші публікації, але не знатимуть, що вони приглушені.</string>
+    <string name="about_peertube">\"PeerTube - це інструмент для обміну онлайн-відео, розроблений французькою некомерційною компанією Framasoft.... PeerTube дозволяє платформам з\'єднуватися між собою, створюючи велику мережу платформ, які є як автономними, так і взаємопов\'язаними.\"</string>
+    <string name="join_the_fediverse">Приєднуйтесь до fediverse</string>
+    <string name="notif_display_mentions">Згадки</string>
+    <string name="notif_display_poll_results">Результати опитування</string>
+    <string name="about_mastodon">\"Mastodon - це не окремий веб-сайт на кшталт Twitter чи Facebook, це мережа з тисяч спільнот, керованих різними організаціями та приватними особами, які забезпечують безперебійну роботу з соціальними мережами.\"</string>
+    <string name="notif_display_favourites">Уподобання</string>
+    <string name="notif_display_reblogs">Перепости</string>
+    <string name="invite_join_the_fediverse">Привіт! Запрошуємо вас в Fediverse.</string>
 </resources>
