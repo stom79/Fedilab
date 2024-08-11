@@ -675,4 +675,8 @@
     <string name="notif_display_favourites">Уподобання</string>
     <string name="notif_display_reblogs">Перепости</string>
     <string name="invite_join_the_fediverse">Привіт! Запрошуємо вас в Fediverse.</string>
+    <string name="report_1_block">Ви не бачитимете їхніх дописів. Вони не зможуть бачити ваші дописи або відстежувати вас. Вони зможуть дізнатися, що їх заблоковано.</string>
+    <string name="report_title">Поскаржитись на %1$s</string>
+    <string name="report_2_title">Чи є якісь дописи, які підтверджують цю скаргу?</string>
+    <string name="notif_sign_up">Користувач увійшов</string>
 </resources>
