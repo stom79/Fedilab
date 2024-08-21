@@ -898,7 +898,7 @@
     <string name="admin_domainblock_reject_obfuscate">Ofuscar parcialmente o nome de dominio na lista se está activada a publicación das limitacións de dominios</string>
     <string name="type_of_theme">Elixe un modo para o decorado</string>
     <string name="pref_customize">Personalizar cores</string>
-    <string name="pref_customize_summary">Permite elexir cores personalizadas para os decorados.</string>
+    <string name="pref_customize_summary">Permitir elixir cores personais para os decorados.</string>
     <string name="set_dynamic_color">Cor dinámica</string>
     <string name="set_dynamic_color_indication">Segue a tonalidade do fondo de pantalla para axustar o esquema de cores.</string>
     <string name="type_default_theme_light">Decorado claro por defecto</string>
@@ -1051,7 +1051,7 @@
     <string name="lemmy_instance">Instancia Lemmy</string>
     <string name="set_remote_conversation_title">Conversas remotas</string>
     <string name="set_remote_conversation">A app mostrará todas as mensaxes das conversas públicas. As interacción precisarán un paso extra para federar as mensaxes.</string>
-    <string name="track_selection_title">Elexir calidade</string>
+    <string name="track_selection_title">Escoller calidade</string>
     <string name="markdown_support">Soporte para Markdown</string>
     <string name="show_self_boosts">Mostrar autopromocións</string>
     <string name="show_self_replies">Mostrar respostas a ti mesma</string>
