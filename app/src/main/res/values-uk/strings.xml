@@ -679,4 +679,16 @@
     <string name="report_title">Поскаржитись на %1$s</string>
     <string name="report_2_title">Чи є якісь дописи, які підтверджують цю скаргу?</string>
     <string name="notif_sign_up">Користувач увійшов</string>
+    <string name="boosted_by">Просуното</string>
+    <string name="report_more">Чи є щось ще, що, на вашу думку, ми повинні знати?</string>
+    <string name="report_more_additional">Додаткові коментарі</string>
+    <string name="dont_have_an_account">Не маєте облікового запису?</string>
+    <string name="report_3_title">Які правила порушуються?</string>
+    <string name="report_all_more">Виберіть все, що стосується</string>
+    <string name="warn_boost_no_media_description">Попереджати перед просуванням якщо повідомлення містить медіа без опису</string>
+    <string name="reblog_missing_description">У цьому повідомленні відсутній опис медіа. Ви впевнені, що хочете його просунути?</string>
+    <string name="set_accounts_page">Кількість облікових записів на одне завантаження</string>
+    <string name="set_notifications_page">Кількість сповіщень на одне завантаження</string>
+    <string name="report_sent">Звіт надіслано!</string>
+    <string name="report_more_remote">Обліковий запис з іншого сервера. Надсилати анонімну копію звіту туди ж?</string>
 </resources>
