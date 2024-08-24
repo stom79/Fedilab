@@ -691,4 +691,24 @@
     <string name="set_notifications_page">Кількість сповіщень на одне завантаження</string>
     <string name="report_sent">Звіт надіслано!</string>
     <string name="report_more_remote">Обліковий запис з іншого сервера. Надсилати анонімну копію звіту туди ж?</string>
+    <string name="not_valid_list_name">Ім\'я в списку не дійсне!</string>
+    <string name="set_bot_content">Обліковий запис бота</string>
+    <string name="mark_all_as_read">Позначити всі сповіщення прочитаними</string>
+    <string name="display_all_categories">Показати всі категорії</string>
+    <string name="locked">Заблоковано</string>
+    <string name="save_changes">Зберегти зміни</string>
+    <string name="set_discoverable_content">Обліковий запис можна відкрити</string>
+    <string name="delete_field">Видалити поле</string>
+    <string name="delete_field_confirm">Ви впевнені що хочете видалити це поле?</string>
+    <string name="profiled_updated">Профіль був оновлений!</string>
+    <string name="no_account_in_list">Для цього списку не знайдено облікових записів!</string>
+    <string name="type_of_notifications">Тип сповіщення</string>
+    <string name="delete_notification_all_warning">Ви впевнені що хочете видалити всі сповіщення? Це не зворотна дія.</string>
+    <string name="interactions">Взаємодія</string>
+    <string name="add_filter">Додати фільтр</string>
+    <string name="add_field">Додати поле</string>
+    <string name="unlocked">Розблоковано</string>
+    <string name="clear_all_notif">Очистити всі сповіщення</string>
+    <string name="type_of_notifications_title">Виберіть тип сповіщення</string>
+    <string name="disable_notifications">Вимкнути сповіщення</string>
 </resources>
