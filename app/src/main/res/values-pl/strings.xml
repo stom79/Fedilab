@@ -716,7 +716,7 @@
     <string name="set_unfollow_validation_title">Potwierdź niezaufanie</string>
     <string name="type_of_notifications_title">Wybierz typ powiadomień</string>
     <string name="message_has_been_sent">Wiadomość została wysłana!</string>
-    <string name="display">Wyświetlacz</string>
+    <string name="display">Wyświetl</string>
     <string name="bottom_menu">Menu dolne</string>
     <string name="top_menu">Menu górnego paska</string>
     <string name="also_favourite_by">"Polecany również przez: "</string>
@@ -1089,4 +1089,6 @@
     <string name="tag_already_followed">Już podążasz za tym tagiem!</string>
     <string name="thread_long_this_message">Podzielić tę wiadomość w odpowiedziach?</string>
     <string name="thread_long_message_message">Wiadomość zostanie podzielona na kilka odpowiedzi, aby uwzględnić maksymalną liczbę znaków instancji.</string>
+    <string name="qr_code_generator">Generator kodów QR</string>
+    <string name="pronouns_support">Wsparcie zaimków</string>
 </resources>
