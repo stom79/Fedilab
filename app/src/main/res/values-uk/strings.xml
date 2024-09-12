@@ -317,7 +317,9 @@
     <string name="channel_notif_media">Медіа завантаження</string>
     <string name="select_sound">Оберіть сигнал</string>
     <string name="set_enable_time_slot">Увімкнути часовий слот</string>
-    <string name="block_domain_confirm_message">Ви впевнені, що хочете заблокувати %s\?</string>
+    <string name="block_domain_confirm_message">Ви впевнені, що хочете заблокувати %s?
+\n
+\nВи не побачите жодної публікації з цього домену в публічній стрічці або у своїх сповіщеннях. Ваші підписники з цього домену будуть видалені.</string>
     <string name="block_domain">Блокувати домен</string>
     <string name="toast_block_domain">Домен заблокований</string>
     <string name="retrieve_remote_status">Завантаження віддаленого статусу</string>
@@ -514,7 +516,7 @@
     <string name="unfollow_confirm">Do you want to unfollow this account?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
     <string name="replace_medium">Replace Medium links</string>
-    <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_medium_description">Використовуйте альтернативний фронтенд для Medium</string>
     <string name="replace_medium_host">Default: scribe.rip</string>
     <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
     <string name="action_add_notes">Add notes</string>
@@ -711,4 +713,23 @@
     <string name="clear_all_notif">Очистити всі сповіщення</string>
     <string name="type_of_notifications_title">Виберіть тип сповіщення</string>
     <string name="disable_notifications">Вимкнути сповіщення</string>
+    <string name="poll_type">Тип опитування:</string>
+    <string name="select_a_theme">Виберіть тему</string>
+    <string name="types_of_notifications_to_display">Типи сповіщень для відображення</string>
+    <string name="poll_duration">Тривалість опитування:</string>
+    <string name="set_display_translate_indication">Завжди відображати кнопку перекладу</string>
+    <string name="thumbnail">Мініатюра</string>
+    <string name="message_has_been_sent">Повідомлення відправлено!</string>
+    <string name="pref_theme_base">Базова тема</string>
+    <string name="more_actions">Більше дій</string>
+    <string name="poll_type_single">Єдиний вибір</string>
+    <string name="set_display_bookmark_indication">Завжди відображати кнопку закладки</string>
+    <string name="set_unfollow_validation_title">Підтвердити відписку</string>
+    <string name="show_self_boosts">Показувати власні просування</string>
+    <string name="show_self_replies">Показувати власні відповіді</string>
+    <string name="pref_contributor">Теми від користувачів</string>
+    <string name="pref_theme_base_summary">Виберіть, чи повинна базова тема бути темною або світлою</string>
+    <string name="pref_custom_theme_new_summary">Дозволяє створити власну тему</string>
+    <string name="customize_timelines">Персоналізуйте стрічки</string>
+    <string name="poll_type_multiple">Вибір кількох варіантів</string>
 </resources>
