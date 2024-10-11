@@ -849,7 +849,7 @@
     <string name="joined">Присоединился</string>
     <string name="import_data">Импорт данных</string>
     <string name="action_unpin">Открепить сообщение</string>
-    <string name="toast_unpin">Сообщение больше не прикреплено!</string>
+    <string name="toast_unpin">Сообщение больше не закреплено!</string>
     <string name="action_pin">Закрепить сообщение</string>
     <string name="edit_message">Редактировать сообщение</string>
     <string name="set_notif_update">Уведомлять об обновлениях</string>
