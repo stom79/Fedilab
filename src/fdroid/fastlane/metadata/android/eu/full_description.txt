@@ -1,16 +1,22 @@
 Hauentzako euskarria du:
-- Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
+- Mastodon, Peertube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica.
 
-
-Aplikazio honek ezaugarri aurreratuak ditu (bereziki Pleroma eta Mastodonekin):
-
+Aplikazio honek ezaugarri aurreratuak ditu:
+- Hariak sortu
 - Hainbat kontuentzako euskarria
 - Programatu mezuak gailutik
-- Programatu bultzadak
-- Mezuen laster-markak
-- Jarraitu urruneko instantziak eta hauekin aritu
-- Isildu kontuak denbora baterako
-- Kontu zeharkako ekintzak luze sakatuz
+- Jarraitu eta elkarreragin urruneko instantziekin
+- Kontu ezberdinekin ekintzak luze sakatuz
 - Itzulpen funtzioa
-- Arte denbora-lerroak
-- Bideo denbora-lerroak
+- Eguneraketa automatikoentzat aukera ugari
+  - Push jakinarazpenak UnifiedPush bitartez
+  - Konektatuta jarraitu Zuzeneko Jakinarazpenetarako
+  - Atzeratutako jakinarazpenak (konektatu 30 segunduro)
+- Ordezkatu Twitter eta YouTubeko estekak invidious eta nitter instantziekin
+- Inportatu eta esportatu aplikazioaren datu basea
+- Emoji hautatzailea, emoji pertsonalizatuekin
+- Aplikazioaren ikono ugari
+- Mezuen iragazki aurreratuak 
+- Arte denbora-lerro bereziak mastoart etiketarentzat
+- Esportatu mezuak
+- Pertsonalizatu URLak partekatzea zuzenean beste zerbitzu batzuk erabiliz
