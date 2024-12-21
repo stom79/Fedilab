@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_about">Acerca de</string>
-    <string name="action_about_instance">Acerca da instancia</string>
-    <string name="action_privacy">Intimidade</string>
+    <string name="action_about">Sobre</string>
+    <string name="action_about_instance">Sobre a instancia</string>
+    <string name="action_privacy">Privacidade</string>
     <string name="action_cache">Caché</string>
     <string name="action_logout">Pechar sesión</string>
     <!-- common -->
