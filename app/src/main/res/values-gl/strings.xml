@@ -22,7 +22,7 @@
     <string name="save">Gardar</string>
     <string name="instance">Instancia</string>
     <string name="instance_example">Instancia: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">A funcionar coa conta %1$s</string>
+    <string name="toast_account_changed" formatted="false">"%1$s  é a conta activa"</string>
     <string name="add_account">Engadir unha conta</string>
     <string name="clipboard">Copiose ao portapapeis o contido da mensaxe</string>
     <string name="clipboard_url">Copiouse o URL da mensaxe ao portapapéis</string>
@@ -525,7 +525,7 @@
     <string name="background_status_title">Publicacións</string>
     <string name="background_status">Cor de fondo das publicacións nas cronoloxías</string>
     <string name="reset_color">Restablecer cores</string>
-    <string name="clik_reset">Premendo aquí restableces os valores por omisión</string>
+    <string name="clik_reset">Premendo aquí restableces os valores predeterminados</string>
     <string name="reset">Restablecer</string>
     <string name="icons_color_title">Iconas</string>
     <string name="icons_color">Cor das iconas inferiores nas cronoloxías</string>
@@ -557,7 +557,7 @@
     <string name="redirect_detected">%1$s \n\nredirixe a\n\n %2$s</string>
     <string name="set_utm_parameters">Eliminar parámetros UTM</string>
     <string name="set_utm_parameters_indication">A app borrará automáticamente os parámetros UTM dos URLs antes de visitar a ligazón.</string>
-    <string name="talking_about">%d xente comentando</string>
+    <string name="talking_about">%d persoas comentando</string>
     <string name="twitter_accounts">Contas de Twitter (vía Nitter)</string>
     <string name="list_of_twitter_accounts">Nomes de usuaria Twitter separados por vírgulas</string>
     <string name="identity_proofs">Probas de identidade</string>
@@ -686,7 +686,7 @@
     <string name="report_sent">Enviouse a denuncia!</string>
     <string name="dont_have_an_account">Non tes unha conta\?</string>
     <string name="invite_join_the_fediverse">Ola! Convidámoste a unirte ao Fediverso.</string>
-    <string name="about_mastodon">\"Mastodon non é un sitio web único como Twitter ou Facebook, é unha rede de miles de comunidades xestionadas por diferentes organizacións e persoas que proporciona unha experiencia do internet social conxunta.\"</string>
+    <string name="about_mastodon">\"Mastodon non é un sitio web único como X ou Facebook, é unha rede de miles de comunidades xestionadas por diferentes organizacións e persoas que proporciona unha experiencia conxunta do internet social.\"</string>
     <string name="clear_all_notif">Limpar tódalas notificacións</string>
     <string name="mark_all_as_read">Marcar tódalas notificacións como lidas</string>
     <string name="display_all_categories">Mostrar tódalas categorías</string>
@@ -717,7 +717,7 @@
     <string name="set_your_max_char_count">Establece o número máx. de caracteres</string>
     <string name="release_notes">Notas da publicación</string>
     <string name="media_cannot_be_uploaded">Non se puido subir o multimedia!</string>
-    <string name="set_push_notifications_delay">Establecer a demora entre obtencións</string>
+    <string name="set_push_notifications_delay">Establece a demora entre actualizacións</string>
     <string name="set_display_counter">Mostra contadores nas mensaxes</string>
     <string name="load_media_type_title">Cargar miniaturas multimedia</string>
     <string name="display_media">Mostrar multimedia</string>
@@ -875,7 +875,7 @@
     <string name="admin_domainblock_reject_reports">Ignorar tódalas denuncias procedentes deste dominio. Irrelevante para suspensións</string>
     <string name="admin_reject_obfuscate">Ofuscar nome de dominio</string>
     <string name="private_comment">Comentario privado</string>
-    <string name="admin_domainblock_private_comment">Comentario acerca desta limitación para o dominio, de uso interno da moderación.</string>
+    <string name="admin_domainblock_private_comment">Comentario sobre esta limitación para o dominio, de uso interno da moderación.</string>
     <string name="public_comment">Comentario público</string>
     <string name="admin_domainblock_public_comment">Comentario para o público xeral acerca da limitación deste dominio, se está activada a publicación de información da lista de dominios.</string>
     <string name="saved_changes">Gardáronse os cambios!</string>
@@ -893,7 +893,7 @@
     <string name="set_notif_admin_report">Nova denuncia (moderación)</string>
     <string name="reject_media">Rexeitar multimedia</string>
     <string name="reject_reports">Rexeitar denuncias</string>
-    <string name="admin_domainblock_domain">O bloqueo do dominio non evitará a creación das contas na base de datos, pero aplicará de xeito retroactivo e automático accións de moderacións específicas nesas contas.</string>
+    <string name="admin_domainblock_domain">O bloqueo do dominio non evitará a creación das contas na base de datos, pero aplicará de xeito retroactivo e automático accións de moderación específicas nesas contas.</string>
     <string name="admin_reject_media">Rexeitar ficheiros multimedia</string>
     <string name="admin_domainblock_reject_obfuscate">Ofuscar parcialmente o nome de dominio na lista se está activada a publicación das limitacións de dominios</string>
     <string name="type_of_theme">Elixe un modo para o decorado</string>
