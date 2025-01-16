@@ -1,0 +1,2 @@
+- 撰写问题
+- 此版本应修复崩溃问题（TransactionTooLargeException）。如果您遇到崩溃，请通过 FDdroid 回滚版本。
