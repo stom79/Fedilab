@@ -10,7 +10,7 @@ Geändert:
 - Vollständige Überarbeitung der Links in Nachrichten (auch Erwähnungen und Tags)
 - Fügen Sie ein angeheftetes Tag in „any“ hinzu, um zu vermeiden, dass es beim Umbenennen der Timeline verloren geht
 
-Fest:
+Behoben:
 - Links zu Nachrichten, die nicht von der App verarbeitet werden
 - CW beim Bearbeiten einer Nachricht
 - Push-Benachrichtigungen mit mehreren Konten beheben

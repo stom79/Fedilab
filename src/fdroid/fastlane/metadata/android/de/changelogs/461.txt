@@ -5,7 +5,7 @@ Hinzugefügt:
 Geändert:
 - Fügen Sie ein angeheftetes Tag in „any“ hinzu, um zu vermeiden, dass es beim Umbenennen der Timeline verloren geht
 
-Fest:
+Behoben:
 - Push-Benachrichtigungen mit mehreren Konten beheben
 - Korrigieren Sie Zitate mit Tags/Erwähnungen
 - Benachrichtigungen korrigieren

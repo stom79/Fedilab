@@ -1,8 +1,8 @@
-Fest:
+Behoben:
 - Cross-Compose: Falsche Instanz-Emojis
 - Benutzerdefinierte Emojis werden in Benachrichtigungen nicht angezeigt
 - Favoriten-/Boost-Marker mit geteilten Nachrichten
 - Leere Benachrichtigungen
-- Fix CW beim Antworten entfernt
-– Problem mit der Erweiterung von Medien mit angepassten Vorschaubildern behoben, wenn diese empfindlich sind
+- CW beim Antworten entfernt korrigiert
+- Problem mit der Erweiterung von Medien mit angepassten Vorschaubildern behoben, wenn diese empfindlich sind
 - Behebung eines Problems, bei dem „Mehr abrufen“ zu oft angezeigt wurde (das Leeren des Caches hilft, oder das Warten auf neue Nachrichten).
