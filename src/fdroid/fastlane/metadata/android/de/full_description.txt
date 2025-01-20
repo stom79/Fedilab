@@ -1,15 +1,23 @@
 Es unterstützt:
-- Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
+- Mastodon, Peertube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica
 
 Die App verfügt über erweiterte Funktionen (insbesondere für Pleroma und Mastodon):
-
+- Verfassen von lange Beträgen
 - Unterstützung von Mehrfachkonten
-- Zeitgesteuerte Nachrichten vom Smartphone senden
-- Zeitgesteuerte Boosts
-- Lesezeichen für Nachrichten
 - Folgen und Interagieren mit Remote-Instanzen
-- Zeitgesteuerte Stummschaltung von Konten
+- Zeitgesteuerte Nachrichten vom Smartphone senden
 - Kontoübergreifende Aktionen mit langem Tastendruck
 - Übersetzungsfunktion
-- Bilder-Zeitleiste
-- Video-Zeitleiste
+- Mehrere Möglichkeiten für automatische Benachrichtigungen
+  - Push Benachrichtigungen via UnifiedPush (einschließlich ntfy von F-Droid)
+  - Dauerhafte Verbindung für Live Benachrichtigungen
+  - Verzögerte Benachrichtigung (verbinde alle 30 Sekunden)
+- Ersetzen von YouTube und Twitter Links mit Links zu Invidious und Nitter Instanzen
+- Benutzerdefinierte Designs, Import Export, und Definitionen
+- Import und Export der App Datenbank
+- Emoji Auswahl mit Benutzerdefinierten Emoji
+- Mehrere App Icons
+- Filtermöglichkeiten von Toots
+- Spezielle Kunst Zeitleiste für Mastoart Hashtag
+- Export Funktionen
+- Benutzerdefiniertes Teilen von URLs zum direkten Teilen mit anderen Diensten
