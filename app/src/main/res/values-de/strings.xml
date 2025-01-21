@@ -1077,4 +1077,5 @@
     <string name="set_disable_topbar_scrolling_title">Scrollen der oberen Leiste deaktivieren</string>
     <string name="Pronouns">Pronomen</string>
     <string name="pronouns_support">Unterstützung von Pronomen</string>
+    <string name="qr_code_generator">QR Code Generator</string>
 </resources>
