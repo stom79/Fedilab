@@ -1,16 +1,24 @@
 Den understøtter:
-- Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
+- Mastodon, PeerTube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica.
 
 
-Appen har avancerede funktioner (især for Pleroma og Mastodon):
-
+Appen har avancerede funktioner:
+- Komponér tråde
 - Flerkontounderstøttelse
 - Planlæg beskeder fra enheden
-- Planlæg fremhævninger
-- Bogmærk beskeder
-- Følg og interager med fjerninstanser
-- Gør konti tavse jf. tidsintervaller
+- Følg og interagér med fjerninstanser
 - Krydskontohandlinger via langt tryk
 - Oversættelsesfunktion
-- Kunsttidslinjer
-- Videotidslinjer
+- Flere muligheder for automatiske opdateringer
+- Push-notifikationer gennem UnifiedPush (Inklusiv ntfy fra FDroid)
+- Forbliv forbundet for Live Notifikationer
+- Forsinkede notifikationer (hvert 30. sekund)
+- Erstat YouTube og Twitter links med links til Invidious og Nitter instanser
+- Tilpassede temaer, importér, eksportér og definér
+- Importér og eksportér app'ens database
+- Emojivælger med tilpassede emojier
+- Flere ikoner til startskærmen
+- Avancerede filtre
+- Special kunst tidslinje for emneknagen mastoart
+- Eksportér opslag
+- Tilpas URL deling til direkte at dele URL'er med andre servicer
