@@ -638,4 +638,6 @@
     <string name="clear_cache">Sfeḍ tazarkatut</string>
     <string name="show_anyway">Sken-d akken yebɣu yili</string>
     <string name="action_privacy_policy">Tasertit n tbaḍnit</string>
+    <string name="custom_warning"></string>
+    <string name="email_user">Informér brugeren på e-mail</string>
 </resources>
