@@ -621,7 +621,7 @@
     <string name="no_account_in_list">Для этого списка не найдено ни одного аккаунта!</string>
     <string name="release_notes">Список изменений</string>
     <string name="default_system_language">Использовать системный язык по умолчанию</string>
-    <string name="my_app">Мое приложение</string>
+    <string name="my_app">Моё приложение</string>
     <string name="message_has_been_sent">Сообщение отправлено!</string>
     <string name="add_field">Добавить поле</string>
     <string name="clear_all_notif">Удалить все уведомления</string>
@@ -891,4 +891,5 @@
     <string name="set_unlisted_replies">Незарегистрированные ответы</string>
     <string name="list_reported_statuses">Сведения о состоянии</string>
     <string name="account_approved">Аккаунт одобрен</string>
+    <string name="report">Пожаловаться</string>
 </resources>
