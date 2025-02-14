@@ -1,0 +1,13 @@
+Tilføjet:
+- Pixelfed: Nyt layout til bedre visning af medier
+*(Indstillinger > Tidslinier > Pixelfed Opsætning) - Virker også for andre programmer når der er medier
+
+Ændret:
+- Tilføjet fastgjort mærke i "alle" for at undgå at tabe det når man omdøber en tidslinie
+
+Fikset:
+- Fikset automatiske opdateringer ved flere konti
+- Fikset citeringer med mærker/benævnelser
+- Fikset notifikationer
+- Fikset vedhæftning af flere medier
+- Forskellige nedbrud

@@ -1,6 +1,5 @@
 Den understøtter:
-- Mastodon, PeerTube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica.
-
+- Mastodon, Peertube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica
 
 Appen har avancerede funktioner:
 - Komponér tråde
@@ -10,9 +9,9 @@ Appen har avancerede funktioner:
 - Krydskontohandlinger via langt tryk
 - Oversættelsesfunktion
 - Flere muligheder for automatiske opdateringer
-- Push-notifikationer gennem UnifiedPush (Inklusiv ntfy fra FDroid)
-- Forbliv forbundet for Live Notifikationer
-- Forsinkede notifikationer (hvert 30. sekund)
+  - Push-notifikationer gennem UnifiedPush (Inklusiv ntfy fra FDroid))
+  - Forbliv forbundet for Live Notifikationer
+  - Forsinkede notifikationer (hvert 30. sekund)
 - Erstat YouTube og Twitter links med links til Invidious og Nitter instanser
 - Tilpassede temaer, importér, eksportér og definér
 - Importér og eksportér app'ens database
