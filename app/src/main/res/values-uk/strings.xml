@@ -891,7 +891,7 @@
     <string name="notification_sounds">Звуки сповіщень</string>
     <string name="admin_domainblock_reject_reports">Ігнорувати всі звіти, що надходять із цього домену. Для підвісок не має значення</string>
     <string name="hide_completely_description">Повністю приховати відфільтрований вміст, поводячись так, ніби його не існує</string>
-    <string name="filter_action_explanations">Виберіть, яку дію виконувати, коли публікація відповідає фільтру</string>
+    <string name="filter_action_explanations">Оберіть, яку дію виконувати, коли публікація відповідає фільтру</string>
     <string name="context_home_list">Головна та списки</string>
     <string name="watch_trends_for_instance">Слідкуйте за тенденціями для цього прикладу</string>
     <string name="filtered_by">Відфільтрований: %1$s</string>
