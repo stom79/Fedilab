@@ -1,16 +1,23 @@
-Pot incorporar:
-- Mastodont, Pleroma, Pixelfed, Paertub, GNUSocial, Friendica.
+Suporta:
+- Mastodon, Peertube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica
 
-
-L'aplicació té funcionalitats avançades (sobretot per a Pleroma i Mastodont):
-
-- Pot assumir múltiples comptes
-- Programar missatges des del dispositiu
-- Programar difusions d'altres missatges
-- Marcar missatges
-- Seguir i interactuar amb instàncies remotes
-- Comptes temporalment silenciats
-- Determinar el compte d'una acció fent una pitjada llarga
-- Funcionalitat de traducció
-- Pissarres amb art
-- Pissarres de vídeo
+L'aplicació té característiques avançades:
+- Redacta els fils
+- Suport per a múltiples comptes
+- Programa els missatges des del dispositiu
+- Segueix i interactua amb instàncies remotes
+- Accions de recompte creuat amb una premsa llarga
+- Funció de traducció
+- Múltiples opcions per a actualitzacions automàtiques
+  - Notificacions Push via UnifiedPush (incloent ntfy a FDroid)
+  - Mantingues connectat per a notificacions en directe
+  - Notificacions retardades (connecta cada 30 segons)
+- Reemplaça els enllaços de youtube i twitter per enllaços a instàncies de Invidious i Nitter
+- Temes personalitzats, exportació d'importació i definició
+- Importa i exporta la base de dades de l'aplicació
+- Selector d'Emoji amb emoji personalitzat
+- Icones múltiples del llançador
+- Filtratge avançat de notes
+- Línia de temps especial per a l'etiqueta mastoart
+- Exporta tuts
+- Personalitza l'ús compartit d'URL per compartir directament el url a altres serveis
