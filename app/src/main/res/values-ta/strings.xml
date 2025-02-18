@@ -499,8 +499,8 @@
     <string name="post_message">செய்தியை இடுகையிடுதல்…</string>
     <string name="post_message_text">செய்தி %d/ %d</string>
     <string name="instance_health_uptime">நேரம்: %, 2f %%</string>
-    <string name="show_content">&lt;! [CDATA [உள்ளடக்கத்தைக் காட்டு&gt;]&gt;&gt;</string>
-    <string name="hide_content">&lt;! [CDATA [உள்ளடக்கத்தை மறைக்க &lt;]]&gt;</string>
+    <string name="show_content"><![CDATA[உள்ளடக்கத்தைக் காட்டு&gt;]]></string>
+    <string name="hide_content"><![CDATA[உள்ளடக்கத்தை மறைக்க &lt;]]></string>
     <string name="stop_recording">பதிவு செய்வதை நிறுத்துங்கள்</string>
     <string name="report_title">அறிக்கை %1$s</string>
     <string name="report_indication_title_status">இந்த இடுகையுடன் என்ன நடக்கிறது என்று சொல்லுங்கள்</string>
