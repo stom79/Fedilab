@@ -91,6 +91,8 @@
 
     <string name="channel">Channel</string>
     <string name="videos">Videos</string>
+    <string name="video">Video</string>
+    <string name="text">Text</string>
     <string name="channels">Channels</string>
 
     <string-array name="refresh_time">

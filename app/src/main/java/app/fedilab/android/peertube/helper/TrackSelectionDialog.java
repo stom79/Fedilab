@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -144,16 +145,14 @@ public final class TrackSelectionDialog extends DialogFragment {
     }
 
     private static String getTrackTypeString(Resources resources, @C.TrackType int trackType) {
-        switch (trackType) {
-            case C.TRACK_TYPE_VIDEO:
-                return resources.getString(R.string.exo_track_selection_title_video);
-            case C.TRACK_TYPE_AUDIO:
-                return resources.getString(R.string.exo_track_selection_title_audio);
-            case C.TRACK_TYPE_TEXT:
-                return resources.getString(R.string.exo_track_selection_title_text);
-            default:
-                throw new IllegalArgumentException();
-        }
+        return switch (trackType) {
+            case C.TRACK_TYPE_VIDEO ->
+                    resources.getString(R.string.video);
+            case C.TRACK_TYPE_AUDIO ->
+                    resources.getString(R.string.audio);
+            case C.TRACK_TYPE_TEXT -> resources.getString(R.string.text);
+            default -> throw new IllegalArgumentException();
+        };
     }
 
     private void init(
@@ -323,6 +322,7 @@ public final class TrackSelectionDialog extends DialogFragment {
             super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return tabFragments.get(tabTrackTypes.get(position));

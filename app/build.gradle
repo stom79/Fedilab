@@ -8,11 +8,11 @@ plugins {
 }
 def flavor
 android {
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         minSdk 21
-        targetSdk 34
+        targetSdk 35
         versionCode 515
         versionName "3.28.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -92,6 +92,7 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
+    buildToolsVersion '35.0.0'
 }
 allprojects {
     repositories {
@@ -123,7 +124,7 @@ dependencies {
         transitive = false
     }
 
-    implementation "org.jsoup:jsoup:1.15.1"
+    implementation "org.jsoup:jsoup:1.18.1"
     implementation 'com.github.mergehez:ArgPlayer:v3.1'
 
     implementation project(':autoimageslider')
@@ -139,17 +140,17 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
     implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.23.0'
-    implementation 'androidx.media3:media3-exoplayer-hls:1.2.1'
-    implementation "androidx.media3:media3-exoplayer:1.2.1"
-    implementation "androidx.media3:media3-exoplayer-dash:1.2.1"
-    implementation "androidx.media3:media3-ui:1.2.1"
-    implementation "androidx.media3:media3-session:1.2.1"
+    implementation 'androidx.media3:media3-exoplayer-hls:1.5.1'
+    implementation "androidx.media3:media3-exoplayer:1.5.1"
+    implementation "androidx.media3:media3-exoplayer-dash:1.5.1"
+    implementation "androidx.media3:media3-ui:1.5.1"
+    implementation "androidx.media3:media3-session:1.5.1"
 
 
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation "androidx.viewpager2:viewpager2:1.1.0"
     implementation 'com.github.piasy:rxandroidaudio:1.7.0'
     implementation 'com.github.piasy:AudioProcessor:1.7.0'
-    implementation "androidx.work:work-runtime:2.9.0"
+    implementation "androidx.work:work-runtime:2.10.0"
     implementation 'app.futured.hauler:hauler:5.0.0'
     implementation "com.github.chrisbanes:PhotoView:2.3.0"
     implementation "ch.acra:acra-mail:5.11.3"
@@ -166,21 +167,21 @@ dependencies {
     implementation 'com.burhanrashid52:photoeditor:1.5.1'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.6.2'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.6.2'
-    implementation 'androidx.navigation:navigation-fragment:2.7.5'
-    implementation 'androidx.navigation:navigation-ui:2.7.5'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.8.7'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.8.7'
+    implementation 'androidx.navigation:navigation-fragment:2.8.7'
+    implementation 'androidx.navigation:navigation-ui:2.8.7'
     testImplementation 'junit:junit:'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     implementation 'com.r0adkll:slidableactivity:2.1.0'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 
-    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation "androidx.fragment:fragment:1.6.2"
+    implementation 'androidx.vectordrawable:vectordrawable:1.2.0'
+    implementation "androidx.fragment:fragment:1.8.6"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.browser:browser:1.7.0'
+    implementation 'androidx.browser:browser:1.8.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'com.github.amoskorir:avatarimagegenerator:1.5.0'
 
@@ -202,10 +203,10 @@ dependencies {
     //************ CAST **************///
 
     //---> Google libs (google_full)
-    playstoreImplementation "com.google.android.gms:play-services-cast-tv:21.0.1"
-    playstoreImplementation "com.google.android.gms:play-services-cast:21.4.0"
-    playstoreImplementation "androidx.mediarouter:mediarouter:1.6.0"
-    playstoreImplementation 'com.google.android.gms:play-services-cast-framework:21.4.0'
+    playstoreImplementation "com.google.android.gms:play-services-cast-tv:21.1.1"
+    playstoreImplementation "com.google.android.gms:play-services-cast:22.0.0"
+    playstoreImplementation "androidx.mediarouter:mediarouter:1.7.0"
+    playstoreImplementation 'com.google.android.gms:play-services-cast-framework:22.0.0'
 
 
     //----> Other flavors
