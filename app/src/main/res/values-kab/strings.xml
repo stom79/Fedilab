@@ -43,8 +43,8 @@
     <string name="favourite">Ismenyifen</string>
     <string name="follow">Imeḍfaṛen imaynuten</string>
     <string name="mention">Ibdaren</string>
-    <string name="reblog">Boosts</string>
-    <string name="show_boosts">Show boosts</string>
+    <string name="reblog">Izuzar</string>
+    <string name="show_boosts">Sken-d izuzar</string>
     <string name="show_replies">Ssekned tiririt</string>
     <string name="action_open_in_web">Ldi deg iminig</string>
     <string name="translate">Suqel</string>
