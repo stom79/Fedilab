@@ -14,9 +14,12 @@ package app.fedilab.android.mastodon.viewmodel.mastodon;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
+
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -309,7 +312,7 @@ public class NotificationsVM extends AndroidViewModel {
         MastodonNotificationsService mastodonNotificationsService = init(instance);
         new Thread(() -> {
             PushSubscription pushSubscription = null;
-            Call<PushSubscription> pushSubscriptionCall = mastodonNotificationsService.pushSubscription(token, endpoint, keys_p256dh, keys_auth, follow, favourite, reblog, mention, poll, status, updates, signup, report, "all");
+            Call<PushSubscription> pushSubscriptionCall = mastodonNotificationsService.pushSubscription(token, endpoint, keys_p256dh, keys_auth, true, follow, favourite, reblog, mention, poll, status, updates, signup, report, "all");
             if (pushSubscriptionCall != null) {
                 try {
                     Response<PushSubscription> pushSubscriptionResponse = pushSubscriptionCall.execute();

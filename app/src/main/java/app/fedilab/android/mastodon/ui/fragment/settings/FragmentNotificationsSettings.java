@@ -35,6 +35,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
 import org.unifiedpush.android.connector.UnifiedPush;
+import org.unifiedpush.android.connector.internal.Store;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,8 +139,8 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
                 preferenceScreen.removePreferenceRecursively("SET_NOTIFICATION_DELAY_VALUE");
             }
             if (SET_PUSH_DISTRIBUTOR != null) {
-                List<String> distributors = UnifiedPush.getDistributors(requireActivity(), new ArrayList<>());
-                SET_PUSH_DISTRIBUTOR.setValue(UnifiedPush.getDistributor(requireActivity()));
+                List<String> distributors = UnifiedPush.getDistributors(requireActivity());
+                SET_PUSH_DISTRIBUTOR.setValue("");
                 SET_PUSH_DISTRIBUTOR.setEntries(distributors.toArray(new String[0]));
                 SET_PUSH_DISTRIBUTOR.setEntryValues(distributors.toArray(new String[0]));
             }

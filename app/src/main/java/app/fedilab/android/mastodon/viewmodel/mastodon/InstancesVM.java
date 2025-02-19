@@ -36,6 +36,7 @@ import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.EmojiInstance;
 import app.fedilab.android.mastodon.client.entities.api.Instance;
 import app.fedilab.android.mastodon.client.entities.api.InstanceInfo;
+import app.fedilab.android.mastodon.client.entities.api.InstanceV2;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
 import okhttp3.OkHttpClient;
@@ -50,6 +51,7 @@ public class InstancesVM extends AndroidViewModel {
     final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
     private MutableLiveData<EmojiInstance> emojiInstanceMutableLiveData;
     private MutableLiveData<InstanceInfo> instanceInfoMutableLiveData;
+    private MutableLiveData<String> vapidMutableLiveData;
 
     public InstancesVM(@NonNull Application application) {
         super(application);
@@ -59,6 +61,16 @@ public class InstancesVM extends AndroidViewModel {
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonInstanceService.class);
+    }
+
+    private MastodonInstanceService initV2(String instance) {
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
                 .client(okHttpClient)
                 .build();
@@ -145,5 +157,35 @@ public class InstancesVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return instanceInfoMutableLiveData;
+    }
+
+
+
+    public LiveData<String> getInstanceVapid(@NonNull String instance) {
+        MastodonInstanceService mastodonInstanceV2Service = initV2(instance);
+        vapidMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+             String vapid = null;
+            Call<InstanceV2> instanceV2Call = mastodonInstanceV2Service.instanceV2();
+            if (instanceV2Call != null) {
+                try {
+                    Response<InstanceV2> instanceResponse = instanceV2Call.execute();
+                    if (instanceResponse.isSuccessful()) {
+                        InstanceV2 instanceV2 = instanceResponse.body();
+                        if (instanceV2 != null && instanceV2.configuration.vapId != null) {
+                            vapid = instanceV2.configuration.vapId.publicKey;
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            String finalVapid = vapid;
+            Runnable myRunnable = () -> vapidMutableLiveData.setValue(finalVapid);
+            mainHandler.post(myRunnable);
+        }).start();
+        return vapidMutableLiveData;
     }
 }

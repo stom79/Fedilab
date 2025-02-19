@@ -67,6 +67,7 @@ public interface MastodonNotificationsService {
             @Field("subscription[endpoint]") String endpoint,
             @Field("subscription[keys][p256dh]") String keys_p256dh,
             @Field("subscription[keys][auth]") String keys_auth,
+            @Field("subscription[standard]") boolean standard,
             @Field("data[alerts][follow]") boolean follow,
             @Field("data[alerts][favourite]") boolean favourite,
             @Field("data[alerts][reblog]") boolean reblog,

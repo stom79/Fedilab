@@ -5,17 +5,6 @@
 
 
     <application android:name=".MainApplication">
-        <receiver
-            android:name=".services.EmbeddedDistrib"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="org.unifiedpush.android.distributor.feature.BYTES_MESSAGE" />
-                <action android:name="org.unifiedpush.android.distributor.REGISTER" />
-                <action android:name="org.unifiedpush.android.distributor.UNREGISTER" />
-            </intent-filter>
-        </receiver>
-
 
         <activity
             android:name=".expandedcontrols.ExpandedControlsActivity"

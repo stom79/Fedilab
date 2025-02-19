@@ -21,6 +21,7 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Activity;
 import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.Instance;
+import app.fedilab.android.mastodon.client.entities.api.InstanceV2;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -31,6 +32,9 @@ public interface MastodonInstanceService {
 
     @GET("instance")
     Call<Instance> instance();
+
+    @GET("instance")
+    Call<InstanceV2> instanceV2();
 
     @GET("instance/peers")
     Call<List<String>> connectedInstance();

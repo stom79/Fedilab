@@ -52,7 +52,6 @@ android {
     }
     sourceSets {
         playstore {
-            manifest.srcFile "src/playstore/AndroidManifest.xml"
             java.srcDirs = ['src/main/java', 'src/playstore/java']
             res.srcDirs = ['src/main/res', 'src/playstore/res']
         }
@@ -157,9 +156,9 @@ dependencies {
     implementation "ch.acra:acra-limiter:5.11.3"
     implementation "ch.acra:acra-dialog:5.11.3"
     implementation "com.madgag.spongycastle:bctls-jdk15on:1.58.0.0"
-    implementation 'com.github.UnifiedPush:android-connector:2.2.0'
-   // implementation 'com.github.UnifiedPush:android-foss_embedded_fcm_distributor:1.0.0-beta1'
-    playstoreImplementation('com.github.UnifiedPush:android-embedded_fcm_distributor:2.2.0') {
+    implementation 'org.unifiedpush.android:connector:3.0.4'
+
+    playstoreImplementation('org.unifiedpush.android:embedded-fcm-distributor:3.0.0') {
         exclude group: 'com.google.firebase', module: 'firebase-core'
         exclude group: 'com.google.firebase', module: 'firebase-analytics'
         exclude group: 'com.google.firebase', module: 'firebase-measurement-connector'

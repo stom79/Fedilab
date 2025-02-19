@@ -15,13 +15,18 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 
+
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
+
+import org.unifiedpush.android.connector.data.PushEndpoint;
 
 import java.net.IDN;
 
@@ -41,22 +46,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PushNotifications {
 
 
-    public static void registerPushNotifications(Context context, String endpoint, String slug) {
+    public static void registerPushNotifications(Context context, PushEndpoint pushEndpoint, String slug) {
 
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
-        ECDHFedilab ecdh = null;
-        try {
-            ecdh = new ECDHFedilab(context, slug);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (ecdh == null) {
-            return;
-        }
 
-        String pubKey = ecdh.getPublicKey();
-        String auth = ecdh.getAuthKey();
+        String pubKey = pushEndpoint.getPubKeySet().getPubKey();
+        String auth =pushEndpoint.getPubKeySet().getAuth();
 
 
         boolean notif_follow = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FOLLOW), true);
@@ -84,9 +80,10 @@ public class PushNotifications {
             PushSubscription pushSubscription;
             Call<PushSubscription> pushSubscriptionCall = mastodonNotificationsService.pushSubscription(
                     accountDb.token,
-                    endpoint,
+                    pushEndpoint.getUrl(),
                     pubKey,
                     auth,
+                    true,
                     notif_follow,
                     notif_fav,
                     notif_share,
@@ -101,6 +98,7 @@ public class PushNotifications {
                     Response<PushSubscription> pushSubscriptionResponse = pushSubscriptionCall.execute();
                     if (pushSubscriptionResponse.isSuccessful()) {
                         pushSubscription = pushSubscriptionResponse.body();
+
                         if (pushSubscription != null) {
                             pushSubscription.server_key = pushSubscription.server_key.replace('/', '_');
                             pushSubscription.server_key = pushSubscription.server_key.replace('+', '-');

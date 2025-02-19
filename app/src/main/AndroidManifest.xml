@@ -467,18 +467,12 @@
             </intent-filter>
         </receiver>
 
-        <receiver
-            android:name=".mastodon.services.CustomReceiver"
-            android:enabled="true"
-            android:exported="true">
+        <service android:name=".mastodon.services.PushServiceImpl"
+            android:exported="false">
             <intent-filter>
-                <action android:name="org.unifiedpush.android.connector.MESSAGE" />
-                <action android:name="org.unifiedpush.android.connector.UNREGISTERED" />
-                <action android:name="org.unifiedpush.android.connector.NEW_ENDPOINT" />
-                <action android:name="org.unifiedpush.android.connector.REGISTRATION_FAILED" />
-                <action android:name="org.unifiedpush.android.connector.REGISTRATION_REFUSED" />
+                <action android:name="org.unifiedpush.android.connector.PUSH_EVENT"/>
             </intent-filter>
-        </receiver>
+        </service>
 
 
         <activity
