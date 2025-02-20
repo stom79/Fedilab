@@ -22,6 +22,7 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.mastodon.helper.Helper.displayReleaseNotesIfNeeded;
 import static app.fedilab.android.mastodon.helper.ThemeHelper.fetchAccentColor;
 import static app.fedilab.android.mastodon.ui.drawer.StatusAdapter.sendAction;
@@ -1372,6 +1373,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         filterFetched = false;
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
+        registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -1944,10 +1946,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
         if (networkStateReceiver != null) {
             try {
+                networkStateReceiver.removeListener(this);
                 unregisterReceiver(networkStateReceiver);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            }
+            } catch (Exception ignored) {}
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
         boolean clearCacheExit = sharedpreferences.getBoolean(getString(R.string.SET_CLEAR_CACHE_EXIT), false);

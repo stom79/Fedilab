@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import static android.content.Context.DOWNLOAD_SERVICE;
+import static app.fedilab.android.BaseMainActivity.networkAvailable;
 import static app.fedilab.android.mastodon.activities.BaseActivity.currentThemeId;
 import static app.fedilab.android.mastodon.helper.LogoHelper.getNotificationIcon;
 import static app.fedilab.android.mastodon.helper.ThemeHelper.fetchAccentColor;
@@ -682,6 +683,10 @@ public class Helper {
      */
     public static void openBrowser(Context context, String url) {
         if (url == null) {
+            return;
+        }
+        if(networkAvailable == BaseMainActivity.status.DISCONNECTED){
+            Toasty.warning(context, context.getString(R.string.toast_error_internet), Toast.LENGTH_LONG).show();
             return;
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
