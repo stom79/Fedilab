@@ -24,14 +24,14 @@ import app.fedilab.android.mastodon.activities.BaseActivity;
 
 public class PeertubeBaseMainActivity extends BaseActivity {
 
-    protected ActivityMainPeertubeBinding binding;
+    protected ActivityMainPeertubeBinding parentBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        binding = ActivityMainPeertubeBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
+        parentBinding = ActivityMainPeertubeBinding.inflate(getLayoutInflater());
+        View view = parentBinding.getRoot();
         setContentView(view);
     }
 

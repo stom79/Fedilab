@@ -18,6 +18,7 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.app.Activity;
 import android.content.Context;
@@ -1554,7 +1555,13 @@ public class RetrofitPeertubeAPI {
             Response<WellKnownNodeinfo> response = wellKnownNodeinfoCall.execute();
             if (response.isSuccessful() && response.body() != null) {
                 int size = response.body().getLinks().size();
-                String url = response.body().getLinks().get(size - 1).getHref();
+                String url = null;
+                for(int i =0 ; i < size ; i++) {
+                    url = response.body().getLinks().get(i).getHref();
+                    if(url.contains("nodeinfo")){
+                        break;
+                    }
+                }
                 if (size > 0 && url != null) {
                     peertubeService = initTranslation();
                     String path = new URL(url).getPath();

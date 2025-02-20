@@ -315,7 +315,7 @@ public class FragmentLoginPickInstancePeertube extends Fragment implements Insta
                 new StoredInstanceDAO(requireActivity(), db).insertInstance(aboutInstance, instance);
                 requireActivity().runOnUiThread(() -> {
                     recreatePeertubeActivity(requireActivity());
-                    requireActivity().finish();
+                    requireActivity().recreate();
                 });
             }).start();
         } else {

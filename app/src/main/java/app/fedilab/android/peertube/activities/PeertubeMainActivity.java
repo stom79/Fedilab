@@ -158,12 +158,12 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         }
     }
 
-    @SuppressLint("ApplySharedPref")
+    @SuppressLint({"ApplySharedPref", "MissingSuperCall"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        binding = super.binding;
+        binding = super.parentBinding;
 
 
         ContextCompat.registerReceiver(PeertubeMainActivity.this, broadcast_data, new IntentFilter(app.fedilab.android.mastodon.helper.Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
