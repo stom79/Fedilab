@@ -19,7 +19,7 @@ import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;

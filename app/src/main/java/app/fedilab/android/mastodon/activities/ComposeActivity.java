@@ -35,7 +35,6 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -685,13 +684,13 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     }
                     if (statusReply.spoiler_text != null) {
                         statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
-                        if (statusReply.spoiler_text.trim().length() > 0) {
+                        if (!statusReply.spoiler_text.trim().isEmpty()) {
                             statusDraftList.get(0).spoilerChecked = true;
                         }
                     }
                     if (statusReply.language != null && !statusReply.language.isEmpty()) {
                         Set<String> storedLanguages = sharedpreferences.getStringSet(getString(R.string.SET_SELECTED_LANGUAGE), null);
-                        if (storedLanguages == null || storedLanguages.size() == 0) {
+                        if (storedLanguages == null || storedLanguages.isEmpty()) {
                             statusDraftList.get(0).language = statusReply.language;
                         } else {
                             if (storedLanguages.contains(statusReply.language)) {
@@ -851,6 +850,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if(scheduledStatus != null && scheduledStatus.scheduled_at != null) {
             SimpleDateFormat sdf = new SimpleDateFormat(Helper.SCHEDULE_DATE_FORMAT, Locale.getDefault());
             scheduledDate = sdf.format(scheduledStatus.scheduled_at.getTime());
+        } else if(statusDraft != null && statusDraft.scheduled_at != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(Helper.SCHEDULE_DATE_FORMAT, Locale.getDefault());
+            scheduledDate = sdf.format(statusDraft.scheduled_at.getTime());
         }
         storeDraft(sendMessage, scheduledDate);
     }
@@ -874,7 +876,12 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             } else {
                 //Draft previously and date is changed
                 if (statusDraft.scheduled_at != null && scheduledDate != null && statusDraft.workerUuid != null) {
-                    WorkManager.getInstance(ComposeActivity.this).cancelWorkById(statusDraft.workerUuid);
+                    try {
+                        new StatusDraft(ComposeActivity.this).removeScheduled(statusDraft);
+                        WorkManager.getInstance(ComposeActivity.this).cancelWorkById(statusDraft.workerUuid);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             if (!statusReplies.isEmpty()) {
@@ -903,7 +910,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         materialAlertDialogBuilder.setPositiveButton(R.string.send_anyway, (dialog, id) -> {
                             sendMessage(true, scheduledDate);
                             dialog.dismiss();
-
                         });
                         materialAlertDialogBuilder.setNegativeButton(R.string.add_description, (dialog, id) -> {
                             composeAdapter.openMissingDescription();
