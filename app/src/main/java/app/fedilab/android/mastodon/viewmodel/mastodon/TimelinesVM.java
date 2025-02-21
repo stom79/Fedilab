@@ -523,11 +523,11 @@ public class TimelinesVM extends AndroidViewModel {
                         List<Status> statusList = timelineResponse.body();
                         statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusList, timelineParams.type);
                         statuses.pagination = MastodonHelper.getPagination(timelineResponse.headers());
-                        if (statuses.statuses != null && statuses.statuses.size() > 0) {
+                        if (statuses.statuses != null && !statuses.statuses.isEmpty()) {
                             //Fetch More is added on filtered statuses
                             addFetchMore(statuses.statuses, timelineStatuses, timelineParams);
                             //All statuses (even filtered will be added to cache)
-                            if (statusList != null && statusList.size() > 0) {
+                            if (statusList != null && !statusList.isEmpty()) {
                                 for (Status status : statusList) {
                                     StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
                                     StatusCache statusCache = new StatusCache();
