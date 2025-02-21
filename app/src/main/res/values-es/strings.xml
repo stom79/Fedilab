@@ -147,8 +147,7 @@
     <!-- Accounts -->
     <string name="no_accounts">Ninguna cuenta para mostrar</string>
     <string name="no_follow_request">Ninguna solicitud de seguimiento</string>
-    <string name="status_cnt">Mensajes 
-\n %1$s</string>
+    <string name="status_cnt">Mensajes \n %1$s</string>
     <string name="following_cnt">Siguiendo: \n %1$s</string>
     <string name="followers_cnt">Seguidores \n %1$s</string>
     <string name="reject">Rechazar</string>
