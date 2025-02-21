@@ -17,12 +17,15 @@ package app.fedilab.android.mastodon.ui.drawer;
 
 import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
 
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +48,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerStatusScheduledBinding;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
 import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
+import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.ScheduledBoost;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
@@ -126,10 +130,14 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
         }
 
         holder.binding.cardviewContainer.setOnClickListener(v -> {
-            if (statusDraft != null) {
+            if (statusDraftList != null || scheduledStatuses != null) {
                 Intent intent = new Intent(context, ComposeActivity.class);
                 Bundle args = new Bundle();
-                args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
+                if(statusDraftList != null) {
+                    args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraftList.get(position));
+                } else {
+                    args.putSerializable(Helper.ARG_STATUS_SCHEDULED, scheduledStatuses.get(position));
+                }
                 new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
@@ -149,7 +157,7 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
                             .observe((LifecycleOwner) context, unused -> {
                                 if (scheduledStatuses != null) {
                                     scheduledStatuses.remove(scheduledStatus);
-                                    if (scheduledStatuses.size() == 0) {
+                                    if (scheduledStatuses.isEmpty()) {
                                         scheduledActions.onAllDeleted();
                                     }
                                     notifyItemRemoved(position);
@@ -161,7 +169,7 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
                         WorkManager.getInstance(context).cancelWorkById(statusDraft.workerUuid);
                         if (statusDraftList != null) {
                             statusDraftList.remove(statusDraft);
-                            if (statusDraftList.size() == 0) {
+                            if (statusDraftList.isEmpty()) {
                                 scheduledActions.onAllDeleted();
                             }
                             notifyItemRemoved(position);
@@ -175,7 +183,7 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
                         WorkManager.getInstance(context).cancelWorkById(scheduledBoost.workerUuid);
                         if (scheduledBoosts != null) {
                             scheduledBoosts.remove(scheduledBoost);
-                            if (scheduledBoosts.size() == 0) {
+                            if (scheduledBoosts.isEmpty()) {
                                 scheduledActions.onAllDeleted();
                             }
                             notifyItemRemoved(position);

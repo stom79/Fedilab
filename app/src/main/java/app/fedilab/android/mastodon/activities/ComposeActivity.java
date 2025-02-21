@@ -17,6 +17,7 @@ package app.fedilab.android.mastodon.activities;
 
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.emojis;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -34,6 +35,7 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -129,7 +131,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     if (imgpath != null) {
                         int position = 0;
                         for (Status status : statusList) {
-                            if (status.media_attachments != null && status.media_attachments.size() > 0) {
+                            if (status.media_attachments != null && !status.media_attachments.isEmpty()) {
                                 for (Attachment attachment : status.media_attachments) {
                                     if (attachment.local_path != null && attachment.local_path.equalsIgnoreCase(imgpath)) {
                                         if (focusX != -2) {
@@ -552,7 +554,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     status.in_reply_to_id = scheduledStatus.params.in_reply_to_id;
                     status.poll = scheduledStatus.params.poll;
 
-                    if (scheduledStatus.params.media_ids != null && scheduledStatus.params.media_ids.size() > 0) {
+                    if (scheduledStatus.params.media_ids != null && !scheduledStatus.params.media_ids.isEmpty()) {
                         status.media_attachments = new ArrayList<>();
                         new Thread(() -> {
                             StatusesVM statusesVM = new ViewModelProvider(ComposeActivity.this).get(StatusesVM.class);
@@ -565,6 +567,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     status.sensitive = scheduledStatus.params.sensitive;
                     status.spoiler_text = scheduledStatus.params.spoiler_text;
                     status.visibility = scheduledStatus.params.visibility;
+                    statuses.add(status);
                     statusDraft.statusDraftList = statuses;
                 }
                 if (account == null) {
@@ -753,7 +756,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     }, 0, 10000);
                 }
 
-                if (sharedAttachments != null && sharedAttachments.size() > 0) {
+                if (sharedAttachments != null && !sharedAttachments.isEmpty()) {
                     for (Attachment attachment : sharedAttachments) {
                         composeAdapter.addAttachment(-1, attachment);
                     }
@@ -844,7 +847,12 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
 
     private void storeDraft(boolean sendMessage) {
-        storeDraft(sendMessage, null);
+        String scheduledDate = null;
+        if(scheduledStatus != null && scheduledStatus.scheduled_at != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(Helper.SCHEDULE_DATE_FORMAT, Locale.getDefault());
+            scheduledDate = sdf.format(scheduledStatus.scheduled_at.getTime());
+        }
+        storeDraft(sendMessage, scheduledDate);
     }
 
     private void storeDraft(boolean sendMessage, String scheduledDate) {
@@ -869,11 +877,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     WorkManager.getInstance(ComposeActivity.this).cancelWorkById(statusDraft.workerUuid);
                 }
             }
-            if (statusReplies.size() > 0) {
+            if (!statusReplies.isEmpty()) {
                 statusDraft.statusReplyList = new ArrayList<>();
                 statusDraft.statusReplyList.addAll(statusReplies);
             }
-            if (statusDrafts.size() > 0) {
+            if (!statusDrafts.isEmpty()) {
                 statusDraft.statusDraftList = new ArrayList<>();
                 statusDraft.statusDraftList.addAll(statusDrafts);
             }
@@ -906,7 +914,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     } else {
                         Toasty.info(ComposeActivity.this, getString(R.string.toot_error_no_content), Toasty.LENGTH_SHORT).show();
                     }
-                    if (statusDrafts.size() > 0) {
+                    if (!statusDrafts.isEmpty()) {
                         statusDrafts.get(statusDrafts.size() - 1).submitted = false;
                         composeAdapter.notifyItemChanged(statusList.size() - 1);
                     }
@@ -979,12 +987,14 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 mediaCount += status.media_attachments != null ? status.media_attachments.size() : 0;
             }
             if (mediaCount > 0) {
+                String scheduledStatusId = scheduledStatus!=null&&scheduledStatus.id!=null?scheduledStatus.id:null;
                 Data inputData = new Data.Builder()
                         .putString(Helper.ARG_STATUS_DRAFT_ID, String.valueOf(statusDraft.id))
                         .putString(Helper.ARG_INSTANCE, instance)
                         .putString(Helper.ARG_TOKEN, token)
                         .putString(Helper.ARG_EDIT_STATUS_ID, editMessageId)
                         .putString(Helper.ARG_USER_ID, account.user_id)
+                        .putString(Helper.ARG_SCHEDULED_ID, scheduledStatusId)
                         .putString(Helper.ARG_SCHEDULED_DATE, scheduledDate).build();
                 OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ComposeWorker.class)
                         .setInputData(inputData)
@@ -993,7 +1003,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 WorkManager.getInstance(ComposeActivity.this).enqueue(request);
 
             } else {
-                new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate, editMessageId);
+                String scheduledStatusId = scheduledStatus!=null&&scheduledStatus.id!=null?scheduledStatus.id:null;
+                new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate, editMessageId, scheduledStatusId);
             }
             finish();
         }

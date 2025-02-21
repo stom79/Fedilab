@@ -16,6 +16,7 @@ package app.fedilab.android.mastodon.jobs;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
+
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -114,7 +115,7 @@ public class ComposeWorker extends Worker {
         MastodonStatusesService mastodonStatusesService = init(context, dataPost.instance);
         boolean error = false;
         Status firstSendMessage = null;
-        if (dataPost.statusDraft != null && dataPost.statusDraft.statusDraftList != null && dataPost.statusDraft.statusDraftList.size() > 0) {
+        if (dataPost.statusDraft != null && dataPost.statusDraft.statusDraftList != null && !dataPost.statusDraft.statusDraftList.isEmpty()) {
             //If state is null, it is created (typically when submitting the status the first time)
             if (dataPost.statusDraft.state == null) {
                 dataPost.statusDraft.state = new PostState();
@@ -137,7 +138,7 @@ public class ComposeWorker extends Worker {
 
             List<Status> statuses = dataPost.statusDraft.statusDraftList;
             String in_reply_to_status = null;
-            if (dataPost.statusDraft.statusReplyList != null && dataPost.statusDraft.statusReplyList.size() > 0) {
+            if (dataPost.statusDraft.statusReplyList != null && !dataPost.statusDraft.statusReplyList.isEmpty()) {
                 in_reply_to_status = dataPost.statusDraft.statusReplyList.get(dataPost.statusDraft.statusReplyList.size() - 1).id;
             }
             totalMediaSize = 0;
@@ -146,13 +147,13 @@ public class ComposeWorker extends Worker {
             boolean watermark = sharedPreferences.getBoolean(context.getString(R.string.SET_WATERMARK), false);
             String watermarkText = sharedPreferences.getString(context.getString(R.string.SET_WATERMARK_TEXT) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
             for (int i = startingPosition; i < statuses.size(); i++) {
-                if (statuses.get(i).media_attachments != null && statuses.get(i).media_attachments.size() > 0) {
+                if (statuses.get(i).media_attachments != null && !statuses.get(i).media_attachments.isEmpty()) {
                     for (Attachment attachment : statuses.get(i).media_attachments) {
                         totalMediaSize += attachment.size;
                     }
                 }
             }
-            if (watermarkText == null || watermarkText.trim().length() == 0) {
+            if (watermarkText == null || watermarkText.trim().isEmpty()) {
                 try {
                     BaseAccount account = new Account(context).getAccountByToken(dataPost.token);
                     watermarkText = account.mastodon_account.username + "@" + account.instance;
@@ -174,7 +175,7 @@ public class ComposeWorker extends Worker {
                 }
                 //post media first
                 List<String> attachmentIds = null;
-                if (statuses.get(i).media_attachments != null && statuses.get(i).media_attachments.size() > 0) {
+                if (statuses.get(i).media_attachments != null && !statuses.get(i).media_attachments.isEmpty()) {
                     attachmentIds = new ArrayList<>();
                     for (Attachment attachment : statuses.get(i).media_attachments) {
                         if (attachment.id != null) {
@@ -248,7 +249,7 @@ public class ComposeWorker extends Worker {
                     statuses.get(i).text += " \uD83D\uDC41";
                 }
                 //Record tags
-                if (statuses.get(i).text != null && statuses.get(i).text.length() > 0) {
+                if (statuses.get(i).text != null && !statuses.get(i).text.isEmpty()) {
                     Matcher matcher = Helper.hashtagPattern.matcher(statuses.get(i).text);
                     while (matcher.find()) {
                         int matchStart = matcher.start(1);
@@ -257,7 +258,7 @@ public class ComposeWorker extends Worker {
                         if (matchStart >= 0 && matchEnd < statuses.get(i).text.length()) {
                             String tag = statuses.get(i).text.substring(matchStart, matchEnd);
                             tag = tag.replace("#", "");
-                            if (tag.length() > 0) {
+                            if (!tag.isEmpty()) {
                                 try {
                                     new CamelTag(context).insert(tag);
                                 } catch (DBException e) {
@@ -363,6 +364,14 @@ public class ComposeWorker extends Worker {
                         return;
                     }
                 } else {
+                    Call<Void> voidCall = mastodonStatusesService.deleteScheduledStatus(dataPost.token, dataPost.scheduledId);
+                    if (voidCall != null) {
+                        try {
+                            voidCall.execute();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                     Call<ScheduledStatus> scheduledStatusCall = mastodonStatusesService.createScheduledStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
                             poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), dataPost.scheduledDate, statuses.get(i).language);
                     try {
@@ -489,6 +498,7 @@ public class ComposeWorker extends Worker {
             }
         }
         String token = inputData.getString(Helper.ARG_TOKEN);
+        String scheduledId = inputData.getString(Helper.ARG_SCHEDULED_ID);
         String instance = inputData.getString(Helper.ARG_INSTANCE);
         String userId = inputData.getString(Helper.ARG_USER_ID);
         String scheduledDate = inputData.getString(Helper.ARG_SCHEDULED_DATE);
@@ -503,6 +513,7 @@ public class ComposeWorker extends Worker {
         DataPost dataPost = new DataPost();
         dataPost.instance = instance;
         dataPost.token = token;
+        dataPost.scheduledId = scheduledId;
         dataPost.userId = userId;
         dataPost.statusDraft = statusDraft;
         dataPost.scheduledDate = scheduledDate;
@@ -582,6 +593,7 @@ public class ComposeWorker extends Worker {
         public String instance;
         public String token;
         public String userId;
+        public String scheduledId;
         public String statusEditId;
         public StatusDraft statusDraft;
         public int messageToSend;

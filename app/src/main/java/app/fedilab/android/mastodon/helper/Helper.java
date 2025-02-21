@@ -294,6 +294,7 @@ public class Helper {
     public static final String ARG_MEDIA_ARRAY_PROFILE = "ARG_MEDIA_ARRAY_PROFILE";
     public static final String ARG_VISIBILITY = "ARG_VISIBILITY";
     public static final String ARG_SCHEDULED_DATE = "ARG_SCHEDULED_DATE";
+    public static final String ARG_SCHEDULED_ID = "ARG_SCHEDULED_ID";
 
     public static final String WORKER_REFRESH_NOTIFICATION = "WORKER_REFRESH_NOTIFICATION";
     public static final String WORKER_REFRESH_HOME = "WORKER_REFRESH_HOME";

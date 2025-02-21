@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.services;
  * see <http://www.gnu.org/licenses>. */
 
 
+
 import android.content.Context;
 
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
@@ -22,7 +23,7 @@ import app.fedilab.android.mastodon.jobs.ComposeWorker;
 
 public class ThreadMessageService {
 
-    public ThreadMessageService(Context context, String instance, String userId, String token, StatusDraft statusDraft, String scheduledDate, String editMessageId) {
+    public ThreadMessageService(Context context, String instance, String userId, String token, StatusDraft statusDraft, String scheduledDate, String editMessageId, String scheduledStatusId) {
         ComposeWorker.DataPost dataPost = new ComposeWorker.DataPost();
         dataPost.instance = instance;
         dataPost.userId = userId;
@@ -30,6 +31,7 @@ public class ThreadMessageService {
         dataPost.scheduledDate = scheduledDate;
         dataPost.statusDraft = statusDraft;
         dataPost.statusEditId = editMessageId;
+        dataPost.scheduledId = scheduledStatusId;
         ComposeWorker.publishMessage(context, dataPost);
     }
 }

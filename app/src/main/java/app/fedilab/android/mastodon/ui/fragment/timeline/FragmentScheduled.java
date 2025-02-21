@@ -56,78 +56,100 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (type == Timeline.TimeLineEnum.SCHEDULED_TOOT_SERVER) {
+            displayScheduledServer();
+        } else if (type == Timeline.TimeLineEnum.SCHEDULED_TOOT_CLIENT) {
+            displayScheduledDevice();
+        } else if (type == Timeline.TimeLineEnum.SCHEDULED_BOOST) {
+            displayScheduledBoost();
+        }
+    }
+
+    private void displayScheduledServer() {
+        StatusesVM statusesVM = new ViewModelProvider(requireActivity()).get(StatusesVM.class);
+        statusesVM.getScheduledStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
+                .observe(requireActivity(), scheduledStatuses -> {
+                    binding.loader.setVisibility(View.GONE);
+                    if (scheduledStatuses != null && scheduledStatuses.scheduledStatuses != null && !scheduledStatuses.scheduledStatuses.isEmpty()) {
+                        StatusScheduledAdapter statusScheduledAdapter = new StatusScheduledAdapter(scheduledStatuses.scheduledStatuses, null, null);
+                        statusScheduledAdapter.scheduledActions = FragmentScheduled.this;
+                        binding.recyclerView.setAdapter(statusScheduledAdapter);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+                        binding.recyclerView.setLayoutManager(linearLayoutManager);
+
+                    } else {
+                        binding.noAction.setVisibility(View.VISIBLE);
+                        binding.recyclerView.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private void displayScheduledDevice() {
+        new Thread(() -> {
+            try {
+                List<StatusDraft> scheduledDrafts = new StatusDraft(requireActivity()).geStatusDraftScheduledList(Helper.getCurrentAccount(requireActivity()));
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    binding.loader.setVisibility(View.GONE);
+                    if (scheduledDrafts != null && !scheduledDrafts.isEmpty()) {
+                        StatusScheduledAdapter statusScheduledAdapter = new StatusScheduledAdapter(null, scheduledDrafts, null);
+                        statusScheduledAdapter.scheduledActions = FragmentScheduled.this;
+                        binding.recyclerView.setAdapter(statusScheduledAdapter);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+                        binding.recyclerView.setLayoutManager(linearLayoutManager);
+
+                    } else {
+                        binding.noAction.setVisibility(View.VISIBLE);
+                        binding.recyclerView.setVisibility(View.GONE);
+                    }
+                };
+                mainHandler.post(myRunnable);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    private void displayScheduledBoost(){
+        new Thread(() -> {
+            try {
+                List<ScheduledBoost> scheduledBoosts = new ScheduledBoost(requireActivity()).getScheduled(Helper.getCurrentAccount(requireActivity()));
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> {
+                    binding.loader.setVisibility(View.GONE);
+                    if (scheduledBoosts != null && !scheduledBoosts.isEmpty()) {
+                        StatusScheduledAdapter statusScheduledAdapter = new StatusScheduledAdapter(null, null, scheduledBoosts);
+                        statusScheduledAdapter.scheduledActions = FragmentScheduled.this;
+                        binding.recyclerView.setAdapter(statusScheduledAdapter);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+                        binding.recyclerView.setLayoutManager(linearLayoutManager);
+
+                    } else {
+                        binding.noAction.setVisibility(View.VISIBLE);
+                        binding.noActionText.setText(R.string.no_scheduled_boosts);
+                        binding.recyclerView.setVisibility(View.GONE);
+                    }
+                };
+                mainHandler.post(myRunnable);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.loader.setVisibility(View.VISIBLE);
         if (type == Timeline.TimeLineEnum.SCHEDULED_TOOT_SERVER) {
-            StatusesVM statusesVM = new ViewModelProvider(requireActivity()).get(StatusesVM.class);
-            statusesVM.getScheduledStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
-                    .observe(requireActivity(), scheduledStatuses -> {
-                        binding.loader.setVisibility(View.GONE);
-                        if (scheduledStatuses != null && scheduledStatuses.scheduledStatuses != null && scheduledStatuses.scheduledStatuses.size() > 0) {
-                            StatusScheduledAdapter statusScheduledAdapter = new StatusScheduledAdapter(scheduledStatuses.scheduledStatuses, null, null);
-                            statusScheduledAdapter.scheduledActions = FragmentScheduled.this;
-                            binding.recyclerView.setAdapter(statusScheduledAdapter);
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-                            binding.recyclerView.setLayoutManager(linearLayoutManager);
-
-                        } else {
-                            binding.noAction.setVisibility(View.VISIBLE);
-                            binding.recyclerView.setVisibility(View.GONE);
-                        }
-                    });
+            displayScheduledServer();
         } else if (type == Timeline.TimeLineEnum.SCHEDULED_TOOT_CLIENT) {
-            new Thread(() -> {
-                try {
-                    List<StatusDraft> scheduledDrafts = new StatusDraft(requireActivity()).geStatusDraftScheduledList(Helper.getCurrentAccount(requireActivity()));
-                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                    Runnable myRunnable = () -> {
-                        binding.loader.setVisibility(View.GONE);
-                        if (scheduledDrafts != null && scheduledDrafts.size() > 0) {
-                            StatusScheduledAdapter statusScheduledAdapter = new StatusScheduledAdapter(null, scheduledDrafts, null);
-                            statusScheduledAdapter.scheduledActions = FragmentScheduled.this;
-                            binding.recyclerView.setAdapter(statusScheduledAdapter);
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-                            binding.recyclerView.setLayoutManager(linearLayoutManager);
-
-                        } else {
-                            binding.noAction.setVisibility(View.VISIBLE);
-                            binding.recyclerView.setVisibility(View.GONE);
-                        }
-                    };
-                    mainHandler.post(myRunnable);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-
+            displayScheduledDevice();
         } else if (type == Timeline.TimeLineEnum.SCHEDULED_BOOST) {
-            new Thread(() -> {
-                try {
-                    List<ScheduledBoost> scheduledBoosts = new ScheduledBoost(requireActivity()).getScheduled(Helper.getCurrentAccount(requireActivity()));
-                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                    Runnable myRunnable = () -> {
-                        binding.loader.setVisibility(View.GONE);
-                        if (scheduledBoosts != null && scheduledBoosts.size() > 0) {
-                            StatusScheduledAdapter statusScheduledAdapter = new StatusScheduledAdapter(null, null, scheduledBoosts);
-                            statusScheduledAdapter.scheduledActions = FragmentScheduled.this;
-                            binding.recyclerView.setAdapter(statusScheduledAdapter);
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-                            binding.recyclerView.setLayoutManager(linearLayoutManager);
-
-                        } else {
-                            binding.noAction.setVisibility(View.VISIBLE);
-                            binding.noActionText.setText(R.string.no_scheduled_boosts);
-                            binding.recyclerView.setVisibility(View.GONE);
-                        }
-                    };
-                    mainHandler.post(myRunnable);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            }).start();
+            displayScheduledBoost();
         }
     }
 
