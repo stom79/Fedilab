@@ -1,0 +1,12 @@
+Added:
+- Allow to edit scheduled messages from server side
+
+Changed:
+- Order list name alphabetically in profiles
+
+Fixed:
+- Push notifications
+- Peertube instances picker
+- Edit scheduled threads (local)
+- Instant search of Hashtag repeats results
+

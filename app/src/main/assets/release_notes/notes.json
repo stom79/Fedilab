@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.29.0",
+    "code": "516",
+    "note": "Added:\n- Allow to edit scheduled messages from server side\n\nChanged:\n- Order list name alphabetically in profiles\n\nFixed:\n- Push notifications\n- Peertube instances picker\n- Edit scheduled threads (local)\n- Instant search of Hashtag repeats results"
+  },
+  {
     "version": "3.28.2",
     "code": "515",
     "note": "Added:\n- Display a QR code on profiles\n\nFixed:\n- Fix tap on messages in conversations\n- Pronouns taking too much place"
@@ -228,30 +233,6 @@
     "version": "3.14.3",
     "code": "465",
     "note": "Added:\n- Display date of the message instead of the boost (default: disabled)\n- Allow to disable release notes popup in Settings\n\nFixed:\n- Fix timelines slow down and stuttering after some scrolls\n- Fix color issues with follow buttons\n- Fix import from settings (import from login was OK)"
-  },
-  {
-    "version": "3.14.2",
-    "code": "464",
-    "note": "Added:\n- Display familiar followers on profiles\n- Display and filter Instance directory\n\nChanged:\n- Bot and reply icon indicators more visible\n- Single media are hidden with link previews\n\nFixed:\n- Fix a crash with Art timelines\n- Friendica: media cannot be downloaded/shared\n- Fix a crash with pinned timelines"
-  },
-  {
-    "version": "3.14.1",
-    "code": "463",
-    "note": "Added:\n- Search bar: display suggestions when starting by \"@\" or \"#\"\n\nChanged:\n- Preload media in timelines to avoid jumps\n- Search: Automatically switch to account tab if no results for tags\n\nFixed:\n- Fix jumps with the fetch more feature\n- Fix videos cannot be saved\n- Tags cannot be pinned when there are no custom tabs\n- PixelFed view: NSFW not honored\n- Fix crashes"
-  },
-  {
-    "version": "3.14.0",
-    "code": "462",
-    "note": "Added:\n\n- Add Bubble timeline support in extra-features with filters\n- Allow to display public profiles by default to get all messages (Settings > Interface)\n- Glitch: Allow to post messages locally (Can be turned off in Settings)\n- Pixelfed: Custom layout to display Media fully (Also works for other software when there are media)\n- Allow to align left action buttons in messages\n\nChanged:\n- Full rework on links in messages (also mentions and tags)\n- Add pinned tag in \"any\" to avoid to lose it when renaming timeline\n\nFixed:\n- Links to messages not handled by the app\n- CW when editing a message\n- Fix push notifications with several accounts\n- New messages or edition notifications not pushed\n- Fix quotes with tags/mentions\n- Fix notifications\n- Fix sending multiple media\n- Fix crashes"
-  },
-  {
-    "version": "3.13.7",
-    "code": "461",
-    "note": "Added:\n- Pixelfed: Custom layout to display Media fully \n*(Settings > Timelines > Pixelfed Presentation) - Also works for other softwares when there are media\n\nChanged:\n- Add pinned tag in \"any\" to avoid to lose it when renaming timeline\n\nFixed:\n- Fix push notifications with several accounts\n- Fix quotes with tags/mentions\n- Fix notifications\n- Fix sending multiple media\n- Some crashes"
-  },
-  {
-    "version": "3.13.6",
-    "code": "460",
-    "note": "Fixed:\n- Cross-compose: Wrong instance emojis\n- Custom emojis not displayed in notifications\n- Fav/Boost markers with shared messages\n- Empty notifications\n- Fix cw removed when replying\n- Fix expand media with fit preview images when sensitive\n- Fix an issue with fetch more displayed too often (cache clear will help or wait new messages)"
   }
+
 ]
