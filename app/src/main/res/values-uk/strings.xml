@@ -61,7 +61,7 @@
     <string name="disclaimer_full">Наведена нижче інформація може відображати профіль користувача не повністю.</string>
     <string name="insert_emoji">Вставити смайли</string>
     <string name="no_emoji">Застосунок не збирає emojis на даний момент.</string>
-    <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
+    <string name="logout_account_confirmation">Ви впевнені, що бажаєте вийти з @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">Немає повідомлень для відображення</string>
     <string name="favourite_add">Додати це повідомлення до обраного\?</string>
@@ -104,10 +104,10 @@
     <string name="date_hours">%d год</string>
     <string name="date_day">%d д</string>
     <plurals name="date_seconds_polls">
-        <item quantity="one">%d second</item>
-        <item quantity="few">%d seconds</item>
-        <item quantity="many">%d seconds</item>
-        <item quantity="other">%d seconds</item>
+        <item quantity="one">%d секунда</item>
+        <item quantity="few">%d секунди</item>
+        <item quantity="many">%d секунд</item>
+        <item quantity="other">%d секунд</item>
     </plurals>
     <plurals name="date_minutes_polls">
         <item quantity="one">%d minute</item>
@@ -116,16 +116,16 @@
         <item quantity="other">%d minutes</item>
     </plurals>
     <plurals name="date_hours_polls">
-        <item quantity="one">%d hour</item>
-        <item quantity="few">%d hours</item>
-        <item quantity="many">%d hours</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one">%d година</item>
+        <item quantity="few">%d години</item>
+        <item quantity="many">%d годин</item>
+        <item quantity="other">%d годин</item>
     </plurals>
     <plurals name="date_day_polls">
-        <item quantity="one">%d day</item>
-        <item quantity="few">%d days</item>
-        <item quantity="many">%d days</item>
-        <item quantity="other">%d days</item>
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дни</item>
+        <item quantity="many">%d днів</item>
+        <item quantity="other">%d днів</item>
     </plurals>
     <!-- TOOT -->
     <string name="toot_select_image_error">Сталася помилка під час вибору медіа-файлу!</string>
@@ -168,11 +168,11 @@
     <!-- Notifications -->
     <string name="no_notifications">Немає сповіщень для показу</string>
     <string name="notif_mention">згадав вас</string>
-    <string name="notif_status">wrote a new message</string>
+    <string name="notif_status">написав нове повідомлення</string>
     <string name="notif_reblog">передмухнув ваш статус</string>
     <string name="notif_favourite">додав до обраного ваш статус</string>
     <string name="notif_follow">підписався(-лась) на вас</string>
-    <string name="notif_follow_request">asked to follow you</string>
+    <string name="notif_follow_request">попросив стежити за вами</string>
     <string name="delete_notification_ask_all">Видалити усі сповіщення?</string>
     <string name="delete_notification_all">Усі сповіщення були видалені!</string>
     <!-- HEADER -->
@@ -203,16 +203,16 @@
     <string name="set_notif_follow_share">Сповіщати, якщо хтось передмухнув ваш статус</string>
     <string name="set_notif_follow_add">Сповіщати, якщо хтось додав статус до обраного</string>
     <string name="set_notif_follow_mention">Сповіщати, якщо хтось згадує вас</string>
-    <string name="set_notif_follow_poll">Notify when a poll ended</string>
-    <string name="set_notif_status">Notify for new posts</string>
+    <string name="set_notif_follow_poll">Сповістити про завершення опитування</string>
+    <string name="set_notif_status">Сповіщати про нові публікації</string>
     <string name="set_share_validation">Показати діалогове вікно підтвердження перед тим, як передмухнути</string>
     <string name="set_share_validation_fav">Показати діалогове вікно підтвердження перед тим, як додати до обраного</string>
     <string name="set_notify">Сповістити?</string>
     <string name="set_notif_silent">Тихі сповіщення</string>
     <string name="set_nsfw_timeout">NSFW тимчасовий (секунди, 0 означає off)</string>
-    <string name="set_med_desc_timeout">Media Description timeout (seconds, 0 means off)</string>
-    <string name="settings_title_custom_sharing">Custom sharing</string>
-    <string name="settings_custom_sharing_url">Your custom sharing URL…</string>
+    <string name="set_med_desc_timeout">Час очікування медіа-опису (секунди, 0 означає вимкнено)</string>
+    <string name="settings_title_custom_sharing">Користувацький спільний доступ</string>
+    <string name="settings_custom_sharing_url">Ваша спеціальна URL-адреса для спільного доступу…</string>
     <string name="set_lock_account">Блокування облікового запису</string>
     <string name="set_save_changes">Зберегти зміни</string>
     <string name="set_fit_preview">Перегляд зображень</string>
@@ -239,13 +239,13 @@
     <string name="followed_by">Підписався(-лась) на вас</string>
     <string name="set_capitalize">Починати відповіді з великої букви</string>
     <string name="set_resize_picture">Змінити розмір зображень</string>
-    <string name="set_resize_video">Resize videos</string>
+    <string name="set_resize_video">Змінити розмір відео</string>
     <!-- Quick settings for notifications -->
     <!-- CACHE -->
     <string name="cache_units">Мб</string>
     <!-- ACTIVITY CUSTOM SHARING -->
-    <string name="title_header_custom_sharing">Title</string>
-    <string name="title_hint_custom_sharing">Title…</string>
+    <string name="title_header_custom_sharing">Назва</string>
+    <string name="title_hint_custom_sharing">Назва…</string>
     <string name="description_header_custom_sharing">Description</string>
     <string name="keywords_header_custom_sharing">Keywords</string>
     <string name="keywords_hint_custom_sharing">Keywords…</string>
@@ -649,14 +649,14 @@
     <string name="lemmy_instance">екземпляр Lemmy</string>
     <string name="replace_instagram_description">Використовувати альтернативну клієнську частину для Instagram</string>
     <string name="report_indication_title_status_more">Виберіть найкращий варіант</string>
-    <string name="hide_content">Приховати вміст &lt;</string>
+    <string name="hide_content"><![CDATA[Hide content <]]></string>
     <string name="report_val1">Мені це не подобається</string>
     <string name="report_val4">Це щось інше</string>
     <string name="stop_recording">ЗУпинити запис</string>
     <string name="report_1_title">Не хочеш це бачити?</string>
     <string name="report_1_unfollow_title">Відписатись від %1$s</string>
     <string name="instance_health_uptime">Час роботи: %,.2f %%</string>
-    <string name="show_content">Показати вміст &gt;</string>
+    <string name="show_content"><![CDATA[Show content >]]></string>
     <string name="report_val_more2">Шкідливі посилання, фальшиві контакти або повторювані відповіді</string>
     <string name="report_val_more3">Ви знаєте, що це порушує певні правила</string>
     <string name="report_1_title_more">Ось ваші можливості контролювати те, що ви бачите в Mastodon:</string>
@@ -1080,4 +1080,5 @@
     <string name="notifications_are">Протягом цього проміжку часу</string>
     <string name="bottom_menu">Нижнє меню</string>
     <string name="timeline_scrollbar">Відображення смуги прокрутки для часових шкал</string>
+    <string name="toast_error_internet">Немає підключення до Інтернету!</string>
 </resources>
