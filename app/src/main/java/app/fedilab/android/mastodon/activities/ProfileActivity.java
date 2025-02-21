@@ -76,6 +76,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -1146,7 +1147,7 @@ public class ProfileActivity extends BaseActivity {
             TimelinesVM timelinesVM = new ViewModelProvider(ProfileActivity.this).get(TimelinesVM.class);
             timelinesVM.getLists(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
                     .observe(ProfileActivity.this, mastodonLists -> {
-                        if (mastodonLists == null || mastodonLists.size() == 0) {
+                        if (mastodonLists == null || mastodonLists.isEmpty()) {
                             Toasty.info(ProfileActivity.this, getString(R.string.action_lists_empty), Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -1155,6 +1156,7 @@ public class ProfileActivity extends BaseActivity {
                                     if (mastodonListUserIs == null) {
                                         mastodonListUserIs = new ArrayList<>();
                                     }
+                                    Collections.sort(mastodonLists, (obj1, obj2) -> obj1.title.compareToIgnoreCase(obj2.title));
                                     AlertDialog.Builder builderSingle = new MaterialAlertDialogBuilder(ProfileActivity.this);
                                     builderSingle.setTitle(getString(R.string.action_lists_add_to));
                                     builderSingle.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss());
