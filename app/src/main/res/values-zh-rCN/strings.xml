@@ -445,13 +445,7 @@
     <string name="password_too_short">密码应至少包含 8 个字符</string>
     <string name="username_error">用户名只能包含字母、数字和下划线</string>
     <string name="account_created">帐号已创建！</string>
-    <string name="account_created_message">您的账号已创建！ 
-\n 
-\n 请考虑在接下来的 48 小时内验证您的电子邮件。
-\n 
-\n 您现在可以通过在第一个字段中写入 <b>%1$s</b> 并轻按 <b>连接</b> 来连接你的账户。
-\n 
-\n <b>重要</b>：如果您的实例需要验证，您将在验证后收到一封电子邮件！ \u0020</string>
+    <string name="account_created_message">您的账号已创建！ \n \n 请考虑在接下来的 48 小时内验证您的电子邮件。 \n \n 您现在可以通过在第一个字段中写入 <b>%1$s</b> 并轻按 <b>连接</b> 来连接你的账户。 \n \n <b>重要</b>：如果您的实例需要验证，您将在验证后收到一封电子邮件！</string>
     <string name="save_draft">将消息保存在草稿中？</string>
     <string name="administration">管理</string>
     <string name="reports">举报</string>
@@ -808,7 +802,7 @@
     <string name="instance_health_indication">版本：%s
 \n %s 用户 - %s 状态</string>
     <string name="instance_health_checkedat">检查于：%s</string>
-    <string name="show_content">显示内容 &gt;</string>
+    <string name="show_content"><![CDATA[显示内容 >]]></string>
     <string name="stop_recording">停止录音</string>
     <string name="report_title">举报 %1$s</string>
     <string name="report_1_block_title">屏蔽 %1$s</string>
@@ -892,7 +886,7 @@
     <string name="other">其他</string>
     <string name="add_status">添加状态</string>
     <string name="remove_status">删除状态</string>
-    <string name="hide_content">隐藏内容 &lt;</string>
+    <string name="hide_content"><![CDATA[隐藏内容 <]]></string>
     <string name="report_indication_title_status_more">选择最佳匹配</string>
     <string name="report_val_more2">恶意链接、虚假参与或重复回复</string>
     <string name="report_val3">这违反了服务器规则</string>
@@ -1076,4 +1070,5 @@
     <string name="tag_already_followed">您已经关注了该话题标签！</string>
     <string name="underline_links">带下划线的可点击元素</string>
     <string name="qr_code_generator">二维码生成器</string>
+    <string name="toast_error_internet">没有互联网连接！</string>
 </resources>
