@@ -611,7 +611,7 @@
     <string name="interactions">Interaccións</string>
     <string name="locked">Bloqueado</string>
     <string name="save_changes">Gardar cambios</string>
-    <string name="hide_content">Agochar contido &lt;</string>
+    <string name="hide_content"><![CDATA[Hide content <]]></string>
     <string name="stop_recording">Deter gravación</string>
     <string name="report_title">Denuncia de %1$s</string>
     <string name="report_indication_title_status">Cóntanos cal é o problema coa publicación</string>
@@ -665,7 +665,7 @@
     <string name="keepon">Continuar</string>
     <string name="category_custom">Personalizar</string>
     <string name="instance_health_uptime">Uptime: %,.2f %%</string>
-    <string name="show_content">Mostrar contido &gt;</string>
+    <string name="show_content"><![CDATA[Show content >]]></string>
     <string name="report_val1">Non me gusta</string>
     <string name="report_val3">Viola as regras do servidor</string>
     <string name="report_1_title">Non queres ver isto\?</string>
@@ -1072,4 +1072,5 @@
     <string name="Pronouns">Pronomes</string>
     <string name="pronouns_support">Soporte para pronomes</string>
     <string name="qr_code_generator">Xerador de QR</string>
+    <string name="toast_error_internet">Non hai conexión a internet!</string>
 </resources>
