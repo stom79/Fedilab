@@ -52,21 +52,21 @@ public abstract class PeertubeBaseMainActivity extends BaseActivity implements C
     public static List<ChromeCast> chromeCasts;
     public static ChromeCast chromeCast;
     public static boolean chromecastActivated = false;
-    protected ActivityMainPeertubeBinding binding;
+    protected ActivityMainPeertubeBinding parentBinding;
     private BroadcastReceiver manage_chromecast;
     private VideoData.Video castedTube;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainPeertubeBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
+        parentBinding = ActivityMainPeertubeBinding.inflate(getLayoutInflater());
+        View view = parentBinding.getRoot();
         setContentView(view);
         ChromeCastsListener chromeCastsListener = this;
         ChromeCasts.registerListener(chromeCastsListener);
 
 
-        binding.castClose.setOnClickListener(v -> {
+        parentBinding.castClose.setOnClickListener(v -> {
             Intent intentBC = new Intent(Helper.RECEIVE_CAST_SETTINGS);
             Bundle b = new Bundle();
             b.putInt("displayed", 0);
@@ -75,12 +75,12 @@ public abstract class PeertubeBaseMainActivity extends BaseActivity implements C
             sendBroadcast(intentBC);
         });
 
-        binding.castTogglePlay.setOnClickListener(v -> {
+        parentBinding.castTogglePlay.setOnClickListener(v -> {
             if (chromeCast != null) {
                 new Thread(() -> {
                     try {
                         Handler mainHandler = new Handler(Looper.getMainLooper());
-                        Runnable myRunnable = () -> binding.castTogglePlay.setVisibility(View.GONE);
+                        Runnable myRunnable = () -> parentBinding.castTogglePlay.setVisibility(View.GONE);
                         mainHandler.post(myRunnable);
                         int icon = -1;
                         if (chromeCast.getMediaStatus().playerState == MediaStatus.PlayerState.PLAYING) {
@@ -92,10 +92,10 @@ public abstract class PeertubeBaseMainActivity extends BaseActivity implements C
                         }
                         if (icon != -1) {
                             int finalIcon = icon;
-                            myRunnable = () -> binding.castTogglePlay.setImageResource(finalIcon);
+                            myRunnable = () -> parentBinding.castTogglePlay.setImageResource(finalIcon);
                             mainHandler.post(myRunnable);
                         }
-                        myRunnable = () -> binding.castTogglePlay.setVisibility(View.VISIBLE);
+                        myRunnable = () -> parentBinding.castTogglePlay.setVisibility(View.VISIBLE);
                         mainHandler.post(myRunnable);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -131,14 +131,14 @@ public abstract class PeertubeBaseMainActivity extends BaseActivity implements C
                 if (displayed == 1) {
                     chromecastActivated = true;
                     if (castedTube != null) {
-                        binding.castInfo.setVisibility(View.VISIBLE);
-                        Helper.loadGiF(PeertubeBaseMainActivity.this, castedTube.getThumbnailPath(), binding.castView);
-                        binding.castTitle.setText(castedTube.getTitle());
-                        binding.castDescription.setText(castedTube.getDescription());
+                        parentBinding.castInfo.setVisibility(View.VISIBLE);
+                        Helper.loadGiF(PeertubeBaseMainActivity.this, castedTube.getThumbnailPath(), parentBinding.castView);
+                        parentBinding.castTitle.setText(castedTube.getTitle());
+                        parentBinding.castDescription.setText(castedTube.getDescription());
                     }
                 } else if (displayed == 0) {
                     chromecastActivated = false;
-                    binding.castInfo.setVisibility(View.GONE);
+                    parentBinding.castInfo.setVisibility(View.GONE);
                     new Thread(() -> {
                         try {
                             if (chromeCast != null) {
@@ -173,8 +173,8 @@ public abstract class PeertubeBaseMainActivity extends BaseActivity implements C
         }
         try {
             if (chromeCast.isAppRunning(Helper.CAST_ID) && chromeCast.getMediaStatus() != null && chromeCast.getMediaStatus().playerState != null) {
-                if (binding.castInfo.getVisibility() == View.GONE) {
-                    binding.castInfo.setVisibility(View.VISIBLE);
+                if (parentBinding.castInfo.getVisibility() == View.GONE) {
+                    parentBinding.castInfo.setVisibility(View.VISIBLE);
                 }
             }
         } catch (IOException e) {

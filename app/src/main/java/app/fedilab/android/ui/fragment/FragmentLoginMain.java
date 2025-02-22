@@ -55,6 +55,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentLoginMainBinding;
 import app.fedilab.android.mastodon.activities.ProxyActivity;
@@ -149,19 +150,22 @@ public class FragmentLoginMain extends Fragment {
                 }
             }
         });
-
+        if (BuildConfig.FLAVOR.compareTo("playstore") == 0) {
+            binding.noAccountA.setVisibility(View.INVISIBLE);
+            binding.noAccountQ.setVisibility(View.INVISIBLE);
+        }
         binding.noAccountA.setOnClickListener(v -> Helper.addFragment(
                 getParentFragmentManager(), android.R.id.content, new FragmentLoginJoin(),
                 null, null, FragmentLoginJoin.class.getName()));
 
         binding.continueButton.setOnClickListener(v -> {
-            if (binding.loginInstance.getText() == null || binding.loginInstance.getText().toString().length() == 0) {
+            if (binding.loginInstance.getText() == null || binding.loginInstance.getText().toString().isEmpty()) {
                 binding.loginInstanceLayout.setError(getString(R.string.toast_error_instance));
                 binding.loginInstanceLayout.setErrorEnabled(true);
                 return;
             }
             currentInstanceLogin = binding.loginInstance.getText().toString().trim().toLowerCase();
-            if (currentInstanceLogin.length() == 0) {
+            if (currentInstanceLogin.isEmpty()) {
                 return;
             }
             binding.continueButton.setEnabled(false);
