@@ -262,7 +262,7 @@ public class EmojiInstance implements Serializable {
             } else {
                 emojiArrayList = emojis.get(instance);
             }
-            if (emojiArrayList != null && emojiArrayList.size() > 0) {
+            if (emojiArrayList != null ) {
                 for (Emoji emoji : emojiArrayList) {
                     if (emoji.shortcode.contains(filter)) {
                         emojiFiltered.add(emoji);

@@ -19,6 +19,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
 import static app.fedilab.android.mastodon.activities.ComposeActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static de.timfreiheit.mathjax.android.MathJaxConfig.Input.TeX;
 
 import android.Manifest;
@@ -2158,7 +2159,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.setTitle(R.string.insert_emoji);
         CustomEmojiPickerBinding customEmojiPickerBinding = CustomEmojiPickerBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);
-        if (emojis != null && emojis.size() > 0) {
+        if (emojis != null && !emojis.isEmpty()) {
             customEmojiPickerBinding.gridview.setAdapter(new EmojiAdapter(emojis.get(instance)));
             customEmojiPickerBinding.gridview.setOnItemClickListener((parent, view, position, id) -> {
                 holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + Objects.requireNonNull(emojis.get(instance)).get(position).shortcode + ": ");
@@ -2172,7 +2173,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 imm.hideSoftInputFromWindow(customEmojiPickerBinding.toolbarSearch.getWindowToken(), 0);
                 try {
                     new EmojiInstance(context).getEmojiListFiltered(instance, query.trim(), emojiList -> {
-                        if (emojiList != null && emojiList.size() > 0) {
+                        if (emojiList != null) {
                             customEmojiPickerBinding.gridview.setAdapter(new EmojiAdapter(emojiList));
                             customEmojiPickerBinding.gridview.setOnItemClickListener((parent, view, position, id) -> {
                                 holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojiList.get(position).shortcode + ": ");
@@ -2190,7 +2191,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public boolean onQueryTextChange(String newText) {
                 try {
                     new EmojiInstance(context).getEmojiListFiltered(instance, newText.trim(), emojiList -> {
-                        if (emojiList != null && emojiList.size() > 0) {
+                        if (emojiList != null) {
                             customEmojiPickerBinding.gridview.setAdapter(new EmojiAdapter(emojiList));
                             customEmojiPickerBinding.gridview.setOnItemClickListener((parent, view, position, id) -> {
                                 holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojiList.get(position).shortcode + ": ");
