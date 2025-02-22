@@ -140,7 +140,7 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
             }
             if (SET_PUSH_DISTRIBUTOR != null) {
                 List<String> distributors = UnifiedPush.getDistributors(requireActivity());
-                SET_PUSH_DISTRIBUTOR.setValue("");
+                SET_PUSH_DISTRIBUTOR.setValue(UnifiedPush.getAckDistributor(requireActivity()));
                 SET_PUSH_DISTRIBUTOR.setEntries(distributors.toArray(new String[0]));
                 SET_PUSH_DISTRIBUTOR.setEntryValues(distributors.toArray(new String[0]));
             }
