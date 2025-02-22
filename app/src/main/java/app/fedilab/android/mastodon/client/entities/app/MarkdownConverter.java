@@ -23,7 +23,7 @@ public class MarkdownConverter {
     public List<MarkdownItem> markdownItems;
 
     public MarkdownItem getByPosition(int position) {
-        if (markdownItems != null && markdownItems.size() > 0 && position < markdownItems.size()) {
+        if (markdownItems != null && !markdownItems.isEmpty() && position < markdownItems.size()) {
             for (MarkdownItem markdownItem : markdownItems) {
                 if (markdownItem.position == position) {
                     return markdownItem;
