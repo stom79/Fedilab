@@ -1,0 +1,16 @@
+Added:
+- Allow to edit scheduled messages from server side
+
+Changed:
+- Order list name alphabetically in profiles
+- Remove registration for Google
+
+Fixed:
+- Push notifications
+- Peertube instances picker
+- Edit scheduled threads (local)
+- Instant search of Hashtag repeats results
+- Quotes broken with Markdowns
+- Fix reports crashes after submitting
+- Fix emoji picker when there is no result
+- Fix other crashes

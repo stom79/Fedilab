@@ -1,8 +1,8 @@
 [
   {
-    "version": "3.29.0",
-    "code": "516",
-    "note": "Added:\n- Allow to edit scheduled messages from server side\n\nChanged:\n- Order list name alphabetically in profiles\n\nFixed:\n- Push notifications\n- Peertube instances picker\n- Edit scheduled threads (local)\n- Instant search of Hashtag repeats results"
+    "version": "3.29.1",
+    "code": "517",
+    "note": "Added:\n- Allow to edit scheduled messages from server side\n\nChanged:\n- Order list name alphabetically in profiles\n- Remove registration for Google\n\nFixed:\n- Push notifications\n- Peertube instances picker\n- Edit scheduled threads (local)\n- Instant search of Hashtag repeats results\n- Quotes broken with Markdowns\n- Fix reports crashes after submitting\n- Fix emoji picker when there is no result\n- Fix other crashes"
   },
   {
     "version": "3.28.2",
