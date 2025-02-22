@@ -342,9 +342,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      */
     public List<String> getCheckedStatusesId() {
         List<String> stringList = new ArrayList<>();
-        for (Status status : timelineStatuses) {
-            if (status.isChecked) {
-                stringList.add(status.id);
+        if(timelineStatuses != null) {
+            for (Status status : timelineStatuses) {
+                if (status.isChecked) {
+                    stringList.add(status.id);
+                }
             }
         }
         return stringList;

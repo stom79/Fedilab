@@ -216,7 +216,7 @@ public class ProfileActivity extends BaseActivity {
             });
         } else if (mention_str != null) {
             accountsVM.searchAccounts(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mention_str, 1, true, false).observe(ProfileActivity.this, accounts -> {
-                if (accounts != null && accounts.size() > 0) {
+                if (accounts != null && !accounts.isEmpty()) {
                     account = accounts.get(0);
                     initializeView(account);
                 } else {
@@ -342,13 +342,13 @@ public class ProfileActivity extends BaseActivity {
         accountListToCheck.add(account.id);
         //Retrieve relation ship
         accountsVM.getRelationships(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountListToCheck).observe(ProfileActivity.this, relationShips -> {
-            if (relationShips != null && relationShips.size() > 0) {
+            if (relationShips != null && !relationShips.isEmpty()) {
                 this.relationship = relationShips.get(0);
                 updateAccount();
             }
         });
         accountsVM.getFamiliarFollowers(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountListToCheck).observe(ProfileActivity.this, familiarFollowersList -> {
-            if (familiarFollowersList != null && familiarFollowersList.size() > 0) {
+            if (familiarFollowersList != null && !familiarFollowersList.isEmpty()) {
                 this.familiarFollowers = familiarFollowersList.get(0);
                 updateAccount();
             }
@@ -360,7 +360,7 @@ public class ProfileActivity extends BaseActivity {
             updateAccount();
         });
         //Animate emojis
-        if (account.emojis != null && account.emojis.size() > 0) {
+        if (account.emojis != null && !account.emojis.isEmpty()) {
             boolean disableAnimatedEmoji = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
             if (!disableAnimatedEmoji) {
                 scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -527,7 +527,7 @@ public class ProfileActivity extends BaseActivity {
         });
         //Fields for profile
         List<Field> fields = account.fields;
-        if (fields != null && fields.size() > 0) {
+        if (fields != null && !fields.isEmpty()) {
             FieldAdapter fieldAdapter = new FieldAdapter(fields, account);
             binding.fieldsContainer.setAdapter(fieldAdapter);
             binding.fieldsContainer.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
@@ -701,7 +701,7 @@ public class ProfileActivity extends BaseActivity {
 
         //Manage indentity proofs if not yet displayed
 
-        if (identityProofList != null && identityProofList.size() > 0) {
+        if (identityProofList != null && !identityProofList.isEmpty()) {
             ImageView identity_proofs_indicator = findViewById(R.id.identity_proofs_indicator);
             identity_proofs_indicator.setVisibility(View.VISIBLE);
             //Recyclerview for identity proof has not been inflated yet
@@ -722,7 +722,7 @@ public class ProfileActivity extends BaseActivity {
             }
         }
 
-        if (familiarFollowers != null && familiarFollowers.accounts != null && familiarFollowers.accounts.size() > 0) {
+        if (familiarFollowers != null && familiarFollowers.accounts != null && !familiarFollowers.accounts.isEmpty()) {
             binding.relatedAccounts.removeAllViews();
             for (Account account : familiarFollowers.accounts) {
                 NotificationsRelatedAccountsBinding notificationsRelatedAccountsBinding = NotificationsRelatedAccountsBinding.inflate(LayoutInflater.from(ProfileActivity.this));
@@ -1075,7 +1075,7 @@ public class ProfileActivity extends BaseActivity {
                 String[] codesArr;
                 String[] languagesArr;
                 boolean[] presentArr;
-                if (storedLanguages != null && storedLanguages.size() > 0) {
+                if (storedLanguages != null && !storedLanguages.isEmpty()) {
                     int i = 0;
                     codesArr = new String[storedLanguages.size()];
                     languagesArr = new String[storedLanguages.size()];
@@ -1300,24 +1300,15 @@ public class ProfileActivity extends BaseActivity {
             });
             return true;
         } else if (itemId == R.id.action_report) {
-            AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(ProfileActivity.this);
-            builderInner.setTitle(R.string.report_account);
-            //Text for report
-            EditText input = new EditText(ProfileActivity.this);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            input.setLayoutParams(lp);
-            builderInner.setView(input);
-            builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-            builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
-                String comment = null;
-                if (input.getText() != null)
-                    comment = input.getText().toString();
-                accountsVM.report(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, null, null, null, comment, false);
-                dialog.dismiss();
+            Intent intent = new Intent(ProfileActivity.this, ReportActivity.class);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_ACCOUNT, account);
+            new CachedBundle(ProfileActivity.this).insertBundle(args, Helper.getCurrentAccount(ProfileActivity.this), bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                startActivity(intent);
             });
-            builderInner.show();
             return true;
         } else if (itemId == R.id.action_block) {
             AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(ProfileActivity.this);
