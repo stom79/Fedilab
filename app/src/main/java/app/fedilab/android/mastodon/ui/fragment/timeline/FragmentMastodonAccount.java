@@ -263,8 +263,11 @@ public class FragmentMastodonAccount extends Fragment {
                 .observe(getViewLifecycleOwner(), relationShips -> {
                     if (relationShips != null) {
                         for (RelationShip relationShip : relationShips) {
+                            if(relationShip == null || relationShip.id == null ) {
+                                continue;
+                            }
                             for (Account account : accounts) {
-                                if (account.id.compareToIgnoreCase(relationShip.id) == 0) {
+                                if (account != null && account.id != null && account.id.compareToIgnoreCase(relationShip.id) == 0) {
                                     account.relationShip = relationShip;
                                 }
                             }
