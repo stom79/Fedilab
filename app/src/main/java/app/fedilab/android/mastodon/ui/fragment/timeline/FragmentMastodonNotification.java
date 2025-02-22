@@ -105,7 +105,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                                 }
                             }
                         }
-                        if (toRemove.size() > 0) {
+                        if (!toRemove.isEmpty()) {
                             for (int i = 0; i < toRemove.size(); i++) {
                                 int position = getPosition(toRemove.get(i));
                                 notificationList.remove(position);
@@ -126,7 +126,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         @Override
         public void onReceive(Context context, Intent intent) {
             if (notificationType != null && notificationType == NotificationTypeEnum.ALL) {
-                if (notificationList != null && notificationList.size() > 0) {
+                if (notificationList != null && !notificationList.isEmpty()) {
                     route(FragmentMastodonTimeline.DIRECTION.FETCH_NEW, true);
                 }
             }
@@ -136,7 +136,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
         initialNotifications = null;
-        if (notificationList != null && notificationList.size() > 0) {
+        if (notificationList != null && !notificationList.isEmpty()) {
             int count = notificationList.size();
             notificationList.clear();
             notificationList = new ArrayList<>();
@@ -291,7 +291,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             flagLoading = false;
             route(FragmentMastodonTimeline.DIRECTION.REFRESH, true);
         });
-        if (notifications == null || notifications.notifications == null || notifications.notifications.size() == 0) {
+        if (notifications == null || notifications.notifications == null || notifications.notifications.isEmpty()) {
             binding.noActionText.setText(R.string.no_notifications);
             binding.noAction.setVisibility(View.VISIBLE);
             binding.recyclerView.setVisibility(View.GONE);
@@ -374,7 +374,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 route(null, false);
             }
         }
-        if (notificationList != null && notificationList.size() > 0) {
+        if (notificationList != null && !notificationList.isEmpty()) {
             route(FragmentMastodonTimeline.DIRECTION.FETCH_NEW, true);
         }
     }
@@ -434,7 +434,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         if (direction == null) {
             notificationsVM.getNotificationCache(notificationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notificationsCached -> {
-                        if (notificationsCached == null || notificationsCached.notifications == null || notificationsCached.notifications.size() == 0) {
+                        if (notificationsCached == null || notificationsCached.notifications == null || notificationsCached.notifications.isEmpty()) {
                             getLiveNotifications(null, fetchingMissing, timelineParams, null);
                         } else {
                             initialNotifications = notificationsCached;
@@ -444,7 +444,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
             notificationsVM.getNotificationCache(notificationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notificationsBottom -> {
-                        if (notificationsBottom == null || notificationsBottom.notifications == null || notificationsBottom.notifications.size() == 0) {
+                        if (notificationsBottom == null || notificationsBottom.notifications == null || notificationsBottom.notifications.isEmpty()) {
                             getLiveNotifications(FragmentMastodonTimeline.DIRECTION.BOTTOM, fetchingMissing, timelineParams, null);
                         } else {
                             dealWithPagination(notificationsBottom, FragmentMastodonTimeline.DIRECTION.BOTTOM, fetchingMissing, null);
@@ -454,7 +454,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         } else if (direction == FragmentMastodonTimeline.DIRECTION.TOP) {
             notificationsVM.getNotificationCache(notificationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notificationsTop -> {
-                        if (notificationsTop == null || notificationsTop.notifications == null || notificationsTop.notifications.size() == 0) {
+                        if (notificationsTop == null || notificationsTop.notifications == null || notificationsTop.notifications.isEmpty()) {
                             getLiveNotifications(FragmentMastodonTimeline.DIRECTION.TOP, fetchingMissing, timelineParams, null);
                         } else {
                             dealWithPagination(notificationsTop, FragmentMastodonTimeline.DIRECTION.TOP, fetchingMissing, null);
@@ -463,7 +463,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
             notificationsVM.getNotifications(notificationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notificationsRefresh -> {
-                        if (notificationsRefresh == null || notificationsRefresh.notifications == null || notificationsRefresh.notifications.size() == 0) {
+                        if (notificationsRefresh == null || notificationsRefresh.notifications == null || notificationsRefresh.notifications.isEmpty()) {
                             getLiveNotifications(direction, fetchingMissing, timelineParams, null);
                         } else {
                             if (notificationAdapter != null) {
@@ -518,7 +518,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                         && (notifications.get(i).type.equals("favourite") || notifications.get(i).type.equals("reblog") || notifications.get(i).type.equals("update"))
                         && notifications.get(i).status != null && notifications.get(refPosition).status != null && notifications.get(i).status.id.equals(notifications.get(refPosition).status.id)
                 ) {
-                    if (notificationList.size() > 0) {
+                    if (!notificationList.isEmpty()) {
                         if (notificationList.get(notificationList.size() - 1).relatedNotifications == null) {
                             notificationList.get(notificationList.size() - 1).relatedNotifications = new ArrayList<>();
                         }
@@ -535,7 +535,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 notificationList.add(notifications.get(i));
             }
         }
-        if (notificationsToRemove.size() > 0 && update) {
+        if (!notificationsToRemove.isEmpty() && update) {
             for (Notification notification : notificationsToRemove) {
                 int position = getPosition(notification);
                 this.notificationList.remove(position);
@@ -586,7 +586,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         binding.swipeContainer.setRefreshing(false);
         binding.loadingNextElements.setVisibility(View.GONE);
         flagLoading = false;
-        if (notificationList != null && fetched_notifications != null && fetched_notifications.notifications != null && fetched_notifications.notifications.size() > 0) {
+        if (notificationList != null && fetched_notifications != null && fetched_notifications.notifications != null && !fetched_notifications.notifications.isEmpty()) {
 
            /* if (aggregateNotification) {
                 fetched_notifications.notifications = aggregateNotifications(fetched_notifications.notifications);
@@ -619,7 +619,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             if (direction == FragmentMastodonTimeline.DIRECTION.TOP && fetchingMissing) {
                 binding.recyclerView.scrollToPosition(getPosition(fetched_notifications.notifications.get(fetched_notifications.notifications.size() - 1)) + 1);
             }
-            if (aggregateNotification && notificationList != null && notificationList.size() > 0) {
+            if (aggregateNotification && notificationList != null && !notificationList.isEmpty()) {
                 aggregateNotifications(notificationList, true);
             }
             if (!fetchingMissing) {
@@ -647,7 +647,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
      */
     private int updateNotificationListWith(List<Notification> notificationsReceived) {
         int insertedNotifications = 0;
-        if (notificationsReceived != null && notificationsReceived.size() > 0) {
+        if (notificationsReceived != null && !notificationsReceived.isEmpty()) {
             for (Notification notificationReceived : notificationsReceived) {
                 int position = 0;
                 //We loop through messages already in the timeline

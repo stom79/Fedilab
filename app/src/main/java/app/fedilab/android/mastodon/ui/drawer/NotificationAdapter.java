@@ -201,6 +201,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         return TYPE_HIDDEN;
                     }
                 }
+                default -> {
+                    return TYPE_HIDDEN;
+                }
             }
         }
         return super.getItemViewType(position);
