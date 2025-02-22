@@ -69,7 +69,7 @@ public class PushHelper {
                             AlertDialog.Builder alert = new MaterialAlertDialogBuilder(context);
                             alert.setTitle(R.string.no_distributors_found);
                             final TextView message = new TextView(context);
-                            String link = "https://fedilab.app/wiki/features/push-notifications/";
+                            String link = "https://ntfy.sh/";
                             final SpannableString s =
                                     new SpannableString(context.getString(R.string.no_distributors_explanation, link));
                             Linkify.addLinks(s, Linkify.WEB_URLS);
