@@ -334,7 +334,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 notification.filteredByApp = null;
                 notifyItemChanged(position);
             });
-        } else if (notification.status != null) {
+        } else if (notification.status != null && getItemViewType(position) != TYPE_HIDDEN) {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
@@ -435,7 +435,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 } else if (getItemViewType(position) == TYPE_POLL) {
                     title = context.getString(R.string.notif_poll);
                 }
-                if (notification.relatedNotifications != null && notification.relatedNotifications.size() > 0) {
+                if (notification.relatedNotifications != null && !notification.relatedNotifications.isEmpty()) {
                     if (notification.type.equals("favourite")) {
                         holderStatus.bindingNotification.typeOfConcat.setText(R.string.also_favourite_by);
                     } else if (notification.type.equals("reblog")) {
