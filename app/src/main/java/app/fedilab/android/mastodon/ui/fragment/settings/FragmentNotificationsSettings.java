@@ -35,9 +35,6 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
 import org.unifiedpush.android.connector.UnifiedPush;
-import org.unifiedpush.android.connector.internal.Store;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import app.fedilab.android.R;
@@ -249,7 +246,10 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
         if (getActivity() != null) {
             if (key.compareToIgnoreCase(getString(R.string.SET_NOTIFICATION_TYPE)) == 0) {
                 createPref();
-                PushHelper.startStreaming(requireActivity());
+                String type = sharedPreferences.getString(key, "");
+                if(type.equals("PUSH_NOTIFICATIONS")) {
+                    PushHelper.startStreaming(requireActivity());
+                }
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_NOTIFICATION_DELAY_VALUE)) == 0) {
                 createPref();
