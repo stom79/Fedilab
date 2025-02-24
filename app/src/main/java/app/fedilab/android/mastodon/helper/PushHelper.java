@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -69,7 +68,7 @@ public class PushHelper {
                             AlertDialog.Builder alert = new MaterialAlertDialogBuilder(context);
                             alert.setTitle(R.string.no_distributors_found);
                             final TextView message = new TextView(context);
-                            String link = "https://ntfy.sh/";
+                            String link = "https://fedilab.app/docs/fedilab/faq/";
                             final SpannableString s =
                                     new SpannableString(context.getString(R.string.no_distributors_explanation, link));
                             Linkify.addLinks(s, Linkify.WEB_URLS);
@@ -164,7 +163,6 @@ public class PushHelper {
                         }
                     }
                     Handler mainHandler = new Handler(Looper.getMainLooper());
-
                     String finalVapid = vapid!=null?vapid.replaceAll("=",""):null;
                     Runnable myRunnable = () -> {
                         try {
@@ -176,20 +174,6 @@ public class PushHelper {
                     mainHandler.post(myRunnable);
                 }).start();
             }
-            return;
         }
-
-        AlertDialog.Builder alert = new MaterialAlertDialogBuilder(context);
-        alert.setTitle(R.string.select_distributors);
-        String[] distributorsStr = distributors.toArray(new String[0]);
-        alert.setSingleChoiceItems(distributorsStr, -1, (dialog, item) -> {
-            String distributor = distributorsStr[item];
-            UnifiedPush.saveDistributor(context, distributor);
-            for (BaseAccount account : accounts) {
-                UnifiedPush.register(context, account.user_id + "@" + account.instance, null, null);
-            }
-            dialog.dismiss();
-        });
-        alert.show();
     }
 }
