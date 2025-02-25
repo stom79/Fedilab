@@ -1,0 +1,23 @@
+Palaiko:
+- „Mastodon“, „Peertube“, „Pixelfed“, „Misskey“, „GNU Social“, „Pleroma“ ir „Friendica“
+
+Programa turi pažangių funkcijų:
+- Sukurti gijas
+- Daugelio paskyrų palaikymas
+- Planuoti pranešimus iš įrenginio
+- Sekti ir bendrauti su nuotoliniais serveriais 
+- Tarp paskyrų atliekami veiksmai ilgu paspaudimu
+- Vertimo funkcija
+- Kelios automatinio naujinimų parinktys
+  - Tiesioginiai pranešimai per „UnifiedPush“ (įskaitant „ntfy“ parduotuvėje „F-Droid“)
+  - Išlikti prisijungus tiesioginiams pranešimams
+  - Atidėti pranešimai (jungtis kas 30 sekundžių)
+- Pakeisti „YouTube“ ir „Twitter“ nuorodas su nuorodomis į „Invidious“ ir „Nitter“ instancijas
+- Pasirinktinės temos, importo / eksporto ir apibrėžimų nustatymas
+- Importuoti ir eksportuoti programos duomenų bazę
+- Jaustukų pcikeris su pasirinktiniais jaustukais
+- Kelios paleidimo piktogramos
+- Išplėstinė paleidyklės filtravimas
+- Speciali meno laiko skalė mastoart žymei
+- Eksportuoti įrašus
+- Tinkinti URL bendrinimo funkciją, kad tiesiogiai bendrinti URL su kitomis paslaugomis
