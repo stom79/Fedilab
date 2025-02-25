@@ -499,7 +499,7 @@ public class MastodonHelper {
                         accountId = account.id;
                         acct = account.acct;
                     }
-                    accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountId, true, (int) delayToPass * 1000)
+                    accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountId, true, (int) delayToPass / 1000)
                             .observe((LifecycleOwner) context, relationShip -> {
                                 if (listener != null) {
                                     listener.onTimedMute(relationShip);
