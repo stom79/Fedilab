@@ -45,6 +45,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PushNotifications {
 
+    public static void unregisterPushNotifications(Context context, String slug) {
+        new Thread(() -> {
+            String[] slugArray = slug.split("@");
+            BaseAccount accountDb = null;
+            try {
+                accountDb = new Account(context).getUniqAccount(slugArray[0], slugArray[1]);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+
+            if (accountDb == null) {
+                return;
+            }
+            MastodonNotificationsService mastodonNotificationsService = init(context, accountDb.instance);
+            mastodonNotificationsService.deletePushsubscription(accountDb.token);
+        });
+    }
 
     public static void registerPushNotifications(Context context, PushEndpoint pushEndpoint, String slug) {
 

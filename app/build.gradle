@@ -102,11 +102,7 @@ allprojects {
 dependencies {
     implementation 'org.unifiedpush.android:connector:3.0.4'
 
-    playstoreImplementation('org.unifiedpush.android:embedded-fcm-distributor:3.0.0') {
-        exclude group: 'com.google.firebase', module: 'firebase-core'
-        exclude group: 'com.google.firebase', module: 'firebase-analytics'
-        exclude group: 'com.google.firebase', module: 'firebase-measurement-connector'
-    }
+    playstoreImplementation('org.unifiedpush.android:embedded-fcm-distributor:3.0.0')
 
     implementation 'androidx.appcompat:appcompat:1.7.0'
 
