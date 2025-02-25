@@ -1,0 +1,8 @@
+Fixed:
+- Fix crash when changing the type of notifications
+- Fix issue with names not displayed fully
+- Fix a crash with notifications and Sharkey
+- Fix a crash when app is back to the foreground
+- Fix xmpp links not opening xmpp clients
+- Fix wrong muted time
+

@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.29.2",
+    "code": "518",
+    "note": "Fixed:\n- Fix crash when changing the type of notifications\n- Fix issue with names not displayed fully\n- Fix a crash with notifications and Sharkey\n- Fix a crash when app is back to the foreground\n- Fix xmpp links not opening xmpp clients\n- Fix wrong muted time"
+  },
+  {
     "version": "3.29.1",
     "code": "517",
     "note": "Added:\n- Allow to edit scheduled messages from server side\n\nChanged:\n- Order list name alphabetically in profiles\n- Remove registration for Google\n\nFixed:\n- Push notifications\n- Peertube instances picker\n- Edit scheduled threads (local)\n- Instant search of Hashtag repeats results\n- Quotes broken with Markdowns\n- Fix reports crashes after submitting\n- Fix emoji picker when there is no result\n- Fix other crashes"
