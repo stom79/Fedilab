@@ -56,6 +56,13 @@ public class PushServiceImpl extends PushService {
     }
 
     @Override
-    public void onUnregistered(@NonNull String s) {
+    public void onUnregistered(@NonNull String slug) {
+        Context context = getApplicationContext();
+        if (context != null) {
+            synchronized (this) {
+                PushNotifications
+                        .unregisterPushNotifications(context, slug);
+            }
+        }
     }
 }
