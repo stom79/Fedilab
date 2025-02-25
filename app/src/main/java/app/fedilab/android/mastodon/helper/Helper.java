@@ -703,20 +703,32 @@ public class Helper {
             try {
                 customTabsIntent.launchUrl(context, Uri.parse(url).normalizeScheme());
             } catch (Exception e) {
-                Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                if(url.toLowerCase().startsWith("xmpp:")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setData(Uri.parse("https://xmpp.link/#" + url.toLowerCase().replace("xmpp:","")).normalizeScheme());
+                    context.startActivity(intent);
+                } else {
+                    Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                }
             }
 
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://")) {
+            if (!url.toLowerCase().startsWith("http://") && !url.toLowerCase().startsWith("https://") && !url.toLowerCase().startsWith("gemini://") && !url.toLowerCase().startsWith("xmpp:")) {
                 url = "http://" + url;
             }
             intent.setData(Uri.parse(url).normalizeScheme());
             try {
                 context.startActivity(intent);
             } catch (Exception e) {
-                Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                if(url.toLowerCase().startsWith("xmpp:")) {
+                    intent.setData(Uri.parse("https://xmpp.link/#" + url.toLowerCase().replace("xmpp:","")).normalizeScheme());
+                    context.startActivity(intent);
+                } else {
+                    Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
