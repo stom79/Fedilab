@@ -78,4 +78,6 @@
     <string name="action_privacy">Privatumas</string>
     <string name="cancel">Atšaukti</string>
     <string name="no">Ne</string>
+    <string name="more_action_7">Paminėti</string>
+    <string name="more_action_8">Nutildyti laiku</string>
 </resources>
