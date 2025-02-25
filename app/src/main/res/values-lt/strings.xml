@@ -80,4 +80,35 @@
     <string name="no">Ne</string>
     <string name="more_action_7">Paminėti</string>
     <string name="more_action_8">Nutildyti laiku</string>
+    <string name="date_day">%d d.</string>
+    <plurals name="date_seconds_polls">
+        <item quantity="one">%d sekundė</item>
+        <item quantity="few">%d sekundės</item>
+        <item quantity="other">%d sekundžių</item>
+    </plurals>
+    <plurals name="date_minutes_polls">
+        <item quantity="one">%d minutė</item>
+        <item quantity="few">%d minutės</item>
+        <item quantity="other">%d minučių</item>
+    </plurals>
+    <plurals name="date_hours_polls">
+        <item quantity="one">%d valanda</item>
+        <item quantity="few">%d valandos</item>
+        <item quantity="other">%d valandų</item>
+    </plurals>
+    <plurals name="date_day_polls">
+        <item quantity="one">%d diena</item>
+        <item quantity="few">%d dienos</item>
+        <item quantity="other">%d dienų</item>
+    </plurals>
+    <string name="about_license">Licencija:</string>
+    <string name="about_license_action">GNU GPL V3</string>
+    <string name="about_code">Šaltinio kodas:</string>
+    <string name="follows_you">Seka jus</string>
+    <string name="new_messages">Naujos žinutės</string>
+    <string name="about_vesrion">%1$s leidimas</string>
+    <string name="date_seconds">%d sek.</string>
+    <string name="date_minutes">%d min.</string>
+    <string name="date_hours">%d val.</string>
+    <string name="about_developer">Kūrėjas:</string>
 </resources>
