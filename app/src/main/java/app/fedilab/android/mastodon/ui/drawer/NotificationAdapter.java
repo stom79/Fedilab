@@ -382,19 +382,22 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             statusManagement(context, statusesVM, searchVM, holderStatus, mRecyclerView, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, false, null);
             holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));
-            holderStatus.bindingNotification.status.pronouns.setVisibility(View.INVISIBLE);
+            holderStatus.bindingNotification.status.pronouns.setVisibility(View.GONE);
             if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS || getItemViewType(position) == TYPE_REACTION) {
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.VISIBLE);
                 String title = "";
                 if (getItemViewType(position) == TYPE_MENTION) {
-                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_mention));
+                    //title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_mention));
+                    title = notification.account.display_name;
                 } else if (getItemViewType(position) == TYPE_STATUS) {
-                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_status));
+                   // title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_status));
+                    title = notification.account.display_name;
                 } else if (getItemViewType(position) == TYPE_REACTION) {
                     if (notification.emoji == null) {
                         notification.emoji = "";
                     }
-                    title = String.format(Locale.getDefault(), "%s reacted with %s", notification.account.username, notification.emoji);
+                    //title = String.format(Locale.getDefault(), "%s reacted with %s", notification.account.username, notification.emoji);
+                    title = notification.account.username;
                     MastodonHelper.loadPPMastodon(holderStatus.bindingNotification.status.avatar, notification.account);
                     holderStatus.bindingNotification.status.statusUserInfo.setOnClickListener(v -> {
                         Intent intent = new Intent(context, ProfileActivity.class);
@@ -425,11 +428,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 String title = "";
                 MastodonHelper.loadPPMastodon(holderStatus.binding.avatar, notification.account);
                 if (getItemViewType(position) == TYPE_FAVOURITE) {
-                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_favourite));
+                   // title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_favourite));
+                    title = notification.account.display_name;
                 } else if (getItemViewType(position) == TYPE_REBLOG) {
-                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
+                   // title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
+                    title = notification.account.display_name;
                 } else if (getItemViewType(position) == TYPE_UPDATE) {
-                    title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_update));
+                  //  title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_update));
+                    title = notification.account.display_name;
                 } else if (getItemViewType(position) == TYPE_POLL) {
                     title = context.getString(R.string.notif_poll);
                 } else if (getItemViewType(position) == TYPE_POLL) {

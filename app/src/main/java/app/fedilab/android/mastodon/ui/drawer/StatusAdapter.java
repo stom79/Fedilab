@@ -501,7 +501,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.pronouns.setVisibility(View.VISIBLE);
             holder.binding.pronouns.setText(statusToDeal.pronouns);
         } else {
-            holder.binding.pronouns.setVisibility(View.INVISIBLE);
+            holder.binding.pronouns.setVisibility(View.GONE);
         }
         if (statusToDeal.quote != null && (statusToDeal.spoiler_text == null || statusToDeal.spoiler_text.trim().isEmpty() || statusToDeal.isExpended)) {
             holder.binding.quotedMessage.cardviewContainer.setCardElevation((int) Helper.convertDpToPixel(5, context));
