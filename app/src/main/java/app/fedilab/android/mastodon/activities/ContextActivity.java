@@ -132,12 +132,6 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
     }
 
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.clear();
-    }
-
     private void manageTopBarScrolling(Toolbar toolbar, SharedPreferences sharedpreferences) {
         final boolean topBarScrolling = !sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_TOPBAR_SCROLLING), false);
 

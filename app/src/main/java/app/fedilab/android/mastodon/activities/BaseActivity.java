@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -169,4 +170,11 @@ public class BaseActivity extends AppCompatActivity {
         }
         super.attachBaseContext(newBase);
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.clear();
+    }
+
 }
