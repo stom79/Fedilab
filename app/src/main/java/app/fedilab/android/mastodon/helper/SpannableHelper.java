@@ -234,6 +234,7 @@ public class SpannableHelper {
             String url = span.getURL();
             int start = content.getSpanStart(span);
             int end = content.getSpanEnd(span);
+            boolean sameContent = (content.subSequence(start,end).toString().trim().equals(url.trim()));
             if (start < 0 || end > content.length()) {
                 continue;
             }
@@ -346,7 +347,7 @@ public class SpannableHelper {
 
                 }, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             } else {
-                makeLinks(context, status, content, url, start, end);
+                makeLinks(context, status, content, url, start, end, sameContent);
             }
             replaceQuoteSpans(context, content);
             emails(context, content, status);
@@ -376,7 +377,7 @@ public class SpannableHelper {
         CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
         content = customEmoji.makeEmoji(content, emojiList, animate, callback);
 
-        if (imagesToReplace.size() > 0) {
+        if (!imagesToReplace.isEmpty()) {
             for (Map.Entry<String, String> entry : imagesToReplace.entrySet()) {
                 String key = entry.getKey();
                 String url = entry.getValue();
@@ -396,13 +397,13 @@ public class SpannableHelper {
     }
 
 
-    private static void makeLinks(Context context, Status status, SpannableStringBuilder content, String url, int start, int end) {
+    private static void makeLinks(Context context, Status status, SpannableStringBuilder content, String url, int start, int end, boolean sameContent) {
         String newUrl = url;
-        boolean validUrl = URLUtil.isValidUrl(url) && url.length() == (end - start);
+        boolean validUrl = URLUtil.isValidUrl(url) && sameContent;
+
         if (validUrl) {
             newUrl = Helper.transformURL(context, url);
         }
-
 
         //If URL has been transformed
         if (validUrl && newUrl.compareTo(url) != 0) {
@@ -646,7 +647,7 @@ public class SpannableHelper {
         Pattern userWithoutAt = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(users/([\\w._-]*[0-9]*))/statuses/([0-9]+)");
         Matcher matcherUserWithoutAt = userWithoutAt.matcher(finalUrl);
         if (matcherLink.find() && !finalUrl.contains("medium.com")) {
-            if (matcherLink.group(3) != null && Objects.requireNonNull(matcherLink.group(3)).length() > 0) { //It's a toot
+            if (matcherLink.group(3) != null && !Objects.requireNonNull(matcherLink.group(3)).isEmpty()) { //It's a toot
                 CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), finalUrl, new CrossActionHelper.Callback() {
                     @Override
                     public void federatedStatus(Status status) {
@@ -688,7 +689,7 @@ public class SpannableHelper {
                 });
             }
         } else if (matcherLinkLong.find() && !finalUrl.contains("medium.com")) {
-            if (matcherLinkLong.group(3) != null && Objects.requireNonNull(matcherLinkLong.group(3)).length() > 0) { //It's a toot
+            if (matcherLinkLong.group(3) != null && !Objects.requireNonNull(matcherLinkLong.group(3)).isEmpty()) { //It's a toot
                 CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), finalUrl, new CrossActionHelper.Callback() {
                     @Override
                     public void federatedStatus(Status status) {
@@ -730,7 +731,7 @@ public class SpannableHelper {
                 });
             }
         } else if (matcherUserWithoutAt.find() && !finalUrl.contains("medium.com")) {
-            if (matcherUserWithoutAt.group(4) != null && Objects.requireNonNull(matcherUserWithoutAt.group(4)).length() > 0) { //It's a toot
+            if (matcherUserWithoutAt.group(4) != null && !Objects.requireNonNull(matcherUserWithoutAt.group(4)).isEmpty()) { //It's a toot
                 CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), finalUrl, new CrossActionHelper.Callback() {
                     @Override
                     public void federatedStatus(Status status) {
