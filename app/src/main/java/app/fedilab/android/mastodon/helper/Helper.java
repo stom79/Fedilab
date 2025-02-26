@@ -706,7 +706,7 @@ public class Helper {
                 if(url.toLowerCase().startsWith("xmpp:")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setData(Uri.parse("https://xmpp.link/#" + url.toLowerCase().replace("xmpp:","")).normalizeScheme());
+                    intent.setData(Uri.parse("https://xmpp.link/#" + url.replace("xmpp:","")).normalizeScheme());
                     context.startActivity(intent);
                 } else {
                     Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
@@ -724,7 +724,7 @@ public class Helper {
                 context.startActivity(intent);
             } catch (Exception e) {
                 if(url.toLowerCase().startsWith("xmpp:")) {
-                    intent.setData(Uri.parse("https://xmpp.link/#" + url.toLowerCase().replace("xmpp:","")).normalizeScheme());
+                    intent.setData(Uri.parse("https://xmpp.link/#" + url.replace("xmpp:","")).normalizeScheme());
                     context.startActivity(intent);
                 } else {
                     Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
