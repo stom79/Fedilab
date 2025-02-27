@@ -179,10 +179,11 @@ public class SpannableHelper {
                 markdownItem.position = position;
                 // get all spans in this range
                 URLSpan[] spans = initialContent.getSpans(i, next, URLSpan.class);
+
+
                 if (spans != null && spans.length > 0) {
                     markdownItem.urlSpan = spans[0];
                 }
-
                 if (!markdownItem.code.trim().isEmpty()) {
                     markdownConverter.markdownItems.add(markdownItem);
                     position++;
@@ -210,9 +211,9 @@ public class SpannableHelper {
 
             for (MarkdownConverter.MarkdownItem markdownItem : markdownConverter.markdownItems) {
 
-                String sb = Pattern.compile("\\A[\\p{L}0-9_]").matcher(markdownItem.code).find() ? "\\b" : "";
-                String eb = Pattern.compile("[\\p{L}0-9_]\\z").matcher(markdownItem.code).find() ? "\\b" : "\\B";
-                Pattern p = Pattern.compile(sb + "(" + Pattern.quote(markdownItem.code) + ")" + eb, Pattern.UNICODE_CASE);
+                String sb = Pattern.compile("\\A[\\p{L}0-9_]").matcher(markdownItem.code.trim()).find() ? "\\b" : "";
+                String eb = Pattern.compile("[\\p{L}0-9_]\\z").matcher(markdownItem.code.trim()).find() ? "\\b" : "\\B";
+                Pattern p = Pattern.compile(sb + "(" + Pattern.quote(markdownItem.code.trim()) + ")" + eb);
                 Matcher m = p.matcher(content);
                 int fetchPosition = 1;
                 while (m.find()) {
