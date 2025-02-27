@@ -1,0 +1,10 @@
+Added:
+- Keep media proportions in timeline for Pixelfed
+- Add a like button in timelines for Pixelfed
+
+Change:
+- Give more space to focused message in conversation
+
+Fixed:
+- Not clickable URLs when Markdown is enabled
+- Pixelfed timeline not displayed by default

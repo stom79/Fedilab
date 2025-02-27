@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.30.0-beta-1",
+    "code": "519",
+    "note": "Added:\n- Keep media proportions in timeline for Pixelfed\n- Add a like button in timelines for Pixelfed\n\nChange:\n- Give more space to focused message in conversation\n\nFixed:\n- Not clickable URLs when Markdown is enabled\n- Pixelfed timeline not displayed by default"
+  },
+  {
     "version": "3.29.2",
     "code": "518",
     "note": "Fixed:\n- Fix crash when changing the type of notifications\n- Fix issue with names not displayed fully\n- Fix a crash with notifications and Sharkey\n- Fix a crash when app is back to the foreground\n- Fix xmpp links not opening xmpp clients\n- Fix wrong muted time"
