@@ -17,6 +17,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:sparkbutton="http://schemas.android.com/apk/res-auto"
     android:id="@+id/art_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -49,7 +50,7 @@
         android:id="@+id/bottom_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#44000000"
+        android:background="#77000000"
         android:orientation="horizontal"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/art_media"
@@ -98,10 +99,27 @@
                 android:textColor="@color/white" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <com.varunest.sparkbutton.SparkButton
+            android:id="@+id/action_button_like"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/favourite_add"
+            app:activeImage="@drawable/ic_heart_filled_24"
+            app:animationSpeed="1.5"
+            app:inactiveImage="@drawable/ic_heart_24"
+            app:primaryColor="@color/red_color_picker"
+            app:secondaryColor="@color/red_color_picker"
+            sparkbutton:iconSize="28dp" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/comment_number"
             android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
+            android:drawableTint="@color/white"
+            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:drawableStart="@drawable/ic_baseline_chat_bubble_24"
             android:drawablePadding="5dp"

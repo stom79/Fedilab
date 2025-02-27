@@ -34,7 +34,6 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.mastodon.helper.Helper.getCurrentAccount;
 
 import android.annotation.SuppressLint;
@@ -59,7 +58,6 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -305,6 +303,47 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                      Status statusToDeal,
                                      Status statusReturned,
                                      boolean remote) {
+        manageSubAction(context, holder, typeOfAction, statusToDeal, statusReturned, remote);
+        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+    }
+
+
+    /***
+     * Methode that will deal with results of actions (bookmark, favourite, boost)
+     * @param context Context
+     * @param adapter RecyclerView.Adapter<RecyclerView.ViewHolder>
+     * @param holder StatusViewHolder used by the reycler
+     * @param typeOfAction CrossActionHelper.TypeOfCrossAction
+     * @param statusToDeal Status that received the action
+     * @param statusReturned Status returned by the API
+     * @param remote boolean - it's a remote message
+     */
+    private static void manageAction(Context context,
+                                     SliderAdapter adapter,
+                                     StatusViewHolder holder,
+                                     CrossActionHelper.TypeOfCrossAction typeOfAction,
+                                     Status statusToDeal,
+                                     Status statusReturned,
+                                     boolean remote) {
+        manageSubAction(context, holder, typeOfAction, statusToDeal, statusReturned, remote);
+        adapter.notifyDataSetChanged();
+    }
+
+    /***
+     * Methode that will deal with results of actions (bookmark, favourite, boost)
+     * @param context Context
+     * @param holder StatusViewHolder used by the reycler
+     * @param typeOfAction CrossActionHelper.TypeOfCrossAction
+     * @param statusToDeal Status that received the action
+     * @param statusReturned Status returned by the API
+     * @param remote boolean - it's a remote message
+     */
+    private static void manageSubAction(Context context,
+                                     StatusViewHolder holder,
+                                     CrossActionHelper.TypeOfCrossAction typeOfAction,
+                                     Status statusToDeal,
+                                     Status statusReturned,
+                                     boolean remote) {
         if (statusReturned == null) {
             switch (typeOfAction) {
                 case BOOKMARK_ACTION -> statusToDeal.bookmarked = true;
@@ -378,8 +417,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }).start();
         }
         sendAction(context, Helper.ARG_STATUS_ACTION, statusToDeal, null);
-        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
     }
+
 
     /**
      * Manage status, this method is also reused in notifications timelines
@@ -3342,7 +3381,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.bindingPixelfed.artReblogPp.setVisibility(View.GONE);
             }
-
+            boolean remote = timelineType == Timeline.TimeLineEnum.REMOTE || checkRemotely;
+            SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
+            StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
             MastodonHelper.loadPPMastodon(holder.bindingPixelfed.artPp, statusToDeal.account);
             SliderAdapter adapter = new SliderAdapter(statusToDeal);
             holder.bindingPixelfed.artMedia.setSliderAdapter(adapter);
@@ -3351,6 +3394,83 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.bindingPixelfed.artMedia.setScrollTimeInSec(4);
             holder.bindingPixelfed.artMedia.startAutoCycle();
             holder.bindingPixelfed.commentNumber.setText(String.valueOf(statusToDeal.replies_count));
+            holder.bindingPixelfed.actionButtonLike.setActiveImage(R.drawable.ic_heart_filled_24);
+            holder.bindingPixelfed.actionButtonLike.setInactiveImage(R.drawable.ic_heart_24);
+            holder.bindingPixelfed.actionButtonLike.setActiveImageTint(R.color.red_color_picker);
+            holder.bindingPixelfed.actionButtonLike.setChecked(statusToDeal.favourited);
+
+            float normalSize = Helper.convertDpToPixel(28, context);
+            final float scaleIcon = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE_ICON), 1.1f);
+            holder.bindingPixelfed.actionButtonLike.setImageSize((int) (normalSize * scaleIcon));
+
+            holder.bindingPixelfed.actionButtonLike.setOnLongClickListener(v -> {
+                if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private"))) {
+                    return true;
+                }
+                CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, null, statusToDeal);
+                return true;
+            });
+            holder.bindingPixelfed.actionButtonLike.setOnClickListener(v -> {
+                if (confirmFav) {
+                    AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
+                    if (status.favourited) {
+                        alt_bld.setMessage(context.getString(R.string.favourite_remove));
+                    } else {
+                        alt_bld.setMessage(context.getString(R.string.favourite_add));
+                    }
+                    alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
+                        if (remote) {
+                            Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
+                                    .observe((LifecycleOwner) context, results -> {
+                                        if (results != null && results.statuses != null && results.statuses.size() > 0) {
+                                            Status fetchedStatus = results.statuses.get(0);
+                                            statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id)
+                                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, true));
+                                        } else {
+                                            Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        } else {
+                            if (status.favourited) {
+                                statusesVM.unFavourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                        .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.UNFAVOURITE_ACTION, statusToDeal, _status, false));
+                            } else {
+                                ((SparkButton) v).playAnimation();
+                                statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                        .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, false));
+                            }
+                        }
+                        dialog.dismiss();
+                    });
+                    alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                    AlertDialog alert = alt_bld.create();
+                    alert.show();
+                } else {
+                    if (remote) {
+                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                        searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
+                                .observe((LifecycleOwner) context, results -> {
+                                    if (results != null && results.statuses != null && !results.statuses.isEmpty()) {
+                                        Status fetchedStatus = results.statuses.get(0);
+                                        statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id)
+                                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, true));
+                                    } else {
+                                        Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        if (statusToDeal.favourited) {
+                            statusesVM.unFavourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.UNFAVOURITE_ACTION, statusToDeal, _status, false));
+                        } else {
+                            ((SparkButton) v).playAnimation();
+                            statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, false));
+                        }
+                    }
+                }
+            });
             holder.bindingPixelfed.artUsername.setText(
                     statusToDeal.account.getSpanDisplayName(context,
                             new WeakReference<>(holder.bindingPixelfed.artUsername)),
