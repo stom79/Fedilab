@@ -34,6 +34,8 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
+import static app.fedilab.android.mastodon.helper.Helper.getCurrentAccount;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -57,6 +59,7 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -3074,9 +3077,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 if (isVisible(timelineType, statusList.get(position), statusList)) {
                     if (visiblePixelfed && isVisiblePixelfed(statusList.get(position)) && timelineType != Timeline.TimeLineEnum.UNKNOWN) {
+
                         return STATUS_PIXELFED;
                     } else {
-                        return STATUS_VISIBLE;
+                        if(timelineType != Timeline.TimeLineEnum.UNKNOWN && getCurrentAccount(context).software != null && getCurrentAccount(context).software.trim().toLowerCase().equals("pixelfed")) {
+                            return STATUS_PIXELFED;
+                        } else {
+                            return STATUS_VISIBLE;
+                        }
                     }
                 } else {
                     return STATUS_HIDDEN;
