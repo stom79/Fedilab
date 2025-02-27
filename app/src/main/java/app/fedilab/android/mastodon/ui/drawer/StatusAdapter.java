@@ -58,6 +58,7 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -3374,7 +3375,25 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (viewHolder.getItemViewType() == STATUS_PIXELFED) {
             Status statusToDeal = status.reblog != null ? status.reblog : status;
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
-
+            if (measuredWidthArt <= 0) {
+                holder.bindingPixelfed.artMedia.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        holder.bindingPixelfed.artMedia.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        measuredWidthArt = holder.bindingPixelfed.artMedia.getWidth();
+                        notifyItemChanged(0, statusList.size());
+                    }
+                });
+            }
+            ConstraintLayout.LayoutParams lp;
+            if(status.media_attachments.get(0).meta != null && status.media_attachments.get(0).meta.getSmall() != null) {
+                float mediaH = status.media_attachments.get(0).meta.getSmall().height;
+                float mediaW = status.media_attachments.get(0).meta.getSmall().width;
+                float ratio = measuredWidthArt > 0 ? measuredWidthArt / mediaW : 1.0f;
+                lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
+                //holder.bindingPixelfed.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                holder.bindingPixelfed.artMedia.setLayoutParams(lp);
+            }
             if (status.reblog != null) {
                 MastodonHelper.loadPPMastodon(holder.bindingPixelfed.artReblogPp, status.account);
                 holder.bindingPixelfed.artReblogPp.setVisibility(View.VISIBLE);
@@ -3423,7 +3442,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                             searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
                                     .observe((LifecycleOwner) context, results -> {
-                                        if (results != null && results.statuses != null && results.statuses.size() > 0) {
+                                        if (results != null && results.statuses != null && !results.statuses.isEmpty()) {
                                             Status fetchedStatus = results.statuses.get(0);
                                             statusesVM.favourite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id)
                                                     .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, statusToDeal, _status, true));

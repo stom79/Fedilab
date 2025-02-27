@@ -74,13 +74,13 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         if (status.sensitive) {
             Glide.with(viewHolder.itemView)
                     .load(sliderItem.preview_url)
-                    .centerCrop()
+                    .fitCenter()
                     .apply(new RequestOptions().transform(new BlurTransformation(50, 3)))
                     .into(viewHolder.binding.ivAutoImageSlider);
         } else {
             Glide.with(viewHolder.itemView)
                     .load(sliderItem.preview_url)
-                    .centerCrop()
+                    .fitCenter()
                     .into(viewHolder.binding.ivAutoImageSlider);
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
