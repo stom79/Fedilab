@@ -213,7 +213,7 @@ public class SpannableHelper {
 
                 String sb = Pattern.compile("\\A[\\p{L}0-9_]").matcher(markdownItem.code.trim()).find() ? "\\b" : "";
                 String eb = Pattern.compile("[\\p{L}0-9_]\\z").matcher(markdownItem.code.trim()).find() ? "\\b" : "\\B";
-                Pattern p = Pattern.compile(sb + "(" + Pattern.quote(markdownItem.code.trim()) + ")" + eb);
+                Pattern p = Pattern.compile(sb + "(" + Pattern.quote(markdownItem.code.trim()) + ")" + eb, Pattern.UNICODE_CASE);
                 Matcher m = p.matcher(content);
                 int fetchPosition = 1;
                 while (m.find()) {
