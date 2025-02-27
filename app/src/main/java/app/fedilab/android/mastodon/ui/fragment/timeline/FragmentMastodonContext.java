@@ -214,7 +214,7 @@ public class FragmentMastodonContext extends Fragment {
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
         binding.swipeContainer.setOnRefreshListener(() -> {
-            if (this.statuses.size() > 0 && !refresh) {
+            if (!this.statuses.isEmpty() && !refresh) {
                 binding.swipeContainer.setRefreshing(true);
                 pullToRefresh = true;
                 statusesVM.getContext(user_instance, user_token, focusedStatus.id)
@@ -277,7 +277,7 @@ public class FragmentMastodonContext extends Fragment {
             statusAdapter.notifyItemRangeRemoved(0, size);
             statuses.add(focusedStatus);
         }
-        if (context.ancestors.size() > 0) {
+        if (!context.ancestors.isEmpty()) {
             firstStatus = context.ancestors.get(0);
         } else {
             firstStatus = statuses.get(0);

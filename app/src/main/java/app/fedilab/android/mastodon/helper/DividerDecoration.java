@@ -69,9 +69,9 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
         StatusAdapter statusAdapter = ((StatusAdapter) parent.getAdapter());
         if (statusAdapter != null && statusAdapter.getItemCount() > position && position > 0) {
             Status status = statusAdapter.getItem(position);
-
+            int indentation = (status.isFocused?1:indentationMax);
             int start = (int) Helper.convertDpToPixel(
-                    6 * fontScale * CommentDecorationHelper.getIndentation(status.in_reply_to_id, statusList, indentationMax),
+                    6 * fontScale * CommentDecorationHelper.getIndentation(status.in_reply_to_id, statusList, indentation),
                     _mContext);
 
             if (parent.getLayoutDirection() == View.LAYOUT_DIRECTION_LTR) {
@@ -95,7 +95,9 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
                 int indentation = Math.min(
                         CommentDecorationHelper.getIndentation(status.in_reply_to_id, statusList, indentationMax),
                         indentationMax);
-
+                if(status.isFocused) {
+                    indentation = 1;
+                }
                 if (indentation > 0) {
                     Paint paint = new Paint();
                     paint.setDither(false);
