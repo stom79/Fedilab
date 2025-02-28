@@ -22,7 +22,7 @@
     <string name="save">Gardar</string>
     <string name="instance">Instancia</string>
     <string name="instance_example">Instancia: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">"%1$s  é a conta activa"</string>
+    <string name="toast_account_changed" formatted="false">%1$s é a conta activa</string>
     <string name="add_account">Engadir unha conta</string>
     <string name="clipboard">Copiose ao portapapeis o contido da mensaxe</string>
     <string name="clipboard_url">Copiouse o URL da mensaxe ao portapapéis</string>
@@ -445,13 +445,7 @@
     <string name="password_too_short">O contrasinal debe conter ao menos 8 caracteres</string>
     <string name="username_error">O nome de usuaria debería ter só letras, números e guión baixo</string>
     <string name="account_created">Conta creada!</string>
-    <string name="account_created_message"> Xa tes unha conta! 
-\n 
-\n Lembra validar o email nas seguintes 48 horas. 
-\n 
-\n Xa podes acceder coa túa conta escribindo <b>%1$s</b> no primeiro campo e premendo <b>Acceder</b>. 
-\n 
-\n <b>Importante</b>: se a túa instancia require validación, recibirás un correo unha vez sexa validada! \u0020</string>
+    <string name="account_created_message">Xa tes unha conta!\n\n Lembra validar o email nas seguintes 48 horas. \n\n Xa podes acceder coa túa conta escribindo <b>%1$s</b> no primeiro campo e premendo <b>Acceder</b>. \n\n<b>Importante</b>: se a túa instancia require validación, recibirás un correo unha vez sexa validada!</string>
     <string name="save_draft">¿Gardar mensaxe en borradores?</string>
     <string name="administration">Administración</string>
     <string name="reports">Informes</string>
