@@ -3117,9 +3117,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 if (isVisible(timelineType, statusList.get(position), statusList)) {
                     if (visiblePixelfed && isVisiblePixelfed(statusList.get(position)) && timelineType != Timeline.TimeLineEnum.UNKNOWN) {
-
                         return STATUS_PIXELFED;
-                    } else {
+                    } else if(timelineType == Timeline.TimeLineEnum.REMOTE && pinnedTimeline != null && pinnedTimeline.remoteInstance != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.PIXELFED){
+                        return STATUS_PIXELFED;
+                    }else {
                         if(timelineType != Timeline.TimeLineEnum.UNKNOWN && getCurrentAccount(context).software != null && getCurrentAccount(context).software.trim().toLowerCase().equals("pixelfed")) {
                             return STATUS_PIXELFED;
                         } else {

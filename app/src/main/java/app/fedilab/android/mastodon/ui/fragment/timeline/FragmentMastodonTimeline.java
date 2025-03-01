@@ -1131,6 +1131,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 if (direction == null) {
                     timelinesVM.getPixelfedDiscoverTrending(remoteInstance)
                             .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                } else {
+                    binding.swipeContainer.setRefreshing(false);
                 }
             }else { //Other remote timelines
                 routeCommon(direction, fetchingMissing, fetchStatus);
