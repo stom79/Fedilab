@@ -39,6 +39,7 @@ import java.util.List;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.client.endpoints.MastodonTimelinesService;
+import app.fedilab.android.mastodon.client.endpoints.PixelfedTimelinesService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Conversation;
 import app.fedilab.android.mastodon.client.entities.api.Conversations;
@@ -319,6 +320,35 @@ public class TimelinesVM extends AndroidViewModel {
                         }
                     }
 
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
+            mainHandler.post(myRunnable);
+        }).start();
+        return statusesMutableLiveData;
+    }
+
+    /**
+     * Public discover timeline for Pixelfed
+     *
+     * @param instance String Pixelfed instance
+     * @return {@link LiveData} containing a {@link Statuses}
+     */
+    public LiveData<Statuses> getPixelfedDiscoverTrending(String instance) {
+        statusesMutableLiveData = new MutableLiveData<>();
+        MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance+"/api/pixelfed/v2/");
+        new Thread(() -> {
+            Statuses statuses = new Statuses();
+            Call<List<Status>> timelineCall = mastodonTimelinesService.getPixelDiscoverTrending("daily");
+            if (timelineCall != null) {
+                try {
+                    Response<List<Status>> timelineResponse = timelineCall.execute();
+                    if (timelineResponse.isSuccessful()) {
+                        statuses.statuses = timelineResponse.body();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

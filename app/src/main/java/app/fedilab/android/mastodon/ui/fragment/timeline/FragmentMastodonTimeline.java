@@ -1127,7 +1127,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                 }
                             });
                 }
-            } else { //Other remote timelines
+            } else if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.PIXELFED) {
+                if (direction == null) {
+                    timelinesVM.getPixelfedDiscoverTrending(remoteInstance)
+                            .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                }
+            }else { //Other remote timelines
                 routeCommon(direction, fetchingMissing, fetchStatus);
             }
         } else if (timelineType == Timeline.TimeLineEnum.LIST) { //LIST TIMELINE

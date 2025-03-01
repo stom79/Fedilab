@@ -231,6 +231,11 @@ public interface MastodonTimelinesService {
     Call<List<MisskeyNote>> getMisskey(@Body MisskeyNote.MisskeyParams params);
 
 
+    @GET("discover/posts/trending")
+    Call<List<Status>> getPixelDiscoverTrending(
+            @Query("range") String range
+    );
+
     @GET("api/v3/post/list?sort=New")
     Call<LemmyPost.LemmyPosts> getLemmyMain(@Query("limit") Integer limit,
                                             @Query("page") String page);

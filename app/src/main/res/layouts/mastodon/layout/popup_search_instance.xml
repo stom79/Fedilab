@@ -2,63 +2,69 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="16dp"
     android:orientation="vertical">
 
     <AutoCompleteTextView
+        android:layout_marginTop="10dp"
         android:id="@+id/search_instance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/instance"
         android:inputType="textWebEmailAddress"
         android:singleLine="true" />
-
-    <RadioGroup
-        android:id="@+id/set_attachment_group"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <RadioButton
-            android:id="@+id/mastodon_instance"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioGroup
+            android:layout_marginTop="5dp"
+            android:id="@+id/set_attachment_group"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/mastodon_instance" />
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/peertube_instance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/peertube_instance" />
+            <RadioButton
+                android:id="@+id/mastodon_instance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/mastodon_instance" />
 
-        <RadioButton
-            android:id="@+id/pixelfed_instance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pixelfed_instance" />
+            <RadioButton
+                android:id="@+id/peertube_instance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/peertube_instance" />
 
-        <RadioButton
-            android:id="@+id/misskey_instance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/misskey_instance" />
+            <RadioButton
+                android:id="@+id/pixelfed_instance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pixelfed_instance" />
 
-        <RadioButton
-            android:id="@+id/lemmy_instance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lemmy_instance" />
+            <RadioButton
+                android:id="@+id/misskey_instance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/misskey_instance" />
 
-        <RadioButton
-            android:id="@+id/gnu_instance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gnu_instance" />
+            <RadioButton
+                android:id="@+id/lemmy_instance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lemmy_instance" />
 
-        <RadioButton
-            android:id="@+id/twitter_accounts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/twitter_accounts" />
-    </RadioGroup>
+            <RadioButton
+                android:id="@+id/gnu_instance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gnu_instance" />
+
+            <RadioButton
+                android:id="@+id/twitter_accounts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/twitter_accounts" />
+        </RadioGroup>
+    </ScrollView>
 </LinearLayout>

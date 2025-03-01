@@ -200,7 +200,7 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.peertube_instance) {
                     url = "https://" + instanceName + "/api/v1/videos/";
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.pixelfed_instance) {
-                    url = "https://" + instanceName + "/api/v1/timelines/public";
+                    url = "https://" + instanceName + "/api/pixelfed/v2/discover/posts/trending?range=daily";
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.misskey_instance) {
                     url = "https://" + instanceName + "/api/notes/local-timeline";
                     getCall = false;
