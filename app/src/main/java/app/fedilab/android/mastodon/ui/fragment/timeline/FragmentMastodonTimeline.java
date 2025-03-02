@@ -1046,18 +1046,18 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             //NITTER TIMELINES
             if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
                 if (direction == null) {
-                    timelinesVM.getNitter(pinnedTimeline.remoteInstance.host, null)
+                    timelinesVM.getNitterHTML(pinnedTimeline.remoteInstance.host, null)
                             .observe(getViewLifecycleOwner(), nitterStatuses -> {
                                 initialStatuses = nitterStatuses;
                                 initializeStatusesCommonView(nitterStatuses);
                             });
                 } else if (direction == DIRECTION.BOTTOM) {
-                    timelinesVM.getNitter(pinnedTimeline.remoteInstance.host, max_id)
+                    timelinesVM.getNitterHTML(pinnedTimeline.remoteInstance.host, max_id)
                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
                 } else if (direction == DIRECTION.TOP) {
                     flagLoading = false;
                 } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
-                    timelinesVM.getNitter(pinnedTimeline.remoteInstance.host, null)
+                    timelinesVM.getNitterHTML(pinnedTimeline.remoteInstance.host, null)
                             .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                 if (statusAdapter != null) {
                                     dealWithPagination(statusesRefresh, direction, true, true, fetchStatus);

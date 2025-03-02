@@ -31,16 +31,25 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.client.endpoints.MastodonTimelinesService;
-import app.fedilab.android.mastodon.client.endpoints.PixelfedTimelinesService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Conversation;
 import app.fedilab.android.mastodon.client.entities.api.Conversations;
 import app.fedilab.android.mastodon.client.entities.api.Marker;
@@ -62,7 +71,9 @@ import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.TimelineHelper;
 import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonTimeline;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -169,6 +180,14 @@ public class TimelinesVM extends AndroidViewModel {
         return retrofit.create(MastodonTimelinesService.class);
     }
 
+    private MastodonTimelinesService initInstanceHtmlOnly(String instance) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonTimelinesService.class);
+    }
+
     private MastodonTimelinesService init(String instance) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
@@ -233,14 +252,14 @@ public class TimelinesVM extends AndroidViewModel {
      * @param max_position Return results older than this id
      * @return {@link LiveData} containing a {@link Statuses}
      */
-    public LiveData<Statuses> getNitter(
+    public LiveData<Statuses> getNitterRSS(
             String accountsStr,
             String max_position) {
         Context context = getApplication().getApplicationContext();
         SharedPreferences sharedpreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
         String instance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
-        if (instance.trim().equals("")) {
+        if (instance.trim().isEmpty()) {
             instance = context.getString(R.string.DEFAULT_NITTER_HOST);
         }
         MastodonTimelinesService mastodonTimelinesService = initInstanceXMLOnly(instance);
@@ -279,6 +298,125 @@ public class TimelinesVM extends AndroidViewModel {
             Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
             mainHandler.post(myRunnable);
         }).start();
+        return statusesMutableLiveData;
+    }
+
+
+
+    /**
+     * Public timeline for Nitter
+     *
+     * @param max_position Return results older than this id
+     * @return {@link LiveData} containing a {@link Statuses}
+     */
+    public LiveData<Statuses> getNitterHTML(
+            String accountsStr,
+            String max_position) {
+        statusesMutableLiveData = new MutableLiveData<>();
+        Context context = getApplication().getApplicationContext();
+        SharedPreferences sharedpreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String instance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+        if (instance.trim().isEmpty()) {
+            instance = context.getString(R.string.DEFAULT_NITTER_HOST);
+        }
+        //TODO: remove after tests
+        instance = "nitter.privacydev.net";
+
+        accountsStr = accountsStr.replaceAll("\\s", ",").replaceAll(",,",",");
+        String maxposition = max_position == null ? "" : "?max_position="+max_position;
+        String url = "https://" + instance + "/" + accountsStr + "/with_replies"+maxposition;
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS).build();
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+                .header("accept-language","en-US;q=0.6")
+                .header("dnt","1")
+                .header("user-agent","Mozilla/5.0 (X11; Linux i686; rv:135.0) Gecko/20100101 Firefox/135.0")
+                .get()
+                .build();
+        String finalInstance = instance;
+        String finalInstance1 = instance;
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull okhttp3.Call call, @NonNull IOException e) {
+            }
+
+            @Override
+            public void onResponse(@NonNull okhttp3.Call call, @NonNull okhttp3.Response response) throws IOException {
+
+                Statuses statuses = new Statuses();
+                if (response.isSuccessful()) {
+                    try {
+                        String data = response.body().string();
+
+                        Document doc = Jsoup.parse(data);
+                        Elements timelineItems = doc.select(".timeline-item");
+
+                        List<Status> statusList = new ArrayList<>();
+                        for(Element timelineItem: timelineItems) {
+
+                            //Not a RT
+                            if(timelineItem.select(".icon-retweet").html().trim().isEmpty()) {
+                                Status status = new Status();
+                                Account account = new Account();
+
+                                String[] splitLink = timelineItem.select(".tweet-link").text().split("/");
+                                String status_id = splitLink[splitLink.length-1];
+                                String pubDate = timelineItem.select(".tweet-date").select("a").attr("title");
+                                String name = timelineItem.select(".fullname").text();
+                                String userName = timelineItem.select(".username").text();
+                                String avatar = "https://"+ finalInstance + timelineItem.select(".avatar").attr("src");
+                                account.id = userName;
+                                account.acct = userName;
+                                account.username = userName;
+                                account.display_name = name;
+                                account.avatar = avatar;
+                                account.avatar_static = avatar;
+                                account.url = "https://"+ finalInstance +"/" + userName;
+
+                                status.id = status_id;
+                                status.account = account;
+                                status.url = "https://"+ finalInstance +timelineItem.select(".tweet-link").attr("href");
+                                status.content = timelineItem.select(".tweet-content").text();
+                                Pattern imgPattern = Pattern.compile("<img [^>]*src=\"([^\"]+)\"[^>]*>");
+                                Matcher matcher = imgPattern.matcher(status.content);
+                                String description = status.content;
+                                ArrayList<Attachment> attachmentList = new ArrayList<>();
+                                while (matcher.find()) {
+                                    description = description.replaceAll(Pattern.quote(matcher.group()), "");
+                                    Attachment attachment = new Attachment();
+                                    attachment.type = "image";
+                                    attachment.url = matcher.group(1);
+                                    attachment.preview_url = matcher.group(1);
+                                    attachment.id = matcher.group(1);
+                                    attachmentList.add(attachment);
+                                }
+                                status.visibility = "public";
+                                status.media_attachments = attachmentList;
+                                String dateformat = "MMM d', 'yyyy' · 'h:m a' UTC'";
+                                status.created_at = Helper.stringToDateWithFormat(context, pubDate, dateformat);
+                                statusList.add(status);
+                            }
+                        }
+                        statuses.statuses = statusList;
+                        String max_id = response.headers().get("min-id");
+                        statuses.pagination = new Pagination();
+                        statuses.pagination.max_id = max_id;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
+                mainHandler.post(myRunnable);
+            }
+        });
+
         return statusesMutableLiveData;
     }
 
