@@ -147,8 +147,7 @@
     <!-- Accounts -->
     <string name="no_accounts">Žádný účet k zobrazení</string>
     <string name="no_follow_request">Žádný požadavek ke sledování</string>
-    <string name="status_cnt">Zprávy
-\n %1$s</string>
+    <string name="status_cnt">Zprávy \n %1$s</string>
     <string name="following_cnt">Sleduji \n %1$s</string>
     <string name="followers_cnt">Sledující
 \n %1$s</string>
@@ -611,7 +610,7 @@
     <string name="toots_visibility_title">Výchozí viditelnost zpráv:</string>
     <string name="set_notifications_page">Počet upozornění na jedno načtení</string>
     <string name="replace_reddit_host">Doména frontendu Redditu</string>
-    <string name="hide_content">Skrýt obsah &lt;</string>
+    <string name="hide_content"><![CDATA[Skrýt obsah <]]></string>
     <string name="report_val2">Je to spam</string>
     <string name="report_val_more2">Škodlivé odkazy, falešné zapojení nebo opakující se odpovědi</string>
     <string name="report_val_more4">Problém nespadá do žádné jiné kategorie</string>
@@ -714,7 +713,7 @@
     <string name="data_import_settings_success">Nastavení byla úspěšně importována</string>
     <string name="save_changes">Uložit změny</string>
     <string name="set_bot_content">Účet bota</string>
-    <string name="show_content">Ukázat obsah &gt;</string>
+    <string name="show_content"><![CDATA[Ukázat obsah >]]></string>
     <string name="report_1_mute">Neuvidíte jejich příspěvky. Mohou vás stále sledovat a vidět vaše příspěvky a nedozví se, že jste je ztlumili.</string>
     <string name="report_more">Je ještě něco jiného, co si myslíte, že bychom měli vědět\?</string>
     <string name="profiled_updated">Profil byl aktualizován!</string>
@@ -1089,4 +1088,5 @@
     <string name="Pronouns">Zájmena</string>
     <string name="pronouns_support">Podpora zájmen</string>
     <string name="qr_code_generator">Generátor QR kódů</string>
+    <string name="toast_error_internet">Není k dispozici internetové připojení!</string>
 </resources>
