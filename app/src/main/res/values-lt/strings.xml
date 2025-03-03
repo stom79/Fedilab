@@ -1,2 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="cancel">Atšaukti</string>
+    <string name="manage_tags">Tvarkyti žymes</string>
+    <string name="tags_stored">Žymė išsaugota!</string>
+    <string name="tags_deleted">Žymė pašalinta!</string>
+    <string name="release_notes">Laidos pastabos</string>
+    <string name="set_disable_release_notes">Išjungti laidos pastabas</string>
+    <string name="set_disable_release_notes_indication">Kai bus publikuota nauja versija, nebūsite įspėti programėlėje.</string>
+    <string name="action_about">Apie</string>
+    <string name="action_about_instance">Apie šį serverį</string>
+    <string name="action_privacy">Privatumas</string>
+    <string name="action_logout">Atsijungti</string>
+    <string name="close">Užverti</string>
+    <string name="yes">Taip</string>
+    <string name="no">Ne</string>
+    <string name="download">Atsisiųsti</string>
+    <string name="download_file">Atsisiųsti %1$s</string>
+    <string name="save_over">Medija išsaugota</string>
+    <string name="download_from" formatted="false">Failas: %1$s</string>
+    <string name="password">Slaptažodis</string>
+    <string name="email">El. paštas</string>
+    <string name="accounts">Paskyros</string>
+    <string name="toots">Žinutės</string>
+    <string name="action_cache">Podėlis</string>
+    <string name="tags">Žymės</string>
+    <string name="save">Išsaugoti</string>
+    <string name="tag_already_followed">Jau sekate šią žymę!</string>
+    <string name="about_vesrion">%1$s laida</string>
+    <string name="about_thekinrar">Ieškokite serverių:</string>
+    <string name="toast_error_search">Įvyko klaida ieškant.</string>
+    <string name="search">Paieška</string>
+    <string name="cache_units">MB</string>
+    <string name="action_partnership">Partnerystės</string>
+    <string name="support_the_app_on_liberapay">Paremti programėlę platformoje „Liberapay“</string>
+    <string name="peertube_instance">„Peertube“ serveris</string>
+    <string name="tags_already_stored">Žymė jau egzistuoja!</string>
+    <string name="show_media_only">Tik medija</string>
+    <string name="show_media_nsfw">Rodyti NSD</string>
+    <string name="bot">Robotas</string>
+    <string name="pixelfed_instance">„Pixelfed“ serveris</string>
+    <string name="mastodon_instance">„Mastodon“ serveris</string>
+    <string name="change_tag_column">Keisti stulpelio pavadinimą</string>
+    <string name="misskey_instance">„Misskey“ serveris</string>
+    <string name="lemmy_instance">„Lemmy“ serveris</string>
+    <string name="trending">Tendencinga</string>
+    <string name="local">Vietinis</string>
+    <string name="category">Kategorija</string>
+    <string name="description">Aprašas</string>
+    <string name="share">Bendrinti</string>
+    <string name="set_clear_cache_exit">Valyti podėlį išeinant</string>
+</resources>
