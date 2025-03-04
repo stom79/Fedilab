@@ -1,0 +1,11 @@
+Added:
+- Allow to follow the discover timelines of Pixelfed instances
+- Allow to login with a token
+
+Change:
+- Use Pixelfed layout when following Pixelfed instance
+- Allow to scroll buttons for larger screen in conversation
+
+Fixed:
+- Nitter to follow Twitter accounts
+- Some minor crashes
