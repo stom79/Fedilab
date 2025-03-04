@@ -3406,7 +3406,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
             }
             ConstraintLayout.LayoutParams lp;
-            if(status.media_attachments.get(0).meta != null && status.media_attachments.get(0).meta.getSmall() != null) {
+            if(!status.media_attachments.isEmpty() && status.media_attachments.get(0).meta != null && status.media_attachments.get(0).meta.getSmall() != null) {
                 float mediaH = status.media_attachments.get(0).meta.getSmall().height;
                 float mediaW = status.media_attachments.get(0).meta.getSmall().width;
                 float ratio = measuredWidthArt > 0 ? measuredWidthArt / mediaW : 1.0f;
