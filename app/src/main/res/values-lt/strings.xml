@@ -21,7 +21,7 @@
     <string name="password">Slaptažodis</string>
     <string name="email">El. paštas</string>
     <string name="accounts">Paskyros</string>
-    <string name="toots">Žinutės</string>
+    <string name="toots">Įrašai</string>
     <string name="action_cache">Podėlis</string>
     <string name="tags">Žymės</string>
     <string name="save">Išsaugoti</string>
@@ -49,4 +49,17 @@
     <string name="description">Aprašas</string>
     <string name="share">Bendrinti</string>
     <string name="set_clear_cache_exit">Valyti podėlį išeinant</string>
+    <string name="scheduled">Suplanuoti</string>
+    <string name="schedule">Planuoti</string>
+    <string name="settings">Nustatymai</string>
+    <string name="scheduled_toots">Suplanuoti įrašai</string>
+    <string name="no_scheduled_toots">Nėra rodomų suplanuotų įrašų!</string>
+    <string name="remove_scheduled">Ištrinti suplanuotą įrašą?</string>
+    <string name="toot_scheduled">Įrašas suplanuotas.</string>
+    <string name="toot_scheduled_date">Suplanuota data turi būti ilgesnė už dabartinę valandą.</string>
+    <string name="schedule_boost">Planuoti pasidalinimą</string>
+    <string name="boost_scheduled">Pasidalinimas suplanuotas.</string>
+    <string name="no_scheduled_boosts">Nėra rodomų suplanuotų pasidalinimų!</string>
+    <string name="reorder_timelines">Tvarkyti laiko skales</string>
+    <string name="add_instances">Įtraukti serverį</string>
 </resources>
