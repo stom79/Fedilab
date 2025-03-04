@@ -528,86 +528,91 @@
             tools:text="Fedilab"
             tools:visibility="visible" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/status_info"
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fillViewport="true"
             android:layout_marginStart="48dp"
             android:layout_marginTop="6dp"
-            android:layout_marginEnd="6dp"
-            android:alpha="0.8"
-            android:gravity="center_vertical"
-            android:padding="6dp"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="1 January 2021, 12:00" />
-
+            android:layout_marginEnd="6dp">
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/reblog_info"
-                android:layout_width="wrap_content"
+                android:id="@+id/status_info"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:alpha="0.8"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:padding="6dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="1 January 2021, 12:00" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/reblog_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/repeat_info"
+                        android:contentDescription="@string/reblog"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="12dp"
+                        app:srcCompat="@drawable/ic_repeat" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/reblogs_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="10" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/favourite_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/fav_info"
+                        android:layout_width="20dp"
+                        android:contentDescription="@string/favourite"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="12dp"
+                        app:srcCompat="@drawable/ic_star_outline" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/favorites_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="10" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/repeat_info"
-                    android:contentDescription="@string/reblog"
+                    android:id="@+id/visibility"
+                    android:contentDescription="@string/visibility"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="12dp"
-                    app:srcCompat="@drawable/ic_repeat" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/reblogs_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="10" />
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/ic_baseline_public_24" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+        </HorizontalScrollView>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/favourite_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/fav_info"
-                    android:layout_width="20dp"
-                    android:contentDescription="@string/favourite"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="12dp"
-                    app:srcCompat="@drawable/ic_star_outline" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/favorites_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="10" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/visibility"
-                android:contentDescription="@string/visibility"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="12dp"
-                android:adjustViewBounds="true"
-                app:srcCompat="@drawable/ic_baseline_public_24" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/action_share_container"

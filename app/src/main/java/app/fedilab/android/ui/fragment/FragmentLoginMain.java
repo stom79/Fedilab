@@ -22,7 +22,6 @@ import static app.fedilab.android.activities.LoginActivity.client_secretLogin;
 import static app.fedilab.android.activities.LoginActivity.currentInstanceLogin;
 import static app.fedilab.android.activities.LoginActivity.requestedAdmin;
 import static app.fedilab.android.activities.LoginActivity.softwareLogin;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.Manifest;
 import android.content.Intent;
@@ -263,7 +262,7 @@ public class FragmentLoginMain extends Fragment {
                 if (apiLogin != Account.API.PEERTUBE) {
                     retrievesClientId(currentInstanceLogin);
                 } else {
-                    Intent peertubeLogin = new Intent(requireActivity(), LoginActivity.class);
+                    Intent peertubeLogin = new Intent(requireActivity(), app.fedilab.android.peertube.activities.LoginActivity.class);
                     peertubeLogin.putExtra(Helper.ARG_INSTANCE, instance);
                     startActivity(peertubeLogin);
                     requireActivity().finish();
