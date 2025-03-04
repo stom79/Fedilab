@@ -148,7 +148,7 @@ public class CrossActionHelper {
             }
             searchVM.search(ownerAccount.instance, ownerAccount.token, search, null, "accounts", false, true, false, 0, null, null, 1)
                     .observe((LifecycleOwner) context, results -> {
-                        if (results.accounts != null && results.accounts.size() > 0) {
+                        if (results != null && results.accounts != null && !results.accounts.isEmpty()) {
                             app.fedilab.android.mastodon.client.entities.api.Account account = results.accounts.get(0);
                             applyAction(context, actionType, ownerAccount, account, null);
                         } else {
@@ -158,7 +158,7 @@ public class CrossActionHelper {
         } else if (targetedStatus != null) {
             searchVM.search(ownerAccount.instance, ownerAccount.token, targetedStatus.uri, null, "statuses", false, true, false, 0, null, null, 1)
                     .observe((LifecycleOwner) context, results -> {
-                        if (results != null && results.statuses != null && results.statuses.size() > 0) {
+                        if (results != null && results.statuses != null && !results.statuses.isEmpty()) {
                             Status status = results.statuses.get(0);
                             applyAction(context, actionType, ownerAccount, null, status);
                         } else {
