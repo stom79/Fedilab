@@ -494,6 +494,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             LinearLayoutCompat.MarginLayoutParams psc = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusContent.getLayoutParams();
             psc.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.statusContent.setLayoutParams(psc);
+            LinearLayoutCompat.MarginLayoutParams psq = (LinearLayoutCompat.MarginLayoutParams) holder.binding.quotedMessage.cardviewContainer.getLayoutParams();
+            psq.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.quotedMessage.cardviewContainer.setLayoutParams(psq);
             LinearLayoutCompat.MarginLayoutParams pct = (LinearLayoutCompat.MarginLayoutParams) holder.binding.containerTrans.getLayoutParams();
             pct.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.containerTrans.setLayoutParams(psc);
@@ -521,6 +524,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             LinearLayoutCompat.MarginLayoutParams pab = (LinearLayoutCompat.MarginLayoutParams) holder.binding.actionButtons.getLayoutParams();
             pab.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.actionButtons.setLayoutParams(pab);
+        } else {
+            LinearLayoutCompat.MarginLayoutParams psq = (LinearLayoutCompat.MarginLayoutParams) holder.binding.quotedMessage.cardviewContainer.getLayoutParams();
+            psq.setMarginStart((int) Helper.convertDpToPixel(48, context));
+            holder.binding.quotedMessage.cardviewContainer.setLayoutParams(psq);
         }
 
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
