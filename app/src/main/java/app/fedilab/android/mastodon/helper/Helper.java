@@ -61,7 +61,6 @@ import android.provider.OpenableColumns;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -647,9 +646,9 @@ public class Helper {
      */
     public static Date stringToDateWithFormat(Context context, String stringDate, String format) {
         if (stringDate == null)
-            return null;
+            return new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
-        Date date = null;
+        Date date = new Date();
         try {
             date = dateFormat.parse(stringDate);
         } catch (java.text.ParseException ignored) {

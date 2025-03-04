@@ -58,7 +58,6 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -567,15 +566,19 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                     return;
                 }
-                Intent intent = new Intent(context, ContextActivity.class);
-                Bundle args = new Bundle();
-                args.putSerializable(Helper.ARG_STATUS, statusToDeal.quote);
-                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
-                });
+                if (!remote) {
+                    Intent intent = new Intent(context, ContextActivity.class);
+                    Bundle args = new Bundle();
+                    args.putSerializable(Helper.ARG_STATUS, statusToDeal.quote);
+                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    });
+                } else {
+                    Helper.openBrowser(context,statusToDeal.quote.url);
+                }
             });
             holder.binding.quotedMessage.cardviewContainer.setStrokeColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
             holder.binding.quotedMessage.statusContent.setText(
@@ -1453,15 +1456,24 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         //--- BOOSTER INFO ---
         if (status.reblog != null) {
-            MastodonHelper.loadPPMastodon(holder.binding.statusBoosterAvatar, status.account);
-
+            if(status.account.avatar != null) {
+                MastodonHelper.loadPPMastodon(holder.binding.statusBoosterAvatar, status.account);
+                holder.binding.statusBoosterAvatar.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.statusBoosterAvatar.setVisibility(View.GONE);
+            }
             holder.binding.statusBoosterDisplayName.setText(
                     status.account.getSpanDisplayName(context,
                             new WeakReference<>(holder.binding.statusBoosterDisplayName)),
                     TextView.BufferType.SPANNABLE);
 
             holder.binding.statusBoosterInfo.setVisibility(View.VISIBLE);
-            holder.binding.statusBoosterUsername.setText(String.format("@%s", status.account.acct));
+            if(status.account.acct != null) {
+                holder.binding.statusBoosterUsername.setText(String.format("@%s", status.account.acct));
+                holder.binding.statusBoosterUsername.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.statusBoosterUsername.setVisibility(View.GONE);
+            }
         } else {
             holder.binding.statusBoosterInfo.setVisibility(View.GONE);
         }

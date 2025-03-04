@@ -612,7 +612,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/action_share_container"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
@@ -625,12 +625,11 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/action_share"
                 style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconGravity="textStart"
                 android:adjustViewBounds="true"
                 app:icon="@drawable/ic_baseline_share_24"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp"
                 app:strokeColor="?colorPrimary" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 

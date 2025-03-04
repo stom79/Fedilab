@@ -41,15 +41,12 @@ import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.client.endpoints.MastodonTimelinesService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
-import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Conversation;
 import app.fedilab.android.mastodon.client.entities.api.Conversations;
 import app.fedilab.android.mastodon.client.entities.api.Marker;
@@ -255,19 +252,12 @@ public class TimelinesVM extends AndroidViewModel {
     public LiveData<Statuses> getNitterRSS(
             String accountsStr,
             String max_position) {
-        Context context = getApplication().getApplicationContext();
-        SharedPreferences sharedpreferences = PreferenceManager
-                .getDefaultSharedPreferences(context);
-        String instance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
-        if (instance.trim().isEmpty()) {
-            instance = context.getString(R.string.DEFAULT_NITTER_HOST);
-        }
-        MastodonTimelinesService mastodonTimelinesService = initInstanceXMLOnly(instance);
+        MastodonTimelinesService mastodonTimelinesService = initInstanceXMLOnly("nitter.fedilab.app");
         accountsStr = accountsStr.replaceAll("\\s", ",");
 
         statusesMutableLiveData = new MutableLiveData<>();
         String finalAccountsStr = accountsStr;
-        String finalInstance = instance;
+
         new Thread(() -> {
             Call<Nitter> publicTlCall = mastodonTimelinesService.getNitter(finalAccountsStr, max_position);
             Statuses statuses = new Statuses();
@@ -280,7 +270,7 @@ public class TimelinesVM extends AndroidViewModel {
                         if (rssResponse != null && rssResponse.mFeedItems != null) {
                             for (Nitter.FeedItem feedItem : rssResponse.mFeedItems) {
                                 if (!feedItem.title.startsWith("RT by")) {
-                                    Status status = Nitter.convert(getApplication(), finalInstance, feedItem);
+                                    Status status = Nitter.convert(getApplication(), "nitter.fedilab.app", feedItem);
                                     statusList.add(status);
                                 }
                             }
@@ -314,99 +304,75 @@ public class TimelinesVM extends AndroidViewModel {
             String max_position) {
         statusesMutableLiveData = new MutableLiveData<>();
         Context context = getApplication().getApplicationContext();
-        SharedPreferences sharedpreferences = PreferenceManager
-                .getDefaultSharedPreferences(context);
-        String instance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
-        if (instance.trim().isEmpty()) {
-            instance = context.getString(R.string.DEFAULT_NITTER_HOST);
-        }
-        //TODO: remove after tests
-        instance = "nitter.privacydev.net";
-
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final String nitterInstance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+        final String fedilabInstance =  "nitter.fedilab.app";
         accountsStr = accountsStr.replaceAll("\\s", ",").replaceAll(",,",",");
-        String maxposition = max_position == null ? "" : "?max_position="+max_position;
-        String url = "https://" + instance + "/" + accountsStr + "/with_replies"+maxposition;
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-
-                .writeTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(10, TimeUnit.SECONDS).build();
+        String cursor = max_position == null ? "" : max_position;
+        String url = "https://"+fedilabInstance+"/" + accountsStr + "/with_replies" +cursor;
         Request request = new Request.Builder()
+                .header("User-Agent", context.getString(R.string.app_name) + "/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE)
                 .url(url)
-                .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-                .header("accept-language","en-US;q=0.6")
-                .header("dnt","1")
-                .header("user-agent","Mozilla/5.0 (X11; Linux i686; rv:135.0) Gecko/20100101 Firefox/135.0")
-                .get()
                 .build();
-        String finalInstance = instance;
-        String finalInstance1 = instance;
-        client.newCall(request).enqueue(new Callback() {
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull okhttp3.Call call, @NonNull IOException e) {
             }
 
             @Override
             public void onResponse(@NonNull okhttp3.Call call, @NonNull okhttp3.Response response) throws IOException {
-
                 Statuses statuses = new Statuses();
+
                 if (response.isSuccessful()) {
                     try {
                         String data = response.body().string();
-
                         Document doc = Jsoup.parse(data);
                         Elements timelineItems = doc.select(".timeline-item");
 
                         List<Status> statusList = new ArrayList<>();
                         for(Element timelineItem: timelineItems) {
-
-                            //Not a RT
-                            if(timelineItem.select(".icon-retweet").html().trim().isEmpty()) {
-                                Status status = new Status();
-                                Account account = new Account();
-
-                                String[] splitLink = timelineItem.select(".tweet-link").text().split("/");
-                                String status_id = splitLink[splitLink.length-1];
-                                String pubDate = timelineItem.select(".tweet-date").select("a").attr("title");
-                                String name = timelineItem.select(".fullname").text();
-                                String userName = timelineItem.select(".username").text();
-                                String avatar = "https://"+ finalInstance + timelineItem.select(".avatar").attr("src");
-                                account.id = userName;
-                                account.acct = userName;
-                                account.username = userName;
-                                account.display_name = name;
-                                account.avatar = avatar;
-                                account.avatar_static = avatar;
-                                account.url = "https://"+ finalInstance +"/" + userName;
-
-                                status.id = status_id;
-                                status.account = account;
-                                status.url = "https://"+ finalInstance +timelineItem.select(".tweet-link").attr("href");
-                                status.content = timelineItem.select(".tweet-content").text();
-                                Pattern imgPattern = Pattern.compile("<img [^>]*src=\"([^\"]+)\"[^>]*>");
-                                Matcher matcher = imgPattern.matcher(status.content);
-                                String description = status.content;
-                                ArrayList<Attachment> attachmentList = new ArrayList<>();
-                                while (matcher.find()) {
-                                    description = description.replaceAll(Pattern.quote(matcher.group()), "");
-                                    Attachment attachment = new Attachment();
-                                    attachment.type = "image";
-                                    attachment.url = matcher.group(1);
-                                    attachment.preview_url = matcher.group(1);
-                                    attachment.id = matcher.group(1);
-                                    attachmentList.add(attachment);
-                                }
-                                status.visibility = "public";
-                                status.media_attachments = attachmentList;
-                                String dateformat = "MMM d', 'yyyy' · 'h:m a' UTC'";
-                                status.created_at = Helper.stringToDateWithFormat(context, pubDate, dateformat);
-                                statusList.add(status);
+                            if(!timelineItem.select(".unavailable").html().isEmpty() || timelineItem.select(".tweet-link").attr("href").isEmpty()) {
+                                continue;
                             }
+                            //RT
+                            boolean isBoosted = !timelineItem.select(".retweet-header").select(".icon-container").isEmpty();
+                            Status status = Nitter.nitterHTMLParser(context, timelineItem, nitterInstance);
+
+                            //Quoted message
+
+                            if(!timelineItem.select(".quote").html().isEmpty()) {
+                                status.quote = Nitter.nitterHTMLParser(context, timelineItem.select(".quote").first(), nitterInstance);
+                            }
+
+                            Status finalStatus;
+                            if(isBoosted) {
+                                finalStatus = new Status();
+                                finalStatus.reblog = status;
+                                finalStatus.id = status.id;
+                                finalStatus.visibility = "public";
+                                finalStatus.url = "https://"+ nitterInstance +timelineItem.select(".tweet-link").attr("href");
+                                finalStatus.uri = finalStatus.url;
+                                Account acccountOriginal = new Account();
+                                acccountOriginal.display_name = timelineItem.select(".retweet-header").select(".icon-container").text();
+                                finalStatus.account = acccountOriginal;
+                            } else {
+                                finalStatus = status;
+                            }
+                            statusList.add(finalStatus);
                         }
+
                         statuses.statuses = statusList;
-                        String max_id = response.headers().get("min-id");
+                        Elements elementsShow = doc.select(".show-more a");
+                        Element showMore = null;
+                        if(elementsShow.size() > 1) {
+                            showMore = elementsShow.get(elementsShow.size()-1);
+                        } else {
+                            showMore = elementsShow.get(0);
+                        }
+                        String cursor = showMore.attr("href");
                         statuses.pagination = new Pagination();
-                        statuses.pagination.max_id = max_id;
+                        statuses.pagination.max_id = cursor;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

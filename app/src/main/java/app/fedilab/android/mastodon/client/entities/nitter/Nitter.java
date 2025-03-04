@@ -14,10 +14,12 @@ package app.fedilab.android.mastodon.client.entities.nitter;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import org.jsoup.select.Elements;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Namespace;
@@ -29,6 +31,7 @@ import java.net.IDN;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,7 +85,8 @@ public class Nitter implements Serializable {
         status.text = feedItem.title;
         status.content = status.content.replaceAll("<img [^>]*src=\"[^\"]+\"[^>]*>", "");
         status.visibility = "public";
-        status.created_at = Helper.stringToDateWithFormat(context, feedItem.pubDate, "EEE, dd MMM yyyy HH:mm:ss zzz");
+        String dateFormat = "E', 'dd' 'MMM' 'yyyy' 'hh:m:s' GMT'";
+        status.created_at = Helper.stringToDateWithFormat(context, feedItem.pubDate, dateFormat);
         status.uri = feedItem.guid;
         status.url = feedItem.link;
         if (!accounts.containsKey(feedItem.creator)) {
@@ -174,6 +178,85 @@ public class Nitter implements Serializable {
                     + description + "\r" + "pubDate: " + pubDate + "\r"
                     + "guid: " + guid + "\r" + "link: " + link;
         }
+    }
+
+
+    public static Status nitterHTMLParser(Context context, org.jsoup.nodes.Element timelineItem, String nitterInstance) {
+
+        if(timelineItem == null) {
+            return null;
+        }
+        Status status = new Status();
+        Account account = new Account();
+        String fedilabInstance = "nitter.fedilab.app";
+
+
+        org.jsoup.nodes.Element messageLink;
+        if(timelineItem.select(".quote-text").html().isEmpty()) {
+            status.content = timelineItem.select(".tweet-content").html();
+            status.text = timelineItem.select(".tweet-content").text();
+            status.url = "https://"+ nitterInstance +timelineItem.select(".tweet-link").attr("href");
+            messageLink =  timelineItem.select(".tweet-link").first();
+        } else {
+            status.content = timelineItem.select(".quote-text").html();
+            status.text = timelineItem.select(".quote-text").text();
+            status.url = "https://"+ nitterInstance +timelineItem.select(".quote-link").attr("href");
+            messageLink =  timelineItem.select(".quote-link").first();
+        }
+        status.uri = status.url;
+
+        String status_id = String.valueOf(ThreadLocalRandom.current().nextLong(10,10000000));;
+        if(messageLink != null){
+            String[] splitLink = messageLink.attr("href").split("/");
+            status_id = splitLink[splitLink.length-1];
+        }
+        String pubDate = timelineItem.select(".tweet-date").select("a").attr("title");
+        org.jsoup.nodes.Element nameElement = timelineItem.select(".fullname").first();
+        String name = nameElement!= null?nameElement.text():"";
+        org.jsoup.nodes.Element userNameElement = timelineItem.select(".username").first();
+        String userName = userNameElement!= null?userNameElement.text().replace("@",""):"";
+        String avatar = "https://" + fedilabInstance + timelineItem.select(".avatar").attr("src");
+        account.id = userName;
+        account.acct = userName;
+        if(timelineItem.select(".replying-to").html().isEmpty()) {
+            account.username = userName;
+            account.display_name = name;
+        } else {
+            account.display_name = timelineItem.select(".fullname").text() +"&nbsp;" +timelineItem.select(".replying-to").text();
+        }
+
+        account.avatar = avatar;
+        account.avatar_static = avatar;
+        account.url = "https://"+ nitterInstance +"/" + userName;
+        status.id = status_id;
+        status.account = account;
+
+
+
+        Elements imageElements = timelineItem.select(".attachments").select("img");
+        Elements videoElements = timelineItem.select(".attachments").select("video");
+        ArrayList<Attachment> attachmentList = new ArrayList<>();
+        for(org.jsoup.nodes.Element imageElement: imageElements) {
+            Attachment attachment = new Attachment();
+            attachment.type = "image";
+            attachment.url = "https://"+fedilabInstance+imageElement.attr("src");
+            attachment.preview_url = "https://"+fedilabInstance+imageElement.attr("src");
+            attachment.id = imageElement.attr("src");
+            attachmentList.add(attachment);
+        }
+        for(org.jsoup.nodes.Element videoElement: videoElements) {
+            Attachment attachment = new Attachment();
+            attachment.type = "video";
+            attachment.url = "https://"+fedilabInstance+videoElement.child(0).attr("src");
+            attachment.preview_url = "https://"+fedilabInstance+videoElement.attr("poster");
+            attachment.id = videoElement.attr("poster");
+            attachmentList.add(attachment);
+        }
+        status.visibility = "public";
+        status.media_attachments = attachmentList;
+        String dateFormat = "MMM d', 'yyyy' · 'h:m a' UTC'";
+        status.created_at = Helper.stringToDateWithFormat(context, pubDate, dateFormat);
+        return status;
     }
 
 
