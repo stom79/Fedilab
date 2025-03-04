@@ -11,7 +11,11 @@
         android:checkable="true"
         android:title="@string/admin_scope"
         app:actionViewClass="android.widget.CheckBox" />
-
+    <item
+        android:id="@+id/action_use_token"
+        android:checkable="true"
+        android:title="@string/use_token"
+        app:actionViewClass="android.widget.CheckBox" />
     <item
         android:id="@+id/action_import_data"
         android:title="@string/import_data"

@@ -23,6 +23,7 @@
     <string name="save">Save</string>
     <string name="instance">Instance</string>
     <string name="instance_example">Instance: mastodon.social</string>
+    <string name="instance_token">Your token</string>
     <string name="toast_account_changed" formatted="false">Now works with the account %1$s</string>
     <string name="add_account">Add an account</string>
     <string name="clipboard">The content of the message has been copied to the clipboard</string>
@@ -200,6 +201,7 @@
     <string name="toast_error_internet">There is no Internet connection!</string>
     <string name="toast_code_error">An error occurred! The instance did not return an authorisation code!</string>
     <string name="toast_error_instance">The instance domain does not seem to be valid!</string>
+    <string name="toast_error_token_empty">The token cannot be empty!</string>
     <string name="toast_error_loading_account">An error occurred while switching between accounts!</string>
     <string name="toast_error_search">An error occurred while searching!</string>
     <string name="nothing_to_do">No action can be taken</string>
@@ -1273,6 +1275,7 @@
     <string name="also_favourite_by">"Also favourited by: "</string>
     <string name="also_boosted_by">Also boosted by:</string>
     <string name="admin_scope">I am a moderator</string>
+    <string name="use_token">Use a token</string>
     <string name="last_active">Last active</string>
     <string name="location">Location</string>
     <string name="staff">Staff</string>
@@ -1308,6 +1311,7 @@
     <string name="set_your_max_char_count">Set your max char count</string>
     <string name="release_notes">Release notes</string>
     <string name="toast_token">The app failed to get a token</string>
+    <string name="toast_fail_authenticate">The app failed to authenticate the account!</string>
     <string name="media_cannot_be_uploaded">Media cannot be uploaded!</string>
     <string name="open_draft">Open draft</string>
     <string name="set_push_notifications_delay">Set the delay between each new fetch</string>

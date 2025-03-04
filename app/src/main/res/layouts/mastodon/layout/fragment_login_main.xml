@@ -18,6 +18,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:windowBackground">
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -35,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@id/continue_button"
+        app:layout_constraintBottom_toTopOf="@id/login_token_layout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed">
 
@@ -51,6 +52,30 @@
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:id="@+id/login_token_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/continue_button"
+        app:layout_constraintTop_toBottomOf="@+id/login_instance_layout"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/login_token"
+            style="@style/Widget.Material3.TextInputEditText.FilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/instance_token"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/continue_button"
         android:layout_width="wrap_content"
@@ -60,7 +85,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_instance_layout" />
+        app:layout_constraintTop_toBottomOf="@id/login_token_layout" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/no_account_q"

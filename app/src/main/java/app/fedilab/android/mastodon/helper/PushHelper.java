@@ -100,8 +100,10 @@ public class PushHelper {
                 WorkManager.getInstance(context).cancelAllWorkByTag(Helper.WORKER_REFRESH_NOTIFICATION);
                 new Thread(() -> {
                     List<BaseAccount> accounts = new Account(context).getPushNotificationAccounts();
-                    for (BaseAccount account : accounts) {
-                        ((Activity) context).runOnUiThread(() -> UnifiedPush.unregister(context, account.user_id + "@" + account.instance));
+                    if(accounts != null) {
+                        for (BaseAccount account : accounts) {
+                            ((Activity) context).runOnUiThread(() -> UnifiedPush.unregister(context, account.user_id + "@" + account.instance));
+                        }
                     }
                 }).start();
                 break;

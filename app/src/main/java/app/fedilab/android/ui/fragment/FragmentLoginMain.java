@@ -22,6 +22,7 @@ import static app.fedilab.android.activities.LoginActivity.client_secretLogin;
 import static app.fedilab.android.activities.LoginActivity.currentInstanceLogin;
 import static app.fedilab.android.activities.LoginActivity.requestedAdmin;
 import static app.fedilab.android.activities.LoginActivity.softwareLogin;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.Manifest;
 import android.content.Intent;
@@ -57,6 +58,7 @@ import java.net.URL;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
+import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.databinding.FragmentLoginMainBinding;
 import app.fedilab.android.mastodon.activities.ProxyActivity;
 import app.fedilab.android.mastodon.client.entities.app.Account;
@@ -65,10 +67,12 @@ import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.helper.ZipHelper;
+import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.AdminVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AppsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.InstanceSocialVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.NodeInfoVM;
-import app.fedilab.android.peertube.activities.LoginActivity;
+import app.fedilab.android.peertube.client.entities.Token;
 import es.dmoral.toasty.Toasty;
 
 public class FragmentLoginMain extends Fragment {
@@ -79,6 +83,15 @@ public class FragmentLoginMain extends Fragment {
     private boolean searchInstanceRunning = false;
     private String oldSearch;
     private ActivityResultLauncher<String> permissionLauncher;
+
+
+    public void setUseAToken(boolean useAToken){
+        if(useAToken){
+
+        } else {
+
+        }
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -168,8 +181,22 @@ public class FragmentLoginMain extends Fragment {
             if (currentInstanceLogin.isEmpty()) {
                 return;
             }
-            binding.continueButton.setEnabled(false);
+            String customToken;
+            if(binding.loginTokenLayout.getVisibility() == View.VISIBLE) {
+                if (binding.loginToken.getText() == null || binding.loginToken.getText().toString().isEmpty()) {
+                    binding.loginTokenLayout.setError(getString(R.string.toast_error_token_empty));
+                    binding.loginTokenLayout.setErrorEnabled(true);
+                    return;
+                }
+                customToken =  binding.loginToken.getText().toString();
+            } else {
+                customToken = null;
+            }
             NodeInfoVM nodeInfoVM = new ViewModelProvider(requireActivity()).get(NodeInfoVM.class);
+
+
+            binding.continueButton.setEnabled(false);
+
             String instance = binding.loginInstance.getText().toString().trim();
             nodeInfoVM.getNodeInfo(instance).observe(requireActivity(), nodeInfo -> {
                 if (nodeInfo != null) {
@@ -196,6 +223,40 @@ public class FragmentLoginMain extends Fragment {
                 } else {
                     apiLogin = Account.API.MASTODON;
                     softwareLogin = "MASTODON";
+                }
+
+                if(customToken != null) {
+                    Account account = new Account();
+                    account.token = "Bearer " + customToken;
+                    Token token = new Token();
+                    token.setAccess_token(customToken);
+                    token.setToken_type("Bearer");
+                    account.client_id = "";
+                    account.client_secret = "";
+                    account.api = apiLogin;
+                    account.software = softwareLogin;
+                    account.instance = currentInstanceLogin;
+                    AccountsVM accountsVM = new ViewModelProvider(requireActivity()).get(AccountsVM.class);
+                    accountsVM.getConnectedAccount(currentInstanceLogin, account.token).observe(requireActivity(), mastodonAccount -> {
+                        if (mastodonAccount != null) {
+                            account.mastodon_account = mastodonAccount;
+                            account.user_id = mastodonAccount.id;
+                            //We check if user have really moderator rights
+                            if (requestedAdmin) {
+                                AdminVM adminVM = new ViewModelProvider(requireActivity()).get(AdminVM.class);
+                                adminVM.getAccount(account.instance, account.token, account.user_id).observe(requireActivity(), adminAccount -> {
+                                    account.admin = adminAccount != null;
+                                    ((LoginActivity)requireActivity()).proceedLogin(requireActivity(), account);
+                                });
+                            } else {
+                                ((LoginActivity)requireActivity()).proceedLogin(requireActivity(), account);
+                            }
+                        } else {
+                            Toasty.error(requireActivity(), getString(R.string.toast_fail_authenticate), Toast.LENGTH_LONG).show();
+                        }
+
+                    });
+                    return;
                 }
 
                 binding.continueButton.setEnabled(true);
@@ -243,7 +304,11 @@ public class FragmentLoginMain extends Fragment {
                         return false;
                     }
                 });
-            } else if (itemId == R.id.action_import_data) {
+            } else if(itemId == R.id.action_use_token) {
+                item.setChecked(!item.isChecked());
+                binding.loginTokenLayout.setVisibility(item.isChecked()?View.VISIBLE:View.GONE);
+
+            }else if (itemId == R.id.action_import_data) {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                     permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 } else {

@@ -184,7 +184,7 @@ public class LoginActivity extends BaseBarActivity {
 
 
     @SuppressLint("ApplySharedPref")
-    private void proceedLogin(Token token, String host) {
+    public void proceedLogin(Token token, String host) {
         runOnUiThread(() -> {
             if (token != null) {
                 //Update the account with the token;
