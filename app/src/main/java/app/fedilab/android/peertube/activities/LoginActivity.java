@@ -18,6 +18,7 @@ import static app.fedilab.android.peertube.client.RetrofitPeertubeAPI.updateCred
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.MenuItem;
@@ -63,6 +64,7 @@ public class LoginActivity extends BaseBarActivity {
         }
         if (instance == null) {
             finish();
+            return;
         }
 
         if (getSupportActionBar() != null) {
@@ -71,7 +73,9 @@ public class LoginActivity extends BaseBarActivity {
         }
 
         binding.loginInstanceContainer.setVisibility(View.VISIBLE);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            binding.loginInstance.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
+        }
         binding.loginInstance.setText(instance);
         if (Helper.isTablet(LoginActivity.this)) {
 
@@ -95,14 +99,11 @@ public class LoginActivity extends BaseBarActivity {
                 return;
             }
             binding.loginButton.setEnabled(false);
-            String instance;
-            if (binding.loginInstance.getText() == null || binding.loginInstance.getText().toString().trim().length() == 0) {
+            if (instance == null || instance.trim().isEmpty()) {
                 Toasty.error(LoginActivity.this, getString(R.string.not_valide_instance)).show();
                 binding.loginButton.setEnabled(true);
                 return;
             }
-            instance = binding.loginInstance.getText().toString().trim().toLowerCase();
-
             if (instance.startsWith("http")) {
                 try {
                     URL url = new URL(instance);
