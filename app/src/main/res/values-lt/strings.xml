@@ -62,4 +62,25 @@
     <string name="no_scheduled_boosts">Nėra rodomų suplanuotų pasidalinimų!</string>
     <string name="reorder_timelines">Tvarkyti laiko skales</string>
     <string name="add_instances">Įtraukti serverį</string>
+    <string name="instance_token">Jūsų prieigos raktas</string>
+    <string name="next">Tolesnis</string>
+    <string name="open_with">Atverti su</string>
+    <string name="local_menu">Vietinė laiko skalė</string>
+    <string name="set_save_changes">Išsaugoti pakeitimus</string>
+    <string name="previous">Ankstesnis</string>
+    <string name="text_size">Teksto dydžiai</string>
+    <string name="settings_category_label_timelines">Laiko skalės</string>
+    <string name="icon_size">Piktogramos dydžai</string>
+    <string name="instance">Serveris</string>
+    <string name="instance_example">Serveris: mastodon.social</string>
+    <string name="toast_account_changed" formatted="false">Dabar veikia su paskyra %1$s</string>
+    <string name="add_account">Įtraukti paskyrą</string>
+    <string name="camera">Fotoaparatas</string>
+    <string name="delete_all">Ištrinti viską</string>
+    <string name="cannot_be_empty">Šis laukelis negali būti tuščias.</string>
+    <string name="account">Paskyra</string>
+    <string name="select">Pasirinkti</string>
+    <string name="add_field">Pridėti laukelį</string>
+    <string name="delete_field">Ištrinti laukelį</string>
+    <string name="delete_field_confirm">Ar tikrai norite ištrinti šį laukelį?</string>
 </resources>
