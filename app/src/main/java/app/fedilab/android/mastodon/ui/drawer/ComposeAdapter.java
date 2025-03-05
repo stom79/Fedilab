@@ -19,7 +19,6 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.instanceInfo;
 import static app.fedilab.android.mastodon.activities.ComposeActivity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static de.timfreiheit.mathjax.android.MathJaxConfig.Input.TeX;
 
 import android.Manifest;
@@ -134,6 +133,7 @@ import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.imageeditor.EditImageActivity;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
 import de.timfreiheit.mathjax.android.MathJaxConfig;
 import de.timfreiheit.mathjax.android.MathJaxView;
 import es.dmoral.toasty.Toasty;
@@ -1134,7 +1134,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (statusList.size() > position && statusList.get(position).media_attachments != null) {
             holder.binding.attachmentsList.removeAllViews();
             List<Attachment> attachmentList = statusList.get(position).media_attachments;
-            if (attachmentList != null && attachmentList.size() > 0) {
+            if (attachmentList != null && !attachmentList.isEmpty()) {
                 holder.binding.sensitiveMedia.setVisibility(View.VISIBLE);
                 if (!statusList.get(position).sensitive) {
                     if (Helper.getCurrentAccount(context) != null && Helper.getCurrentAccount(context).mastodon_account != null && Helper.getCurrentAccount(context).mastodon_account.source != null) {
@@ -1148,6 +1148,21 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.sensitiveMedia.setOnCheckedChangeListener((buttonView, isChecked) -> statusList.get(position).sensitive = isChecked);
                 int mediaPosition = 0;
                 for (Attachment attachment : attachmentList) {
+                    if(attachment.url == null) {
+                        StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
+                        statusesVM.getAttachment(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, attachment.id)
+                                .observe((LifecycleOwner) context, attachmentReceived -> {
+                                    List<Attachment> attachments = statusList.get(position).media_attachments;
+                                    for(Attachment attach : attachments) {
+                                        if(attach.id.equals(attachment.id)) {
+                                            statusList.get(position).media_attachments.remove(attachment);
+                                            break;
+                                        }
+                                    }
+                                    statusList.get(position).media_attachments.add(attachmentReceived);
+                                    notifyItemChanged(position);
+                                });
+                    }
                     ComposeAttachmentItemBinding composeAttachmentItemBinding = ComposeAttachmentItemBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
                     composeAttachmentItemBinding.buttonPlay.setVisibility(View.GONE);
                     String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;

@@ -35,6 +35,7 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -552,16 +553,13 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     status.text = scheduledStatus.params.text;
                     status.in_reply_to_id = scheduledStatus.params.in_reply_to_id;
                     status.poll = scheduledStatus.params.poll;
-
                     if (scheduledStatus.params.media_ids != null && !scheduledStatus.params.media_ids.isEmpty()) {
                         status.media_attachments = new ArrayList<>();
-                        new Thread(() -> {
-                            StatusesVM statusesVM = new ViewModelProvider(ComposeActivity.this).get(StatusesVM.class);
-                            for (String attachmentId : scheduledStatus.params.media_ids) {
-                                statusesVM.getAttachment(instance, token, attachmentId)
-                                        .observe(ComposeActivity.this, attachment -> status.media_attachments.add(attachment));
-                            }
-                        }).start();
+                        for (String attachmentId : scheduledStatus.params.media_ids) {
+                            Attachment attachment = new Attachment();
+                            attachment.id = attachmentId;
+                            status.media_attachments.add(attachment);
+                        }
                     }
                     status.sensitive = scheduledStatus.params.sensitive;
                     status.spoiler_text = scheduledStatus.params.spoiler_text;
