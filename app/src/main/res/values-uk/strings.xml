@@ -1081,4 +1081,8 @@
     <string name="bottom_menu">Нижнє меню</string>
     <string name="timeline_scrollbar">Відображення смуги прокрутки для часових шкал</string>
     <string name="toast_error_internet">Немає підключення до Інтернету!</string>
+    <string name="use_token">Використовуйте жетон</string>
+    <string name="toast_fail_authenticate">Додатку не вдалося автентифікувати обліковий запис!</string>
+    <string name="instance_token">Ваш маркер</string>
+    <string name="toast_error_token_empty">Жетон не може бути порожнім!</string>
 </resources>

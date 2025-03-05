@@ -1067,4 +1067,8 @@
     <string name="pronouns_support">Soporte para pronomes</string>
     <string name="qr_code_generator">Xerador de QR</string>
     <string name="toast_error_internet">Non hai conexión a internet!</string>
+    <string name="instance_token">O teu token</string>
+    <string name="toast_error_token_empty">O token non pode quedar baleiro!</string>
+    <string name="use_token">Usar un token</string>
+    <string name="toast_fail_authenticate">A app non se puido autenticar coa conta!</string>
 </resources>
