@@ -1,1 +1,1 @@
-„Fedilab“ - daugiafunkcinis „Android“ kliento programą pasiekti paskirstytąją fediversą, kurią sudaro mikrotinklaraščiai, nuotraukų bendrinimas ir vaizdo įrašų priegloba.
+„Fedilab“ – daugiafunk. „Android“ kliento progr. pasiekti paskirstytąją fediversą.

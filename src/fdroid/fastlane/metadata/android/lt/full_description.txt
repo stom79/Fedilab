@@ -12,7 +12,7 @@ Programa turi pažangių funkcijų:
   - Tiesioginiai pranešimai per „UnifiedPush“ (įskaitant „ntfy“ parduotuvėje „F-Droid“)
   - Išlikti prisijungus tiesioginiams pranešimams
   - Atidėti pranešimai (jungtis kas 30 sekundžių)
-- Pakeisti „YouTube“ ir „Twitter“ nuorodas su nuorodomis į „Invidious“ ir „Nitter“ instancijas
+- Pakeisti „YouTube“ ir „Twitter“ nuorodas su nuorodomis į „Invidious“ ir „Nitter“ serveriais
 - Pasirinktinės temos, importo / eksporto ir apibrėžimų nustatymas
 - Importuoti ir eksportuoti programos duomenų bazę
 - Jaustukų pcikeris su pasirinktiniais jaustukais
