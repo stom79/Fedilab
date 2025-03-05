@@ -14,6 +14,7 @@ package app.fedilab.android.mastodon.ui.drawer;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -30,6 +31,7 @@ import java.util.List;
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.activities.HashTagActivity;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 
 
@@ -63,9 +65,15 @@ public class TagSearchTopBarAdapter extends SimpleCursorAdapter {
             if (tags != null && tags.size() > position) {
                 Intent intent = new Intent(context, HashTagActivity.class);
                 Bundle b = new Bundle();
-                b.putString(Helper.ARG_SEARCH_KEYWORD, tags.get(position).name.trim());
-                intent.putExtras(b);
-                context.startActivity(intent);
+                String tag = tags.get(position).name.trim().replace("#","");
+                b.putString(Helper.ARG_SEARCH_KEYWORD, tag.trim());
+                new CachedBundle(context).insertBundle(b, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                });
             }
         });
     }

@@ -1527,14 +1527,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     int[] to = new int[]{R.id.account_pp, R.id.account_un};
                     String searchGroup = matcherMention.group();
                     AccountsVM accountsVM = new ViewModelProvider(BaseMainActivity.this).get(AccountsVM.class);
-                    MatrixCursor cursor = new MatrixCursor(new String[]{BaseColumns._ID,
-                            SearchManager.SUGGEST_COLUMN_ICON_1,
-                            SearchManager.SUGGEST_COLUMN_TEXT_1});
-                    accountsVM.searchAccounts(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, searchGroup, 5, false, false)
+                    accountsVM.searchAccounts(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, searchGroup, 10, false, false)
                             .observe(BaseMainActivity.this, accounts -> {
                                 if (accounts == null) {
                                     return;
                                 }
+                                MatrixCursor cursor = new MatrixCursor(new String[]{BaseColumns._ID,
+                                        SearchManager.SUGGEST_COLUMN_ICON_1,
+                                        SearchManager.SUGGEST_COLUMN_TEXT_1});
                                 AccountsSearchTopBarAdapter cursorAdapter = new AccountsSearchTopBarAdapter(BaseMainActivity.this, accounts, R.layout.drawer_account_search, null, from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
                                 binding.toolbarSearch.setSuggestionsAdapter(cursorAdapter);
                                 new Thread(() -> {
@@ -1562,8 +1562,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     String[] from = new String[]{SearchManager.SUGGEST_COLUMN_TEXT_1};
                     int[] to = new int[]{R.id.tag_name};
                     String searchGroup = matcherTag.group();
-                    MatrixCursor cursor = new MatrixCursor(new String[]{BaseColumns._ID,
-                            SearchManager.SUGGEST_COLUMN_TEXT_1});
+
                     searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, searchGroup, null,
                             "hashtags", false, true, false, 0,
                             null, null, 10).observe(BaseMainActivity.this,
@@ -1571,6 +1570,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 if (results == null || results.hashtags == null) {
                                     return;
                                 }
+                                MatrixCursor cursor = new MatrixCursor(new String[]{BaseColumns._ID,
+                                        SearchManager.SUGGEST_COLUMN_TEXT_1});
                                 TagSearchTopBarAdapter cursorAdapter = new TagSearchTopBarAdapter(BaseMainActivity.this, results.hashtags, R.layout.drawer_tag_search, null, from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
                                 binding.toolbarSearch.setSuggestionsAdapter(cursorAdapter);
                                 int i = 0;
