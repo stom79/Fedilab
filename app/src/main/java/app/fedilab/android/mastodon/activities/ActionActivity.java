@@ -60,42 +60,43 @@ public class ActionActivity extends BaseBarActivity {
     private void displayTimeline(Timeline.TimeLineEnum type) {
         canGoBack = true;
         if (type == Timeline.TimeLineEnum.MUTED_TIMELINE || type == Timeline.TimeLineEnum.BLOCKED_TIMELINE || type == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME) {
-
+            fragmentMastodonAccount = new FragmentMastodonAccount();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
+            bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
+            fragmentMastodonAccount.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction =
+                    fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonAccount);
+            fragmentTransaction.commit();
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
-                fragmentMastodonAccount = new FragmentMastodonAccount();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
-                bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
-                fragmentMastodonAccount.setArguments(bundle);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction =
-                        fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonAccount);
-                fragmentTransaction.commit();
+
             });
 
         } else if (type == Timeline.TimeLineEnum.BLOCKED_DOMAIN_TIMELINE) {
+            fragmentMastodonDomainBlock = new FragmentMastodonDomainBlock();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction =
+                    fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonDomainBlock);
+            fragmentTransaction.commit();
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
-                fragmentMastodonDomainBlock = new FragmentMastodonDomainBlock();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction =
-                        fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonDomainBlock);
-                fragmentTransaction.commit();
+
             });
         } else {
-
+            fragmentMastodonTimeline = new FragmentMastodonTimeline();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
+            bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
+            fragmentMastodonTimeline.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction =
+                    fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonTimeline);
+            fragmentTransaction.commit();
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
-                fragmentMastodonTimeline = new FragmentMastodonTimeline();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
-                bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
-                fragmentMastodonTimeline.setArguments(bundle);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction =
-                        fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonTimeline);
-                fragmentTransaction.commit();
+
             });
 
         }

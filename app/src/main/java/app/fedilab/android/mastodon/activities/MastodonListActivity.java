@@ -459,19 +459,20 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
 
         this.mastodonList = mastodonList;
         canGoBack = true;
+        fragmentMastodonTimeline = new FragmentMastodonTimeline();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Helper.ARG_LIST_ID, mastodonList.id);
+        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.LIST);
+        setTitle(mastodonList.title);
+        fragmentMastodonTimeline.setArguments(bundle);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonTimeline);
+        fragmentTransaction.commit();
+        invalidateOptionsMenu();
         ThemeHelper.slideViewsToLeft(binding.recyclerView, binding.fragmentContainer, () -> {
-            fragmentMastodonTimeline = new FragmentMastodonTimeline();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(Helper.ARG_LIST_ID, mastodonList.id);
-            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.LIST);
-            setTitle(mastodonList.title);
-            fragmentMastodonTimeline.setArguments(bundle);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction =
-                    fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonTimeline);
-            fragmentTransaction.commit();
-            invalidateOptionsMenu();
+
         });
     }
 

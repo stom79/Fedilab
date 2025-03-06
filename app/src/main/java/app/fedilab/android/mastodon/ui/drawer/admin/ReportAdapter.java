@@ -33,6 +33,7 @@ import app.fedilab.android.databinding.DrawerReportBinding;
 import app.fedilab.android.mastodon.activities.AccountReportActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.admin.AdminReport;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 
@@ -61,8 +62,8 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         AdminReport report = reports.get(position);
         Account account = report.account.account;
         Account target_account = report.target_account.account;
-        if (account.display_name == null || account.display_name.trim().equals("")) {
-            if (account.display_name != null && !account.display_name.trim().equals(""))
+        if (account.display_name == null || account.display_name.trim().isEmpty()) {
+            if (account.display_name != null && !account.display_name.trim().isEmpty())
                 holder.binding.accountDnReporter.setText(account.display_name);
             else
                 holder.binding.accountDnReporter.setText(account.username.replace("@", ""));
@@ -91,10 +92,15 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         holder.binding.mainContainer.setOnClickListener(view -> {
             Intent intent = new Intent(context, AccountReportActivity.class);
-            Bundle b = new Bundle();
-            b.putSerializable(Helper.ARG_REPORT, report);
-            intent.putExtras(b);
-            context.startActivity(intent);
+            Bundle args = new Bundle();
+            args.putSerializable(Helper.ARG_REPORT, report);
+            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            });
         });
 
     }

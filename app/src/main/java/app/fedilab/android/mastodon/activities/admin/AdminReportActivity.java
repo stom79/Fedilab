@@ -157,10 +157,10 @@ public class AdminReportActivity extends BaseBarActivity {
                 lastActive.append(Helper.shortDateToString(ip.used_at)).append(" - ").append(ip.ip).append("\r\n");
             }
         }
-        if (lastActive.toString().trim().length() == 0) {
+        if (lastActive.toString().trim().isEmpty()) {
             binding.lastActiveContainer.setVisibility(View.GONE);
         }
-        if (adminAccount.email == null || adminAccount.email.trim().length() == 0) {
+        if (adminAccount.email == null || adminAccount.email.trim().isEmpty()) {
             binding.emailContainer.setVisibility(View.GONE);
         }
         binding.lastActive.setText(lastActive.toString());
@@ -260,7 +260,7 @@ public class AdminReportActivity extends BaseBarActivity {
 
 
         //Animate emojis
-        if (account.emojis != null && account.emojis.size() > 0) {
+        if (account.emojis != null && !account.emojis.isEmpty()) {
             boolean disableAnimatedEmoji = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
             if (!disableAnimatedEmoji) {
                 scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();

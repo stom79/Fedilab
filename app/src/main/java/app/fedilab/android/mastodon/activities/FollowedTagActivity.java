@@ -207,19 +207,20 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
     public void click(Tag tag) {
         this.tag = tag;
         canGoBack = true;
+        fragmentMastodonTimeline = new FragmentMastodonTimeline();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Helper.ARG_SEARCH_KEYWORD, tag.name);
+        bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
+        setTitle(tag.name);
+        fragmentMastodonTimeline.setArguments(bundle);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonTimeline);
+        fragmentTransaction.commit();
+        invalidateOptionsMenu();
         ThemeHelper.slideViewsToLeft(binding.recyclerView, binding.fragmentContainer, () -> {
-            fragmentMastodonTimeline = new FragmentMastodonTimeline();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(Helper.ARG_SEARCH_KEYWORD, tag.name);
-            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
-            setTitle(tag.name);
-            fragmentMastodonTimeline.setArguments(bundle);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction =
-                    fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragmentMastodonTimeline);
-            fragmentTransaction.commit();
-            invalidateOptionsMenu();
+
         });
     }
 }

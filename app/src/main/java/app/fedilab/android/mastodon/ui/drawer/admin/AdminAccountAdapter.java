@@ -95,7 +95,7 @@ public class AdminAccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         holder.binding.email.setText(adminAccount.email);
         if (adminAccount.ip != null) {
             holder.binding.ip.setText(adminAccount.ip);
-        } else if (adminAccount.ips != null && adminAccount.ips.size() > 0) {
+        } else if (adminAccount.ips != null && !adminAccount.ips.isEmpty()) {
             holder.binding.lastActive.setText(Helper.shortDateToString(adminAccount.ips.get(0).used_at));
             holder.binding.ip.setText(adminAccount.ips.get(0).ip);
         } else {

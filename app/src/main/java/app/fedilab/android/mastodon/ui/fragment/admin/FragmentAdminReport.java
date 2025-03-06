@@ -116,7 +116,7 @@ public class FragmentAdminReport extends Fragment {
                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
         });
 
-        if (adminReports == null || adminReports.adminReports == null || adminReports.adminReports.size() == 0) {
+        if (adminReports == null || adminReports.adminReports == null || adminReports.adminReports.isEmpty()) {
             binding.noAction.setVisibility(View.VISIBLE);
             return;
         }
@@ -188,7 +188,7 @@ public class FragmentAdminReport extends Fragment {
             return;
         }
         binding.loadingNextElements.setVisibility(View.GONE);
-        if (adminReports != null && admReports != null && admReports.adminReports != null && admReports.adminReports.size() > 0) {
+        if (adminReports != null && admReports != null && admReports.adminReports != null && !admReports.adminReports.isEmpty()) {
             flagLoading = admReports.pagination.max_id == null;
             //There are some adminReports present in the timeline
             int startId = adminReports.size();

@@ -132,43 +132,46 @@ public class AdminActionActivity extends BaseBarActivity {
     private void displayTimeline(AdminEnum type) {
         canGoBack = true;
         if (type == REPORT) {
+            fragmentAdminReport = new FragmentAdminReport();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
+            bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
+            fragmentAdminReport.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction =
+                    fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragmentAdminReport);
+            fragmentTransaction.commit();
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
-                fragmentAdminReport = new FragmentAdminReport();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
-                bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
-                fragmentAdminReport.setArguments(bundle);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction =
-                        fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragmentAdminReport);
-                fragmentTransaction.commit();
+
             });
         } else if (type == ACCOUNT) {
+            fragmentAdminAccount = new FragmentAdminAccount();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
+            bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
+            fragmentAdminAccount.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction =
+                    fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragmentAdminAccount);
+            fragmentTransaction.commit();
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
-                fragmentAdminAccount = new FragmentAdminAccount();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
-                bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
-                fragmentAdminAccount.setArguments(bundle);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction =
-                        fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragmentAdminAccount);
-                fragmentTransaction.commit();
+
             });
         } else if (type == DOMAIN) {
+            fragmentAdminDomain = new FragmentAdminDomain();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
+            bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
+            fragmentAdminDomain.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction =
+                    fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragmentAdminDomain);
+            fragmentTransaction.commit();
             ThemeHelper.slideViewsToLeft(binding.buttonContainer, binding.fragmentContainer, () -> {
-                fragmentAdminDomain = new FragmentAdminDomain();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, type);
-                bundle.putString(Helper.ARG_VIEW_MODEL_KEY, "FEDILAB_" + type.getValue());
-                fragmentAdminDomain.setArguments(bundle);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction =
-                        fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragmentAdminDomain);
-                fragmentTransaction.commit();
+
             });
         }
         switch (type) {
