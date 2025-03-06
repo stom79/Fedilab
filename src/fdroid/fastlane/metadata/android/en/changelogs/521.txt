@@ -13,6 +13,7 @@ Fixed:
 - Not clickable URLs when Markdown is enabled
 - Nitter to follow Twitter accounts
 - Pixelfed timeline not displayed by default
+- Fix admin reports not accessible
 - Top bar coloring at scroll
 - Drafts not saved when adding/editing media descriptions
 - User search suggestions have duplicates
