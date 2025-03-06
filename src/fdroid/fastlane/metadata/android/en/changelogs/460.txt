@@ -1,8 +1,0 @@
-Fixed:
-- Cross-compose: Wrong instance emojis
-- Custom emojis not displayed in notifications
-- Fav/Boost markers with shared messages
-- Empty notifications
-- Fix cw removed when replying
-- Fix expand media with fit preview images when sensitive
-- Fix an issue with fetch more displayed too often (cache clear will help or wait new messages)

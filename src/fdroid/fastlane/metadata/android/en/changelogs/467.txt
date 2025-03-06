@@ -1,8 +1,0 @@
-Changed:
-- Allow to swipe media for profiles
-
-Fixed:
-- Fix crashes with pinch zoom
-- Copy/Paste in threads
-- Fix crash when checking redirection on http links
-- Display menu in media viewer resets pinch-zoom

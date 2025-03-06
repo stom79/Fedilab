@@ -1,7 +1,0 @@
-Added:
-- Cache home in background (default disabled -> New settings category and per account) / change frequency
-- Auto-fetch missing messages for the Home (default disabled -> in Settings - Timelines)
-- Automatically switch between tabs when searching
-
-Fixed:
-- Some crashes

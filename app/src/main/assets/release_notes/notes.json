@@ -1,13 +1,8 @@
 [
   {
-    "version": "3.30.0-beta-2",
-    "code": "520",
-    "note": "Added:\n- Allow to follow the discover timelines of Pixelfed instances\n- Allow to login with a token\n\nChange:\n- Use Pixelfed layout when following Pixelfed instance\n- Allow to scroll buttons for larger screen in conversation \n\nFixed:\n- Nitter to follow Twitter accounts\n- Some minor crashes"
-  },
-  {
-    "version": "3.30.0-beta-1",
-    "code": "519",
-    "note": "Added:\n- Keep media proportions in timeline for Pixelfed\n- Add a like button in timelines for Pixelfed\n\nChange:\n- Give more space to focused message in conversation\n\nFixed:\n- Not clickable URLs when Markdown is enabled\n- Pixelfed timeline not displayed by default"
+    "version": "3.30.0",
+    "code": "521",
+    "note": ""
   },
   {
     "version": "3.29.2",

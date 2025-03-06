@@ -1,8 +1,0 @@
-Added:
-- Display date of the message instead of the boost (default: disabled)
-- Allow to disable release notes popup in Settings
-
-Fixed:
-- Fix timelines slow down and stuttering after some scrolls
-- Fix color issues with follow buttons
-- Fix import from settings (import from login was OK)

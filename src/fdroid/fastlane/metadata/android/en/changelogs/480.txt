@@ -1,7 +1,0 @@
-Changed:
-- First media layout will depend of its ratio
-
-Fixed:
-- Impossible to add media with the chat view
-- Chat view limited in chars
-- Freezes / bad behaviors due to the new media presentation

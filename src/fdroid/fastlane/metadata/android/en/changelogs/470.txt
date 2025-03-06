@@ -1,5 +1,0 @@
-Changed:
-- Material dialogs
-
-Fixed:
-- Light theme issues

@@ -1,6 +1,0 @@
-Fixed:
-
-- Holes in timelines due to a cache bug
-- Fix tags issue with RTL and the markdown format
-- Scrollable bio when editing profiles
-- Crash when adding a user into a list

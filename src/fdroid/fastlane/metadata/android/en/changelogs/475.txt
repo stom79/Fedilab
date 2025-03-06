@@ -1,5 +1,0 @@
-Added:
-- Peertube 2FA support
-
-Fixed:
-- Dynamic color for Android 12+

@@ -1,8 +1,0 @@
-Added:
-- Edit description and focus for media (for the next Mastodon release)
-
-Changed:
-- Peertube: remove role support to avoid crashes with older instances
-
-Fixed:
-- Fix some crashes

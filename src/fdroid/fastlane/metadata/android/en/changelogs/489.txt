@@ -1,2 +1,0 @@
-Added:
-- Android 12+ : Customize accent colors for light/dark theme and per account (Settings > Theming > Custom accent color)

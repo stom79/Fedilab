@@ -1,5 +1,0 @@
-Added:
-- Scrollable media description
-
-Fixed:
-- Crashes with profiles
