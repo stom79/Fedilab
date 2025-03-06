@@ -135,9 +135,9 @@ public class StatusDraftAdapter extends RecyclerView.Adapter<StatusDraftAdapter.
                             }
                         }
                         //If there are media, we need to remove them first.
-                        if (attachments.size() > 0) {
+                        if (!attachments.isEmpty()) {
                             for (Attachment attachment : attachments) {
-                                if (attachment.local_path != null) {
+                                if (attachment != null && attachment.local_path != null) {
                                     File fileToDelete = new File(attachment.local_path);
                                     if (fileToDelete.exists()) {
                                         //noinspection ResultOfMethodCallIgnored

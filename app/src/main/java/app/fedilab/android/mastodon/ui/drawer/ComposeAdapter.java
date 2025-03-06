@@ -1152,15 +1152,17 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
                         statusesVM.getAttachment(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, attachment.id)
                                 .observe((LifecycleOwner) context, attachmentReceived -> {
-                                    List<Attachment> attachments = statusList.get(position).media_attachments;
-                                    for(Attachment attach : attachments) {
-                                        if(attach.id.equals(attachment.id)) {
-                                            statusList.get(position).media_attachments.remove(attachment);
-                                            break;
+                                    if(attachmentReceived != null) {
+                                        List<Attachment> attachments = statusList.get(position).media_attachments;
+                                        for(Attachment attach : attachments) {
+                                            if(attach.id != null && attach.id.equals(attachment.id)) {
+                                                statusList.get(position).media_attachments.remove(attachment);
+                                                break;
+                                            }
                                         }
+                                        statusList.get(position).media_attachments.add(attachmentReceived);
+                                        notifyItemChanged(position);
                                     }
-                                    statusList.get(position).media_attachments.add(attachmentReceived);
-                                    notifyItemChanged(position);
                                 });
                     }
                     ComposeAttachmentItemBinding composeAttachmentItemBinding = ComposeAttachmentItemBinding.inflate(LayoutInflater.from(context), holder.binding.attachmentsList, false);
