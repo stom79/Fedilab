@@ -16,14 +16,14 @@
     <string name="download_from" formatted="false">文件：%1$s</string>
     <string name="password">密码</string>
     <string name="email">电子邮件</string>
-    <string name="accounts">帐号</string>
+    <string name="accounts">账号</string>
     <string name="toots">消息</string>
     <string name="tags">标签</string>
     <string name="save">保存</string>
     <string name="instance">实例</string>
     <string name="instance_example">实例：mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">现在使用帐号 %1$s</string>
-    <string name="add_account">添加帐号</string>
+    <string name="toast_account_changed" formatted="false">现在使用账号 %1$s</string>
+    <string name="add_account">添加账号</string>
     <string name="clipboard">消息内容已复制到剪贴板</string>
     <string name="clipboard_url">消息的 URL 已复制到剪贴板</string>
     <string name="camera">相机</string>
@@ -122,8 +122,8 @@
     <string name="toot_sent">消息已发送！</string>
     <string name="toot_sensitive">敏感内容？</string>
     <string name="no_draft">没有草稿！</string>
-    <string name="choose_accounts">选择一个帐号</string>
-    <string name="select_accounts">选择一些帐号</string>
+    <string name="choose_accounts">选择一个账号</string>
+    <string name="select_accounts">选择一些账号</string>
     <string name="remove_draft">删除草稿？</string>
     <string name="upload_form_description">为视觉障碍人士添加文字说明</string>
     <!-- Instance -->
@@ -137,7 +137,7 @@
     <string name="about_thekinrar">搜索实例：</string>
     <!-- Conversation -->
     <!-- Accounts -->
-    <string name="no_accounts">没有可显示的帐号</string>
+    <string name="no_accounts">没有可显示的账号</string>
     <string name="no_follow_request">没有关注请求</string>
     <string name="status_cnt">消息
 \n %1$s</string>
@@ -153,10 +153,8 @@
     <string name="toot_scheduled_date">定时日期必须大于当前时间！</string>
     <!-- timed mute -->
     <string name="timed_mute_date_error">静音时间应大于一分钟。</string>
-    <string name="timed_mute_date">%1$s 在 %2$s 之前一直被静音。
-\n 您可以从他们的个人资料页面取消静音此帐号。</string>
-    <string name="timed_mute_profile">%1$s 在 %2$s 之前一直处于静音状态。
-\n 点击此处取消帐号静音。</string>
+    <string name="timed_mute_date">%1$s 在 %2$s 之前一直被静音。 \n 您可以从他们的个人资料页面取消静音此账号。</string>
+    <string name="timed_mute_profile">%1$s 在 %2$s 之前一直处于静音状态。 \n 点击此处取消账号静音。</string>
     <!-- Notifications -->
     <string name="no_notifications">没有可显示的通知</string>
     <string name="notif_mention">提及了您</string>
@@ -171,12 +169,12 @@
     <string name="followers">关注者</string>
     <!-- TOAST -->
     <string name="client_error">无法获取客户端 ID！</string>
-    <string name="toast_block">帐号被屏蔽了！</string>
-    <string name="toast_unblock">帐号不再被屏蔽！</string>
-    <string name="toast_mute">此帐号已被静音！</string>
-    <string name="toast_unmute">此帐号不再被静音！</string>
-    <string name="toast_follow">此帐号已被关注！</string>
-    <string name="toast_unfollow">帐号不再关注！</string>
+    <string name="toast_block">账号被屏蔽了！</string>
+    <string name="toast_unblock">账号不再被屏蔽！</string>
+    <string name="toast_mute">此账号已被静音！</string>
+    <string name="toast_unmute">此账号不再被静音！</string>
+    <string name="toast_follow">此账号已被关注！</string>
+    <string name="toast_unfollow">账号不再关注！</string>
     <string name="toast_reblog">消息被转发了！</string>
     <string name="toast_unreblog">此消息不再被转发！</string>
     <string name="toast_favourite">此消息已添加到您的收藏夹！</string>
@@ -184,7 +182,7 @@
     <string name="toast_error">哎呀！发生错误！</string>
     <string name="toast_code_error">发生错误！实例未返回授权码！</string>
     <string name="toast_error_instance">实例域名似乎无效！</string>
-    <string name="toast_error_loading_account">在帐号之间切换时发生错误！</string>
+    <string name="toast_error_loading_account">在账号之间切换时发生错误！</string>
     <string name="toast_error_search">搜索时出错！</string>
     <string name="nothing_to_do">无操作可执行</string>
     <string name="toast_error_translate">翻译时发生错误！</string>
@@ -205,7 +203,7 @@
     <string name="set_med_desc_timeout">媒体描述超时（秒，0 表示关闭）</string>
     <string name="settings_title_custom_sharing">自定义分享</string>
     <string name="settings_custom_sharing_url">您的自定义分享网址…</string>
-    <string name="set_lock_account">锁定帐号</string>
+    <string name="set_lock_account">锁定账号</string>
     <string name="set_save_changes">保存更改</string>
     <string name="set_fit_preview">适合预览图像</string>
     <string name="settings_time_from">之间</string>
@@ -256,7 +254,7 @@
     <string name="action_lists_add_to">添加到列表中</string>
     <string name="action_lists_delete">删除列表</string>
     <string name="action_lists_title_placeholder">新列表标题</string>
-    <string name="action_lists_add_user">此帐号已添加到列表中！</string>
+    <string name="action_lists_add_user">此账号已添加到列表中！</string>
     <string name="action_lists_empty">您还没有任何列表！</string>
     <!-- Migration -->
     <string name="account_moved_to">%1$s 已移至 %2$s</string>
@@ -319,7 +317,7 @@
     <string name="set_display_emoji">使用 Emoji One</string>
     <string name="information">信息</string>
     <string name="set_display_card">在所有消息中显示预览</string>
-    <string name="account_id_clipbloard">帐号 ID 已复制到剪贴板！</string>
+    <string name="account_id_clipbloard">账号 ID 已复制到剪贴板！</string>
     <string name="set_change_locale">更改语言</string>
     <string name="truncate_long_toots">截断长消息</string>
     <string name="set_truncate_toot">截断“x”行的消息。零表示禁用。</string>
@@ -374,7 +372,7 @@
     <string name="settings_category_label_interface">界面</string>
     <string name="contact">联系人</string>
     <string name="toot_select_file_error">选择备份文件时出错！</string>
-    <string name="action_logout_account">登出帐号</string>
+    <string name="action_logout_account">登出账号</string>
     <string name="all">全部</string>
     <string name="copy_link">复制链接</string>
     <string name="calls_blocked">应用阻止的 http 调用</string>
@@ -437,14 +435,14 @@
     <string name="server_rules">服务器规则</string>
     <string name="tos">服务条款</string>
     <string name="sign_up">注册</string>
-    <string name="validation_needed">此实例适用于邀请。您的帐号需要管理员手动批准才能使用。</string>
+    <string name="validation_needed">此实例适用于邀请。您的账号需要管理员手动批准才能使用。</string>
     <string name="password_error">密码不匹配！</string>
     <string name="email_error">电子邮件似乎无效！</string>
     <string name="email_indicator">您将收到一封确认电子邮件</string>
     <string name="password_indicator">使用至少 8 个字符</string>
     <string name="password_too_short">密码应至少包含 8 个字符</string>
     <string name="username_error">用户名只能包含字母、数字和下划线</string>
-    <string name="account_created">帐号已创建！</string>
+    <string name="account_created">账号已创建！</string>
     <string name="account_created_message">您的账号已创建！ \n \n 请考虑在接下来的 48 小时内验证您的电子邮件。 \n \n 您现在可以通过在第一个字段中写入 <b>%1$s</b> 并轻按 <b>连接</b> 来连接你的账户。 \n \n <b>重要</b>：如果您的实例需要验证，您将在验证后收到一封电子邮件！</string>
     <string name="save_draft">将消息保存在草稿中？</string>
     <string name="administration">管理</string>
@@ -458,7 +456,7 @@
     <string name="permissions">权限</string>
     <string name="disable">停用</string>
     <string name="silence">禁言</string>
-    <string name="account">帐号</string>
+    <string name="account">账号</string>
     <string name="unsilence">撤消禁言</string>
     <string name="undisable">撤消禁用</string>
     <string name="suspend">吊销</string>
@@ -480,7 +478,7 @@
 \n您可以添加其他内容。谢谢！</string>
     <string name="visibility">可见范围</string>
     <string name="set_disable_animated_emoji">禁用自定义动画表情符号</string>
-    <string name="report_account">举报帐号</string>
+    <string name="report_account">举报账号</string>
     <plurals name="number_of_voters">
         <item quantity="other">%d 位投票者</item>
     </plurals>
@@ -500,14 +498,14 @@
     <string name="poll_duplicated_entry">您的投票不能有重复的选项！</string>
     <string name="set_clear_cache_exit">离开时清除缓存</string>
     <string name="set_clear_cache_exit_indication">离开应用时，缓存（媒体、缓存消息、来自内置浏览器的数据）将自动清除。</string>
-    <string name="unfollow_confirm">您要取消关注此帐号吗？</string>
+    <string name="unfollow_confirm">您要取消关注此账号吗？</string>
     <string name="set_unfollow_validation">取消关注前显示确认对话框</string>
     <string name="replace_medium">Medium</string>
     <string name="replace_medium_description">为 Medium 使用替代前端</string>
     <string name="replace_medium_host">Medium 前端域名</string>
     <string name="set_push_notifications">使用推送通知系统实时获取通知。</string>
     <string name="action_add_notes">添加注释</string>
-    <string name="note_for_account">帐号须知</string>
+    <string name="note_for_account">账号须知</string>
     <string name="set_resize_picture_indication">允许将大照片压缩成较小尺寸的照片，图像质量损失非常小或可忽略不计。</string>
     <string name="set_resize_video_indication">允许压缩视频，同时保持其质量。</string>
     <string name="order_by">排序由</string>
@@ -553,7 +551,7 @@
     <string name="set_utm_parameters">删除 UTM 参数</string>
     <string name="set_utm_parameters_indication">在访问链接之前，应用会自动从 URL 中删除 UTM 参数。</string>
     <string name="talking_about">%d 人正在讨论</string>
-    <string name="twitter_accounts">Twitter 帐号（来自 Nitter）</string>
+    <string name="twitter_accounts">Twitter 账号（来自 Nitter）</string>
     <string name="list_of_twitter_accounts">Twitter 用户名空格分隔</string>
     <string name="identity_proofs">身份证明</string>
     <string name="verified_user">已认证身份</string>
@@ -566,7 +564,7 @@
     <string name="add_reaction">添加回应</string>
     <string name="set_video_cache">以 MB 为单位的视频缓存，零表示没有缓存。</string>
     <string name="set_watermark">水印</string>
-    <string name="set_watermark_indication">自动在图片底部添加水印。可以为每个帐号自定义文本。</string>
+    <string name="set_watermark_indication">自动在图片底部添加水印。可以为每个账号自定义文本。</string>
     <string name="no_distributors_found">没有找到分发器！</string>
     <string name="no_distributors_explanation">您需要一个分发器来接收推送通知。
 \n您可以在 %1$s 找到更多详细信息。
@@ -597,7 +595,7 @@
     <string name="delete_cache_message">您确定要删除缓存吗？如果您有带媒体的草稿，附加的媒体将会丢失。</string>
     <string name="push_distributors">推送分发器</string>
     <string name="login_status">登录状态</string>
-    <string name="account_warned">帐号被警告</string>
+    <string name="account_warned">账号被警告</string>
     <string name="admin_domainblock_public_comment">如果启用了公开域名限制列表，请针对公众评论此域名限制。</string>
     <string name="cark_custom_colors">深色 - 自定义颜色</string>
     <string name="allow">允许</string>
@@ -631,7 +629,7 @@
     <string name="profiled_updated">个人资料已更新！</string>
     <string name="msg_save_image">您想退出而不保存图像吗？</string>
     <string name="mark_resolved">标记为已解决</string>
-    <string name="account_rejected">帐号被拒绝</string>
+    <string name="account_rejected">账号被拒绝</string>
     <string name="confirmed">已确认</string>
     <string name="recent_ip">近期IP</string>
     <string name="restart">重启</string>
@@ -648,8 +646,8 @@
     <string name="set_display_counters_description">将在选项卡时间线中显示新消息的气泡计数器</string>
     <string name="full_date_edited">%1$s 编辑了 %2$s</string>
     <string name="set_unlisted_replies_indication">它只涉及“公开”回复。启用后，您的回复将自动具有“不公开”可见性，而不是“公开”</string>
-    <string name="account_unsilenced">帐号取消禁言</string>
-    <string name="account_silenced">帐号被禁言</string>
+    <string name="account_unsilenced">账号取消禁言</string>
+    <string name="account_silenced">账号被禁言</string>
     <string name="filtered_by">已过滤：%1$s</string>
     <string name="severity">严重程度</string>
     <string name="not_interested">没兴趣</string>
@@ -660,10 +658,10 @@
     <string name="instance_health_uptime">正常运行时间：%,.2f %%</string>
     <string name="report_val4">这是另一回事</string>
     <string name="not_valid_list_name">列表名称无效！</string>
-    <string name="no_account_in_list">找不到此列表的帐号！</string>
+    <string name="no_account_in_list">找不到此列表的账号！</string>
     <string name="scheduled">定时</string>
     <string name="notification_remove_from_cache">通知已从缓存中删除。</string>
-    <string name="report_1_unfollow">您正在关注此帐号。要在您的主页中不再看到他们的帖子，请取消关注他们。</string>
+    <string name="report_1_unfollow">您正在关注此账号。要在您的主页中不再看到他们的帖子，请取消关注他们。</string>
     <string name="notif_display_updates_from_people">来自人们的更新</string>
     <string name="locked">锁定</string>
     <string name="last_active">最后活跃</string>
@@ -698,14 +696,14 @@
     <string name="set_use_cache">使用缓存</string>
     <string name="action_pinned_delete">删除固定的时间线？</string>
     <string name="domains">域名</string>
-    <string name="admin_domainblock_domain">域名屏蔽不会阻止在数据库中创建帐号条目，但会追溯并自动对这些帐号应用特定的审核方法。</string>
+    <string name="admin_domainblock_domain">域名屏蔽不会阻止在数据库中创建账号条目，但会追溯并自动对这些账号应用特定的审核方法。</string>
     <string name="following">正在关注</string>
     <string name="set_remote_profile_title">远程配置文件</string>
     <string name="unpin_timeline_description">您确定取消固定该时间线吗？</string>
-    <string name="open_with_account">用另一个帐号打开</string>
+    <string name="open_with_account">用另一个账号打开</string>
     <string name="reject_media">拒绝媒体</string>
     <string name="reject_reports">拒绝举报</string>
-    <string name="admin_domainblock_severity">禁言将使此帐号的帖子对任何未关注它们的人都是不可见的。吊销将删除帐号的所有内容、媒体和个人资料数据。如果您只想拒绝媒体文件，请勿使用。</string>
+    <string name="admin_domainblock_severity">禁言将使此账号的帖子对任何未关注它们的人都是不可见的。吊销将删除账号的所有内容、媒体和个人资料数据。如果您只想拒绝媒体文件，请勿使用。</string>
     <string name="admin_reject_media">拒绝媒体文件</string>
     <string name="admin_domainblock_reject_media">忽略来自此域名的所有举报。与吊销无关</string>
     <string name="admin_reject_reports">拒绝举报</string>
@@ -717,7 +715,7 @@
     <string name="pref_customize_summary">允许为主题设置自定义颜色。</string>
     <string name="set_dynamic_color">动态色彩</string>
     <string name="light_custom_colors">浅色 - 自定义颜色</string>
-    <string name="set_accounts_page">每次加载的帐号数</string>
+    <string name="set_accounts_page">每次加载的账号数</string>
     <string name="set_notifications_page">每次加载的通知数</string>
     <string name="report_val_more4">此问题不属于其他类别</string>
     <string name="export_settings">导出设置</string>
@@ -746,10 +744,10 @@
     <string name="user">用户</string>
     <string name="moderator">监察员</string>
     <string name="assign_to_me">分配给我</string>
-    <string name="account_approved">帐号已批准</string>
-    <string name="account_unsuspended">帐号已解除吊销</string>
-    <string name="account_undisabled">帐号未停用</string>
-    <string name="account_disabled">帐号已禁用</string>
+    <string name="account_approved">账号已批准</string>
+    <string name="account_unsuspended">账号已解除吊销</string>
+    <string name="account_undisabled">账号未停用</string>
+    <string name="account_disabled">账号已禁用</string>
     <string name="report">举报</string>
     <string name="state">状态</string>
     <string name="restart_the_app">重启应用？</string>
@@ -790,7 +788,7 @@
     <string name="mark_unresolved">标记为未解决</string>
     <string name="more_actions">更多操作</string>
     <string name="resolved">解决</string>
-    <string name="account_suspended">帐号已吊销</string>
+    <string name="account_suspended">账号已吊销</string>
     <string name="write_the_tag_to_follow">写下要关注的标签</string>
     <string name="_new">新增</string>
     <string name="replace_reddit_description">为 Reddit 使用替代前端</string>
@@ -811,7 +809,7 @@
     <string name="display_all_categories">显示所有类别</string>
     <string name="notif_display_follows">关注</string>
     <string name="clear_all_notif">清除所有通知</string>
-    <string name="set_discoverable_content">帐号可发现</string>
+    <string name="set_discoverable_content">账号可发现</string>
     <string name="files_cache_size">文件缓存大小</string>
     <string name="import_settings">导入设置</string>
     <string name="display_timelines">显示时间线</string>
@@ -834,7 +832,7 @@
     <string name="report_val_more1">这不是您想看到的</string>
     <string name="report_1_title">不想看到这个？</string>
     <string name="notif_display_poll_results">投票结果</string>
-    <string name="my_account">我的帐号</string>
+    <string name="my_account">我的账号</string>
     <string name="release_notes">发行说明</string>
     <string name="pref_custom_theme_new_summary">允许创建您的自定义主题</string>
     <string name="pref_contributor_summary">选择一个由贡献者构建的主题</string>
@@ -862,7 +860,7 @@
     <string name="hide_completely">完全隐藏</string>
     <string name="hide_with_warning_description">将过滤后的内容隐藏在提及过滤器标题的警告后面</string>
     <string name="display_remote_profile">显示远程配置文件</string>
-    <string name="toast_error_add_to_list">应用添加帐号到列表失败！</string>
+    <string name="toast_error_add_to_list">应用添加账号到列表失败！</string>
     <string name="admin_reject_obfuscate">混淆域名</string>
     <string name="public_comment">公开评论</string>
     <string name="keyword_or_phrase">关键字或词组</string>
@@ -874,9 +872,9 @@
     <string name="proxy_protocol">协议</string>
     <string name="proxy_protocol_http">HTTP</string>
     <string name="proxy_protocol_socks">SOCKS</string>
-    <string name="report_more_remote">此帐号来自另一台服务器。也向那里发送举报的匿名副本？</string>
+    <string name="report_more_remote">此账号来自另一台服务器。也向那里发送举报的匿名副本？</string>
     <string name="report_sent">举报已发送！</string>
-    <string name="dont_have_an_account">没有帐号？</string>
+    <string name="dont_have_an_account">没有账号？</string>
     <string name="channel_notif_signup">新注册</string>
     <string name="notif_report">用户发送举报</string>
     <string name="cannot_be_empty">此字段不能为空！</string>
@@ -905,7 +903,7 @@
     <string name="add_field">添加字段</string>
     <string name="unlocked">解锁</string>
     <string name="save_changes">保存更改</string>
-    <string name="set_bot_content">机器人帐号</string>
+    <string name="set_bot_content">机器人账号</string>
     <string name="delete_field">删除字段</string>
     <string name="notifications_are">在这段时间内</string>
     <string name="pref_theme_base">主题的底色</string>
@@ -917,7 +915,7 @@
     <string name="top_menu">顶栏菜单</string>
     <string name="also_favourite_by">"也喜欢： "</string>
     <string name="filter">筛选</string>
-    <string name="origin_report">被举报帐号的来源</string>
+    <string name="origin_report">被举报账号的来源</string>
     <string name="status">地位</string>
     <string name="fetch_more_messages">获取更多消息…</string>
     <string name="label_shape">形状</string>
@@ -951,11 +949,11 @@
     <string name="unfollow_tag">取消关注标签</string>
     <string name="unmute_home">取消静音于主页</string>
     <string name="add_all_users_home_muted">添加所有用户于主页静音</string>
-    <string name="put_all_accounts_in_home_muted">主页时间线的所有帐号都将被静音。</string>
+    <string name="put_all_accounts_in_home_muted">主页时间线的所有账号都将被静音。</string>
     <string name="mute_them_all">全部静音</string>
     <string name="import_data">导入数据</string>
     <string name="group_reblogs">在主页时间线中聚合转发</string>
-    <string name="manage_accounts">管理帐号</string>
+    <string name="manage_accounts">管理账号</string>
     <string name="set_remove_left_margin_title">删除左边距</string>
     <string name="translator">翻译器</string>
     <string name="set_translator_version">翻译器版本</string>
@@ -1037,10 +1035,10 @@
     <string name="reblog_missing_description">此消息缺少媒体描述。您确定要转发它吗？</string>
     <string name="add_description">添加描述</string>
     <string name="fetching_messages">获取消息中</string>
-    <string name="retrieve_remote_account">检索远程帐号！</string>
+    <string name="retrieve_remote_account">检索远程账号！</string>
     <string name="track_selection_title">选择音轨</string>
     <string name="exit">退出</string>
-    <string name="set_custom_accent_indication">为每个帐号定义主题色</string>
+    <string name="set_custom_accent_indication">为每个账号定义主题色</string>
     <string name="set_custom_accent_light_value">浅色强调色</string>
     <string name="set_custom_accent_value_dark_description">将应用于深色主题的颜色</string>
     <string name="set_custom_accent">自定义强调色</string>
@@ -1071,4 +1069,8 @@
     <string name="underline_links">带下划线的可点击元素</string>
     <string name="qr_code_generator">二维码生成器</string>
     <string name="toast_error_internet">没有互联网连接！</string>
+    <string name="instance_token">你的令牌</string>
+    <string name="toast_error_token_empty">令牌不能为空！</string>
+    <string name="toast_fail_authenticate">应用验证账户失败！</string>
+    <string name="use_token">使用令牌</string>
 </resources>
