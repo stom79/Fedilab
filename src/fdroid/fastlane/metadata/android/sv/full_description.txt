@@ -1,16 +1,26 @@
 Den stöder:
-- Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
+- Mastodon, Peertube, Pleroma, Pixelfed, Misskey GNU Social och Friendica.
 
-
-Appen har avancerade funktioner (särskilt för Pleroma och Mastodon):
-
-- Stöd för flera konton
-- Schemalägga meddelanden från enheten
-- Schemalägg boost
-- Bokmärk meddelanden
+Appen har avancerade funktioner:
+- Skapa trådar
+- Stöd flera konton
+- Schemalägg meddelanden från enheten
+- Schemalägg puffar
+- Bokmärk meddelanden ("tutar")
 - Följ och interagera med fjärrinstanser
-Tidsinställ tystadekonton
-- Cross-konto åtgärder med ett långttryck
-- Översättningsfunktion
-- Konstidslinje
-- Videotidslinjer
+- Tidsinställ när konton ska tystas
+- Åtgärda saker i flera konton med ett långt tryck
+- Översättningsfunktion finns
+-Flera valmöjligheter för automatiska uppdateringar
+  - Push-notiser via UnifiedPush (bl.a. ntfy på F-Droid)
+  - Håll enheten uppkopplad för live-notiser
+- Senarelägg notiser (kopplar upp var 30 sekund)
+- Ersätt youtube- and twitter-länkar med länkar till invidious- eller nitter-instanser
+- Välj teman, import, export och definitioner
+- Importera och exportera appens databas
+- Välj emotikoner med special-emojisar
+- Välj bland olika startikoner
+- Avancerad tut-filtrering
+- Särskild konst-tidslinje för taggen mastoart
+- Exportera tutar
+- Anpassa länkdelningar så att du kan dela länkar direkt till andra tjänster
