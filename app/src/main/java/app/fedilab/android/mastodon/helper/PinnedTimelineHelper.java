@@ -546,6 +546,7 @@ public class PinnedTimelineHelper {
         activityMainBinding.tabLayout.clearOnTabSelectedListeners();
         FedilabPageAdapter fedilabPageAdapter = new FedilabPageAdapter(activity, activity.getSupportFragmentManager(), pinned, bottomMenu);
         activityMainBinding.viewPager.setAdapter(fedilabPageAdapter);
+
         activityMainBinding.viewPager.setOffscreenPageLimit(tabStrip.getChildCount());
         activityMainBinding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(activityMainBinding.tabLayout));
         if (!singleBar) {

@@ -14,5 +14,6 @@ Fixed:
 - Nitter to follow Twitter accounts
 - Pixelfed timeline not displayed by default
 - Top bar coloring at scroll
+- Drafts not saved when adding/editing media descriptions
 - User search suggestions have duplicates
 - Some minor crashes
