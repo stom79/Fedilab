@@ -1081,6 +1081,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             binding.description.setVisibility(View.GONE);
             actionBar.show();
             binding.recyclerView.setVisibility(View.VISIBLE);
+            promptSaveDraft = true;
             composeAdapter.openDescriptionActivity(true, Objects.requireNonNull(binding.mediaDescription.getText()).toString().trim(), holder, attachment, messagePosition, mediaPosition);
         });
         binding.mediaCancel.setOnClickListener(v -> {
