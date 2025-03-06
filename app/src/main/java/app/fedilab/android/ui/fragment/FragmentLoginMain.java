@@ -82,15 +82,8 @@ public class FragmentLoginMain extends Fragment {
     private boolean searchInstanceRunning = false;
     private String oldSearch;
     private ActivityResultLauncher<String> permissionLauncher;
+    private boolean requestTokenLogin;
 
-
-    public void setUseAToken(boolean useAToken){
-        if(useAToken){
-
-        } else {
-
-        }
-    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -101,7 +94,7 @@ public class FragmentLoginMain extends Fragment {
         InstanceSocialVM instanceSocialVM = new ViewModelProvider(FragmentLoginMain.this).get(InstanceSocialVM.class);
         binding.menuIcon.setOnClickListener(this::showMenu);
         binding.loginInstance.setOnItemClickListener((parent, view, position, id) -> oldSearch = parent.getItemAtPosition(position).toString().trim());
-
+        requestTokenLogin = false;
         permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
             if (isGranted) {
                 proceed();
@@ -278,6 +271,8 @@ public class FragmentLoginMain extends Fragment {
         menuInflater.inflate(R.menu.main_login, popupMenu.getMenu());
         MenuItem adminTabItem = popupMenu.getMenu().findItem(R.id.action_request_admin);
         adminTabItem.setChecked(requestedAdmin);
+        MenuItem useTokenItem = popupMenu.getMenu().findItem(R.id.action_use_token);
+        useTokenItem.setChecked(requestTokenLogin);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean customTab = sharedpreferences.getBoolean(getString(R.string.SET_CUSTOM_TABS), true);
         popupMenu.getMenu().findItem(R.id.action_custom_tabs).setChecked(customTab);
@@ -305,6 +300,7 @@ public class FragmentLoginMain extends Fragment {
                 });
             } else if(itemId == R.id.action_use_token) {
                 item.setChecked(!item.isChecked());
+                requestTokenLogin = item.isChecked();
                 binding.loginTokenLayout.setVisibility(item.isChecked()?View.VISIBLE:View.GONE);
 
             }else if (itemId == R.id.action_import_data) {
