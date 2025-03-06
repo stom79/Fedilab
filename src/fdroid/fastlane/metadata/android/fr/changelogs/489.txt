@@ -1,2 +1,0 @@
-Ajouté :
-- Android 12+ : Personnaliser les couleurs d'accentuation par thème clair/sombre et par compte (Paramètres > Thème > Couleur d'accentuation personnalisée)

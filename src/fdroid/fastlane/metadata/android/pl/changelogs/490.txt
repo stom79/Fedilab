@@ -1,5 +1,0 @@
-Naprawiono:
-- Zbyt duża liczba żądań
-- Pusta strona główna
-- Awaria podczas odwiedzania profili
-- Nie można przesłać niektórych plików audio

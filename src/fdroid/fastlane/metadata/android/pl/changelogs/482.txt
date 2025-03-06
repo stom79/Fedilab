@@ -1,9 +1,0 @@
-Added:
-Settings komponuje: wyświetla dialog w celu ostrzeżenia, czy brakuje opisu mediów (obronionych) niepełnosprawnych.
-Settings (ang.). Uwaga: optymalizacja baterii
-Settings (ang.). Czas: AutoPlay gif media (default: enabled) (ang.).
-
-Fixed:
-Fix – problem z pamięcią i przywraca więcej.
-- widok na duże fonty.
-Bad behaviours with truncated messages

@@ -1,8 +1,0 @@
-Cambió:
-- Visor multimedia (zoom con pellizco)
-
-Solucionado:
-- Acciones entre cuentas (pulsación prolongada)
-- Realza el color
-- Botones no visibles con temas personalizados.
-- Se corrigen algunos comportamientos incorrectos con el visor de medios

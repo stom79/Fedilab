@@ -1,7 +1,0 @@
-修复：
-
-- 编辑个人简介时更长的字段
-- 点击卡片不在应用内部打开 Mastodon 帖子
-- 与 Pixelfed 的崩溃
-- Markdown 处理中的换行符
-- Markdown 与某些链接的副作用
