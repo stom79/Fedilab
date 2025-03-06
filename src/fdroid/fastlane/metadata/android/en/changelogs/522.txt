@@ -1,0 +1,20 @@
+Added:
+- Allow to follow the discover timelines of Pixelfed instances
+- Keep media proportions in timeline for Pixelfed
+- Add a like button in timelines for Pixelfed
+- Allow to login with a token
+
+Change:
+- Use Pixelfed layout when following Pixelfed instances
+- Allow to scroll buttons for larger screens in conversations
+- Move QR code into header
+
+Fixed:
+- Not clickable URLs when Markdown is enabled
+- Nitter to follow Twitter accounts
+- Pixelfed timeline not displayed by default
+- Fix admin reports not accessible
+- Top bar coloring at scroll
+- Drafts not saved when adding/editing media descriptions
+- User search suggestions have duplicates
+- Some minor crashes

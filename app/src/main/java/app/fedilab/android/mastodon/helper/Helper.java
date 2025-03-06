@@ -680,10 +680,10 @@ public class Helper {
         if (url == null) {
             return;
         }
-        if(networkAvailable == BaseMainActivity.status.DISCONNECTED){
+        /*if(networkAvailable == BaseMainActivity.status.DISCONNECTED){
             Toasty.warning(context, context.getString(R.string.toast_error_internet), Toast.LENGTH_LONG).show();
             return;
-        }
+        }*/
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean customTab = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOM_TABS), true);
         if (customTab) {

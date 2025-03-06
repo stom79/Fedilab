@@ -1,7 +1,7 @@
 [
   {
     "version": "3.30.0",
-    "code": "521",
+    "code": "522",
     "note": "Added:\n- Allow to follow the discover timelines of Pixelfed instances\n- Keep media proportions in timeline for Pixelfed\n- Add a like button in timelines for Pixelfed\n- Allow to login with a token\n\nChange:\n- Use Pixelfed layout when following Pixelfed instances\n- Allow to scroll buttons for larger screens in conversations\n- Move QR code into header\n\nFixed:\n- Not clickable URLs when Markdown is enabled\n- Nitter to follow Twitter accounts\n- Pixelfed timeline not displayed by default\n- Fix admin reports not accessible\n- Top bar coloring at scroll\n- Drafts not saved when adding/editing media descriptions\n- User search suggestions have duplicates\n- Some minor crashes"
   },
   {
