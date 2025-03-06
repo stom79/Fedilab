@@ -1,8 +1,0 @@
-Added:
-Data rozgrywkowa (ang. Display date of the message) zamiast boost (default: disability)
-- Allow to dyskwalifikacyjne wydanie notatek popup in Settings.
-
-Fixed:
-Fix timeline slow down and jąkanie po niektórych zwojach.
-Fix – kolorowe problemy z przyciskami.
-- "Fix import z otoczenia" (wymóg z loginu był OK)

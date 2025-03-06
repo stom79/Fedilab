@@ -1,5 +1,0 @@
-Ajouté :
-- Authentification à 2 facteurs (2FA) pour Peertube
-
-Résolu :
-- Couleurs dynamiques pour Android 12+

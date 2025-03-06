@@ -1,8 +1,0 @@
-Fikset:
-- Kryds-komponér: forkerte instans emojier
-- Tilpassede emojier blev ikke vist i notifikationer
-- Favoritmærk/Fremhæc markører med delte opslag
-- Tomme notifikationer
-- fikset emnefelt blev fjernet ved svar
-- fikset udvid medie med fit forhåndsvisning ad billede når følsomt
-- fikset et problem med at hente flere viste for ofte (cache tømning hjalp eller vent nye beskeder)

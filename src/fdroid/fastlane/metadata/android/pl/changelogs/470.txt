@@ -1,5 +1,0 @@
-Zmienił:
-Materialny dialog.
-
-Fixed:
-Tematem przewodnim jest temat light

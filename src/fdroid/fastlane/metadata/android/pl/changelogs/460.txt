@@ -1,8 +1,0 @@
-Naprawiono:
-- Cross-compose: Nieprawidłowa instancja emojis
-- Niestandardowe emojis nie są wyświetlane w powiadomieniach
-- Znaczniki Fav/Boost z udostępnionymi wiadomościami
-- Puste powiadomienia
-- Napraw cw usunięte podczas odpowiedzi
-- Naprawić rozszerzanie mediów z dopasowaniem obrazów podglądu, gdy są wrażliwe
-- Naprawić problem z fetch more wyświetlany zbyt często (cache clear pomoże lub czekać nowe wiadomości)

@@ -1,4 +1,0 @@
-Dodano:
-- Podążaj za instancją Lemmy'ego (z Zarządzaj liniami czasu)
-Naprawiono:
-- Dodano maksymalnie 50 znaków dla opcji ankiety

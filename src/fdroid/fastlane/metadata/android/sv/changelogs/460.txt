@@ -1,8 +1,0 @@
-Ordnat:
-- Skapa till flera konton: Fel instans-emotikoner
-- Special-emotikoner visades inte i notiser
-- Favorit/Puff-markörer med delade meddelanden
-- Tomma notiser
-- Fixat att ämnesfältet raderades vid svar
-- Fixat att media visas med relevant förhandsvisning vid känsliga ämnen
-- Fixat ett problem där "hämta flera" visades för ofta (cachetömning eller att invänta nya meddelanden hjälper)

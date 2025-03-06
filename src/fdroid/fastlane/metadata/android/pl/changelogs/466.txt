@@ -1,8 +1,0 @@
-Zmienił:
-Media viewer (ang.).
-
-Fixed:
-Cross account action (ang.).
-- kolor - Boost
-Button nie jest widoczny z motywami zwyczajowymi.
-Fix – niektóre złe zachowanie z widokiem medialnym

@@ -1,8 +1,0 @@
-Corregit:
-- Composició creuada: emojis d'instància incorrecta
-- Els emojis personalitzats no es mostren a les notificacions
-- Marcadors Fav/Impulsa amb missatges compartits
-- Notificacions buides
-- Esmena el «cw» eliminat en respondre
-- Corregeix l'expansió de mèdia amb imatges marcades com a sensitives.
-- Soluciona un problema amb obtenir més mostrats massa sovint (la neteja la cache ajudarà o esperarà missatges nous)

@@ -1,8 +1,0 @@
-Zmienił:
-Allow to swipe media for profiles (ang.).
-
-Fixed:
-Zbliża się fok
-Copy/Paste in threads (ang.).
-Fix – katastrofa w czasie sprawdzenia przekierowania na http połączenia.
-Menu Display w mediach viewer resets pinch-zoom (ang.)
