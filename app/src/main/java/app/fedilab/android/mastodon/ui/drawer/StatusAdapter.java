@@ -2631,6 +2631,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (status.isFetchMore && fetchMoreCallBack != null) {
             if (!autofetch) {
                 DrawerFetchMoreBinding drawerFetchMoreBinding = DrawerFetchMoreBinding.inflate(LayoutInflater.from(context));
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                drawerFetchMoreBinding.fetchMoreContainer.setLayoutParams(lp);
                 if (status.positionFetchMore == Status.PositionFetchMore.BOTTOM) {
                     holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
                     holder.binding.fetchMoreContainerTop.setVisibility(View.VISIBLE);
