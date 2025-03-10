@@ -24,7 +24,7 @@
     </queries>
     <application
         android:name="app.fedilab.android.MainApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:configChanges="orientation|screenSize"
