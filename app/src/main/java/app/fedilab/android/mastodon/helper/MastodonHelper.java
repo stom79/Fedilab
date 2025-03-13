@@ -239,9 +239,9 @@ public class MastodonHelper {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
         @DrawableRes int placeholder = type == MediaAccountType.AVATAR ? R.drawable.ic_person : R.drawable.default_banner;
-        if (Helper.isValidContextForGlide(activity != null ? activity : context)) {
+        if (Helper.isValidContextForGlide(activity != null ? activity.getApplicationContext() : context.getApplicationContext())) {
             if (account == null) {
-                Glide.with(activity != null ? activity : context)
+                Glide.with(activity != null ? activity.getApplicationContext() : context.getApplicationContext())
                         .asDrawable()
                         .load(placeholder)
                         .thumbnail(0.1f)
@@ -253,7 +253,7 @@ public class MastodonHelper {
             if (targetedUrl != null) {
                 if (disableGif || (!targetedUrl.endsWith(".gif"))) {
                     try {
-                        Glide.with(activity != null ? activity : context)
+                        Glide.with(activity != null ? activity.getApplicationContext() : context.getApplicationContext())
                                 .asDrawable()
                                 .load(targetedUrl)
                                 .thumbnail(0.1f)
@@ -263,7 +263,7 @@ public class MastodonHelper {
                         e.printStackTrace();
                     }
                 } else {
-                    Glide.with(activity != null ? activity : context)
+                    Glide.with(activity != null ? activity.getApplicationContext() : context.getApplicationContext())
                             .asGif()
                             .load(targetedUrl)
                             .thumbnail(0.1f)
@@ -271,7 +271,7 @@ public class MastodonHelper {
                             .into(view);
                 }
             } else {
-                Glide.with(activity != null ? activity : context)
+                Glide.with(activity != null ? activity.getApplicationContext() : context.getApplicationContext())
                         .asDrawable()
                         .load(placeholder)
                         .thumbnail(0.1f)
