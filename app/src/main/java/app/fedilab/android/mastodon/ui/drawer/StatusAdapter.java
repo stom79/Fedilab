@@ -92,8 +92,11 @@ import androidx.media3.common.MediaItem;
 import androidx.media3.common.Player;
 import androidx.media3.datasource.DataSource;
 import androidx.media3.datasource.DefaultDataSource;
+import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.LoadControl;
 import androidx.media3.exoplayer.source.ProgressiveMediaSource;
+import androidx.media3.exoplayer.upstream.DefaultAllocator;
 import androidx.media3.ui.PlayerView;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -1728,7 +1731,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         .createMediaSource(mediaItem);
                             }
                             try {
-                                ExoPlayer player = new ExoPlayer.Builder(context).build();
+                                int MIN_BUFFER_DURATION = 1000;
+                                int MIN_PLAYBACK_RESUME_BUFFER = 1024;
+                                int MIN_PLAYBACK_START_BUFFER = 1024;
+                                DefaultLoadControl defaultLoadControl = new DefaultLoadControl.Builder()
+                                        .setAllocator(new DefaultAllocator(true, 16))
+                                        .setBufferDurationsMs(MIN_BUFFER_DURATION,
+                                                MIN_BUFFER_DURATION*5,
+                                                MIN_PLAYBACK_START_BUFFER,
+                                                MIN_PLAYBACK_RESUME_BUFFER)
+                                        .setTargetBufferBytes(-1)
+                                        .setPrioritizeTimeOverSizeThresholds(true).build();
+                                ExoPlayer player = new ExoPlayer.Builder(context).setLoadControl(defaultLoadControl).build();
                                 player.setRepeatMode(Player.REPEAT_MODE_ONE);
                                 layoutMediaBinding.mediaVideo.setPlayer(player);
                                 player.setMediaSource(videoSource);
@@ -1800,7 +1814,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         .createMediaSource(mediaItem);
                             }
                             try {
-                                ExoPlayer player = new ExoPlayer.Builder(context).build();
+                                int MIN_BUFFER_DURATION = 1000;
+                                int MIN_PLAYBACK_RESUME_BUFFER = 1024;
+                                int MIN_PLAYBACK_START_BUFFER = 1024;
+                                DefaultLoadControl defaultLoadControl = new DefaultLoadControl.Builder()
+                                        .setAllocator(new DefaultAllocator(true, 16))
+                                        .setBufferDurationsMs(MIN_BUFFER_DURATION,
+                                                MIN_BUFFER_DURATION*5,
+                                                MIN_PLAYBACK_START_BUFFER,
+                                                MIN_PLAYBACK_RESUME_BUFFER)
+                                        .setTargetBufferBytes(-1)
+                                        .setPrioritizeTimeOverSizeThresholds(true).build();
+                                ExoPlayer player = new ExoPlayer.Builder(context).setLoadControl(defaultLoadControl).build();
                                 player.setRepeatMode(Player.REPEAT_MODE_ONE);
                                 layoutMediaBinding.mediaVideo.setPlayer(player);
                                 player.setMediaSource(videoSource);
