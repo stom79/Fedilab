@@ -235,10 +235,10 @@ public class SpannableHelper {
             String url = span.getURL();
             int start = content.getSpanStart(span);
             int end = content.getSpanEnd(span);
-            boolean sameContent = (content.subSequence(start,end).toString().trim().equals(url.trim()));
             if (start < 0 || end > content.length()) {
                 continue;
             }
+            boolean sameContent = (content.subSequence(start,end).toString().trim().equals(url.trim()));
             content.removeSpan(span);
             //Get the matching word associated to the URL
             String word = content.subSequence(start, end).toString();
