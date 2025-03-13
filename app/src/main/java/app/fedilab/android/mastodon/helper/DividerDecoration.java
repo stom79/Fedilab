@@ -107,12 +107,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
                             startPx = c.getWidth() - startPx;
 
                         float bottomPx = view.getBottom();
-                        int color;
-                        if (j >= colorList.size()) {
-                            color = colorList.get(j - colorList.size());
-                        } else {
-                            color = colorList.get(j);
-                        }
+                        int color = colorList.get(j%(colorList.size()-1));
                         paint.setColor(ResourcesCompat.getColor(_mContext.getResources(), color, _mContext.getTheme()));
                         if (j == indentationMax - 1) {
                             paint.setPathEffect(new DashPathEffect(
