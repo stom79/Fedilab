@@ -41,6 +41,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.client.endpoints.MastodonFiltersService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.api.Status;
@@ -94,7 +95,7 @@ public class TimelineHelper {
         }
 
         //If there are filters:
-        if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0 && statuses != null && statuses.size() > 0) {
+        if (BaseMainActivity.mainFilters != null && !BaseMainActivity.mainFilters.isEmpty() && statuses != null && !statuses.isEmpty()) {
 
             //Loop through filters
             for (Filter filter : BaseMainActivity.mainFilters) {
@@ -113,7 +114,7 @@ public class TimelineHelper {
                 } else {
                     if (!filter.context.contains("public")) continue;
                 }
-                if (filter.keywords != null && filter.keywords.size() > 0) {
+                if (filter.keywords != null && !filter.keywords.isEmpty()) {
                     for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
                         String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).find() ? "\\b" : "";
                         String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).find() ? "\\b" : "";
@@ -150,6 +151,19 @@ public class TimelineHelper {
                                 Matcher ms = p.matcher(spoilerText);
                                 if (ms.find()) {
                                     status.filteredByApp = filter;
+                                    continue;
+                                }
+                            }
+                            List<Attachment> mediaAttachments = status.reblog != null ? status.reblog.media_attachments : status.media_attachments;
+                            if(mediaAttachments != null && !mediaAttachments.isEmpty()) {
+                                for(Attachment attachment : mediaAttachments) {
+                                    if(attachment.description != null) {
+                                        Matcher ms = p.matcher(attachment.description );
+                                        if (ms.find()) {
+                                            status.filteredByApp = filter;
+                                            break;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -157,13 +171,13 @@ public class TimelineHelper {
                 }
             }
         }
-        if (statuses != null && statuses.size() > 0) {
+        if (statuses != null && !statuses.isEmpty()) {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             boolean groupReblogs = sharedpreferences.getBoolean(context.getString(R.string.SET_GROUP_REBLOGS), true);
             if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
 
                 for (int i = 0; i < statuses.size(); i++) {
-                    if (filteredAccounts != null && filteredAccounts.size() > 0) {
+                    if (filteredAccounts != null && !filteredAccounts.isEmpty()) {
                         for (Account account : filteredAccounts) {
                             if (account.acct.equals(statuses.get(i).account.acct) || (statuses.get(i).reblog != null && account.acct.equals(statuses.get(i).reblog.account.acct))) {
                                 Filter filterCustom = new Filter();
@@ -220,7 +234,7 @@ public class TimelineHelper {
             }
         }
         //If there are filters:
-        if (BaseMainActivity.mainFilters != null && BaseMainActivity.mainFilters.size() > 0 && notifications != null && notifications.size() > 0) {
+        if (BaseMainActivity.mainFilters != null && !BaseMainActivity.mainFilters.isEmpty() && notifications != null && !notifications.isEmpty()) {
 
             //Loop through filters
             for (Filter filter : BaseMainActivity.mainFilters) {
@@ -231,7 +245,7 @@ public class TimelineHelper {
                 }
 
                 if (!filter.context.contains("notifications")) continue;
-                if (filter.keywords != null && filter.keywords.size() > 0) {
+                if (filter.keywords != null && !filter.keywords.isEmpty()) {
                     for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
                         String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).find() ? "\\b" : "";
                         String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).find() ? "\\b" : "";
