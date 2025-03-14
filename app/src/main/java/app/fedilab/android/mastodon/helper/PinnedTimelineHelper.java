@@ -341,10 +341,10 @@ public class PinnedTimelineHelper {
                         break;
                     case REMOTE:
                         name = pinnedTimeline.remoteInstance.host;
-                        if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
+                        if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG) {
                             String remoteInstance = sharedpreferences.getString(activity.getString(R.string.SET_NITTER_HOST), activity.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
                             //Custom name for Nitter instances
-                            if (pinnedTimeline.remoteInstance.displayName != null && pinnedTimeline.remoteInstance.displayName.trim().length() > 0) {
+                            if (pinnedTimeline.remoteInstance.displayName != null && !pinnedTimeline.remoteInstance.displayName.trim().isEmpty()) {
                                 name = pinnedTimeline.remoteInstance.displayName;
                             }
                             ident = "@R@" + remoteInstance;
@@ -378,6 +378,7 @@ public class PinnedTimelineHelper {
                                 case MISSKEY:
                                     tabCustomViewBinding.icon.setImageResource(R.drawable.misskey);
                                     break;
+                                case NITTER_TAG:
                                 case NITTER:
                                     tabCustomViewBinding.icon.setImageResource(R.drawable.nitter);
                                     break;
@@ -471,9 +472,10 @@ public class PinnedTimelineHelper {
                             case PIXELFED:
                                 item.setIcon(R.drawable.pixelfed);
                                 break;
+                            case NITTER_TAG:
                             case NITTER:
                                 item.setIcon(R.drawable.nitter);
-                                if (pinnedTimeline.remoteInstance.displayName != null && pinnedTimeline.remoteInstance.displayName.trim().length() > 0) {
+                                if (pinnedTimeline.remoteInstance.displayName != null && !pinnedTimeline.remoteInstance.displayName.trim().isEmpty()) {
                                     item.setTitle(pinnedTimeline.remoteInstance.displayName);
                                 } else {
                                     item.setTitle(pinnedTimeline.remoteInstance.host);
@@ -525,7 +527,7 @@ public class PinnedTimelineHelper {
                         bubbleClick(activity, finalPinned, v, activityMainBinding, finalI, activityMainBinding.tabLayout.getTabAt(finalI).getTag().toString());
                         break;
                     case REMOTE:
-                        if (pinnedTimelineVisibleList.get(position).remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
+                        if (pinnedTimelineVisibleList.get(position).remoteInstance.type != RemoteInstance.InstanceType.NITTER && pinnedTimelineVisibleList.get(position).remoteInstance.type != RemoteInstance.InstanceType.NITTER_TAG) {
                             instanceClick(activity, finalPinned, v, activityMainBinding, finalI, activityMainBinding.tabLayout.getTabAt(finalI).getTag().toString());
                         } else {
                             nitterClick(activity, finalPinned, v, activityMainBinding, finalI, activityMainBinding.tabLayout.getTabAt(finalI).getTag().toString());
@@ -1528,6 +1530,12 @@ public class PinnedTimelineHelper {
         PopupMenu popup = new PopupMenu(activity, view);
         popup.getMenuInflater()
                 .inflate(R.menu.option_nitter_timeline, popup.getMenu());
+        if(remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG) {
+            MenuItem item = popup.getMenu().findItem(R.id.action_nitter_manage_accounts);
+            if(item != null) {
+                item.setTitle(R.string.manage_tags);
+            }
+        }
         int finalOffSetPosition = offSetPosition;
         popup.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
@@ -1547,7 +1555,7 @@ public class PinnedTimelineHelper {
                 }
                 dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
                     String values = editTextName.getText().toString();
-                    if (values.trim().length() == 0) {
+                    if (values.trim().isEmpty()) {
                         values = remoteInstance.displayName;
                     }
                     remoteInstance.displayName = values;

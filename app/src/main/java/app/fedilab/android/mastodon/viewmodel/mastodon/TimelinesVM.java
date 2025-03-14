@@ -56,6 +56,7 @@ import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.Statuses;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
+import app.fedilab.android.mastodon.client.entities.app.RemoteInstance;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
@@ -300,6 +301,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link Statuses}
      */
     public LiveData<Statuses> getNitterHTML(
+            RemoteInstance.InstanceType instanceType,
             String accountsStr,
             String max_position) {
         statusesMutableLiveData = new MutableLiveData<>();
@@ -307,9 +309,20 @@ public class TimelinesVM extends AndroidViewModel {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final String nitterInstance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
         final String fedilabInstance =  "nitter.fedilab.app";
-        accountsStr = accountsStr.replaceAll("\\s", ",").replaceAll(",,",",");
+
         String cursor = max_position == null ? "" : max_position;
-        String url = "https://"+fedilabInstance+"/" + accountsStr + "/with_replies" +cursor;
+        String url;
+        accountsStr = accountsStr.replaceAll("\\s", ",").replaceAll(",,",",");
+        if(instanceType == RemoteInstance.InstanceType.NITTER) {
+            url = "https://"+fedilabInstance+"/" + accountsStr + "/with_replies" +cursor;
+        } else {
+            String[] tags = accountsStr.split(",");
+            StringBuilder tagsQuery = new StringBuilder();
+            for(String tag: tags) {
+                tagsQuery.append("%23").append(tag).append("+or+");
+            }
+            url  = "https://"+fedilabInstance+"/search?f=tweets&q=" + tagsQuery +"&e-nativeretweets=on&" +cursor;
+        }
         Request request = new Request.Builder()
                 .header("User-Agent", context.getString(R.string.app_name) + "/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE)
                 .url(url)

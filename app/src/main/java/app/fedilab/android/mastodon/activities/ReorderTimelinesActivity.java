@@ -212,6 +212,10 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ReorderTimelinesActivity.this);
                     String nitterHost = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
                     url = "https://" + nitterHost + "/" + instanceName.replaceAll("[ ]+", ",").replaceAll("\\s", "") + "/with_replies/rss";
+                }else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.twitter_tags) {
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ReorderTimelinesActivity.this);
+                    String nitterHost = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
+                    url = "https://" + nitterHost + "/search?f=tweets&q=" + instanceName.replaceAll("[ ]+", "+or+").replaceAll("\\s", "") + "&e-nativeretweets=on";
                 }
                 OkHttpClient client = new OkHttpClient.Builder()
                         .connectTimeout(10, TimeUnit.SECONDS)
@@ -257,6 +261,8 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                                         instanceType = RemoteInstance.InstanceType.GNU;
                                     } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.twitter_accounts) {
                                         instanceType = RemoteInstance.InstanceType.NITTER;
+                                    } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.twitter_tags) {
+                                        instanceType = RemoteInstance.InstanceType.NITTER_TAG;
                                     }
                                     RemoteInstance remoteInstance = new RemoteInstance();
                                     remoteInstance.type = instanceType;

@@ -420,7 +420,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             pinnedTimeline = (PinnedTimeline) bundle.getSerializable(Helper.ARG_REMOTE_INSTANCE);
             canBeFederated = true;
             if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
-                if (pinnedTimeline.remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
+                if (pinnedTimeline.remoteInstance.type != RemoteInstance.InstanceType.NITTER && pinnedTimeline.remoteInstance.type != RemoteInstance.InstanceType.NITTER_TAG) {
                     remoteInstance = pinnedTimeline.remoteInstance.host;
                 } else {
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
@@ -471,7 +471,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (list_id != null) {
             ident = "@l@" + list_id;
         } else if (remoteInstance != null && !checkRemotely) {
-            if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
+            if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG) {
                 ident = "@R@" + pinnedTimeline.remoteInstance.host;
             } else {
                 ident = "@R@" + remoteInstance;
@@ -562,7 +562,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
             //Update the timeline with new statuses
             int insertedStatus;
-            if(pinnedTimeline!= null && pinnedTimeline.remoteInstance != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
+            if(pinnedTimeline!= null && pinnedTimeline.remoteInstance != null && (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG)) {
                 insertedStatus = fetched_statuses.statuses.size();
                 int fromPosition = timelineStatuses.size();
                 timelineStatuses.addAll(fetched_statuses.statuses);
@@ -685,7 +685,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             max_id = statuses.pagination.max_id;
         }
         //For Lemmy and Nitter pagination
-        if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null && (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.LEMMY || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER)) {
+        if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null && (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.LEMMY || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG)) {
             max_id = statuses.pagination.max_id;
         }
         if (min_id == null || (statuses.pagination.min_id != null && Helper.compareTo(statuses.pagination.min_id, min_id) > 0)) {
@@ -1049,20 +1049,20 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             routeCommon(direction, fetchingMissing, fetchStatus);
         } else if (timelineType == Timeline.TimeLineEnum.REMOTE) { //REMOTE TIMELINE
             //NITTER TIMELINES
-            if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER) {
+            if (pinnedTimeline != null && (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG)) {
                 if (direction == null) {
-                    timelinesVM.getNitterHTML(pinnedTimeline.remoteInstance.host, null)
+                    timelinesVM.getNitterHTML(pinnedTimeline.remoteInstance.type, pinnedTimeline.remoteInstance.host, null)
                             .observe(getViewLifecycleOwner(), nitterStatuses -> {
                                 initialStatuses = nitterStatuses;
                                 initializeStatusesCommonView(nitterStatuses);
                             });
                 } else if (direction == DIRECTION.BOTTOM) {
-                    timelinesVM.getNitterHTML(pinnedTimeline.remoteInstance.host, max_id)
+                    timelinesVM.getNitterHTML(pinnedTimeline.remoteInstance.type, pinnedTimeline.remoteInstance.host, max_id)
                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
                 } else if (direction == DIRECTION.TOP) {
                     flagLoading = false;
                 } else if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
-                    timelinesVM.getNitterHTML(pinnedTimeline.remoteInstance.host, null)
+                    timelinesVM.getNitterHTML(pinnedTimeline.remoteInstance.type, pinnedTimeline.remoteInstance.host, null)
                             .observe(getViewLifecycleOwner(), statusesRefresh -> {
                                 if (statusAdapter != null) {
                                     dealWithPagination(statusesRefresh, direction, true, true, fetchStatus);

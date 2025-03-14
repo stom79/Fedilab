@@ -46,6 +46,8 @@ public class RemoteInstance implements Serializable {
         PEERTUBE("PEERTUBE"),
         @SerializedName("NITTER")
         NITTER("NITTER"),
+        @SerializedName("NITTER_TAG")
+        NITTER_TAG("NITTER_TAG"),
         @SerializedName("MISSKEY")
         MISSKEY("MISSKEY"),
         @SerializedName("LEMMY")

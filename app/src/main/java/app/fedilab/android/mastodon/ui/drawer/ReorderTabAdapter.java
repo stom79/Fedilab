@@ -100,14 +100,15 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     case GNU:
                         holder.binding.icon.setImageResource(R.drawable.ic_gnu_social);
                         break;
+                    case NITTER_TAG:
                     case NITTER:
                         holder.binding.icon.setImageResource(R.drawable.nitter);
                         break;
                 }
-                if (pinned.pinnedTimelines.get(position).remoteInstance.type != RemoteInstance.InstanceType.NITTER) {
+                if (pinned.pinnedTimelines.get(position).remoteInstance.type != RemoteInstance.InstanceType.NITTER && pinned.pinnedTimelines.get(position).remoteInstance.type != RemoteInstance.InstanceType.NITTER_TAG) {
                     holder.binding.text.setText(pinned.pinnedTimelines.get(position).remoteInstance.host);
                 } else {
-                    if (pinned.pinnedTimelines.get(position).remoteInstance.displayName != null && pinned.pinnedTimelines.get(position).remoteInstance.displayName.trim().length() > 0) {
+                    if (pinned.pinnedTimelines.get(position).remoteInstance.displayName != null && !pinned.pinnedTimelines.get(position).remoteInstance.displayName.trim().isEmpty()) {
                         holder.binding.text.setText(pinned.pinnedTimelines.get(position).remoteInstance.displayName);
                     } else {
                         holder.binding.text.setText(pinned.pinnedTimelines.get(position).remoteInstance.host);

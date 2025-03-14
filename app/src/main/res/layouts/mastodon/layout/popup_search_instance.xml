@@ -65,6 +65,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/twitter_accounts" />
+
+            <RadioButton
+                android:id="@+id/twitter_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/twitter_tags" />
         </RadioGroup>
     </ScrollView>
 </LinearLayout>
