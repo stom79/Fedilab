@@ -16,7 +16,7 @@
 
 ## Resources
 
-[WIKI](https://fedilab.app/wiki/home/)
+[Documentation](https://fedilab.app/docs/fedilab/)
 
 [Release notes](https://codeberg.org/tom79/Fedilab/tags)
 
