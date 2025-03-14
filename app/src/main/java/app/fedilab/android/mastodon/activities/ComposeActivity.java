@@ -17,7 +17,6 @@ package app.fedilab.android.mastodon.activities;
 
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.emojis;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -35,7 +34,6 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;

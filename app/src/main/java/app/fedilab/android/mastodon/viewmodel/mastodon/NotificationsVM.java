@@ -14,7 +14,6 @@ package app.fedilab.android.mastodon.viewmodel.mastodon;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.app.Application;
 import android.os.Handler;

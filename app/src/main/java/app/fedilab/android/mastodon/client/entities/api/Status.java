@@ -112,6 +112,7 @@ public class Status implements Serializable, Cloneable {
     @SerializedName("reactions")
     public List<Reaction> reactions;
 
+    public String attachedNotification = null;
 
     public transient boolean isFetchMore = false;
     public transient boolean isFetching = false;

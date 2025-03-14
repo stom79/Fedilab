@@ -15,7 +15,6 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -15,7 +15,6 @@ package app.fedilab.android.peertube.activities;
  * see <http://www.gnu.org/licenses>. */
 
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE_PEERTUBE_BROWSING;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.mastodon.helper.Helper.addFragment;
 import static app.fedilab.android.peertube.helper.Helper.recreatePeertubeActivity;
 

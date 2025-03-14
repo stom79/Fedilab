@@ -14,6 +14,8 @@ package app.fedilab.android.mastodon.client.entities.app;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -289,7 +291,6 @@ public class StatusCache {
         if (statusCache.type != null) {
             query += " AND " + Sqlite.COL_TYPE + " = '" + statusCache.type.getValue() + "'";
         }
-
         Cursor mCount = db.rawQuery(query, null);
         mCount.moveToFirst();
         int count = mCount.getInt(0);
@@ -352,7 +353,11 @@ public class StatusCache {
             values.put(Sqlite.COL_STATUS, mastodonStatusToStringStorage(statusCache.status));
         }
         if (statusCache.notification != null) {
-            values.put(Sqlite.COL_STATUS, mastodonNotificationToStringStorage(statusCache.notification));
+            Notification currentNotification = getCachedNotification(statusCache);
+            if(currentNotification != null && currentNotification.status != null) {
+                currentNotification.status = statusCache.notification.status;
+                values.put(Sqlite.COL_STATUS, mastodonNotificationToStringStorage(currentNotification));
+            }
         }
         if (statusCache.conversation != null) {
             values.put(Sqlite.COL_STATUS, mastodonConversationToStringStorage(statusCache.conversation));
@@ -594,6 +599,15 @@ public class StatusCache {
         }
     }
 
+    public Notification getCachedNotification(StatusCache statusCache) throws DBException  {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, Sqlite.COL_STATUS_ID + " = ? AND " + Sqlite.COL_USER_ID + " =  ? AND " + Sqlite.COL_INSTANCE + " =?",
+                new String[]{statusCache.status_id, statusCache.user_id, statusCache.instance}, null, null, null, "1");
+        c.moveToFirst();
+        return convertCursorToNotification(c);
+    }
 
     /**
      * Get paginated conversations from db

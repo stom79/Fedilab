@@ -17,7 +17,6 @@ package app.fedilab.android.mastodon.ui.drawer;
 
 import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
 
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.content.Context;
 import android.content.Intent;

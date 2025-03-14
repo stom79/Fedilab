@@ -17,7 +17,6 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
 
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.networkAvailable;
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

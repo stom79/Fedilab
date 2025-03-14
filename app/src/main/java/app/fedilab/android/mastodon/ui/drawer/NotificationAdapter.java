@@ -379,6 +379,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             if (notification.status != null) {
                 notification.status.cached = notification.cached;
+                notification.status.attachedNotification = notification.id;
             }
             statusManagement(context, statusesVM, searchVM, holderStatus, mRecyclerView, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, false, null);
             holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));

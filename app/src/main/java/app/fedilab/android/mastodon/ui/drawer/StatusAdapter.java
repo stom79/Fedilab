@@ -34,6 +34,7 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.mastodon.helper.Helper.getCurrentAccount;
 
 import android.annotation.SuppressLint;
@@ -58,6 +59,7 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -151,6 +153,7 @@ import app.fedilab.android.mastodon.activities.TimelineActivity;
 import app.fedilab.android.mastodon.activities.admin.AdminAccountActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Field;
+import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Reaction;
 import app.fedilab.android.mastodon.client.entities.api.Status;
@@ -410,8 +413,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 StatusCache statusCache = new StatusCache();
                 statusCache.instance = BaseMainActivity.currentInstance;
                 statusCache.user_id = BaseMainActivity.currentUserID;
-                statusCache.status = statusToDeal;
-                statusCache.status_id = statusToDeal.id;
+                if(statusToDeal.attachedNotification != null) {
+                    statusCache.notification = new Notification();
+                    statusCache.notification.status = statusToDeal;
+                    statusCache.status_id = statusToDeal.attachedNotification;
+                    statusCache.type = Timeline.TimeLineEnum.NOTIFICATION;
+                } else {
+                    statusCache.status_id = statusToDeal.id;
+                    statusCache.status = statusToDeal;
+                }
+
                 try {
                     new StatusCache(context).updateIfExists(statusCache);
                 } catch (DBException e) {
