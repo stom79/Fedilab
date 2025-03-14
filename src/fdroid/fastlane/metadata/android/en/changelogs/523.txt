@@ -1,0 +1,12 @@
+Added:
+- Follow Twitter tags
+
+Change:
+- Remove automatic backup (Google only)
+
+Fixed:
+- Push notifications not working for some devices
+- Filters not applied to media description
+- Fix a crash with animated images in timelines
+- Fix a crash for long threads
+- Fix a crash due to some messages (happened in different timelines)
