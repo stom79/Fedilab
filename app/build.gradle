@@ -100,7 +100,7 @@ allprojects {
     }
 }
 dependencies {
-    implementation 'org.unifiedpush.android:connector:3.0.5'
+    implementation 'org.unifiedpush.android:connector:3.0.7'
 
     playstoreImplementation('org.unifiedpush.android:embedded-fcm-distributor:3.0.0')
 
