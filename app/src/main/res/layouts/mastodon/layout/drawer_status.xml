@@ -653,10 +653,13 @@
             android:clipChildren="false"
             android:clipToPadding="false">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <RelativeLayout
                 android:id="@+id/action_button_reply_container"
-                android:layout_width="wrap_content"
+                android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:clickable="true"
+                android:contentDescription="@string/reply"
+                android:focusable="true"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -667,26 +670,24 @@
                     android:id="@+id/action_button_reply"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
                     android:adjustViewBounds="true"
-                    android:background="@color/transparent"
-                    android:clickable="true"
-                    android:contentDescription="@string/reply"
-                    android:focusable="true"
                     app:srcCompat="@drawable/ic_round_reply_24" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/reply_count"
-                    android:layout_marginStart="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_gravity="bottom"
+                    android:layout_marginStart="10dp"
                     android:text="+"
                     android:textColor="?colorControlNormal"
                     android:visibility="gone"
                     tools:ignore="HardcodedText"
                     tools:visibility="visible" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </RelativeLayout>
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -864,25 +865,31 @@
                 android:src="@drawable/ic_baseline_add_reaction_24"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/action_button_more"
+                app:layout_constraintEnd_toStartOf="@+id/action_button_more_container"
                 app:layout_constraintStart_toEndOf="@+id/status_add_custom_emoji"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/action_button_more"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center|end"
-                android:adjustViewBounds="true"
-                android:background="@color/transparent"
+            <RelativeLayout
+                android:id="@+id/action_button_more_container"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:clickable="true"
                 android:contentDescription="@string/display_options"
                 android:focusable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_round_more_horiz_24" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/action_button_more"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/ic_round_more_horiz_24" />
+
+            </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
