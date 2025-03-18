@@ -47,6 +47,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.IDN;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -59,6 +60,7 @@ import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.api.params.StatusParams;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
@@ -164,9 +166,8 @@ public class ComposeWorker extends Worker {
             }
             dataPost.messageToSend = statuses.size() - startingPosition;
             dataPost.messageSent = 0;
-            List<String> media_edit_id = null;
-            List<String> media_edit_description = null;
-            List<String> media_edit_focus = null;
+            List<StatusParams.MediaParams> media_attributes = null;
+
             for (int i = startingPosition; i < statuses.size(); i++) {
                 if (dataPost.notificationBuilder != null) {
                     dataPost.notificationBuilder.setProgress(100, dataPost.messageSent * 100 / dataPost.messageToSend, true);
@@ -179,15 +180,15 @@ public class ComposeWorker extends Worker {
                     attachmentIds = new ArrayList<>();
                     for (Attachment attachment : statuses.get(i).media_attachments) {
                         if (attachment.id != null) {
-                            if (media_edit_id == null) {
-                                media_edit_id = new ArrayList<>();
-                                media_edit_description = new ArrayList<>();
-                                media_edit_focus = new ArrayList<>();
+                            if (media_attributes == null) {
+                                media_attributes = new ArrayList<>();
                             }
+                            StatusParams.MediaParams mediaParams = new StatusParams.MediaParams();
+                            mediaParams.id = attachment.id;
+                            mediaParams.description = attachment.description;
+                            mediaParams.focus = attachment.focus;
                             attachmentIds.add(attachment.id);
-                            media_edit_id.add(attachment.id);
-                            media_edit_description.add(attachment.description);
-                            media_edit_focus.add(attachment.focus);
+                            media_attributes.add(mediaParams);
                         } else {
                             MultipartBody.Part fileMultipartBody;
                             if (watermark && attachment.mimeType != null && attachment.mimeType.contains("image")) {
@@ -207,7 +208,6 @@ public class ComposeWorker extends Worker {
                                 attachmentIds.add(replyId);
                             }
                         }
-
                     }
                 }
                 List<String> poll_options = null;
@@ -274,10 +274,25 @@ public class ComposeWorker extends Worker {
                         statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
                                 poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), statuses.get(i).language, statuses.get(i).quote_id, statuses.get(i).content_type);
                     } else { //Status is edited
-                        statusCall = mastodonStatusesService.updateStatus(null, dataPost.token, dataPost.statusEditId, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive,
-                                statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), statuses.get(i).language,
-                                media_edit_id, media_edit_description, media_edit_focus);
+                        StatusParams statusParams = new StatusParams();
+                        statusParams.status = statuses.get(i).text;
+                        statusParams.media_ids = attachmentIds;
+                        if(poll_options != null) {
+                            statusParams.pollParams = new StatusParams.PollParams();
+                            statusParams.pollParams.poll_options = poll_options;
+                            statusParams.pollParams.poll_expire_in = poll_expire_in;
+                            statusParams.pollParams.poll_multiple = poll_multiple;
+                            statusParams.pollParams.poll_hide_totals = poll_hide_totals;
+                        }
+                        statusParams.in_reply_to_id =  statuses.get(i).quote_id == null ? in_reply_to_status : null;
+                        statusParams.sensitive =  statuses.get(i).sensitive;
+                        statusParams.spoiler_text = statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null;
+                        statusParams.visibility = statuses.get(i).visibility.toLowerCase();
+                        statusParams.language = statuses.get(i).language;
+                        statusParams.media_attributes = media_attributes;
+                        statusCall = mastodonStatusesService.updateStatus(null, dataPost.token,
+                                dataPost.statusEditId,
+                                statusParams);
                     }
                     try {
                         Response<Status> statusResponse = statusCall.execute();
