@@ -471,7 +471,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (list_id != null) {
             ident = "@l@" + list_id;
         } else if (remoteInstance != null && !checkRemotely) {
-            if (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG) {
+            if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null && (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG)) {
                 ident = "@R@" + pinnedTimeline.remoteInstance.host;
             } else {
                 ident = "@R@" + remoteInstance;
