@@ -202,7 +202,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                     IndexAxisValueFormatter formatter = new IndexAxisValueFormatter() {
                         @Override
                         public String getFormattedValue(float value) {
-                            if (value < xVals.size()) {
+                            if (value >= 0 && value < xVals.size()) {
                                 return xVals.get((int) value);
                             } else
                                 return "";
@@ -363,7 +363,7 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
                     IndexAxisValueFormatter formatter = new IndexAxisValueFormatter() {
                         @Override
                         public String getFormattedValue(float value) {
-                            if (value < xVals2.size()) {
+                            if (value >= 0 && value < xVals2.size()) {
                                 return xVals2.get((int) value);
                             } else
                                 return "";
