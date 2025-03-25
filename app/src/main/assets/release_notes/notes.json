@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.31.0",
+    "code": "524",
+    "note": "Added:\n- Pinned Trending Timeline (can be hidden in Manage Timelines)\n- Add a fallback to the default translator\n- New Pixelfed entry in Settings to disable fullscreen for media\n- Add tooltips for tabs in profiles\n\nChanged:\n- Increase touch area of reply buttons\n- Show a dialog after settings export\n\nFixed:\n- Fix media description not updated when there are several\n- Only a part of DeepL translations are shown\n- Fix Lingva truncated translations\n- Fix a crash when fetching remote profiles\n- Fix a crash with animated emoji\n- Fix a crash when displaying Home cache charts"
+  },
+  {
     "version": "3.30.1",
     "code": "523",
     "note": "Added:\n- Follow Twitter tags\n\nChange:\n- Remove automatic backup (Google only)\n\nFixed:\n- Push notifications not working for some devices\n- Filters not applied to media description\n- Fix a crash with animated images in timelines\n- Fix a crash for long threads\n- Fix a crash due to some messages (happened in different timelines)"

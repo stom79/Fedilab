@@ -1,0 +1,17 @@
+Added:
+- Pinned Trending Timeline (can be hidden in Manage Timelines)
+- Add a fallback to the default translator
+- New Pixelfed entry in Settings to disable fullscreen for media
+- Add tooltips for tabs in profiles
+
+Changed:
+- Increase touch area of reply buttons
+- Show a dialog after settings export
+
+Fixed:
+- Fix media description not updated when there are several
+- Only a part of DeepL translations are shown
+- Fix Lingva truncated translations
+- Fix a crash when fetching remote profiles
+- Fix a crash with animated emoji
+- Fix a crash when displaying Home cache charts
