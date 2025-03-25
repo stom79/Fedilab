@@ -52,6 +52,13 @@
             app:exitAnim="@anim/exit"
             app:popEnterAnim="@anim/pop_enter"
             app:popExitAnim="@anim/pop_exit" />
+        <action
+            android:id="@+id/categories_to_pixelfed"
+            app:destination="@id/FragmentPixelfedSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
 
         <action
             android:id="@+id/categories_to_home_cache"
@@ -110,6 +117,11 @@
         android:id="@+id/FragmentPrivacySettings"
         android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentPrivacySettings"
         android:label="@string/action_privacy" />
+
+    <fragment
+        android:id="@+id/FragmentPixelfedSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentPixelfedSettings"
+        android:label="PixelFed" />
 
     <fragment
         android:id="@+id/FragmentHomeCacheSettings"

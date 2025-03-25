@@ -254,6 +254,11 @@
     <string name="set_capitalize">First letter in capital for replies</string>
     <string name="set_resize_picture">Resize pictures</string>
     <string name="set_resize_video">Resize videos</string>
+
+
+    <string name="set_pixelfed_full_media">Fullscreen media</string>
+    <string name="set_pixelfed_full_media_indication">Medias will take the whole width of the screen and aspect ratio for the height will be respected.</string>
+
     <!-- Quick settings for notifications -->
     <!-- CACHE -->
     <string name="cache_units">Mb</string>
@@ -1162,6 +1167,8 @@
 
     <string name="SET_DISPLAY_BOOKMARK" translatable="false">SET_DISPLAY_BOOKMARK</string>
     <string name="SET_PIXELFED_PRESENTATION" translatable="false">SET_PIXELFED_PRESENTATION</string>
+    <string name="SET_PIXELFED_FULL_MEDIA" translatable="false">SET_PIXELFED_FULL_MEDIA</string>
+
     <string name="SET_DISPLAY_QUOTES" translatable="false">SET_DISPLAY_QUOTES</string>
     <string name="SET_DISPLAY_REACTIONS" translatable="false">SET_DISPLAY_REACTIONS</string>
 
@@ -1728,6 +1735,7 @@
     <string name="pref_category_key_interface" translatable="false">pref_category_interface</string>
     <string name="pref_category_key_compose" translatable="false">pref_category_compose</string>
     <string name="pref_category_key_privacy" translatable="false">pref_category_privacy</string>
+    <string name="pref_category_key_pixelfed" translatable="false">pref_category_key_pixelfed</string>
     <string name="pref_category_key_home_cache" translatable="false">pref_category_key_home_cache</string>
     <string name="pref_category_key_theming" translatable="false">pref_category_theming</string>
     <string name="pref_category_key_administration" translatable="false">pref_category_administration</string>

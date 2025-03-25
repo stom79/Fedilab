@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_PIXELFED_FULL_MEDIA"
+        app:singleLineTitle="false"
+        app:summary="@string/set_pixelfed_full_media_indication"
+        app:title="@string/set_pixelfed_full_media" />
+
+</androidx.preference.PreferenceScreen>
