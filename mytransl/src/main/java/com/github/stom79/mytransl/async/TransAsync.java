@@ -29,6 +29,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
@@ -149,7 +151,7 @@ public class TransAsync {
             } else if (te == MyTransL.translatorEngine.LINGVA) {
                 String key = MyTransL.getInstance(te).getLibreTranslateAPIKey();
                 //String contentToSendEncoded = URLEncoder.encode(contentToSend, "UTF-8");
-                String lingvaURL = MyTransL.getLingvaUrl() + this.params.getSource_lang() + "/" + toLanguage + "/" + contentToSend;
+                String lingvaURL = MyTransL.getLingvaUrl() + this.params.getSource_lang() + "/" + toLanguage + "/" + URLEncoder.encode(contentToSend, "utf-8");
                 str_response = new Client().get(lingvaURL, this.timeout);
             }
         } catch (IOException | NoSuchAlgorithmException | KeyManagementException err) {

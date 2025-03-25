@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -156,11 +157,11 @@ public class Translate {
         String text = spannableString.toString();
         Matcher matcher;
 
-        //Mentions with instances (@name@domain) will be replaced by __o0__, __o1__, etc.
+        //Mentions with instances (@name@domain) will be replaced
         int i = 0;
         matcher = mentionOtherInstancePattern.matcher(text);
         while (matcher.find()) {
-            String key = "$o" + i;
+            String key = "§" + i;
             String value = matcher.group(0);
             if (value != null) {
                 this.mentionConversion.put(key, value);
@@ -170,10 +171,9 @@ public class Translate {
         }
         //Extracts Emails
         matcher = Patterns.EMAIL_ADDRESS.matcher(text);
-        i = 0;
-        //replaces them by a kind of variable which shouldn't be translated ie: __e0__, __e1__, etc.
+        //replaces them by a kind of variable which shouldn't be translated
         while (matcher.find()) {
-            String key = "$e" + i;
+            String key = "§" + i;
             String value = matcher.group(0);
             if (value != null) {
                 this.mailConversion.put(key, value);
@@ -182,11 +182,10 @@ public class Translate {
             i++;
         }
 
-        //Same for mentions with __m0__, __m1__, etc.
-        i = 0;
+        //Same for mentions w
         matcher = mentionPattern.matcher(text);
         while (matcher.find()) {
-            String key = "$m" + i;
+            String key = "§" + i;
             String value = matcher.group(0);
             if (value != null) {
                 this.mentionConversion.put(key, value);
@@ -197,10 +196,9 @@ public class Translate {
 
         //Extracts urls
         matcher = Patterns.WEB_URL.matcher(text);
-        i = 0;
-        //replaces them by a kind of variable which shouldn't be translated ie: __u0__, __u1__, etc.
+        //replaces them by a kind of variable which shouldn't be translated ie: _
         while (matcher.find()) {
-            String key = "$u" + i;
+            String key = "§" + i;
             String value = matcher.group(0);
             int end = matcher.end();
             if (spannableString.length() > end && spannableString.charAt(end) == '/') {
@@ -213,11 +211,9 @@ public class Translate {
             }
             i++;
         }
-        i = 0;
-        //Same for tags with __t0__, __t1__, etc.
         matcher = hashtagPattern.matcher(text);
         while (matcher.find()) {
-            String key = "$t" + i;
+            String key = "§" + i;
             String value = matcher.group(0);
             if (value != null) {
                 this.tagConversion.put(key, value);
@@ -348,7 +344,13 @@ public class Translate {
         try {
             JSONObject translationJson = new JSONObject(response);
             //Retrieves the translated content
-            translate.setTranslatedContent(translationJson.getString("translation"));
+            String content;
+            try {
+                content = URLDecoder.decode(translationJson.getString("translation"), "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                content = translationJson.getString("translation");
+            }
+            translate.setTranslatedContent(content);
             //Retrieves the initial language
             translate.setInitialLanguage(initialLanguage);
         } catch (JSONException e1) {
