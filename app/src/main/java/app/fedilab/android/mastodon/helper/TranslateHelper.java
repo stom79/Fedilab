@@ -72,8 +72,15 @@ public class TranslateHelper {
             String translatorVersion = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_VERSION), "PRO");
             params.setPro(translatorVersion.equals("PRO"));
             String apikey = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_API_KEY), null);
-            if (apikey != null) {
+            if (apikey != null && !apikey.trim().isEmpty()) {
                 myTransL.setDeeplAPIKey(apikey.trim());
+            } else { //Issue with API key (empty or null)
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(context.getString(R.string.SET_TRANSLATOR), "FEDILAB");
+                editor.commit();
+                et = MyTransL.translatorEngine.LIBRETRANSLATE;
+                myTransL.setTranslator(et);
+                myTransL.setLibretranslateDomain("translate.fedilab.app");
             }
         }
 
