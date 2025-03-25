@@ -1071,4 +1071,5 @@
     <string name="toast_error_token_empty">O token non pode quedar baleiro!</string>
     <string name="use_token">Usar un token</string>
     <string name="toast_fail_authenticate">A app non se puido autenticar coa conta!</string>
+    <string name="twitter_tags">Etiquetas de Twitter (con Nitter)</string>
 </resources>

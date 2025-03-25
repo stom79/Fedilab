@@ -83,4 +83,18 @@
     <string name="add_field">Pridėti laukelį</string>
     <string name="delete_field">Ištrinti laukelį</string>
     <string name="delete_field_confirm">Ar tikrai norite ištrinti šį laukelį?</string>
+    <string name="track_selection_title">Pasirinkti takelius</string>
+    <string name="auto">Automatinis</string>
+    <string name="set_custom_accent">Pasirinktinė akcento spalva</string>
+    <string name="load_media_remotely">Įkelti mediją nuotoliniu būdu</string>
+    <string name="toast_error_media">Medijos negalima įkelti.</string>
+    <string name="fetch_remote_media">Automatiškai gauti nuotolines medijas, kai jų nepasiekiama</string>
+    <string name="fetching_messages">Gaunamos žinutės</string>
+    <string name="add_description">Pridėti aprašą</string>
+    <string name="retrieve_remote_account">Atgauti nuotolinę paskyrą.</string>
+    <string name="exit">Išeiti</string>
+    <string name="set_custom_accent_indication">Nustatykite temos spalvą kiekvienai paskyrai</string>
+    <string name="set_custom_accent_light_value">Šviesi akcento spalva</string>
+    <string name="thumbnail">Miniatiūra</string>
+    <string name="set_custom_accent_dark_value">Tamsi akcento spalva</string>
 </resources>

@@ -58,6 +58,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -248,12 +249,15 @@ public class ProfileActivity extends BaseActivity {
                 TabLayout.Tab followerTab = binding.accountTabLayout.getTabAt(2);
                 if (statusTab != null) {
                     statusTab.setText(getString(R.string.status_cnt, Helper.withSuffix(account.statuses_count)));
+                    TooltipCompat.setTooltipText(statusTab.view, String.valueOf(account.statuses_count));
                 }
                 if (followingTab != null) {
                     followingTab.setText(getString(R.string.following_cnt, Helper.withSuffix(account.following_count)));
+                    TooltipCompat.setTooltipText(followingTab.view, String.valueOf(account.following_count));
                 }
                 if (followerTab != null) {
                     followerTab.setText(getString(R.string.followers_cnt, Helper.withSuffix(account.followers_count)));
+                    TooltipCompat.setTooltipText(followerTab.view, String.valueOf(account.followers_count));
                 }
             }
 

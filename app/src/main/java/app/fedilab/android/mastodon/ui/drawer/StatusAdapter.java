@@ -2228,11 +2228,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         // Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> holder.binding.statusContent.invalidate(), 0, 100, TimeUnit.MILLISECONDS);
         if (remote) {
-            holder.binding.actionButtonMore.setVisibility(View.GONE);
+            holder.binding.actionButtonMoreContainer.setVisibility(View.GONE);
         } else {
-            holder.binding.actionButtonMore.setVisibility(View.VISIBLE);
+            holder.binding.actionButtonMoreContainer.setVisibility(View.VISIBLE);
         }
-        holder.binding.actionButtonMore.setOnClickListener(v -> {
+        holder.binding.actionButtonMoreContainer.setOnClickListener(v -> {
             boolean isOwner = statusToDeal.account.id.compareTo(BaseMainActivity.currentUserID) == 0;
             PopupMenu popup = new PopupMenu(context, holder.binding.actionButtonMore);
             popup.getMenuInflater()
@@ -2609,7 +2609,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             popup.show();
         });
 
-        holder.binding.actionButtonReply.setOnLongClickListener(v -> {
+        holder.binding.actionButtonReplyContainer.setOnLongClickListener(v -> {
             CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REPLY_ACTION, null, statusToDeal);
             return true;
         });
@@ -2624,7 +2624,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 context.startActivity(intent);
             });
         });
-        holder.binding.actionButtonReply.setOnClickListener(v -> {
+        holder.binding.actionButtonReplyContainer.setOnClickListener(v -> {
             if (remote) {
                 Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                 searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)

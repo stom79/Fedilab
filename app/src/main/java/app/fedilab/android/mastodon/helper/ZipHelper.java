@@ -32,6 +32,8 @@ import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -110,6 +112,12 @@ public class ZipHelper {
             Uri uri = Uri.parse("file://" + zipFile);
             intentOpen.setDataAndType(uri, "application/zip");
             String title = context.getString(R.string.data_export_settings);
+            new MaterialAlertDialogBuilder(context)
+                    .setTitle(R.string.export_settings)
+                    .setMessage(message + "\n\n" + uri.getPath())
+                    .setIcon(R.drawable.ic_baseline_check_24)
+                    .setNeutralButton(R.string.close, (dialogInterface, i) -> dialogInterface.dismiss())
+                    .show();
             Helper.notify_user(context, Helper.getCurrentAccount(context), intentOpen, BitmapFactory.decodeResource(context.getResources(),
                     getMainLogo(context)), Helper.NotifType.BACKUP, title, message);
         }
