@@ -183,15 +183,18 @@ public class PinnedTimelineHelper {
                 }
             }
         }
-        if (extraFeatures) {
-            try {
-                Pinned pinnedAll = new Pinned(activity).getAllPinned(Helper.getCurrentAccount(activity));
-                if (pinnedAll == null) {
-                    pinnedAll = new Pinned();
-                    pinnedAll.user_id = currentUserID;
-                    pinnedAll.instance = currentInstance;
-                    pinnedAll.pinnedTimelines = new ArrayList<>();
-                }
+
+        //Create other default timelines
+        try {
+            Pinned pinnedAll = new Pinned(activity).getAllPinned(Helper.getCurrentAccount(activity));
+            if (pinnedAll == null) {
+                pinnedAll = new Pinned();
+                pinnedAll.user_id = currentUserID;
+                pinnedAll.instance = currentInstance;
+                pinnedAll.pinnedTimelines = new ArrayList<>();
+            }
+            if (extraFeatures) {
+                //Bubble timeline
                 boolean createDefaultBubbleAtTop = true;
                 for (PinnedTimeline pinnedTimeline : pinnedAll.pinnedTimelines) {
                     if (pinnedTimeline.type == Timeline.TimeLineEnum.BUBBLE) {
@@ -211,10 +214,33 @@ public class PinnedTimelineHelper {
                         new Pinned(activity).insertPinned(pinned);
                     }
                 }
-            } catch (DBException e) {
-                e.printStackTrace();
             }
+            //Trend timeline
+            boolean createDefaultTrendAtTop = true;
+            for (PinnedTimeline pinnedTimeline : pinnedAll.pinnedTimelines) {
+                if (pinnedTimeline.type == Timeline.TimeLineEnum.TREND_MESSAGE) {
+                    createDefaultTrendAtTop = false;
+                    break;
+                }
+            }
+            if (createDefaultTrendAtTop) {
+                PinnedTimeline pinnedTimelineBubble = new PinnedTimeline();
+                pinnedTimelineBubble.type = Timeline.TimeLineEnum.TREND_MESSAGE;
+                pinnedTimelineBubble.position = pinnedAll.pinnedTimelines != null ? pinnedAll.pinnedTimelines.size() : 0;
+                pinned.pinnedTimelines.add(pinnedTimelineBubble);
+                boolean exist = new Pinned(activity).pinnedExist(pinned);
+                if (exist) {
+                    new Pinned(activity).updatePinned(pinned);
+                } else {
+                    new Pinned(activity).insertPinned(pinned);
+                }
+            }
+        } catch (DBException e) {
+            e.printStackTrace();
         }
+
+
+
 
         sortPositionAsc(pinnedTimelines);
         //Check if changes occurred, if mastodonLists is null it does need, because it is the first call to draw pinned
@@ -413,6 +439,9 @@ public class PinnedTimelineHelper {
                         case BUBBLE:
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_bubble_chart_24);
                             break;
+                        case TREND_MESSAGE:
+                            tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.baseline_moving_24);
+                            break;
                     }
                     tab.setCustomView(tabCustomDefaultViewBinding.getRoot());
                 }
@@ -535,6 +564,7 @@ public class PinnedTimelineHelper {
                         break;
                     case HOME:
                     case LOCAL:
+                    case TREND_MESSAGE:
                     case PUBLIC:
                         defaultClick(activity, pinnedTimelineVisibleList.get(position).type, v, activityMainBinding, finalI);
                         break;

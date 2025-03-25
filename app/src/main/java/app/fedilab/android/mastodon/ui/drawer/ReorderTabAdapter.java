@@ -150,6 +150,10 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_bubble_chart_24);
                 holder.binding.text.setText(R.string.bubble);
                 break;
+            case TREND_MESSAGE:
+                holder.binding.icon.setImageResource(R.drawable.baseline_moving_24);
+                holder.binding.text.setText(R.string.trending);
+                break;
         }
 
 
