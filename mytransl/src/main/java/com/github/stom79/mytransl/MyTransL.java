@@ -29,12 +29,16 @@ public class MyTransL {
     private static MyTransL myTransL;
     private static String libretranslateDomain;
     private static String lingvaDomain;
-    private final translatorEngine te;
+    private translatorEngine te;
     private String yandexAPIKey, deeplAPIKey, systranAPIKey, libreTranslateAPIKey, lingvaAPIKey;
     private int timeout = 30;
     private boolean obfuscation = false;
 
     private MyTransL(translatorEngine te) {
+        this.te = te;
+    }
+
+    public void setTranslator(translatorEngine te) {
         this.te = te;
     }
 

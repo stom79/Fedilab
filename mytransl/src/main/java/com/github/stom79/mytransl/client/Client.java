@@ -64,18 +64,11 @@ public class Client {
         httpsURLConnection.setConnectTimeout(timeout * 1000);
         httpsURLConnection.setRequestProperty("http.keepAlive", "false");
         httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP)
-            httpsURLConnection.setSSLSocketFactory(new TLSSocketFactory());
         httpsURLConnection.setRequestMethod("GET");
         //Read the reply
         if (httpsURLConnection.getResponseCode() >= 200 && httpsURLConnection.getResponseCode() < 400) {
             Reader in;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                in = new BufferedReader(new InputStreamReader(httpsURLConnection.getInputStream(), StandardCharsets.UTF_8));
-            } else {
-                //noinspection CharsetObjectCanBeUsed
-                in = new BufferedReader(new InputStreamReader(httpsURLConnection.getInputStream(), "UTF-8"));
-            }
+            in = new BufferedReader(new InputStreamReader(httpsURLConnection.getInputStream(), StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
             for (int c; (c = in.read()) >= 0; )
                 sb.append((char) c);
@@ -84,13 +77,8 @@ public class Client {
             return sb.toString();
         } else {
             Reader in;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                in = new BufferedReader(new InputStreamReader(httpsURLConnection.getErrorStream(), StandardCharsets.UTF_8));
-            } else {
-                //noinspection CharsetObjectCanBeUsed
-                in = new BufferedReader(new InputStreamReader(httpsURLConnection.getErrorStream(), "UTF-8"));
-            }
-            StringBuilder sb = new StringBuilder();// TODO Auto-generated catch block
+            in = new BufferedReader(new InputStreamReader(httpsURLConnection.getErrorStream(), StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
             for (int c; (c = in.read()) >= 0; )
                 sb.append((char) c);
             httpsURLConnection.disconnect();
@@ -115,19 +103,12 @@ public class Client {
         URL url = new URL(urlConnection);
         HttpsURLConnection httpsURLConnection = (HttpsURLConnection) url.openConnection();
         byte[] postDataBytes;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            postDataBytes = jsonObject.toString().getBytes(StandardCharsets.UTF_8);
-        } else {
-            //noinspection CharsetObjectCanBeUsed
-            postDataBytes = jsonObject.toString().getBytes("utf-8");
-        }
+        postDataBytes = jsonObject.toString().getBytes(StandardCharsets.UTF_8);
         httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
         httpsURLConnection.setConnectTimeout(timeout * 1000);
         httpsURLConnection.setDoInput(true);
         httpsURLConnection.setDoOutput(true);
         httpsURLConnection.setUseCaches(false);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-            httpsURLConnection.setSSLSocketFactory(new TLSSocketFactory());
         httpsURLConnection.setRequestMethod("POST");
         httpsURLConnection.setRequestProperty("Content-Type", "application/json");
         httpsURLConnection.setRequestProperty("Accept", "application/json");
@@ -140,12 +121,7 @@ public class Client {
         //Read the reply
         if (httpsURLConnection.getResponseCode() >= 200 && httpsURLConnection.getResponseCode() < 400) {
             Reader in;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                in = new BufferedReader(new InputStreamReader(httpsURLConnection.getInputStream(), StandardCharsets.UTF_8));
-            } else {
-                //noinspection CharsetObjectCanBeUsed
-                in = new BufferedReader(new InputStreamReader(httpsURLConnection.getInputStream(), "UTF-8"));
-            }
+            in = new BufferedReader(new InputStreamReader(httpsURLConnection.getInputStream(), StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
             for (int c; (c = in.read()) >= 0; )
                 sb.append((char) c);
@@ -154,12 +130,7 @@ public class Client {
             return sb.toString();
         } else {
             Reader in;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                in = new BufferedReader(new InputStreamReader(httpsURLConnection.getErrorStream(), StandardCharsets.UTF_8));
-            } else {
-                //noinspection CharsetObjectCanBeUsed
-                in = new BufferedReader(new InputStreamReader(httpsURLConnection.getErrorStream(), "UTF-8"));
-            }
+            in = new BufferedReader(new InputStreamReader(httpsURLConnection.getErrorStream(), StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
             for (int c; (c = in.read()) >= 0; )
                 sb.append((char) c);

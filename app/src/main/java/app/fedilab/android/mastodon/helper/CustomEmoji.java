@@ -106,7 +106,9 @@ public class CustomEmoji extends ReplacementSpan {
                             if (drawableCallBack != null) {
                                 drawableCallBack.invalidateDrawable(drawable);
                             }
-                            view.invalidate();
+                            if(view != null) {
+                                view.invalidate();
+                            }
                         }
 
                         @Override

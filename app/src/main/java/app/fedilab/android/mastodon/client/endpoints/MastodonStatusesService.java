@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.client.endpoints;
  * see <http://www.gnu.org/licenses>. */
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import app.fedilab.android.mastodon.client.entities.api.Account;
@@ -25,14 +26,17 @@ import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.StatusSource;
+import app.fedilab.android.mastodon.client.entities.api.params.StatusParams;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -74,6 +78,16 @@ public interface MastodonStatusesService {
             @Header("Authorization") String token,
             @Path("id") String id);
 
+
+    @Headers({"Accept: application/json"})
+    @PUT("statuses/{id}")
+    Call<Status> updateStatus(
+            @Header("Idempotency-Key") String idempotency_Key,
+            @Header("Authorization") String token,
+            @Path("id") String id,
+            @Body StatusParams statusParams
+    );
+
     //Post a status
     @FormUrlEncoded
     @PUT("statuses/{id}")
@@ -92,9 +106,9 @@ public interface MastodonStatusesService {
             @Field("spoiler_text") String spoiler_text,
             @Field("visibility") String visibility,
             @Field("language") String language,
-            @Field("media_attributes[][id]") List<String> media_id,
-            @Field("media_attributes[][description]") List<String> media_description,
-            @Field("media_attributes[][focus]") List<String> focus
+            @Field("media_attributes[]") LinkedHashMap<String, String> media_id,
+            @Field("media_attributes[]") LinkedHashMap<String, String> media_description,
+            @Field("media_attributes[]") LinkedHashMap<String, String> focus
     );
 
     //Post a scheduled status
