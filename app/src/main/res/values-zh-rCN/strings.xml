@@ -1074,4 +1074,6 @@
     <string name="toast_fail_authenticate">应用验证账户失败！</string>
     <string name="use_token">使用令牌</string>
     <string name="twitter_tags">Twitter 标签（通过 Nitter）</string>
+    <string name="set_pixelfed_full_media">全屏媒体</string>
+    <string name="set_pixelfed_full_media_indication">媒体文件会占据整个屏幕宽度，会保持高度的长宽比。</string>
 </resources>
