@@ -1072,4 +1072,6 @@
     <string name="use_token">Usar un token</string>
     <string name="toast_fail_authenticate">A app non se puido autenticar coa conta!</string>
     <string name="twitter_tags">Etiquetas de Twitter (con Nitter)</string>
+    <string name="set_pixelfed_full_media">Multimedia a pantalla completa</string>
+    <string name="set_pixelfed_full_media_indication">O multimedia ocupará todo o ancho da pantalla e vanse respetar as proporcións de aspecto.</string>
 </resources>
