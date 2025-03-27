@@ -1743,7 +1743,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         .createMediaSource(mediaItem);
                             }
                             try {
-                                int MIN_BUFFER_DURATION = 1000;
+                                int MIN_BUFFER_DURATION = 1024;
                                 int MIN_PLAYBACK_RESUME_BUFFER = 1024;
                                 int MIN_PLAYBACK_START_BUFFER = 1024;
                                 DefaultLoadControl defaultLoadControl = new DefaultLoadControl.Builder()
@@ -1826,7 +1826,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                         .createMediaSource(mediaItem);
                             }
                             try {
-                                int MIN_BUFFER_DURATION = 1000;
+                                int MIN_BUFFER_DURATION = 1024;
                                 int MIN_PLAYBACK_RESUME_BUFFER = 1024;
                                 int MIN_PLAYBACK_START_BUFFER = 1024;
                                 DefaultLoadControl defaultLoadControl = new DefaultLoadControl.Builder()
