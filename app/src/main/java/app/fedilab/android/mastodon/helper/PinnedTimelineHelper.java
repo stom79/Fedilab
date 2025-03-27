@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
@@ -328,12 +329,18 @@ public class PinnedTimelineHelper {
         }
         //Pinned tab position will start after BOTTOM_TIMELINE_COUNT (ie 5)
         activityMainBinding.tabLayout.removeAllTabs();
+        if(activityMainBinding.viewPager.getAdapter() != null) {
+           activityMainBinding.viewPager.getAdapter().notifyDataSetChanged();
+        }
         int toRemove = FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
         if (!singleBar) {
             //Small hack to hide first tabs (they represent the item of the bottom menu)
             toRemove = itemToRemoveInBottomMenu(activity);
             for (int i = 0; i < (FedilabPageAdapter.BOTTOM_TIMELINE_COUNT - toRemove); i++) {
                 activityMainBinding.tabLayout.addTab(activityMainBinding.tabLayout.newTab(), false);
+                if(activityMainBinding.viewPager.getAdapter() != null) {
+                    activityMainBinding.viewPager.getAdapter().notifyDataSetChanged();
+                }
                 ((ViewGroup) activityMainBinding.tabLayout.getChildAt(0)).getChildAt(i).setVisibility(View.GONE);
             }
         }
@@ -449,6 +456,9 @@ public class PinnedTimelineHelper {
                 String slug = pinnedTimeline.type.getValue() + (ident != null ? "|" + ident : "");
                 tab.setTag(slug);
                 activityMainBinding.tabLayout.addTab(tab, false);
+                if(activityMainBinding.viewPager.getAdapter() != null){
+                    activityMainBinding.viewPager.getAdapter().notifyDataSetChanged();
+                }
                 pinnedTimelineVisibleList.add(pinnedTimeline);
             }
         }
