@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.31.1",
+    "code": "525",
+    "note": "Added:\n- Add MinT machine translation system support\n\nFixed:\n- GIF not displayed in timelines\n- Fix a crash when unpinning timelines\n- Top bar coloring at scroll for conversations\n- Black screen when going back from the Peertube section"
+  },
+  {
     "version": "3.31.0",
     "code": "524",
     "note": "Added:\n- Pinned Trending Timeline (can be hidden in Manage Timelines)\n- Add a fallback to the default translator\n- New Pixelfed entry in Settings to disable fullscreen for media\n- Add tooltips for tabs in profiles\n\nChanged:\n- Increase touch area of reply buttons\n- Show a dialog after settings export\n\nFixed:\n- Fix media description not updated when there are several\n- Only a part of DeepL translations are shown\n- Fix Lingva truncated translations\n- Fix a crash when fetching remote profiles\n- Fix a crash with animated emoji\n- Fix a crash when displaying Home cache charts"

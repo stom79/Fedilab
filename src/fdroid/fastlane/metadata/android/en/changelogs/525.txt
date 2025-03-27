@@ -1,0 +1,8 @@
+Added:
+- Add MinT machine translation system support
+
+Fixed:
+- GIF not displayed in timelines
+- Fix a crash when unpinning timelines
+- Top bar coloring at scroll for conversations
+- Black screen when going back from the Peertube section
