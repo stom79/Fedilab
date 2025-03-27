@@ -28,6 +28,7 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE_PEERTUBE_BROWSING;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 import static app.fedilab.android.mastodon.helper.Helper.addFragment;
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 import static app.fedilab.android.peertube.helper.SwitchAccountHelper.switchDialog;
@@ -43,6 +44,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,6 +73,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -590,7 +593,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                             app.fedilab.android.mastodon.helper.Helper.loadPP(this, binding.profilePicture, finalAccount1);
                             MenuItem accountItem = binding.drawerNavView.getMenu().findItem(R.id.action_account);
                             FrameLayout rootView = (FrameLayout) accountItem.getActionView();
-                            FrameLayout redCircle = rootView.findViewById(R.id.view_alert_red_circle);
+                            FrameLayout redCircle = Objects.requireNonNull(rootView).findViewById(R.id.view_alert_red_circle);
                             TextView countTextView = rootView.findViewById(R.id.view_alert_count_textview);
                             //change counter for notifications
                             if (badgeCount > 0) {
@@ -623,7 +626,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                             Set<String> videoLanguageServerSet = new TreeSet<>(videoLanguageServer);
                             videoLanguageServerSet.addAll(videoLanguageServer);
                             Set<String> videoLanguageLocal = sharedpreferences.getStringSet(getString(R.string.set_video_language_choice), null);
-                            if (videoLanguageServerSet.size() > 0 && videoLanguageLocal != null) {
+                            if (!videoLanguageServerSet.isEmpty() && videoLanguageLocal != null) {
                                 videoLanguageServer.addAll(videoLanguageLocal);
                             }
                             editor.putStringSet(getString(R.string.set_video_language_choice), videoLanguageServerSet);
@@ -689,36 +692,38 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
 
         SearchView searchView = (SearchView) myActionMenuItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Pattern link = Pattern.compile("(https?://[\\da-z.-]+\\.[a-z.]{2,10})/videos/watch/(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})(\\?start=(\\d+[hH])?(\\d+[mM])?(\\d+[sS])?)?$");
-                Matcher matcherLink = link.matcher(query.trim());
-                if (matcherLink.find()) {
-                    Intent intent = new Intent(PeertubeMainActivity.this, PeertubeActivity.class);
-                    intent.setData(Uri.parse(query.trim()));
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Pattern link = Pattern.compile("(https?://[\\da-z.-]+\\.[a-z.]{2,10})/videos/watch/(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})(\\?start=(\\d+[hH])?(\\d+[mM])?(\\d+[sS])?)?$");
+                    Matcher matcherLink = link.matcher(query.trim());
+                    if (matcherLink.find()) {
+                        Intent intent = new Intent(PeertubeMainActivity.this, PeertubeActivity.class);
+                        intent.setData(Uri.parse(query.trim()));
+                        startActivity(intent);
+                        myActionMenuItem.collapseActionView();
+                        return false;
+                    }
+                    Intent intent = new Intent(PeertubeMainActivity.this, SearchActivity.class);
+                    Bundle b = new Bundle();
+                    String search = query.trim();
+                    b.putString("search", search);
+                    intent.putExtras(b);
                     startActivity(intent);
+                    if (!searchView.isIconified()) {
+                        searchView.setIconified(true);
+                    }
                     myActionMenuItem.collapseActionView();
                     return false;
                 }
-                Intent intent = new Intent(PeertubeMainActivity.this, SearchActivity.class);
-                Bundle b = new Bundle();
-                String search = query.trim();
-                b.putString("search", search);
-                intent.putExtras(b);
-                startActivity(intent);
-                if (!searchView.isIconified()) {
-                    searchView.setIconified(true);
-                }
-                myActionMenuItem.collapseActionView();
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    return false;
+                }
+            });
+        }
         return true;
     }
 
@@ -755,8 +760,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
             }).start();
             return false;
         } else if (item.getItemId() == R.id.action_exit) {
-            Intent intent = new Intent(PeertubeMainActivity.this, MainActivity.class);
-            startActivity(intent);
             finish();
         } else if (item.getItemId() == R.id.action_sepia_search) {
             Intent intent = new Intent(PeertubeMainActivity.this, SepiaSearchActivity.class);
@@ -830,10 +833,17 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
     @Override
     public void onBackPressed() {
+        Log.v(TAG, "onBackPressed");
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(PeertubeMainActivity.this);
+            String defaultInstance = sharedpreferences.getString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, null);
+            if (typeOfConnection == TypeOfConnection.REMOTE_ACCOUNT && defaultInstance == null) {
+                finish();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 

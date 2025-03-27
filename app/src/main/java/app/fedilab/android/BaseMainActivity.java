@@ -1462,7 +1462,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 bundle.putBoolean(Helper.ARG_PEERTUBE_NAV_REMOTE, true);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                finish();
             } else if (id == R.id.nav_about_instance) {
                 (new InstanceActivity()).show(getSupportFragmentManager(), null);
             }
