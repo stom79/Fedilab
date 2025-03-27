@@ -29,6 +29,7 @@ public class MyTransL {
     private static MyTransL myTransL;
     private static String libretranslateDomain;
     private static String lingvaDomain;
+    private static String mintDomain;
     private translatorEngine te;
     private String yandexAPIKey, deeplAPIKey, systranAPIKey, libreTranslateAPIKey, lingvaAPIKey;
     private int timeout = 30;
@@ -65,6 +66,16 @@ public class MyTransL {
     public static String getLingvaUrl() {
         return "https://" + lingvaDomain + "/api/v1/";
     }
+
+    /**
+     * Allows to get the current domain for Mint
+     *
+     * @return locale String
+     */
+    public static String getMintUrl() {
+        return "https://" + mintDomain + "/api/translate";
+    }
+
 
 
     /**
@@ -126,12 +137,21 @@ public class MyTransL {
     }
 
 
-    public String getingvaDomain() {
+    public String getLingvaDomain() {
         return lingvaDomain;
     }
 
     public void setLingvaDomain(String lingvaDomain) {
         MyTransL.lingvaDomain = lingvaDomain;
+    }
+
+
+    public String getMintDomain() {
+        return mintDomain;
+    }
+
+    public void setMintDomain(String mintDomain) {
+        MyTransL.mintDomain = mintDomain;
     }
 
     public String getLibreTranslateAPIKey() {
@@ -177,7 +197,8 @@ public class MyTransL {
         DEEPL,
         SYSTRAN,
         LIBRETRANSLATE,
-        LINGVA
+        LINGVA,
+        MINT
     }
 
 }

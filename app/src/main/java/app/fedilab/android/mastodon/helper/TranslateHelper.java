@@ -51,6 +51,8 @@ public class TranslateHelper {
             et = MyTransL.translatorEngine.LIBRETRANSLATE;
         } else if (translator.compareToIgnoreCase("LINGVA") == 0) {
             et = MyTransL.translatorEngine.LINGVA;
+        } else if (translator.compareToIgnoreCase("MINT") == 0) {
+            et = MyTransL.translatorEngine.MINT;
         } else {
             et = MyTransL.translatorEngine.DEEPL;
         }
@@ -68,7 +70,13 @@ public class TranslateHelper {
                 host = context.getString(R.string.SET_TRANSLATOR_HOST_LINGVA);
             }
             myTransL.setLingvaDomain(host);
-        } else {
+        } else if (translator.compareToIgnoreCase("MINT") == 0) {
+            String host = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_DOMAIN_MINT), context.getString(R.string.SET_TRANSLATOR_HOST_MINT));
+            if (host == null || host.trim().isEmpty()) {
+                host = context.getString(R.string.SET_TRANSLATOR_HOST_MINT);
+            }
+            myTransL.setMintDomain(host);
+        }else {
             String translatorVersion = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_VERSION), "PRO");
             params.setPro(translatorVersion.equals("PRO"));
             String apikey = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_API_KEY), null);

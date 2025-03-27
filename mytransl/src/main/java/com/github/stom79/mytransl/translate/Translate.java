@@ -360,6 +360,33 @@ public class Translate {
         }
     }
 
+
+    /***
+     * Method to parse result coming from the Mint
+     * @param response String - Response of the engine translator
+     * @param listener - Results Listener
+     */
+    public void parseMintResult(String response, Results listener) {
+        translate.setTranslatorEngine(MyTransL.translatorEngine.MINT);
+        try {
+            JSONObject translationJson = new JSONObject(response);
+            //Retrieves the translated content
+            String content;
+            try {
+                content = URLDecoder.decode(translationJson.getString("translation"), "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                content = translationJson.getString("translation");
+            }
+            translate.setTranslatedContent(content);
+            //Retrieves the initial language
+            translate.setInitialLanguage(initialLanguage);
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+            HttpsConnectionException httpsConnectionException = new HttpsConnectionException(-1, e1.getMessage());
+            listener.onFail(httpsConnectionException);
+        }
+    }
+
     /***
      * Method to parse result coming from the Deepl translator
      * More about Deepl translate API - https://www.deepl.com/api-reference.html

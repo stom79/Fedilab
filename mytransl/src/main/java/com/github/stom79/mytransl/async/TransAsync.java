@@ -17,6 +17,9 @@ package com.github.stom79.mytransl.async;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.github.pemistahl.lingua.api.Language;
+import com.github.pemistahl.lingua.api.LanguageDetector;
+import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 import com.github.stom79.mytransl.MyTransL;
 import com.github.stom79.mytransl.client.Client;
 import com.github.stom79.mytransl.client.HttpsConnectionException;
@@ -30,9 +33,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.SortedMap;
 
 
 /**
@@ -150,10 +153,31 @@ public class TransAsync {
                 }
                 str_response = new Client().post(MyTransL.getLibreTranslateUrl(), this.timeout, params);
             } else if (te == MyTransL.translatorEngine.LINGVA) {
-                String key = MyTransL.getInstance(te).getLibreTranslateAPIKey();
-                //String contentToSendEncoded = URLEncoder.encode(contentToSend, "UTF-8");
                 String lingvaURL = MyTransL.getLingvaUrl() + this.params.getSource_lang() + "/" + toLanguage + "/" + URLEncoder.encode(contentToSend, "utf-8");
                 str_response = new Client().get(lingvaURL, this.timeout);
+            } else if(te == MyTransL.translatorEngine.MINT) {
+                JSONObject params = new JSONObject();
+                LanguageDetector languageDetector = LanguageDetectorBuilder.fromAllLanguages().withMinimumRelativeDistance(0.25).build();
+
+                SortedMap<Language, Double> languages = languageDetector.computeLanguageConfidenceValues(contentToSend);
+                String fromLanguage = null;
+                if(!languages.isEmpty()) {
+                    Language language = languages.firstKey();
+                    fromLanguage = language.getIsoCode639_1().name();
+                }
+                if(fromLanguage == null) {
+                    fromLanguage =  "en";
+                }
+                try {
+                    params.put("source_language", fromLanguage.toLowerCase());
+                    params.put("target_language", toLanguage);
+                    params.put("content", contentToSend);
+                    params.put("format", "text");
+                    params.put("model", "nllb200-600M");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                str_response = new Client().post(MyTransL.getMintUrl(), this.timeout, params);
             }
         } catch (IOException | NoSuchAlgorithmException | KeyManagementException err) {
             this.e = new HttpsConnectionException(-1, err.getMessage());
@@ -177,6 +201,8 @@ public class TransAsync {
                 translate.parseLibreTranslateResult(result, listener);
             } else if (this.te == MyTransL.translatorEngine.LINGVA) {
                 translate.parseLingvaResult(result, listener);
+            } else if (this.te == MyTransL.translatorEngine.MINT) {
+                translate.parseMintResult(result, listener);
             }
             //Obfuscation if asked
             if (obfuscation) {

@@ -164,6 +164,13 @@
         app:key="@string/SET_TRANSLATOR_DOMAIN"
         app:title="@string/translator_domain"
         app:useSimpleSummaryProvider="true" />
+    <EditTextPreference
+        app:defaultValue="translate.wmcloud.org"
+        app:dependency="@string/SET_TRANSLATOR"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRANSLATOR_DOMAIN_MINT"
+        app:title="@string/translator_domain"
+        app:useSimpleSummaryProvider="true" />
     <ListPreference
         app:defaultValue="PRO"
         app:dialogTitle="@string/version"

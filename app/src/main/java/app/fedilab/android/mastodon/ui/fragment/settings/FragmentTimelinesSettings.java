@@ -76,6 +76,13 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
             }
         }
 
+        if (SET_TRANSLATOR != null && !SET_TRANSLATOR.getValue().equals("MINT")) {
+            if (SET_TRANSLATOR_DOMAIN != null) {
+                preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_DOMAIN_MINT");
+            }
+        }
+
+
         SwitchPreferenceCompat SET_DISPLAY_BOOKMARK = findPreference(getString(R.string.SET_DISPLAY_BOOKMARK));
         if (SET_DISPLAY_BOOKMARK != null) {
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, true);
