@@ -1,5 +1,6 @@
 Added:
 - Add MinT machine translation system support
+- Add support "instance only" for GoToSocial
 
 Fixed:
 - GIF not displayed in timelines
