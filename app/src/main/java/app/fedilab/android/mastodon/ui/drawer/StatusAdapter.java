@@ -2765,7 +2765,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             statusToTranslate = Html.fromHtml(statusToDeal.content).toString();
         int countMorseChar = ComposeAdapter.countMorseChar(statusToTranslate);
         if (countMorseChar < 4) {
-            TranslateHelper.translate(context, statusToDeal.content, translated -> {
+            TranslateHelper.translate(context, statusToDeal.content, statusToDeal.language, translated -> {
                 if (translated != null) {
                     statusToDeal.translationShown = true;
                     statusToDeal.translationContent = translated;

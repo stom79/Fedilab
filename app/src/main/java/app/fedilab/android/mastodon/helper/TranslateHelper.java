@@ -38,7 +38,7 @@ import es.dmoral.toasty.Toasty;
 
 public class TranslateHelper {
 
-    public static void translate(Context context, String toTranslate, Translate callback) {
+    public static void translate(Context context, String toTranslate, String languageSource, Translate callback) {
         String statusToTranslate;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             statusToTranslate = Html.fromHtml(toTranslate, Html.FROM_HTML_MODE_LEGACY).toString();
@@ -61,7 +61,15 @@ public class TranslateHelper {
         Params params = new Params();
         params.setSplit_sentences(false);
         params.setFormat(Params.fType.TEXT);
-        params.setSource_lang("auto");
+        if(et != MyTransL.translatorEngine.MINT) {
+            params.setSource_lang("auto");
+        } else {
+            if(languageSource != null && !languageSource.isEmpty()) {
+                params.setSource_lang(languageSource);
+            } else {
+                params.setSource_lang("en");
+            }
+        }
         if (translator.compareToIgnoreCase("FEDILAB") == 0) {
             myTransL.setLibretranslateDomain("translate.fedilab.app");
         } else if (translator.compareToIgnoreCase("LINGVA") == 0) {

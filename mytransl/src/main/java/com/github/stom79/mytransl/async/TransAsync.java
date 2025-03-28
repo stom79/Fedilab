@@ -17,9 +17,6 @@ package com.github.stom79.mytransl.async;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.github.pemistahl.lingua.api.Language;
-import com.github.pemistahl.lingua.api.LanguageDetector;
-import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 import com.github.stom79.mytransl.MyTransL;
 import com.github.stom79.mytransl.client.Client;
 import com.github.stom79.mytransl.client.HttpsConnectionException;
@@ -35,7 +32,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.util.SortedMap;
 
 
 /**
@@ -157,19 +153,10 @@ public class TransAsync {
                 str_response = new Client().get(lingvaURL, this.timeout);
             } else if(te == MyTransL.translatorEngine.MINT) {
                 JSONObject params = new JSONObject();
-                LanguageDetector languageDetector = LanguageDetectorBuilder.fromAllLanguages().withMinimumRelativeDistance(0.25).build();
 
-                SortedMap<Language, Double> languages = languageDetector.computeLanguageConfidenceValues(contentToSend);
-                String fromLanguage = null;
-                if(!languages.isEmpty()) {
-                    Language language = languages.firstKey();
-                    fromLanguage = language.getIsoCode639_1().name();
-                }
-                if(fromLanguage == null) {
-                    fromLanguage =  "en";
-                }
+
                 try {
-                    params.put("source_language", fromLanguage.toLowerCase());
+                    params.put("source_language", this.params.getSource_lang());
                     params.put("target_language", toLanguage);
                     params.put("content", contentToSend);
                     params.put("format", "text");

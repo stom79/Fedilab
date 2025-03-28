@@ -74,7 +74,7 @@ public class ReleaseNoteAdapter extends RecyclerView.Adapter<ReleaseNoteAdapter.
             holder.binding.containerTrans.setVisibility(View.GONE);
             holder.binding.translate.setVisibility(View.VISIBLE);
         }
-        holder.binding.translate.setOnClickListener(v -> TranslateHelper.translate(context, note.note, translated -> {
+        holder.binding.translate.setOnClickListener(v -> TranslateHelper.translate(context, note.note, "en", translated -> {
             if (translated != null) {
                 note.noteTranslated = translated;
                 notifyItemChanged(holder.getBindingAdapterPosition());
