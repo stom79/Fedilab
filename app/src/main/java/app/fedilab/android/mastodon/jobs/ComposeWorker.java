@@ -272,7 +272,7 @@ public class ComposeWorker extends Worker {
                 if (dataPost.scheduledDate == null) {
                     if (dataPost.statusEditId == null) {
                         statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), statuses.get(i).language, statuses.get(i).quote_id, statuses.get(i).content_type);
+                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), statuses.get(i).language, statuses.get(i).quote_id, statuses.get(i).content_type, statuses.get(i).local_only);
                     } else { //Status is edited
                         StatusParams statusParams = new StatusParams();
                         statusParams.status = statuses.get(i).text;

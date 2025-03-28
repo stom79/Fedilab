@@ -65,7 +65,8 @@ public interface MastodonStatusesService {
             @Field("visibility") String visibility,
             @Field("language") String language,
             @Field("quote_id") String quote_id,
-            @Field("content_type") String content_type
+            @Field("content_type") String content_type,
+            @Field("local_only") Boolean local_only
     );
 
     @GET("statuses/{id}/source")
