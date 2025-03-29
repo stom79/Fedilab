@@ -449,6 +449,18 @@
             android:label="@string/action_cache"
             android:theme="@style/AppThemeBar" />
 
+        <activity android:name=".activities.WebActivityPub"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="*" />
+                <data android:pathPattern=".*" />
+                <data android:scheme="web+activitypub" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
