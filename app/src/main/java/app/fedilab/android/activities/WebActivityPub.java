@@ -25,6 +25,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import app.fedilab.android.mastodon.activities.ProfileActivity;
+import app.fedilab.android.mastodon.client.entities.api.Mention;
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
+import app.fedilab.android.mastodon.helper.Helper;
+
 
 public class WebActivityPub extends AppCompatActivity {
 
@@ -71,5 +76,18 @@ public class WebActivityPub extends AppCompatActivity {
                 acct = params[2] + "@" + host;
             }
         }
+        if(acct != null) {
+            Intent intentProfile = new Intent(WebActivityPub.this, ProfileActivity.class);
+            Bundle args = new Bundle();
+            args.putString(Helper.ARG_MENTION, acct);
+            new CachedBundle(WebActivityPub.this).insertBundle(args, Helper.getCurrentAccount(WebActivityPub.this), bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intentProfile.putExtras(bundle);
+                intentProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intentProfile);
+            });
+        }
+        finish();
     }
 }
