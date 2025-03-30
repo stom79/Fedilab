@@ -13,7 +13,6 @@ package app.fedilab.android.activities;
  *
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
-import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -26,7 +25,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.mastodon.activities.ProfileActivity;
-import app.fedilab.android.mastodon.client.entities.api.Mention;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 
@@ -48,6 +46,17 @@ public class WebActivityPub extends AppCompatActivity {
             finish();
             return;
         }
+        String scheme = uri.getScheme();
+        String uriString = uri.toString();
+        if(!uriString.startsWith(scheme+"://")) {
+            uriString = uri.toString().replace(scheme+":",scheme+"://");
+            uri = Uri.parse(uriString);
+            if(uri == null) {
+                finish();
+                return;
+            }
+        }
+
         String host = uri.getHost();
         String path = uri.getPath();
         String query = uri.getQuery();
