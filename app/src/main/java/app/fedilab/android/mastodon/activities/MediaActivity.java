@@ -190,7 +190,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             binding.mediaDescription.setText(description);
             binding.translate.setOnClickListener(v -> {
                 String descriptionToTranslate = attachments.get(mediaPosition - 1).description;
-                TranslateHelper.translate(MediaActivity.this, descriptionToTranslate, status.language, translated -> {
+                TranslateHelper.translate(MediaActivity.this, descriptionToTranslate, status!=null?status.language:"en", translated -> {
                     if (translated != null) {
                         attachments.get(mediaPosition - 1).translation = translated;
                         binding.mediaDescriptionTranslated.setText(translated);
@@ -239,7 +239,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                 }
                 binding.translate.setOnClickListener(v -> {
                     String descriptionToTranslate = attachments.get(position).description;
-                    TranslateHelper.translate(MediaActivity.this, descriptionToTranslate, status.language, translated -> {
+                    TranslateHelper.translate(MediaActivity.this, descriptionToTranslate, status!=null?status.language:"en", translated -> {
                         if (translated != null) {
                             attachments.get(position).translation = translated;
                             binding.mediaDescriptionTranslated.setText(translated);
