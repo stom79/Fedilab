@@ -4,7 +4,7 @@
     <string name="action_about_instance">Γef uqeddac</string>
     <string name="action_privacy">Tabaḍnit</string>
     <string name="action_cache">Tazarkatut</string>
-    <string name="action_logout">Ffeγ</string>
+    <string name="action_logout">Ffeɣ</string>
     <!-- common -->
     <string name="close">Mdel</string>
     <string name="yes">Ih</string>
@@ -28,12 +28,12 @@
     <string name="clipboard_url">The URL of the toot has been copied to the clipboard</string>
     <string name="camera">Takamiṛat</string>
     <string name="delete_all">Kkes kullec</string>
-    <string name="schedule">Sγiwes</string>
+    <string name="schedule">Sɣiwes</string>
     <string name="text_size">Tuɣzi n uḍris</string>
     <string name="next">Γer sdat</string>
     <string name="previous">Γer deffir</string>
     <string name="open_with">Ldi s</string>
-    <string name="validate">Seγbel</string>
+    <string name="validate">Seɣbel</string>
     <string name="media">Amidya</string>
     <string name="share_with">Bḍu d</string>
     <string name="shared_via">Bḍu s Fedilab</string>
@@ -53,9 +53,9 @@
     <string name="local_menu">Tasuddemt tadigant n yisallen</string>
     <string name="muted_menu">Imiḍanen yettwasgugmen</string>
     <string name="blocked_menu">Imseqdacen yettusḥebsen</string>
-    <string name="notifications">Ilγuyen</string>
+    <string name="notifications">Ilɣa</string>
     <string name="follow_request">Isuturen n teḍfeṛt</string>
-    <string name="settings">Iγewwaṛen</string>
+    <string name="settings">Iɣewwaṛen</string>
     <string name="send_email">Azen imayl</string>
     <string name="scheduled_toots">Scheduled toots</string>
     <string name="disclaimer_full">Information below may reflect the user\'s profile incompletely.</string>
@@ -72,7 +72,7 @@
     <string name="more_action_2">Seḥbes</string>
     <string name="more_action_3">Cetki</string>
     <string name="more_action_4">Kkes</string>
-    <string name="more_action_5">Nγel</string>
+    <string name="more_action_5">Nɣel</string>
     <string name="more_action_6">Bḍu</string>
     <string name="more_action_7">Bder</string>
     <string name="more_action_8">Timed mute</string>
@@ -137,7 +137,7 @@
     <string name="about_developer">Aneflay:</string>
     <string name="about_license">Turagt: </string>
     <string name="about_license_action">GNU GPL V3</string>
-    <string name="about_code">Tangalt taγbalut: </string>
+    <string name="about_code">Tangalt taɣbalut:</string>
     <string name="about_thekinrar">Nadi tummant:</string>
     <!-- Conversation -->
     <!-- Accounts -->
@@ -253,7 +253,7 @@
     <!-- About lists -->
     <string name="action_lists">Tibdarin</string>
     <string name="action_lists_confirm_delete">Are you sure you want to permanently delete this list?</string>
-    <string name="action_lists_add_to">Rnu γer tabdart</string>
+    <string name="action_lists_add_to">Rnu ɣer tabdart</string>
     <string name="action_lists_delete">Kkes tabdart</string>
     <string name="action_lists_title_placeholder">Azwel amaynut n wumuɣ</string>
     <string name="action_lists_add_user">The account was added to the list!</string>
@@ -264,7 +264,7 @@
     <!-- Proxy -->
     <string name="proxy_set">Apṛuksi</string>
     <string name="proxy_enable">Rmed apṛuksi?</string>
-    <string name="poxy_host">Asenneftaγ</string>
+    <string name="poxy_host">Asenneftaɣ</string>
     <string name="poxy_port">Awwur</string>
     <string name="poxy_login">Isem n useqdac</string>
     <string name="poxy_password">Awal uffir</string>
@@ -285,8 +285,8 @@
     <string name="filter_keyword">Keyword or phrase</string>
     <string name="context_home">Home timeline</string>
     <string name="context_public">Public timelines</string>
-    <string name="context_notification">Ilγuyen</string>
-    <string name="context_conversation">Aqessaṛ</string>
+    <string name="context_notification">Ilɣa</string>
+    <string name="context_conversation">Asqerdec</string>
     <string name="filter_keyword_explanations">Will be matched regardless of casing in text or content warning of a toot</string>
     <string name="context_drop">Drop instead of hide</string>
     <string name="context_drop_explanations">Filtered toots will disappear irreversibly, even if filter is later removed</string>
@@ -310,12 +310,12 @@
     <string name="select_sound">Select Tone</string>
     <string name="set_enable_time_slot">Enable time slot</string>
     <string name="block_domain_confirm_message">Are you sure to block %s?\n\nYou will not see any content from that domain in any public timeline or in your notifications. Your followers from that domain will be removed.</string>
-    <string name="block_domain">Sewḥel taγult</string>
+    <string name="block_domain">Sewḥel taɣult-a</string>
     <string name="toast_block_domain">The domain is blocked</string>
     <string name="retrieve_remote_status">Fetching remote status</string>
     <string name="peertube_instance">Peertube instance</string>
     <string name="set_display_emoji">Use Emoji One</string>
-    <string name="information">Talγut</string>
+    <string name="information">Talɣut</string>
     <string name="set_display_card">Display previews in all toots</string>
     <string name="account_id_clipbloard">The account id has been copied in the clipboard!</string>
     <string name="set_change_locale">Beddel tutlayt</string>
@@ -327,13 +327,13 @@
     <string name="schedule_boost">Schedule boost</string>
     <string name="boost_scheduled">The boost is scheduled!</string>
     <string name="no_scheduled_boosts">No scheduled boost to display!</string>
-    <string name="open_menu">Ldi umuγ</string>
-    <string name="profile_picture">Tugna n umaγnu</string>
+    <string name="open_menu">Ldi umuɣ</string>
+    <string name="profile_picture">Tugna n umaɣnu</string>
     <string name="profile_banner">Profile banner</string>
     <string name="contact_instance_admin">Contact admin of the instance</string>
     <string name="mastohost_logo">Alugu n MastoHost</string>
     <string name="emoji_picker">Amsefran n emuji</string>
-    <string name="expand_conversation">Simγur aqesseṛ</string>
+    <string name="expand_conversation">Simɣur asqerdec</string>
     <string name="custom_emoji_picker">Custom emoji picker</string>
     <string name="favicon">Favicon</string>
     <string name="media_description">Add description for media (for the visually impaired)</string>
@@ -374,7 +374,7 @@
     <string name="toot_select_file_error">An error occurred when selecting the backup file!</string>
     <string name="action_logout_account">Ffeɣ seg umiḍan</string>
     <string name="all">Akk</string>
-    <string name="copy_link">Nγel aseγwen</string>
+    <string name="copy_link">Nɣel aseɣwen</string>
     <string name="calls_blocked">http calls blocked by the application</string>
     <string name="list_of_blocked_domains">List of blocked calls</string>
     <string name="submit">Azen</string>
@@ -533,12 +533,12 @@
     <string name="text_color">Change the text color in messages</string>
     <string name="pref_custom_theme">Use a custom theme</string>
     <string name="theming">Theming</string>
-    <string name="data_export_theme">The theme was exported</string>
+    <string name="data_export_theme">Yettwasifeḍ usentel</string>
     <string name="data_export_theme_success">The theme has been successfully exported in CSV</string>
-    <string name="import_theme">Import a theme</string>
+    <string name="import_theme">Kter asentel</string>
     <string name="import_theme_title">Tap here to import a theme from a previous export</string>
-    <string name="export_theme">Export the theme</string>
-    <string name="export_theme_title">Tap here to export the current theme</string>
+    <string name="export_theme">Sifeḍ asentel</string>
+    <string name="export_theme_title">Sit da i usifeḍ n usentel amiran</string>
     <string name="theme_file_error">An error occurred when selecting the theme file</string>
     <string name="user_count">User count</string>
     <string name="status_count">Status count</string>
@@ -638,4 +638,9 @@
     <string name="clear_cache">Sfeḍ tazarkatut</string>
     <string name="show_anyway">Sken-d akken yebɣu yili</string>
     <string name="action_privacy_policy">Tasertit n tbaḍnit</string>
+    <string name="export_settings">Sifeḍ iɣewwaṛen</string>
+    <string name="data_export_settings">Iɣewwaṛen ttwasifḍen</string>
+    <string name="import_settings">Iɣewwaṛen n uketer</string>
+    <string name="load_settings">Ɛebbi iɣewwaṛen yettwasifḍen</string>
+    <string name="import_data">Kter isefka</string>
 </resources>

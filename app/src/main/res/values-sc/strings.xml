@@ -592,7 +592,7 @@
 \n %s utentes - %s istados</string>
     <string name="replace_instagram_description">Imprea un\'interfache alternativa pro Instagram</string>
     <string name="replace_instagram_host">Domìniu de s\'interfache pro Instagram</string>
-    <string name="hide_content">Cua su cuntenutu &gt;</string>
+    <string name="hide_content"><![CDATA[Cua su cuntenutu <]]></string>
     <string name="report_indication_title_status">Nara·nos ite no andat bene cun custa publicatzione</string>
     <string name="report_indication_title_status_more">Issèbera sa mègius currispondèntzia</string>
     <string name="report_val_more2">Ligàmenes malos, interatzione farsa o rispostas ripetitivas</string>
@@ -626,7 +626,7 @@
     <string name="is_down">No est in lìnia!</string>
     <string name="instance_health_checkedat">Verificadu: %s</string>
     <string name="instance_health_uptime">Tempus in lìnia: %,.2f %%</string>
-    <string name="show_content">Ammustra su cuntenutu &gt;</string>
+    <string name="show_content"><![CDATA[Ammustra su cuntenutu >]]></string>
     <string name="stop_recording">Firma sa registratzione</string>
     <string name="report_title">Sinnalende %1$s</string>
     <string name="report_val_more1">No est una cosa chi boles bìdere</string>
@@ -1075,4 +1075,12 @@
     <string name="last_24_h">Ùrtimas 24 oras</string>
     <string name="frequency_count_minutes">%d frecuèntzia (minutos)</string>
     <string name="set_remote_conversation">S\'aplicatzione at a ammustrare is arresonadas in manera pùblica pro retzire totu is messàgios. Is interatziones ant a bisongiare de unu passu in prus pro federare is messàgios.</string>
+    <string name="use_token">Imprea unu getone</string>
+    <string name="instance_token">Su getone tuo</string>
+    <string name="toast_error_internet">Non ddoe est peruna connessione a ìnternet!</string>
+    <string name="toast_error_token_empty">Su getone non podet èssere bòidu!</string>
+    <string name="set_pixelfed_full_media_indication">Sos elementos multimediales s\'ant a pigare totu sa largària de ischermu e sos raportos de sas dimensiones pro s\'artària s\'at a rispetare.</string>
+    <string name="set_pixelfed_full_media">Mèdios a ischermu intreu</string>
+    <string name="twitter_tags">Etichetas de Twitter (tràmite Nitter)</string>
+    <string name="toast_fail_authenticate">S\'aplicatzione no est resèssida a autenticare su contu!</string>
 </resources>

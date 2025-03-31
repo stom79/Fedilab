@@ -561,7 +561,7 @@
     <string name="open_other_app">Ouvrir avec une autre application</string>
     <string name="check_redirect">Vérifier la redirection</string>
     <string name="no_redirect">Cette URL ne redirige pas</string>
-    <string name="redirect_detected">%1$s\n\nredirige vers\n\n%2$s</string>
+    <string name="redirect_detected">%1$s \n\nredirige vers\n\n %2$s</string>
     <string name="set_utm_parameters">Supprimer les paramètres UTM</string>
     <string name="set_utm_parameters_indication">L’application supprimera automatiquement les paramètres UTM des URL avant de visiter un lien.</string>
     <string name="talking_about">%d personnes en parlent</string>
@@ -664,7 +664,7 @@
 \n %s utilisateur·ice·s - %s statuts</string>
     <string name="instance_health_checkedat">Vérifié à : %s</string>
     <string name="instance_health_uptime">Temps en ligne : %,.2f %%</string>
-    <string name="show_content">Afficher le contenu &gt;</string>
+    <string name="show_content"><![CDATA[Afficher le contenu >]]></string>
     <string name="stop_recording">Arrêter l\'enregistrement</string>
     <string name="report_title">Signalement de %1$s</string>
     <string name="report_indication_title_status">Dites-nous ce qui ne va pas avec cette publication</string>
@@ -696,7 +696,7 @@
     <string name="set_display_bookmark_indication">Toujours afficher le bouton marque-page</string>
     <string name="report_val3">Elle viole les règles du serveur</string>
     <string name="display">Afficher</string>
-    <string name="hide_content">Masquer le contenu &lt;</string>
+    <string name="hide_content"><![CDATA[Masquer le contenu <]]></string>
     <string name="also_favourite_by">"Également préféré par : "</string>
     <string name="also_boosted_by">Également partagé par :</string>
     <string name="top_menu">Menu de la barre supérieure</string>
@@ -958,11 +958,11 @@
     <string name="post_format">Format de publication</string>
     <string name="set_pixelfed_presentation">Présentation façon Pixelfed pour les médias</string>
     <string name="set_display_quote_indication">Afficher le bouton « Citer »</string>
-    <string name="set_display_reaction_indication">Afficher les boutons \"Réactions\".</string>
+    <string name="set_display_reaction_indication">Afficher les boutons \"Réactions\"</string>
     <string name="set_post_format">Format du message</string>
     <string name="exclude_visibility">Exclure la visibilité</string>
     <string name="set_remote_profile_title">Profils distants</string>
-    <string name="set_display_local_only">Afficher le bouton \"Local uniquement\".</string>
+    <string name="set_display_local_only">Afficher le bouton \"Local uniquement\"</string>
     <string name="local_only">Local uniquement</string>
     <string name="also_followed_by">Suivi·e par :</string>
     <string name="_new">Nouveau</string>
@@ -1027,7 +1027,7 @@
     <string name="fetched_count">%d messages récupérés</string>
     <string name="set_display_compact_buttons_description">Les boutons en bas des messages n’occuperont pas toute la largeur</string>
     <string name="fetching_messages">Récupération des messages</string>
-    <string name="retrieve_remote_account">Récupérer le compte distant !</string>
+    <string name="retrieve_remote_account">Récupération du compte distant !</string>
     <string name="compose_shortcut_short_label1">Rédiger</string>
     <string name="tags_deleted">L\'étiquette a été supprimée !</string>
     <string name="tags_stored">L\'étiquette a été enregistrée !</string>
@@ -1079,4 +1079,11 @@
     <string name="card_picture">Image de la carte</string>
     <string name="set_display_relative_date">Afficher la date relative des messages</string>
     <string name="pronouns_support">Prise en charge des pronoms</string>
+    <string name="twitter_tags">Tags Twitter (via Nitter)</string>
+    <string name="instance_token">Votre jeton</string>
+    <string name="toast_error_token_empty">Le jeton ne peut être vide !</string>
+    <string name="use_token">Utiliser un jeton</string>
+    <string name="toast_fail_authenticate">L\'application n\'a réussi à authentifier le compte !</string>
+    <string name="toast_error_internet">Pas de connexion internet !</string>
+    <string name="set_pixelfed_full_media">Médias en plein écran</string>
 </resources>
