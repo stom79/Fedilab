@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.31.2",
+    "code": "527",
+    "note": "Added:\n- Add support to URL scheme \"web+ap\" for opening profiles with the app\n\nChanged:\n- Layout for media descriptions\n\nFixed:\n- Fix a crash when translating media descriptions\n- Handle included twice when replying to a self user's boost\n- Fix color issues when using a custom theme"
+  },
+  {
     "version": "3.31.1",
     "code": "526",
     "note": "Added:\n- Add MinT machine translation system support\n- Add support \"instance only\" for GoToSocial\n\nFixed:\n- GIF not displayed in timelines\n- Fix a crash when unpinning timelines\n- Top bar coloring at scroll for conversations\n- Black screen when going back from the Peertube section"

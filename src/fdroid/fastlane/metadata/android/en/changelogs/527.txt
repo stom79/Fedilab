@@ -1,0 +1,10 @@
+Added:
+- Add support to URL scheme "web+ap" for opening profiles with the app
+
+Changed:
+- Layout for media descriptions
+
+Fixed:
+- Fix a crash when translating media descriptions
+- Handle included twice when replying to a self user's boost
+- Fix color issues when using a custom theme
