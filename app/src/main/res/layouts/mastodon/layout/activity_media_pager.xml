@@ -22,6 +22,8 @@
     android:animateLayoutChanges="true"
     android:background="@android:color/transparent">
 
+
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/media_viewpager"
         android:layout_width="match_parent"
@@ -31,65 +33,78 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/media_description"
-        android:fitsSystemWindows="true"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="10dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:maxHeight="300dp"
-        android:scrollbars="vertical"
-        android:layout_gravity="center_horizontal|bottom"
-        android:background="#AA000000"
-        android:gravity="center"
-        android:textColor="#ffffffff"
-        android:textIsSelectable="true"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/translate"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible" />
-
-    <TextView
-        android:fitsSystemWindows="true"
-        android:id="@+id/media_description_translated"
-        android:layout_width="0dp"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="10dp"
-        android:maxHeight="300dp"
-        android:scrollbars="vertical"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:background="#AA000000"
-        android:gravity="center"
-        android:textColor="#ffffffff"
-        android:textIsSelectable="true"
-        android:visibility="gone"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/description_container"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible" />
-
-    <com.google.android.material.button.MaterialButton
-
-        android:id="@+id/translate"
-        style="@style/Widget.Material3.Button.IconButton.Filled"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/translate"
+        android:background="#AA000000"
         android:visibility="gone"
-        app:icon="@drawable/ic_baseline_translate_24"
-        app:iconPadding="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/media_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/media_description"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/media_description"
+            android:fitsSystemWindows="true"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxHeight="300dp"
+            android:scrollbars="vertical"
+            android:layout_gravity="center_horizontal|bottom"
+            tools:text="@tools:sample/lorem/random"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textIsSelectable="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
+        <TextView
+            android:fitsSystemWindows="true"
+            android:id="@+id/media_description_translated"
+            android:layout_width="0dp"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:maxHeight="300dp"
+            android:scrollbars="vertical"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textIsSelectable="true"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/media_description_barrier"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="media_description,media_description_translated" />
+        <com.google.android.material.button.MaterialButton
+
+            android:id="@+id/translate"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/translate"
+            android:drawablePadding="5dp"
+            android:text="@string/translate"
+            app:icon="@drawable/ic_baseline_translate_24"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/media_description_barrier" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
         android:id="@+id/original_message"
         android:layout_width="wrap_content"
@@ -103,6 +118,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/translate"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
