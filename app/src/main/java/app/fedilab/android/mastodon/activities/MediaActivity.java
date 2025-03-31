@@ -73,7 +73,7 @@ import app.fedilab.android.mastodon.ui.fragment.media.FragmentMediaProfile;
 import es.dmoral.toasty.Toasty;
 
 
-public class MediaActivity extends BaseTransparentActivity implements OnDownloadInterface {
+public class MediaActivity extends BaseBarActivity implements OnDownloadInterface {
 
     int flags;
     private ArrayList<Attachment> attachments;
