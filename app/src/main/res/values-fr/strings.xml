@@ -1027,7 +1027,7 @@
     <string name="fetched_count">%d messages récupérés</string>
     <string name="set_display_compact_buttons_description">Les boutons en bas des messages n’occuperont pas toute la largeur</string>
     <string name="fetching_messages">Récupération des messages</string>
-    <string name="retrieve_remote_account">Récupérer le compte distant !</string>
+    <string name="retrieve_remote_account">Récupération du compte distant !</string>
     <string name="compose_shortcut_short_label1">Rédiger</string>
     <string name="tags_deleted">L\'étiquette a été supprimée !</string>
     <string name="tags_stored">L\'étiquette a été enregistrée !</string>
