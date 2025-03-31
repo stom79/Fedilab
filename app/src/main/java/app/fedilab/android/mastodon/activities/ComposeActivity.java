@@ -669,7 +669,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         mention.username = mentionBooster.username;
                         boolean present = false;
                         for (Mention mentionTmp : statusDraftList.get(0).mentions) {
-                            if (mentionTmp.acct.equalsIgnoreCase(mentionBooster.acct)) {
+                            if (mentionTmp.acct.equalsIgnoreCase("@"+mentionBooster.acct)) {
                                 present = true;
                                 break;
                             }

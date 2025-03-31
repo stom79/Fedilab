@@ -186,7 +186,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         binding.mediaDescription.setMovementMethod(LinkMovementMethod.getInstance());
         binding.mediaDescriptionTranslated.setMovementMethod(LinkMovementMethod.getInstance());
 
-        if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
+        if (description != null && !description.trim().isEmpty() && description.trim().compareTo("null") != 0) {
             binding.mediaDescription.setText(description);
             binding.translate.setOnClickListener(v -> {
                 String descriptionToTranslate = attachments.get(mediaPosition - 1).description;
@@ -234,7 +234,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
                     handler.removeCallbacksAndMessages(null);
                 }
                 handler = new Handler();
-                if (description != null && description.trim().length() > 0 && description.trim().compareTo("null") != 0) {
+                if (description != null && !description.trim().isEmpty() && description.trim().compareTo("null") != 0) {
                     binding.mediaDescription.setText(linkify(MediaActivity.this, description), TextView.BufferType.SPANNABLE);
                 }
                 binding.translate.setOnClickListener(v -> {
@@ -495,6 +495,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
         this.fullscreen = fullscreen;
         if (!fullscreen) {
             showSystemUI();
+            binding.descriptionContainer.setVisibility(View.VISIBLE);
             binding.mediaDescription.setVisibility(View.VISIBLE);
             if (mCurrentFragment != null) {
                 mCurrentFragment.toggleController(true);
@@ -505,6 +506,7 @@ public class MediaActivity extends BaseTransparentActivity implements OnDownload
             }
         } else {
             hideSystemUI();
+            binding.descriptionContainer.setVisibility(View.GONE);
             binding.mediaDescription.setVisibility(View.GONE);
             if (mCurrentFragment != null) {
                 mCurrentFragment.toggleController(false);
