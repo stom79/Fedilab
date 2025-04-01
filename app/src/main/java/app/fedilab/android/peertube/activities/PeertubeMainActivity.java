@@ -512,9 +512,9 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
     }
 
     private void startInForeground() {
-        Intent notificationIntent = new Intent(this, RetrieveInfoService.class);
+        Intent retrieveInfoServiceIntent = new Intent(this, RetrieveInfoService.class);
         try {
-            startService(notificationIntent);
+            startService(retrieveInfoServiceIntent);
         } catch (Exception ignored) {
         }
     }
