@@ -15,7 +15,9 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentNightMode;
+import static app.fedilab.android.BaseMainActivity.currentUserID;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -24,6 +26,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -67,8 +70,16 @@ public class BaseBarActivity extends AppCompatActivity {
             }
         }
         String currentTheme = sharedpreferences.getString(getString(R.string.SET_THEME_BASE), getString(R.string.SET_DEFAULT_THEME));
+        boolean customAccentEnabled = sharedpreferences.getBoolean(getString(R.string.SET_CUSTOM_ACCENT) + currentUserID + currentInstance, false);
         //Default automatic switch
         currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if(customAccentEnabled && currentNightMode == Configuration.UI_MODE_NIGHT_NO) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR|View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+            }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }
         if (currentTheme.equals(getString(R.string.SET_DEFAULT_THEME))) {
             switch (currentNightMode) {
                 case Configuration.UI_MODE_NIGHT_NO -> {

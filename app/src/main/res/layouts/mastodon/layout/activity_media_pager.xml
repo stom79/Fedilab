@@ -20,8 +20,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:fitsSystemWindows="true"
     android:background="@android:color/transparent">
-
 
 
     <androidx.viewpager.widget.ViewPager
@@ -45,17 +45,17 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/media_description"
-            android:fitsSystemWindows="true"
             android:paddingStart="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:paddingEnd="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:maxHeight="300dp"
             android:scrollbars="vertical"
-            android:layout_gravity="center_horizontal|bottom"
+            android:layout_gravity="center_horizontal"
             tools:text="@tools:sample/lorem/random"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:textColor="#ffffffff"
             android:textIsSelectable="true"
             app:layout_constraintTop_toTopOf="parent"
@@ -63,17 +63,16 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:fitsSystemWindows="true"
             android:id="@+id/media_description_translated"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:paddingStart="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:paddingEnd="10dp"
             android:maxHeight="300dp"
             android:scrollbars="vertical"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="center_horizontal|bottom"
-
             android:gravity="center"
             android:textColor="#ffffffff"
             android:textIsSelectable="true"
@@ -81,6 +80,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+
             tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Barrier
@@ -90,16 +90,16 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="media_description,media_description_translated" />
         <com.google.android.material.button.MaterialButton
-
+            android:layout_marginEnd="10dp"
             android:id="@+id/translate"
-            style="@style/Widget.Material3.Button.ElevatedButton"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/translate"
             android:drawablePadding="5dp"
             android:text="@string/translate"
             app:icon="@drawable/ic_baseline_translate_24"
-            app:iconPadding="0dp"
+            app:iconPadding="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/media_description_barrier" />

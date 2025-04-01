@@ -631,15 +631,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.quotedMessage.cardviewContainer.setVisibility(View.GONE);
         }
 
-        if (Helper.getCurrentAccount(context) != null && Helper.getCurrentAccount(context).api == Account.API.PLEROMA || status.reactions != null) {
-            if (status.pleroma != null && status.pleroma.emoji_reactions != null && status.pleroma.emoji_reactions.size() > 0) {
+        if (extraFeatures && displayReactions) {
+            holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
+            holder.binding.statusEmoji.setVisibility(View.VISIBLE);
+            if (status.pleroma != null && status.pleroma.emoji_reactions != null && !status.pleroma.emoji_reactions.isEmpty()) {
                 holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions, true);
                 holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
                 LinearLayoutManager layoutManager
                         = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                 holder.binding.layoutReactions.reactionsView.setLayoutManager(layoutManager);
-            } else if (status.reactions != null && status.reactions.size() > 0) {
+            } else if (status.reactions != null && !status.reactions.isEmpty()) {
                 holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.reactions, true, false);
                 holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
@@ -801,6 +803,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 builder.show();
             });
+        } else {
+            holder.binding.statusAddCustomEmoji.setVisibility(View.GONE);
+            holder.binding.statusEmoji.setVisibility(View.GONE);
         }
 
         int truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
@@ -811,15 +816,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.binding.actionButtonQuote.setVisibility(View.GONE);
             }
-            if (displayReactions) {
-                holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
-                holder.binding.statusEmoji.setVisibility(View.VISIBLE);
-            } else {
-                holder.binding.statusAddCustomEmoji.setVisibility(View.GONE);
-                holder.binding.statusEmoji.setVisibility(View.GONE);
-            }
-
-
         }
 
         if (status.isMaths == null) {

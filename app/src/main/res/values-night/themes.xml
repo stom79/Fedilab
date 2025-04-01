@@ -26,6 +26,7 @@
         <item name="statusBar">@color/md_theme_dark_background</item>
         <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorSurfaceContainer">@color/md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
         <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
@@ -72,6 +73,7 @@
         <item name="statusBar">@color/md_theme_dark_background</item>
         <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorSurfaceContainer">@color/md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
         <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
@@ -126,6 +128,7 @@
         <item name="statusBar">@color/md_theme_dark_background</item>
         <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorSurfaceContainer">@color/md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
         <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
@@ -164,6 +167,7 @@
         <item name="statusBar">@color/solarized_md_theme_dark_background</item>
         <item name="colorOnBackground">@color/solarized_md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/solarized_md_theme_dark_surface</item>
+        <item name="colorSurfaceContainer">@color/solarized_md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/solarized_md_theme_dark_onSurface</item>
         <item name="colorSurfaceVariant">@color/solarized_md_theme_dark_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/solarized_md_theme_dark_onSurfaceVariant</item>
@@ -200,6 +204,7 @@
         <item name="statusBar">@color/solarized_md_theme_dark_background</item>
         <item name="colorOnBackground">@color/solarized_md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/solarized_md_theme_dark_surface</item>
+        <item name="colorSurfaceContainer">@color/solarized_md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/solarized_md_theme_dark_onSurface</item>
         <item name="colorSurfaceVariant">@color/solarized_md_theme_dark_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/solarized_md_theme_dark_onSurfaceVariant</item>
@@ -255,6 +260,7 @@
         <item name="statusBar">@color/solarized_md_theme_dark_background</item>
         <item name="colorOnBackground">@color/solarized_md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/solarized_md_theme_dark_surface</item>
+        <item name="colorSurfaceContainer">@color/solarized_md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/solarized_md_theme_dark_onSurface</item>
         <item name="colorSurfaceVariant">@color/solarized_md_theme_dark_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/solarized_md_theme_dark_onSurfaceVariant</item>
@@ -288,6 +294,7 @@
         <item name="statusBar">@color/black</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSurface">@color/black</item>
+        <item name="colorSurfaceContainer">@color/black</item>
         <item name="colorOnSurface">@color/white</item>
         <item name="colorSurfaceVariant">@color/black</item>
         <item name="colorOnSurfaceVariant">@color/white</item>
@@ -320,6 +327,7 @@
         <item name="statusBar">@color/black</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSurface">@color/black</item>
+        <item name="colorSurfaceContainer">@color/black</item>
         <item name="colorOnSurface">@color/white</item>
         <item name="colorSurfaceVariant">@color/black</item>
         <item name="colorOnSurfaceVariant">@color/white</item>
@@ -370,6 +378,7 @@
         <item name="statusBar">@color/black</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSurface">@color/black</item>
+        <item name="colorSurfaceContainer">@color/black</item>
         <item name="colorOnSurface">@color/white</item>
         <item name="colorSurfaceVariant">@color/black</item>
         <item name="colorOnSurfaceVariant">@color/white</item>
@@ -404,6 +413,7 @@
         <item name="statusBar">@color/dracula_background</item>
         <item name="colorOnBackground">@color/dracula_foreground</item>
         <item name="colorSurface">@color/dracula_background</item>
+        <item name="colorSurfaceContainer">@color/dracula_background</item>
         <item name="colorOnSurface">@color/dracula_foreground</item>
         <item name="colorSurfaceVariant">@color/dracula_current_Line</item>
         <item name="colorOnSurfaceVariant">@color/dracula_foreground</item>
@@ -437,6 +447,7 @@
         <item name="statusBar">@color/dracula_background</item>
         <item name="colorOnBackground">@color/dracula_foreground</item>
         <item name="colorSurface">@color/dracula_background</item>
+        <item name="colorSurfaceContainer">@color/dracula_background</item>
         <item name="colorOnSurface">@color/dracula_foreground</item>
         <item name="colorSurfaceVariant">@color/dracula_current_Line</item>
         <item name="colorOnSurfaceVariant">@color/dracula_foreground</item>
@@ -488,6 +499,7 @@
         <item name="statusBar">@color/dracula_background</item>
         <item name="colorOnBackground">@color/dracula_foreground</item>
         <item name="colorSurface">@color/dracula_background</item>
+        <item name="colorSurfaceContainer">@color/dracula_background</item>
         <item name="colorOnSurface">@color/dracula_foreground</item>
         <item name="colorSurfaceVariant">@color/dracula_current_Line</item>
         <item name="colorOnSurfaceVariant">@color/dracula_foreground</item>

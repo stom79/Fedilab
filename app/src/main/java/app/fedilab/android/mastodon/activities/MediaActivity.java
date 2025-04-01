@@ -199,6 +199,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
                         if (mCurrentFragment != null) {
                             mCurrentFragment.toggleController(false);
                         }
+                        binding.translate.setVisibility(View.GONE);
                     } else {
                         Toasty.error(MediaActivity.this, getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
                     }
@@ -248,6 +249,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
                             if (mCurrentFragment != null) {
                                 mCurrentFragment.toggleController(true);
                             }
+                            binding.translate.setVisibility(View.GONE);
                         } else {
                             Toasty.error(MediaActivity.this, getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
                         }
