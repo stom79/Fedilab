@@ -73,196 +73,6 @@
             </intent-filter>
         </activity>
 
-        <activity-alias
-            android:name=".activities.MainActivity.Bubbles"
-            android:enabled="true"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_bubbles"
-            android:roundIcon="@mipmap/ic_launcher_bubbles_round"
-            android:targetActivity=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/compose_shortcuts" />
-        </activity-alias>
-
-
-        <activity-alias
-            android:name=".activities.MainActivity.BubblesUA"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_bubbles_ua"
-            android:roundIcon="@mipmap/ic_launcher_bubbles_ua_round"
-            android:targetActivity=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/compose_shortcuts" />
-        </activity-alias>
-
-
-        <activity-alias
-            android:name=".activities.MainActivity.BubblesPeaGreen"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_bubbles_pea_green"
-            android:roundIcon="@mipmap/ic_launcher_bubbles_pea_green_round"
-            android:targetActivity=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/compose_shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:name=".activities.MainActivity.BubblesPride"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_bubbles_pride"
-            android:roundIcon="@mipmap/ic_launcher_bubbles_pride_round"
-            android:targetActivity=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/compose_shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:name=".activities.MainActivity.BubblesPink"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_bubbles_pink"
-            android:roundIcon="@mipmap/ic_launcher_bubbles_pink_round"
-            android:targetActivity=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/compose_shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:name=".activities.MainActivity.BubblesPirate"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_bubbles_pirate"
-            android:roundIcon="@mipmap/ic_launcher_bubbles_pirate_round"
-            android:targetActivity=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/compose_shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:name=".activities.MainActivity.Fediverse"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_fediverse"
-            android:roundIcon="@mipmap/ic_launcher_fediverse_round"
-            android:targetActivity=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/compose_shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:name=".activities.MainActivity.Hero"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_hero"
-            android:roundIcon="@mipmap/ic_launcher_hero_round"
-            android:targetActivity=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/compose_shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:name=".activities.MainActivity.Atom"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_atom"
-            android:roundIcon="@mipmap/ic_launcher_atom_round"
-            android:targetActivity=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/compose_shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:name=".activities.MainActivity.BrainCrash"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_crash"
-            android:roundIcon="@mipmap/ic_launcher_crash_round"
-            android:targetActivity=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/compose_shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:name=".activities.MainActivity.Mastalab"
-            android:enabled="false"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher_mastalab"
-            android:roundIcon="@mipmap/ic_launcher_mastalab_round"
-            android:targetActivity=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/compose_shortcuts" />
-        </activity-alias>
-
 
         <activity
             android:name=".activities.LoginActivity"
@@ -585,5 +395,359 @@
             android:name="androidx.work.impl.foreground.SystemForegroundService"
             android:foregroundServiceType="dataSync"
             tools:node="merge" />
+
+        <!-- ============ -->
+        <!-- CUSTOM ICONS -->
+        <!-- ============ -->
+
+        <activity-alias
+            android:name=".activities.MainActivity.Bubbles"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_bubbles"
+            android:roundIcon="@mipmap/ic_launcher_bubbles_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+
+        <activity-alias
+            android:name=".activities.MainActivity.BubblesUA"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_bubbles_ua"
+            android:roundIcon="@mipmap/ic_launcher_bubbles_ua_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+
+        <activity-alias
+            android:name=".activities.MainActivity.BubblesPeaGreen"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_bubbles_pea_green"
+            android:roundIcon="@mipmap/ic_launcher_bubbles_pea_green_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.BubblesPride"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_bubbles_pride"
+            android:roundIcon="@mipmap/ic_launcher_bubbles_pride_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.BubblesPink"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_bubbles_pink"
+            android:roundIcon="@mipmap/ic_launcher_bubbles_pink_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.BubblesPirate"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_bubbles_pirate"
+            android:roundIcon="@mipmap/ic_launcher_bubbles_pirate_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Fediverse"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_fediverse"
+            android:roundIcon="@mipmap/ic_launcher_fediverse_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Hero"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_hero"
+            android:roundIcon="@mipmap/ic_launcher_hero_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Atom"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_atom"
+            android:roundIcon="@mipmap/ic_launcher_atom_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.BrainCrash"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_crash"
+            android:roundIcon="@mipmap/ic_launcher_crash_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Mastalab"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_mastalab"
+            android:roundIcon="@mipmap/ic_launcher_mastalab_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Leaf"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_leaf"
+            android:roundIcon="@mipmap/ic_launcher_leaf_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Offset"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_offset"
+            android:roundIcon="@mipmap/ic_launcher_offset_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Jungle"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_jungle"
+            android:roundIcon="@mipmap/ic_launcher_jungle_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Confetti"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_confetti"
+            android:roundIcon="@mipmap/ic_launcher_confetti_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Spaghetti"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_spaghetti"
+            android:roundIcon="@mipmap/ic_launcher_spaghetti_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Warm"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_warm"
+            android:roundIcon="@mipmap/ic_launcher_warm_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Purple1"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_purple_1"
+            android:roundIcon="@mipmap/ic_launcher_purple_1_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Purple2"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_purple_2"
+            android:roundIcon="@mipmap/ic_launcher_purple_2_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.YellowHeadedRedBubble"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_yellow_headed_red_bubble"
+            android:roundIcon="@mipmap/ic_launcher_yellow_headed_red_bubble_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+        <activity-alias
+            android:name=".activities.MainActivity.Mosaic"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_mosaic"
+            android:roundIcon="@mipmap/ic_launcher_mosaic_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
     </application>
 </manifest>

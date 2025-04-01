@@ -795,6 +795,16 @@
         <item>Atom</item>
         <item>BrainCrash</item>
         <item>Mastalab</item>
+        <item>Leaf</item>
+        <item>Offset</item>
+        <item>Jungle</item>
+        <item>Confetti</item>
+        <item>Spaghetti</item>
+        <item>Warm</item>
+        <item>Purple_1</item>
+        <item>Purple_2</item>
+        <item>Yellow-Headed Red Bubble</item>
+        <item>Mosaic</item>
     </string-array>
     <string-array name="SET_LOGO_TYPE_VALUE" translatable="false">
         <item>Bubbles</item>
@@ -808,6 +818,16 @@
         <item>Atom</item>
         <item>BrainCrash</item>
         <item>Mastalab</item>
+        <item>Leaf</item>
+        <item>Offset</item>
+        <item>Jungle</item>
+        <item>Confetti</item>
+        <item>Spaghetti</item>
+        <item>Warm</item>
+        <item>Purple1</item>
+        <item>Purple2</item>
+        <item>YellowHeadedRedBubble</item>
+        <item>Mosaic</item>
     </string-array>
 
     <string-array name="SET_LOGO_DRAWABLE" translatable="false">
@@ -822,6 +842,16 @@
         <item>@drawable/ic_launcher_atom_foreground</item>
         <item>@drawable/ic_launcher_crash_foreground</item>
         <item>@drawable/ic_launcher_mastalab_foreground</item>
+        <item>@drawable/ic_launcher_leaf_foreground</item>
+        <item>@drawable/ic_launcher_offset_foreground</item>
+        <item>@drawable/ic_launcher_jungle_foreground</item>
+        <item>@drawable/ic_launcher_confetti_foreground</item>
+        <item>@drawable/ic_launcher_spaghetti_foreground</item>
+        <item>@drawable/ic_launcher_warm_foreground</item>
+        <item>@drawable/ic_launcher_purple_1_foreground</item>
+        <item>@drawable/ic_launcher_purple_2_foreground</item>
+        <item>@drawable/ic_launcher_yellow_headed_red_bubble_foreground</item>
+        <item>@drawable/ic_launcher_mosaic_foreground</item>
     </string-array>
 
     <string-array name="SET_MATHS_FORMAT">
