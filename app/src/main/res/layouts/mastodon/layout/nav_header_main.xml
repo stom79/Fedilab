@@ -13,18 +13,20 @@
         android:minHeight="@dimen/nav_header_height"
         android:scaleType="centerCrop"
         tools:src="@tools:sample/backgrounds/scenic" />
-
-    <ImageView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/header_option_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.Button.Icon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="16dp"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        android:padding="0dp"
         android:contentDescription="@string/information"
-        android:src="@drawable/ic_baseline_more_vert_24"
-        app:tint="?colorControlNormal" />
+        app:icon="@drawable/ic_baseline_more_vert_24" />
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
