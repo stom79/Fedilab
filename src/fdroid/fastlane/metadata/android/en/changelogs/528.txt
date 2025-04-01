@@ -1,0 +1,11 @@
+Added:
+- Add new icon launchers (Settings > Interface)
+
+Changed:
+- Make logout/proxy button more visible in main menu
+- Remove permission FOREGROUND_SERVICE
+- Improve a little more media layout with translations
+
+Fixed:
+- Fix status bar icons not visible in light theme with custom accent color
+- Reaction buttons not clickable for some instances

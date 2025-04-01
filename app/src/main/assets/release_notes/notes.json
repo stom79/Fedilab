@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.31.3",
+    "code": "528",
+    "note": "Added:\n- Add new icon launchers (Settings > Interface)\n\nChanged:\n- Make logout/proxy button more visible in main menu\n- Remove permission FOREGROUND_SERVICE\n- Improve a little more media layout with translations\n\nFixed:\n- Fix status bar icons not visible in light theme with custom accent color\n- Reaction buttons not clickable for some instances"
+  },
+  {
     "version": "3.31.2",
     "code": "527",
     "note": "Added:\n- Add support to URL scheme \"web+ap\" for opening profiles with the app\n\nChanged:\n- Layout for media descriptions\n\nFixed:\n- Fix a crash when translating media descriptions\n- Handle included twice when replying to a self user's boost\n- Fix color issues when using a custom theme"
