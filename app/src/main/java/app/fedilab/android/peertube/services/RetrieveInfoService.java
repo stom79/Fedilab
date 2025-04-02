@@ -16,19 +16,28 @@ package app.fedilab.android.peertube.services;
 
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ServiceInfo;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import java.util.LinkedHashMap;
+import java.util.Objects;
 
+import app.fedilab.android.R;
 import app.fedilab.android.peertube.client.RetrofitPeertubeAPI;
 import app.fedilab.android.peertube.client.entities.PeertubeInformation;
 import app.fedilab.android.peertube.helper.EmojiHelper;
@@ -37,6 +46,7 @@ import app.fedilab.android.peertube.helper.NetworkStateReceiver;
 
 public class RetrieveInfoService extends Service implements NetworkStateReceiver.NetworkStateReceiverListener {
 
+    static String NOTIFICATION_CHANNEL_ID = "update_info_peertube";
     private NetworkStateReceiver networkStateReceiver;
 
 
@@ -45,6 +55,36 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
         ContextCompat.registerReceiver(RetrieveInfoService.this, networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                    getString(R.string.notification_channel_name),
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setSound(null, null);
+
+            ((NotificationManager) Objects.requireNonNull(getSystemService(Context.NOTIFICATION_SERVICE))).createNotificationChannel(channel);
+            Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setContentTitle(getString(R.string.app_name))
+                    .setContentText(getString(R.string.notification_channel_name))
+                    .setAutoCancel(true).build();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
+            } else {
+                startForeground(1, notification);
+            }
+
+        } else {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                    .setContentTitle(getString(R.string.app_name))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setContentText(getString(R.string.notification_channel_name))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setAutoCancel(true);
+
+            Notification notification = builder.build();
+            startForeground(1, notification);
+        }
 
     }
 
@@ -100,7 +140,7 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
             @Override
             public void run() {
                 EmojiHelper.fillMapEmoji(getApplicationContext());
-                if (peertubeInformation == null || peertubeInformation.getCategories() == null || peertubeInformation.getCategories().isEmpty()) {
+                if (peertubeInformation == null || peertubeInformation.getCategories() == null || peertubeInformation.getCategories().size() == 0) {
                     peertubeInformation = new PeertubeInformation();
                     peertubeInformation.setCategories(new LinkedHashMap<>());
                     peertubeInformation.setLanguages(new LinkedHashMap<>());
@@ -110,6 +150,7 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
                     peertubeInformation.setTranslations(new LinkedHashMap<>());
                     peertubeInformation = new RetrofitPeertubeAPI(RetrieveInfoService.this).getPeertubeInformation();
                 }
+                stopForeground(true);
             }
         };
         thread.start();
