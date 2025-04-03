@@ -726,23 +726,20 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/action_button_quote"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:background="@color/transparent"
-                android:clickable="true"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:contentDescription="@string/action_quote"
-                android:focusable="true"
-                android:src="@drawable/ic_baseline_format_quote_24"
-                android:visibility="gone"
+                app:icon="@drawable/ic_baseline_format_quote_24"
+                app:iconGravity="textStart"
+                app:iconSize="28dp"
+                app:iconTint="?colorControlNormal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/action_button_favorite_container"
                 app:layout_constraintStart_toEndOf="@+id/action_button_boost_container"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/action_button_favorite_container"
@@ -797,18 +794,17 @@
                 sparkbutton:iconSize="28dp" />
 
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/action_button_translate"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:background="@color/transparent"
-                android:clickable="true"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:contentDescription="@string/translate"
-                android:focusable="true"
-                android:src="@drawable/ic_baseline_translate_24"
                 android:visibility="gone"
+                app:icon="@drawable/ic_baseline_translate_24"
+                app:iconGravity="textStart"
+                app:iconSize="28dp"
+                app:iconTint="?colorControlNormal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/action_button_maths"
                 app:layout_constraintStart_toEndOf="@+id/action_button_bookmark"

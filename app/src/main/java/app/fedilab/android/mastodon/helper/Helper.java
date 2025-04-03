@@ -34,6 +34,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -99,6 +100,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -1459,6 +1461,24 @@ public class Helper {
             color = hexaColor;
         }
         imageView.setColorFilter(color);
+    }
+
+    /**
+     * change color of a drawable
+     *
+     * @param materialButton {@link MaterialButton}
+     * @param hexaColor example 0xffff00
+     */
+    public static void changeDrawableColor(Context context, MaterialButton materialButton, int hexaColor) {
+        if (materialButton == null)
+            return;
+        int color;
+        try {
+            color = context.getResources().getColor(hexaColor);
+        } catch (Resources.NotFoundException e) {
+            color = hexaColor;
+        }
+        materialButton.setIconTint(ColorStateList.valueOf(color));
     }
 
     /**
