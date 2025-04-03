@@ -57,6 +57,7 @@
     <string name="show_privates">Show direct messages</string>
     <string name="action_open_in_web">Open in browser</string>
     <string name="translate">Translate</string>
+    <string name="more_options">More options</string>
     <!--- Menu -->
     <string name="home_menu">Home</string>
     <string name="local_menu">Local timeline</string>
@@ -77,6 +78,9 @@
     <string name="favourite_add">Add this message to your favourites?</string>
     <string name="favourite_remove">Remove this message from your favourites?</string>
     <string name="reblog_add">Boost this message?</string>
+    <string name="action_favourite">Favorite</string>
+    <string name="action_reblog">Boost</string>
+    <string name="action_quote">Quote</string>
     <string name="warn_boost_no_media_description">Warn if message has no media description before boosting</string>
     <string name="reblog_missing_description">This message has missing media description. Are you sure to boost it?</string>
     <string name="reblog_remove">Unboost this message?</string>
@@ -110,6 +114,21 @@
     <string name="bookmark_remove">Remove bookmark</string>
     <string name="status_bookmarked">Status has been added to bookmarks!</string>
     <string name="status_unbookmarked">Status was removed from bookmarks!</string>
+
+    <!-- Compose -->
+    <string name="add_content_warning">Add content warning</string>
+    <string name="remove_content_warning">Remove content warning</string>
+    <string name="change_visibility">Change visibility</string>
+    <string name="set_language">Set language</string>
+    <string name="action_publish">Publish</string>
+    <string name="open_new_attachment_panel">Open new attachment panel</string>
+    <string name="close_new_attachment_panel">Close new attachment panel</string>
+    <string name="attach_images">Attach images</string>
+    <string name="attach_audio">Attach audio</string>
+    <string name="attach_videos">Attach videos</string>
+    <string name="attach_files">Attach files</string>
+    <string name="add_poll">Add a poll</string>
+
     <!-- Date -->
     <string name="date_seconds">%d s</string>
     <string name="date_minutes">%d m</string>

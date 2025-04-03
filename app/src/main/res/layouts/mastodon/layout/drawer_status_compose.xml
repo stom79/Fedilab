@@ -179,6 +179,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="6dp"
             android:layout_marginStart="6dp"
+            android:contentDescription="@string/open_new_attachment_panel"
             app:icon="@drawable/ic_compose_attach"
             app:layout_constraintBottom_toBottomOf="@id/action_buttons_barrier"
             app:layout_constraintStart_toStartOf="parent"
@@ -191,6 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="6dp"
             android:checkable="true"
+            android:contentDescription="@string/add_content_warning"
             app:icon="@drawable/ic_compose_sensitive"
             app:layout_constraintBottom_toBottomOf="@id/action_buttons_barrier"
             app:layout_constraintStart_toEndOf="@id/button_attach"
@@ -203,6 +205,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="6dp"
+            android:contentDescription="@string/change_visibility"
             app:icon="@drawable/ic_compose_visibility_public"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
@@ -216,6 +219,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="6dp"
+            android:contentDescription="@string/set_language"
             android:fontFamily="monospace"
             android:minWidth="72dp"
             app:layout_constraintBottom_toBottomOf="@id/action_buttons_barrier"
@@ -253,6 +257,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="6dp"
             android:layout_marginEnd="6dp"
+            android:contentDescription="@string/action_publish"
             app:icon="@drawable/ic_compose_post"
             app:layout_constraintBottom_toBottomOf="@id/action_buttons_barrier"
             app:layout_constraintEnd_toEndOf="parent"
@@ -276,6 +281,7 @@
             style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/attach_images"
             app:icon="@drawable/ic_compose_attach_image" />
 
         <com.google.android.material.button.MaterialButton
@@ -283,6 +289,7 @@
             style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/attach_audio"
             app:icon="@drawable/ic_compose_attach_audio" />
 
         <com.google.android.material.button.MaterialButton
@@ -290,6 +297,7 @@
             style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/attach_videos"
             app:icon="@drawable/ic_compose_attach_video" />
 
         <com.google.android.material.button.MaterialButton
@@ -297,6 +305,7 @@
             style="@style/Widget.Material3.Button.IconButton.Outlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/close_new_attachment_panel"
             app:icon="@drawable/ic_baseline_close_24" />
 
         <com.google.android.material.button.MaterialButton
@@ -304,6 +313,7 @@
             style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/add_poll"
             app:icon="@drawable/ic_compose_poll" />
 
         <com.google.android.material.button.MaterialButton
@@ -311,6 +321,7 @@
             style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/attach_files"
             app:icon="@drawable/ic_compose_attach_more" />
 
         <androidx.appcompat.widget.LinearLayoutCompat

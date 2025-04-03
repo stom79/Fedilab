@@ -1697,9 +1697,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (holder.binding.contentSpoiler.getVisibility() == View.VISIBLE) {
                     statusDraft.spoilerChecked = false;
                     holder.binding.contentSpoiler.setVisibility(View.GONE);
+                    holder.binding.buttonSensitive.setContentDescription(context.getString(R.string.add_content_warning));
                 } else {
                     holder.binding.contentSpoiler.setVisibility(View.VISIBLE);
                     statusDraft.spoilerChecked = true;
+                    holder.binding.buttonSensitive.setContentDescription(context.getString(R.string.remove_content_warning));
                 }
             });
             //Last compose drawer
