@@ -369,6 +369,7 @@
     <string name="peertube_instance">Peertube instance</string>
     <string name="set_display_emoji">Use Emoji One</string>
     <string name="information">Information</string>
+    <string name="instance_information">Instance information</string>
     <string name="set_display_card">Display previews in all messages</string>
     <string name="account_id_clipbloard">The account id has been copied in the clipboard!</string>
     <string name="set_change_locale">Change the language</string>
@@ -627,6 +628,7 @@
     <string name="export_theme">Export the theme</string>
     <string name="export_theme_title">Tap here to export the current theme</string>
     <string name="theme_file_error">An error occurred when selecting the theme file</string>
+    <string name="network">Network</string>
     <string name="user_count">User count</string>
     <string name="status_count">Status count</string>
     <string name="instance_count">Instance count</string>
@@ -1792,9 +1794,12 @@
     <string name="pref_category_key_pixelfed" translatable="false">pref_category_key_pixelfed</string>
     <string name="pref_category_key_home_cache" translatable="false">pref_category_key_home_cache</string>
     <string name="pref_category_key_theming" translatable="false">pref_category_theming</string>
+    <string name="pref_category_key_network" translatable="false">pref_category_network</string>
     <string name="pref_category_key_administration" translatable="false">pref_category_administration</string>
     <string name="pref_category_key_languages" translatable="false">pref_category_languages</string>
     <string name="pref_category_key_extra_features" translatable="false">pref_category_key_extra_features</string>
+
+    <string name="pref_key_proxy" translatable="false">pref_key_proxy</string>
 
     <string name="pref_export_settings" translatable="false">pref_export_settings</string>
     <string name="pref_import_settings" translatable="false">pref_import_settings</string>

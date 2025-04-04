@@ -20,7 +20,7 @@ import static app.fedilab.android.BaseMainActivity.currentToken;
 import static app.fedilab.android.BaseMainActivity.currentUserID;
 import static app.fedilab.android.BaseMainActivity.fetchRecentAccounts;
 import static app.fedilab.android.BaseMainActivity.headerMenuOpen;
-import static app.fedilab.android.BaseMainActivity.headerOptionInfoClick;
+import static app.fedilab.android.BaseMainActivity.headerLogoutClick;
 import static app.fedilab.android.BaseMainActivity.mamageNewIntent;
 import static app.fedilab.android.BaseMainActivity.manageDrawerMenu;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
@@ -328,8 +328,8 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                         headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
                         app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeMainActivity.this, headerMainBinding.accountProfilePicture, app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this), false);
                         headerMainBinding.backgroundImage.setAlpha(0.5f);
-                        headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
-                        headerMainBinding.changeAccount.setOnClickListener(v -> {
+                        TooltipCompat.setTooltipText(headerMainBinding.ownerAccounts, getString(R.string.manage_accounts));
+                        headerMainBinding.ownerAccounts.setOnClickListener(v -> {
 
                             headerMenuOpen = !headerMenuOpen;
                             manageDrawerMenu(PeertubeMainActivity.this, binding.drawerNavView, headerMainBinding);
@@ -345,9 +345,7 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                         headerMainBinding.accountAcc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
                         app.fedilab.android.mastodon.helper.Helper.loadPP(PeertubeMainActivity.this, headerMainBinding.accountProfilePicture, app.fedilab.android.mastodon.helper.Helper.getCurrentAccount(PeertubeMainActivity.this), false);
                         headerMainBinding.backgroundImage.setAlpha(0.5f);
-                        headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
-                        headerMainBinding.changeAccount.setOnClickListener(v -> {
-
+                        headerMainBinding.ownerAccounts.setOnClickListener(v -> {
                             headerMenuOpen = !headerMenuOpen;
                             manageDrawerMenu(PeertubeMainActivity.this, binding.drawerNavView, headerMainBinding);
                         });
@@ -358,7 +356,8 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 };
                 mainHandler.post(myRunnable);
             }).start();
-            headerMainBinding.instanceInfo.setVisibility(View.GONE);
+            View navInstanceInfo = binding.drawerNavView.findViewById(R.id.nav_instance_info);
+            binding.drawerNavView.removeView(navInstanceInfo);
             binding.drawerNavView.addHeaderView(headerMainBinding.getRoot());
             binding.drawerNavView.setNavigationItemSelectedListener(item -> {
                 if (item.getItemId() == R.id.action_settings) {
@@ -414,7 +413,8 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 binding.drawerLayout.close();
                 return false;
             });
-            headerMainBinding.headerOptionInfo.setOnClickListener(v -> headerOptionInfoClick(PeertubeMainActivity.this, headerMainBinding, getSupportFragmentManager()));
+            TooltipCompat.setTooltipText(headerMainBinding.headerLogout, getString(R.string.action_logout));
+            headerMainBinding.headerLogout.setOnClickListener(v -> headerLogoutClick(PeertubeMainActivity.this, headerMainBinding, getSupportFragmentManager()));
             fetchRecentAccounts(PeertubeMainActivity.this, headerMainBinding);
         } else {
             new Thread(() -> {

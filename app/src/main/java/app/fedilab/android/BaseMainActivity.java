@@ -72,6 +72,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -461,7 +462,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static void manageDrawerMenu(Activity activity, NavigationView navigationView, NavHeaderMainBinding headerMainBinding) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         if (headerMenuOpen) {
-            headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24);
+            headerMainBinding.ownerAccounts.setIconResource(R.drawable.ic_baseline_arrow_drop_up_24);
             new Thread(() -> {
                 try {
                     List<BaseAccount> accounts = new Account(activity).getOtherAccounts();
@@ -592,7 +593,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                             Intent mainActivity = new Intent(activity, MainActivity.class);
                                             activity.startActivity(mainActivity);
                                             activity.finish();
-                                            headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
+                                            headerMainBinding.ownerAccounts.setIconResource(R.drawable.ic_accounts);
                                             return true;
                                         }
                                         return false;
@@ -624,47 +625,32 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (Helper.getCurrentAccount(activity).peertube_account != null) {
                 navigationView.inflateMenu(R.menu.activity_main_drawer_peertube);
             }
-            headerMainBinding.ownerAccounts.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
+            headerMainBinding.ownerAccounts.setIconResource(R.drawable.ic_accounts);
             headerMenuOpen = false;
         }
     }
 
-    public static void headerOptionInfoClick(Activity activity, NavHeaderMainBinding headerMainBinding, FragmentManager fragmentManager) {
-        PopupMenu popup = new PopupMenu(activity, headerMainBinding.headerOptionInfo);
-        popup.getMenuInflater()
-                .inflate(R.menu.main, popup.getMenu());
-
-        popup.setOnMenuItemClickListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.action_logout_account) {
-                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity);
-                alt_bld.setTitle(R.string.action_logout);
-                if (Helper.getCurrentAccount(activity).mastodon_account != null && Helper.getCurrentAccount(activity).instance != null) {
-                    alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, Helper.getCurrentAccount(activity).mastodon_account.username, Helper.getCurrentAccount(activity).instance));
-                } else if (Helper.getCurrentAccount(activity).peertube_account != null && Helper.getCurrentAccount(activity).instance != null) {
-                    alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, Helper.getCurrentAccount(activity).peertube_account.getUsername(), Helper.getCurrentAccount(activity).instance));
-                } else {
-                    alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, "", ""));
-                }
-                alt_bld.setPositiveButton(R.string.action_logout, (dialog, id) -> {
-                    dialog.dismiss();
-                    try {
-                        Helper.removeAccount(activity);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                });
-                alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
-                AlertDialog alert = alt_bld.create();
-                alert.show();
-                return true;
-            } else if (itemId == R.id.action_proxy) {
-                (new ProxyActivity()).show(fragmentManager, null);
-                return true;
+    public static void headerLogoutClick(Activity activity, NavHeaderMainBinding headerMainBinding, FragmentManager fragmentManager) {
+        AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(activity);
+        alt_bld.setTitle(R.string.action_logout);
+        if (Helper.getCurrentAccount(activity).mastodon_account != null && Helper.getCurrentAccount(activity).instance != null) {
+            alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, Helper.getCurrentAccount(activity).mastodon_account.username, Helper.getCurrentAccount(activity).instance));
+        } else if (Helper.getCurrentAccount(activity).peertube_account != null && Helper.getCurrentAccount(activity).instance != null) {
+            alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, Helper.getCurrentAccount(activity).peertube_account.getUsername(), Helper.getCurrentAccount(activity).instance));
+        } else {
+            alt_bld.setMessage(activity.getString(R.string.logout_account_confirmation, "", ""));
+        }
+        alt_bld.setPositiveButton(R.string.action_logout, (dialog, id) -> {
+            dialog.dismiss();
+            try {
+                Helper.removeAccount(activity);
+            } catch (DBException e) {
+                e.printStackTrace();
             }
-            return true;
         });
-        popup.show();
+        alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+        AlertDialog alert = alt_bld.create();
+        alert.show();
     }
 
     /**
@@ -1464,12 +1450,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 startActivity(intent);
             } else if (id == R.id.nav_about_instance) {
                 (new InstanceActivity()).show(getSupportFragmentManager(), null);
+            } else if (id == R.id.nav_instance_info) {
+                (new InstanceHealthActivity()).show(getSupportFragmentManager(), null);
             }
             binding.drawerLayout.close();
             return false;
         });
 
-        headerMainBinding.instanceInfo.setOnClickListener(v -> (new InstanceHealthActivity()).show(getSupportFragmentManager(), null));
         headerMainBinding.accountProfilePicture.setOnClickListener(v -> {
             Intent intent = new Intent(BaseMainActivity.this, ProfileActivity.class);
             Bundle args = new Bundle();
@@ -1483,13 +1470,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
         });
 
-        headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.changeAccount.callOnClick());
-        headerMainBinding.changeAccount.setOnClickListener(v -> {
+        TooltipCompat.setTooltipText(headerMainBinding.ownerAccounts, getString(R.string.manage_accounts));
+        headerMainBinding.ownerAccounts.setOnClickListener(v -> {
             headerMenuOpen = !headerMenuOpen;
             manageDrawerMenu(BaseMainActivity.this, binding.navView, headerMainBinding);
         });
 
-        headerMainBinding.headerOptionInfo.setOnClickListener(v -> headerOptionInfoClick(BaseMainActivity.this, headerMainBinding, getSupportFragmentManager()));
+        TooltipCompat.setTooltipText(headerMainBinding.headerLogout,getString(R.string.action_logout));
+        headerMainBinding.headerLogout.setOnClickListener(v -> headerLogoutClick(BaseMainActivity.this, headerMainBinding, getSupportFragmentManager()));
 
         //Toolbar search
         binding.toolbarSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
