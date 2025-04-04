@@ -36,11 +36,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/settings"
-            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            android:minWidth="48dp"
+            android:contentDescription="@string/more_options"
             app:icon="@drawable/ic_more" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
