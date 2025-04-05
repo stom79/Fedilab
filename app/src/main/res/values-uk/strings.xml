@@ -1088,4 +1088,20 @@
     <string name="twitter_tags">Теги Twitter (через Ritter)</string>
     <string name="set_pixelfed_full_media">Повноекранний медіафайл</string>
     <string name="set_pixelfed_full_media_indication">Медіафайли займатимуть всю ширину екрана, а співвідношення сторін по висоті буде дотримано.</string>
+    <string name="action_reblog">Підвищення</string>
+    <string name="remove_content_warning">Вилучити попередження про вміст</string>
+    <string name="set_language">Встановити мову</string>
+    <string name="open_new_attachment_panel">Відкрити нову панель вкладень</string>
+    <string name="attach_images">Додайте зображення</string>
+    <string name="attach_audio">Прикріпіть аудіо</string>
+    <string name="attach_videos">Прикріпіть відео</string>
+    <string name="change_visibility">Змінити видимість</string>
+    <string name="action_publish">Опублікувати</string>
+    <string name="action_quote">Цитата</string>
+    <string name="close_new_attachment_panel">Закрийте нову панель вкладень</string>
+    <string name="attach_files">Прикріпити файли</string>
+    <string name="add_content_warning">Додайте попередження про вміст</string>
+    <string name="add_poll">Додайте опитування</string>
+    <string name="more_options">Більше варіантів</string>
+    <string name="action_favourite">Улюблений</string>
 </resources>
