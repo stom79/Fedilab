@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height">
-
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/background_image"
@@ -13,135 +12,93 @@
         android:minHeight="@dimen/nav_header_height"
         android:scaleType="centerCrop"
         tools:src="@tools:sample/backgrounds/scenic" />
+
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/header_option_info"
-        style="@style/Widget.Material3.Button.Icon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:id="@+id/header_logout"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
+        android:layout_margin="12dp"
+        android:contentDescription="@string/action_logout"
+        app:icon="@drawable/ic_logout"
         app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        android:padding="0dp"
-        android:contentDescription="@string/information"
-        app:icon="@drawable/ic_baseline_more_vert_24" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/account_profile_picture"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="12dp"
+        android:contentDescription="@string/profile_picture"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@color/transparent"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="5dp"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="5dp">
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/other_account1"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="12dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/account_profile_picture"
+        app:layout_constraintTop_toTopOf="@id/account_profile_picture"
+        tools:src="@tools:sample/avatars"
+        tools:visibility="visible" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/other_account2"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="12dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/other_account1"
+        app:layout_constraintTop_toTopOf="@id/account_profile_picture"
+        tools:src="@tools:sample/avatars"
+        tools:visibility="visible" />
 
-            <ImageView
-                android:id="@+id/account_profile_picture"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/profile_picture"
-                android:paddingTop="@dimen/nav_header_vertical_spacing"
-                android:scaleType="fitCenter"
-                tools:src="@tools:sample/avatars" />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/account_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        app:layout_constraintEnd_toStartOf="@id/owner_accounts"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/account_profile_picture"
+        tools:text="@tools:sample/full_names" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/account_acc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        app:layout_constraintEnd_toStartOf="@id/owner_accounts"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/account_name"
+        tools:text="@tools:sample/full_names" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/other_account1"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="bottom|end"
-                android:scaleType="fitCenter"
-                android:visibility="gone"
-                tools:src="@tools:sample/avatars"
-                tools:visibility="visible" />
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.Material3.Button.IconButton"
+        android:id="@+id/owner_accounts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="@string/manage_accounts"
+        app:layout_constraintTop_toTopOf="@id/account_name"
+        app:layout_constraintBottom_toBottomOf="@id/account_acc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:icon="@drawable/ic_accounts" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/other_account2"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="bottom|end"
-                android:layout_marginStart="20dp"
-                android:scaleType="fitCenter"
-                android:visibility="gone"
-                tools:src="@tools:sample/avatars"
-                tools:visibility="visible" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/change_account"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/account_name"
-                style="@style/TextAppearance.Material3.TitleSmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:paddingTop="@dimen/nav_header_vertical_spacing"
-                android:singleLine="true"
-                tools:text="@tools:sample/full_names" />
-
-            <ImageView
-                android:id="@+id/owner_accounts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:contentDescription="@string/open_menu"
-                android:gravity="center_vertical"
-                android:src="@drawable/ic_baseline_arrow_drop_down_24"
-                app:tint="?colorControlNormal" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/instance_info_container"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/account_acc"
-                style="@style/TextAppearance.Material3.TitleSmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:textSize="16sp"
-                tools:text="@tools:sample/full_names" />
-
-            <ImageView
-                android:id="@+id/instance_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:contentDescription="@string/information"
-                android:src="@drawable/ic_baseline_info_24"
-                app:tint="?colorControlNormal" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

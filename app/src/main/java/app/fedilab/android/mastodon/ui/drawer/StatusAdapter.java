@@ -1279,8 +1279,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.actionButtonReply.requestLayout();
 
-        holder.binding.actionButtonTranslate.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonTranslate.getLayoutParams().height = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonTranslate.setIconSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonTranslate.requestLayout();
 
         holder.binding.actionButtonBoost.setImageSize((int) (normalSize * scaleIcon));
@@ -1292,8 +1291,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.statusAddCustomEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);
         holder.binding.statusAddCustomEmoji.requestLayout();
 
-        holder.binding.actionButtonQuote.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonQuote.getLayoutParams().height = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonQuote.setIconSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonQuote.requestLayout();
 
         holder.binding.statusEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);

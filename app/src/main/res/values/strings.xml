@@ -57,6 +57,7 @@
     <string name="show_privates">Show direct messages</string>
     <string name="action_open_in_web">Open in browser</string>
     <string name="translate">Translate</string>
+    <string name="more_options">More options</string>
     <!--- Menu -->
     <string name="home_menu">Home</string>
     <string name="local_menu">Local timeline</string>
@@ -77,6 +78,9 @@
     <string name="favourite_add">Add this message to your favourites?</string>
     <string name="favourite_remove">Remove this message from your favourites?</string>
     <string name="reblog_add">Boost this message?</string>
+    <string name="action_favourite">Favorite</string>
+    <string name="action_reblog">Boost</string>
+    <string name="action_quote">Quote</string>
     <string name="warn_boost_no_media_description">Warn if message has no media description before boosting</string>
     <string name="reblog_missing_description">This message has missing media description. Are you sure to boost it?</string>
     <string name="reblog_remove">Unboost this message?</string>
@@ -110,6 +114,21 @@
     <string name="bookmark_remove">Remove bookmark</string>
     <string name="status_bookmarked">Status has been added to bookmarks!</string>
     <string name="status_unbookmarked">Status was removed from bookmarks!</string>
+
+    <!-- Compose -->
+    <string name="add_content_warning">Add content warning</string>
+    <string name="remove_content_warning">Remove content warning</string>
+    <string name="change_visibility">Change visibility</string>
+    <string name="set_language">Set language</string>
+    <string name="action_publish">Publish</string>
+    <string name="open_new_attachment_panel">Open new attachment panel</string>
+    <string name="close_new_attachment_panel">Close new attachment panel</string>
+    <string name="attach_images">Attach images</string>
+    <string name="attach_audio">Attach audio</string>
+    <string name="attach_videos">Attach videos</string>
+    <string name="attach_files">Attach files</string>
+    <string name="add_poll">Add a poll</string>
+
     <!-- Date -->
     <string name="date_seconds">%d s</string>
     <string name="date_minutes">%d m</string>
@@ -350,6 +369,7 @@
     <string name="peertube_instance">Peertube instance</string>
     <string name="set_display_emoji">Use Emoji One</string>
     <string name="information">Information</string>
+    <string name="instance_information">Instance information</string>
     <string name="set_display_card">Display previews in all messages</string>
     <string name="account_id_clipbloard">The account id has been copied in the clipboard!</string>
     <string name="set_change_locale">Change the language</string>
@@ -608,6 +628,7 @@
     <string name="export_theme">Export the theme</string>
     <string name="export_theme_title">Tap here to export the current theme</string>
     <string name="theme_file_error">An error occurred when selecting the theme file</string>
+    <string name="network">Network</string>
     <string name="user_count">User count</string>
     <string name="status_count">Status count</string>
     <string name="instance_count">Instance count</string>
@@ -1773,9 +1794,12 @@
     <string name="pref_category_key_pixelfed" translatable="false">pref_category_key_pixelfed</string>
     <string name="pref_category_key_home_cache" translatable="false">pref_category_key_home_cache</string>
     <string name="pref_category_key_theming" translatable="false">pref_category_theming</string>
+    <string name="pref_category_key_network" translatable="false">pref_category_network</string>
     <string name="pref_category_key_administration" translatable="false">pref_category_administration</string>
     <string name="pref_category_key_languages" translatable="false">pref_category_languages</string>
     <string name="pref_category_key_extra_features" translatable="false">pref_category_key_extra_features</string>
+
+    <string name="pref_key_proxy" translatable="false">pref_key_proxy</string>
 
     <string name="pref_export_settings" translatable="false">pref_export_settings</string>
     <string name="pref_import_settings" translatable="false">pref_import_settings</string>

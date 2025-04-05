@@ -77,6 +77,14 @@
             app:popExitAnim="@anim/pop_exit" />
 
         <action
+            android:id="@+id/categories_to_network"
+            app:destination="@id/FragmentNetworkSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
             android:id="@+id/categories_to_language"
             app:destination="@id/FragmentLanguageSettings"
             app:enterAnim="@anim/enter"
@@ -132,6 +140,11 @@
         android:id="@+id/FragmentThemingSettings"
         android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentThemingSettings"
         android:label="@string/theming" />
+
+    <fragment
+        android:id="@+id/FragmentNetworkSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentNetworkSettings"
+        android:label="@string/network" />
 
     <fragment
         android:id="@+id/FragmentLanguageSettings"

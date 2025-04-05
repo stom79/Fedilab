@@ -67,6 +67,13 @@
         app:icon="@drawable/ic_theming"
         app:key="@string/pref_category_key_theming" />
 
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/network"
+        app:icon="@drawable/ic_network_prefs"
+        app:key="@string/pref_category_key_network" />
+
     <!--
     <Preference
         android:layout_width="match_parent"

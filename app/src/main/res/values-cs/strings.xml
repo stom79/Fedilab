@@ -1089,4 +1089,11 @@
     <string name="pronouns_support">Podpora zájmen</string>
     <string name="qr_code_generator">Generátor QR kódů</string>
     <string name="toast_error_internet">Není k dispozici internetové připojení!</string>
+    <string name="toast_fail_authenticate">Aplikaci se nepovedlo ověřit účet!</string>
+    <string name="toast_error_token_empty">Token nemůže být prázdný!</string>
+    <string name="use_token">Použít token</string>
+    <string name="instance_token">Váš token</string>
+    <string name="set_pixelfed_full_media">Média přes celý displej</string>
+    <string name="set_pixelfed_full_media_indication">Média se budou zobrazovat přes celou šířku displeje a u výšky se bude respektovat poměr stran.</string>
+    <string name="twitter_tags">Tagy Twitteru (přes Nitter)</string>
 </resources>
