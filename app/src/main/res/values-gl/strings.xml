@@ -1074,4 +1074,20 @@
     <string name="twitter_tags">Etiquetas de Twitter (con Nitter)</string>
     <string name="set_pixelfed_full_media">Multimedia a pantalla completa</string>
     <string name="set_pixelfed_full_media_indication">O multimedia ocupará todo o ancho da pantalla e vanse respetar as proporcións de aspecto.</string>
+    <string name="action_reblog">Promover</string>
+    <string name="add_content_warning">Engadir aviso sobre o contido</string>
+    <string name="change_visibility">Cambiar a visibilidade</string>
+    <string name="set_language">Establecer idioma</string>
+    <string name="action_publish">Publicar</string>
+    <string name="open_new_attachment_panel">Abrir o panel de novo anexo</string>
+    <string name="close_new_attachment_panel">Pechar o panel de novo anexo</string>
+    <string name="attach_audio">Anexar audio</string>
+    <string name="attach_videos">Anexar vídeos</string>
+    <string name="attach_files">Anexar ficheiros</string>
+    <string name="add_poll">Anexar unha enquisa</string>
+    <string name="action_favourite">Favorecer</string>
+    <string name="attach_images">Anexar imaxes</string>
+    <string name="more_options">Máis opcións</string>
+    <string name="action_quote">Citar</string>
+    <string name="remove_content_warning">Retirar aviso sobre o contido</string>
 </resources>
