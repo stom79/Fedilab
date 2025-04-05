@@ -1286,18 +1286,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonFavorite.setImageSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonBookmark.setImageSize((int) (normalSize * scaleIcon));
 
-
-        holder.binding.statusAddCustomEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.statusAddCustomEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);
+        holder.binding.statusAddCustomEmoji.setIconSize((int) (normalSize * scaleIcon));
         holder.binding.statusAddCustomEmoji.requestLayout();
 
         holder.binding.actionButtonQuote.setIconSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonQuote.requestLayout();
 
-        holder.binding.statusEmoji.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.statusEmoji.getLayoutParams().height = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonMore.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonMore.getLayoutParams().height = (int) (normalSize * scaleIcon);
+        holder.binding.statusEmoji.setIconSize((int) (normalSize * scaleIcon));
+        holder.binding.statusEmoji.requestLayout();
+
+        holder.binding.actionButtonMore.setIconSize((int) (normalSize * scaleIcon));
         holder.binding.actionButtonMore.requestLayout();
         holder.binding.actionShare.getLayoutParams().width = (int) (normalSize * scaleIcon);
         holder.binding.actionShare.getLayoutParams().height = (int) (normalSize * scaleIcon);
@@ -2222,11 +2220,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         // Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> holder.binding.statusContent.invalidate(), 0, 100, TimeUnit.MILLISECONDS);
         if (remote) {
-            holder.binding.actionButtonMoreContainer.setVisibility(View.GONE);
+            holder.binding.actionButtonMore.setVisibility(View.GONE);
         } else {
-            holder.binding.actionButtonMoreContainer.setVisibility(View.VISIBLE);
+            holder.binding.actionButtonMore.setVisibility(View.VISIBLE);
         }
-        holder.binding.actionButtonMoreContainer.setOnClickListener(v -> {
+        holder.binding.actionButtonMore.setOnClickListener(v -> {
             boolean isOwner = statusToDeal.account.id.compareTo(BaseMainActivity.currentUserID) == 0;
             PopupMenu popup = new PopupMenu(context, holder.binding.actionButtonMore);
             popup.getMenuInflater()
