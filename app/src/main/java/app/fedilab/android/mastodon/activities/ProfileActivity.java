@@ -82,9 +82,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -103,6 +100,7 @@ import app.fedilab.android.mastodon.client.entities.api.Field;
 import app.fedilab.android.mastodon.client.entities.api.IdentityProof;
 import app.fedilab.android.mastodon.client.entities.api.MastodonList;
 import app.fedilab.android.mastodon.client.entities.api.RelationShip;
+import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Languages;
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
@@ -132,7 +130,6 @@ public class ProfileActivity extends BaseActivity {
     private RelationShip relationship;
     private FamiliarFollowers familiarFollowers;
     private Account account;
-    private ScheduledExecutorService scheduledExecutorService;
     private action doAction;
     private AccountsVM accountsVM;
     private RecyclerView identityProofsRecycler;
@@ -357,14 +354,7 @@ public class ProfileActivity extends BaseActivity {
             this.identityProofList = identityProofs;
             updateAccount();
         });
-        //Animate emojis
-        if (account.emojis != null && !account.emojis.isEmpty()) {
-            boolean disableAnimatedEmoji = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
-            if (!disableAnimatedEmoji) {
-                scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-                scheduledExecutorService.scheduleAtFixedRate(() -> binding.accountDn.invalidate(), 0, 130, TimeUnit.MILLISECONDS);
-            }
-        }
+
         binding.accountTabLayout.clearOnTabSelectedListeners();
         binding.accountTabLayout.removeAllTabs();
         //Tablayout for timelines/following/followers
@@ -550,8 +540,15 @@ public class ProfileActivity extends BaseActivity {
         });
         binding.accountNote.setText(
                 account.getSpanNote(ProfileActivity.this,
-                        new WeakReference<>(binding.accountNote)),
+                        new WeakReference<>(binding.accountNote), () -> {
+                            //TODO: replace this hack
+                            binding.accountNote.setText(
+                                    account.getSpanNote(ProfileActivity.this,
+                                            new WeakReference<>(binding.accountNote)), TextView.BufferType.SPANNABLE);
+
+                        }),
                 TextView.BufferType.SPANNABLE);
+
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
 
 
@@ -1370,10 +1367,6 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     public void onDestroy() {
-        if (scheduledExecutorService != null) {
-            scheduledExecutorService.shutdownNow();
-            scheduledExecutorService = null;
-        }
         try {
             unregisterReceiver(broadcast_data);
         } catch (IllegalArgumentException e) {
