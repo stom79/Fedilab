@@ -1076,4 +1076,22 @@
     <string name="twitter_tags">Twitter 标签（通过 Nitter）</string>
     <string name="set_pixelfed_full_media">全屏媒体</string>
     <string name="set_pixelfed_full_media_indication">媒体文件会占据整个屏幕宽度，会保持高度的长宽比。</string>
+    <string name="more_options">更多选项</string>
+    <string name="action_favourite">喜欢</string>
+    <string name="action_reblog">转发</string>
+    <string name="action_quote">引用</string>
+    <string name="remove_content_warning">移除内容警告</string>
+    <string name="set_language">设置语言</string>
+    <string name="action_publish">发布</string>
+    <string name="open_new_attachment_panel">打开新附件面板</string>
+    <string name="attach_images">附加图像</string>
+    <string name="attach_audio">附加音频</string>
+    <string name="attach_videos">附加视频</string>
+    <string name="add_poll">发起投票</string>
+    <string name="add_content_warning">添加内容警告</string>
+    <string name="close_new_attachment_panel">关闭新附件面板</string>
+    <string name="change_visibility">修改可见性</string>
+    <string name="instance_information">实例信息</string>
+    <string name="attach_files">附加文件</string>
+    <string name="network">网络</string>
 </resources>
