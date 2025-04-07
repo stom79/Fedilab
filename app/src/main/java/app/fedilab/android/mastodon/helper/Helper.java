@@ -918,7 +918,7 @@ public class Helper {
         ft.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
         Fragment _fragment = fragmentManager.findFragmentByTag(tag);
         if (_fragment != null && _fragment.isAdded()) {
-            ft.show(_fragment).commit();
+            ft.show(_fragment).commitAllowingStateLoss();
             fragment = _fragment;
         } else {
             if (args != null) fragment.setArguments(args);
@@ -930,7 +930,7 @@ public class Helper {
                 }catch (Exception ignored){}
             }
             if (!fragmentManager.isDestroyed()) {
-                ft.commit();
+                ft.commitAllowingStateLoss();
             }
         }
         fragmentManager.executePendingTransactions();
@@ -2155,6 +2155,22 @@ public class Helper {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .callTimeout(60, TimeUnit.SECONDS)
+                .proxy(Helper.getProxy(context))
+                .build();
+    }
+
+    public static OkHttpClient myPostOkHttpClient(Context context) {
+        return new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    Request originalRequest = chain.request();
+                    Request requestWithUserAgent = originalRequest.newBuilder()
+                            .header("User-Agent", context.getString(R.string.app_name) + "/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE)
+                            .build();
+                    return chain.proceed(requestWithUserAgent);
+                })
+                .readTimeout(120, TimeUnit.SECONDS)
+                .connectTimeout(120, TimeUnit.SECONDS)
+                .callTimeout(120, TimeUnit.SECONDS)
                 .proxy(Helper.getProxy(context))
                 .build();
     }

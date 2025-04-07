@@ -47,9 +47,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.IDN;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 
 import app.fedilab.android.BaseMainActivity;
@@ -72,7 +70,6 @@ import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -94,19 +91,11 @@ public class ComposeWorker extends Worker {
                 context.getSystemService(NOTIFICATION_SERVICE);
     }
 
-    private static OkHttpClient getOkHttpClient(Context context) {
-        return new OkHttpClient.Builder()
-                .readTimeout(120, TimeUnit.SECONDS)
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .proxy(Helper.getProxy(context.getApplicationContext()))
-                .build();
-    }
-
     private static MastodonStatusesService init(Context context, String instance) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
-                .client(getOkHttpClient(context))
+                .client(Helper.myPostOkHttpClient(context))
                 .build();
         return retrofit.create(MastodonStatusesService.class);
     }
