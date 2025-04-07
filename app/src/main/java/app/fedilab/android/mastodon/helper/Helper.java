@@ -916,7 +916,7 @@ public class Helper {
         ft.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
         Fragment _fragment = fragmentManager.findFragmentByTag(tag);
         if (_fragment != null && _fragment.isAdded()) {
-            ft.show(_fragment).commit();
+            ft.show(_fragment).commitAllowingStateLoss();
             fragment = _fragment;
         } else {
             if (args != null) fragment.setArguments(args);
@@ -928,7 +928,7 @@ public class Helper {
                 }catch (Exception ignored){}
             }
             if (!fragmentManager.isDestroyed()) {
-                ft.commit();
+                ft.commitAllowingStateLoss();
             }
         }
         fragmentManager.executePendingTransactions();
