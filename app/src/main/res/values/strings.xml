@@ -1132,6 +1132,7 @@
     <string name="SET_UNFOLLOW_VALIDATION" translatable="false">SET_UNFOLLOW_VALIDATION</string>
     <string name="SET_USE_SINGLE_TOPBAR" translatable="false">SET_USE_SINGLE_TOPBAR</string>
     <string name="SET_DISABLE_TOPBAR_SCROLLING" translatable="false">SET_DISABLE_TOPBAR_SCROLLING</string>
+    <string name="SET_AUTO_HIDE_COMPOSE" translatable="false">SET_AUTO_HIDE_COMPOSE</string>
     <string name="SET_DISPLAY_COUNTERS" translatable="false">SET_DISPLAY_COUNTERS</string>
     <string name="SET_DISPLAY_COMPACT_ACTION_BUTTON" translatable="false">SET_DISPLAY_COMPACT_ACTION_BUTTON</string>
 
@@ -1810,6 +1811,8 @@
     <string name="push_distributors">Push distributor</string>
     <string name="set_single_topbar_title">Single action bar</string>
     <string name="set_disable_topbar_scrolling_title">Disable top bar scrolling</string>
+    <string name="set_audo_hide_compose_title">Auto hide compose button</string>
+    <string name="set_audo_hide_compose_summary">Automatically hide compose button when scrolling up on a timeline</string>
     <string name="set_single_topbar">When enabled, the app will only have a single bar for timelines</string>
     <string name="set_timelines_in_a_list_title">Timelines in a list</string>
     <string name="set_timelines_in_a_list">When enabled, all pinned timelines will be displayed in a drop-down menu</string>

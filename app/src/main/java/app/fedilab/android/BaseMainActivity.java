@@ -355,6 +355,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     };
     private NetworkStateReceiver networkStateReceiver;
 
+    SharedPreferences sharedpreferences;
+
     public static void fetchRecentAccounts(Activity activity, NavHeaderMainBinding headerMainBinding) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         //Fetch some db values to initialize data
@@ -1111,7 +1113,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+        sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
         if (!Helper.isLoggedIn(BaseMainActivity.this)) {
             //It is not, the user is redirected to the login page
             Intent myIntent = new Intent(BaseMainActivity.this, LoginActivity.class);
@@ -1593,8 +1595,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         fetchRecentAccounts(BaseMainActivity.this, headerMainBinding);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!sharedpreferences.getBoolean(getString(R.string.SET_AUTO_HIDE_COMPOSE), true) && !getFloatingVisibility())
+            manageFloatingButton(true);
+    }
+
     private void manageTopBarScrolling(Toolbar toolbar) {
-        final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         final boolean topBarScrolling = !sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_TOPBAR_SCROLLING), false);
 
         final AppBarLayout.LayoutParams toolbarLayoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
@@ -2017,10 +2025,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     }
 
     public void manageFloatingButton(boolean display) {
-        if (display) {
-            binding.compose.show();
-        } else {
-            binding.compose.hide();
+        if (sharedpreferences.getBoolean(getString(R.string.SET_AUTO_HIDE_COMPOSE), true)) {
+            if (display) {
+                binding.compose.show();
+            } else {
+                binding.compose.hide();
+            }
         }
     }
 
