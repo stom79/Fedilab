@@ -1,0 +1,16 @@
+Added:
+- Add option to disable auto hiding compose button
+
+Changed:
+- Add more content descriptions for buttons
+- Update some buttons
+- Update navigation drawer header
+- Squeeze action buttons when needed to prevent overlapping
+
+Fixed:
+- Fix crash when media are too heavy
+- Some custom emojis in bio do not render
+- Posting messages does not work on some Friendica instances
+- Fix a crash with auto-split messages
+- Fix a crash when opening conversations
+- Fix a background color issue when displaying media

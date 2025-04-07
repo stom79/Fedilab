@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.32.0",
+    "code": "529",
+    "note": "Added:\n- Add option to disable auto hiding compose button\n\nChanged:\n- Add more content descriptions for buttons\n- Update some buttons\n- Update navigation drawer header\n- Squeeze action buttons when needed to prevent overlapping\n\nFixed:\n- Fix crash when media are too heavy\n- Some custom emojis in bio do not render\n- Posting messages does not work on some Friendica instances\n- Fix a crash with auto-split messages\n- Fix a crash when opening conversations\n- Fix a background color issue when displaying media"
+  },
+  {
     "version": "3.31.3",
     "code": "528",
     "note": "Added:\n- Add new icon launchers (Settings > Interface)\n\nChanged:\n- Make logout/proxy button more visible in main menu\n- Remove permission FOREGROUND_SERVICE\n- Improve a little more media layout with translations\n\nFixed:\n- Fix status bar icons not visible in light theme with custom accent color\n- Reaction buttons not clickable for some instances"
