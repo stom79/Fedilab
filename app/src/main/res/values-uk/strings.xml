@@ -1106,4 +1106,6 @@
     <string name="action_favourite">Улюблений</string>
     <string name="network">Мережа</string>
     <string name="instance_information">Інформація про примірник</string>
+    <string name="set_audo_hide_compose_title">Автоматично приховати кнопку створення</string>
+    <string name="set_audo_hide_compose_summary">Автоматично приховувати кнопку створення під час прокручування вгору на часовій шкалі</string>
 </resources>
