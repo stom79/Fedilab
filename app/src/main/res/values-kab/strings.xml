@@ -466,7 +466,7 @@
     <string name="suspend">Suspend</string>
     <string name="unsuspend">Undo suspend</string>
     <string name="audio">The application needs to access audio recording</string>
-    <string name="voice_message">Voice message</string>
+    <string name="voice_message">Izen s taɣect</string>
     <string name="set_enable_time_slot_indication">During the time slot, the app will send notifications. You can reverse (ie: silent) this time slot with the right spinner.</string>
     <string name="set_fit_preview_indication">Previews will not be cropped in timelines</string>
     <string name="set_capitalize_indication">Automatically insert a line break after the mention to capitalize the first letter</string>
@@ -643,4 +643,8 @@
     <string name="import_settings">Iɣewwaṛen n uketer</string>
     <string name="load_settings">Ɛebbi iɣewwaṛen yettwasifḍen</string>
     <string name="import_data">Kter isefka</string>
+    <string name="instance_information">Talɣut ɣef uqeddac</string>
+    <string name="interactions">Timyigawin</string>
+    <string name="Directory">Akaram</string>
+    <string name="my_instance">Aqeddac-iw</string>
 </resources>
