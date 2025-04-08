@@ -725,6 +725,7 @@
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:contentDescription="@string/action_quote"
+                android:visibility="gone"
                 app:icon="@drawable/ic_baseline_format_quote_24"
                 app:iconGravity="textStart"
                 app:iconSize="28dp"
