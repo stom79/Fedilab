@@ -1090,4 +1090,8 @@
     <string name="more_options">Máis opcións</string>
     <string name="action_quote">Citar</string>
     <string name="remove_content_warning">Retirar aviso sobre o contido</string>
+    <string name="instance_information">Información da instancia</string>
+    <string name="set_audo_hide_compose_title">Oculta o botón para redactar</string>
+    <string name="network">Rede</string>
+    <string name="set_audo_hide_compose_summary">Oculta automáticamente o botón para redactar cando te desprazas nunha cronoloxía</string>
 </resources>

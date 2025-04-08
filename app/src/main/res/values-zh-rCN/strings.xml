@@ -1094,4 +1094,6 @@
     <string name="instance_information">实例信息</string>
     <string name="attach_files">附加文件</string>
     <string name="network">网络</string>
+    <string name="set_audo_hide_compose_summary">向上滚动时间轴时自动隐藏编辑按钮</string>
+    <string name="set_audo_hide_compose_title">自动隐藏编辑按钮</string>
 </resources>
