@@ -15,6 +15,7 @@ package app.fedilab.android.mastodon.ui.fragment.media;
  * see <http://www.gnu.org/licenses>. */
 
 
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -58,6 +59,7 @@ import app.fedilab.android.mastodon.activities.MediaActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.helper.CacheDataSourceFactory;
 import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.helper.MediaHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
 import es.dmoral.toasty.Toasty;
 
@@ -167,7 +169,9 @@ public class FragmentMedia extends Fragment {
                                         return;
                                     }
                                     binding.mediaPicture.setZoomable(true);
-                                    binding.mediaPicture.setImageDrawable(resource);
+
+                                    Drawable scaledRessource = MediaHelper.rescaleImageIfNeeded(requireActivity(), resource);
+                                    binding.mediaPicture.setImageDrawable(scaledRessource);
 
                                     if (attachment.type.equalsIgnoreCase("image") && !attachment.url.toLowerCase().endsWith(".gif")) {
                                         binding.mediaPicture.setVisibility(View.VISIBLE);
@@ -185,7 +189,8 @@ public class FragmentMedia extends Fragment {
                                                                             return;
                                                                         }
                                                                         binding.loader.setVisibility(View.GONE);
-                                                                        binding.mediaPicture.setImageDrawable(resource);
+                                                                        Drawable scaledRessource = MediaHelper.rescaleImageIfNeeded(requireActivity(), resource);
+                                                                        binding.mediaPicture.setImageDrawable(scaledRessource);
                                                                         binding.mediaPicture.setZoomable(true);
                                                                     }
 

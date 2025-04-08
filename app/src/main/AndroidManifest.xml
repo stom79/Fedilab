@@ -230,7 +230,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".mastodon.activities.MediaActivity"
-            android:hardwareAccelerated="false"
+            android:hardwareAccelerated="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/Transparent" />
 

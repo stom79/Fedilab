@@ -141,6 +141,9 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
 
         if (bundle != null) {
             mediaPosition = bundle.getInt(Helper.ARG_MEDIA_POSITION, 1);
+            if(mediaPosition < 1 ) {
+                mediaPosition = 1;
+            }
             attachments = (ArrayList<Attachment>) bundle.getSerializable(Helper.ARG_MEDIA_ARRAY);
             mediaFromProfile = bundle.getBoolean(Helper.ARG_MEDIA_ARRAY_PROFILE, false);
             status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
@@ -230,6 +233,9 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
 
             public void onPageSelected(int position) {
                 mediaPosition = position;
+                if(mediaPosition < 1 ) {
+                    mediaPosition = 1;
+                }
                 String description = attachments.get(position).description;
                 if (handler != null) {
                     handler.removeCallbacksAndMessages(null);

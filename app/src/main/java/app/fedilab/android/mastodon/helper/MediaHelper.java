@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaRecorder;
 import android.media.MediaScannerConnection;
@@ -264,6 +265,32 @@ public class MediaHelper {
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
+    }
+
+
+    public static Drawable rescaleImageIfNeeded(Activity activity, Drawable image) {
+        if (!(image instanceof BitmapDrawable)) {
+            return image;
+        }
+        int maxSize = 2000;
+        int width = image.getIntrinsicWidth();
+        int height = image.getIntrinsicHeight();
+        float scaleFactor;
+        if(width > maxSize || height > maxSize) {
+            if(width >= height) {
+                scaleFactor = (float) maxSize / width;
+            } else {
+                scaleFactor = (float) maxSize / height;
+            }
+        } else {
+            return image;
+        }
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        int sizeX = Math.round(image.getIntrinsicWidth() * scaleFactor);
+        int sizeY = Math.round(image.getIntrinsicHeight() * scaleFactor);
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, sizeX, sizeY, false);
+        image = new BitmapDrawable(activity.getResources(), bitmapResized);
+        return image;
     }
 
     /**
