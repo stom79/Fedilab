@@ -1,5 +1,10 @@
 [
   {
+  "version": "3.32.1",
+  "code": "530",
+  "note": "Fixed:\n- Fix a crash on some devices\n- Hide quote button\n- Fix a layout issue with pictures in landscape\n- Fix a crash when opening the original message from a picture"
+},
+  {
     "version": "3.32.0",
     "code": "529",
     "note": "Added:\n- Add option to disable auto hiding compose button\n\nChanged:\n- Add more content descriptions for buttons\n- Update some buttons\n- Update navigation drawer header\n- Squeeze action buttons when needed to prevent overlapping\n\nFixed:\n- Fix crash when media are too heavy\n- Some custom emojis in bio do not render\n- Posting messages does not work on some Friendica instances\n- Fix a crash with auto-split messages\n- Fix a crash when opening conversations\n- Fix a background color issue when displaying media"

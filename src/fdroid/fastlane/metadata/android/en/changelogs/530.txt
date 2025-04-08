@@ -1,0 +1,5 @@
+Fixed:
+- Fix a crash on some devices
+- Hide quote button
+- Fix a layout issue with pictures in landscape
+- Fix a crash when opening the original message from a picture
