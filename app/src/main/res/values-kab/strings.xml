@@ -45,7 +45,7 @@
     <string name="mention">Ibdaren</string>
     <string name="reblog">Izuzar</string>
     <string name="show_boosts">Sken-d izuzar</string>
-    <string name="show_replies">Ssekned tiririt</string>
+    <string name="show_replies">Sken-d tiririyin</string>
     <string name="action_open_in_web">Ldi deg iminig</string>
     <string name="translate">Suqel</string>
     <!--- Menu -->
@@ -63,12 +63,12 @@
     <string name="no_emoji">The app did not collect custom emojis for the moment.</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">Ulac ituten ara d-nesken</string>
+    <string name="no_status">Ulac iznan ara d-nesken</string>
     <string name="favourite_add">Add this toot to your favourites?</string>
     <string name="favourite_remove">Remove this toot from your favourites?</string>
     <string name="reblog_add">Boost this toot?</string>
     <string name="reblog_remove">Unboost this toot?</string>
-    <string name="more_action_1">Susem</string>
+    <string name="more_action_1">Sgugem</string>
     <string name="more_action_2">Seḥbes</string>
     <string name="more_action_3">Cetki</string>
     <string name="more_action_4">Kkes</string>
@@ -225,7 +225,7 @@
     </string-array>
     <string name="action_follow">Ḍfeṛ</string>
     <string name="action_unblock">Serreḥ</string>
-    <string name="action_mute">Susem</string>
+    <string name="action_mute">Sgugem</string>
     <string name="action_unmute">Unmute</string>
     <string name="request_sent">Request sent</string>
     <string name="followed_by">Yeṭafar-ik id</string>
@@ -243,9 +243,9 @@
     <string name="keywords_hint_custom_sharing">Awalen n tsaruţ…</string>
     <!-- ACTIVITY CACHE -->
     <string name="v_public">Azayez</string>
-    <string name="v_unlisted">Unlisted</string>
+    <string name="v_unlisted">War abdar</string>
     <string name="v_private">Uslig</string>
-    <string name="v_direct">Direct</string>
+    <string name="v_direct">Srid</string>
     <!-- PRIVACY -->
     <string name="filter_regex">Filter out by regular expressions</string>
     <string name="search">Nadi</string>
@@ -324,7 +324,7 @@
     <string name="display_toot_truncate">Sken ddeqs</string>
     <string name="hide_toot_truncate">Sken kra kan</string>
     <string name="tags_already_stored">The tag already exists!</string>
-    <string name="schedule_boost">Schedule boost</string>
+    <string name="schedule_boost">Sɣiwes azuzer</string>
     <string name="boost_scheduled">The boost is scheduled!</string>
     <string name="no_scheduled_boosts">No scheduled boost to display!</string>
     <string name="open_menu">Ldi umuɣ</string>
@@ -647,4 +647,5 @@
     <string name="interactions">Timyigawin</string>
     <string name="Directory">Akaram</string>
     <string name="my_instance">Aqeddac-iw</string>
+    <string name="followers_only">Imeḍfaṛen kan</string>
 </resources>
