@@ -273,5 +273,8 @@
         <item name="android:insetBottom">0dp</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.Fedilab.DrawerMedia" parent="">
+        <item name="cornerSize">6dp</item>
+    </style>
 
 </resources>
