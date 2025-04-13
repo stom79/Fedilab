@@ -1096,4 +1096,24 @@
     <string name="set_pixelfed_full_media">Média přes celý displej</string>
     <string name="set_pixelfed_full_media_indication">Média se budou zobrazovat přes celou šířku displeje a u výšky se bude respektovat poměr stran.</string>
     <string name="twitter_tags">Tagy Twitteru (přes Nitter)</string>
+    <string name="more_options">Více voleb</string>
+    <string name="action_favourite">Oblíbené</string>
+    <string name="action_reblog">Boostnout</string>
+    <string name="action_quote">Citovat</string>
+    <string name="add_content_warning">Přidat varování o obsahu</string>
+    <string name="remove_content_warning">Odstranit varování o obsahu</string>
+    <string name="change_visibility">Změnit viditelnost</string>
+    <string name="set_language">Nastavit jazyk</string>
+    <string name="action_publish">Publikovat</string>
+    <string name="open_new_attachment_panel">Otevřít panel pro novou přílohu</string>
+    <string name="close_new_attachment_panel">Zavřít panel pro novou přílohu</string>
+    <string name="attach_images">Připojit obrázky</string>
+    <string name="attach_audio">Připojit zvuk</string>
+    <string name="attach_videos">Připojit videa</string>
+    <string name="attach_files">Připojit soubory</string>
+    <string name="add_poll">Přidat anketu</string>
+    <string name="instance_information">Informace o instanci</string>
+    <string name="network">Síť</string>
+    <string name="set_audo_hide_compose_title">Automaticky skrývat tlačítko pro vytvoření</string>
+    <string name="set_audo_hide_compose_summary">Automaticky skrývat tlačítko pro vytvoření během posouvání nahoru po časové ose</string>
 </resources>
