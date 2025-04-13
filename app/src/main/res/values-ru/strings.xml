@@ -1030,4 +1030,7 @@
     <string name="unmute_home">Не игнорировать для домашней</string>
     <string name="mute_them_all">Игнорировать их все</string>
     <string name="manage_accounts">Управление профилями</string>
+    <string name="toast_fetch_error">Приложение не может найти удаленные данные!</string>
+    <string name="set_notif_admin_report">Новый отчёт (модераторы)</string>
+    <string name="open_with_account">Открыть из другой учётной записи</string>
 </resources>
