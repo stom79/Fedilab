@@ -276,7 +276,7 @@
     <string name="poxy_port">Порт</string>
     <string name="poxy_login">Имя пользователя</string>
     <string name="poxy_password">Пароль</string>
-    <string name="set_share_details">Добавлять детали сообщения при перепосте</string>
+    <string name="set_share_details">Добавлять детали сообщения при перепубликации</string>
     <string name="support_the_app_on_liberapay">Поддержать приложение на Liberapay</string>
     <string name="alert_regex">В регулярном выражении есть ошибка!</string>
     <string name="toast_instance_unavailable">На этом инстансе лент не найдено!</string>
@@ -682,7 +682,7 @@
     <string name="followed_tags">Отслеживаемые теги</string>
     <string name="follow_tag">Подписаться на тег</string>
     <string name="report_val4">Другое</string>
-    <string name="show_content">Показать содержимое &gt;</string>
+    <string name="show_content"><![CDATA[Показать содержимое>]]></string>
     <string name="join_the_fediverse">Присоединяйтесь к fediverse</string>
     <string name="invite_join_the_fediverse">Привет! Приглашаем Вас присоединиться к Fediverse.</string>
     <string name="report_val_more4">Проблема не подпадает под другие категории</string>
@@ -1033,4 +1033,5 @@
     <string name="toast_fetch_error">Приложение не может найти удаленные данные!</string>
     <string name="set_notif_admin_report">Новый отчёт (модераторы)</string>
     <string name="open_with_account">Открыть из другой учётной записи</string>
+    <string name="set_audo_hide_compose_title">Припрятывать кнопку Составить</string>
 </resources>
