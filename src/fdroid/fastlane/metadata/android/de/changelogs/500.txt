@@ -1,0 +1,14 @@
+Hinzugefügt:
+- Drei neue App Icons (Pride, Pink und Pirate)
+- Behalte Position in fernen Konversationen
+
+Korrigiert:
+- Markdown: aufhören Tags zu verarbeiten und durchgestrichenen Text erlauben
+- Mauszeiger sichtbarer bei Komposition
+- Repariert maximale Namenslänge für individuelle Instanzen
+- Seiten in Profilen
+- Repariert unklickbare Tags in manchen Sprachen
+- Fehler mit Accounts mit sehr großen Followerzahlen
+- Absturz bei mehreren Gifs in derselben Nachricht
+- Prüfe maximale Buchstabenanzahl
+- Einige Abstürze
