@@ -145,7 +145,7 @@
     <string name="no_follow_request">درخواستی برای دنبال کردن نیست</string>
     <string name="status_cnt">بوق‌ها\n %1$s</string>
     <string name="following_cnt">دنبال‌شوندگان \n %1$s</string>
-    <string name="followers_cnt">دنبال‌کنندگان \n %1$s</string>
+    <string name="followers_cnt">دنبال‌کنندگان\n %1$s</string>
     <string name="reject">رد کردن</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">بوق زمان‌بندی‌شده‌ای برای نمایش نیست!</string>
