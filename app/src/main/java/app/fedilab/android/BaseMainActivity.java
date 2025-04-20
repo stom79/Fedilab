@@ -1473,6 +1473,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         });
 
         TooltipCompat.setTooltipText(headerMainBinding.ownerAccounts, getString(R.string.manage_accounts));
+        headerMainBinding.accountName.setOnClickListener(v -> headerMainBinding.ownerAccounts.performClick());
+        headerMainBinding.accountAcc.setOnClickListener(v -> headerMainBinding.ownerAccounts.performClick());
         headerMainBinding.ownerAccounts.setOnClickListener(v -> {
             headerMenuOpen = !headerMenuOpen;
             manageDrawerMenu(BaseMainActivity.this, binding.navView, headerMainBinding);
