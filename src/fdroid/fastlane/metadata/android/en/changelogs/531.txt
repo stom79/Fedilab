@@ -1,0 +1,13 @@
+Added:
+- An outline around media
+
+Changed:
+- Make username, display name in nav drawer clickable
+- Gif media not animated by default
+- Disable by default the mention to the booster when replying. Can be enabled in Settings > Compose (per account)
+
+Fixed:
+- Wrong preview picture on share from another app
+- Crash when translating with MinT
+- Refresh and pagination broken for the Trending timeline
+- Fix lags / Crashes
