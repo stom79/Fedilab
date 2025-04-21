@@ -2107,7 +2107,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                         }
                     }));
-            holder.binding.poll.pollContainer.setVisibility(View.VISIBLE);
+            if (statusToDeal.isExpended) {
+                holder.binding.poll.pollContainer.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.poll.pollContainer.setVisibility(View.GONE);
+            }
             String pollInfo = context.getResources().getQuantityString(R.plurals.number_of_voters, normalize, normalize);
             if (statusToDeal.poll.expired) {
                 pollInfo += " - " + context.getString(R.string.poll_finish_at, MastodonHelper.dateToStringPoll(statusToDeal.poll.expires_at));
