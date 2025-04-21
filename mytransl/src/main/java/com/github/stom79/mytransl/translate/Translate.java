@@ -373,8 +373,11 @@ public class Translate {
             //Retrieves the translated content
             String content;
             try {
-                content = URLDecoder.decode(translationJson.getString("translation"), "utf-8");
-            } catch (UnsupportedEncodingException e) {
+                String data = translationJson.getString("translation");
+                data = data.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+                data = data.replaceAll("\\+", "%2B");
+                content = URLDecoder.decode(data, "utf-8");
+            } catch (Exception e) {
                 content = translationJson.getString("translation");
             }
             translate.setTranslatedContent(content);

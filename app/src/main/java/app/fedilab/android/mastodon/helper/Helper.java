@@ -1848,7 +1848,6 @@ public class Helper {
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     String fileName = "";
                     String disposition = httpURLConnection.getHeaderField("Content-Disposition");
-
                     if (disposition != null) {
                         // extracts file name from header field
                         int index = disposition.indexOf("filename=");
@@ -1858,7 +1857,12 @@ public class Helper {
                         }
                     } else {
                         // extracts file name from URL
-                        fileName = downloadUrl.substring(downloadUrl.lastIndexOf("/") + 1);
+                        try {
+                            URL downLoadUrlTmp = new URL(downloadUrl);
+                            fileName = downLoadUrlTmp.getPath().replace("/","_");
+                        }catch (Exception exception) {
+                            fileName = downloadUrl.substring(downloadUrl.lastIndexOf("/") + 1);
+                        }
                     }
                     fileName = FileNameCleaner.cleanFileName(fileName);
                     // opens input stream from the HTTP connection
