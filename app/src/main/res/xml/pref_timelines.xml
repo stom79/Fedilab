@@ -256,7 +256,7 @@
         app:title="@string/set_fit_preview" />
 
     <SwitchPreferenceCompat
-        android:defaultValue="true"
+        android:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_AUTO_PLAY_GIG_MEDIA"
         app:singleLineTitle="false"

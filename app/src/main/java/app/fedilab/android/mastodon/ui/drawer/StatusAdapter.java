@@ -1615,7 +1615,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.displayMedia.setVisibility(View.GONE);
                 holder.binding.media.mediaContainer.setVisibility(View.VISIBLE);
                 int mediaPosition = 1;
-                boolean autoplaygif = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_PLAY_GIG_MEDIA), true);
+                boolean autoplaygif = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_PLAY_GIG_MEDIA), false);
                 if (!fullAttachement || statusToDeal.sensitive) {
                     int defaultHeight = (int) Helper.convertDpToPixel(300, context);
                     int orientation = context.getResources().getConfiguration().orientation;

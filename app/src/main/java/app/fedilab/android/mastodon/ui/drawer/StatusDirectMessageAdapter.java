@@ -605,7 +605,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                 video.getPlayer().release();
             }
             holder.binding.media.media4Container.removeAllViews();
-            boolean autoplaygif = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_PLAY_GIG_MEDIA), true);
+            boolean autoplaygif = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_PLAY_GIG_MEDIA), false);
             for (Attachment attachment : status.media_attachments) {
                 LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context));
                 layoutMediaBinding.mediaRoot.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
