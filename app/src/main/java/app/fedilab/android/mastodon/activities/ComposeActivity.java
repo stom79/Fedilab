@@ -502,6 +502,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
     private void initializeAfterBundle(Bundle b) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         new Thread(() -> {
             if (b != null) {
                 statusReply = (Status) b.getSerializable(Helper.ARG_STATUS_REPLY);
@@ -514,6 +515,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 if (account == null) {
                     account = Helper.getCurrentAccount(ComposeActivity.this);
                 }
+                boolean setMentionBooster = sharedpreferences.getBoolean(getString(R.string.SET_MENTION_BOOSTER) + account.user_id + account.instance, false);
+
                 editMessageId = b.getString(Helper.ARG_EDIT_STATUS_ID, null);
                 instance = b.getString(Helper.ARG_INSTANCE, null);
                 token = b.getString(Helper.ARG_TOKEN, null);
@@ -523,7 +526,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 } else if (visibility == null && Helper.getCurrentAccount(ComposeActivity.this) != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source != null) {
                     visibility = Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source.privacy;
                 }
-                mentionBooster = (Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
+                if(setMentionBooster) {
+                    mentionBooster = (Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
+                } else {
+                    mentionBooster = null;
+                }
                 accountMention = (Account) b.getSerializable(Helper.ARG_ACCOUNT_MENTION);
                 //Shared elements
                 sharedAttachments = (ArrayList<Attachment>) b.getSerializable(Helper.ARG_MEDIA_ATTACHMENTS);

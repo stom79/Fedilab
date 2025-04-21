@@ -315,7 +315,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private void manageMentions(Context context, Status statusDraft, ComposeViewHolder holder) {
 
-        if (statusDraft.mentions != null && (statusDraft.text == null || statusDraft.text.length() == 0) && statusDraft.mentions.size() > 0) {
+        if (statusDraft.mentions != null && (statusDraft.text == null || statusDraft.text.isEmpty()) && !statusDraft.mentions.isEmpty()) {
             //Retrieves mentioned accounts + OP and adds them at the beginin of the toot
             final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             Mention inReplyToUser;
@@ -426,25 +426,25 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         String[] mimetypes = new String[0];
         if (type == ComposeActivity.mediaType.PHOTO) {
-            if (instanceInfo != null && instanceInfo.getMimeTypeImage() != null && instanceInfo.getMimeTypeImage().size() > 0) {
+            if (instanceInfo != null && instanceInfo.getMimeTypeImage() != null && !instanceInfo.getMimeTypeImage().isEmpty()) {
                 mimetypes = instanceInfo.getMimeTypeImage().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"image/*"};
             }
         } else if (type == ComposeActivity.mediaType.VIDEO) {
-            if (instanceInfo != null && instanceInfo.getMimeTypeVideo() != null && instanceInfo.getMimeTypeVideo().size() > 0) {
+            if (instanceInfo != null && instanceInfo.getMimeTypeVideo() != null && !instanceInfo.getMimeTypeVideo().isEmpty()) {
                 mimetypes = instanceInfo.getMimeTypeVideo().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"video/*"};
             }
         } else if (type == ComposeActivity.mediaType.AUDIO) {
-            if (instanceInfo != null && instanceInfo.getMimeTypeAudio() != null && instanceInfo.getMimeTypeAudio().size() > 0) {
+            if (instanceInfo != null && instanceInfo.getMimeTypeAudio() != null && !instanceInfo.getMimeTypeAudio().isEmpty()) {
                 mimetypes = instanceInfo.getMimeTypeAudio().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"audio/*"};
             }
         } else if (type == ComposeActivity.mediaType.ALL) {
-            if (instanceInfo != null && instanceInfo.getMimeTypeOther() != null && instanceInfo.getMimeTypeOther().size() > 0) {
+            if (instanceInfo != null && instanceInfo.getMimeTypeOther() != null && !instanceInfo.getMimeTypeOther().isEmpty()) {
                 mimetypes = instanceInfo.getMimeTypeOther().toArray(new String[0]);
             } else {
                 mimetypes = new String[]{"*/*"};
@@ -509,9 +509,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     private boolean canBeRemoved(Status draft) {
         return draft.poll == null
-                && (draft.media_attachments == null || draft.media_attachments.size() == 0)
-                && (draft.text == null || draft.text.trim().length() == 0)
-                && (draft.spoiler_text == null || draft.spoiler_text.trim().length() == 0);
+                && (draft.media_attachments == null || draft.media_attachments.isEmpty())
+                && (draft.text == null || draft.text.trim().isEmpty())
+                && (draft.spoiler_text == null || draft.spoiler_text.trim().isEmpty());
     }
 
     /**
@@ -717,7 +717,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                 InputStream is;
                                 newContent[0] = "";
-                                if (mentions.size() > 0) {
+                                if (!mentions.isEmpty()) {
                                     for (String mention : mentions) {
                                         newContent[0] += mention + " ";
                                     }
@@ -734,7 +734,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     Gson gson = new Gson();
                                     List<Quotes.Quote> quotes = gson.fromJson(json, new TypeToken<List<Quotes.Quote>>() {
                                     }.getType());
-                                    if (quotes != null && quotes.size() > 0) {
+                                    if (quotes != null && !quotes.isEmpty()) {
                                         final int random = new Random().nextInt(quotes.size());
                                         Quotes.Quote quote = quotes.get(random);
                                         newContent[0] += quote.content + "\n- " + quote.author;
@@ -762,7 +762,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 if (holder.binding.content.getSelectionStart() != 0)
                     currentCursorPosition[0] = holder.binding.content.getSelectionStart();
-                if (contentString.length() == 0)
+                if (contentString.isEmpty())
                     currentCursorPosition[0] = 0;
                 //Only check last 15 characters before cursor position to avoid lags
                 //Less than 15 characters are written before the cursor position
@@ -858,7 +858,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         if (currentCursorPosition >= oldContent.length())
                                             deltaSearch = oldContent.substring(currentCursorPosition - searchLength);
                                     }
-                                    if (!search.equals(""))
+                                    if (!search.isEmpty())
                                         deltaSearch = deltaSearch.replace("@" + search, "");
                                     String newContent = oldContent.substring(0, currentCursorPosition - searchLength);
                                     newContent += deltaSearch;
@@ -886,10 +886,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 "hashtags", false, true, false, 0,
                                 null, null, 10).observe((LifecycleOwner) context,
                                 results -> {
-                                    if (results == null || results.hashtags == null || results.hashtags.size() == 0) {
+                                    if (results == null || results.hashtags == null || results.hashtags.isEmpty()) {
                                         return;
                                     }
-                                    if (camelTags != null && camelTags.size() > 0) {
+                                    if (camelTags != null && !camelTags.isEmpty()) {
                                         for (String camelTag : camelTags) {
                                             Tag tag = new Tag();
                                             tag.name = camelTag;
@@ -931,7 +931,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 deltaSearch = oldContent.substring(currentCursorPosition - searchLength);
                                         }
 
-                                        if (!search.equals(""))
+                                        if (!search.isEmpty())
                                             deltaSearch = deltaSearch.replace("#" + search, "");
                                         String newContent = oldContent.substring(0, currentCursorPosition - searchLength);
                                         newContent += deltaSearch;
@@ -954,7 +954,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     new Thread(() -> {
                         List<Emoji> emojisToDisplay = new ArrayList<>();
                         try {
-                            if (emojisList == null || emojisList.size() == 0) {
+                            if (emojisList == null || emojisList.isEmpty()) {
                                 emojisList = new EmojiInstance(context).getEmojiList(BaseMainActivity.currentInstance);
                             }
                             if (emojis == null) {
@@ -997,7 +997,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 deltaSearch = oldContent.substring(currentCursorPosition - searchLength);
                                         }
 
-                                        if (!search.equals(""))
+                                        if (!search.isEmpty())
                                             deltaSearch = deltaSearch.replace(":" + search, "");
                                         String newContent = oldContent.substring(0, currentCursorPosition - searchLength);
                                         newContent += deltaSearch;
@@ -1049,9 +1049,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         StringBuilder contentBuilder = new StringBuilder();
 
-        if (title != null && title.trim().length() > 0) {
+        if (title != null && !title.trim().isEmpty()) {
             contentBuilder.append(title);
-        } else if (subject != null && subject.trim().length() > 0) {
+        } else if (subject != null && !subject.trim().isEmpty()) {
             contentBuilder.append(subject);
         }
 
@@ -1059,12 +1059,12 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             contentBuilder.append("\n\n");
         }
 
-        if (description != null && description.trim().length() > 0) {
+        if (description != null && !description.trim().isEmpty()) {
             if (url != null && !description.contains(url)) {
                 contentBuilder.append(url).append("\n\n");
             }
             contentBuilder.append("> ").append(description);
-        } else if (content != null && content.trim().length() > 0) {
+        } else if (content != null && !content.trim().isEmpty()) {
             if (!content.contains(url)) {
                 contentBuilder.append(url).append("\n\n");
             }
@@ -1311,7 +1311,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         for (Status status : statusList) {
             if (getItemViewType(position) == TYPE_COMPOSE) {
-                if (status != null && status.media_attachments != null && status.media_attachments.size() > 0) {
+                if (status != null && status.media_attachments != null && !status.media_attachments.isEmpty()) {
                     int mediaPosition = 0;
                     for (Attachment attachment : status.media_attachments) {
                         if (attachment.description == null || attachment.description.trim().isEmpty()) {
@@ -1355,7 +1355,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.binding.buttonAttachManual.setEnabled(false);
                     holder.binding.buttonPoll.setEnabled(true);
                 }
-                holder.binding.buttonPoll.setEnabled(statusDraft.media_attachments == null || statusDraft.media_attachments.size() == 0);
+                holder.binding.buttonPoll.setEnabled(statusDraft.media_attachments == null || statusDraft.media_attachments.isEmpty());
             }
         }
     }
@@ -1380,7 +1380,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Status status = statusList.get(position);
             StatusSimpleViewHolder holder = (StatusSimpleViewHolder) viewHolder;
 
-            if (status.media_attachments != null && status.media_attachments.size() > 0) {
+            if (status.media_attachments != null && !status.media_attachments.isEmpty()) {
                 holder.binding.simpleMedia.removeAllViews();
                 List<Attachment> attachmentList = statusList.get(position).media_attachments;
                 for (Attachment attachment : attachmentList) {
@@ -1449,7 +1449,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 statusFromUser.pronouns = null;
                 boolean pronounsSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_PRONOUNS_SUPPORT), true);
                 if(pronounsSupport) {
-                    if (accountFromUser.fields != null && accountFromUser.fields.size() > 0) {
+                    if (accountFromUser.fields != null && !accountFromUser.fields.isEmpty()) {
                         for (Field field : accountFromUser.fields) {
                             if (PronounsHelper.pronouns.contains(field.name.toLowerCase().trim())) {
                                 statusList.get(position).pronouns = Helper.parseHtml(field.value);
@@ -1572,16 +1572,16 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.buttonAttach.setOnClickListener(v -> {
 
                 if (instanceInfo.configuration.media_attachments.supported_mime_types != null) {
-                    if (instanceInfo.getMimeTypeAudio().size() == 0) {
+                    if (instanceInfo.getMimeTypeAudio().isEmpty()) {
                         holder.binding.buttonAttachAudio.setEnabled(false);
                     }
-                    if (instanceInfo.getMimeTypeImage().size() == 0) {
+                    if (instanceInfo.getMimeTypeImage().isEmpty()) {
                         holder.binding.buttonAttachImage.setEnabled(false);
                     }
-                    if (instanceInfo.getMimeTypeVideo().size() == 0) {
+                    if (instanceInfo.getMimeTypeVideo().isEmpty()) {
                         holder.binding.buttonAttachVideo.setEnabled(false);
                     }
-                    if (instanceInfo.getMimeTypeOther().size() == 0) {
+                    if (instanceInfo.getMimeTypeOther().isEmpty()) {
                         holder.binding.buttonAttachManual.setEnabled(false);
                     }
                 }
@@ -1689,7 +1689,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 unlisted_changed = true;
             });
 
-            if (statusDraft.spoilerChecked || statusDraft.spoiler_text != null && statusDraft.spoiler_text.trim().length() > 0) {
+            if (statusDraft.spoilerChecked || statusDraft.spoiler_text != null && !statusDraft.spoiler_text.trim().isEmpty()) {
                 holder.binding.contentSpoiler.setVisibility(View.VISIBLE);
             } else {
                 holder.binding.contentSpoiler.setVisibility(View.GONE);
@@ -1709,7 +1709,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //Last compose drawer
             buttonVisibility(holder);
 
-            if (emojis != null && emojis.size() > 0) {
+            if (emojis != null && !emojis.isEmpty()) {
                 holder.binding.buttonEmoji.setVisibility(View.VISIBLE);
             } else {
                 holder.binding.buttonEmoji.setVisibility(View.GONE);
@@ -1785,7 +1785,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         camelCaseTags.add(tag);
                     }
                 }
-                if (camelCaseTags.size() > 0) {
+                if (!camelCaseTags.isEmpty()) {
                     statusDraft.text += "\n\n";
                     int lenght = 0;
                     for (String tag : camelCaseTags) {
@@ -1819,7 +1819,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         camelCaseTags.add(tag);
                     }
                 }
-                if (camelCaseTags.size() > 0) {
+                if (!camelCaseTags.isEmpty()) {
                     statusList.get(position).tagAdded = true;
                     int lenght = 0;
                     for (String tag : camelCaseTags) {
@@ -1902,7 +1902,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 String[] languagesArr = new String[0];
 
                 int selection = 0;
-                if (storedLanguages != null && storedLanguages.size() > 0) {
+                if (storedLanguages != null && !storedLanguages.isEmpty()) {
                     int i = 0;
                     codesArr = new String[storedLanguages.size()];
                     languagesArr = new String[storedLanguages.size()];

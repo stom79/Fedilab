@@ -23,6 +23,7 @@ import androidx.preference.ListPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreferenceCompat;
 
 import java.util.List;
 import java.util.Objects;
@@ -59,6 +60,12 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
             SET_WATERMARK_TEXT.setText(val);
         }
 
+        SwitchPreferenceCompat SET_MENTION_BOOSTER = findPreference(getString(R.string.SET_MENTION_BOOSTER));
+        if (SET_MENTION_BOOSTER != null) {
+            boolean val = sharedPreferences.getBoolean(getString(R.string.SET_MENTION_BOOSTER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, sharedPreferences.getBoolean(getString(R.string.SET_MENTION_BOOSTER), false));
+            SET_MENTION_BOOSTER.setChecked(val);
+        }
+
 
         MultiSelectListPreference SET_SELECTED_LANGUAGE = findPreference(getString(R.string.SET_SELECTED_LANGUAGE));
         if (SET_SELECTED_LANGUAGE != null) {
@@ -66,7 +73,7 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
             Set<String> storedLanguages = sharedPreferences.getStringSet(getString(R.string.SET_SELECTED_LANGUAGE), null);
 
             String[] selectedValue = new String[0];
-            if (storedLanguages != null && storedLanguages.size() > 0) {
+            if (storedLanguages != null && !storedLanguages.isEmpty()) {
                 if (storedLanguages.size() == 1 && storedLanguages.toArray()[0] == null) {
                     sharedPreferences.edit().remove(getString(R.string.SET_SELECTED_LANGUAGE)).commit();
                 } else {
@@ -100,6 +107,11 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
         if (Objects.requireNonNull(key).equalsIgnoreCase(getString(R.string.SET_WATERMARK_TEXT))) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(getString(R.string.SET_WATERMARK_TEXT) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, sharedPreferences.getString(getString(R.string.SET_WATERMARK_TEXT), null));
+            editor.apply();
+        }
+        if (Objects.requireNonNull(key).equalsIgnoreCase(getString(R.string.SET_MENTION_BOOSTER))) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(getString(R.string.SET_MENTION_BOOSTER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, sharedPreferences.getBoolean(getString(R.string.SET_MENTION_BOOSTER), false));
             editor.apply();
         }
     }
