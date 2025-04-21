@@ -1108,4 +1108,6 @@
     <string name="instance_information">Інформація про примірник</string>
     <string name="set_audo_hide_compose_title">Автоматично приховати кнопку створення</string>
     <string name="set_audo_hide_compose_summary">Автоматично приховувати кнопку створення під час прокручування вгору на часовій шкалі</string>
+    <string name="set_mention_booster_indication">Під час відповіді на посилення особа, яка здійснила посилення, буде згадана у відповіді</string>
+    <string name="set_mention_booster">Згадайте бустер</string>
 </resources>
