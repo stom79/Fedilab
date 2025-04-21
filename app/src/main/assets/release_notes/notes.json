@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.32.2",
+    "code": "531",
+    "note": "Added:\n- An outline around media\n\nChanged:\n- Make username, display name in nav drawer clickable\n- Gif media not animated by default\n- Disable by default the mention to the booster when replying. Can be enabled in Settings > Compose (per account)\n\nFixed:\n- Wrong preview picture on share from another app\n- Crash when translating with MinT\n- Refresh and pagination broken for the Trending timeline\n- Fix lags / Crashes"
+  },
+  {
   "version": "3.32.1",
   "code": "530",
   "note": "Fixed:\n- Fix a crash on some devices\n- Hide quote button\n- Fix a layout issue with pictures in landscape\n- Fix a crash when opening the original message from a picture"
