@@ -1096,4 +1096,6 @@
     <string name="network">网络</string>
     <string name="set_audo_hide_compose_summary">向上滚动时间轴时自动隐藏编辑按钮</string>
     <string name="set_audo_hide_compose_title">自动隐藏编辑按钮</string>
+    <string name="set_mention_booster_indication">回复转嘟时，会在回复中提及转发嘟文的人</string>
+    <string name="set_mention_booster">提及转发嘟文者</string>
 </resources>
