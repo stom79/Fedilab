@@ -1094,4 +1094,6 @@
     <string name="set_audo_hide_compose_title">Oculta o botón para redactar</string>
     <string name="network">Rede</string>
     <string name="set_audo_hide_compose_summary">Oculta automáticamente o botón para redactar cando te desprazas nunha cronoloxía</string>
+    <string name="set_mention_booster">Mencionar a quen promoveu</string>
+    <string name="set_mention_booster_indication">Ao responder a unha promoción, a persoa que promoveu será mencionada na resposta</string>
 </resources>
