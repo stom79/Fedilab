@@ -2107,7 +2107,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                         }
                     }));
-            if (statusToDeal.isExpended) {
+            if (statusToDeal.spoiler_text == null || statusToDeal.spoiler_text.trim().isEmpty() || statusToDeal.isExpended) {
                 holder.binding.poll.pollContainer.setVisibility(View.VISIBLE);
             } else {
                 holder.binding.poll.pollContainer.setVisibility(View.GONE);
