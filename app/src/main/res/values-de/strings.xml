@@ -1078,4 +1078,13 @@
     <string name="Pronouns">Pronomen</string>
     <string name="pronouns_support">Unterstützung von Pronomen</string>
     <string name="qr_code_generator">QR Code Generator</string>
+    <string name="instance_token">Dein Token</string>
+    <string name="more_options">Mehr Optionen</string>
+    <string name="action_favourite">Favorisieren</string>
+    <string name="action_quote">Zitieren</string>
+    <string name="add_content_warning">Content Warnung (CW) hinzufügen</string>
+    <string name="remove_content_warning">Content Warnung (CW) entfernen</string>
+    <string name="action_publish">Veröffentlichen</string>
+    <string name="change_visibility">Sichtbarkeit anpassen</string>
+    <string name="set_language">Sprache ändern</string>
 </resources>
