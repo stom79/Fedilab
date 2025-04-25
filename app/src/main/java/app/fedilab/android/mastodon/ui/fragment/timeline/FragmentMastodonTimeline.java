@@ -17,6 +17,7 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
 
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.networkAvailable;
+import static app.fedilab.android.mastodon.helper.Helper.TAG;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,6 +27,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -571,9 +573,13 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 insertedStatus = updateStatusListWith(fetched_statuses.statuses);
             } else { //Trends cannot be ordered by id
                 insertedStatus = fetched_statuses.statuses.size();
-                int fromPosition = timelineStatuses.size();
-                timelineStatuses.addAll(fetched_statuses.statuses);
-                statusAdapter.notifyItemRangeInserted(fromPosition, insertedStatus);
+                for(Status statusReceived: fetched_statuses.statuses) {
+                    if (!timelineStatuses.contains(statusReceived)) {
+                        timelineStatuses.add(statusReceived);
+                        statusAdapter.notifyItemInserted(timelineStatuses.size() - 1);
+                        insertedStatus++;
+                    }
+                }
             }
             //For these directions, the app will display counters for new messages
             if (insertedStatus >= 0 && update != null && direction != DIRECTION.FETCH_NEW && !fetchingMissing) {
