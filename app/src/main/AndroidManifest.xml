@@ -72,6 +72,10 @@
                     android:host="*"
                     android:pathPrefix="/@"
                     android:scheme="https" />
+                <data
+                    android:host="*"
+                    android:pathPrefix="/notes"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
