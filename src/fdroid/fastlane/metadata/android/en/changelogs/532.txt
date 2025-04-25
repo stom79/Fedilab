@@ -1,0 +1,4 @@
+Fixed:
+- Polls not displayed
+- Pagination with trends
+- Push notifications not working on some devices
