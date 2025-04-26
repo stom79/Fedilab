@@ -1,0 +1,4 @@
+Arranxo:
+- non se mostraban as enquisas
+- a paxinación das tendencias
+- as notificacións push non funcionaban nalgúns dispositivos
