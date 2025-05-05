@@ -1,0 +1,13 @@
+Afegits:
+- Un contorn al voltant dels mèdia
+
+Canvis:
+- Clicables: Fer nom d'usuària i mostrar nom en calaix nav
+- Els Gifs no estan animats per defecte
+- Deshabilitar per defecte la menció a l'impulsor en respondre. Es pot activar a Configuració > Composar (per compte)
+
+Reparacions:
+- Imatge de previsionat incorrecta en compartir des d'una altra aplicació
+- Fallides en traduir amb MinT
+- Refrescar i paginació espatllades en la pissarra de Tendèncis
+- Correcció de retards / fallides

@@ -1,0 +1,5 @@
+Reparacions:
+- Correcció d'una fallada d'alguns dispositius
+- Amagar botó de cita
+- Correcció d'un problema de disposició de les imatges en vista apaïsada
+- Correcció d'una fallida quan s'obria el bram original des d'una imatge
