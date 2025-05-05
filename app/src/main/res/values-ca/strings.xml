@@ -854,7 +854,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="thread_long_this_message">Voleu dividir aquests brams en les respostes?</string>
     <string name="thread_long_message_no">No els divideixis</string>
     <string name="cark_custom_colors">Fosc - Colors personalitzats</string>
-    <string name="set_display_quote_indication">Mostra el botó «cita»</string>
+    <string name="set_display_quote_indication">Mostrar el botó \"Citar\"</string>
     <string name="translate_in">Tradueix a</string>
     <string name="reject_media">Rebutja els mèdia</string>
     <string name="moderator">Moderador</string>
@@ -1013,7 +1013,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="more_options">Més opcions</string>
     <string name="action_favourite">Preferit</string>
     <string name="action_reblog">Impulsa</string>
-    <string name="action_quote">Cita</string>
+    <string name="action_quote">Citar</string>
     <string name="add_content_warning">Afegir avís de contingut inapropiat</string>
     <string name="action_publish">Publicar</string>
     <string name="add_poll">Afegir una enquesta</string>
