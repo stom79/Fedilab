@@ -27,15 +27,15 @@
     <string name="clipboard">El contingut del bram s\'ha copiat al porta-retalls</string>
     <string name="clipboard_url">L\'adreça web del bram s\'ha copiat al porta-retalls</string>
     <string name="camera">Càmera</string>
-    <string name="delete_all">Suprimir-ho tot</string>
-    <string name="schedule">Temporitza</string>
+    <string name="delete_all">Esborrar-ho tot</string>
+    <string name="schedule">Temporitzar</string>
     <string name="text_size">Mides de text</string>
     <string name="next">Següent</string>
     <string name="previous">Anterior</string>
-    <string name="open_with">Obre amb</string>
-    <string name="validate">Valida</string>
+    <string name="open_with">Obrir amb</string>
+    <string name="validate">Validar</string>
     <string name="media">Mèdia</string>
-    <string name="share_with">Comparteix amb</string>
+    <string name="share_with">Compartir amb</string>
     <string name="shared_via">Compartit via Fedilab</string>
     <string name="replies">Respostes</string>
     <string name="username">Nom d\'usuària</string>
@@ -46,8 +46,8 @@
     <string name="reblog">Difusions</string>
     <string name="show_boosts">Mostrar difusions</string>
     <string name="show_replies">Mostra les respostes</string>
-    <string name="action_open_in_web">Obre al navegador</string>
-    <string name="translate">Tradueix</string>
+    <string name="action_open_in_web">Obrir al navegador</string>
+    <string name="translate">Traduir</string>
     <!--- Menu -->
     <string name="home_menu">Inici</string>
     <string name="local_menu">Pissarra local</string>
@@ -56,27 +56,27 @@
     <string name="notifications">Notificacions</string>
     <string name="follow_request">Peticions de seguiment</string>
     <string name="settings">Configuració</string>
-    <string name="send_email">Envia un correu electrònic</string>
+    <string name="send_email">Enviar un correu electrònic</string>
     <string name="scheduled_toots">Publicacions programades</string>
     <string name="disclaimer_full">Aquesta informació d\'usuària pot estar incompleta.</string>
     <string name="insert_emoji">Inserir emoji</string>
     <string name="no_emoji">L\'app no ha recollit emojis personalitzats de moment.</string>
     <string name="logout_account_confirmation">Estàs segura que vols tancar la sessió @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">No hi ha cap publicació per mostrar</string>
-    <string name="favourite_add">Voleu afegir aquest bram als teus preferits?</string>
-    <string name="favourite_remove">Voleu suprimir aquest bram dels teus preferits?</string>
-    <string name="reblog_add">Voleu impulsar aquest bram?</string>
-    <string name="reblog_remove">Voleu desfer l\'impuls\?</string>
-    <string name="more_action_1">Silencia</string>
-    <string name="more_action_2">Bloca</string>
-    <string name="more_action_3">Denuncia</string>
-    <string name="more_action_4">Suprimeix</string>
-    <string name="more_action_5">Copia</string>
-    <string name="more_action_6">Comparteix</string>
-    <string name="more_action_7">Menciona</string>
+    <string name="no_status">No hi ha cap bram per mostrar</string>
+    <string name="favourite_add">Vols afegir aquest bram als teus preferits?</string>
+    <string name="favourite_remove">Vols suprimir aquest bram dels teus preferits?</string>
+    <string name="reblog_add">Vols impulsar aquest bram?</string>
+    <string name="reblog_remove">Voleu desfer l\'impuls?</string>
+    <string name="more_action_1">Silenciar</string>
+    <string name="more_action_2">Blocar</string>
+    <string name="more_action_3">Denunciar</string>
+    <string name="more_action_4">Esborrar</string>
+    <string name="more_action_5">Copiar</string>
+    <string name="more_action_6">Compartir</string>
+    <string name="more_action_7">Esmentar</string>
     <string name="more_action_8">Silenciar temporalment</string>
-    <string name="more_action_9">Suprimir &amp; tornar a redactar</string>
+    <string name="more_action_9">Esborrar i redactar de nou</string>
     <string-array name="more_action_confirm">
         <item>Vols silenciar aquest compte?</item>
         <item>Vols blocar aquest compte?</item>
@@ -94,8 +94,8 @@
         <item>Suprimir &amp; tornar a redactar aquest bram?</item>
     </string-array>
     <string name="bookmarks">Marcadors</string>
-    <string name="bookmark_add">Afegeix als marcadors</string>
-    <string name="bookmark_remove">Suprimeix el marcador</string>
+    <string name="bookmark_add">Afegir als marcadors</string>
+    <string name="bookmark_remove">Esborrar marcador</string>
     <string name="status_bookmarked">S\'ha afegit el missatge als marcadors!</string>
     <string name="status_unbookmarked">S\'ha suprimit el missatge dels marcadors!</string>
     <!-- Date -->
@@ -461,7 +461,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="suspended">Suspès</string>
     <string name="permissions">Permisos</string>
     <string name="disable">Deshabilita</string>
-    <string name="silence">Silenciar</string>
+    <string name="silence">Silenci</string>
     <string name="account">Compte d\'usuària</string>
     <string name="unsilence">Desactivar silenciador</string>
     <string name="undisable">Desfer desactivar</string>
@@ -843,7 +843,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="exit">Surt</string>
     <string name="unfollow">Deixa de seguir</string>
     <string name="action_unfollow_tag_confirm">Segur que voleu deixar de seguir aquesta etiqueta?</string>
-    <string name="show_my_messages">Mostra els meus brams</string>
+    <string name="show_my_messages">Mostrar els meus brams</string>
     <string name="show_anyway">Mostra de tota manera</string>
     <string name="set_language_picker_title">Idiomes al selector</string>
     <string name="action_followed_tag_empty">No seguiu cap etiqueta!</string>
@@ -958,8 +958,8 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="reblog_missing_description">Al bram li manca la descripció dels mèdia. Segur que voleu impulsar-lo?</string>
     <string name="warn_boost_no_media_description">Avisa\'m abans d\'impulsar si el bram té mèdia sense descripció</string>
     <string name="tag_already_followed">Ja esteu seguint aquesta etiqueta!</string>
-    <string name="show_self_boosts">Mostra els autoimpulsos</string>
-    <string name="show_self_replies">Mostra autorespostes</string>
+    <string name="show_self_boosts">Mostrar els autoimpulsos</string>
+    <string name="show_self_replies">Mostrar autorespostes</string>
     <string name="number_of_media">Nombre de fitxers multimèdia</string>
     <string name="toast_error_internet">No hi ha connexió a Internet!</string>
     <string name="requested_by">Ha demanat seguir-vos</string>
@@ -1012,7 +1012,7 @@ Ara ja pots connectar-te al compte escrivint <b>%1$s</b> en el primer camp i fen
     <string name="pronouns_support">Suport per pronoms</string>
     <string name="more_options">Més opcions</string>
     <string name="action_favourite">Preferit</string>
-    <string name="action_reblog">Impulsa</string>
+    <string name="action_reblog">Impulsar</string>
     <string name="action_quote">Citar</string>
     <string name="add_content_warning">Afegir avís de contingut inapropiat</string>
     <string name="action_publish">Publicar</string>
