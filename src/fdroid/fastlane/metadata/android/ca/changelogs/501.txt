@@ -1,0 +1,8 @@
+S'ha afegit:
+- Suport per a Android 14
+- Divideix automàticament els missatges llargs en els fils (per defecte: ASK)
+- Els enllaços i els mèdia són clicables mentre es redacta
+
+Reparacions:
+- Evita l'error 429 amb NTFY
+- S'han corregit diverses fallides

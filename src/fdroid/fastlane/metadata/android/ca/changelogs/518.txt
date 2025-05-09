@@ -1,0 +1,7 @@
+Reparacions:
+- Reparada una fallida en canviar el tipus de notificacions
+- Reparat problema amb noms que no es mostraven sencers
+- Reparada una fallida entre les notificacions i el Sharkey
+- Reparada una fallida quan l'aplicació torna al primer pla
+- Reparats els enllaços xmpp que no s'obrien en clients xmpp
+- Reparació de temps silenciat incorrecte

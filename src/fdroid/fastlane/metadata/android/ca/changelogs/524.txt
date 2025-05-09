@@ -1,0 +1,17 @@
+S'ha afegit:
+- Fixació de pissarra de tendències (es pot ocultar a Gestió de pissarres)
+- Una alternativa al traductor per defecte
+- Nova entrada de Pixelfed a la Configuració per a deshabilitar la pantalla completa per als mèdia
+- Consells d'eina per a les pestanyes dels perfils
+
+Canvis:
+- Augment de l'àrea tàctil dels botons de resposta
+- Mostrar un diàleg després de l'exportació de la configuració
+
+Reparacions:
+- Reparació de les descripcions de mèdia que no s'actualitzaven quan n'hi havia diversos
+- Només es mostrava una part de les traduccions de DeepL
+- Reparades les traduccions truncades amb Lingva
+- Reparada una fallida en extreure perfils remots
+- Reparada una fallida amb emoticones animades
+- Reparada una fallida en mostrar els diagrames de la memòria cau d'Inici

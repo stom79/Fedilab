@@ -1,0 +1,6 @@
+S'ha afegit:
+- Mostrar un codi QR als perfils
+
+Reparacions:
+- Reparació del toc de brams en les converses
+- Els pronoms que ocupaven massa lloc

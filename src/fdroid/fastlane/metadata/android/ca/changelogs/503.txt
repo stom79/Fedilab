@@ -1,0 +1,14 @@
+S'ha afegit:
+- Permet subratllar els elements clicables (Configuració > Pissarres - per defecte: deshabilitat)
+- Permet deshabilitar la data relativa en els brams
+
+Canvis:
+- Comptadors a tocar dels botons d'acció
+- Oculta el selector d'emoticones si la instància no té emoticones
+- S'ordenen les etiquetes en seguiment
+- Selector de comptes en obrir amb un altre compte
+
+Reparacions:
+- Correcció d'una fallida en redactar
+- Correcció d'un problema amb el botó d'enrere
+- Problema de visualització amb les etiquetes en seguiment

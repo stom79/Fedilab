@@ -1,0 +1,16 @@
+S'ha afegit:
+- Opció per a deshabilitar el botó d'autoocultació de redacció
+
+Canvis:
+- Afegides més descripcions de contingut als botons
+- Actualització d'alguns botons
+- Actualització de capçalera de calaix de navegació
+- Encabir els botons d'acció quan sigui necessari per evitar superposicions
+
+Reparacions:
+- Reparada la fallida de quan els mèdia eren massa pesats
+- Algunes emoticones a mida de la bio no es revelaven
+- La publicació de brams no funcionava en algunes instàncies de Friendica
+- Reparada una fallida amb missatges d'autodivisió
+- Reparada una fallida en obrir converses
+- Reparat problema del color de fons quan es visualitzava un mèdia

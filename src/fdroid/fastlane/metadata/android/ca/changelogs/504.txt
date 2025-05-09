@@ -1,0 +1,9 @@
+S'ha afegit:
+- Una barra rodoladora per a pissarres (per defecte: desactivada)
+- Una barra de cerca per a les emoticones a mida
+
+Reparacions:
+- Reparat que l'indicador preguntés diverses vegades quan es rebutjava la divisió
+- Fallides amb perfils
+- Reparat un problema entre l'enquesta i Pleroma
+- Emoticona que no sortia al selector

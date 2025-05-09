@@ -1,0 +1,10 @@
+S'ha afegit:
+- Suport a l'esquema d'URL "web+ap" per obrir perfils amb l'aplicació
+
+Canvis:
+- Disposició per a descripcions de mèdia
+
+Reparacions:
+- Reparada una fallida quan es traduïen descripcions de mèdia
+- Nansa que sortia dues vegades en respondre a l'impuls d'una usuària a un bram propi
+- Reparació dels problemes de color amb un tema a mida

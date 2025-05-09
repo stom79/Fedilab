@@ -1,0 +1,20 @@
+S'ha afegit:
+- Permetre de seguir les pissarres de descobriment d'instàncies de Pixelfed
+- Mantenir les proporcions dels mèdia en la pissarra de Pixelfed
+- Un botó de m'agrada a les pissarres de Pixelfed
+- Permetre iniciar la sessió amb un tiquet
+
+Canvis:
+- Usar la disposició Pixelfed en seguir instàncies Pixelfed
+- Permetre de rodolar botons per a una pantalla més gran en la conversa
+- Traslladar el codi QR a la capçalera
+
+Reparacions:
+- URL no clicables quan Markdown està habilitat
+- Nitter per seguir els comptes de Twitter
+- La pissarra de Pixelfed no es mostra per defecte
+- Reparats els informes de l'administradora no accessibles
+- Acoloriment de la barra superior en rodolar
+- Esborranys que no es desaven en afegir/editar descripcions de mèdia
+- Suggeriments de cerca d'usuaris duplicats
+- Algunes fallides menors

@@ -1,0 +1,1 @@
+Aquest llançament hauria de corregir les fallides (TransactionTooLargeException). Si teniu fallides, torneu a la versió anterior amb l'ajut d'FDdroid.
