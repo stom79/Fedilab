@@ -1,0 +1,10 @@
+Añadidos:
+- Mantener las proporciones de los archivos multimedia en la biografía de Pixelfed
+- Añadir un botón "me gusta" en las biografías de Pixelfed
+
+Cambios:
+- Más espacio para el mensaje centrado en una conversación
+
+Reparaciones:
+- URLs no clicables cuando Markdown está habilitado
+- Biografía de Pixelfed no mostrada por defecto
