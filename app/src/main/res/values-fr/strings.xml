@@ -1086,4 +1086,22 @@
     <string name="toast_fail_authenticate">L\'application n\'a réussi à authentifier le compte !</string>
     <string name="toast_error_internet">Pas de connexion internet !</string>
     <string name="set_pixelfed_full_media">Médias en plein écran</string>
+    <string name="more_options">Plus d\'options</string>
+    <string name="action_favourite">Favorit</string>
+    <string name="action_quote">Citer</string>
+    <string name="add_content_warning">Ajouter avertissement de contenu</string>
+    <string name="action_publish">Publier</string>
+    <string name="open_new_attachment_panel">Ouvrir nouveau panneau de pièces jointes</string>
+    <string name="close_new_attachment_panel">Fermer nouveau panneau de pièces jointes</string>
+    <string name="attach_videos">Joindre vidéos</string>
+    <string name="attach_files">Joindre fichiers</string>
+    <string name="network">Réseau</string>
+    <string name="instance_information">Information de l\'instance</string>
+    <string name="add_poll">Ajouter un sondage</string>
+    <string name="remove_content_warning">Supprimer avertissement de contenu</string>
+    <string name="change_visibility">Changer la visibilité</string>
+    <string name="set_language">Définir la langue</string>
+    <string name="attach_audio">Joindre audio</string>
+    <string name="attach_images">Joindre images</string>
+    <string name="set_pixelfed_full_media_indication">Les fichiers multimédia ocuperont toute la largeur de l\'écran et le format de la hauteur de l\'image sera respecté.</string>
 </resources>
