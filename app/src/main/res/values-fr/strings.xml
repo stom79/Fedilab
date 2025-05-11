@@ -956,7 +956,7 @@
     <string name="set_remove_left_margin">Suppression de la marge de gauche dans les lignes de temps pour rendre les messages plus compacts</string>
     <string name="version">Version</string>
     <string name="post_format">Format de publication</string>
-    <string name="set_pixelfed_presentation">Présentation façon Pixelfed pour les médias</string>
+    <string name="set_pixelfed_presentation">Présentation de Pixelfed pour les médias</string>
     <string name="set_display_quote_indication">Afficher le bouton « Citer »</string>
     <string name="set_display_reaction_indication">Afficher les boutons \"Réactions\"</string>
     <string name="set_post_format">Format du message</string>
