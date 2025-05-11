@@ -1075,7 +1075,7 @@
     <string name="copy_version">Copier l\'information</string>
     <string name="qr_code_generator">Générateur de QR Code</string>
     <string name="set_disable_topbar_scrolling_title">Désactiver le défilement de la barre supérieure</string>
-    <string name="thread_long_message_message">Le message sera divisé en plusieurs réponses en respectant la limite des caractères max de votre instance.</string>
+    <string name="thread_long_message_message">Le message sera divisé en plusieurs réponses afin de respecter le nombre maximum de caractères de votre instance.</string>
     <string name="card_picture">Image de la carte</string>
     <string name="set_display_relative_date">Afficher la date relative des messages</string>
     <string name="pronouns_support">Prise en charge des pronoms</string>
