@@ -1,0 +1,1 @@
+يُفترض أن يُصلح هذا الإصدار الأعطال (TransactionTooLargeException). إذا واجهت أعطالاً، تراجع عن الإصدار عبر FDdroid.
