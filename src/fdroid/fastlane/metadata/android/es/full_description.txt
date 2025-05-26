@@ -2,7 +2,6 @@ Compatible con:
 - Mastodon, Peertube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica
 
 Funciones avanzadas:
-
 - Redactar hilos
 - Soporte para múltiples cuentas
 - Programar mensajes desde el dispositivo

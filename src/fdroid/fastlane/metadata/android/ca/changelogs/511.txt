@@ -1,0 +1,9 @@
+S'ha afegit:
+- Tocar els bàners de comptes per mostrar-los com a mèdia
+
+Reparacions:
+- Pèrdua de posició en canviar entre comptes
+- Perfils erronis en habilitar converses remotes
+- Pissarra local de Peertube
+- Cerca d'instàncies de Peertube
+- Fallides de la versió anterior

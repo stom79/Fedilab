@@ -956,7 +956,7 @@
     <string name="set_remove_left_margin">Suppression de la marge de gauche dans les lignes de temps pour rendre les messages plus compacts</string>
     <string name="version">Version</string>
     <string name="post_format">Format de publication</string>
-    <string name="set_pixelfed_presentation">Présentation façon Pixelfed pour les médias</string>
+    <string name="set_pixelfed_presentation">Présentation de Pixelfed pour les médias</string>
     <string name="set_display_quote_indication">Afficher le bouton « Citer »</string>
     <string name="set_display_reaction_indication">Afficher les boutons \"Réactions\"</string>
     <string name="set_post_format">Format du message</string>
@@ -1075,7 +1075,7 @@
     <string name="copy_version">Copier l\'information</string>
     <string name="qr_code_generator">Générateur de QR Code</string>
     <string name="set_disable_topbar_scrolling_title">Désactiver le défilement de la barre supérieure</string>
-    <string name="thread_long_message_message">Le message sera divisé en plusieurs réponses en respectant la limite des caractères max de votre instance.</string>
+    <string name="thread_long_message_message">Le message sera divisé en plusieurs réponses afin de respecter le nombre maximum de caractères de votre instance.</string>
     <string name="card_picture">Image de la carte</string>
     <string name="set_display_relative_date">Afficher la date relative des messages</string>
     <string name="pronouns_support">Prise en charge des pronoms</string>
@@ -1086,4 +1086,22 @@
     <string name="toast_fail_authenticate">L\'application n\'a réussi à authentifier le compte !</string>
     <string name="toast_error_internet">Pas de connexion internet !</string>
     <string name="set_pixelfed_full_media">Médias en plein écran</string>
+    <string name="more_options">Plus d\'options</string>
+    <string name="action_favourite">Favorit</string>
+    <string name="action_quote">Citer</string>
+    <string name="add_content_warning">Ajouter avertissement de contenu</string>
+    <string name="action_publish">Publier</string>
+    <string name="open_new_attachment_panel">Ouvrir nouveau panneau de pièces jointes</string>
+    <string name="close_new_attachment_panel">Fermer nouveau panneau de pièces jointes</string>
+    <string name="attach_videos">Joindre vidéos</string>
+    <string name="attach_files">Joindre fichiers</string>
+    <string name="network">Réseau</string>
+    <string name="instance_information">Information de l\'instance</string>
+    <string name="add_poll">Ajouter un sondage</string>
+    <string name="remove_content_warning">Supprimer avertissement de contenu</string>
+    <string name="change_visibility">Changer la visibilité</string>
+    <string name="set_language">Définir la langue</string>
+    <string name="attach_audio">Joindre audio</string>
+    <string name="attach_images">Joindre images</string>
+    <string name="set_pixelfed_full_media_indication">Les fichiers multimédia ocuperont toute la largeur de l\'écran et le format de la hauteur de l\'image sera respecté.</string>
 </resources>

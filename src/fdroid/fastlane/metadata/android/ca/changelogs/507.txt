@@ -1,0 +1,2 @@
+- Problema de redacció
+- Aquesta versió hauria de corregir les fallides (TransactionTooLargeException). Si teniu fallides, torneu a la versió anterior amb l'ajut d'FDdroid.

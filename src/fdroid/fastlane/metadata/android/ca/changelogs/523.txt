@@ -1,0 +1,12 @@
+S'ha afegit:
+- Seguir etiquetes de Twitter
+
+Canvis
+- Eliminar còpia de seguretat automàtica (només Google)
+
+Reparacions:
+- Notificacions fugaces que no funcionaven en alguns dispositius
+- Filtres no aplicats a la descripció de mèdia
+- Reparada fallida amb imatges animades en pissarres
+- Reparada fallida en fils llargs
+- Reparada fallida a causa d'alguns brams (en diferents pissarres)

@@ -1,0 +1,11 @@
+S'ha afegit:
+- Permetre editar brams programats de la banda del servidor
+
+Canvis:
+- Ordenar alfabèticament el nom de la llista en els perfils
+
+Reparacions:
+- Notificacions fugaces
+- Selector d'instàncies del Peertube
+- Edició de fils programats (local)
+- Cerca instantània de resultats repetits de Hashtag

@@ -1,0 +1,25 @@
+S'ha afegit:
+- Suport per a Android 14
+- Divisió automàtica dels brams llargs en els fils (per defecte: ASK)
+- Enllaços i mèdia clicables en redactar
+- Permetre de subratllar els elements clicables (Configuració > Pissarres - per defecte: deshabilitat)
+- Permetre deshabilitar la data relativa en els brams
+- Una barra de ròdol per a les pissarres (per defecte: deshabilitat)
+- Una barra de cerca per emoticones a mida
+- Enllaços clicables en les descripcions de mèdia
+
+Canvis:
+- Comptadors a tocar dels botons d'acció
+- Ocultar el selector d'emoticones si la instància no té emoticones
+- Ordenació de les etiquetes en seguiment
+- Selector de comptes en obrir amb un altre compte
+
+Reparacions:
+- Evitar error 429 amb NTFY
+- Correcció de colors a mida (Android 14)
+- Correcció d'una fallida en redactar
+- Problema de visualització d'etiquetes en seguiment
+- Fallides amb perfils
+- Correcció d'un problema entre l'enquesta i Pleroma
+- Emoticona que no es mostra al selector
+- Correcció de fallides diverses

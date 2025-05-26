@@ -1,0 +1,16 @@
+S'ha afegit:
+- Permetre editar brams programats de la banda del servidor
+
+Canvis:
+- Ordenar el nom de la llista alfabèticament en els perfils
+- Eliminar la inscripció per Google
+
+Reparacions:
+- Notificacions fugaces
+- Selector d'instàncies del Peertube
+- Editaar els fils programats (local)
+- Cerca instantània de resultats repetits de Hashtag
+- Cometes trencades amb Markdowns
+- Reparades les fallides de les denúncies després de l'enviament
+- Reparat el selector d'emoticones quan no hi ha resultats
+- Reparades altres fallides

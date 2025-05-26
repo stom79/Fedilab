@@ -1,0 +1,11 @@
+S'ha afegit:
+- Reparació de barra superior (per defecte: deshabilitada)
+- Freqüència d'ús d'etiquetes en redactar
+
+Canvis:
+- El suport de Markdown està deshabilitat per defecte
+
+Reparacions:
+- Reparació de fallides en interaccions o en obrir una pantalla nova
+- Reparat el color dels diàlegs a Configuració
+- Algunes fallides menors

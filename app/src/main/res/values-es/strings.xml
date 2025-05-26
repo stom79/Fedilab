@@ -448,13 +448,7 @@
     <string name="password_too_short">La contraseña debe tener al menos 8 caracteres</string>
     <string name="username_error">Los nombres de usuario solo pueden contener letras, números y guiones bajos</string>
     <string name="account_created">¡Cuenta creada!</string>
-    <string name="account_created_message"> ¡Tu cuenta ha sido creada!
-\n
-\n \u0020Valida tu correo electrónico dentro de las próximas 48 horas.
-\n
-\n \u0020Ahora puedes conectar tu cuenta escribiendo <b>%1$s</b> en el primer campo y pulsando en <b>Conectar</b>.
-\n
-\n \u0020<b>Importante</b>: Si tu instancia requiere validación, recibirás un correo electrónico cuando se haya completado. \u0020</string>
+    <string name="account_created_message">¡Tu cuenta ha sido creada! \n \n \u0020Valida tu correo electrónico dentro de las próximas 48 horas. \n \n \u0020Ahora puedes conectar tu cuenta escribiendo <b>%1$s</b> en el primer campo y pulsando en <b>Conectar</b>. \n \n \u0020<b>Importante</b>: Si tu instancia requiere validación, recibirás un correo electrónico cuando se haya completado.</string>
     <string name="save_draft">¿Guardar el mensaje en borradores?</string>
     <string name="administration">Administración</string>
     <string name="reports">Informes</string>
@@ -1064,7 +1058,7 @@
     <string name="data_import_settings_success">Los ajustes se importaron con éxito</string>
     <string name="messages_stored_in_drafts">Mensajes guardados en borradores</string>
     <string name="watch_trends_for_instance">Mira los temas relevantes en esta instancia</string>
-    <string name="hide_content">Ocultar contenido &lt;</string>
+    <string name="hide_content"><![CDATA[Ocultar contenido <]]></string>
     <string name="set_fetch_home">Obtener automáticamente los mensajes de inicio</string>
     <string name="home_cache">Caché de Inicio</string>
     <string name="type_of_home_delay_title">Intervalo de actualización de la página de inicio</string>

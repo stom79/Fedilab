@@ -1,0 +1,11 @@
+S'ha afegit:
+- Permetre de seguir les pissarres de descoberta d'instàncies Pixelfed
+- Permetre d'iniciar sessió amb un tiquet
+
+Canvis:
+- Usar la disposició Pixelfed en seguir la instància Pixelfed
+- Permetre de rodolar botons per a una pantalla més gran en la conversa
+
+Reparacions:
+- Nitter per seguir els comptes de Twitter
+- Algunes fallides menors

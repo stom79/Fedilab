@@ -1,0 +1,9 @@
+S'ha afegit:
+- Permet deshabilitar la compatibilitat amb els pronoms (per defecte: habilitat)
+- Més suport per als pronoms (localització en diferents idiomes)
+
+Reparacions:
+- Reparada una fallida en denunciar brams
+- Reparada una fallida en seguir etiquetes
+- Reparats alguns problemes de visualització
+- Diverses correccions de l'última versió (3.28.0)

@@ -584,13 +584,13 @@
     <string name="keepon">Fortfahren</string>
     <string name="instance_not_valid">Diese Instanz scheint nicht gültig zu sein!</string>
     <string name="boosted_by">Geteilt von</string>
-    <string name="favourited_by">Favoritisiert von</string>
+    <string name="favourited_by">Favorisiert von</string>
     <string name="followers_only">Nur Follower</string>
     <string name="eg_sensitive_content">Z. B.: Sensibler Inhalt</string>
     <string name="add_status">Status hinzufügen</string>
     <string name="remove_status">Status entfernen</string>
     <string name="instance_health_checkedat">Überprüft am: %s</string>
-    <string name="show_content">Inhalt anzeigen &gt;</string>
+    <string name="show_content"><![CDATA[Inhalt anzeigen >]]></string>
     <string name="stop_recording">Aufnahme anhalten</string>
     <string name="report_val1">Ich mag es nicht</string>
     <string name="report_val2">Es ist Spam</string>
@@ -660,7 +660,7 @@
     <string name="bottom_menu">Unteres Menü</string>
     <string name="top_menu">Oberes Menü</string>
     <string name="report_1_title_more">Einstellungen zur Kontrolle dessen, was Du auf Mastodon siehst:</string>
-    <string name="hide_content">Inhalt verbergen &lt;</string>
+    <string name="hide_content"><![CDATA[Inhalt verbergen <]]></string>
     <string name="category_custom">Benutzerdefiniert</string>
     <string name="post_message_text">Sende Nachricht %d/%d</string>
     <string name="is_up">Ist erreichbar!</string>
@@ -894,8 +894,8 @@
     <string name="admin_domainblock_domain">Das Blockieren der Domäne verhindert nicht die Erstellung von Konto-Einträgen in der Datenbank, sondern wendet rückwirkend und automatisch bestimmte Moderations-Methoden auf diese Konten an.</string>
     <string name="admin_domainblock_reject_reports">Ignoriere alle Meldungen die von dieser Domäne kommen. Für Suspendierungen irrelevant</string>
     <string name="admin_domainblock_severity">Stummschaltung macht die Beiträge des Kontos für alle unsichtbar, die ihm nicht folgen. Suspendierung entfernt alle Inhalte, Medien und Profildaten des Kontos. Verwende Keine, wenn Du nur die Mediendateien ablehnen möchtest.</string>
-    <string name="admin_domainblock_reject_obfuscate">Verschleiere teilweise den Domänennamen in der Liste, wenn die Verteilung der Liste der Domänen-Beschränkunden aktiviert ist</string>
-    <string name="admin_domainblock_public_comment">Kommentiere die Domainbeschränkung für die Öffentlichkeit, wenn die Verteilung der Liste der Domainbeschränkunden aktiviert ist.</string>
+    <string name="admin_domainblock_reject_obfuscate">Verschleiere teilweise den Domänennamen in der Liste, wenn die Verteilung der Liste der Domänen-Beschränkungen aktiviert ist</string>
+    <string name="admin_domainblock_public_comment">Kommentiere die Domainbeschränkung für die Öffentlichkeit, wenn die Verteilung der Liste der Domainbeschränkungen aktiviert ist.</string>
     <string name="order_lists">Listen sortieren</string>
     <string name="notif_reported">Bericht senden</string>
     <string name="mute_tag">Den Hashtag %1$s wirklich stummschalten\?</string>
@@ -1087,4 +1087,7 @@
     <string name="action_publish">Veröffentlichen</string>
     <string name="change_visibility">Sichtbarkeit anpassen</string>
     <string name="set_language">Sprache ändern</string>
+    <string name="network">Netzwerk</string>
+    <string name="set_audo_hide_compose_title">Verstecke Verfassen-Knopf automatisch</string>
+    <string name="set_audo_hide_compose_summary">Versteckt den Verfassen-Knopf automatisch beim Scrollen durch eine Timeline</string>
 </resources>

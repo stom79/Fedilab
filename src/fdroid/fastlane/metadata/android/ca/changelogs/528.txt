@@ -1,0 +1,11 @@
+S'ha afegit:
+- Llançadors nous d'icones (Configuració > Interfície)
+
+Canvis:
+- Botons de cloenda de sessió/intermediari més visibles al menú principal
+- Suprimit el permís FOREGROUND_SERVICE
+- Petita millora de la disposició dels mèdia amb les traduccions
+
+Reparacions:
+- Reparació d'icones no visibles de la barra d'estat en el tema clar amb un color d'accent a mida
+- Els botons de reacció no eren clicables en algunes instàncies

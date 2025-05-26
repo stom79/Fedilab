@@ -1,0 +1,14 @@
+S'ha afegit:
+- Tres noves icones d'app (Orgull, Rosa i Pirata)
+- Mantenir la posició amb converses remotes
+
+Reparacions:
+- Markdown: atura l'anàlisi d'etiquetes i admet text tatxat
+- Cursor més visible en redactar
+- Corregeix la longitud màxima del caràcter personalitzat d'instància que no funciona
+- Pestanyes als perfils
+- Reparació d'etiquetes no clicables per a alguns idiomes
+- Error amb comptes amb una gran quantitat de seguidores
+- Fallides quan un bran tenia diversos gifs
+- Màxim de carpacters en enquesta
+- Algunes fallides

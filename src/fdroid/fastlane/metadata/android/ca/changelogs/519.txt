@@ -1,0 +1,10 @@
+S'ha afegit:
+- Mantenir les proporcions dels mèdia en la pissarra per a Pixelfed
+- Un botó similar a les pissarres per a Pixelfed
+
+Canvis:
+- Més espai al missatge centrat en una conversa
+
+Reparacions:
+- URLs no clicables quan Markdown està habilitat
+- Pissarra de Pixelfed que no es mostrava per defecte

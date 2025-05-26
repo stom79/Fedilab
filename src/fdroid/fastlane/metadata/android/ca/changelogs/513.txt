@@ -1,0 +1,10 @@
+S'ha afegit:
+- Implementació de pronoms (Pissarra/Redactar/Autocompletar)
+
+Canvis:
+- Us de la biblioteca Media3
+
+Reparacions:
+- Durada excessiva del silenciat temporal
+- Compartició de vídeos només els descarregava
+- Fallides de la versió anterior

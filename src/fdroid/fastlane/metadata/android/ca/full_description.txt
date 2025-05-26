@@ -1,23 +1,23 @@
-Suporta:
+Compatible amb:
 - Mastodon, Peertube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica
 
 L'aplicació té característiques avançades:
-- Redacta els fils
+- Redactar fils
 - Suport per a múltiples comptes
-- Programa els missatges des del dispositiu
-- Segueix i interactua amb instàncies remotes
-- Accions de recompte creuat amb una premsa llarga
+- Programar missatges des del dispositiu
+- Seguir i interactuar amb instàncies remotes
+- Accions entre comptes allargant la pitjada
 - Funció de traducció
 - Múltiples opcions per a actualitzacions automàtiques
-  - Notificacions Push via UnifiedPush (incloent ntfy a FDroid)
-  - Mantingues connectat per a notificacions en directe
+  - Notificacions Push via UnifiedPush (incloent-hi ntfy a FDroid)
+  - Mantenir-se connectat per a notificacions en directe
   - Notificacions retardades (connecta cada 30 segons)
 - Reemplaça els enllaços de youtube i twitter per enllaços a instàncies de Invidious i Nitter
-- Temes personalitzats, exportació d'importació i definició
-- Importa i exporta la base de dades de l'aplicació
-- Selector d'Emoji amb emoji personalitzat
-- Icones múltiples del llançador
-- Filtratge avançat de notes
-- Línia de temps especial per a l'etiqueta mastoart
-- Exporta tuts
-- Personalitza l'ús compartit d'URL per compartir directament el url a altres serveis
+- Temes personalitzats, exportació, importació i definició
+- Importació i exportació de la base de dades de l'aplicació
+- Selector d'Emoji amb emoji personalitzats
+- Icones de llançador múltiple
+- Filtratge avançat de brams
+- Pissarra especial per a l'etiqueta mastoart
+- Exportar brams
+- Personalitzar ús compartit d'URL per compartir directament l'url amb altres serveis
