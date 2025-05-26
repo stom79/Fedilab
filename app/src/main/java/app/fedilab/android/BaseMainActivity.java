@@ -212,6 +212,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static List<Filter> mainFilters;
     public static List<app.fedilab.android.mastodon.client.entities.api.Account> filteredAccounts;
     public static boolean filterFetched;
+    public static int filterFetchedRetry = 0;
     public static boolean show_boosts, show_replies, show_dms, show_art_nsfw, show_self_boosts, show_self_replies, show_my_messages;
     public static String regex_home, regex_local, regex_public;
     public static iconLauncher mLauncher = iconLauncher.BUBBLES;
@@ -1358,6 +1359,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         filteredAccounts = new ArrayList<>();
 
         filterFetched = false;
+        filterFetchedRetry = 0;
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
         registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));

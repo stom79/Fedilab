@@ -76,7 +76,7 @@ public class TimelineHelper {
      */
     public static List<Status> filterStatus(Context context, List<Status> statuses, Timeline.TimeLineEnum filterTimeLineType) {
         //A security to make sure filters have been fetched before displaying messages
-        if (!BaseMainActivity.filterFetched) {
+        if (!BaseMainActivity.filterFetched && BaseMainActivity.filterFetchedRetry < 3) {
             MastodonFiltersService mastodonFiltersService = initv2(context);
             List<Filter> filterList;
             Call<List<Filter>> getFiltersCall = mastodonFiltersService.getFilters(BaseMainActivity.currentToken);
@@ -92,6 +92,7 @@ public class TimelineHelper {
                     e.printStackTrace();
                 }
             }
+            BaseMainActivity.filterFetchedRetry++;
         }
 
         //If there are filters:
@@ -222,7 +223,7 @@ public class TimelineHelper {
     public static List<Notification> filterNotification(Context context, List<Notification> notifications) {
         //A security to make sure filters have been fetched before displaying messages
         List<Notification> notificationToRemove = new ArrayList<>();
-        if (!BaseMainActivity.filterFetched) {
+        if (!BaseMainActivity.filterFetched && BaseMainActivity.filterFetchedRetry < 3) {
             try {
                 FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
                 filtersVM.getFilters(BaseMainActivity.currentInstance, BaseMainActivity.currentToken).observe((LifecycleOwner) context, filters -> {
@@ -232,6 +233,7 @@ public class TimelineHelper {
             } catch (Exception e) {
                 return notifications;
             }
+            BaseMainActivity.filterFetchedRetry++;
         }
         //If there are filters:
         if (BaseMainActivity.mainFilters != null && !BaseMainActivity.mainFilters.isEmpty() && notifications != null && !notifications.isEmpty()) {
