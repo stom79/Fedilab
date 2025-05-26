@@ -1571,7 +1571,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.contentSpoiler.setInputType(newInputTypeSpoiler);
             holder.binding.buttonAttach.setOnClickListener(v -> {
 
-                if (instanceInfo.configuration.media_attachments.supported_mime_types != null) {
+                if (instanceInfo.configuration.media_attachments.supported_mime_types != null && instanceInfo.configuration.media_attachments.supported_mime_types.size() > 1) {
                     if (instanceInfo.getMimeTypeAudio().isEmpty()) {
                         holder.binding.buttonAttachAudio.setEnabled(false);
                     }
