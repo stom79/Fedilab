@@ -73,10 +73,30 @@ public class CrossActionHelper {
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         new Thread(() -> {
             try {
+                boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
+                boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
                 List<BaseAccount> accounts = new Account(context).getCrossAccounts();
                 if (accounts.size() == 1) {
                     Handler mainHandler = new Handler(Looper.getMainLooper());
-                    Runnable myRunnable = () -> fetchRemote(context, actionType, accounts.get(0), targetedAccount, targetedStatus);
+                    Runnable myRunnable = () -> {
+                        if ((actionType == TypeOfCrossAction.REBLOG_ACTION && confirmBoost) || (actionType == TypeOfCrossAction.FAVOURITE_ACTION && confirmFav)) {
+                            AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
+                            if (actionType == TypeOfCrossAction.REBLOG_ACTION) {
+                                alt_bld.setMessage(context.getString(R.string.reblog_add));
+                            } else {
+                                alt_bld.setMessage(context.getString(R.string.favourite_add));
+                            }
+                            alt_bld.setPositiveButton(R.string.yes, (dia, id) -> {
+                                fetchRemote(context, actionType, accounts.get(0), targetedAccount, targetedStatus);
+                                dia.dismiss();
+                            });
+                            alt_bld.setNegativeButton(R.string.cancel, (dia, id) -> dia.dismiss());
+                            AlertDialog alert = alt_bld.create();
+                            alert.show();
+                        } else {
+                            fetchRemote(context, actionType, accounts.get(0), targetedAccount, targetedStatus);
+                        }
+                    };
                     mainHandler.post(myRunnable);
                 } else {
                     List<app.fedilab.android.mastodon.client.entities.api.Account> accountList = new ArrayList<>();
@@ -97,8 +117,7 @@ public class CrossActionHelper {
                         }
                         builderSingle.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                         builderSingle.setAdapter(accountsSearchAdapter, (dialog, which) -> {
-                            boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
-                            boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
+
                             BaseAccount selectedAccount = accountArray[which];
                             if ((actionType == TypeOfCrossAction.REBLOG_ACTION && confirmBoost) || (actionType == TypeOfCrossAction.FAVOURITE_ACTION && confirmFav)) {
                                 AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
@@ -109,9 +128,9 @@ public class CrossActionHelper {
                                 }
                                 alt_bld.setPositiveButton(R.string.yes, (dia, id) -> {
                                     fetchRemote(context, actionType, selectedAccount, targetedAccount, targetedStatus);
-                                    dialog.dismiss();
+                                    dia.dismiss();
                                 });
-                                alt_bld.setNegativeButton(R.string.cancel, (dia, id) -> dialog.dismiss());
+                                alt_bld.setNegativeButton(R.string.cancel, (dia, id) -> dia.dismiss());
                                 AlertDialog alert = alt_bld.create();
                                 alert.show();
                             } else {
