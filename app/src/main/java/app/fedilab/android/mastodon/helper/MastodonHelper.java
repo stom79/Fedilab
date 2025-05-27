@@ -559,7 +559,7 @@ public class MastodonHelper {
             return val;
         } else {
             if (instanceInfo != null) {
-                max_car = instanceInfo.max_toot_chars != null ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
+                max_car = instanceInfo.max_toot_chars != null && instanceInfo.max_toot_chars.matches("\\d+") ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
             } else {
                 max_car = 500;
             }
