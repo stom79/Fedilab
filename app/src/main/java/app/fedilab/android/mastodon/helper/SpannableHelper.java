@@ -109,13 +109,13 @@ public class SpannableHelper {
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
-                                    WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml, boolean convertMarkdown) {
-        return convert(context, text, status, account, announcement, false, viewWeakReference, callback, convertHtml, convertMarkdown);
+                                    WeakReference<View> viewWeakReference, boolean convertHtml, boolean convertMarkdown) {
+        return convert(context, text, status, account, announcement, false, viewWeakReference, convertHtml, convertMarkdown);
     }
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement, boolean checkRemotely,
-                                    WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml, boolean convertMarkdown) {
+                                    WeakReference<View> viewWeakReference, boolean convertHtml, boolean convertMarkdown) {
         if (text == null) {
             return null;
         }
@@ -365,7 +365,6 @@ public class SpannableHelper {
             text = text.replaceAll(Pattern.quote(matcherImg.group()), replacement);
         }
 
-        View view = viewWeakReference.get();
         List<Emoji> emojiList = null;
         if (status != null) {
             emojiList = status.emojis;
@@ -375,21 +374,26 @@ public class SpannableHelper {
             emojiList = announcement.emojis;
         }
         boolean animate = !sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
-        CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
-        content = customEmoji.makeEmoji(content, emojiList, animate, callback);
+        if(emojiList != null) {
+            emojiList.forEach(emoji -> {
+                CustomImageSpan customImageSpan = new CustomImageSpan(viewWeakReference);
+                customImageSpan.makeEmoji(content, emoji, animate);
+            });
+        }
 
         if (!imagesToReplace.isEmpty()) {
             for (Map.Entry<String, String> entry : imagesToReplace.entrySet()) {
+                CustomImageSpan customImageSpan = new CustomImageSpan(viewWeakReference);
                 String key = entry.getKey();
                 String url = entry.getValue();
                 Matcher matcher = Pattern.compile(key, Pattern.LITERAL)
                         .matcher(content);
                 while (matcher.find()) {
-                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
-                    Glide.with(view)
+                    content.setSpan(customImageSpan, matcher.start(), matcher.end(), 0);
+                    Glide.with(viewWeakReference.get().getContext())
                             .asDrawable()
                             .load(url)
-                            .into(customEmoji.getTarget(animate, null));
+                            .into(customImageSpan.getTarget(animate));
                 }
             }
 
@@ -990,18 +994,18 @@ public class SpannableHelper {
         List<Emoji> emojiList = account.emojis;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean animate = !sharedpreferences.getBoolean(activity.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
-        if (emojiList != null && emojiList.size() > 0) {
+        if (emojiList != null && !emojiList.isEmpty()) {
             for (Emoji emoji : emojiList) {
                 Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
                         .matcher(content);
                 while (matcher.find()) {
-                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(viewWeakReference.get()));
-                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                    CustomImageSpan customImageSpan = new CustomImageSpan(viewWeakReference);
+                    content.setSpan(customImageSpan, matcher.start(), matcher.end(), 0);
                     if (Helper.isValidContextForGlide(activity)) {
-                        Glide.with(viewWeakReference.get())
+                        Glide.with(viewWeakReference.get().getContext())
                                 .asDrawable()
                                 .load(animate ? emoji.url : emoji.static_url)
-                                .into(customEmoji.getTarget(animate, null));
+                                .into(customImageSpan.getTarget(animate));
                     }
                 }
             }

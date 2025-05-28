@@ -61,7 +61,7 @@ public class Poll implements Serializable {
         public transient Spannable span_title;
 
         public Spannable getSpanTitle(Context context, Status status, WeakReference<View> viewWeakReference) {
-            span_title = SpannableHelper.convert(context, title, status, null, null, viewWeakReference, null, false, false);
+            span_title = SpannableHelper.convert(context, title, status, null, null, viewWeakReference,  false, false);
             return span_title;
         }
     }

@@ -56,7 +56,7 @@ public class Announcement {
 
 
     public synchronized Spannable getSpanContent(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, content, null, null, this, viewWeakReference, null, true, false);
+        return SpannableHelper.convert(context, content, null, null, this, viewWeakReference,  true, false);
     }
 
 }

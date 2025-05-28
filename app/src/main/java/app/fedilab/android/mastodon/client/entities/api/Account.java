@@ -95,7 +95,7 @@ public class Account implements Serializable {
         if (display_name == null || display_name.isEmpty()) {
             display_name = username;
         }
-        return SpannableHelper.convert(context, display_name, null, this, null, viewWeakReference, null, true, false);
+        return SpannableHelper.convert(context, display_name, null, this, null, viewWeakReference,  true, false);
     }
 
     public synchronized Spannable getSpanDisplayNameEmoji(Activity activity, WeakReference<View> viewWeakReference) {
@@ -106,15 +106,13 @@ public class Account implements Serializable {
     }
 
     public synchronized Spannable getSpanDisplayNameTitle(Context context, WeakReference<View> viewWeakReference, String title) {
-        return SpannableHelper.convert(context, title, null, this, null, viewWeakReference, null, true, false);
+        return SpannableHelper.convert(context, title, null, this, null, viewWeakReference,  true, false);
     }
 
     public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, note, null, this, null, viewWeakReference, null, true, false);
+        return SpannableHelper.convert(context, note, null, this, null, viewWeakReference,  true, false);
     }
-    public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference, Status.Callback callback) {
-        return SpannableHelper.convert(context, note, null, this, null, viewWeakReference, callback, true, false);
-    }
+
 
     @Override
     public boolean equals(@Nullable Object obj) {

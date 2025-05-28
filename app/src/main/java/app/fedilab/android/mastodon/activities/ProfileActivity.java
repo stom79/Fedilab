@@ -540,13 +540,7 @@ public class ProfileActivity extends BaseActivity {
         });
         binding.accountNote.setText(
                 account.getSpanNote(ProfileActivity.this,
-                        new WeakReference<>(binding.accountNote), () -> {
-                            //TODO: replace this hack
-                            binding.accountNote.setText(
-                                    account.getSpanNote(ProfileActivity.this,
-                                            new WeakReference<>(binding.accountNote)), TextView.BufferType.SPANNABLE);
-
-                        }),
+                        new WeakReference<>(binding.accountNote)),
                 TextView.BufferType.SPANNABLE);
 
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());

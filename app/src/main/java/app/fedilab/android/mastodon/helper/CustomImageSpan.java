@@ -20,22 +20,20 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.entities.api.Emoji;
-import app.fedilab.android.mastodon.client.entities.api.Status;
 
 
-public class CustomEmoji extends ReplacementSpan {
+
+public class CustomImageSpan extends ReplacementSpan {
     private final WeakReference<View> viewWeakReference;
     private float scale;
     private Drawable imageDrawable;
-    private boolean callbackCalled;
 
-    CustomEmoji(WeakReference<View> viewWeakReference) {
+    CustomImageSpan(WeakReference<View> viewWeakReference) {
         Context mContext = viewWeakReference.get().getContext();
         this.viewWeakReference = viewWeakReference;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -43,27 +41,21 @@ public class CustomEmoji extends ReplacementSpan {
         if (scale > 1.3f) {
             scale = 1.3f;
         }
-        callbackCalled = false;
     }
 
-    public SpannableStringBuilder makeEmoji(SpannableStringBuilder content, List<Emoji> emojiList, boolean animate, Status.Callback callback) {
-        if (emojiList != null && emojiList.size() > 0) {
-            int count = 1;
-            for (Emoji emoji : emojiList) {
-                Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
-                        .matcher(content);
-                while (matcher.find()) {
-                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(viewWeakReference.get()));
-                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
-                    Glide.with(viewWeakReference.get())
-                            .asDrawable()
-                            .load(animate ? emoji.url : emoji.static_url)
-                            .into(customEmoji.getTarget(animate, count == emojiList.size() && !callbackCalled ? callback : null));
-                }
-                count++;
+    public void makeEmoji(SpannableStringBuilder content, Emoji emoji, boolean animate) {
+        if (emoji != null) {
+            Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
+                    .matcher(content);
+            while (matcher.find()) {
+                CustomImageSpan customEmoji = new CustomImageSpan(new WeakReference<>(viewWeakReference.get()));
+                content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                Glide.with(viewWeakReference.get())
+                        .asDrawable()
+                        .load(animate ? emoji.url : emoji.static_url)
+                        .into(customEmoji.getTarget(animate));
             }
         }
-        return content;
     }
 
     @Override
@@ -85,15 +77,15 @@ public class CustomEmoji extends ReplacementSpan {
             int emojiSize = (int) (paint.getTextSize() * scale);
             imageDrawable.setBounds(0, 0, emojiSize, emojiSize);
             int transY = bottom - imageDrawable.getBounds().bottom;
-            transY -= paint.getFontMetrics().descent / 2;
+            transY -= (int) (paint.getFontMetrics().descent / 2);
             canvas.translate(x, (float) transY);
             imageDrawable.draw(canvas);
             canvas.restore();
         }
     }
 
-    public Target<Drawable> getTarget(boolean animate, Status.Callback callback) {
-        return new CustomTarget<Drawable>() {
+    public Target<Drawable> getTarget(boolean animate) {
+        return new CustomTarget<>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 View view = viewWeakReference.get();
@@ -130,10 +122,6 @@ public class CustomEmoji extends ReplacementSpan {
                 imageDrawable = resource;
                 if (view != null) {
                     view.invalidate();
-                }
-                if (callback != null && !callbackCalled) {
-                    callbackCalled = true;
-                    callback.emojiFetched();
                 }
             }
 

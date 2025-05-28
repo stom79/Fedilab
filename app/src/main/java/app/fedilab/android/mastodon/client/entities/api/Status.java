@@ -155,23 +155,23 @@ public class Status implements Serializable, Cloneable {
         return same;
     }
 
-    public synchronized Spannable getSpanContent(Context context, boolean checkRemotely, WeakReference<View> viewWeakReference, Callback callback) {
+    public synchronized Spannable getSpanContent(Context context, boolean checkRemotely, WeakReference<View> viewWeakReference) {
         if (contentSpan == null) {
-            contentSpan = SpannableHelper.convert(context, content, this, null, null, checkRemotely, viewWeakReference, callback, true, true);
+            contentSpan = SpannableHelper.convert(context, content, this, null, null, checkRemotely, viewWeakReference, true, true);
         }
         return contentSpan;
     }
 
-    public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference, Callback callback) {
+    public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference) {
         if (contentSpoilerSpan == null) {
-            contentSpoilerSpan = SpannableHelper.convert(context, spoiler_text, this, null, null, viewWeakReference, callback, true, false);
+            contentSpoilerSpan = SpannableHelper.convert(context, spoiler_text, this, null, null, viewWeakReference, true, false);
         }
         return contentSpoilerSpan;
     }
 
-    public synchronized Spannable getSpanTranslate(Context context, WeakReference<View> viewWeakReference, Callback callback) {
+    public synchronized Spannable getSpanTranslate(Context context, WeakReference<View> viewWeakReference) {
         if (contentTranslateSpan == null) {
-            contentTranslateSpan = SpannableHelper.convert(context, translationContent, this, null, null, viewWeakReference, callback, true, true);
+            contentTranslateSpan = SpannableHelper.convert(context, translationContent, this, null, null, viewWeakReference, true, true);
         }
         return contentTranslateSpan;
     }
