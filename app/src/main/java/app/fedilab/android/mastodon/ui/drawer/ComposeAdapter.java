@@ -1418,7 +1418,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             holder.binding.statusContent.setText(
                     status.getSpanContent(context, false,
-                            holder.binding.statusContent),
+                            holder.binding.statusContent, ()->mRecyclerView.post(() -> notifyItemChanged(holder.getBindingAdapterPosition()))),
                     TextView.BufferType.SPANNABLE);
             holder.binding.statusContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
             MastodonHelper.loadPPMastodon(holder.binding.avatar, status.account);
@@ -1434,7 +1434,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setText(
                         status.getSpanSpoiler(context,
-                                holder.binding.spoiler),
+                                holder.binding.spoiler, ()->mRecyclerView.post(() -> notifyItemChanged(holder.getBindingAdapterPosition()))),
                         TextView.BufferType.SPANNABLE);
             } else {
                 holder.binding.spoiler.setVisibility(View.GONE);

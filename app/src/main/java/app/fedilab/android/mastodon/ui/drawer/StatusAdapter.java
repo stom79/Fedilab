@@ -604,7 +604,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.quotedMessage.cardviewContainer.setStrokeColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
             holder.binding.quotedMessage.statusContent.setText(
                     statusToDeal.quote.getSpanContent(context, remote,
-                            holder.binding.quotedMessage.statusContent),
+                            holder.binding.quotedMessage.statusContent, ()->recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()))),
                     TextView.BufferType.SPANNABLE);
             MastodonHelper.loadPPMastodon(holder.binding.quotedMessage.avatar, statusToDeal.quote.account);
             if (statusToDeal.quote.account != null) {
@@ -619,7 +619,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.quotedMessage.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.quotedMessage.spoiler.setText(
                         statusToDeal.quote.getSpanSpoiler(context,
-                                holder.binding.quotedMessage.spoiler),
+                                holder.binding.quotedMessage.spoiler, ()->recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()))),
                         TextView.BufferType.SPANNABLE);
             } else {
                 holder.binding.quotedMessage.spoiler.setVisibility(View.GONE);
@@ -1440,7 +1440,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setText(
                         statusToDeal.getSpanSpoiler(context,
-                                holder.binding.spoiler),
+                                holder.binding.spoiler, ()->recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()))),
                         TextView.BufferType.SPANNABLE);
                 statusToDeal.isExpended = true;
             } else {
@@ -1453,7 +1453,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 holder.binding.spoiler.setText(
                         statusToDeal.getSpanSpoiler(context,
-                                holder.binding.spoiler),
+                                holder.binding.spoiler, ()->recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()))),
                         TextView.BufferType.SPANNABLE);
             }
             if (statusToDeal.isExpended) {
@@ -1506,7 +1506,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //--- MAIN CONTENT ---
         holder.binding.statusContent.setText(
                 statusToDeal.getSpanContent(context, remote,
-                        holder.binding.statusContent),
+                        holder.binding.statusContent, ()->recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()))),
                 TextView.BufferType.SPANNABLE);
         if (truncate_toots_size > 0) {
             holder.binding.statusContent.setMaxLines(truncate_toots_size);
@@ -1531,7 +1531,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.containerTrans.setVisibility(View.VISIBLE);
             holder.binding.statusContentTranslated.setText(
                     statusToDeal.getSpanTranslate(context,
-                            holder.binding.statusContentTranslated),
+                            holder.binding.statusContentTranslated, ()->recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()))),
                     TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.containerTrans.setVisibility(View.GONE);

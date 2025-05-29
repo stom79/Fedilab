@@ -56,7 +56,7 @@ public class Announcement {
 
 
     public synchronized Spannable getSpanContent(Context context, View view) {
-        return SpannableHelper.convert(context, content, null, null, this, view,  true, false);
+        return SpannableHelper.convert(context, content, null, null, this, view,  true, false, null);
     }
 
 }

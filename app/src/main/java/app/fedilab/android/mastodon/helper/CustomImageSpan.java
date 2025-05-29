@@ -62,7 +62,7 @@ public class CustomImageSpan extends ReplacementSpan {
         }
     }
 
-    public Target<Drawable> getTarget(View view, boolean animate) {
+    public Target<Drawable> getTarget(View view, boolean animate, SpannableHelper.Callback callback) {
         return new CustomTarget<>() {
 
             @Override
@@ -104,10 +104,19 @@ public class CustomImageSpan extends ReplacementSpan {
                 }
                 imageDrawable = resource;
                 view.invalidate();
+                if(callback != null) {
+                    callback.emojiFetched();
+                }
             }
 
             @Override
             public void onLoadCleared(@Nullable Drawable placeholder) {
+                if(imageDrawable != null && imageDrawable instanceof Animatable) {
+                    ((Animatable) imageDrawable).stop();
+                    imageDrawable.setCallback(null);
+                }
+                imageDrawable = null;
+                view.invalidate();
             }
         };
     }

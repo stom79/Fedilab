@@ -103,19 +103,22 @@ import io.noties.prism4j.Prism4j;
 
 public class SpannableHelper {
 
+    public interface Callback {
+        void emojiFetched();
+    }
     public static final String CLICKABLE_SPAN = "CLICKABLE_SPAN";
     private static int linkColor;
     private static boolean underlineLinks;
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
-                                    View view, boolean convertHtml, boolean convertMarkdown) {
-        return convert(context, text, status, account, announcement, false, view, convertHtml, convertMarkdown);
+                                    View view, boolean convertHtml, boolean convertMarkdown, Callback callback) {
+        return convert(context, text, status, account, announcement, false, view, convertHtml, convertMarkdown, callback);
     }
 
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement, boolean checkRemotely,
-                                    View view, boolean convertHtml, boolean convertMarkdown) {
+                                    View view, boolean convertHtml, boolean convertMarkdown, Callback callback) {
         if (text == null) {
             return null;
         }
@@ -385,7 +388,7 @@ public class SpannableHelper {
                     Glide.with(context)
                             .asDrawable()
                             .load(animate ? emoji.url : emoji.static_url)
-                            .into(customImageSpan.getTarget(view, animate));
+                            .into(customImageSpan.getTarget(view, animate, callback));
                 }
             }
         }
@@ -402,7 +405,7 @@ public class SpannableHelper {
                     Glide.with(context)
                             .asDrawable()
                             .load(url)
-                            .into(customImageSpan.getTarget(view, false));
+                            .into(customImageSpan.getTarget(view, false, null));
                 }
             }
 
@@ -1014,7 +1017,7 @@ public class SpannableHelper {
                         Glide.with(view.getContext())
                                 .asDrawable()
                                 .load(animate ? emoji.url : emoji.static_url)
-                                .into(customImageSpan.getTarget(view, animate));
+                                .into(customImageSpan.getTarget(view, animate, null));
                     }
                 }
             }

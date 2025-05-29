@@ -241,7 +241,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         status.underlined = true;
         holder.binding.messageContent.setText(
                 status.getSpanContent(context, false,
-                        holder.binding.messageContent),
+                        holder.binding.messageContent, ()->mRecyclerView.post(() -> notifyItemChanged(holder.getBindingAdapterPosition()))),
                 TextView.BufferType.SPANNABLE);
         holder.binding.messageContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
         if (measuredWidth <= 0 && status.media_attachments != null && status.media_attachments.size() > 0) {

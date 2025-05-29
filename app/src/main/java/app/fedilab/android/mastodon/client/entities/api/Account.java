@@ -95,7 +95,7 @@ public class Account implements Serializable {
         if (display_name == null || display_name.isEmpty()) {
             display_name = username;
         }
-        return SpannableHelper.convert(context, display_name, null, this, null, view,  true, false);
+        return SpannableHelper.convert(context, display_name, null, this, null, view,  true, false, null);
     }
 
     public synchronized Spannable getSpanDisplayNameEmoji(Activity activity, View view) {
@@ -106,11 +106,11 @@ public class Account implements Serializable {
     }
 
     public synchronized Spannable getSpanDisplayNameTitle(Context context, View view, String title) {
-        return SpannableHelper.convert(context, title, null, this, null, view,  true, false);
+        return SpannableHelper.convert(context, title, null, this, null, view,  true, false, null);
     }
 
-    public synchronized Spannable getSpanNote(Context context, View view) {
-        return SpannableHelper.convert(context, note, null, this, null, view,  true, false);
+    public synchronized Spannable getSpanNote(Context context, View view, SpannableHelper.Callback callback) {
+        return SpannableHelper.convert(context, note, null, this, null, view,  true, false, callback);
     }
 
 

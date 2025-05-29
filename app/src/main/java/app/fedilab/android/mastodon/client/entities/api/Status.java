@@ -155,23 +155,23 @@ public class Status implements Serializable, Cloneable {
         return same;
     }
 
-    public synchronized Spannable getSpanContent(Context context, boolean checkRemotely, View view) {
+    public synchronized Spannable getSpanContent(Context context, boolean checkRemotely, View view, SpannableHelper.Callback callback) {
         if (contentSpan == null) {
-            contentSpan = SpannableHelper.convert(context, content, this, null, null, checkRemotely, view, true, true);
+            contentSpan = SpannableHelper.convert(context, content, this, null, null, checkRemotely, view, true, true, callback);
         }
         return contentSpan;
     }
 
-    public synchronized Spannable getSpanSpoiler(Context context, View view) {
+    public synchronized Spannable getSpanSpoiler(Context context, View view, SpannableHelper.Callback callback) {
         if (contentSpoilerSpan == null) {
-            contentSpoilerSpan = SpannableHelper.convert(context, spoiler_text, this, null, null, view, true, false);
+            contentSpoilerSpan = SpannableHelper.convert(context, spoiler_text, this, null, null, view, true, false, callback);
         }
         return contentSpoilerSpan;
     }
 
-    public synchronized Spannable getSpanTranslate(Context context, View view) {
+    public synchronized Spannable getSpanTranslate(Context context, View view, SpannableHelper.Callback callback) {
         if (contentTranslateSpan == null) {
-            contentTranslateSpan = SpannableHelper.convert(context, translationContent, this, null, null, view, true, true);
+            contentTranslateSpan = SpannableHelper.convert(context, translationContent, this, null, null, view, true, true, callback);
         }
         return contentTranslateSpan;
     }
@@ -186,8 +186,6 @@ public class Status implements Serializable, Cloneable {
         BOTTOM
     }
 
-    public interface Callback {
-        void emojiFetched();
-    }
+
 
 }

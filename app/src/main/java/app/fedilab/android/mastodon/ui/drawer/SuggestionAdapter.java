@@ -106,7 +106,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.binding.username.setText(String.format("@%s", account.acct));
         holder.binding.bio.setText(
                 account.getSpanNote(context,
-                        holder.binding.bio),
+                        holder.binding.bio, null),
                 TextView.BufferType.SPANNABLE);
 
         holder.binding.followAction.setOnClickListener(v -> {

@@ -314,7 +314,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         accountViewHolder.binding.username.setText(String.format("@%s", account.acct));
         accountViewHolder.binding.bio.setText(
                 account.getSpanNote(context,
-                        accountViewHolder.binding.bio),
+                        accountViewHolder.binding.bio, null),
                 TextView.BufferType.SPANNABLE);
     }
 
