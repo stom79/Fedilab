@@ -309,12 +309,12 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         accountViewHolder.binding.displayName.setText(
                 account.getSpanDisplayName(context,
-                        new WeakReference<>(accountViewHolder.binding.displayName)),
+                        accountViewHolder.binding.displayName),
                 TextView.BufferType.SPANNABLE);
         accountViewHolder.binding.username.setText(String.format("@%s", account.acct));
         accountViewHolder.binding.bio.setText(
                 account.getSpanNote(context,
-                        new WeakReference<>(accountViewHolder.binding.bio)),
+                        accountViewHolder.binding.bio),
                 TextView.BufferType.SPANNABLE);
     }
 

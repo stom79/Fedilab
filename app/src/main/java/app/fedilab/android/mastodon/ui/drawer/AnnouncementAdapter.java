@@ -102,7 +102,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         }
         holder.binding.content.setText(
                 announcement.getSpanContent(context,
-                        new WeakReference<>(holder.binding.content)),
+                        holder.binding.content),
                 TextView.BufferType.SPANNABLE);
         if (announcement.starts_at != null) {
             String dateIni;

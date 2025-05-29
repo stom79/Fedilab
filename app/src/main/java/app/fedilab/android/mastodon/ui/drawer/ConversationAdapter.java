@@ -199,7 +199,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.binding.spoiler.setVisibility(View.VISIBLE);
             holder.binding.spoiler.setText(
                     conversation.last_status.getSpanSpoiler(context,
-                            new WeakReference<>(holder.binding.spoiler)),
+                            holder.binding.spoiler),
                     TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.spoiler.setVisibility(View.GONE);
@@ -209,7 +209,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         //--- MAIN CONTENT ---
         holder.binding.statusContent.setText(
                 conversation.last_status.getSpanContent(context, false,
-                        new WeakReference<>(holder.binding.statusContent)),
+                        holder.binding.statusContent),
                 TextView.BufferType.SPANNABLE);
         //--- DATE ---
         holder.binding.lastMessageDate.setText(Helper.dateDiff(context, conversation.last_status.created_at));

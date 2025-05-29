@@ -604,13 +604,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.quotedMessage.cardviewContainer.setStrokeColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
             holder.binding.quotedMessage.statusContent.setText(
                     statusToDeal.quote.getSpanContent(context, remote,
-                            new WeakReference<>(holder.binding.quotedMessage.statusContent)),
+                            holder.binding.quotedMessage.statusContent),
                     TextView.BufferType.SPANNABLE);
             MastodonHelper.loadPPMastodon(holder.binding.quotedMessage.avatar, statusToDeal.quote.account);
             if (statusToDeal.quote.account != null) {
                 holder.binding.quotedMessage.displayName.setText(
                         statusToDeal.quote.account.getSpanDisplayName(context,
-                                new WeakReference<>(holder.binding.quotedMessage.displayName)),
+                                holder.binding.quotedMessage.displayName),
                         TextView.BufferType.SPANNABLE);
                 holder.binding.quotedMessage.username.setText(String.format("@%s", statusToDeal.quote.account.acct));
             }
@@ -619,7 +619,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.quotedMessage.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.quotedMessage.spoiler.setText(
                         statusToDeal.quote.getSpanSpoiler(context,
-                                new WeakReference<>(holder.binding.quotedMessage.spoiler)),
+                                holder.binding.quotedMessage.spoiler),
                         TextView.BufferType.SPANNABLE);
             } else {
                 holder.binding.quotedMessage.spoiler.setVisibility(View.GONE);
@@ -1258,7 +1258,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         holder.binding.displayName.setText(
                 statusToDeal.account.getSpanDisplayName(context,
-                        new WeakReference<>(holder.binding.displayName)),
+                        holder.binding.displayName),
                 TextView.BufferType.SPANNABLE);
         holder.binding.username.setText(String.format("@%s", statusToDeal.account.acct));
         //final float scale = context.getResources().getDisplayMetrics().density;
@@ -1440,7 +1440,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setText(
                         statusToDeal.getSpanSpoiler(context,
-                                new WeakReference<>(holder.binding.spoiler)),
+                                holder.binding.spoiler),
                         TextView.BufferType.SPANNABLE);
                 statusToDeal.isExpended = true;
             } else {
@@ -1453,7 +1453,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 holder.binding.spoiler.setText(
                         statusToDeal.getSpanSpoiler(context,
-                                new WeakReference<>(holder.binding.spoiler)),
+                                holder.binding.spoiler),
                         TextView.BufferType.SPANNABLE);
             }
             if (statusToDeal.isExpended) {
@@ -1477,7 +1477,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             holder.binding.statusBoosterDisplayName.setText(
                     status.account.getSpanDisplayName(context,
-                            new WeakReference<>(holder.binding.statusBoosterDisplayName)),
+                            holder.binding.statusBoosterDisplayName),
                     TextView.BufferType.SPANNABLE);
 
             holder.binding.statusBoosterInfo.setVisibility(View.VISIBLE);
@@ -1506,7 +1506,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //--- MAIN CONTENT ---
         holder.binding.statusContent.setText(
                 statusToDeal.getSpanContent(context, remote,
-                        new WeakReference<>(holder.binding.statusContent)),
+                        holder.binding.statusContent),
                 TextView.BufferType.SPANNABLE);
         if (truncate_toots_size > 0) {
             holder.binding.statusContent.setMaxLines(truncate_toots_size);
@@ -1531,7 +1531,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.containerTrans.setVisibility(View.VISIBLE);
             holder.binding.statusContentTranslated.setText(
                     statusToDeal.getSpanTranslate(context,
-                            new WeakReference<>(holder.binding.statusContentTranslated)),
+                            holder.binding.statusContentTranslated),
                     TextView.BufferType.SPANNABLE);
         } else {
             holder.binding.containerTrans.setVisibility(View.GONE);
@@ -1955,7 +1955,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     pollItemBinding.pollItemPercent.setText(String.format("%s %%", (int) value));
                     pollItemBinding.pollItemText.setText(
                             pollItem.getSpanTitle(context, statusToDeal,
-                                    new WeakReference<>(pollItemBinding.pollItemText)),
+                                    pollItemBinding.pollItemText),
                             TextView.BufferType.SPANNABLE);
                     pollItemBinding.pollItemValue.setProgress((int) value);
                     if (pollItem.votes_count == greaterValue) {
@@ -1984,7 +1984,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         CheckBox cb = new CheckBox(context);
                         cb.setText(
                                 pollOption.getSpanTitle(context, statusToDeal,
-                                        new WeakReference<>(cb)),
+                                        cb),
                                 TextView.BufferType.SPANNABLE);
                         holder.binding.poll.multipleChoice.addView(cb);
                     }
@@ -1997,7 +1997,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         RadioButton rb = new RadioButton(context);
                         rb.setText(
                                 pollOption.getSpanTitle(context, statusToDeal,
-                                        new WeakReference<>(rb)),
+                                        rb),
                                 TextView.BufferType.SPANNABLE);
 
                         holder.binding.poll.singleChoiceRadioGroup.addView(rb);
@@ -3378,7 +3378,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             holder.bindingArt.artUsername.setText(
                     status.account.getSpanDisplayName(context,
-                            new WeakReference<>(holder.bindingArt.artUsername)),
+                            holder.bindingArt.artUsername),
                     TextView.BufferType.SPANNABLE);
             holder.bindingArt.artAcct.setText(String.format(Locale.getDefault(), "@%s", status.account.acct));
             holder.bindingArt.artPp.setOnClickListener(v -> {
@@ -3543,7 +3543,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.bindingPixelfed.artUsername.setText(
                     statusToDeal.account.getSpanDisplayName(context,
-                            new WeakReference<>(holder.bindingPixelfed.artUsername)),
+                            holder.bindingPixelfed.artUsername),
                     TextView.BufferType.SPANNABLE);
             holder.bindingPixelfed.artAcct.setText(String.format(Locale.getDefault(), "@%s", statusToDeal.account.acct));
             holder.bindingPixelfed.artPp.setOnClickListener(v -> {

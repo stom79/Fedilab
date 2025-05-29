@@ -324,7 +324,7 @@ public class AdminAccountActivity extends BaseActivity {
 
         binding.accountDn.setText(
                 adminAccount.account.getSpanDisplayNameEmoji(AdminAccountActivity.this,
-                        new WeakReference<>(binding.accountDn)),
+                        binding.accountDn),
                 TextView.BufferType.SPANNABLE);
         binding.accountUn.setText(String.format("@%s", adminAccount.account.acct));
         binding.accountUn.setOnLongClickListener(v -> {

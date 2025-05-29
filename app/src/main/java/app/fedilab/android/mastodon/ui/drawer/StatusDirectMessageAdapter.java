@@ -241,7 +241,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         status.underlined = true;
         holder.binding.messageContent.setText(
                 status.getSpanContent(context, false,
-                        new WeakReference<>(holder.binding.messageContent)),
+                        holder.binding.messageContent),
                 TextView.BufferType.SPANNABLE);
         holder.binding.messageContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
         if (measuredWidth <= 0 && status.media_attachments != null && status.media_attachments.size() > 0) {
@@ -370,7 +370,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                     pollItemBinding.pollItemPercent.setText(String.format("%s %%", (int) value));
                     pollItemBinding.pollItemText.setText(
                             pollItem.getSpanTitle(context, status,
-                                    new WeakReference<>(pollItemBinding.pollItemText)),
+                                    pollItemBinding.pollItemText),
                             TextView.BufferType.SPANNABLE);
                     if (status.account.id.equals(MainActivity.currentUserID)) {
                         pollItemBinding.pollItemPercent.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
@@ -407,7 +407,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                         CheckBox cb = new CheckBox(context);
                         cb.setText(
                                 pollOption.getSpanTitle(context, status,
-                                        new WeakReference<>(cb)),
+                                        cb),
                                 TextView.BufferType.SPANNABLE);
                         holder.binding.poll.multipleChoice.addView(cb);
                         if (status.account.id.equals(MainActivity.currentUserID)) {
@@ -426,7 +426,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                         RadioButton rb = new RadioButton(context);
                         rb.setText(
                                 pollOption.getSpanTitle(context, status,
-                                        new WeakReference<>(rb)),
+                                        rb),
                                 TextView.BufferType.SPANNABLE);
 
                         if (status.account.id.equals(MainActivity.currentUserID)) {
@@ -524,7 +524,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         }
         holder.binding.userName.setText(
                 status.account.getSpanDisplayName(context,
-                        new WeakReference<>(holder.binding.userName)),
+                        holder.binding.userName),
                 TextView.BufferType.SPANNABLE);
 
         if (status.media_attachments != null && status.media_attachments.size() > 0) {

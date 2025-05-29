@@ -42,12 +42,12 @@ public class Field implements Serializable {
     private transient ForegroundColorSpan value_span;
     private transient ForegroundColorSpan name_span;
 
-    public synchronized Spannable getValueSpan(Context context, Account account, WeakReference<View> viewWeakReference) {
+    public synchronized Spannable getValueSpan(Context context, Account account, View view) {
 
         if (verified_at != null && value != null) {
             value_span = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.verified_text));
         }
-        Spannable spannable = SpannableHelper.convert(context, value, null, account, null, viewWeakReference,  true, false);
+        Spannable spannable = SpannableHelper.convert(context, value, null, account, null, view,  true, false);
         if (value_span != null && spannable != null) {
             spannable.setSpan(value_span, 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
@@ -55,9 +55,9 @@ public class Field implements Serializable {
     }
 
 
-    public synchronized Spannable getLabelSpan(Context context, Account account, WeakReference<View> viewWeakReference) {
+    public synchronized Spannable getLabelSpan(Context context, Account account, View view) {
 
-        Spannable spannable = SpannableHelper.convert(context, name, null, account, null, viewWeakReference,  true, false);
+        Spannable spannable = SpannableHelper.convert(context, name, null, account, null, view,  true, false);
         if (name_span != null && spannable != null) {
             spannable.setSpan(name_span, 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }

@@ -101,12 +101,12 @@ public class SuggestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         holder.binding.displayName.setText(
                 account.getSpanDisplayName(context,
-                        new WeakReference<>(holder.binding.displayName)),
+                        holder.binding.displayName),
                 TextView.BufferType.SPANNABLE);
         holder.binding.username.setText(String.format("@%s", account.acct));
         holder.binding.bio.setText(
                 account.getSpanNote(context,
-                        new WeakReference<>(holder.binding.bio)),
+                        holder.binding.bio),
                 TextView.BufferType.SPANNABLE);
 
         holder.binding.followAction.setOnClickListener(v -> {

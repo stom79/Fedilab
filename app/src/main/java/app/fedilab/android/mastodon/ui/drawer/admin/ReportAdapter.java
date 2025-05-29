@@ -73,7 +73,7 @@ public class ReportAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         holder.binding.accountDn.setText(
                 report.account.account.getSpanDisplayName(context,
-                        new WeakReference<>(holder.binding.accountDn)),
+                        holder.binding.accountDn),
                 TextView.BufferType.SPANNABLE);
 
         MastodonHelper.loadPPMastodon(holder.binding.accountPp, target_account);

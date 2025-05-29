@@ -337,7 +337,7 @@ public class AdminReportActivity extends BaseBarActivity {
 
         binding.accountDn.setText(
                 account.getSpanDisplayNameEmoji(AdminReportActivity.this,
-                        new WeakReference<>(binding.accountDn)),
+                        binding.accountDn),
                 TextView.BufferType.SPANNABLE);
         binding.accountUn.setText(String.format("@%s", account.acct));
         binding.accountUn.setOnLongClickListener(v -> {

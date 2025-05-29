@@ -1290,7 +1290,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 if (!isFinishing()) {
                     headerMainBinding.accountName.setText(
                             Helper.getCurrentAccount(BaseMainActivity.this).mastodon_account.getSpanDisplayNameEmoji(BaseMainActivity.this,
-                                    new WeakReference<>(headerMainBinding.accountName)),
+                                    headerMainBinding.accountName),
                             TextView.BufferType.SPANNABLE);
                 }
                 float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);

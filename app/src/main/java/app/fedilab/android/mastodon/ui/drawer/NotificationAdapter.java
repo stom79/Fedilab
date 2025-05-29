@@ -251,7 +251,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             MastodonHelper.loadPPMastodon(holderFollow.binding.avatar, notification.account);
             holderFollow.binding.displayName.setText(
                     notification.account.getSpanDisplayName(context,
-                            new WeakReference<>(holderFollow.binding.displayName)),
+                            holderFollow.binding.displayName),
                     TextView.BufferType.SPANNABLE);
             holderFollow.binding.username.setText(String.format("@%s", notification.account.acct));
 
@@ -415,7 +415,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
                 holderStatus.bindingNotification.status.displayName.setText(
                         notification.account.getSpanDisplayNameTitle(context,
-                                new WeakReference<>(holderStatus.bindingNotification.status.displayName), title),
+                                holderStatus.bindingNotification.status.displayName, title),
                         TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
 
@@ -494,7 +494,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 });
                 holderStatus.bindingNotification.status.displayName.setText(
                         notification.account.getSpanDisplayNameTitle(context,
-                                new WeakReference<>(holderStatus.bindingNotification.status.displayName), title),
+                                holderStatus.bindingNotification.status.displayName, title),
                         TextView.BufferType.SPANNABLE);
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.GONE);

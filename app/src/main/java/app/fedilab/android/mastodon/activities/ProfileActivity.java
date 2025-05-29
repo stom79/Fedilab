@@ -523,7 +523,7 @@ public class ProfileActivity extends BaseActivity {
 
         binding.accountDn.setText(
                 account.getSpanDisplayNameEmoji(ProfileActivity.this,
-                        new WeakReference<>(binding.accountDn)),
+                        binding.accountDn),
                 TextView.BufferType.SPANNABLE);
 
         binding.accountUn.setText(String.format("@%s", account.acct));
@@ -540,7 +540,7 @@ public class ProfileActivity extends BaseActivity {
         });
         binding.accountNote.setText(
                 account.getSpanNote(ProfileActivity.this,
-                        new WeakReference<>(binding.accountNote)),
+                        binding.accountNote),
                 TextView.BufferType.SPANNABLE);
 
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());

@@ -1418,14 +1418,14 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             holder.binding.statusContent.setText(
                     status.getSpanContent(context, false,
-                            new WeakReference<>(holder.binding.statusContent)),
+                            holder.binding.statusContent),
                     TextView.BufferType.SPANNABLE);
             holder.binding.statusContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
             MastodonHelper.loadPPMastodon(holder.binding.avatar, status.account);
             if (status.account != null) {
                 holder.binding.displayName.setText(
                         status.account.getSpanDisplayName(context,
-                                new WeakReference<>(holder.binding.displayName)),
+                                holder.binding.displayName),
                         TextView.BufferType.SPANNABLE);
                 holder.binding.username.setText(String.format("@%s", status.account.acct));
             }
@@ -1434,7 +1434,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.spoiler.setText(
                         status.getSpanSpoiler(context,
-                                new WeakReference<>(holder.binding.spoiler)),
+                                holder.binding.spoiler),
                         TextView.BufferType.SPANNABLE);
             } else {
                 holder.binding.spoiler.setVisibility(View.GONE);

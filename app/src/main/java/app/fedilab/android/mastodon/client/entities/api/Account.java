@@ -91,26 +91,26 @@ public class Account implements Serializable {
     public transient String pronouns = null;
 
 
-    public synchronized Spannable getSpanDisplayName(Context context, WeakReference<View> viewWeakReference) {
+    public synchronized Spannable getSpanDisplayName(Context context, View view) {
         if (display_name == null || display_name.isEmpty()) {
             display_name = username;
         }
-        return SpannableHelper.convert(context, display_name, null, this, null, viewWeakReference,  true, false);
+        return SpannableHelper.convert(context, display_name, null, this, null, view,  true, false);
     }
 
-    public synchronized Spannable getSpanDisplayNameEmoji(Activity activity, WeakReference<View> viewWeakReference) {
+    public synchronized Spannable getSpanDisplayNameEmoji(Activity activity, View view) {
         if (display_name == null || display_name.isEmpty()) {
             display_name = username;
         }
-        return SpannableHelper.convertEmoji(activity, display_name, this, viewWeakReference);
+        return SpannableHelper.convertEmoji(activity, display_name, this, view);
     }
 
-    public synchronized Spannable getSpanDisplayNameTitle(Context context, WeakReference<View> viewWeakReference, String title) {
-        return SpannableHelper.convert(context, title, null, this, null, viewWeakReference,  true, false);
+    public synchronized Spannable getSpanDisplayNameTitle(Context context, View view, String title) {
+        return SpannableHelper.convert(context, title, null, this, null, view,  true, false);
     }
 
-    public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference) {
-        return SpannableHelper.convert(context, note, null, this, null, viewWeakReference,  true, false);
+    public synchronized Spannable getSpanNote(Context context, View view) {
+        return SpannableHelper.convert(context, note, null, this, null, view,  true, false);
     }
 
 
