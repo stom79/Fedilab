@@ -1034,4 +1034,9 @@
     <string name="set_notif_admin_report">Новый отчёт (модераторы)</string>
     <string name="open_with_account">Открыть из другой учётной записи</string>
     <string name="set_audo_hide_compose_title">Припрятывать кнопку Составить</string>
+    <string name="create_domain_block">Добавить блокировку домена</string>
+    <string name="admin_reject_obfuscate">Обфусцировать доменное имя</string>
+    <string name="admin_domainblock_reject_media">Игнорироать все жалобы, поступающие от этого домена. Не имеет значения для приостановок</string>
+    <string name="admin_reject_reports">Отклонять жалобы</string>
+    <string name="admin_domainblock_reject_reports">Игнорироать все жалобы, поступающие от этого домена. Не имеет значения для приостановок</string>
 </resources>
