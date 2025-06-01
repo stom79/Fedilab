@@ -45,6 +45,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerStatusScheduledBinding;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
+import app.fedilab.android.mastodon.activities.ContextActivity;
 import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
 import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
@@ -141,6 +142,17 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
+                });
+            } else if(scheduledBoosts != null) {
+                Intent intentContext = new Intent(context, ContextActivity.class);
+                Bundle args2 = new Bundle();
+                args2.putSerializable(Helper.ARG_STATUS, scheduledBoosts.get(position).status);
+                new CachedBundle(context).insertBundle(args2, Helper.getCurrentAccount(context), bundleId2 -> {
+                    Bundle bundleCached = new Bundle();
+                    bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId2);
+                    intentContext.putExtras(bundleCached);
+                    intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intentContext);
                 });
             }
         });
