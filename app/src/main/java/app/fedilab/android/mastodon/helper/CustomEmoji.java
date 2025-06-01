@@ -47,7 +47,7 @@ public class CustomEmoji extends ReplacementSpan {
     }
 
     public SpannableStringBuilder makeEmoji(SpannableStringBuilder content, List<Emoji> emojiList, boolean animate, Status.Callback callback) {
-        if (emojiList != null && emojiList.size() > 0) {
+        if (emojiList != null && !emojiList.isEmpty()) {
             int count = 1;
             for (Emoji emoji : emojiList) {
                 Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
@@ -68,13 +68,6 @@ public class CustomEmoji extends ReplacementSpan {
 
     @Override
     public int getSize(@NonNull Paint paint, CharSequence charSequence, int i, int i1, @Nullable Paint.FontMetricsInt fontMetricsInt) {
-        if (fontMetricsInt != null) {
-            Paint.FontMetrics fontMetrics = paint.getFontMetrics();
-            fontMetricsInt.top = (int) fontMetrics.top;
-            fontMetricsInt.ascent = (int) fontMetrics.ascent;
-            fontMetricsInt.descent = (int) fontMetrics.descent;
-            fontMetricsInt.bottom = (int) fontMetrics.bottom;
-        }
         return (int) (paint.getTextSize() * scale);
     }
 
@@ -85,7 +78,7 @@ public class CustomEmoji extends ReplacementSpan {
             int emojiSize = (int) (paint.getTextSize() * scale);
             imageDrawable.setBounds(0, 0, emojiSize, emojiSize);
             int transY = bottom - imageDrawable.getBounds().bottom;
-            transY -= paint.getFontMetrics().descent / 2;
+            transY -= (int) (paint.getFontMetrics().descent / 2);
             canvas.translate(x, (float) transY);
             imageDrawable.draw(canvas);
             canvas.restore();
@@ -93,19 +86,31 @@ public class CustomEmoji extends ReplacementSpan {
     }
 
     public Target<Drawable> getTarget(boolean animate, Status.Callback callback) {
-        return new CustomTarget<Drawable>() {
+        return new CustomTarget<>() {
+
+            @Override
+            public void onStart() {
+                if (imageDrawable instanceof Animatable) {
+                    ((Animatable) imageDrawable).start();
+                }
+            }
+
+            @Override
+            public void onStop() {
+                if (imageDrawable instanceof Animatable) {
+                    ((Animatable) imageDrawable).stop();
+                }
+            }
+
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 View view = viewWeakReference.get();
 
                 if (animate && resource instanceof Animatable) {
-                    Drawable.Callback drawableCallBack = resource.getCallback();
+
                     resource.setCallback(new Drawable.Callback() {
                         @Override
                         public void invalidateDrawable(@NonNull Drawable drawable) {
-                            if (drawableCallBack != null) {
-                                drawableCallBack.invalidateDrawable(drawable);
-                            }
                             if(view != null) {
                                 view.invalidate();
                             }
@@ -113,22 +118,18 @@ public class CustomEmoji extends ReplacementSpan {
 
                         @Override
                         public void scheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable, long l) {
-                            if (drawableCallBack != null) {
-                                drawableCallBack.scheduleDrawable(drawable, runnable, l);
-                            }
+                            view.postDelayed(runnable, l);
                         }
 
                         @Override
                         public void unscheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable) {
-                            if (drawableCallBack != null) {
-                                drawableCallBack.unscheduleDrawable(drawable, runnable);
-                            }
+                            view.removeCallbacks(runnable);
                         }
                     });
                     ((Animatable) resource).start();
                 }
                 imageDrawable = resource;
-                if (view != null) {
+                if(view != null) {
                     view.invalidate();
                 }
                 if (callback != null && !callbackCalled) {
@@ -139,6 +140,17 @@ public class CustomEmoji extends ReplacementSpan {
 
             @Override
             public void onLoadCleared(@Nullable Drawable placeholder) {
+                View view = viewWeakReference.get();
+                if (imageDrawable != null) {
+                    if (imageDrawable instanceof Animatable) {
+                        ((Animatable) imageDrawable).stop();
+                        imageDrawable.setCallback(null);
+                    }
+                }
+                imageDrawable = null;
+                if(view != null) {
+                    view.invalidate();
+                }
             }
         };
     }
