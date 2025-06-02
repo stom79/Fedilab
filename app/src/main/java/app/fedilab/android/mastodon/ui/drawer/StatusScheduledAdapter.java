@@ -62,9 +62,6 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
     private final List<ScheduledBoost> scheduledBoosts;
     public ScheduledActions scheduledActions;
     private Context context;
-    private ScheduledStatus scheduledStatus;
-    private StatusDraft statusDraft;
-    private ScheduledBoost scheduledBoost;
 
     public StatusScheduledAdapter(List<ScheduledStatus> scheduledStatuses, List<StatusDraft> statusDraftList, List<ScheduledBoost> scheduledBoosts) {
         this.scheduledStatuses = scheduledStatuses;
@@ -83,32 +80,27 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
     @Override
     public void onBindViewHolder(@NonNull StatusScheduledHolder holder, int position) {
 
-        scheduledStatus = null;
-        statusDraft = null;
         String scheduledDate = null;
         String statusContent = null;
-        if (scheduledStatuses != null) {
-            scheduledStatus = scheduledStatuses.get(position);
-            scheduledDate = Helper.dateToString(scheduledStatus.scheduled_at);
-            statusContent = scheduledStatus.params.text;
-            if (scheduledStatus.params.in_reply_to_id != null) {
+        if (scheduledStatuses != null && scheduledStatuses.size() > position) {
+            scheduledDate = Helper.dateToString(scheduledStatuses.get(position).scheduled_at);
+            statusContent = scheduledStatuses.get(position).params.text;
+            if (scheduledStatuses.get(position).params.in_reply_to_id != null) {
                 holder.binding.reply.setVisibility(View.VISIBLE);
             } else {
                 holder.binding.reply.setVisibility(View.GONE);
             }
-        } else if (statusDraftList != null) {
-            statusDraft = statusDraftList.get(position);
-            scheduledDate = Helper.dateToString(statusDraft.scheduled_at);
-            statusContent = statusDraft.statusDraftList.get(0).text;
-            if (statusDraft.statusDraftList.get(0).in_reply_to_id != null) {
+        } else if (statusDraftList != null && statusDraftList.size() > position) {
+            scheduledDate = Helper.dateToString(statusDraftList.get(position).scheduled_at);
+            statusContent = statusDraftList.get(position).statusDraftList.get(0).text;
+            if (statusDraftList.get(position).statusDraftList.get(0).in_reply_to_id != null) {
                 holder.binding.reply.setVisibility(View.VISIBLE);
             } else {
                 holder.binding.reply.setVisibility(View.GONE);
             }
-        } else if (scheduledBoosts != null) {
-            scheduledBoost = scheduledBoosts.get(position);
-            scheduledDate = Helper.dateToString(scheduledBoost.scheduledAt);
-            if (scheduledBoost.status.in_reply_to_id != null) {
+        } else if (scheduledBoosts != null && scheduledBoosts.size() > position) {
+            scheduledDate = Helper.dateToString(scheduledBoosts.get(position).scheduledAt);
+            if (scheduledBoosts.get(position).status.in_reply_to_id != null) {
                 holder.binding.reply.setVisibility(View.VISIBLE);
             } else {
                 holder.binding.reply.setVisibility(View.GONE);
@@ -117,10 +109,10 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
 
         holder.binding.date.setText(scheduledDate);
 
-        if (scheduledBoost != null) {
+        if (scheduledBoosts != null && scheduledBoosts.size() > position) {
             SpannableString statusContentSpan;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                statusContentSpan = new SpannableString(Html.fromHtml(scheduledBoost.status.content, FROM_HTML_MODE_LEGACY));
+                statusContentSpan = new SpannableString(Html.fromHtml(scheduledBoosts.get(position).status.content, FROM_HTML_MODE_LEGACY));
             else
                 statusContentSpan = new SpannableString(Html.fromHtml(statusContent));
             holder.binding.statusContent.setText(statusContentSpan, TextView.BufferType.SPANNABLE);
@@ -161,43 +153,37 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
             unfollowConfirm.setMessage(context.getString(R.string.remove_scheduled));
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
             unfollowConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {
-                if (scheduledStatus != null) {
+                if (scheduledStatuses != null && scheduledStatuses.size() > position) {
                     StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
-                    statusesVM.deleteScheduledStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, scheduledStatus.id)
+                    statusesVM.deleteScheduledStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, scheduledStatuses.get(position).id)
                             .observe((LifecycleOwner) context, unused -> {
-                                if (scheduledStatuses != null) {
-                                    scheduledStatuses.remove(scheduledStatus);
-                                    if (scheduledStatuses.isEmpty()) {
-                                        scheduledActions.onAllDeleted();
-                                    }
-                                    notifyItemRemoved(position);
+                                scheduledStatuses.remove(scheduledStatuses.get(position));
+                                if (scheduledStatuses.isEmpty()) {
+                                    scheduledActions.onAllDeleted();
                                 }
+                                notifyItemRemoved(position);
                             });
-                } else if (statusDraft != null) {
+                } else if (statusDraftList != null && statusDraftList.size() > position) {
                     try {
-                        new StatusDraft(context).removeScheduled(statusDraft);
-                        WorkManager.getInstance(context).cancelWorkById(statusDraft.workerUuid);
-                        if (statusDraftList != null) {
-                            statusDraftList.remove(statusDraft);
-                            if (statusDraftList.isEmpty()) {
-                                scheduledActions.onAllDeleted();
-                            }
-                            notifyItemRemoved(position);
+                        new StatusDraft(context).removeScheduled(statusDraftList.get(position));
+                        WorkManager.getInstance(context).cancelWorkById(statusDraftList.get(position).workerUuid);
+                        statusDraftList.remove(statusDraftList.get(position));
+                        if (statusDraftList.isEmpty()) {
+                            scheduledActions.onAllDeleted();
                         }
+                        notifyItemRemoved(position);
                     } catch (DBException e) {
                         e.printStackTrace();
                     }
-                } else if (scheduledBoost != null) {
+                } else if (scheduledBoosts != null && position < scheduledBoosts.size()) {
                     try {
-                        new ScheduledBoost(context).removeScheduled(scheduledBoost);
-                        WorkManager.getInstance(context).cancelWorkById(scheduledBoost.workerUuid);
-                        if (scheduledBoosts != null) {
-                            scheduledBoosts.remove(scheduledBoost);
-                            if (scheduledBoosts.isEmpty()) {
-                                scheduledActions.onAllDeleted();
-                            }
-                            notifyItemRemoved(position);
+                        new ScheduledBoost(context).removeScheduled(scheduledBoosts.get(position));
+                        WorkManager.getInstance(context).cancelWorkById(scheduledBoosts.get(position).workerUuid);
+                        scheduledBoosts.remove(scheduledBoosts.get(position));
+                        if (scheduledBoosts.isEmpty()) {
+                            scheduledActions.onAllDeleted();
                         }
+                        notifyItemRemoved(position);
                     } catch (DBException e) {
                         e.printStackTrace();
                     }
