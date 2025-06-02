@@ -1,0 +1,1 @@
+Questo rilascio dovrebbe risolvere problemi di crash (TransactionTooLargeException). Se hai crash, torna alla versione precedente attraverso FDroid.
