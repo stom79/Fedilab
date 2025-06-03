@@ -49,6 +49,7 @@ import app.fedilab.android.mastodon.client.endpoints.MastodonTimelinesService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Conversation;
 import app.fedilab.android.mastodon.client.entities.api.Conversations;
+import app.fedilab.android.mastodon.client.entities.api.Link;
 import app.fedilab.android.mastodon.client.entities.api.Marker;
 import app.fedilab.android.mastodon.client.entities.api.MastodonList;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
@@ -95,6 +96,7 @@ public class TimelinesVM extends AndroidViewModel {
     private MutableLiveData<Marker> markerMutableLiveData;
     private MutableLiveData<List<Status>> statusListMutableLiveData;
     private MutableLiveData<List<Tag>> tagListMutableLiveData;
+    private MutableLiveData<List<Link>> linkListMutableLiveData;
 
     public TimelinesVM(@NonNull Application application) {
         super(application);
@@ -242,6 +244,30 @@ public class TimelinesVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return tagListMutableLiveData;
+    }
+
+    public LiveData<List<Link>> getLinksTrends(String token, @NonNull String instance, Integer offset, Integer limit) {
+        MastodonTimelinesService mastodonTimelinesService = init(instance);
+        linkListMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Call<List<Link>> publicTlCall = mastodonTimelinesService.getLinkTrends(token, offset, limit);
+            List<Link> linkList = null;
+            if (publicTlCall != null) {
+                try {
+                    Response<List<Link>> publicTlResponse = publicTlCall.execute();
+                    if (publicTlResponse.isSuccessful()) {
+                        linkList = publicTlResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            List<Link> finalLinkList = linkList;
+            Runnable myRunnable = () -> linkListMutableLiveData.setValue(finalLinkList);
+            mainHandler.post(myRunnable);
+        }).start();
+        return linkListMutableLiveData;
     }
 
     /**

@@ -19,6 +19,7 @@
     <string name="email">Email</string>
     <string name="accounts">Accounts</string>
     <string name="toots">Messages</string>
+    <string name="links">Links</string>
     <string name="tags">Tags</string>
     <string name="save">Save</string>
     <string name="instance">Instance</string>
@@ -1383,6 +1384,7 @@
     <string name="set_push_notifications_delay">Set the delay between each new fetch</string>
     <string name="refresh_every">Fetch notifications every:</string>
     <string name="type_of_notifications_delay_title">Notifications fetch time</string>
+    <string name="link_image">Image attached to the link</string>
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->
         <item>u+1f604</item>

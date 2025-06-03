@@ -378,6 +378,8 @@ public class Timeline {
         REMOTE("REMOTE"),
         @SerializedName("TREND_TAG")
         TREND_TAG("TREND_TAG"),
+        @SerializedName("TREND_LINK")
+        TREND_LINK("TREND_LINK"),
         @SerializedName("TREND_MESSAGE")
         TREND_MESSAGE("TREND_MESSAGE"),
         @SerializedName("ACCOUNT_SUGGESTION")

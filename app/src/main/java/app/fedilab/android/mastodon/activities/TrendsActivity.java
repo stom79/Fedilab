@@ -33,6 +33,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityTrendsBinding;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonLink;
 import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonTag;
 import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonTimeline;
 
@@ -56,6 +57,7 @@ public class TrendsActivity extends BaseBarActivity {
 
         binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.tags)));
         binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.toots)));
+        binding.searchTabLayout.addTab(binding.searchTabLayout.newTab().setText(getString(R.string.links)));
         binding.searchTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -75,6 +77,8 @@ public class TrendsActivity extends BaseBarActivity {
                         fragmentMastodonTimeline.scrollToTop();
                     } else if (fragment instanceof FragmentMastodonTag fragmentMastodonTag) {
                         fragmentMastodonTag.scrollToTop();
+                    }else if (fragment instanceof FragmentMastodonLink fragmentMastodonLink) {
+                        fragmentMastodonLink.scrollToTop();
                     }
                 }
             }
@@ -129,11 +133,17 @@ public class TrendsActivity extends BaseBarActivity {
                 bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TREND_TAG);
                 fragmentMastodonTag.setArguments(bundle);
                 return fragmentMastodonTag;
+            } else if(position == 1) {
+                FragmentMastodonTimeline fragmentMastodonTimeline = new FragmentMastodonTimeline();
+                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TREND_MESSAGE);
+                fragmentMastodonTimeline.setArguments(bundle);
+                return fragmentMastodonTimeline;
+            } else {
+                FragmentMastodonLink fragmentMastodonLink = new FragmentMastodonLink();
+                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TREND_LINK);
+                fragmentMastodonLink.setArguments(bundle);
+                return fragmentMastodonLink;
             }
-            FragmentMastodonTimeline fragmentMastodonTimeline = new FragmentMastodonTimeline();
-            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TREND_MESSAGE);
-            fragmentMastodonTimeline.setArguments(bundle);
-            return fragmentMastodonTimeline;
         }
 
         @Override
@@ -142,7 +152,7 @@ public class TrendsActivity extends BaseBarActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 }

@@ -18,6 +18,7 @@ import java.util.List;
 
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Conversation;
+import app.fedilab.android.mastodon.client.entities.api.Link;
 import app.fedilab.android.mastodon.client.entities.api.Marker;
 import app.fedilab.android.mastodon.client.entities.api.MastodonList;
 import app.fedilab.android.mastodon.client.entities.api.Status;
@@ -79,6 +80,11 @@ public interface MastodonTimelinesService {
     Call<List<Tag>> getTagTrends(@Header("Authorization") String token,
                                  @Query("offset") Integer offset,
                                  @Query("limit") Integer limit);
+
+    @GET("trends/links")
+    Call<List<Link>> getLinkTrends(@Header("Authorization") String token,
+                                   @Query("offset") Integer offset,
+                                   @Query("limit") Integer limit);
 
     //Public Tags timelines
     @GET("timelines/tag/{hashtag}")
