@@ -1265,6 +1265,7 @@
     <string name="SET_TIMELINE_SCROLLBAR" translatable="false">SET_TIMELINE_SCROLLBAR</string>
     <string name="SET_MARKDOWN_SUPPORT" translatable="false">SET_MARKDOWN_SUPPORT</string>
     <string name="SET_TRUNCATE_LINKS" translatable="false">SET_TRUNCATE_LINKS</string>
+    <string name="SET_UNDERLINE_BOTTOM_HASHTAGS" translatable="false">SET_UNDERLINE_BOTTOM_HASHTAGS</string>
     <string name="SET_UNDERLINE_CLICKABLE" translatable="false">SET_UNDERLINE_CLICKABLE</string>
     <string name="SET_PRONOUNS_SUPPORT" translatable="false">SET_PRONOUNS_SUPPORT</string>
     <string name="SET_TRUNCATE_LINKS_MAX" translatable="false">SET_TRUNCATE_LINKS_MAX</string>
@@ -2081,6 +2082,7 @@
     <string name="toot_error_no_media_description">There are missing media descriptions</string>
 
     <string name="truncate_links">Truncate links</string>
+    <string name="underline_bottom_hashtags">Highlight bottom hashtags</string>
     <string name="underline_links">Underline clickable elements</string>
     <string name="truncate_links_max">Max chars in links</string>
 

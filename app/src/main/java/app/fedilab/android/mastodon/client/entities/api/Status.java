@@ -16,6 +16,7 @@ package app.fedilab.android.mastodon.client.entities.api;
 
 import android.content.Context;
 import android.text.Spannable;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
 
+import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
 import de.timfreiheit.mathjax.android.MathJaxView;
 
@@ -139,6 +141,8 @@ public class Status implements Serializable, Cloneable {
     public boolean spoilerChecked = false;
     public Filter filteredByApp;
     public transient Spannable contentSpan;
+
+    public transient String[] bottomTags;
     public transient Spannable contentSpoilerSpan;
     public transient Spannable contentTranslateSpan;
     public transient MathJaxView mathJaxView;
@@ -160,6 +164,13 @@ public class Status implements Serializable, Cloneable {
             contentSpan = SpannableHelper.convert(context, content, this, null, null, checkRemotely, viewWeakReference, callback, true, true);
         }
         return contentSpan;
+    }
+
+    public synchronized String[] getBottomTags() {
+        if(bottomTags == null) {
+            bottomTags = SpannableHelper.hasBottomTags(content);
+        }
+        return bottomTags;
     }
 
     public synchronized Spannable getSpanSpoiler(Context context, WeakReference<View> viewWeakReference, Callback callback) {

@@ -37,6 +37,7 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,6 +108,28 @@ public class SpannableHelper {
     private static int linkColor;
     private static boolean underlineLinks;
 
+    private static final String patternBottomTags = "\\n{2,}((#[\\w_À-ú-]+)\\s?)+$";
+
+    public static String[] hasBottomTags(String text) {
+        if (text == null) {
+            return new String[]{};
+        }
+        SpannableString initialContent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            initialContent = new SpannableString(Html.fromHtml(text));
+        }
+        final Pattern bottomTagsPattern = Pattern.compile(patternBottomTags, Pattern.CASE_INSENSITIVE);
+        Matcher matcherBottomTags = bottomTagsPattern.matcher(initialContent);
+        String[] tags = new String[]{};
+        while (matcherBottomTags.find()) {
+            String stringTags = Objects.requireNonNull(matcherBottomTags.group()).trim();
+            tags = stringTags.split("\\s");
+        }
+        return tags;
+    }
+
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
                                     WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml, boolean convertMarkdown) {
@@ -162,6 +185,7 @@ public class SpannableHelper {
         } else {
             initialContent = new SpannableString(text);
         }
+
         boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), false);
         //Get all links
         SpannableStringBuilder content;
@@ -392,6 +416,20 @@ public class SpannableHelper {
                             .into(customEmoji.getTarget(animate, null));
                 }
             }
+
+        }
+
+        boolean underlineBottomHashTags = sharedpreferences.getBoolean(context.getString(R.string.SET_UNDERLINE_BOTTOM_HASHTAGS), true);
+        if(underlineBottomHashTags) {
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+            final Pattern bottomTagsPattern = Pattern.compile(patternBottomTags, Pattern.CASE_INSENSITIVE);
+            Matcher matcherBottomTags = bottomTagsPattern.matcher(content);
+            int length = 0;
+            while (matcherBottomTags.find()) {
+                length = Objects.requireNonNull(matcherBottomTags.group()).length();
+            }
+            spannableStringBuilder.append(content,0, content.length()-length);
+            return trimSpannable(spannableStringBuilder);
 
         }
         return trimSpannable(new SpannableStringBuilder(content));

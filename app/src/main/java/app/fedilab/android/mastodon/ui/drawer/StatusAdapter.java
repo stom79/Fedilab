@@ -108,6 +108,7 @@ import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.stom79.mytransl.MyTransL;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -143,6 +144,7 @@ import app.fedilab.android.databinding.LayoutPollItemBinding;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
 import app.fedilab.android.mastodon.activities.ContextActivity;
 import app.fedilab.android.mastodon.activities.CustomSharingActivity;
+import app.fedilab.android.mastodon.activities.HashTagActivity;
 import app.fedilab.android.mastodon.activities.MediaActivity;
 import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.activities.ReportActivity;
@@ -508,6 +510,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             LinearLayoutCompat.MarginLayoutParams psc = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusContent.getLayoutParams();
             psc.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.statusContent.setLayoutParams(psc);
+            LinearLayoutCompat.MarginLayoutParams pst = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusHashtags.getLayoutParams();
+            pst.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            holder.binding.statusHashtags.setLayoutParams(pst);
             LinearLayoutCompat.MarginLayoutParams psq = (LinearLayoutCompat.MarginLayoutParams) holder.binding.quotedMessage.cardviewContainer.getLayoutParams();
             psq.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.quotedMessage.cardviewContainer.setLayoutParams(psq);
@@ -1510,6 +1515,37 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
                         }),
                 TextView.BufferType.SPANNABLE);
+        boolean underlineBottomHashTags = sharedpreferences.getBoolean(context.getString(R.string.SET_UNDERLINE_BOTTOM_HASHTAGS), true);
+        if(underlineBottomHashTags) {
+            if (statusToDeal.getBottomTags().length > 0) {
+                holder.binding.statusHashtags.setVisibility(View.VISIBLE);
+                holder.binding.statusHashtags.removeAllViews();
+                for (String tag : statusToDeal.getBottomTags()) {
+                    Chip chip = new Chip(context);
+                    chip.setClickable(true);
+                    chip.setEnsureMinTouchTargetSize(false);
+                    chip.setText(tag);
+                    chip.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
+                    chip.setOnClickListener(v -> {
+                        Intent intentTag = new Intent(context, HashTagActivity.class);
+                        Bundle args = new Bundle();
+                        args.putString(Helper.ARG_SEARCH_KEYWORD, tag.replace("#", ""));
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intentTag.putExtras(bundle);
+                            intentTag.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intentTag);
+                        });
+                    });
+                    holder.binding.statusHashtags.addView(chip);
+                }
+            } else {
+                holder.binding.statusHashtags.setVisibility(View.GONE);
+            }
+        } else {
+            holder.binding.statusHashtags.setVisibility(View.GONE);
+        }
         if (truncate_toots_size > 0) {
             holder.binding.statusContent.setMaxLines(truncate_toots_size);
             holder.binding.statusContent.setEllipsize(TextUtils.TruncateAt.END);

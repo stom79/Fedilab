@@ -72,6 +72,14 @@
         app:singleLineTitle="false"
         app:title="@string/truncate_links" />
 
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_UNDERLINE_BOTTOM_HASHTAGS"
+        app:singleLineTitle="false"
+        app:title="@string/underline_bottom_hashtags" />
+
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
