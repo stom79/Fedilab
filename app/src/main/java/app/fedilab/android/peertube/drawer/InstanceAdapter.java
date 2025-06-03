@@ -22,13 +22,12 @@ import android.content.Context;
 import android.os.Build;
 import android.text.Html;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.google.android.material.chip.Chip;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +38,6 @@ import java.util.List;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerInstancePeertubeBinding;
 import app.fedilab.android.peertube.client.data.InstanceData.Instance;
-import app.fedilab.android.peertube.helper.RoundedBackgroundSpan;
 
 
 public class InstanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -95,27 +93,21 @@ public class InstanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         holder.binding.name.setText(instance.getName());
         holder.binding.host.setText(instance.getHost());
 
-
-        SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
-        String between = "";
+        holder.binding.chips.removeAllViews();
         if (peertubeInformation != null && peertubeInformation.getCategories() != null) {
             LinkedHashMap<Integer, String> info_cat = new LinkedHashMap<>(peertubeInformation.getCategories());
             if (instance.getCategories() != null && instance.getCategories().size() > 0 && instance.getSpannableStringBuilder() == null) {
                 for (int category : instance.getCategories()) {
                     String cat = info_cat.get(category);
-                    stringBuilder.append(between);
                     if (cat != null && cat.trim().toLowerCase().compareTo("null") != 0) {
-                        if (between.length() == 0) between = "  ";
-                        String tag = "  " + cat + "  ";
-                        stringBuilder.append(tag);
-                        stringBuilder.setSpan(new RoundedBackgroundSpan(context), stringBuilder.length() - tag.length(), stringBuilder.length() - tag.length() + tag.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                        Chip chip = new Chip(context);
+                        chip.setClickable(false);
+                        chip.setEnsureMinTouchTargetSize(false);
+                        chip.setText(cat);
+                        holder.binding.chips.addView(chip);
                     }
                 }
-                instance.setSpannableStringBuilder(stringBuilder);
             }
-        }
-        if (instance.getSpannableStringBuilder() != null) {
-            holder.binding.tags.setText(instance.getSpannableStringBuilder());
         }
 
         if (peertubeInformation != null && peertubeInformation.getLanguages() != null) {
