@@ -1106,4 +1106,7 @@
     <string name="set_audo_hide_compose_summary">Автоматично приховувати кнопку створення під час прокручування вгору на часовій шкалі</string>
     <string name="set_mention_booster_indication">Під час відповіді на посилення особа, яка здійснила посилення, буде згадана у відповіді</string>
     <string name="set_mention_booster">Згадайте бустер</string>
+    <string name="underline_bottom_hashtags">Виділіть нижні хештеги</string>
+    <string name="links">Посилання</string>
+    <string name="link_image">Зображення додано до посилання</string>
 </resources>
