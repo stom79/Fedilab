@@ -170,7 +170,8 @@ public class SpannableHelper {
         if (status != null && status.mentions != null) {
             mentions.addAll(status.mentions);
         }
-        if(!convertMarkdown) {
+        boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), false);
+        if(!markdownSupport) {
             text = text.replaceAll("((<\\s?p\\s?>|<\\s?br\\s?/?>)&gt;(((?!(<\\s?br\\s?/?>|<\\s?/s?p\\s?>)).)*))", "$2<blockquote>$3</blockquote>");
         }
         text = text.trim().replaceAll("\\s{3}", "&nbsp;&nbsp;&nbsp;");
@@ -185,7 +186,7 @@ public class SpannableHelper {
             initialContent = new SpannableString(text);
         }
 
-        boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), false);
+
         //Get all links
         SpannableStringBuilder content;
         if (markdownSupport && convertMarkdown) {
@@ -373,9 +374,9 @@ public class SpannableHelper {
             } else {
                 makeLinks(context, status, content, url, start, end, sameContent);
             }
-            replaceQuoteSpans(context, content);
-            emails(context, content, status);
         }
+        replaceQuoteSpans(context, content);
+        emails(context, content, status);
 
         Pattern imgPattern = Pattern.compile("<img [^>]*src=\"([^\"]+)\"[^>]*>");
         Matcher matcherImg = imgPattern.matcher(text);
