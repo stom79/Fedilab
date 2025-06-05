@@ -37,7 +37,6 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,7 +107,7 @@ public class SpannableHelper {
     private static int linkColor;
     private static boolean underlineLinks;
 
-    private static final String patternBottomTags = "\\n{2,}((#[\\w_À-ú-]+)\\s?)+$";
+    private static final String patternBottomTags = "\\n{2,}((#[\\w_À-ú-]+)(\\s*| *))+$";
 
     public static String[] hasBottomTags(String text) {
         if (text == null) {
