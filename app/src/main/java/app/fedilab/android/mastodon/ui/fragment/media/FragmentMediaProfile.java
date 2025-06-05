@@ -128,7 +128,7 @@ public class FragmentMediaProfile extends Fragment {
                 public void federatedAccount(Account account) {
                     if (account != null && isAdded() && !requireActivity().isFinishing()) {
                         accountId = account.id;
-                        accountsVM.getAccountStatuses(tempInstance, null, accountId, null, null, null, null, null, true, false, MastodonHelper.statusesPerCall(requireActivity()))
+                        accountsVM.getAccountStatuses(tempInstance, null, accountId, null, null, null, null, null, true, false, null, MastodonHelper.statusesPerCall(requireActivity()))
                                 .observe(getViewLifecycleOwner(), statuses -> initializeStatusesCommonView(statuses));
                     } else {
                         if (isAdded() && !requireActivity().isFinishing()) {
@@ -141,7 +141,7 @@ public class FragmentMediaProfile extends Fragment {
             tempToken = BaseMainActivity.currentToken;
             tempInstance = BaseMainActivity.currentInstance;
             accountId = accountTimeline.id;
-            accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, null, null, true, false, MastodonHelper.statusesPerCall(requireActivity()))
+            accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, null, null, true, false, null, MastodonHelper.statusesPerCall(requireActivity()))
                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
         }
     }
@@ -208,7 +208,7 @@ public class FragmentMediaProfile extends Fragment {
                         if (!flagLoading) {
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
-                            accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, max_id, null, null, null, null, true, false, MastodonHelper.statusesPerCall(requireActivity()))
+                            accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, max_id, null, null, null, null, true, false, null, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), newStatuses -> dealWithPagination(newStatuses));
                         }
                     } else {

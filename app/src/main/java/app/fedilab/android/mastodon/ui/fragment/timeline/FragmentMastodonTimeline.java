@@ -91,6 +91,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private Integer offset;
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
+    private String tagged;
     private List<Status> timelineStatuses;
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
@@ -418,6 +419,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);
             list_id = bundle.getString(Helper.ARG_LIST_ID, null);
             search = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
+            tagged = bundle.getString(Helper.ARG_TAGGED, null);
             searchCache = bundle.getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
             pinnedTimeline = (PinnedTimeline) bundle.getSerializable(Helper.ARG_REMOTE_INSTANCE);
             canBeFederated = true;
@@ -1171,8 +1173,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         public void federatedAccount(Account account) {
                             if (account != null && isAdded() && !requireActivity().isFinishing()) {
                                 accountIDInRemoteInstance = account.id;
-                                accountsVM.getAccountStatuses(tempInstance[0], null, accountIDInRemoteInstance, null, null, null, null, null, false, true, MastodonHelper.statusesPerCall(requireActivity()))
-                                        .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(tempInstance[0], null, accountIDInRemoteInstance, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                                accountsVM.getAccountStatuses(tempInstance[0], null, accountIDInRemoteInstance, null, null, null, null, null, false, true, tagged, MastodonHelper.statusesPerCall(requireActivity()))
+                                        .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(tempInstance[0], null, accountIDInRemoteInstance, null, null, null, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
                                                 .observe(getViewLifecycleOwner(), otherStatuses -> {
                                                     if (otherStatuses != null && otherStatuses.statuses != null) {
                                                         if (pinnedStatuses != null && pinnedStatuses.statuses != null) {
@@ -1315,8 +1317,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (direction == null && !checkRemotely) {
             if (show_pinned) {
                 //Fetch pinned statuses to display them at the top
-                accountsVM.getAccountStatuses(currentInstance, MainActivity.currentToken, accountId, null, null, null, null, null, false, true, MastodonHelper.statusesPerCall(requireActivity()))
-                        .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountId, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                accountsVM.getAccountStatuses(currentInstance, MainActivity.currentToken, accountId, null, null, null, null, null, false, true, tagged, MastodonHelper.statusesPerCall(requireActivity()))
+                        .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountId, null, null, null, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
                                 .observe(getViewLifecycleOwner(), otherStatuses -> {
                                     if (otherStatuses != null && otherStatuses.statuses != null && pinnedStatuses != null && pinnedStatuses.statuses != null) {
                                         for (Status status : pinnedStatuses.statuses) {
@@ -1327,11 +1329,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                     }
                                 }));
             } else {
-                accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, null, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+                accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, null, null, null, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
                         .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
             }
         } else if (direction == DIRECTION.BOTTOM) {
-            accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, max_id, null, null, exclude_replies, exclude_reblogs, media_only, false, MastodonHelper.statusesPerCall(requireActivity()))
+            accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, max_id, null, null, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
                     .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
         } else {
             flagLoading = false;

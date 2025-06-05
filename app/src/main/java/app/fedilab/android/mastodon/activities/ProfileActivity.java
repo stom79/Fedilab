@@ -40,6 +40,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -69,6 +70,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 
@@ -96,6 +98,7 @@ import app.fedilab.android.databinding.TabProfileCustomViewBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.FamiliarFollowers;
+import app.fedilab.android.mastodon.client.entities.api.FeaturedTag;
 import app.fedilab.android.mastodon.client.entities.api.Field;
 import app.fedilab.android.mastodon.client.entities.api.IdentityProof;
 import app.fedilab.android.mastodon.client.entities.api.MastodonList;
@@ -116,6 +119,7 @@ import app.fedilab.android.mastodon.helper.SpannableHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.ui.drawer.FieldAdapter;
 import app.fedilab.android.mastodon.ui.drawer.IdentityProofsAdapter;
+import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import app.fedilab.android.mastodon.ui.pageadapter.FedilabProfileTLPageAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.NodeInfoVM;
@@ -229,7 +233,45 @@ public class ProfileActivity extends BaseActivity {
         //Check if account is homeMuted
         accountsVM.isMuted(Helper.getCurrentAccount(ProfileActivity.this), account).observe(this, result -> homeMuted = result != null && result);
         ContextCompat.registerReceiver(ProfileActivity.this, broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
+        //Search for featured tags
+        accountsVM.getAccountFeaturedTags(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id).observe(this, featuredTags -> {
+            if(featuredTags != null && !featuredTags.isEmpty()) {
+                binding.featuredHashtagsContainer.setVisibility(View.VISIBLE);
+                binding.featuredHashtags.removeAllViews();
+                for(FeaturedTag featuredTag: featuredTags) {
+                    if(featuredTag.statuses_count > 0 ) {
+                        Chip chip = new Chip(ProfileActivity.this);
+                        chip.setClickable(true);
+                        chip.setEnsureMinTouchTargetSize(false);
+                        chip.setText(String.format("#%s", featuredTag.name));
+                        chip.setTextColor(ThemeHelper.getAttColor(ProfileActivity.this, R.attr.colorPrimary));
+                        chip.setOnClickListener(v -> {
+                            Bundle args = new Bundle();
+                            args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.ACCOUNT_TIMELINE);
+                            if (account != null) {
+                                args.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
+                            }
+                            args.putString(Helper.ARG_TAGGED, featuredTag.name);
+                            args.putBoolean(Helper.ARG_SHOW_PINNED, false);
+                            args.putBoolean(Helper.ARG_SHOW_REPLIES, false);
+                            args.putBoolean(Helper.ARG_SHOW_REBLOGS, false);
+                            args.putBoolean(Helper.ARG_CHECK_REMOTELY, checkRemotely);
+                            Intent intent = new Intent(ProfileActivity.this, TimelineActivity.class);
+                            new CachedBundle(ProfileActivity.this).insertBundle(args, Helper.getCurrentAccount(ProfileActivity.this), bundleId -> {
+                                Bundle _bundle = new Bundle();
+                                _bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(_bundle);
+                                startActivity(intent);
+                            });
+                        });
+                        binding.featuredHashtags.addView(chip);
+                    }
+                }
 
+            } else {
+                binding.featuredHashtagsContainer.setVisibility(View.GONE);
+            }
+        });
 
     }
 

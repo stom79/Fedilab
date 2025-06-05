@@ -372,6 +372,7 @@ public class AccountsVM extends AndroidViewModel {
                                                  Boolean excludeReblogs,
                                                  Boolean only_media,
                                                  Boolean pinned,
+                                                 String tagged,
                                                  int count) {
         statusesMutableLiveData = new MutableLiveData<>();
         MastodonAccountsService mastodonAccountsService = init(instance);
@@ -379,7 +380,7 @@ public class AccountsVM extends AndroidViewModel {
             List<Status> statusList = null;
             Pagination pagination = null;
             Call<List<Status>> accountStatusesCall = mastodonAccountsService.getAccountStatuses(
-                    token, id, maxId, sinceId, minId, excludeReplies, excludeReblogs, only_media, pinned, count);
+                    token, id, maxId, sinceId, minId, excludeReplies, excludeReblogs, only_media, pinned, tagged, count);
             if (accountStatusesCall != null) {
                 try {
                     Response<List<Status>> accountStatusesResponse = accountStatusesCall.execute();

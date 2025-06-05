@@ -57,21 +57,30 @@ public class TimelineActivity extends BaseBarActivity {
         Timeline.TimeLineEnum timelineType = null;
         String lemmy_post_id = null;
         PinnedTimeline pinnedTimeline = null;
+        String tagged = null;
+        String timelineAccountId = null;
         Status status = null;
         if (bundle != null) {
             timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
             lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);
             pinnedTimeline = (PinnedTimeline) bundle.getSerializable(Helper.ARG_REMOTE_INSTANCE);
             status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
+            tagged = bundle.getString(Helper.ARG_TAGGED, null);
+            timelineAccountId = bundle.getString(Helper.ARG_CACHED_ACCOUNT_ID, null);
         }
         if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
             setTitle(pinnedTimeline.remoteInstance.host);
+        }
+        if(tagged != null) {
+            setTitle(String.format("#%s",tagged));
         }
         FragmentMastodonTimeline fragmentMastodonTimeline = new FragmentMastodonTimeline();
         Bundle args = new Bundle();
         args.putSerializable(Helper.ARG_TIMELINE_TYPE, timelineType);
         args.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinnedTimeline);
         args.putSerializable(Helper.ARG_LEMMY_POST_ID, lemmy_post_id);
+        args.putSerializable(Helper.ARG_TAGGED, tagged);
+        args.putSerializable(Helper.ARG_CACHED_ACCOUNT_ID, timelineAccountId);
         if (status != null) {
             args.putSerializable(Helper.ARG_STATUS, status);
         }

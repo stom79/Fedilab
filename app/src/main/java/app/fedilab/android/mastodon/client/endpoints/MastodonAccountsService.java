@@ -124,6 +124,7 @@ public interface MastodonAccountsService {
             @Query("exclude_reblogs") Boolean exclude_reblogs,
             @Query("only_media") Boolean only_media,
             @Query("pinned") Boolean pinned,
+            @Query("tagged") String tagged,
             @Query("limit") int limit
     );
 
