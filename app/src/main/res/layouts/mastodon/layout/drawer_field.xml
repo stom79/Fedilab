@@ -11,8 +11,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="end|center_vertical"
         android:minHeight="20dp"
+        android:layout_marginEnd="5dp"
         android:padding="5dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp" />
@@ -20,17 +21,19 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/valueBG"
         android:layout_width="0dp"
+        android:layout_marginStart="5dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/value"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_gravity="start|center_vertical"
+            android:gravity="start|center_vertical"
             android:paddingTop="10dp"
+            android:drawablePadding="5dp"
             android:paddingBottom="10dp"
             android:textIsSelectable="true" />
     </androidx.appcompat.widget.LinearLayoutCompat>
