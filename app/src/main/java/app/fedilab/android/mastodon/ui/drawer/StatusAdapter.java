@@ -3638,7 +3638,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             doubleTapPlayerView.getPlayer().release();
                         }
                     }
-                } else if (holder.binding.mediaContainer.getChildCount() > 0) { //Not cropped views
+                }
+                if (holder.binding.mediaContainer.getChildCount() > 0) { //Not cropped views
                     for(int i = 0 ; i < holder.binding.mediaContainer.getChildCount() ; i++ ) {
                         PlayerView doubleTapPlayerView =  holder.binding.mediaContainer.getChildAt(i).findViewById(R.id.media_video);
                         if (doubleTapPlayerView != null && doubleTapPlayerView.getPlayer() != null) {

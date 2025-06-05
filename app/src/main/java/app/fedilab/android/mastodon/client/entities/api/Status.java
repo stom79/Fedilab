@@ -115,6 +115,7 @@ public class Status implements Serializable, Cloneable {
     public List<Reaction> reactions;
 
     public String attachedNotification = null;
+    public int gifPosition = 0;
 
     public transient boolean isFetchMore = false;
     public transient boolean isFetching = false;
