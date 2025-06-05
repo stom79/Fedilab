@@ -1096,4 +1096,7 @@
     <string name="set_audo_hide_compose_summary">Oculta automáticamente o botón para redactar cando te desprazas nunha cronoloxía</string>
     <string name="set_mention_booster">Mencionar a quen promoveu</string>
     <string name="set_mention_booster_indication">Ao responder a unha promoción, a persoa que promoveu será mencionada na resposta</string>
+    <string name="links">Ligazóns</string>
+    <string name="link_image">Imaxe anexa á ligazón</string>
+    <string name="underline_bottom_hashtags">Destacar cancelos da parte inferior</string>
 </resources>
