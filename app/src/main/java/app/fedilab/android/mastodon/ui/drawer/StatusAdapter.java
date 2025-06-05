@@ -1612,6 +1612,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
         }
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        //Release players if they already exist
+        if(holder.binding.mediaContainer.getChildCount() > 0 ) {
+            for(int i = 0 ; i < holder.binding.mediaContainer.getChildCount() ; i++ ) {
+                PlayerView video =  holder.binding.mediaContainer.getChildAt(i).findViewById(R.id.media_video);
+                if (video != null && video.getPlayer() != null) {
+                    video.getPlayer().release();
+                }
+            }
+        }
         holder.binding.mediaContainer.removeAllViews();
         PlayerView video = holder.binding.media.media1Container.findViewById(R.id.media_video);
         if (video != null && video.getPlayer() != null) {
@@ -3620,10 +3629,22 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder viewHolder) {
         super.onViewRecycled(viewHolder);
         if (viewHolder instanceof StatusViewHolder holder) {
-            if (holder.binding != null) {
-                PlayerView doubleTapPlayerView = holder.binding.media.getRoot().findViewById(R.id.media_video);
-                if (doubleTapPlayerView != null && doubleTapPlayerView.getPlayer() != null) {
-                    doubleTapPlayerView.getPlayer().release();
+            //Release players
+            if (holder.binding != null) { //Cropped views
+                if(holder.binding.media.getRoot().getChildCount() > 0) {
+                    for(int i = 0 ; i < holder.binding.media.getRoot().getChildCount() ; i++ ) {
+                        PlayerView doubleTapPlayerView =  holder.binding.media.getRoot().getChildAt(i).findViewById(R.id.media_video);
+                        if (doubleTapPlayerView != null && doubleTapPlayerView.getPlayer() != null) {
+                            doubleTapPlayerView.getPlayer().release();
+                        }
+                    }
+                } else if (holder.binding.mediaContainer.getChildCount() > 0) { //Not cropped views
+                    for(int i = 0 ; i < holder.binding.mediaContainer.getChildCount() ; i++ ) {
+                        PlayerView doubleTapPlayerView =  holder.binding.mediaContainer.getChildAt(i).findViewById(R.id.media_video);
+                        if (doubleTapPlayerView != null && doubleTapPlayerView.getPlayer() != null) {
+                            doubleTapPlayerView.getPlayer().release();
+                        }
+                    }
                 }
             }
         }
