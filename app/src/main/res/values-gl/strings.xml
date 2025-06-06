@@ -1099,4 +1099,10 @@
     <string name="links">Ligazóns</string>
     <string name="link_image">Imaxe anexa á ligazón</string>
     <string name="underline_bottom_hashtags">Destacar cancelos da parte inferior</string>
+    <string name="add_featured_hashtag">Engadir cancelo destacado</string>
+    <string name="no_feature_hashtag_suggestion">Sen suxestións para os cancelos destacados!</string>
+    <string name="fields_title">Engadir ou retirar campos</string>
+    <string name="featured_hashtags_title">Engadir ou retirar cancelos destacados</string>
+    <string name="delete_featured_hashtag">Eliminar cancelo destacado</string>
+    <string name="delete_featured_hashtag_confirm">Tes certeza de querer eliminar o cancelo destacado?</string>
 </resources>
