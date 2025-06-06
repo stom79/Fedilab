@@ -234,7 +234,8 @@ public class ProfileActivity extends BaseActivity {
         accountsVM.isMuted(Helper.getCurrentAccount(ProfileActivity.this), account).observe(this, result -> homeMuted = result != null && result);
         ContextCompat.registerReceiver(ProfileActivity.this, broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
         //Search for featured tags
-        accountsVM.getAccountFeaturedTags(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id).observe(this, featuredTags -> {
+
+        accountsVM.getAccountFeaturedTags(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account!=null?account.id:account_id).observe(this, featuredTags -> {
             if(featuredTags != null && !featuredTags.isEmpty()) {
                 binding.featuredHashtagsContainer.setVisibility(View.VISIBLE);
                 binding.featuredHashtags.removeAllViews();
