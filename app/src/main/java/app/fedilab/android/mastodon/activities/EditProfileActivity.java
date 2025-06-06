@@ -27,6 +27,7 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,10 +46,13 @@ import java.util.Objects;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
+import app.fedilab.android.databinding.AccountFeaturedHashtagItemBinding;
 import app.fedilab.android.databinding.AccountFieldItemBinding;
 import app.fedilab.android.databinding.ActivityEditProfileBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
+import app.fedilab.android.mastodon.client.entities.api.FeaturedTag;
 import app.fedilab.android.mastodon.client.entities.api.Field;
+import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
@@ -62,6 +66,8 @@ public class EditProfileActivity extends BaseBarActivity {
     public static final int PICK_MEDIA_HEADER = 5706;
     private ActivityEditProfileBinding binding;
     private AccountsVM accountsVM;
+    private static final int MAX_FIELDS = 4;
+    private static final int MAX_FEATURED_HASHTAGS = 10;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -87,8 +93,9 @@ public class EditProfileActivity extends BaseBarActivity {
 
             return false;
         });
+        accountsVM = new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class);
 
-        new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class).getConnectedAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
+        accountsVM.getConnectedAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
                 .observe(EditProfileActivity.this, account -> {
                     if (account != null) {
                         Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
@@ -97,8 +104,9 @@ public class EditProfileActivity extends BaseBarActivity {
                         Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
                     }
                 });
-    }
 
+
+    }
 
     @SuppressWarnings("deprecation")
     private void initializeView() {
@@ -113,6 +121,68 @@ public class EditProfileActivity extends BaseBarActivity {
         else
             bio = Html.fromHtml(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.note).toString();
         binding.bio.setText(bio);
+
+        accountsVM.getFeaturedTagsSuggestions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken).observe(this, featuredTags -> {
+            StringBuilder text = new StringBuilder(getString(R.string.no_feature_hashtag_suggestion));
+            if(featuredTags != null && !featuredTags.isEmpty()) {
+                text = new StringBuilder();
+                for (Tag tag : featuredTags) {
+                    text.append(String.format("#%s ", tag.name));
+                }
+            }
+            binding.featuredHashtagsSuggestions.setText(text);
+        });
+        accountsVM.getAccountFeaturedTags(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,  Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.id).observe(this, featuredTags -> {
+            if(featuredTags != null && !featuredTags.isEmpty()) {
+                for (FeaturedTag featuredTag : featuredTags) {
+                    AccountFeaturedHashtagItemBinding featuredHashtagItemBinding = AccountFeaturedHashtagItemBinding.inflate(getLayoutInflater());
+                    featuredHashtagItemBinding.name.setText(featuredTag.name);
+                    featuredHashtagItemBinding.remove.setOnClickListener(v -> {
+                        AlertDialog.Builder deleteConfirm = new MaterialAlertDialogBuilder(EditProfileActivity.this);
+                        deleteConfirm.setTitle(getString(R.string.delete_featured_hashtag));
+                        deleteConfirm.setMessage(getString(R.string.delete_featured_hashtag_confirm));
+                        deleteConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                        deleteConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {
+                            ((ViewGroup)featuredHashtagItemBinding.getRoot().getParent()).removeView(featuredHashtagItemBinding.getRoot());
+                            if (binding.featuredHashtagsContainer.getChildCount() >= MAX_FEATURED_HASHTAGS) {
+                                binding.addFeaturedHashtags.setVisibility(View.GONE);
+                            } else {
+                                binding.addFeaturedHashtags.setVisibility(View.VISIBLE);
+                            }
+                            dialog.dismiss();
+                        });
+                        deleteConfirm.create().show();
+                    });
+                    binding.featuredHashtagsContainer.addView(featuredHashtagItemBinding.getRoot());
+                }
+            }
+            binding.addFeaturedHashtags.setOnClickListener(view -> {
+                AccountFeaturedHashtagItemBinding featuredHashtagItemBinding = AccountFeaturedHashtagItemBinding.inflate(getLayoutInflater());
+                featuredHashtagItemBinding.remove.setOnClickListener(v -> {
+                    AlertDialog.Builder deleteConfirm = new MaterialAlertDialogBuilder(EditProfileActivity.this);
+                    deleteConfirm.setTitle(getString(R.string.delete_featured_hashtag));
+                    deleteConfirm.setMessage(getString(R.string.delete_featured_hashtag_confirm));
+                    deleteConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                    deleteConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {
+                        ((ViewGroup)featuredHashtagItemBinding.getRoot().getParent()).removeView(featuredHashtagItemBinding.getRoot());
+                        if (binding.featuredHashtagsContainer.getChildCount() >= MAX_FEATURED_HASHTAGS) {
+                            binding.addFeaturedHashtags.setVisibility(View.GONE);
+                        } else {
+                            binding.addFeaturedHashtags.setVisibility(View.VISIBLE);
+                        }
+                        dialog.dismiss();
+                    });
+                    deleteConfirm.create().show();
+                });
+                binding.featuredHashtagsContainer.addView(featuredHashtagItemBinding.getRoot());
+
+                if (binding.featuredHashtagsContainer.getChildCount() >= MAX_FEATURED_HASHTAGS) {
+                    binding.addFeaturedHashtags.setVisibility(View.GONE);
+                } else {
+                    binding.addFeaturedHashtags.setVisibility(View.VISIBLE);
+                }
+            });
+        });
         if (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source != null) {
             binding.sensitive.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.sensitive);
             switch (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.privacy) {
@@ -135,7 +205,7 @@ public class EditProfileActivity extends BaseBarActivity {
             binding.unlocked.setChecked(true);
         }
         List<Field> fields = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.fields;
-        if (fields != null && fields.size() > 0) {
+        if (fields != null && !fields.isEmpty()) {
             for (Field field : fields) {
                 AccountFieldItemBinding fieldItemBinding = AccountFieldItemBinding.inflate(getLayoutInflater());
                 fieldItemBinding.name.setText(field.name);
@@ -151,11 +221,11 @@ public class EditProfileActivity extends BaseBarActivity {
                     deleteConfirm.setMessage(getString(R.string.delete_field_confirm));
                     deleteConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                     deleteConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {
-                        binding.fieldsContainer.removeView(fieldItemBinding.getRoot());
-                        if (binding.fieldsContainer.getChildCount() < 4) {
-                            binding.fieldsContainer.setVisibility(View.VISIBLE);
+                        ((ViewGroup)fieldItemBinding.getRoot().getParent()).removeView(fieldItemBinding.getRoot());
+                        if (binding.fieldsContainer.getChildCount() >= MAX_FIELDS) {
+                            binding.addField.setVisibility(View.GONE);
                         } else {
-                            binding.fieldsContainer.setVisibility(View.GONE);
+                            binding.addField.setVisibility(View.VISIBLE);
                         }
                         dialog.dismiss();
                     });
@@ -163,7 +233,11 @@ public class EditProfileActivity extends BaseBarActivity {
                 });
                 binding.fieldsContainer.addView(fieldItemBinding.getRoot());
             }
-
+            if (binding.fieldsContainer.getChildCount() >= MAX_FIELDS) {
+                binding.addField.setVisibility(View.GONE);
+            } else {
+                binding.addField.setVisibility(View.VISIBLE);
+            }
         }
         binding.addField.setOnClickListener(view -> {
             AccountFieldItemBinding fieldItemBinding = AccountFieldItemBinding.inflate(getLayoutInflater());
@@ -173,25 +247,24 @@ public class EditProfileActivity extends BaseBarActivity {
                 deleteConfirm.setMessage(getString(R.string.delete_field_confirm));
                 deleteConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                 deleteConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {
-                    binding.fieldsContainer.removeView(fieldItemBinding.getRoot());
-                    if (binding.fieldsContainer.getChildCount() < 4) {
-                        binding.fieldsContainer.setVisibility(View.VISIBLE);
+                    ((ViewGroup)fieldItemBinding.getRoot().getParent()).removeView(fieldItemBinding.getRoot());
+                    if (binding.fieldsContainer.getChildCount() >= MAX_FIELDS) {
+                        binding.addField.setVisibility(View.GONE);
                     } else {
-                        binding.fieldsContainer.setVisibility(View.GONE);
+                        binding.addField.setVisibility(View.VISIBLE);
                     }
                     dialog.dismiss();
                 });
                 deleteConfirm.create().show();
             });
             binding.fieldsContainer.addView(fieldItemBinding.getRoot());
-            if (binding.fieldsContainer.getChildCount() >= 4) {
+
+            if (binding.fieldsContainer.getChildCount() >= MAX_FIELDS) {
                 binding.addField.setVisibility(View.GONE);
+            } else {
+                binding.addField.setVisibility(View.VISIBLE);
             }
         });
-
-
-        //Actions with the activity
-        accountsVM = new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class);
         binding.headerSelect.setOnClickListener(view -> startActivityForResult(prepareIntent(), EditProfileActivity.PICK_MEDIA_HEADER));
 
         binding.avatarSelect.setOnClickListener(view -> startActivityForResult(prepareIntent(), EditProfileActivity.PICK_MEDIA_AVATAR));
@@ -280,7 +353,7 @@ public class EditProfileActivity extends BaseBarActivity {
         intent.setType("*/*");
         String[] mimetypes;
         long max_size = -1;
-        if (instanceInfo.getMimeTypeImage().size() > 0) {
+        if (!instanceInfo.getMimeTypeImage().isEmpty()) {
             mimetypes = instanceInfo.getMimeTypeImage().toArray(new String[0]);
             max_size = instanceInfo.configuration.media_attachments.image_size_limit;
         } else {

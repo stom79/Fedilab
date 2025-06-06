@@ -161,6 +161,16 @@
                 app:layout_constraintTop_toBottomOf="@id/acct"
                 tools:text="@tools:sample/lorem/random" />
 
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/fields_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/fields_title"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                app:layout_constraintTop_toBottomOf="@id/bio" />
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/fields"
                 android:layout_width="match_parent"
@@ -168,7 +178,7 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="12dp"
                 android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/bio">
+                app:layout_constraintTop_toBottomOf="@id/fields_label">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/fields_container"
@@ -189,6 +199,60 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/featured_hashtags_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/featured_hashtags_title"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                app:layout_constraintTop_toBottomOf="@id/fields" />
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/featured_hashtags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/featured_hashtags_label">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Suggestions"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/featured_hashtags_suggestions"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Suggestions"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/featured_hashtags_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/add_featured_hashtags"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginVertical="6dp"
+                    android:text="@string/add_featured_hashtag"
+                    app:icon="@drawable/ic_baseline_add_24" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/visibility_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -196,7 +260,7 @@
                 android:layout_marginTop="12dp"
                 android:text="@string/toots_visibility_title"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                app:layout_constraintTop_toBottomOf="@id/fields" />
+                app:layout_constraintTop_toBottomOf="@id/featured_hashtags" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 android:id="@+id/visibility_group"
