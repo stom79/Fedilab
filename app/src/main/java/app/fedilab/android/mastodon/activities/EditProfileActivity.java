@@ -38,6 +38,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -396,6 +397,16 @@ public class EditProfileActivity extends BaseBarActivity {
         return fields;
     }
 
+
+    List<String> getFeaturedHashtags() {
+        List<String> featuredHashtags = new ArrayList<>();
+        for (int i = 0; i < binding.featuredHashtagsContainer.getChildCount(); i++) {
+            String name = Objects.requireNonNull(((TextInputEditText) binding.featuredHashtagsContainer.getChildAt(i).findViewById(R.id.name)).getText()).toString().trim();
+            featuredHashtags.add(name);
+        }
+        return featuredHashtags;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -411,7 +422,8 @@ public class EditProfileActivity extends BaseBarActivity {
                             getPrivacy(),
                             binding.sensitive.isChecked(),
                             null,
-                            getFields()
+                            getFields(),
+                            getFeaturedHashtags()
                     )
                     .observe(EditProfileActivity.this, account -> {
                         if (account != null) {

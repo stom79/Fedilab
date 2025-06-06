@@ -20,12 +20,14 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.net.IDN;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -251,6 +253,7 @@ public class AccountsVM extends AndroidViewModel {
      * @param sensitive    Whether to mark authored statuses as sensitive by default.
      * @param language     Default language to use for authored statuses. (ISO 6391)
      * @param fields       Profile metadata name (By default, max 4 fields and 255 characters per property/value)
+     * @param featuredHashtags Featured hashtags that will be displayed on the profile
      * @return {@link LiveData} containing an {@link Account}
      */
     public LiveData<Account> updateCredentials(@NonNull String instance, String token,
@@ -262,10 +265,15 @@ public class AccountsVM extends AndroidViewModel {
                                                String privacy,
                                                Boolean sensitive,
                                                String language,
-                                               LinkedHashMap<Integer, Field.FieldParams> fields
+                                               LinkedHashMap<Integer, Field.FieldParams> fields,
+                                               List<String> featuredHashtags
     ) {
         MastodonAccountsService mastodonAccountsService = init(instance);
         accountMutableLiveData = new MutableLiveData<>();
+        if(featuredHashtags == null) {
+            featuredHashtags = new ArrayList<>();
+        }
+        List<String> finalFeaturedHashtags = featuredHashtags;
         new Thread(() -> {
             Account account = null;
             Account.AccountParams accountParams = new Account.AccountParams();
@@ -291,6 +299,46 @@ public class AccountsVM extends AndroidViewModel {
                     e.printStackTrace();
                 }
             }
+            Call<List<FeaturedTag>> featuredTagsCall = mastodonAccountsService.getFeaturedTags(token);
+            try {
+                Response<List<FeaturedTag>> featuredTagsResponse = featuredTagsCall.execute();
+                if (featuredTagsResponse.isSuccessful()) {
+                    List<FeaturedTag> currentFeaturedTags = featuredTagsResponse.body();
+                    if(currentFeaturedTags == null) {
+                        currentFeaturedTags = new ArrayList<>();
+                    }
+                    List<String> currentTags = new ArrayList<>();
+                    for(FeaturedTag featuredTag: currentFeaturedTags) {
+                        currentTags.add(featuredTag.name);
+                    }
+                    List<String> toRemove = new ArrayList<>();
+                    List<String> toAdd = new ArrayList<>();
+                    for(String value: currentTags) {
+                        if(!finalFeaturedHashtags.contains(value)){
+                            toRemove.add(value);
+                        }
+                    }
+                    for(String value: finalFeaturedHashtags) {
+                        if(!currentTags.contains(value)){
+                            toAdd.add(value);
+                        }
+                    }
+                    for(String remove: toRemove) {
+                        for(FeaturedTag featuredTag: currentFeaturedTags) {
+                            if(featuredTag.name.trim().equalsIgnoreCase(remove.trim())) {
+                                mastodonAccountsService.removeFeaturedTag(token, featuredTag.id).execute();
+                                break;
+                            }
+                        }
+                    }
+                    for(String add: toAdd) {
+                        mastodonAccountsService.addFeaturedTag(token, add).execute();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Account finalAccount = account;
             Runnable myRunnable = () -> accountMutableLiveData.setValue(finalAccount);
