@@ -25,6 +25,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -1915,7 +1916,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         i++;
                     }
                 } else {
-
                     List<Languages.Language> languages = Languages.get(context);
                     if (languages != null) {
                         codesArr = new String[languages.size()];
@@ -1936,23 +1936,34 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
                 builder.setTitle(context.getString(R.string.message_language));
 
-                builder.setSingleChoiceItems(languagesArr, selection, null);
                 String[] finalCodesArr = codesArr;
-                builder.setPositiveButton(R.string.validate, (dialog, which) -> {
-                    int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                    editor.putString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, finalCodesArr[selectedPosition]);
-                    editor.apply();
-                    statusDraft.language = finalCodesArr[selectedPosition];
-                    notifyItemChanged(holder.getLayoutPosition());
-                    dialog.dismiss();
-                });
-                builder.setNegativeButton(R.string.reset, (dialog, which) -> {
-                    editor.putString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, null);
-                    editor.apply();
-                    statusDraft.language = null;
-                    notifyItemChanged(holder.getLayoutPosition());
-                    dialog.dismiss();
-                });
+                if (storedLanguages == null || storedLanguages.isEmpty()) {
+                    builder.setSingleChoiceItems(languagesArr, selection, null);
+                    builder.setPositiveButton(R.string.validate, (dialog, which) -> {
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                        editor.putString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, finalCodesArr[selectedPosition]);
+                        editor.apply();
+                        statusDraft.language = finalCodesArr[selectedPosition];
+                        notifyItemChanged(holder.getLayoutPosition());
+                        dialog.dismiss();
+                    });
+                    builder.setNegativeButton(R.string.reset, (dialog, which) -> {
+                        editor.putString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, null);
+                        editor.apply();
+                        statusDraft.language = null;
+                        notifyItemChanged(holder.getLayoutPosition());
+                        dialog.dismiss();
+                    });
+                } else {
+                    builder.setSingleChoiceItems(languagesArr, selection, (dialog, which) -> {
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                        editor.putString(context.getString(R.string.SET_COMPOSE_LANGUAGE) + account.user_id + account.instance, finalCodesArr[selectedPosition]);
+                        editor.apply();
+                        statusDraft.language = finalCodesArr[selectedPosition];
+                        notifyItemChanged(holder.getLayoutPosition());
+                        dialog.dismiss();
+                    });
+                }
                 builder.create().show();
             });
         }
@@ -1987,6 +1998,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         composePollBinding.option1.text.setFilters(fArray);
         composePollBinding.option1.textLayout.setHint(context.getString(R.string.poll_choice_s, 1));
         composePollBinding.option2.text.setFilters(fArray);
+        composePollBinding.option2.textLayout.setHint(context.getString(R.string.poll_choice_s, 2));
         composePollBinding.option2.textLayout.setHint(context.getString(R.string.poll_choice_s, 2));
         composePollBinding.option1.buttonRemove.setVisibility(View.GONE);
         composePollBinding.option2.buttonRemove.setVisibility(View.GONE);
