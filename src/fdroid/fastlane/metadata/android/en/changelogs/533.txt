@@ -1,0 +1,19 @@
+Added:
+- Highlight bottom hashtags
+- Support Trending Links
+- Featured tags displayed in profiles
+- Add/Remove featured tags from the profile editor
+
+Changed:
+- Add confirmation dialog when long pressing the boost button
+- Open messages by tapping on Scheduled Boost
+- Improve language picker when filtered with some languages
+
+Fixed:
+- Limits number of fetch for filters
+- Pleroma instances cannot select media
+- Wrong messages deleted for scheduled (messages and boosts)
+- Fix a crash with long threads
+- Fix a potential memory issue for not cropped media
+- Fix embedded quotes not displayed
+- Some crashes

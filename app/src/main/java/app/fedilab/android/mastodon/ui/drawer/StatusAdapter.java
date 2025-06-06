@@ -552,7 +552,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
         boolean pronounsSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_PRONOUNS_SUPPORT), true);
         if(pronounsSupport) {
-            if (statusToDeal.pronouns == null && statusToDeal.account.fields != null && statusToDeal.account.fields.size() > 0) {
+            if (statusToDeal.pronouns == null && statusToDeal.account != null && statusToDeal.account.fields != null && statusToDeal.account.fields.size() > 0) {
                 for (Field field : statusToDeal.account.fields) {
                     if (PronounsHelper.pronouns.contains(field.name.toLowerCase().trim())) {
                         statusToDeal.pronouns = Helper.parseHtml(field.value);
