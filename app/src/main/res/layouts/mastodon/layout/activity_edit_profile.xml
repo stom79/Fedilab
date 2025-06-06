@@ -230,60 +230,91 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/featured_hashtags_label"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/featured_hashtags_main_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="12dp"
-                android:text="@string/featured_hashtags_title"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                app:layout_constraintTop_toBottomOf="@id/fields_main_container" />
-
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/featured_hashtags"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/featured_hashtags_label">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@id/fields_main_container"
+                >
+                <View
+                    android:id="@+id/featured_hashtags_border_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/Suggestions"/>
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/featured_hashtags_suggestions"
-                        android:layout_marginStart="10dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="@string/Suggestions"/>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/featured_hashtags_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/add_featured_hashtags"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_height="0dp"
+                    android:paddingBottom="10dp"
+                    android:background="@drawable/translation_border"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/featured_hashtags_border_top" />
+
+                <androidx.constraintlayout.widget.Placeholder
+                    android:id="@+id/featured_hashtags_border_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    app:layout_constraintBottom_toBottomOf="@id/featured_hashtags_label"
+                    app:layout_constraintEnd_toEndOf="@id/featured_hashtags_label"
+                    app:layout_constraintTop_toTopOf="@id/featured_hashtags_label" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/featured_hashtags_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginVertical="6dp"
-                    android:text="@string/add_featured_hashtag"
-                    app:icon="@drawable/ic_baseline_add_24" />
+                    android:background="?colorSurface"
+                    android:elevation="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/featured_hashtags_title"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"  />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/featured_hashtags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:padding="5dp"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/featured_hashtags_label">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Suggestions"/>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/featured_hashtags_suggestions"
+                            android:layout_marginStart="10dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Suggestions"/>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/featured_hashtags_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/add_featured_hashtags"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginVertical="6dp"
+                        android:text="@string/add_featured_hashtag"
+                        app:icon="@drawable/ic_baseline_add_24" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/visibility_label"
@@ -293,7 +324,7 @@
                 android:layout_marginTop="12dp"
                 android:text="@string/toots_visibility_title"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                app:layout_constraintTop_toBottomOf="@id/featured_hashtags" />
+                app:layout_constraintTop_toBottomOf="@id/featured_hashtags_main_container" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 android:id="@+id/visibility_group"
