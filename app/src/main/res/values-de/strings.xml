@@ -1090,4 +1090,13 @@
     <string name="network">Netzwerk</string>
     <string name="set_audo_hide_compose_title">Verstecke Verfassen-Knopf automatisch</string>
     <string name="set_audo_hide_compose_summary">Versteckt den Verfassen-Knopf automatisch beim Scrollen durch eine Timeline</string>
+    <string name="attach_images">Bilder anhängen</string>
+    <string name="attach_audio">Audio angehängen</string>
+    <string name="attach_videos">Videos anhängen</string>
+    <string name="open_new_attachment_panel">Anhangsbereich öffnen</string>
+    <string name="close_new_attachment_panel">Neuen Anhangsbereich schließen</string>
+    <string name="attach_files">Dateien anhängen</string>
+    <string name="add_poll">Umfrage anhängen</string>
+    <string name="links">Links</string>
+    <string name="toast_error_internet">Es gibt keine Verbindung zum Internet!</string>
 </resources>
