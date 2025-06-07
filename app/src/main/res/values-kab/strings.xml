@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_about">Γef</string>
-    <string name="action_about_instance">Γef uqeddac</string>
+    <string name="action_about">Ɣef</string>
+    <string name="action_about_instance">Ɣef uqeddac</string>
     <string name="action_privacy">Tabaḍnit</string>
     <string name="action_cache">Tazarkatut</string>
     <string name="action_logout">Ffeɣ</string>
@@ -30,8 +30,8 @@
     <string name="delete_all">Kkes kullec</string>
     <string name="schedule">Sɣiwes</string>
     <string name="text_size">Tuɣzi n uḍris</string>
-    <string name="next">Γer sdat</string>
-    <string name="previous">Γer deffir</string>
+    <string name="next">Uḍfir</string>
+    <string name="previous">Uzwir</string>
     <string name="open_with">Ldi s</string>
     <string name="validate">Seɣbel</string>
     <string name="media">Amidya</string>
