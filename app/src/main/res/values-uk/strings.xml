@@ -1109,4 +1109,10 @@
     <string name="underline_bottom_hashtags">Виділіть нижні хештеги</string>
     <string name="links">Посилання</string>
     <string name="link_image">Зображення додано до посилання</string>
+    <string name="add_featured_hashtag">Додати популярний хештег</string>
+    <string name="no_feature_hashtag_suggestion">Немає пропозицій щодо вибраних хештегів!</string>
+    <string name="fields_title">Додавання або видалення полів</string>
+    <string name="delete_featured_hashtag">Видалити обраний хештег</string>
+    <string name="featured_hashtags_title">Додавання або видалення популярних хештегів</string>
+    <string name="delete_featured_hashtag_confirm">Ви впевнені, що хочете видалити цей обраний хештег?</string>
 </resources>

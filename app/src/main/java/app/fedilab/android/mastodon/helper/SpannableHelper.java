@@ -124,7 +124,7 @@ public class SpannableHelper {
         String[] tags = new String[]{};
         while (matcherBottomTags.find()) {
             String stringTags = Objects.requireNonNull(matcherBottomTags.group()).trim();
-            tags = stringTags.split("\\s");
+            tags = stringTags.split("\\s\\n?");
         }
         return tags;
     }
