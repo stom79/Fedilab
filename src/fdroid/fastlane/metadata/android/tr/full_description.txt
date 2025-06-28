@@ -1,5 +1,5 @@
 Aşağıdakiler desteklenmektedir:
-- Mastodon, Pleroma, Pixelfed ve Friendica.
+- Mastodon, Peertube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica
 
 Uygulama gelişmiş özelliklere sahiptir:
 
@@ -9,4 +9,16 @@ Uygulama gelişmiş özelliklere sahiptir:
 - Uzak örnekleri takip edin ve onlarla etkileşim kurun
 - Uzun basarak hesaplar arası işlemler yapın
 - Çeviri özelliği
-- Sanatsal zaman çizelgeleri
+- Otomatik güncellemeler için birden fazla özellik
+  - UnifiedPush üzerinden anlık bildirimler (FDroiddeki ntfy'i içerir)
+  - Canlı bildirimler için bağlı kalın
+  - Geciktirmeli bildirimler (her 30 saniyede bir bağlanın)
+- Youtube ve Twitter linklerini Invidious ve Nitter oluşumu linkleriyle değiştirin
+- Özel temalar, içe ve dışa aktarma, ve tanımlama
+- Uygulamanın veri tabanını içe veya dışa aktarma
+- Özel emojilerle emoji seçici
+- Birden fazla launcher simgesi
+- Gelişmiş toot filtresi
+- Mastoart etiketi için özel sanat bülteni
+- Tootları dışa aktar
+- Diğer hizmetlerle doğrudan url paylaşmak için url paylaşmayı özelleştirme
