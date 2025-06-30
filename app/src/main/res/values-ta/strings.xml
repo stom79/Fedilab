@@ -35,7 +35,7 @@
     <string name="settings_time_to">மற்றும்</string>
     <string name="embedded_browser">உள்ளமைக்கப்பட்ட உலாவியைப் பயன்படுத்தவும்</string>
     <string name="action_unblock">தடை</string>
-    <string name="action_mute">முடக்கு</string>
+    <string name="action_mute">ஒலி நீக்கு</string>
     <string name="action_unmute">ஊன்</string>
     <string name="request_sent">கோரிக்கை அனுப்பப்பட்டது</string>
     <string name="followed_by">உங்களைப் பின்தொடர்கிறது</string>
@@ -71,7 +71,7 @@
     <string name="set_capitalize_indication">முதல் கடிதத்தை மூலதனமாக்குவதற்கான குறிப்புக்குப் பிறகு தானாக ஒரு வரி இடைவெளியைச் செருகவும்</string>
     <string name="is_up">அப்!</string>
     <string name="is_down">கீழே உள்ளது!</string>
-    <string name="instance_health_indication">பதிப்பு: %s %s பயனர் நிலை</string>
+    <string name="instance_health_indication">பதிப்பு: %s\n%s பயனர் - %s நிலைகள்</string>
     <string name="instance_health_checkedat">சரிபார்க்கப்பட்டது: %s</string>
     <string name="report_indication_title_status_more">சிறந்த போட்டியைத் தேர்வுசெய்க</string>
     <string name="report_val1">எனக்கு அது பிடிக்கவில்லை</string>
@@ -214,7 +214,7 @@
     <string name="unendorse">சுயவிவரத்தில் இடம்பெற வேண்டாம்</string>
     <string name="direct_message">நேரடி செய்தி</string>
     <string name="filters">வடிப்பான்கள்</string>
-    <string name="action_filters_empty_content">காண்பிக்க வடிப்பான்கள் இல்லை. பொத்தானைத் தட்டுவதன் மூலம் ஒன்றை உருவாக்கலாம்.</string>
+    <string name="action_filters_empty_content">காண்பிக்க வடிப்பான்கள் இல்லை. \"+\" பொத்தானைத் தட்டுவதன் மூலம் ஒன்றை உருவாக்கலாம்.</string>
     <string name="context_public">பொது காலவரிசைகள்</string>
     <string name="context_notification">அறிவிப்புகள்</string>
     <string name="context_conversation">உரையாடல்கள்</string>
@@ -227,7 +227,7 @@
     <string name="filter_expire">பின்னர் காலாவதியாகுங்கள்</string>
     <string name="action_filter_delete">வடிகட்டியை நீக்கவா?</string>
     <string name="action_update_filter">புதுப்பிப்பு வடிகட்டி</string>
-    <string name="action_list_add">நீங்கள் இன்னும் ஒரு பட்டியலை உருவாக்கவில்லை. புதிய ஒன்றைச் சேர்க்க பொத்தானைத் தட்டவும்.</string>
+    <string name="action_list_add">நீங்கள் இன்னும் ஒரு பட்டியலை உருவாக்கவில்லை. புதிய ஒன்றைச் சேர்க்க \"+\" பொத்தானைத் தட்டவும்.</string>
     <string name="channel_notif_follow">புதிய பின்தொடர்</string>
     <string name="channel_notif_boost">புதிய ஊக்க</string>
     <string name="channel_notif_fav">புதிய பிடித்தது</string>
@@ -371,7 +371,7 @@
     <string name="permissions">அனுமதிகள்</string>
     <string name="disable">முடக்கு</string>
     <string name="silence">ம .னம்</string>
-    <string name="undisable">முடக்கு</string>
+    <string name="undisable">முடக்கு செயல்தவிர்</string>
     <string name="suspend">இடைநீக்கம்</string>
     <string name="account">கணக்கு</string>
     <string name="unsilence">ம .னத்தை செயல்தவிர்க்கவும்</string>
@@ -392,7 +392,7 @@
     <string name="set_disable_animated_emoji">தனிப்பயன் அனிமேசன் ஈமோசிகளை முடக்கு</string>
     <string name="report_account">கணக்கைப் புகாரளிக்கவும்</string>
     <plurals name="number_of_voters">
-        <item quantity="one">%d வாக்காளர்கள்</item>
+        <item quantity="one">%d வாக்காளர்</item>
         <item quantity="other">%d வாக்காளர்கள்</item>
     </plurals>
     <string name="poll_duplicated_entry">உங்கள் வாக்கெடுப்பில் நகல் விருப்பங்கள் இருக்க முடியாது!</string>
@@ -498,13 +498,13 @@
     <string name="remove_status">நிலையை அகற்று</string>
     <string name="post_message">செய்தியை இடுகையிடுதல்…</string>
     <string name="post_message_text">செய்தி %d/ %d</string>
-    <string name="instance_health_uptime">நேரம்: %, 2f %%</string>
+    <string name="instance_health_uptime">நேரம்: %,.2f %%</string>
     <string name="show_content"><![CDATA[உள்ளடக்கத்தைக் காட்டு&gt;]]></string>
     <string name="hide_content"><![CDATA[உள்ளடக்கத்தை மறைக்க &lt;]]></string>
     <string name="stop_recording">பதிவு செய்வதை நிறுத்துங்கள்</string>
     <string name="report_title">அறிக்கை %1$s</string>
     <string name="report_indication_title_status">இந்த இடுகையுடன் என்ன நடக்கிறது என்று சொல்லுங்கள்</string>
-    <string name="report_val_more2">தீங்கிழைக்கும் இணைப்புகள், போலி ஈடுபாடு அல்லது மீண்டும் மீண்டும் பதில்கள்</string>
+    <string name="report_val_more2">தீங்கிழைக்கும் இணைப்புகள், போலி ஈடுபாடு அல்லது மறுநிகழும் பதில்கள்</string>
     <string name="report_val3">இது சேவையக விதிகளை மீறுகிறது</string>
     <string name="report_val_more3">இது குறிப்பிட்ட விதிகளை மீறுகிறது என்பதை நீங்கள் அறிவீர்கள்</string>
     <string name="report_val4">இது வேறு சேதி</string>
@@ -524,11 +524,11 @@
     <string name="invite_join_the_fediverse">ஆய்! ஃபெடிவர்சில் சேர உங்களை அழைக்கிறோம்.</string>
     <string name="report_more">நாங்கள் தெரிந்து கொள்ள வேண்டும் என்று நீங்கள் நினைக்கும் வேறு ஏதாவது இருக்கிறதா?</string>
     <string name="report_more_remote">கணக்கு மற்றொரு சேவையகத்திலிருந்து வந்தது. அறிக்கையின் அநாமதேய நகலையும் அங்கே அனுப்பவா?</string>
-    <string name="about_peertube">பிரெஞ்சு இலாப நோக்கற்ற ஃப்ராமசாஃப்ட் உருவாக்கிய நிகழ்நிலை வீடியோக்களைப் பகிர்வதற்கான ஒரு கருவியாக EERTUBE ஆகும்.… PEERTUBE தளங்களை ஒருவருக்கொருவர் இணைக்க அனுமதிக்கிறது, இது தன்னாட்சி மற்றும் ஒன்றோடொன்று இணைக்கப்பட்ட தளங்களின் பெரிய நெட்வொர்க்கை உருவாக்குகிறது. \\</string>
+    <string name="about_peertube">\"பிரெஞ்சு இலாப நோக்கற்ற ஃப்ராமசாஃப்ட் உருவாக்கிய நிகழ்நிலை வீடியோக்களைப் பகிர்வதற்கான ஒரு கருவியாகப் பிர்டூயுப் ஆகும்.… பிர்டூயுப் தளங்களை ஒருவருக்கொருவர் இணைக்க அனுமதிக்கிறது, இது தன்னாட்சி மற்றும் ஒன்றோடொன்று இணைக்கப்பட்ட தளங்களின் பெரிய நெட்வொர்க்கை உருவாக்குகிறது.\"</string>
     <string name="notif_display_updates_from_people">மக்களிடமிருந்து புதுப்பிப்புகள்</string>
     <string name="notif_display_follows">பின்வருமாறு</string>
     <string name="delete_notification_all_warning">எல்லா அறிவிப்புகளையும் நீக்க விரும்புகிறீர்களா? அதை செயல்தவிர்க்க முடியாது.</string>
-    <string name="about_mastodon">அச்டோடன் ட்விட்டர் அல்லது பேச்புக் போன்ற ஒரு வலைத்தளம் அல்ல, இது வெவ்வேறு நிறுவனங்கள் மற்றும் தனிநபர்களால் இயக்கப்படும் ஆயிரக்கணக்கான சமூகங்களின் பிணையம், தடையற்ற சமூக ஊடக அனுபவத்தை வழங்கும்.</string>
+    <string name="about_mastodon">\"மச்டோடன் ட்விட்டர் அல்லது பேச்புக் போன்ற ஒரு வலைத்தளம் அல்ல, இது வெவ்வேறு நிறுவனங்கள் மற்றும் தனிநபர்களால் இயக்கப்படும் ஆயிரக்கணக்கான சமூகங்களின் பிணையம், தடையற்ற சமூக ஊடக அனுபவத்தை வழங்கும்.\"</string>
     <string name="add_filter">வடிகட்டியைச் சேர்க்கவும்</string>
     <string name="add_field">புலத்தைச் சேர்க்கவும்</string>
     <string name="unlocked">திறக்கப்பட்டது</string>
@@ -654,7 +654,7 @@
     <string name="created_message_at">%1$s இல் உருவாக்கப்பட்டது</string>
     <string name="max_indentation_thread">நூல்களில் அதிகபட்ச உள்தள்ளல்</string>
     <string name="set_unlisted_replies">பட்டியலிடப்படாத பதில்கள்</string>
-    <string name="set_unlisted_replies_indication">இது உகந்த பதில்களைப் பற்றியது. இயக்கப்பட்டால், உங்கள் பதில்கள் தானாகவே UBLIC க்கு பதிலாக தெரிவுநிலையைக் கொண்டிருக்கும் \\</string>
+    <string name="set_unlisted_replies_indication">இது \"பொது\" பதில்களைப் பற்றியது. இயக்கப்பட்டால், உங்கள் பதில்கள் தானாகவே \"பொது\"க்கு பதிலாகத் \"தெரிவுநிலையைக்\" கொண்டிருக்கும்</string>
     <string name="email_status">மின்னஞ்சல் நிலை</string>
     <string name="login_status">உள்நுழைவு நிலை</string>
     <string name="joined">இணைந்தது</string>
@@ -801,8 +801,8 @@
     <string name="set_post_format">இடுகை வடிவம்</string>
     <string name="set_extand_extra_features">அந்த விருப்பத்தை இயக்குவதன் மூலம் பயன்பாடு கூடுதல் அம்சங்களைக் காண்பிக்கும். இந்த நற்பொருத்தம் ப்ளெரோமா, அக்கோமா அல்லது கிளிட்ச் சோசியல் போன்ற சமூக மென்பொருளுக்காக செய்யப்படுகிறது</string>
     <string name="icons_extra_features_visibility_summary">உங்கள் நிகழ்வு சில கூடுதல் அம்சங்களை ஏற்கவில்லை என்றால், நீங்கள் இந்த சின்னங்களை மறைக்கலாம்</string>
-    <string name="set_display_quote_indication">மேற்கோள் பொத்தானைக் காண்பி</string>
-    <string name="set_display_reaction_indication">செயல் பொத்தான்களைக் காண்பி</string>
+    <string name="set_display_quote_indication">\"மேற்கோள்\" பொத்தானைக் காண்பி</string>
+    <string name="set_display_reaction_indication">\"செயல்\" பொத்தான்களைக் காண்பி</string>
     <string name="icons_extra_features">கூடுதல் அம்சங்களுக்கான சின்னங்கள்</string>
     <string name="exclude_visibility">தெரிவுநிலையை விலக்கவும்</string>
     <string name="reply_visibility">பதில் தெரிவுநிலை</string>
@@ -814,7 +814,7 @@
     <string name="set_remote_profile">எல்லா செய்திகளையும் பெற பயன்பாடு பொதுவில் சுயவிவரங்களைக் காண்பிக்கும். தொடர்புகளுக்கு கூட்டமைப்பு செய்திகளுக்கு கூடுதல் படி தேவைப்படும்.</string>
     <string name="set_remote_conversation">எல்லா செய்திகளையும் பெற பயன்பாடு பொதுவில் உரையாடல்களைக் காண்பிக்கும். தொடர்புகளுக்கு கூட்டமைப்பு செய்திகளுக்கு கூடுதல் படி தேவைப்படும்.</string>
     <string name="local_only">உள்ளக மட்டும்</string>
-    <string name="set_display_local_only">OCAL மட்டும் பொத்தானைக் காண்பி</string>
+    <string name="set_display_local_only">\"உள்ளக மட்டும்\" பொத்தானைக் காண்பி</string>
     <string name="set_pixelfed_presentation">ஊடகங்களுக்கான பிக்செல்ஃப் விளக்கக்காட்சி</string>
     <string name="set_display_compact_buttons_description">செய்திகளின் அடிப்பகுதியில் உள்ள பொத்தான்கள் முழு அகலத்தையும் எடுக்காது</string>
     <string name="also_followed_by">அதைத் தொடர்ந்து:</string>
@@ -946,7 +946,7 @@
     <string name="warn_boost_no_media_description">அதிகரிப்புக்கு முன் செய்திக்கு ஊடக விளக்கம் இல்லை என்று எச்சரிக்கவும்</string>
     <string name="reblog_missing_description">இந்த செய்தியில் ஊடக விளக்கத்தைக் காணவில்லை. அதை உயர்த்துவது உறுதி?</string>
     <string name="reblog_remove">இந்த செய்தியை மறுக்கவா?</string>
-    <string name="more_action_1">முடக்கு</string>
+    <string name="more_action_1">ஒலி நீக்கு</string>
     <string name="more_action_2">தொகுதி</string>
     <string name="more_action_5">நகலெடு</string>
     <string name="more_action_6">பங்கு</string>
@@ -991,4 +991,15 @@
     <string name="reject">நிராகரிக்கவும்</string>
     <string name="no_scheduled_toots">காண்பிக்க திட்டமிடப்பட்ட செய்திகள் இல்லை!</string>
     <string name="remove_scheduled">திட்டமிடப்பட்ட செய்தியை நீக்கவா?</string>
+    <string name="links">இணைப்புகள்</string>
+    <string name="instance_token">உங்கள் கிள்ளாக்கு</string>
+    <string name="more_options">மேலும் விருப்பங்கள்</string>
+    <string name="action_favourite">பிடித்தது</string>
+    <string name="action_reblog">ஊக்கம்</string>
+    <string name="action_quote">மேற்கோள்</string>
+    <string name="add_content_warning">உள்ளடக்க முன்னறிவிப்பு சேர்</string>
+    <string name="remove_content_warning">உள்ளடக்க முன்னறிவிப்பு நீக்கு</string>
+    <string name="change_visibility">தெரிவுநிலையை மாற்றவும்</string>
+    <string name="set_language">மொழியை அமை</string>
+    <string name="action_publish">வெளியிடு</string>
 </resources>
