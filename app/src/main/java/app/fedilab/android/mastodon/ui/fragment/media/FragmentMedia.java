@@ -124,6 +124,7 @@ public class FragmentMedia extends Fragment {
                 enableSliding(true);
             }
         });
+        binding.mediaPicture.setContentDescription(attachment.description);
         binding.mediaPicture.setOnClickListener(v -> {
             if (isAdded()) {
                 ((MediaActivity) requireActivity()).toogleFullScreen();
