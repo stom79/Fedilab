@@ -190,11 +190,11 @@
     <string name="set_toots_page">每次加载的消息数</string>
     <string name="set_disable_gif">禁用 GIF 头像</string>
     <string name="set_notif_follow">当有人关注您时通知</string>
-    <string name="set_notif_follow_share">当有人提升您的地位时通知</string>
+    <string name="set_notif_follow_share">当有人转发您的状态时通知</string>
     <string name="set_notif_follow_add">当有人收藏您的状态时通知</string>
     <string name="set_notif_follow_mention">当有人提及您时通知</string>
     <string name="set_notif_follow_poll">投票结束时通知</string>
-    <string name="set_notif_status">通知新职位</string>
+    <string name="set_notif_status">通知新帖子</string>
     <string name="set_share_validation">转发前显示确认对话框</string>
     <string name="set_share_validation_fav">添加到收藏夹之前显示确认对话框</string>
     <string name="set_notify">通知？</string>
@@ -618,7 +618,7 @@
     <string name="replace_instagram_description">为 Instagram 使用替代前端</string>
     <string name="replace_instagram_host">Instagram 前端域名</string>
     <string name="category_custom">风俗</string>
-    <string name="favourited_by">收藏于</string>
+    <string name="favourited_by">收藏自</string>
     <string name="followers_only">仅限关注者</string>
     <string name="report_val_more3">您知道它违反了特定规则</string>
     <string name="report_1_mute_title">静音 %1$s</string>
