@@ -74,6 +74,9 @@
     <string name="insert_emoji">Insert emoji</string>
     <string name="no_emoji">The app did not collect custom emojis for the moment.</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
+
+    <string name="cd_open_profile">Open profile page</string>
+
     <!-- Status -->
     <string name="no_status">No message to display</string>
     <string name="favourite_add">Add this message to your favourites?</string>
