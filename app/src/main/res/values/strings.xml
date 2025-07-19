@@ -76,6 +76,7 @@
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
 
     <string name="cd_open_profile">Open profile page</string>
+    <string name="cd_switch_account">Switch to %s</string>
 
     <!-- Status -->
     <string name="no_status">No message to display</string>
