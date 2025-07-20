@@ -1107,4 +1107,7 @@
     <string name="delete_featured_hashtag">删除精选话题标签</string>
     <string name="no_feature_hashtag_suggestion">没有精选话题标签的建议！</string>
     <string name="delete_featured_hashtag_confirm">确定要删除那个精选话题标签吗？</string>
+    <string name="cd_open_profile">打开个人资料页</string>
+    <string name="cd_switch_account">切换到 %s</string>
+    <string name="cd_translated_media_description">翻译的媒体描述：%s</string>
 </resources>
