@@ -52,4 +52,44 @@
     <string name="action_favourite">Lisa lemmikuks</string>
     <string name="action_reblog">Lisa hoogu</string>
     <string name="action_quote">Tsiteeri</string>
+    <plurals name="date_seconds_polls">
+        <item quantity="one">%d sekund</item>
+        <item quantity="other">%d sekundit</item>
+    </plurals>
+    <plurals name="date_minutes_polls">
+        <item quantity="one">%d minut</item>
+        <item quantity="other">%d minutit</item>
+    </plurals>
+    <plurals name="date_hours_polls">
+        <item quantity="one">%d tund</item>
+        <item quantity="other">%d tundi</item>
+    </plurals>
+    <plurals name="date_day_polls">
+        <item quantity="one">%d päev</item>
+        <item quantity="other">%d päeva</item>
+    </plurals>
+    <plurals name="number_of_voters">
+        <item quantity="one">%d hääletaja</item>
+        <item quantity="other">%d hääletajat</item>
+    </plurals>
+    <string name="instance_token">Sinu tunnusluba</string>
+    <string name="toast_account_changed" formatted="false">Nüüd toimib kasutajakontoga: %1$s</string>
+    <string name="add_account">Lisa kasutajakonto</string>
+    <string name="clipboard">Selle sõnumi sisu on kopeeritud lõikelauale</string>
+    <string name="clipboard_url">Selle sõnumi võrguaadress on kopeeritud lõikelauale</string>
+    <string name="clipboard_version">Teave on kopeeritud lõikelauale</string>
+    <string name="tag_already_followed">Sa juba jälgid seda teemaviidet!</string>
+    <string name="camera">Kaamera</string>
+    <string name="delete_all">Kustuta kõik</string>
+    <string name="schedule"></string>
+    <string name="text_size">Teksti suurused</string>
+    <string name="icon_size">Ikoonide suurused</string>
+    <string name="next">Edasi</string>
+    <string name="previous">Eelmine</string>
+    <string name="open_with">Ava rakendusega</string>
+    <string name="validate">Kontrolli</string>
+    <string name="media">Meedium</string>
+    <string name="shared_via">Jagatud Fedilabi abil</string>
+    <string name="cd_open_profile">Ava profiili leht</string>
+    <string name="cd_switch_account">Vaheta %s kontole</string>
 </resources>
