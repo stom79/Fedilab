@@ -586,7 +586,7 @@
     <string name="notification_sounds">通知声音</string>
     <string name="disable_notifications">禁用通知</string>
     <string name="pref_theme_base_summary">选择主题的底色是深色还是浅色</string>
-    <string name="message_has_been_sent">信息已发送！</string>
+    <string name="message_has_been_sent">消息已发送！</string>
     <string name="set_display_translate_indication">始终显示翻译按钮</string>
     <string name="bottom_menu">底部菜单</string>
     <string name="messages_in_cache_for_home">主页缓存中的消息</string>
@@ -730,7 +730,7 @@
     <string name="change_logo">更改图标</string>
     <string name="change_logo_description">更改设备上应用的图标</string>
     <string name="action_unpin">取消置顶消息</string>
-    <string name="set_live_translate_title">翻译信息</string>
+    <string name="set_live_translate_title">翻译消息</string>
     <string name="set_live_translate">强制翻译成特定语言。选择第一个值以重置为设备设置</string>
     <string name="edit_message">编辑消息</string>
     <string name="status_history">消息历史</string>
