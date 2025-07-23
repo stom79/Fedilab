@@ -251,7 +251,7 @@
     <!-- About lists -->
     <string name="action_lists">列表</string>
     <string name="action_lists_confirm_delete">您确定要永久删除此列表吗？</string>
-    <string name="action_lists_add_to">添加到列表中</string>
+    <string name="action_lists_add_to">添加到列表</string>
     <string name="action_lists_delete">删除列表</string>
     <string name="action_lists_title_placeholder">新列表标题</string>
     <string name="action_lists_add_user">此账号已添加到列表中！</string>
