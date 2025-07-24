@@ -1520,7 +1520,22 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (statusToDeal.getBottomTags().length > 0) {
                 holder.binding.statusHashtags.setVisibility(View.VISIBLE);
                 holder.binding.statusHashtags.removeAllViews();
+                int index = 0;
                 for (String tag : statusToDeal.getBottomTags()) {
+                    if(!statusToDeal.bottomTagsAllDisplayed && index > 2 && statusToDeal.getBottomTags().length > 3) {
+                        Chip chip = new Chip(context);
+                        chip.setClickable(true);
+                        chip.setEnsureMinTouchTargetSize(false);
+                        int remaining = statusToDeal.getBottomTags().length - 3;
+                        chip.setText(context.getString(R.string.remaining_tags, remaining));
+                        chip.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
+                        chip.setOnClickListener(v -> {
+                            statusToDeal.bottomTagsAllDisplayed = true;
+                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                        });
+                        holder.binding.statusHashtags.addView(chip);
+                        break;
+                    }
                     Chip chip = new Chip(context);
                     chip.setClickable(true);
                     chip.setEnsureMinTouchTargetSize(false);
@@ -1539,6 +1554,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         });
                     });
                     holder.binding.statusHashtags.addView(chip);
+                    index++;
                 }
             } else {
                 holder.binding.statusHashtags.setVisibility(View.GONE);

@@ -1,6 +1,9 @@
 Added:
 - Quote support for Mastodon
 
+Changed:
+- Limit the number of highlighted hashtags at the bottom of messages
+
 Fixed:
 - Fix a crash with threads
 - Fix empty Hashtags

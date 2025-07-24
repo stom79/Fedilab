@@ -175,6 +175,8 @@ public class Status implements Serializable, Cloneable {
     public transient Spannable contentSpan;
 
     public transient String[] bottomTags;
+
+    public boolean bottomTagsAllDisplayed = false;
     public transient Spannable contentSpoilerSpan;
     public transient Spannable contentTranslateSpan;
     public transient MathJaxView mathJaxView;
