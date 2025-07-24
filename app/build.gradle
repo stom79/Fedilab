@@ -187,7 +187,8 @@ dependencies {
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 
     implementation 'com.github.androidmads:QRGenerator:1.0.1'
-
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.12.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.0'
     implementation 'io.noties.markwon:core:4.6.2'
     implementation 'io.noties.markwon:ext-tables:4.6.2'
     implementation 'io.noties.markwon:syntax-highlight:4.6.2'
@@ -206,7 +207,7 @@ dependencies {
 
     //----> Other flavors
     fdroidImplementation 'su.litvak.chromecast:api-v2:0.11.3'
-    fdroidImplementation 'com.fasterxml.jackson.core:jackson-core:2.12.0'
+
     fdroidImplementation 'org.slf4j:slf4j-simple:1.7.30'
 
 }
