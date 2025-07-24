@@ -1541,6 +1541,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     chip.setEnsureMinTouchTargetSize(false);
                     chip.setText(tag);
                     chip.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
+                    chip.setOnLongClickListener(v->{
+                        SpannableHelper.longPressHashTags(context, statusToDeal, tag);
+                        return true;
+                    });
                     chip.setOnClickListener(v -> {
                         Intent intentTag = new Intent(context, HashTagActivity.class);
                         Bundle args = new Bundle();

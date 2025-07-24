@@ -1,5 +1,6 @@
 Added:
 - Quote support for Mastodon
+- Long press on tags: Follow / Mute
 
 Changed:
 - Limit the number of highlighted hashtags at the bottom of messages

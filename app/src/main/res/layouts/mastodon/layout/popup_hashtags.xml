@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/follow_tags"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/follow_tag"
+        android:textAlignment="textStart"
+        app:icon="@drawable/tag_follow" />
+
+   <!-- <com.google.android.material.button.MaterialButton
+        android:id="@+id/pin_tag"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pin_tag"
+        android:textAlignment="textStart"
+        app:icon="@drawable/tag_pin" /> -->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mute_tag"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mute_tag_action"
+        android:textAlignment="textStart"
+        app:icon="@drawable/tag_muted" />
+
+
+</LinearLayout>

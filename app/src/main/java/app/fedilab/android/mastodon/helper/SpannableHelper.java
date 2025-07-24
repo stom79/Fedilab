@@ -74,6 +74,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.MySuperGrammerLocator;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.databinding.PopupHashtagsBinding;
 import app.fedilab.android.databinding.PopupLinksBinding;
 import app.fedilab.android.mastodon.activities.ContextActivity;
 import app.fedilab.android.mastodon.activities.HashTagActivity;
@@ -85,10 +86,12 @@ import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.MarkdownConverter;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.FiltersVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.TagVM;
 import es.dmoral.toasty.Toasty;
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
@@ -276,35 +279,7 @@ public class SpannableHelper {
                             if (!tag.startsWith("#")) {
                                 tag = "#" + tag;
                             }
-                            Filter fedilabFilter = null;
-                            for (Filter filter : MainActivity.mainFilters) {
-                                if (filter.title.equals(Helper.FEDILAB_MUTED_HASHTAGS)) {
-                                    fedilabFilter = filter;
-                                    break;
-                                }
-                            }
-                            //Filter for Fedilab doesn't exist we have to create it
-                            if (fedilabFilter == null) {
-                                Filter.FilterParams filterParams = new Filter.FilterParams();
-                                filterParams.title = Helper.FEDILAB_MUTED_HASHTAGS;
-                                filterParams.filter_action = "hide";
-                                filterParams.context = new ArrayList<>();
-                                filterParams.context.add("home");
-                                filterParams.context.add("public");
-                                filterParams.context.add("thread");
-                                filterParams.context.add("account");
-                                String finalTag = tag;
-                                FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
-                                filtersVM.addFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
-                                        .observe((LifecycleOwner) context, filter -> {
-                                            if (filter != null) {
-                                                MainActivity.mainFilters.add(filter);
-                                                addTagToFilter(context, finalTag, status, filter);
-                                            }
-                                        });
-                            } else {
-                                addTagToFilter(context, tag, status, fedilabFilter);
-                            }
+                            longPressHashTags(context, status, tag);
                         }
                     }
 
@@ -857,6 +832,17 @@ public class SpannableHelper {
         }
     }
 
+    public static void addTagToFollowed(Context context, String tag) {
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
+        builder.setMessage(context.getString(R.string.action_follow_tag_confirm, tag));
+        builder.setPositiveButton(R.string.follow_tag, (dialog, which) -> {
+                    TagVM tagVM = new ViewModelProvider((ViewModelStoreOwner) context).get(TagVM.class);
+                    tagVM.follow(MainActivity.currentInstance, MainActivity.currentToken, tag).observe((LifecycleOwner) context, returnedTag -> Toasty.success(context, context.getString(R.string.followed_tag_success), Toast.LENGTH_LONG).show());
+                    dialog.dismiss();
+                })
+                .setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss())
+                .show();
+    }
     public static void addTagToFilter(Context context, String tag, Status status, Filter filter) {
         for (Filter.KeywordsAttributes keywords : filter.keywords) {
             if (keywords.keyword.equalsIgnoreCase(tag)) {
@@ -1046,5 +1032,55 @@ public class SpannableHelper {
         }
 
         return trimSpannable(new SpannableStringBuilder(content));
+    }
+
+
+    public static void longPressHashTags(Context context, Status status, String tag) {
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context);
+        PopupHashtagsBinding popupHashtagsBinding = PopupHashtagsBinding.inflate(LayoutInflater.from(context));
+        dialogBuilder.setView(popupHashtagsBinding.getRoot());
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+        popupHashtagsBinding.followTags.setOnClickListener(v -> {
+            addTagToFollowed(context, tag);
+            alertDialog.dismiss();
+        });
+        /*popupHashtagsBinding.pinTag.setOnClickListener(v -> {
+
+            alertDialog.dismiss();
+        });*/
+
+        popupHashtagsBinding.muteTag.setOnClickListener(v -> {
+            Filter fedilabFilter = null;
+            for (Filter filter : MainActivity.mainFilters) {
+                if (filter.title.equals(Helper.FEDILAB_MUTED_HASHTAGS)) {
+                    fedilabFilter = filter;
+                    break;
+                }
+            }
+            //Filter for Fedilab doesn't exist we have to create it
+            if (fedilabFilter == null) {
+                Filter.FilterParams filterParams = new Filter.FilterParams();
+                filterParams.title = Helper.FEDILAB_MUTED_HASHTAGS;
+                filterParams.filter_action = "hide";
+                filterParams.context = new ArrayList<>();
+                filterParams.context.add("home");
+                filterParams.context.add("public");
+                filterParams.context.add("thread");
+                filterParams.context.add("account");
+                FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
+                filtersVM.addFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
+                        .observe((LifecycleOwner) context, filter -> {
+                            if (filter != null) {
+                                MainActivity.mainFilters.add(filter);
+                                addTagToFilter(context, tag, status, filter);
+                            }
+                        });
+            } else {
+                addTagToFilter(context, tag, status, fedilabFilter);
+            }
+            alertDialog.dismiss();
+        });
+
     }
 }
