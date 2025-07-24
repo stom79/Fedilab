@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.34.0-beta-1",
+    "code": "535",
+    "note": "Added:\n- Quote support for Mastodon\n- Long press on tags: Follow / Mute\n\nChanged:\n- Limit the number of highlighted hashtags at the bottom of messages\n\nFixed:\n- Fix a crash with threads\n- Fix empty Hashtags"
+  },
+  {
     "version": "3.33.1",
     "code": "534",
     "note": "Added:\n- Highlight bottom hashtags\n- Support Trending Links\n- Featured tags displayed in profiles\n- Add/Remove featured tags from the profile editor\n\nChanged:\n- Add confirmation dialog when long pressing the boost button\n- Open messages by tapping on Scheduled Boost\n- Improve language picker when filtered with some languages\n\nFixed:\n- Limits number of fetch for filters\n- Pleroma instances cannot select media\n- Wrong messages deleted for scheduled (messages and boosts)\n- Fix a crash with long threads\n- Fix a potential memory issue for not cropped media\n- Fix embedded quotes not displayed\n- Some crashes"
