@@ -85,6 +85,7 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
         <item name="android:isLightTheme" tools:targetApi="q">false</item>
         <item name="alertDialogTheme">@style/AppThemeAlertDialog</item>
+        <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
     </style>
 
 

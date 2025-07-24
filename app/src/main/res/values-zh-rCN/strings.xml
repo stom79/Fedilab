@@ -190,11 +190,11 @@
     <string name="set_toots_page">每次加载的消息数</string>
     <string name="set_disable_gif">禁用 GIF 头像</string>
     <string name="set_notif_follow">当有人关注您时通知</string>
-    <string name="set_notif_follow_share">当有人提升您的地位时通知</string>
+    <string name="set_notif_follow_share">当有人转发您的状态时通知</string>
     <string name="set_notif_follow_add">当有人收藏您的状态时通知</string>
     <string name="set_notif_follow_mention">当有人提及您时通知</string>
     <string name="set_notif_follow_poll">投票结束时通知</string>
-    <string name="set_notif_status">通知新职位</string>
+    <string name="set_notif_status">通知新帖子</string>
     <string name="set_share_validation">转发前显示确认对话框</string>
     <string name="set_share_validation_fav">添加到收藏夹之前显示确认对话框</string>
     <string name="set_notify">通知？</string>
@@ -251,7 +251,7 @@
     <!-- About lists -->
     <string name="action_lists">列表</string>
     <string name="action_lists_confirm_delete">您确定要永久删除此列表吗？</string>
-    <string name="action_lists_add_to">添加到列表中</string>
+    <string name="action_lists_add_to">添加到列表</string>
     <string name="action_lists_delete">删除列表</string>
     <string name="action_lists_title_placeholder">新列表标题</string>
     <string name="action_lists_add_user">此账号已添加到列表中！</string>
@@ -586,7 +586,7 @@
     <string name="notification_sounds">通知声音</string>
     <string name="disable_notifications">禁用通知</string>
     <string name="pref_theme_base_summary">选择主题的底色是深色还是浅色</string>
-    <string name="message_has_been_sent">信息已发送！</string>
+    <string name="message_has_been_sent">消息已发送！</string>
     <string name="set_display_translate_indication">始终显示翻译按钮</string>
     <string name="bottom_menu">底部菜单</string>
     <string name="messages_in_cache_for_home">主页缓存中的消息</string>
@@ -618,7 +618,7 @@
     <string name="replace_instagram_description">为 Instagram 使用替代前端</string>
     <string name="replace_instagram_host">Instagram 前端域名</string>
     <string name="category_custom">风俗</string>
-    <string name="favourited_by">收藏于</string>
+    <string name="favourited_by">收藏自</string>
     <string name="followers_only">仅限关注者</string>
     <string name="report_val_more3">您知道它违反了特定规则</string>
     <string name="report_1_mute_title">静音 %1$s</string>
@@ -730,7 +730,7 @@
     <string name="change_logo">更改图标</string>
     <string name="change_logo_description">更改设备上应用的图标</string>
     <string name="action_unpin">取消置顶消息</string>
-    <string name="set_live_translate_title">翻译信息</string>
+    <string name="set_live_translate_title">翻译消息</string>
     <string name="set_live_translate">强制翻译成特定语言。选择第一个值以重置为设备设置</string>
     <string name="edit_message">编辑消息</string>
     <string name="status_history">消息历史</string>
@@ -1107,4 +1107,7 @@
     <string name="delete_featured_hashtag">删除精选话题标签</string>
     <string name="no_feature_hashtag_suggestion">没有精选话题标签的建议！</string>
     <string name="delete_featured_hashtag_confirm">确定要删除那个精选话题标签吗？</string>
+    <string name="cd_open_profile">打开个人资料页</string>
+    <string name="cd_switch_account">切换到 %s</string>
+    <string name="cd_translated_media_description">翻译的媒体描述：%s</string>
 </resources>

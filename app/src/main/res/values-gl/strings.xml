@@ -74,7 +74,7 @@
     <string name="more_action_4">Eliminar</string>
     <string name="more_action_5">Copiar</string>
     <string name="more_action_6">Compartir</string>
-    <string name="more_action_7">Citar</string>
+    <string name="more_action_7">Mencionar</string>
     <string name="more_action_8">Acalar temporalmente</string>
     <string name="more_action_9">Eliminar &amp; Editar</string>
     <string-array name="more_action_confirm">
@@ -1105,4 +1105,7 @@
     <string name="featured_hashtags_title">Engadir ou retirar cancelos destacados</string>
     <string name="delete_featured_hashtag">Eliminar cancelo destacado</string>
     <string name="delete_featured_hashtag_confirm">Tes certeza de querer eliminar o cancelo destacado?</string>
+    <string name="cd_open_profile">Abrir páxina do perfil</string>
+    <string name="cd_switch_account">Cambiar a %s</string>
+    <string name="cd_translated_media_description">Descrición traducida: %s</string>
 </resources>

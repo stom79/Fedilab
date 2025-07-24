@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_about">Rakenduse teave</string>
+    <string name="action_about_instance">Serveri teave</string>
+    <string name="action_privacy">Privaatsus</string>
+    <string name="action_cache">Vahemälu</string>
+    <string name="action_logout">Logi välja</string>
+    <string name="close">Sulge</string>
+    <string name="yes">Jah</string>
+    <string name="no">Ei</string>
+    <string name="cancel">Katkesta</string>
+    <string name="download">Laadi alla</string>
+    <string name="download_file">Laadi %1$s alla</string>
+    <string name="save_over">Meedium on salvestatud</string>
+    <string name="download_from" formatted="false">Fail: %1$s</string>
+    <string name="password">Salasõna</string>
+    <string name="email">E-post</string>
+    <string name="accounts">Kasutajakontod</string>
+    <string name="toots">Sõnumid</string>
+    <string name="links">Lingid</string>
+    <string name="tags">Sildid</string>
+    <string name="save">Salvesta</string>
+    <string name="instance">Teenuse server</string>
+    <string name="instance_example">Koduserver: mastodon.social</string>
+    <string name="replies">Vastused</string>
+    <string name="username">Kasutajanimi</string>
+    <string name="drafts">Kavandid</string>
+    <string name="favourite">Lemmikud</string>
+    <string name="follow">Uued jälgijad</string>
+    <string name="mention">Mainimised</string>
+    <string name="reblog">Hoolisamised</string>
+    <string name="show_boosts">Näita hoolisamisi</string>
+    <string name="show_replies">Näita vastuseid</string>
+    <string name="show_self_boosts">Näita omaenda hoo lisamisi</string>
+    <string name="show_self_replies">Näita vastuseid endale</string>
+    <string name="show_my_messages">Näita minu sõnumeid</string>
+    <string name="show_privates">Näita otsesõnumeid</string>
+    <string name="action_open_in_web">Ava veebibrauseris</string>
+    <string name="translate">Tõlgi</string>
+    <string name="more_options">Lisavalikud</string>
+    <string name="home_menu">Avaleht</string>
+    <string name="local_menu">Kohalik ajajoon</string>
+    <string name="muted_menu">Summutatud kasutajad</string>
+    <string name="blocked_menu">Blokeeritud kasutajad</string>
+    <string name="notifications">Teavitused</string>
+    <string name="follow_request">Jälgimispäringud</string>
+    <string name="settings">Seadistused</string>
+    <string name="send_email">Saada e-kiri</string>
+    <string name="scheduled_toots">Ajastatud sõnumid</string>
+    <string name="disclaimer_full">Järgnev teave ei pruugi kasutajaprofiili täielikult kajastada.</string>
+    <string name="insert_emoji">Lisa emoji</string>
+    <string name="action_favourite">Lisa lemmikuks</string>
+    <string name="action_reblog">Lisa hoogu</string>
+    <string name="action_quote">Tsiteeri</string>
+    <plurals name="date_seconds_polls">
+        <item quantity="one">%d sekund</item>
+        <item quantity="other">%d sekundit</item>
+    </plurals>
+    <plurals name="date_minutes_polls">
+        <item quantity="one">%d minut</item>
+        <item quantity="other">%d minutit</item>
+    </plurals>
+    <plurals name="date_hours_polls">
+        <item quantity="one">%d tund</item>
+        <item quantity="other">%d tundi</item>
+    </plurals>
+    <plurals name="date_day_polls">
+        <item quantity="one">%d päev</item>
+        <item quantity="other">%d päeva</item>
+    </plurals>
+    <plurals name="number_of_voters">
+        <item quantity="one">%d hääletaja</item>
+        <item quantity="other">%d hääletajat</item>
+    </plurals>
+    <string name="instance_token">Sinu tunnusluba</string>
+    <string name="toast_account_changed" formatted="false">Nüüd toimib kasutajakontoga: %1$s</string>
+    <string name="add_account">Lisa kasutajakonto</string>
+    <string name="clipboard">Selle sõnumi sisu on kopeeritud lõikelauale</string>
+    <string name="clipboard_url">Selle sõnumi võrguaadress on kopeeritud lõikelauale</string>
+    <string name="clipboard_version">Teave on kopeeritud lõikelauale</string>
+    <string name="tag_already_followed">Sa juba jälgid seda teemaviidet!</string>
+    <string name="camera">Kaamera</string>
+    <string name="delete_all">Kustuta kõik</string>
+    <string name="text_size">Teksti suurused</string>
+    <string name="icon_size">Ikoonide suurused</string>
+    <string name="next">Edasi</string>
+    <string name="previous">Eelmine</string>
+    <string name="open_with">Ava rakendusega</string>
+    <string name="validate">Kontrolli</string>
+    <string name="media">Meedium</string>
+    <string name="shared_via">Jagatud Fedilabi abil</string>
+    <string name="cd_open_profile">Ava profiili leht</string>
+    <string name="cd_switch_account">Vaheta %s kontole</string>
+</resources>

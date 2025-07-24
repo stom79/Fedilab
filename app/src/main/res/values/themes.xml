@@ -84,6 +84,7 @@
         <item name="android:isLightTheme" tools:targetApi="q">true</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="alertDialogTheme">@style/AppThemeAlertDialog</item>
+        <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
     </style>
 
     <style name="Transparent" parent="AppThemeBar">
@@ -277,4 +278,11 @@
         <item name="cornerSize">6dp</item>
     </style>
 
+    <style name="AppPreferenceThemeOverlay" parent="PreferenceThemeOverlay">
+        <item name="switchPreferenceCompatStyle">@style/AppSwitchPreferenceCompatStyle</item>
+    </style>
+
+    <style name="AppSwitchPreferenceCompatStyle" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/preference_switch_material</item>
+    </style>
 </resources>

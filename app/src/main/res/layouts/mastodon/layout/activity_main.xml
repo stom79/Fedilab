@@ -60,6 +60,7 @@
                         android:layout_height="?actionBarSize"
                         android:layout_weight="1"
                         android:background="@color/transparent"
+                        android:importantForAccessibility="no"
                         app:tabGravity="fill"
                         app:tabMaxWidth="0dp"
                         app:tabMode="scrollable" />

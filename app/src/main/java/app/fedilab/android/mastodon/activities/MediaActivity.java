@@ -197,6 +197,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
                     if (translated != null) {
                         attachments.get(mediaPosition - 1).translation = translated;
                         binding.mediaDescriptionTranslated.setText(translated);
+                        binding.mediaDescriptionTranslated.setContentDescription(getString(R.string.cd_translated_media_description, translated));
                         binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
                         binding.mediaDescription.setVisibility(View.GONE);
                         if (mCurrentFragment != null) {
@@ -214,6 +215,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
                     mCurrentFragment.toggleController(false);
                 }
                 binding.mediaDescriptionTranslated.setText(attachments.get(mediaPosition - 1).translation);
+                binding.mediaDescriptionTranslated.setContentDescription(getString(R.string.cd_translated_media_description, attachments.get(mediaPosition - 1).translation));
                 binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
             } else {
                 binding.mediaDescription.setVisibility(View.VISIBLE);
@@ -250,6 +252,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
                         if (translated != null) {
                             attachments.get(position).translation = translated;
                             binding.mediaDescriptionTranslated.setText(translated);
+                            binding.mediaDescriptionTranslated.setContentDescription(getString(R.string.cd_translated_media_description, translated));
                             binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
                             binding.mediaDescription.setVisibility(View.GONE);
                             if (mCurrentFragment != null) {
@@ -268,6 +271,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
                             mCurrentFragment.toggleController(false);
                         }
                         binding.mediaDescriptionTranslated.setText(attachments.get(position).translation);
+                        binding.mediaDescriptionTranslated.setContentDescription(getString(R.string.cd_translated_media_description, attachments.get(position).translation));
                         binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
                     } else {
                         binding.mediaDescription.setVisibility(View.VISIBLE);
@@ -437,6 +441,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
                 if (attachments.get(binding.mediaViewpager.getCurrentItem()).translation != null) {
                     binding.mediaDescription.setVisibility(View.GONE);
                     binding.mediaDescriptionTranslated.setText(attachments.get(binding.mediaViewpager.getCurrentItem()).translation);
+                    binding.mediaDescriptionTranslated.setContentDescription(getString(R.string.cd_translated_media_description, attachments.get(binding.mediaViewpager.getCurrentItem()).translation));
                     binding.mediaDescriptionTranslated.setVisibility(View.VISIBLE);
                 } else {
                     binding.mediaDescription.setVisibility(View.VISIBLE);

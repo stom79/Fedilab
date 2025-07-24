@@ -1115,4 +1115,7 @@
     <string name="delete_featured_hashtag">Видалити обраний хештег</string>
     <string name="featured_hashtags_title">Додавання або видалення популярних хештегів</string>
     <string name="delete_featured_hashtag_confirm">Ви впевнені, що хочете видалити цей обраний хештег?</string>
+    <string name="cd_open_profile">Відкрити сторінку профілю</string>
+    <string name="cd_switch_account">Перейти до %s</string>
+    <string name="cd_translated_media_description">Перекладений опис медіафайлу: %s</string>
 </resources>

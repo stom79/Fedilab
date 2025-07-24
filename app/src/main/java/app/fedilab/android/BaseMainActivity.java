@@ -396,17 +396,20 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 Runnable myRunnable = () -> {
                     if (accounts != null && accounts.size() > 0) {
                         Helper.loadPP(activity, headerMainBinding.otherAccount1, accounts.get(0));
+                        String account1;
+                        if (accounts.get(0).mastodon_account != null) {
+                            account1 = "@" + accounts.get(0).mastodon_account.acct + "@" + accounts.get(0).instance;
+                        } else if (accounts.get(0).peertube_account != null) {
+                            account1 = "@" + accounts.get(0).peertube_account.getAcct() + "@" + accounts.get(0).instance;
+                        } else {
+                            account1 = "";
+                        }
+                        headerMainBinding.otherAccount1.setContentDescription(activity.getString(R.string.cd_switch_account, account1));
                         headerMainBinding.otherAccount1.setVisibility(View.VISIBLE);
                         headerMainBinding.otherAccount1.setOnClickListener(v -> {
                             headerMenuOpen = false;
-                            String account = "";
-                            if (accounts.get(0).mastodon_account != null) {
-                                account = "@" + accounts.get(0).mastodon_account.acct + "@" + accounts.get(0).instance;
-                            } else if (accounts.get(0).peertube_account != null) {
-                                account = "@" + accounts.get(0).peertube_account.getAcct() + "@" + accounts.get(0).instance;
-                            }
                             typeOfConnection = PeertubeMainActivity.TypeOfConnection.NORMAL;
-                            Toasty.info(activity, activity.getString(R.string.toast_account_changed, account), Toasty.LENGTH_LONG).show();
+                            Toasty.info(activity, activity.getString(R.string.toast_account_changed, account1), Toasty.LENGTH_LONG).show();
                             BaseMainActivity.currentToken = accounts.get(0).token;
                             BaseMainActivity.currentUserID = accounts.get(0).user_id;
                             BaseMainActivity.currentInstance = accounts.get(0).instance;
@@ -425,16 +428,19 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         });
                         if (accounts.size() > 1) {
                             Helper.loadPP(activity, headerMainBinding.otherAccount2, accounts.get(1));
+                            String account2;
+                            if (accounts.get(1).mastodon_account != null) {
+                                account2 = "@" + accounts.get(1).mastodon_account.acct + "@" + accounts.get(1).instance;
+                            } else if (accounts.get(1).peertube_account != null) {
+                                account2 = "@" + accounts.get(1).peertube_account.getAcct() + "@" + accounts.get(1).instance;
+                            } else {
+                                account2 = "";
+                            }
+                            headerMainBinding.otherAccount2.setContentDescription(activity.getString(R.string.cd_switch_account, account2));
                             headerMainBinding.otherAccount2.setVisibility(View.VISIBLE);
                             headerMainBinding.otherAccount2.setOnClickListener(v -> {
                                 headerMenuOpen = false;
-                                String account = "";
-                                if (accounts.get(1).mastodon_account != null) {
-                                    account = "@" + accounts.get(1).mastodon_account.acct + "@" + accounts.get(1).instance;
-                                } else if (accounts.get(1).peertube_account != null) {
-                                    account = "@" + accounts.get(1).peertube_account.getAcct() + "@" + accounts.get(1).instance;
-                                }
-                                Toasty.info(activity, activity.getString(R.string.toast_account_changed, account), Toasty.LENGTH_LONG).show();
+                                Toasty.info(activity, activity.getString(R.string.toast_account_changed, account2), Toasty.LENGTH_LONG).show();
                                 BaseMainActivity.currentToken = accounts.get(1).token;
                                 BaseMainActivity.currentUserID = accounts.get(1).user_id;
                                 BaseMainActivity.currentInstance = accounts.get(1).instance;

@@ -594,7 +594,7 @@
 \n
 \nMożesz również wyłączyć powiadomienia push w ustawieniach, aby zignorować tę wiadomość.</string>
     <string name="select_distributors">Wybierz dystrybutora</string>
-    <string name="hide_content">Ukryj zawartość &lt;</string>
+    <string name="hide_content"><![CDATA[Ukryj zawartość <]]></string>
     <string name="report_val1">Nie podoba mi się to</string>
     <string name="report_val3">To narusza zasady serwera</string>
     <string name="report_val4">To jest coś innego</string>
@@ -629,7 +629,7 @@
     <string name="report_title">Zgłaszanie %1$s</string>
     <string name="report_indication_title_status">Powiedz nam, o co chodzi z tym postem</string>
     <string name="instance_health_uptime">Czas pracy: %,.2f %%</string>
-    <string name="show_content">Pokaż zawartość &gt;</string>
+    <string name="show_content"><![CDATA[Pokaż zawartość >]]></string>
     <string name="stop_recording">Zatrzymaj nagrywanie</string>
     <string name="report_indication_title_status_more">Wybierz najlepsze dopasowanie</string>
     <string name="report_1_block_title">Zablokuj %1$s</string>
@@ -1091,4 +1091,24 @@
     <string name="thread_long_message_message">Wiadomość zostanie podzielona na kilka odpowiedzi, aby uwzględnić maksymalną liczbę znaków instancji.</string>
     <string name="qr_code_generator">Generator kodów QR</string>
     <string name="pronouns_support">Wsparcie zaimków</string>
+    <string name="twitter_tags">Tagi z Twittera (przez Nitter)</string>
+    <string name="use_token">Użyj tokenu</string>
+    <string name="more_options">Więcej opcji</string>
+    <string name="action_favourite">Dodaj do ulubionych</string>
+    <string name="action_reblog">Podbij</string>
+    <string name="action_quote">Cytuj</string>
+    <string name="add_content_warning">Dodaj ostrzeżenie o zawartości</string>
+    <string name="action_publish">Opublikuj</string>
+    <string name="attach_audio">Załącz plik dźwiękowy</string>
+    <string name="set_language">Ustaw język</string>
+    <string name="attach_images">Załącz obrazy</string>
+    <string name="attach_videos">Załącz film</string>
+    <string name="attach_files">Załącz pliki</string>
+    <string name="add_poll">Dodaj ankietę</string>
+    <string name="instance_information">Informacje o instancji</string>
+    <string name="change_visibility">Zmień widoczność</string>
+    <string name="links">Linki</string>
+    <string name="instance_token">Twój token</string>
+    <string name="remove_content_warning">Usuń ostrzeżenie o zawartości</string>
+    <string name="network">Sieć</string>
 </resources>
