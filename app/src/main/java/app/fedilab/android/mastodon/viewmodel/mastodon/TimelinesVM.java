@@ -381,7 +381,7 @@ public class TimelinesVM extends AndroidViewModel {
                             //Quoted message
 
                             if(!timelineItem.select(".quote").html().isEmpty()) {
-                                status.quote = Nitter.nitterHTMLParser(context, timelineItem.select(".quote").first(), nitterInstance);
+                                status.setQuote(Nitter.nitterHTMLParser(context, timelineItem.select(".quote").first(), nitterInstance));
                             }
 
                             Status finalStatus;

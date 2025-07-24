@@ -571,7 +571,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             holder.binding.pronouns.setVisibility(View.GONE);
         }
-        if (statusToDeal.quote != null && (statusToDeal.spoiler_text == null || statusToDeal.spoiler_text.trim().isEmpty() || statusToDeal.isExpended)) {
+        if (statusToDeal.getQuote() != null && (statusToDeal.spoiler_text == null || statusToDeal.spoiler_text.trim().isEmpty() || statusToDeal.isExpended)) {
             holder.binding.quotedMessage.cardviewContainer.setCardElevation((int) Helper.convertDpToPixel(5, context));
             holder.binding.quotedMessage.dividerCard.setVisibility(View.GONE);
             holder.binding.quotedMessage.cardviewContainer.setStrokeWidth((int) Helper.convertDpToPixel(1, context));
@@ -595,7 +595,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (!remote) {
                     Intent intent = new Intent(context, ContextActivity.class);
                     Bundle args = new Bundle();
-                    args.putSerializable(Helper.ARG_STATUS, statusToDeal.quote);
+                    args.putSerializable(Helper.ARG_STATUS, statusToDeal.getQuote());
                     new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
@@ -603,27 +603,27 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         context.startActivity(intent);
                     });
                 } else {
-                    Helper.openBrowser(context,statusToDeal.quote.url);
+                    Helper.openBrowser(context,statusToDeal.getQuote().url);
                 }
             });
             holder.binding.quotedMessage.cardviewContainer.setStrokeColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
             holder.binding.quotedMessage.statusContent.setText(
-                    statusToDeal.quote.getSpanContent(context, remote,
+                    statusToDeal.getQuote().getSpanContent(context, remote,
                             new WeakReference<>(holder.binding.quotedMessage.statusContent), null),
                     TextView.BufferType.SPANNABLE);
-            MastodonHelper.loadPPMastodon(holder.binding.quotedMessage.avatar, statusToDeal.quote.account);
-            if (statusToDeal.quote.account != null) {
+            MastodonHelper.loadPPMastodon(holder.binding.quotedMessage.avatar, statusToDeal.getQuote().account);
+            if (statusToDeal.getQuote().account != null) {
                 holder.binding.quotedMessage.displayName.setText(
-                        statusToDeal.quote.account.getSpanDisplayName(context,
+                        statusToDeal.getQuote().account.getSpanDisplayName(context,
                                 new WeakReference<>(holder.binding.quotedMessage.displayName)),
                         TextView.BufferType.SPANNABLE);
-                holder.binding.quotedMessage.username.setText(String.format("@%s", statusToDeal.quote.account.acct));
+                holder.binding.quotedMessage.username.setText(String.format("@%s", statusToDeal.getQuote().account.acct));
             }
 
-            if (statusToDeal.quote.spoiler_text != null && !statusToDeal.quote.spoiler_text.trim().isEmpty()) {
+            if (statusToDeal.getQuote().spoiler_text != null && !statusToDeal.getQuote().spoiler_text.trim().isEmpty()) {
                 holder.binding.quotedMessage.spoiler.setVisibility(View.VISIBLE);
                 holder.binding.quotedMessage.spoiler.setText(
-                        statusToDeal.quote.getSpanSpoiler(context,
+                        statusToDeal.getQuote().getSpanSpoiler(context,
                                 new WeakReference<>(holder.binding.quotedMessage.spoiler), null),
                         TextView.BufferType.SPANNABLE);
             } else {

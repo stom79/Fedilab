@@ -1,0 +1,9 @@
+Added:
+
+
+Changed:
+
+
+Fixed:
+- Fix a crash with threads
+- Fix empty Hashtags

@@ -16,12 +16,15 @@ package app.fedilab.android.mastodon.client.entities.api;
 
 import android.content.Context;
 import android.text.Spannable;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -29,7 +32,6 @@ import java.lang.ref.WeakReference;
 import java.util.Date;
 import java.util.List;
 
-import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
 import de.timfreiheit.mathjax.android.MathJaxView;
 
@@ -84,7 +86,7 @@ public class Status implements Serializable, Cloneable {
     @SerializedName("reblog")
     public Status reblog;
     @SerializedName("quote")
-    public Status quote;
+    private Object quote;
     @SerializedName("application")
     public App application;
     @SerializedName("account")
@@ -114,6 +116,35 @@ public class Status implements Serializable, Cloneable {
     @SerializedName("reactions")
     public List<Reaction> reactions;
 
+    public Status getQuote() {
+        Status quote = null;
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = String.valueOf(this.quote);
+        try {
+            json = ow.writeValueAsString(this.quote);
+        } catch (JsonProcessingException ignored) {
+        }
+        Gson gson = new Gson();
+        try{
+            quote = gson.fromJson(json, Status.class);
+            if(quote.account == null) {
+                MastodonQuote mastodonQuote = gson.fromJson(json, MastodonQuote.class);
+                if(mastodonQuote.quoted_status != null && (mastodonQuote.state != null && mastodonQuote.state.equals("accepted"))) {
+                    quote = mastodonQuote.quoted_status;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(quote !=null && quote.account != null) {
+            return quote;
+        }
+        return null;
+    }
+
+    public void setQuote(Status quote) {
+        this.quote =quote;
+    }
     public String attachedNotification = null;
     public int gifPosition = 0;
 
@@ -202,4 +233,11 @@ public class Status implements Serializable, Cloneable {
         void emojiFetched();
     }
 
+
+    private static class MastodonQuote implements Serializable {
+        @SerializedName("state")
+        String state;
+        @SerializedName("quoted_status")
+        Status quoted_status;
+    }
 }
