@@ -1,8 +1,5 @@
 Added:
-
-
-Changed:
-
+- Quote support for Mastodon
 
 Fixed:
 - Fix a crash with threads
