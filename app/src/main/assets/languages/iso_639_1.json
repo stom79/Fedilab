@@ -428,6 +428,10 @@
     "language": "Bahasa Melayu"
   },
   {
+    "code": "ms-Arab",
+    "language": "بهاس ملايو"
+  },
+  {
     "code": "mt",
     "language": "Malti"
   },
@@ -637,7 +641,7 @@
   },
   {
     "code": "tl",
-    "language": "Wikang Tagalog"
+    "language": "Tagalog"
   },
   {
     "code": "tn",
@@ -732,12 +736,24 @@
     "language": "Asturianu"
   },
   {
+    "code": "chr",
+    "language": "ᏣᎳᎩ ᎦᏬᏂᎯᏍᏗ"
+  },
+  {
     "code": "ckb",
     "language": "سۆرانی"
   },
   {
     "code": "cnr",
     "language": "crnogorski"
+  },
+  {
+    "code": "csb",
+    "language": "Kaszëbsczi"
+  },
+  {
+    "code": "gsw",
+    "language": "Schwiizertütsch"
   },
   {
     "code": "jbo",
@@ -748,16 +764,24 @@
     "language": "Taqbaylit"
   },
   {
-    "code": "kmr",
-    "language": "Kurmancî"
-  },
-  {
     "code": "ldn",
     "language": "Láadan"
   },
   {
     "code": "lfn",
     "language": "lingua franca nova"
+  },
+  {
+    "code": "moh",
+    "language": "Kanienʼkéha"
+  },
+  {
+    "code": "nds",
+    "language": "Plattdüütsch"
+  },
+  {
+    "code": "pdc",
+    "language": "Pennsilfaani-Deitsch"
   },
   {
     "code": "sco",
@@ -776,12 +800,16 @@
     "language": "ślůnsko godka"
   },
   {
-    "code": "tai",
-    "language": "ภาษาไท or ภาษาไต"
-  },
-  {
     "code": "tok",
     "language": "toki pona"
+  },
+  {
+    "code": "vai",
+    "language": "ꕙꔤ"
+  },
+  {
+    "code": "xal",
+    "language": "Хальмг келн"
   },
   {
     "code": "zba",
@@ -804,7 +832,7 @@
     "language": "Español (México)"
   },
   {
-    "code": "fr-QC",
+    "code": "fr-CA",
     "language": "Français (Canadien)"
   },
   {
@@ -830,5 +858,9 @@
   {
     "code": "zh-TW",
     "language": "繁體中文（臺灣）"
+  },
+  {
+    "code": "zh-YUE",
+    "language": "廣東話"
   }
 ]
