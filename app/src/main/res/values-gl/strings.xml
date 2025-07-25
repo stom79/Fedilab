@@ -1108,4 +1108,7 @@
     <string name="cd_open_profile">Abrir páxina do perfil</string>
     <string name="cd_switch_account">Cambiar a %s</string>
     <string name="cd_translated_media_description">Descrición traducida: %s</string>
+    <string name="followed_tag_success">Agora segues esta etiqueta!</string>
+    <string name="action_follow_tag_confirm">Tes certeza de querer seguir a etiqueta %1$s??</string>
+    <string name="remaining_tags">…e %d máis</string>
 </resources>
