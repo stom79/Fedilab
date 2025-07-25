@@ -2287,386 +2287,21 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
         // Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> holder.binding.statusContent.invalidate(), 0, 100, TimeUnit.MILLISECONDS);
-        if (remote) {
-            holder.binding.actionButtonMore.setVisibility(View.GONE);
-        } else {
-            holder.binding.actionButtonMore.setVisibility(View.VISIBLE);
-        }
+
         holder.binding.actionButtonMore.setOnClickListener(v -> {
-            boolean isOwner = statusToDeal.account.id.compareTo(BaseMainActivity.currentUserID) == 0;
-            PopupMenu popup = new PopupMenu(context, holder.binding.actionButtonMore);
-            popup.getMenuInflater()
-                    .inflate(R.menu.option_toot, popup.getMenu());
-            if (statusToDeal.visibility.equals("private") || status.visibility.equals("direct")) {
-                popup.getMenu().findItem(R.id.action_mention).setVisible(false);
-            }
-            if (statusToDeal.bookmarked)
-                popup.getMenu().findItem(R.id.action_bookmark).setTitle(R.string.bookmark_remove);
-            else
-                popup.getMenu().findItem(R.id.action_bookmark).setTitle(R.string.bookmark_add);
-            if (statusToDeal.muted)
-                popup.getMenu().findItem(R.id.action_mute_conversation).setTitle(R.string.unmute_conversation);
-            else
-                popup.getMenu().findItem(R.id.action_mute_conversation).setTitle(R.string.mute_conversation);
-            if (statusToDeal.pinned)
-                popup.getMenu().findItem(R.id.action_pin).setTitle(R.string.action_unpin);
-            else
-                popup.getMenu().findItem(R.id.action_pin).setTitle(R.string.action_pin);
-            final String[] stringArrayConf;
-            if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private") && !isOwner))
-                popup.getMenu().findItem(R.id.action_schedule_boost).setVisible(false);
-            if (isOwner) {
-                popup.getMenu().findItem(R.id.action_block).setVisible(false);
-                popup.getMenu().findItem(R.id.action_mute).setVisible(false);
-                popup.getMenu().findItem(R.id.action_report).setVisible(false);
-                popup.getMenu().findItem(R.id.action_timed_mute).setVisible(false);
-                popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
-                popup.getMenu().findItem(R.id.action_pin).setVisible(!statusToDeal.visibility.equalsIgnoreCase("direct"));
-                stringArrayConf = context.getResources().getStringArray(R.array.more_action_owner_confirm);
-            } else {
-                popup.getMenu().findItem(R.id.action_pin).setVisible(false);
-                popup.getMenu().findItem(R.id.action_redraft).setVisible(false);
-                popup.getMenu().findItem(R.id.action_edit).setVisible(false);
-                popup.getMenu().findItem(R.id.action_remove).setVisible(false);
-                if (statusToDeal.account.acct.split("@").length < 2)
-                    popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
-                stringArrayConf = context.getResources().getStringArray(R.array.more_action_confirm);
-            }
-            popup.getMenu().findItem(R.id.action_admin).setVisible(Helper.getCurrentAccount(context).admin);
-
-            boolean custom_sharing = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOM_SHARING), false);
-            if (custom_sharing && statusToDeal.visibility.equals("public"))
-                popup.getMenu().findItem(R.id.action_custom_sharing).setVisible(true);
-            AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
-            popup.setOnMenuItemClickListener(item -> {
-                int itemId = item.getItemId();
-                if (itemId == R.id.action_redraft) {
-                    AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
-                    builderInner.setTitle(stringArrayConf[1]);
-                    builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
-                        if (statusList != null) {
-                            int position = holder.getBindingAdapterPosition();
-                            statusList.remove(statusToDeal);
-                            adapter.notifyItemRemoved(position);
-                            statusesVM.deleteStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, statusDeleted -> {
-                                Intent intent = new Intent(context, ComposeActivity.class);
-                                StatusDraft statusDraft = new StatusDraft();
-                                statusDraft.statusDraftList = new ArrayList<>();
-                                statusDraft.statusReplyList = new ArrayList<>();
-                                if (statusDeleted == null) {
-                                    Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                statusDeleted.id = null;
-                                statusDraft.statusDraftList.add(statusDeleted);
-                                Bundle args = new Bundle();
-                                args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
-                                args.putSerializable(Helper.ARG_STATUS_REPLY_ID, statusDeleted.in_reply_to_id);
-                                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                                    intent.putExtras(bundle);
-                                    context.startActivity(intent);
-                                });
-                                sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
-                            });
-                        }
-                    });
-                    builderInner.setMessage(statusToDeal.text);
-                    builderInner.show();
-                } else if (itemId == R.id.action_edit) {
-                    statusesVM.getStatusSource(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                            .observe((LifecycleOwner) context, statusSource -> {
-                                if (statusSource != null) {
-                                    Intent intent = new Intent(context, ComposeActivity.class);
-                                    StatusDraft statusDraft = new StatusDraft();
-                                    statusDraft.statusDraftList = new ArrayList<>();
-                                    statusDraft.statusReplyList = new ArrayList<>();
-                                    statusToDeal.text = statusSource.text;
-                                    statusToDeal.spoiler_text = statusSource.spoiler_text;
-                                    if (statusToDeal.spoiler_text != null && statusToDeal.spoiler_text.length() > 0) {
-                                        statusToDeal.spoilerChecked = true;
-                                    }
-                                    statusDraft.statusDraftList.add(statusToDeal);
-                                    Bundle args = new Bundle();
-                                    args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
-                                    args.putString(Helper.ARG_EDIT_STATUS_ID, statusToDeal.id);
-                                    args.putString(Helper.ARG_STATUS_REPLY_ID, statusToDeal.in_reply_to_id);
-                                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                                        Bundle bundle = new Bundle();
-                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                                        intent.putExtras(bundle);
-                                        context.startActivity(intent);
-                                    });
-                                } else {
-                                    Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-                                }
-                            });
-                } else if (itemId == R.id.action_schedule_boost) {
-                    MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.BOOST, statusToDeal, null, null);
-                } else if (itemId == R.id.action_admin) {
-                    Intent intent = new Intent(context, AdminAccountActivity.class);
-                    Bundle args = new Bundle();
-                    args.putString(Helper.ARG_ACCOUNT_ID, statusToDeal.account.id);
-                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                        Bundle bundle = new Bundle();
-                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                        intent.putExtras(bundle);
-                        context.startActivity(intent);
-                    });
-                } else if (itemId == R.id.action_open_browser) {
-                    Helper.openBrowser(context, statusToDeal.url);
-                } else if (itemId == R.id.action_remove) {
-                    AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
-                    builderInner.setTitle(stringArrayConf[0]);
-                    builderInner.setMessage(statusToDeal.content);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                        builderInner.setMessage(Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString());
-                    else
-                        builderInner.setMessage(Html.fromHtml(statusToDeal.content).toString());
-                    builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> statusesVM.deleteStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                            .observe((LifecycleOwner) context, statusDeleted -> {
-                                int position = holder.getBindingAdapterPosition();
-                                statusList.remove(statusToDeal);
-                                adapter.notifyItemRemoved(position);
-                                sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
-                            }));
-                    builderInner.show();
-                } else if (itemId == R.id.action_block_domain) {
-                    AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
-                    builderInner.setTitle(stringArrayConf[3]);
-                    String domain = statusToDeal.account.acct.split("@")[1];
-                    builderInner.setMessage(context.getString(R.string.block_domain_confirm_message, domain));
-                    builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
-                        accountsVM.addDomainBlocks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, domain);
-                        Toasty.info(context, context.getString(R.string.toast_block_domain), Toasty.LENGTH_LONG).show();
-                    });
-                    builderInner.show();
-                } else if (itemId == R.id.action_mute) {
-                    AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
-                    builderInner.setTitle(stringArrayConf[0]);
-                    builderInner.setMessage(statusToDeal.account.acct);
-                    builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setNegativeButton(R.string.keep_notifications, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, false, null)
-                            .observe((LifecycleOwner) context, relationShip -> {
-                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
-                                Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
-                            }));
-                    builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, null, null)
-                            .observe((LifecycleOwner) context, relationShip -> {
-                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
-                                Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
-                            }));
-                    builderInner.show();
-                } else if (itemId == R.id.action_mute_home) {
-                    AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
-                    builderInner.setTitle(R.string.mute_home);
-                    builderInner.setMessage(statusToDeal.account.acct);
-                    builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(Helper.getCurrentAccount(context), statusToDeal.account)
-                            .observe((LifecycleOwner) context, account -> Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show()));
-                    builderInner.show();
-                } else if (itemId == R.id.action_mute_conversation) {
-                    if (statusToDeal.muted) {
-                        statusesVM.unMute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show());
-                    } else {
-                        statusesVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_mute_conversation)).show());
-                    }
-                    return true;
-                } else if (itemId == R.id.action_pin) {
-                    if (statusToDeal.pinned) {
-                        statusesVM.unPin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unpin)).show());
-                    } else {
-                        statusesVM.pin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_pin)).show());
-                    }
-                    return true;
-                } else if (itemId == R.id.action_bookmark) {
-                    if (statusToDeal.bookmarked) {
-                        statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_unbookmarked)).show());
-                    } else {
-                        statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_bookmarked)).show());
-                    }
-                } else if (itemId == R.id.action_timed_mute) {
-                    MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.TIMED_MUTED, statusToDeal, null, null);
-                    return true;
-                } else if (itemId == R.id.action_block) {
-                    AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
-                    builderInner.setTitle(stringArrayConf[1]);
-                    builderInner.setMessage(statusToDeal.account.acct);
-                    builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                    builderInner.setPositiveButton(R.string.yes, (dialog, which) -> accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id)
-                            .observe((LifecycleOwner) context, relationShip -> {
-                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
-                                Toasty.info(context, context.getString(R.string.toast_block)).show();
-                            }));
-                    builderInner.show();
-                } else if (itemId == R.id.action_translate) {
-                    translate(context, statusToDeal, holder, adapter);
-                    return true;
-                } else if (itemId == R.id.action_report) {
-                    Intent intent = new Intent(context, ReportActivity.class);
-                    Bundle args = new Bundle();
-                    args.putSerializable(Helper.ARG_STATUS, statusToDeal);
-                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                        Bundle bundle = new Bundle();
-                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                        intent.putExtras(bundle);
-                        context.startActivity(intent);
-                    });
-                } else if (itemId == R.id.action_copy) {
-                    ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    String content;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                        content = Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                    else
-                        content = Html.fromHtml(statusToDeal.content).toString();
-                    ClipData clip = ClipData.newPlainText(Helper.CLIP_BOARD, content);
-                    if (clipboard != null) {
-                        clipboard.setPrimaryClip(clip);
-                        Toasty.info(context, context.getString(R.string.clipboard), Toast.LENGTH_LONG).show();
-                    }
-                    return true;
-                } else if (itemId == R.id.action_copy_link) {
-                    ClipboardManager clipboard;
-                    ClipData clip;
-                    clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-
-                    clip = ClipData.newPlainText(Helper.CLIP_BOARD, statusToDeal.url);
-                    if (clipboard != null) {
-                        clipboard.setPrimaryClip(clip);
-                        Toasty.info(context, context.getString(R.string.clipboard_url), Toast.LENGTH_LONG).show();
-                    }
-                    return true;
-                } else if (itemId == R.id.action_share) {
-                    Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
-                    String url;
-
-                    if (statusToDeal.uri.startsWith("http"))
-                        url = statusToDeal.uri;
-                    else
-                        url = statusToDeal.url;
-                    String extra_text;
-                    if (share_details) {
-                        extra_text = statusToDeal.account.acct;
-                        if (extra_text.split("@").length == 1)
-                            extra_text = "@" + extra_text + "@" + BaseMainActivity.currentInstance;
-                        else
-                            extra_text = "@" + extra_text;
-                        extra_text += " \uD83D\uDD17 " + url + "\r\n-\n";
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                            extra_text += Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                        else
-                            extra_text += Html.fromHtml(statusToDeal.content).toString();
-                    } else {
-                        extra_text = url;
-                    }
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, extra_text);
-                    sendIntent.setType("text/plain");
-                    context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.share_with)));
-                } else if (itemId == R.id.action_custom_sharing) {
-                    Intent intent = new Intent(context, CustomSharingActivity.class);
-                    Bundle args = new Bundle();
-                    args.putSerializable(Helper.ARG_STATUS, statusToDeal);
-                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                        Bundle bundle = new Bundle();
-                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                        intent.putExtras(bundle);
-                        context.startActivity(intent);
-                    });
-                } else if (itemId == R.id.action_mention) {
-                    Intent intent = new Intent(context, ComposeActivity.class);
-                    Bundle args = new Bundle();
-                    args.putSerializable(Helper.ARG_STATUS_MENTION, statusToDeal);
-                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                        Bundle bundle = new Bundle();
-                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                        intent.putExtras(bundle);
-                        context.startActivity(intent);
-                    });
-                } else if (itemId == R.id.action_open_with) {
-                    new Thread(() -> {
-                        try {
-                            List<BaseAccount> accounts = new Account(context).getCrossAccounts();
-                            if (accounts.size() > 1) {
-                                List<app.fedilab.android.mastodon.client.entities.api.Account> accountList = new ArrayList<>();
-                                for (BaseAccount account : accounts) {
-                                    account.mastodon_account.acct += "@" + account.instance;
-                                    accountList.add(account.mastodon_account);
-                                }
-                                Handler mainHandler = new Handler(Looper.getMainLooper());
-                                Runnable myRunnable = () -> {
-                                    AlertDialog.Builder builderSingle = new MaterialAlertDialogBuilder(context);
-                                    builderSingle.setTitle(context.getString(R.string.choose_accounts));
-                                    final AccountsSearchAdapter accountsSearchAdapter = new AccountsSearchAdapter(context, accountList);
-                                    final BaseAccount[] accountArray = new BaseAccount[accounts.size()];
-                                    int i = 0;
-                                    for (BaseAccount account : accounts) {
-                                        accountArray[i] = account;
-                                        i++;
-                                    }
-                                    builderSingle.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                                    builderSingle.setAdapter(accountsSearchAdapter, (dialog, which) -> {
-                                        BaseAccount account = accountArray[which];
-
-                                        Toasty.info(context, context.getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
-                                        BaseMainActivity.currentToken = account.token;
-                                        BaseMainActivity.currentUserID = account.user_id;
-                                        BaseMainActivity.currentInstance = account.instance;
-                                        Helper.setCurrentAccount(account);
-                                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                                        editor.putString(PREF_USER_TOKEN, account.token);
-                                        editor.putString(PREF_USER_SOFTWARE, account.software);
-                                        editor.putString(PREF_USER_INSTANCE, account.instance);
-                                        editor.putString(PREF_USER_ID, account.user_id);
-                                        editor.commit();
-                                        Intent mainActivity = new Intent(context, MainActivity.class);
-                                        mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_WITH_ANOTHER_ACCOUNT);
-                                        mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        mainActivity.putExtra(Helper.PREF_MESSAGE_URL, statusToDeal.url);
-                                        context.startActivity(mainActivity);
-                                        ((Activity) context).finish();
-                                        dialog.dismiss();
-                                    });
-                                    builderSingle.show();
-                                };
-                                mainHandler.post(myRunnable);
-                            } else if (accounts.size() == 1) {
-                                Handler mainHandler = new Handler(Looper.getMainLooper());
-                                Runnable myRunnable = () -> {
-                                    BaseAccount account = accounts.get(0);
-                                    Toasty.info(context, context.getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
-                                    BaseMainActivity.currentToken = account.token;
-                                    BaseMainActivity.currentUserID = account.user_id;
-                                    BaseMainActivity.currentInstance = account.instance;
-                                    Helper.setCurrentAccount(account);
-                                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                                    editor.putString(PREF_USER_TOKEN, account.token);
-                                    editor.putString(PREF_USER_SOFTWARE, account.software);
-                                    editor.putString(PREF_USER_INSTANCE, account.instance);
-                                    editor.putString(PREF_USER_ID, account.user_id);
-                                    editor.commit();
-                                    Intent mainActivity = new Intent(context, MainActivity.class);
-                                    mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_WITH_ANOTHER_ACCOUNT);
-                                    mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    mainActivity.putExtra(Helper.PREF_MESSAGE_URL, statusToDeal.url);
-                                    context.startActivity(mainActivity);
-                                    ((Activity) context).finish();
-                                };
-                                mainHandler.post(myRunnable);
+            if (remote) {
+                Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
+                        .observe((LifecycleOwner) context, results -> {
+                            if (results != null && results.statuses != null && !results.statuses.isEmpty()) {
+                                clickMoreAction(context, statusesVM, holder, adapter, statusList, results.statuses.get(0));
+                            } else {
+                                Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
                             }
-
-                        } catch (DBException e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-                }
-                return true;
-            });
-            popup.show();
+                        });
+            } else {
+                clickMoreAction(context, statusesVM, holder, adapter, statusList, statusToDeal);
+            }
         });
 
         holder.binding.actionButtonReplyContainer.setOnLongClickListener(v -> {
@@ -2814,6 +2449,389 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+    private static void clickMoreAction(Context context,
+                                        StatusesVM statusesVM,
+                                        StatusViewHolder holder,
+                                        RecyclerView.Adapter<RecyclerView.ViewHolder> adapter,
+                                        List<Status> statusList,
+                                        Status statusToDeal) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean share_details = sharedpreferences.getBoolean(context.getString(R.string.SET_SHARE_DETAILS), true);
+        boolean isOwner = statusToDeal.account.id.compareTo(BaseMainActivity.currentUserID) == 0;
+        PopupMenu popup = new PopupMenu(context, holder.binding.actionButtonMore);
+        popup.getMenuInflater()
+                .inflate(R.menu.option_toot, popup.getMenu());
+        if (statusToDeal.visibility.equals("private") || statusToDeal.visibility.equals("direct")) {
+            popup.getMenu().findItem(R.id.action_mention).setVisible(false);
+        }
+        if (statusToDeal.bookmarked)
+            popup.getMenu().findItem(R.id.action_bookmark).setTitle(R.string.bookmark_remove);
+        else
+            popup.getMenu().findItem(R.id.action_bookmark).setTitle(R.string.bookmark_add);
+        if (statusToDeal.muted)
+            popup.getMenu().findItem(R.id.action_mute_conversation).setTitle(R.string.unmute_conversation);
+        else
+            popup.getMenu().findItem(R.id.action_mute_conversation).setTitle(R.string.mute_conversation);
+        if (statusToDeal.pinned)
+            popup.getMenu().findItem(R.id.action_pin).setTitle(R.string.action_unpin);
+        else
+            popup.getMenu().findItem(R.id.action_pin).setTitle(R.string.action_pin);
+        final String[] stringArrayConf;
+        if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private") && !isOwner))
+            popup.getMenu().findItem(R.id.action_schedule_boost).setVisible(false);
+        if (isOwner) {
+            popup.getMenu().findItem(R.id.action_block).setVisible(false);
+            popup.getMenu().findItem(R.id.action_mute).setVisible(false);
+            popup.getMenu().findItem(R.id.action_report).setVisible(false);
+            popup.getMenu().findItem(R.id.action_timed_mute).setVisible(false);
+            popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
+            popup.getMenu().findItem(R.id.action_pin).setVisible(!statusToDeal.visibility.equalsIgnoreCase("direct"));
+            stringArrayConf = context.getResources().getStringArray(R.array.more_action_owner_confirm);
+        } else {
+            popup.getMenu().findItem(R.id.action_pin).setVisible(false);
+            popup.getMenu().findItem(R.id.action_redraft).setVisible(false);
+            popup.getMenu().findItem(R.id.action_edit).setVisible(false);
+            popup.getMenu().findItem(R.id.action_remove).setVisible(false);
+            if (statusToDeal.account.acct.split("@").length < 2)
+                popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
+            stringArrayConf = context.getResources().getStringArray(R.array.more_action_confirm);
+        }
+        popup.getMenu().findItem(R.id.action_admin).setVisible(Helper.getCurrentAccount(context).admin);
+
+        boolean custom_sharing = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOM_SHARING), false);
+        if (custom_sharing && statusToDeal.visibility.equals("public"))
+            popup.getMenu().findItem(R.id.action_custom_sharing).setVisible(true);
+        AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
+        popup.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_redraft) {
+                AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
+                builderInner.setTitle(stringArrayConf[1]);
+                builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
+                    if (statusList != null) {
+                        int position = holder.getBindingAdapterPosition();
+                        statusList.remove(statusToDeal);
+                        adapter.notifyItemRemoved(position);
+                        statusesVM.deleteStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, statusDeleted -> {
+                            Intent intent = new Intent(context, ComposeActivity.class);
+                            StatusDraft statusDraft = new StatusDraft();
+                            statusDraft.statusDraftList = new ArrayList<>();
+                            statusDraft.statusReplyList = new ArrayList<>();
+                            if (statusDeleted == null) {
+                                Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                                return;
+                            }
+                            statusDeleted.id = null;
+                            statusDraft.statusDraftList.add(statusDeleted);
+                            Bundle args = new Bundle();
+                            args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
+                            args.putSerializable(Helper.ARG_STATUS_REPLY_ID, statusDeleted.in_reply_to_id);
+                            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(bundle);
+                                context.startActivity(intent);
+                            });
+                            sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
+                        });
+                    }
+                });
+                builderInner.setMessage(statusToDeal.text);
+                builderInner.show();
+            } else if (itemId == R.id.action_edit) {
+                statusesVM.getStatusSource(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                        .observe((LifecycleOwner) context, statusSource -> {
+                            if (statusSource != null) {
+                                Intent intent = new Intent(context, ComposeActivity.class);
+                                StatusDraft statusDraft = new StatusDraft();
+                                statusDraft.statusDraftList = new ArrayList<>();
+                                statusDraft.statusReplyList = new ArrayList<>();
+                                statusToDeal.text = statusSource.text;
+                                statusToDeal.spoiler_text = statusSource.spoiler_text;
+                                if (statusToDeal.spoiler_text != null && statusToDeal.spoiler_text.length() > 0) {
+                                    statusToDeal.spoilerChecked = true;
+                                }
+                                statusDraft.statusDraftList.add(statusToDeal);
+                                Bundle args = new Bundle();
+                                args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
+                                args.putString(Helper.ARG_EDIT_STATUS_ID, statusToDeal.id);
+                                args.putString(Helper.ARG_STATUS_REPLY_ID, statusToDeal.in_reply_to_id);
+                                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                    intent.putExtras(bundle);
+                                    context.startActivity(intent);
+                                });
+                            } else {
+                                Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                            }
+                        });
+            } else if (itemId == R.id.action_schedule_boost) {
+                MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.BOOST, statusToDeal, null, null);
+            } else if (itemId == R.id.action_admin) {
+                Intent intent = new Intent(context, AdminAccountActivity.class);
+                Bundle args = new Bundle();
+                args.putString(Helper.ARG_ACCOUNT_ID, statusToDeal.account.id);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
+            } else if (itemId == R.id.action_open_browser) {
+                Helper.openBrowser(context, statusToDeal.url);
+            } else if (itemId == R.id.action_remove) {
+                AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
+                builderInner.setTitle(stringArrayConf[0]);
+                builderInner.setMessage(statusToDeal.content);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    builderInner.setMessage(Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString());
+                else
+                    builderInner.setMessage(Html.fromHtml(statusToDeal.content).toString());
+                builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                builderInner.setPositiveButton(R.string.yes, (dialog, which) -> statusesVM.deleteStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                        .observe((LifecycleOwner) context, statusDeleted -> {
+                            int position = holder.getBindingAdapterPosition();
+                            statusList.remove(statusToDeal);
+                            adapter.notifyItemRemoved(position);
+                            sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
+                        }));
+                builderInner.show();
+            } else if (itemId == R.id.action_block_domain) {
+                AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
+                builderInner.setTitle(stringArrayConf[3]);
+                String domain = statusToDeal.account.acct.split("@")[1];
+                builderInner.setMessage(context.getString(R.string.block_domain_confirm_message, domain));
+                builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
+                    accountsVM.addDomainBlocks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, domain);
+                    Toasty.info(context, context.getString(R.string.toast_block_domain), Toasty.LENGTH_LONG).show();
+                });
+                builderInner.show();
+            } else if (itemId == R.id.action_mute) {
+                AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
+                builderInner.setTitle(stringArrayConf[0]);
+                builderInner.setMessage(statusToDeal.account.acct);
+                builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                builderInner.setNegativeButton(R.string.keep_notifications, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, false, null)
+                        .observe((LifecycleOwner) context, relationShip -> {
+                            sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
+                            Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
+                        }));
+                builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, null, null)
+                        .observe((LifecycleOwner) context, relationShip -> {
+                            sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
+                            Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
+                        }));
+                builderInner.show();
+            } else if (itemId == R.id.action_mute_home) {
+                AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
+                builderInner.setTitle(R.string.mute_home);
+                builderInner.setMessage(statusToDeal.account.acct);
+                builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(Helper.getCurrentAccount(context), statusToDeal.account)
+                        .observe((LifecycleOwner) context, account -> Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show()));
+                builderInner.show();
+            } else if (itemId == R.id.action_mute_conversation) {
+                if (statusToDeal.muted) {
+                    statusesVM.unMute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show());
+                } else {
+                    statusesVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_mute_conversation)).show());
+                }
+                return true;
+            } else if (itemId == R.id.action_pin) {
+                if (statusToDeal.pinned) {
+                    statusesVM.unPin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unpin)).show());
+                } else {
+                    statusesVM.pin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_pin)).show());
+                }
+                return true;
+            } else if (itemId == R.id.action_bookmark) {
+                if (statusToDeal.bookmarked) {
+                    statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_unbookmarked)).show());
+                } else {
+                    statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_bookmarked)).show());
+                }
+            } else if (itemId == R.id.action_timed_mute) {
+                MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.TIMED_MUTED, statusToDeal, null, null);
+                return true;
+            } else if (itemId == R.id.action_block) {
+                AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
+                builderInner.setTitle(stringArrayConf[1]);
+                builderInner.setMessage(statusToDeal.account.acct);
+                builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                builderInner.setPositiveButton(R.string.yes, (dialog, which) -> accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id)
+                        .observe((LifecycleOwner) context, relationShip -> {
+                            sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
+                            Toasty.info(context, context.getString(R.string.toast_block)).show();
+                        }));
+                builderInner.show();
+            } else if (itemId == R.id.action_translate) {
+                translate(context, statusToDeal, holder, adapter);
+                return true;
+            } else if (itemId == R.id.action_report) {
+                Intent intent = new Intent(context, ReportActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, statusToDeal);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
+            } else if (itemId == R.id.action_copy) {
+                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                String content;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    content = Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                else
+                    content = Html.fromHtml(statusToDeal.content).toString();
+                ClipData clip = ClipData.newPlainText(Helper.CLIP_BOARD, content);
+                if (clipboard != null) {
+                    clipboard.setPrimaryClip(clip);
+                    Toasty.info(context, context.getString(R.string.clipboard), Toast.LENGTH_LONG).show();
+                }
+                return true;
+            } else if (itemId == R.id.action_copy_link) {
+                ClipboardManager clipboard;
+                ClipData clip;
+                clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+
+                clip = ClipData.newPlainText(Helper.CLIP_BOARD, statusToDeal.url);
+                if (clipboard != null) {
+                    clipboard.setPrimaryClip(clip);
+                    Toasty.info(context, context.getString(R.string.clipboard_url), Toast.LENGTH_LONG).show();
+                }
+                return true;
+            } else if (itemId == R.id.action_share) {
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.shared_via));
+                String url;
+
+                if (statusToDeal.uri.startsWith("http"))
+                    url = statusToDeal.uri;
+                else
+                    url = statusToDeal.url;
+                String extra_text;
+                if (share_details) {
+                    extra_text = statusToDeal.account.acct;
+                    if (extra_text.split("@").length == 1)
+                        extra_text = "@" + extra_text + "@" + BaseMainActivity.currentInstance;
+                    else
+                        extra_text = "@" + extra_text;
+                    extra_text += " \uD83D\uDD17 " + url + "\r\n-\n";
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                        extra_text += Html.fromHtml(statusToDeal.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                    else
+                        extra_text += Html.fromHtml(statusToDeal.content).toString();
+                } else {
+                    extra_text = url;
+                }
+                sendIntent.putExtra(Intent.EXTRA_TEXT, extra_text);
+                sendIntent.setType("text/plain");
+                context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.share_with)));
+            } else if (itemId == R.id.action_custom_sharing) {
+                Intent intent = new Intent(context, CustomSharingActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, statusToDeal);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
+            } else if (itemId == R.id.action_mention) {
+                Intent intent = new Intent(context, ComposeActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS_MENTION, statusToDeal);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
+            } else if (itemId == R.id.action_open_with) {
+                new Thread(() -> {
+                    try {
+                        List<BaseAccount> accounts = new Account(context).getCrossAccounts();
+                        if (accounts.size() > 1) {
+                            List<app.fedilab.android.mastodon.client.entities.api.Account> accountList = new ArrayList<>();
+                            for (BaseAccount account : accounts) {
+                                account.mastodon_account.acct += "@" + account.instance;
+                                accountList.add(account.mastodon_account);
+                            }
+                            Handler mainHandler = new Handler(Looper.getMainLooper());
+                            Runnable myRunnable = () -> {
+                                AlertDialog.Builder builderSingle = new MaterialAlertDialogBuilder(context);
+                                builderSingle.setTitle(context.getString(R.string.choose_accounts));
+                                final AccountsSearchAdapter accountsSearchAdapter = new AccountsSearchAdapter(context, accountList);
+                                final BaseAccount[] accountArray = new BaseAccount[accounts.size()];
+                                int i = 0;
+                                for (BaseAccount account : accounts) {
+                                    accountArray[i] = account;
+                                    i++;
+                                }
+                                builderSingle.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                                builderSingle.setAdapter(accountsSearchAdapter, (dialog, which) -> {
+                                    BaseAccount account = accountArray[which];
+
+                                    Toasty.info(context, context.getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
+                                    BaseMainActivity.currentToken = account.token;
+                                    BaseMainActivity.currentUserID = account.user_id;
+                                    BaseMainActivity.currentInstance = account.instance;
+                                    Helper.setCurrentAccount(account);
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    editor.putString(PREF_USER_TOKEN, account.token);
+                                    editor.putString(PREF_USER_SOFTWARE, account.software);
+                                    editor.putString(PREF_USER_INSTANCE, account.instance);
+                                    editor.putString(PREF_USER_ID, account.user_id);
+                                    editor.commit();
+                                    Intent mainActivity = new Intent(context, MainActivity.class);
+                                    mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_WITH_ANOTHER_ACCOUNT);
+                                    mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    mainActivity.putExtra(Helper.PREF_MESSAGE_URL, statusToDeal.url);
+                                    context.startActivity(mainActivity);
+                                    ((Activity) context).finish();
+                                    dialog.dismiss();
+                                });
+                                builderSingle.show();
+                            };
+                            mainHandler.post(myRunnable);
+                        } else if (accounts.size() == 1) {
+                            Handler mainHandler = new Handler(Looper.getMainLooper());
+                            Runnable myRunnable = () -> {
+                                BaseAccount account = accounts.get(0);
+                                Toasty.info(context, context.getString(R.string.toast_account_changed, "@" + account.mastodon_account.acct + "@" + account.instance), Toasty.LENGTH_LONG).show();
+                                BaseMainActivity.currentToken = account.token;
+                                BaseMainActivity.currentUserID = account.user_id;
+                                BaseMainActivity.currentInstance = account.instance;
+                                Helper.setCurrentAccount(account);
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString(PREF_USER_TOKEN, account.token);
+                                editor.putString(PREF_USER_SOFTWARE, account.software);
+                                editor.putString(PREF_USER_INSTANCE, account.instance);
+                                editor.putString(PREF_USER_ID, account.user_id);
+                                editor.commit();
+                                Intent mainActivity = new Intent(context, MainActivity.class);
+                                mainActivity.putExtra(Helper.INTENT_ACTION, Helper.OPEN_WITH_ANOTHER_ACCOUNT);
+                                mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                mainActivity.putExtra(Helper.PREF_MESSAGE_URL, statusToDeal.url);
+                                context.startActivity(mainActivity);
+                                ((Activity) context).finish();
+                            };
+                            mainHandler.post(myRunnable);
+                        }
+
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+            }
+            return true;
+        });
+        popup.show();
+    }
 
     private static void translate(Context context, Status statusToDeal,
                                   StatusViewHolder holder,
