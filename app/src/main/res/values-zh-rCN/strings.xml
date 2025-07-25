@@ -1110,4 +1110,7 @@
     <string name="cd_open_profile">打开个人资料页</string>
     <string name="cd_switch_account">切换到 %s</string>
     <string name="cd_translated_media_description">翻译的媒体描述：%s</string>
+    <string name="followed_tag_success">你现在关注这个标签了！</string>
+    <string name="action_follow_tag_confirm">确定要关注 %1$s 标签吗？</string>
+    <string name="remaining_tags">…及另外 %d 个</string>
 </resources>
