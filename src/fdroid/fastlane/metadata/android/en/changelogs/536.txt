@@ -7,6 +7,8 @@ Changed:
 - Limit the number of highlighted hashtags at the bottom of messages
 - Improve accessibility in media activity
 - Improve content descriptions
+- Update languages
+- Update launcher icons, add more monochrome icons
 
 Fixed:
 - Fix a crash with threads
