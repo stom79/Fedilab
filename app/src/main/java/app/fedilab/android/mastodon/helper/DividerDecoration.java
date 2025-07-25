@@ -118,8 +118,7 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
 
                         c.drawLine(startPx, view.getTop() - margin, startPx, bottomPx, paint);
                     }
-                    int indexColor = indentation%colorList.size();
-                    int color = colorList.get(indexColor > 0 ? indexColor-1:0);
+                    int color = colorList.get((indentation-1)%colorList.size());
                     paint.setColor(ResourcesCompat.getColor(_mContext.getResources(), color, _mContext.getTheme()));
 
                     float startDp = 6 * fontScale * (indentation - 1) + 6 * fontScale;
