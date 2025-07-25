@@ -5,6 +5,8 @@ Added:
 
 Changed:
 - Limit the number of highlighted hashtags at the bottom of messages
+- Improve accessibility in media activity
+- Improve content descriptions
 
 Fixed:
 - Fix a crash with threads
