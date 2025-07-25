@@ -93,19 +93,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/laTexView_container" />
 
-        <app.fedilab.android.mastodon.helper.FedilabAutoCompleteTextView
-            android:id="@+id/content"
+        <LinearLayout
+            android:id="@+id/content_container"
             android:layout_width="0dp"
-            android:textCursorDrawable="@drawable/color_cursor"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:focusable="true"
-            android:gravity="top|start"
-            android:inputType="textMultiLine|textCapSentences"
-            android:minLines="10"
             app:layout_constraintEnd_toStartOf="@id/button_emoji"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/content_spoiler" />
+            app:layout_constraintTop_toBottomOf="@id/content_spoiler"
+            android:orientation="horizontal"
+            >
+            <app.fedilab.android.mastodon.helper.FedilabAutoCompleteTextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:gravity="top|start"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="10"
+                />
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_emoji"
@@ -170,7 +179,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="6dp"
-            app:layout_constraintTop_toBottomOf="@id/content" />
+            app:layout_constraintTop_toBottomOf="@id/content_container" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_attach"
