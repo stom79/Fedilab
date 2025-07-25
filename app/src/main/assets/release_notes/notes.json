@@ -1,8 +1,8 @@
 [
   {
-    "version": "3.34.0-beta-1",
-    "code": "535",
-    "note": "Added:\n- Quote support for Mastodon\n- Long press on tags: Follow / Mute\n\nChanged:\n- Limit the number of highlighted hashtags at the bottom of messages\n\nFixed:\n- Fix a crash with threads\n- Fix empty Hashtags"
+    "version": "3.34.0-beta-2",
+    "code": "536",
+    "note": "Added:\n- 3-Dots menu for remote conversations (Federation in background)\n- Quote support for Mastodon\n- Long press on tags: Follow / Mute\n\nChanged:\n- Improve accessibility in media activity\n- Improve content descriptions\n- Update languages\n- Update launcher icons, add more monochrome icons\n- Limit the number of highlighted hashtags at the bottom of messages\n\nFixed:\n- Fix text selection stop working when composing\n- Fix a crash with threads\n- Fix empty Hashtags"
   },
   {
     "version": "3.33.1",
