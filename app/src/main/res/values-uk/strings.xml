@@ -1119,4 +1119,6 @@
     <string name="cd_switch_account">Перейти до %s</string>
     <string name="cd_translated_media_description">Перекладений опис медіафайлу: %s</string>
     <string name="remaining_tags">…і ще %d</string>
+    <string name="followed_tag_success">Тепер ви підписані на цей тег!</string>
+    <string name="action_follow_tag_confirm">Ви впевнені, що хочете підписатися на тег %1$s??</string>
 </resources>
