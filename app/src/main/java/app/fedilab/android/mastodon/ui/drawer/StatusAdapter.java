@@ -1517,18 +1517,33 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 TextView.BufferType.SPANNABLE);
         boolean underlineBottomHashTags = sharedpreferences.getBoolean(context.getString(R.string.SET_UNDERLINE_BOTTOM_HASHTAGS), true);
         if(underlineBottomHashTags) {
+            int link_color;
+            boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
+            boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
+            int linkColor = -1;
+            if (currentNightMode == Configuration.UI_MODE_NIGHT_NO && customLight) {
+                link_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_LINK), -1);
+                if (link_color != -1) {
+                    linkColor = link_color;
+                }
+            } else if (currentNightMode == Configuration.UI_MODE_NIGHT_YES && customDark) {
+                link_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_LINK), -1);
+                if (link_color != -1) {
+                    linkColor = link_color;
+                }
+            }
             if (statusToDeal.getBottomTags().length > 0) {
                 holder.binding.statusHashtags.setVisibility(View.VISIBLE);
                 holder.binding.statusHashtags.removeAllViews();
                 int index = 0;
                 for (String tag : statusToDeal.getBottomTags()) {
-                    if(!statusToDeal.bottomTagsAllDisplayed && index > 2 && statusToDeal.getBottomTags().length > 3) {
+                    int remaining = statusToDeal.getBottomTags().length - 3;
+                    if(!statusToDeal.bottomTagsAllDisplayed && index > 2 && statusToDeal.getBottomTags().length > 3 && remaining > 1) {
                         Chip chip = new Chip(context);
                         chip.setClickable(true);
                         chip.setEnsureMinTouchTargetSize(false);
-                        int remaining = statusToDeal.getBottomTags().length - 3;
                         chip.setText(context.getString(R.string.remaining_tags, remaining));
-                        chip.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
+                        chip.setTextColor(linkColor == - 1 ?ThemeHelper.getAttColor(context, R.attr.colorPrimary):linkColor);
                         chip.setOnClickListener(v -> {
                             statusToDeal.bottomTagsAllDisplayed = true;
                             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
@@ -1540,7 +1555,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     chip.setClickable(true);
                     chip.setEnsureMinTouchTargetSize(false);
                     chip.setText(tag);
-                    chip.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
+                    chip.setTextColor(linkColor == - 1 ?ThemeHelper.getAttColor(context, R.attr.colorPrimary):linkColor);
                     chip.setOnLongClickListener(v->{
                         SpannableHelper.longPressHashTags(context, statusToDeal, tag);
                         return true;
