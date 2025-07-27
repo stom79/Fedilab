@@ -1,0 +1,18 @@
+Added:
+- 3-Dots menu for remote conversations (Federation in background)
+- Quote support for Mastodon
+- Long press on tags: Follow / Mute
+
+Changed:
+- Improve accessibility in media activity
+- Improve content descriptions
+- Update languages
+- Update launcher icons, add more monochrome icons
+- Limit the number of highlighted hashtags at the bottom of messages
+
+Fixed:
+- Fix text selection stop working when composing
+- Fix a crash with threads
+- Fix empty Hashtags
+- Fix automatically expand media does not work with the Pixelfed presentation
+- Fix a crash with fit preview images feature
