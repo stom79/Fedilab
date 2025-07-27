@@ -71,7 +71,11 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     public void onBindViewHolder(SliderAdapterVH viewHolder, final int position) {
 
         Attachment sliderItem = mSliderItems.get(position);
-        if (status.sensitive) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
+        boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
+
+        if (status.sensitive && !expand_media) {
             Glide.with(viewHolder.itemView)
                     .load(sliderItem.preview_url)
                     .fitCenter()
@@ -83,9 +87,6 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                     .fitCenter()
                     .into(viewHolder.binding.ivAutoImageSlider);
         }
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
-        boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
 
         viewHolder.itemView.setOnClickListener(v -> {
             if (status.sensitive && !expand_media) {
