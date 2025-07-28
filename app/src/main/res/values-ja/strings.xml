@@ -142,7 +142,7 @@
     <string name="status_cnt">投稿
 \n %1$s</string>
     <string name="following_cnt">フォロー中 \n %1$s</string>
-    <string name="followers_cnt">フォロワー\n %1$s</string>
+    <string name="followers_cnt">フォロワー \n %1$s</string>
     <string name="reject">拒否</string>
     <!-- Scheduled toots -->
     <string name="no_scheduled_toots">投稿予約はありません！</string>
@@ -547,11 +547,11 @@
     <string name="open_other_app">別のアプリで開く</string>
     <string name="check_redirect">リダイレクト先を確認する</string>
     <string name="no_redirect">このURLはリダイレクトではありません</string>
-    <string name="redirect_detected">%1$s\n\nは\n\n%2$sにリダイレクトしています</string>
+    <string name="redirect_detected">%1$s \n\nは\n\n%2$sにリダイレクトしています</string>
     <string name="set_utm_parameters">UTMパラメータを削除する</string>
     <string name="set_utm_parameters_indication">リンクを開く前に自動的にURLからUTMパラメータを取り除きます。</string>
     <string name="talking_about">%d人が話題にしています</string>
-    <string name="twitter_accounts">Twitterアカウント(via Nitter)</string>
+    <string name="twitter_accounts">Twitterアカウント(Nitter経由)</string>
     <string name="list_of_twitter_accounts">Twitterのユーザー名をスペースで区切って入力</string>
     <string name="identity_proofs">身分証明</string>
     <string name="verified_user">認証済み</string>
@@ -571,7 +571,7 @@
 \n
 \nまた、そのメッセージを無視するように設定からプッシュ通知を無効にすることもできます。</string>
     <string name="select_distributors">ディストリビューターを選択</string>
-    <string name="hide_content">コンテンツを非表示にする &lt;</string>
+    <string name="hide_content"><![CDATA[内容を非表示 <]]></string>
     <string name="stop_recording">レコーディングを停止</string>
     <string name="report_title">%1$sを報告しています</string>
     <string name="report_indication_title_status">この投稿で何が起こっているのか教えてください</string>
@@ -629,7 +629,7 @@
     <string name="post_message_text">投稿を送信中 %d/%d</string>
     <string name="instance_health_checkedat">%sでチェック</string>
     <string name="instance_health_uptime">稼働時間: %,.2f</string>
-    <string name="show_content">コンテンツを表示 &gt;</string>
+    <string name="show_content"><![CDATA[内容を表示 >]]></string>
     <string name="is_up">稼働しています！</string>
     <string name="report_val1">この投稿が嫌いです</string>
     <string name="report_1_block_title">%1$sをブロックする</string>
@@ -1068,4 +1068,49 @@
     <string name="Pronouns">代名詞</string>
     <string name="pronouns_support">代名詞のサポート</string>
     <string name="qr_code_generator">QRコード作成</string>
+    <string name="links">リンク</string>
+    <string name="instance_token">あなたのトークン</string>
+    <string name="more_options">他のオプション</string>
+    <string name="cd_open_profile">プロフィールページを開く</string>
+    <string name="cd_switch_account">%sに切り替え</string>
+    <string name="cd_translated_media_description">メディアの翻訳された説明: %s</string>
+    <string name="action_favourite">お気に入り</string>
+    <string name="action_reblog">ブースト</string>
+    <string name="action_quote">引用</string>
+    <string name="add_content_warning">閲覧注意を追加</string>
+    <string name="remove_content_warning">閲覧注意を削除</string>
+    <string name="change_visibility">表示/非表示を切り替え</string>
+    <string name="set_language">言語を設定</string>
+    <string name="action_publish">投稿</string>
+    <string name="open_new_attachment_panel">新しい添付ファイルパネルを開く</string>
+    <string name="close_new_attachment_panel">新しい添付ファイルパネルを閉じる</string>
+    <string name="attach_images">画像を添付</string>
+    <string name="attach_audio">音声を添付</string>
+    <string name="attach_videos">動画を添付</string>
+    <string name="attach_files">ファイルを添付</string>
+    <string name="add_poll">投票を追加</string>
+    <string name="toast_error_internet">インターネット接続がありません！</string>
+    <string name="toast_error_token_empty">トークンは空にすることはできません！</string>
+    <string name="set_pixelfed_full_media">フルスクリーンメディア</string>
+    <string name="set_pixelfed_full_media_indication">メディアはスクリーンの幅いっぱいに表示され、高さはアスペクト比を保って表示されます。</string>
+    <string name="instance_information">インスタンス情報</string>
+    <string name="network">ネットワーク</string>
+    <string name="twitter_tags">Twitterタグ(Nitter経由)</string>
+    <string name="add_featured_hashtag">おすすめするハッシュタグを追加</string>
+    <string name="no_feature_hashtag_suggestion">おすすめのハッシュタグ候補はありません！</string>
+    <string name="fields_title">フィールドを追加または削除</string>
+    <string name="featured_hashtags_title">おすすめのハッシュタグを追加または削除</string>
+    <string name="delete_featured_hashtag">おすすめのハッシュタグを削除</string>
+    <string name="delete_featured_hashtag_confirm">このおすすめしたハッシュタグを削除しますか？</string>
+    <string name="use_token">トークンを使用</string>
+    <string name="toast_fail_authenticate">アカウントの認証に失敗しました！</string>
+    <string name="link_image">リンクに添付された画像</string>
+    <string name="set_audo_hide_compose_title">投稿ボタンを自動的に隠す</string>
+    <string name="set_audo_hide_compose_summary">タイムラインを上にスクロールしたときに投稿ボタンを自動的に隠します</string>
+    <string name="followed_tag_success">このタグをフォローしました！</string>
+    <string name="action_follow_tag_confirm">タグ%1$sをフォローしますか？</string>
+    <string name="set_mention_booster">ブーストしたユーザーをメンションする</string>
+    <string name="set_mention_booster_indication">ブーストされた投稿に返信するとき、その投稿をブーストしたユーザーを返信でメンションします</string>
+    <string name="underline_bottom_hashtags">下部のハッシュタグをハイライトする</string>
+    <string name="remaining_tags">…さらに%d件</string>
 </resources>
