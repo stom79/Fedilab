@@ -1097,4 +1097,19 @@
     <string name="set_mention_booster_indication">En respondre a un impuls, s\'esmenta en la resposta la persona impulsora</string>
     <string name="no_cached_messages">No hi fa brams d\'inici guardats a la cau!</string>
     <string name="icons_visibility_summary">Podeu ocultar amb tranquil·litat aquestes icones a baix de tot per tenir més espai. També estan en el submenú.</string>
+    <string name="links">Enllaços</string>
+    <string name="cd_open_profile">Obrir pàgina del perfil</string>
+    <string name="cd_switch_account">Canviar a %s</string>
+    <string name="cd_translated_media_description">Descripció traduïda de mèdia: %s</string>
+    <string name="add_featured_hashtag">Afegir etiqueta destacada</string>
+    <string name="no_feature_hashtag_suggestion">Sense suggeriments per a les etiquetes destacades!</string>
+    <string name="fields_title">Afegir o suprimir camps</string>
+    <string name="featured_hashtags_title">Afegir o suprimir etiquetes destacades</string>
+    <string name="delete_featured_hashtag">Esborrar etiqueta destacada</string>
+    <string name="delete_featured_hashtag_confirm">Estàs segura d\'esborrar aquesta etiqueta destacada?</string>
+    <string name="link_image">Imatge associada a l\'enllaç</string>
+    <string name="followed_tag_success">Ja estàs seguint aquesta etiqueta!</string>
+    <string name="action_follow_tag_confirm">Estàs segura de seguir l\'etiqueta %1$s??</string>
+    <string name="underline_bottom_hashtags">Ressaltar etiquetes inferiors</string>
+    <string name="remaining_tags">…i %d més</string>
 </resources>
