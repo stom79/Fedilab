@@ -1163,6 +1163,7 @@ public class Helper {
                 if (Helper.isValidContextForGlide(activity)) {
                     Glide.with(activity)
                             .asDrawable()
+                            .placeholder(R.drawable.ic_person)
                             .load(avatar)
                             .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(10)))
                             .into(view);
@@ -1176,6 +1177,7 @@ public class Helper {
                 try {
                     RequestBuilder<Drawable> requestBuilder = Glide.with(activity)
                             .asDrawable()
+                            .placeholder(R.drawable.ic_person)
                             .load(targetedUrl)
                             .thumbnail(0.1f);
                     if (crop) {
@@ -1187,6 +1189,7 @@ public class Helper {
             } else {
                 RequestBuilder<GifDrawable> requestBuilder = Glide.with(activity)
                         .asGif()
+                        .placeholder(R.drawable.ic_person)
                         .load(targetedUrl)
                         .thumbnail(0.1f);
                 if (crop) {
