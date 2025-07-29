@@ -1,0 +1,10 @@
+Afegits:
+- Suport per a cites a Mastodon
+- Aguantar sobre etiqueta: Seguir / Silenciar
+
+Canvis:
+- Límit d'etiquetes ressaltades al final del missatge
+
+Correccions:
+- Error amb els enfilalls
+- Etiquetes que sortien buides

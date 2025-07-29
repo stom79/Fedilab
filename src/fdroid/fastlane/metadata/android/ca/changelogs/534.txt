@@ -1,0 +1,19 @@
+Afegits:
+- Ressaltat de hashtags inferiors
+- Enllaços en les tendències
+- Etiquetes destacades als perfils
+- Afegir/eliminar les etiquetes a l'editor de perfils
+
+Canvis:
+- Diàleg de confirmació en aguantar impulsar
+- Obre missatges en tocar Difusions programades 
+- Millor selector d'idioma en filtratges
+
+Correccions:
+- Límit de resultats en filtres
+- Selecció de mèdia a Pleroma
+- Eliminacions errònies en missatges i impulsos temporitzats 
+- Fallides en enfilalls llargs
+- Problema potencial de memòria en mèdia no retallats
+- Les cites incrustades ja es veuen
+- Algunes fallides

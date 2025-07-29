@@ -1,0 +1,18 @@
+Afegits:
+- Menú de 3 punts per a converses remotes (Federació en segon pla)
+- Suport per cites a Mastodon
+- Aguantar sobre etiqueta: Seguir / Silenciar
+
+Canvis:
+- Millor accessibilitat amb els mèdia
+- Millors descripcions de contingut
+- Actualització d'idiomes
+- Actualització d'icones de llançadors: més de monocromes
+- Límitació d'etiquetes ressaltades al final dels missatges
+
+Corregit:
+- Error amb la selecció de text en redactar
+- Error amb els enfilalls
+- Correcció d'etiquetes buides
+- Falles amb l'expansió automàtica de mèdia amb Pixelfed 
+- Fallides amb la funcionalitat d'encabir imatges de previsionat
