@@ -135,4 +135,24 @@
     <string name="track_selection_title">Vali meediavood</string>
     <string name="auto">Automaatne</string>
     <string name="thumbnail">Pisipilt</string>
+    <string name="cd_translated_media_description">Tõlgitud meediumi kirjeldus: %s</string>
+    <string name="reblog_remove">Kas lõpetad sellele sõnumile hooandmise?</string>
+    <string name="toot_select_image_error">Meediumi valimisel tekkis viga!</string>
+    <string name="toot_delete_media">Kas eemaldad selle meediumi?</string>
+    <string name="toot_error_no_content">Sinu sõnum on tühi!</string>
+    <string name="toots_visibility_title">Vaikimisi on sõnumite nähtavus:</string>
+    <string name="toot_sent">Sõnum on saadetud!</string>
+    <string name="status_cnt">Sõnumid \n %1$s</string>
+    <string name="remove_scheduled">Kas kustutad ajastatud sõnumid?</string>
+    <string name="no_scheduled_toots">Pole ajastatud sõnumeid, mida kuvada!</string>
+    <string name="toot_scheduled">See sõnum on ajastatud!</string>
+    <string name="notif_status">kirjutas uue sõnumi</string>
+    <string name="toast_reblog">Sõnumile lisati hoogu!</string>
+    <string name="toast_unreblog">Sõnumile lõpetati hoo lisamine!</string>
+    <string name="toast_favourite">Sõnum lisati sinu lemmikute hulka!</string>
+    <string name="toast_unfavourite">Sõnum eemaldati sinu lemmikute seast!</string>
+    <string name="toast_bookmark">Sõnum lisati sinu järjehoidjate hulka!</string>
+    <string name="toast_unbookmark">Sõnum eemaldati sinu järjehoidjate seast!</string>
+    <string name="set_toots_page">Sõnumite arv ühel laadimiskorral</string>
+    <string name="direct_message">Otsesõnum</string>
 </resources>
