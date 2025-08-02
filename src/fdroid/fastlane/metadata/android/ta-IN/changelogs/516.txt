@@ -1,0 +1,11 @@
+Added:
+- Allow பெறுநர் தொகு scheduled செய்திகள் இருந்து சேவையகம் side
+
+Changed:
+- Order பட்டியல் பெயர் alphabetically in profiles
+
+Fixed:
+- Push notifications
+- Peertube instances picker
+- தொகு scheduled threads (local)
+- Instant தேடல் of Hashtag repeats முடிவுகள்

@@ -1,0 +1,11 @@
+சேர்க்கப்பட்டது: 
+- Allow பெறுநர் follow the கண்டுபிடி timelines of Pixelfed instances
+ - Allow பெறுநர் புகுபதிவு with a token
+
+ மாற்றம்: 
+- Use Pixelfed மனையமைவு when following Pixelfed instance
+ - Allow பெறுநர் scroll buttons க்கு larger screen in conversation
+
+ சரி: 
+- Nitter பெறுநர் follow Twitter accounts
+ - Some minor crashes

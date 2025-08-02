@@ -1,0 +1,10 @@
+சேர்க்கப்பட்டது: 
+- கூட்டு support பெறுநர் முகவரி scheme "web+ap" க்கு opening profiles with the app
+
+ மாற்றப்பட்டது: 
+- மனையமைவு க்கு ஊடகம் descriptions
+
+ சரி: 
+- Fix a crash when translating ஊடகம் descriptions
+ - கைப்பிடி included twice when replying பெறுநர் a self user's boost
+ - Fix color issues when using a தனிப்பயன் theme

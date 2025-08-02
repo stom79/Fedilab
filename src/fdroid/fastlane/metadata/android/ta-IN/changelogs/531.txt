@@ -1,0 +1,13 @@
+சேர்க்கப்பட்டது: 
+- An outline around media
+
+ மாற்றப்பட்டது: 
+- Make username, காட்சி பெயர் in nav drawer clickable
+ - Gif ஊடகம் not animated by default
+ - முடக்கு by இயல்புநிலை the mention பெறுநர் the booster when replying. Can be இயக்கப்பட்டது in அமைப்புகள் > Compose (per account)
+
+ சரி: 
+- Wrong preview picture on பங்கு இருந்து another app
+ - Crash when translating with MinT
+ - புதுப்பிப்பு and pagination broken க்கு the Trending timeline
+ - Fix lags / Crashes
