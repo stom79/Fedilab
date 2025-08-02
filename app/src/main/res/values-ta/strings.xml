@@ -1030,4 +1030,10 @@
     <string name="set_mention_booster">பூச்டரைக் குறிப்பிடவும்</string>
     <string name="set_mention_booster_indication">ஒரு ஊக்கத்திற்கு பதிலளிக்கும் போது, உயர்த்தப்பட்ட நபர் பதிலில் குறிப்பிடப்படுவார்</string>
     <string name="underline_bottom_hashtags">கீழே உள்ள ஏச்டேக்குகளை முன்னிலைப்படுத்தவும்</string>
+    <string name="cd_open_profile">தன்விவரப் பக்கத்தைத் திற</string>
+    <string name="cd_switch_account">%s க்கு மாறு</string>
+    <string name="cd_translated_media_description">மொழிபெயர்க்கப்பட்ட ஊடக விளக்கம்: %s</string>
+    <string name="followed_tag_success">நீங்கள் இப்போது இந்தக் குறிச்சொல்லைப் பின்பற்றுங்கள்!</string>
+    <string name="action_follow_tag_confirm">நீங்கள் %1$s குறிச்சொல்லைப் பின்பற்ற விரும்புகிறீர்களா??</string>
+    <string name="remaining_tags">…மற்றும் %d மேலும்</string>
 </resources>
