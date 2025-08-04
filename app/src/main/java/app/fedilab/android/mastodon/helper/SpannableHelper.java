@@ -135,12 +135,22 @@ public class SpannableHelper {
     public static Spannable convert(Context context, String text,
                                     Status status, Account account, Announcement announcement,
                                     WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml, boolean convertMarkdown) {
-        return convert(context, text, status, account, announcement, false, viewWeakReference, callback, convertHtml, convertMarkdown);
+        return convert(context, text, status, account, announcement, false, viewWeakReference, callback, convertHtml, convertMarkdown, false);
     }
 
     public static Spannable convert(Context context, String text,
-                                    Status status, Account account, Announcement announcement, boolean checkRemotely,
-                                    WeakReference<View> viewWeakReference, Status.Callback callback, boolean convertHtml, boolean convertMarkdown) {
+                                    Status status, Account account, Announcement announcement, WeakReference<View> viewWeakReference,
+                                    Status.Callback callback, boolean convertHtml, boolean convertMarkdown, boolean keepOriginalBottomHashTags) {
+        return convert(context, text, status, account, announcement, false, viewWeakReference, callback, convertHtml, convertMarkdown, keepOriginalBottomHashTags);
+    }
+
+    /**
+     * @param keepOriginalBottomHashTags set this to {@code true} to preserve original bottom hash tags. For example, in account note
+     *                                   <i>(profile bio/description)</i> in {@link app.fedilab.android.mastodon.activities.ProfileActivity ProfileActivity}
+     */
+    public static Spannable convert(Context context, String text, Status status, Account account, Announcement announcement,
+                                    boolean checkRemotely, WeakReference<View> viewWeakReference, Status.Callback callback,
+                                    boolean convertHtml, boolean convertMarkdown, boolean keepOriginalBottomHashTags) {
         if (text == null) {
             return null;
         }
@@ -395,7 +405,7 @@ public class SpannableHelper {
         }
 
         boolean underlineBottomHashTags = sharedpreferences.getBoolean(context.getString(R.string.SET_UNDERLINE_BOTTOM_HASHTAGS), true);
-        if(underlineBottomHashTags) {
+        if(underlineBottomHashTags && !keepOriginalBottomHashTags) {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
             final Pattern bottomTagsPattern = Pattern.compile(patternBottomTags, Pattern.CASE_INSENSITIVE);
             Matcher matcherBottomTags = bottomTagsPattern.matcher(content);

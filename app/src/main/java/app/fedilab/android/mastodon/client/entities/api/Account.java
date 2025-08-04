@@ -112,8 +112,8 @@ public class Account implements Serializable {
     public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference) {
         return SpannableHelper.convert(context, note, null, this, null, viewWeakReference, null, true, false);
     }
-    public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference, Status.Callback callback) {
-        return SpannableHelper.convert(context, note, null, this, null, viewWeakReference, callback, true, false);
+    public synchronized Spannable getSpanNote(Context context, WeakReference<View> viewWeakReference, Status.Callback callback, boolean keepOriginalBottomHashTags) {
+        return SpannableHelper.convert(context, note, null, this, null, viewWeakReference, callback, true, false, keepOriginalBottomHashTags);
     }
 
     @Override

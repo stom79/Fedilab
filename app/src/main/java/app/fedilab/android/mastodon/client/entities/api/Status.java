@@ -195,7 +195,7 @@ public class Status implements Serializable, Cloneable {
 
     public synchronized Spannable getSpanContent(Context context, boolean checkRemotely, WeakReference<View> viewWeakReference, Callback callback) {
         if (contentSpan == null) {
-            contentSpan = SpannableHelper.convert(context, content, this, null, null, checkRemotely, viewWeakReference, callback, true, true);
+            contentSpan = SpannableHelper.convert(context, content, this, null, null, checkRemotely, viewWeakReference, callback, true, true, false);
         }
         return contentSpan;
     }

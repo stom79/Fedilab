@@ -589,7 +589,7 @@ public class ProfileActivity extends BaseActivity {
                                     account.getSpanNote(ProfileActivity.this,
                                             new WeakReference<>(binding.accountNote)), TextView.BufferType.SPANNABLE);
 
-                        }),
+                        }, true),
                 TextView.BufferType.SPANNABLE);
 
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
