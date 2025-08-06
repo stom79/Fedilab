@@ -78,6 +78,10 @@
     <string name="cd_open_profile">Open profile page</string>
     <string name="cd_switch_account">Switch to %s</string>
     <string name="cd_translated_media_description">Translated media description: %s</string>
+    <string name="tab_home_timeline">@string/context_home</string>
+    <string name="tab_local_timeline">@string/local_menu</string>
+    <string name="tab_public_timeline">Public timeline</string>
+    <string name="tab_private_mentions">Private mentions</string>
 
     <!-- Status -->
     <string name="no_status">No message to display</string>

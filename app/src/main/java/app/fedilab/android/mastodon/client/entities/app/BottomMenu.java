@@ -132,19 +132,19 @@ public class BottomMenu implements Serializable {
             android.view.MenuItem menuItemLoop = null;
             switch (menuItem.item_menu_type) {
                 case HOME:
-                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_home, menuItem.position, context.getString(R.string.home_menu)).setIcon(R.drawable.ic_baseline_home_24);
+                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_home, menuItem.position, R.string.tab_home_timeline).setIcon(R.drawable.ic_baseline_home_24);
                     break;
                 case LOCAL:
-                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_local, menuItem.position, context.getString(R.string.local_menu)).setIcon(R.drawable.ic_baseline_people_alt_24);
+                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_local, menuItem.position, R.string.tab_local_timeline).setIcon(R.drawable.ic_baseline_people_alt_24);
                     break;
                 case PUBLIC:
-                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_public, menuItem.position, context.getString(R.string.v_public)).setIcon(R.drawable.ic_baseline_public_24);
+                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_public, menuItem.position, R.string.tab_public_timeline).setIcon(R.drawable.ic_baseline_public_24);
                     break;
                 case NOTIFICATION:
                     menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_notifications, menuItem.position, context.getString(R.string.notifications)).setIcon(R.drawable.ic_baseline_notifications_24);
                     break;
                 case DIRECT:
-                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_privates, menuItem.position, context.getString(R.string.v_private)).setIcon(R.drawable.ic_baseline_mail_24);
+                    menuItemLoop = bottomNavigationView.getMenu().add(Menu.NONE, R.id.nav_privates, menuItem.position, R.string.tab_private_mentions).setIcon(R.drawable.ic_baseline_mail_24);
                     break;
             }
             if (menuItemLoop != null && !menuItem.visible) {
