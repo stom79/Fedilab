@@ -1121,4 +1121,8 @@
     <string name="remaining_tags">…і ще %d</string>
     <string name="followed_tag_success">Тепер ви підписані на цей тег!</string>
     <string name="action_follow_tag_confirm">Ви впевнені, що хочете підписатися на тег %1$s??</string>
+    <string name="tab_home_timeline">\@string/context_home</string>
+    <string name="tab_local_timeline">\@string/local_menu</string>
+    <string name="tab_public_timeline">Публічна хронологія</string>
+    <string name="tab_private_mentions">Приватні згадки</string>
 </resources>
