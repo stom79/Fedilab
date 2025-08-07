@@ -1113,4 +1113,6 @@
     <string name="followed_tag_success">你现在关注这个标签了！</string>
     <string name="action_follow_tag_confirm">确定要关注 %1$s 标签吗？</string>
     <string name="remaining_tags">…及另外 %d 个</string>
+    <string name="tab_public_timeline">公共时间线</string>
+    <string name="tab_private_mentions">私下提及</string>
 </resources>
