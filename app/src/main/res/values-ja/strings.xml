@@ -1113,4 +1113,8 @@
     <string name="set_mention_booster_indication">ブーストされた投稿に返信するとき、その投稿をブーストしたユーザーを返信でメンションします</string>
     <string name="underline_bottom_hashtags">下部のハッシュタグをハイライトする</string>
     <string name="remaining_tags">…さらに%d件</string>
+    <string name="tab_public_timeline">公開タイムライン</string>
+    <string name="tab_private_mentions">プライベートメンション</string>
+    <string name="tab_home_timeline">\@string/context_home</string>
+    <string name="tab_local_timeline">\@string/local_menu</string>
 </resources>
