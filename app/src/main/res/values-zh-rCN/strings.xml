@@ -722,7 +722,7 @@
     <string name="set_timelines_in_a_list_title">列表中的时间线</string>
     <string name="set_use_cache_indication">时间线将被缓存，因此应用会更快。</string>
     <string name="load_media_type_title">加载媒体缩略图</string>
-    <string name="display_media">展示媒体</string>
+    <string name="display_media">显示媒体</string>
     <string name="cached_messages">缓存消息</string>
     <string name="aggregate_notifications">聚合通知</string>
     <string name="aggregate_notifications_summary">开启时，应用会收起相关通知</string>
@@ -837,7 +837,7 @@
     <string name="pref_custom_theme_new_summary">允许创建您的自定义主题</string>
     <string name="pref_contributor_summary">选择一个由贡献者构建的主题</string>
     <string name="messages_stored_in_drafts">存储在草稿中的消息</string>
-    <string name="display">展示</string>
+    <string name="display">显示</string>
     <string name="also_boosted_by">也转发自：</string>
     <string name="admin_scope">我是监察员</string>
     <string name="location">地点</string>
