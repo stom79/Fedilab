@@ -1111,4 +1111,6 @@
     <string name="followed_tag_success">Agora segues esta etiqueta!</string>
     <string name="action_follow_tag_confirm">Tes certeza de querer seguir a etiqueta %1$s??</string>
     <string name="remaining_tags">…e %d máis</string>
+    <string name="tab_public_timeline">Cronoloxía pública</string>
+    <string name="tab_private_mentions">Mencións privadas</string>
 </resources>
