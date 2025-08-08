@@ -57,6 +57,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -1602,12 +1603,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         if (statusToDeal.translationContent != null) {
             holder.binding.containerTrans.setVisibility(View.VISIBLE);
-            holder.binding.statusContentTranslated.setText(
-                    statusToDeal.getSpanTranslate(context,
-                            new WeakReference<>(holder.binding.statusContentTranslated), () -> {
-                                recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
-                            }),
-                    TextView.BufferType.SPANNABLE);
+            Spannable translatedText = statusToDeal.getSpanTranslate(context,
+                    new WeakReference<>(holder.binding.statusContentTranslated), () -> {
+                        recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
+                    });
+            holder.binding.statusContentTranslated.setText(translatedText, TextView.BufferType.SPANNABLE);
+            holder.binding.containerTrans.setContentDescription(context.getString(R.string.cd_translated_content, translatedText));
         } else {
             holder.binding.containerTrans.setVisibility(View.GONE);
         }

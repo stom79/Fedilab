@@ -310,6 +310,8 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
+            android:focusable="true"
+            android:importantForAccessibility="yes"
             android:orientation="vertical"
             android:visibility="gone"
             tools:visibility="visible">
@@ -332,12 +334,12 @@
 
             <TextView
                 android:id="@+id/translation_label"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:background="?colorSurface"
                 android:elevation="2dp"
+                android:importantForAccessibility="no"
                 android:paddingStart="2dp"
                 android:paddingEnd="2dp"
                 android:text="@string/translation"
@@ -352,9 +354,13 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
+                android:importantForAccessibility="no"
+                android:minHeight="48dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/translation_label"
-                app:layout_goneMarginBottom="8dp" />
+                app:layout_goneMarginBottom="8dp"
+                tools:maxLines="4"
+                tools:text="@tools:sample/lorem/random" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

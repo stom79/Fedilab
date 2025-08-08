@@ -82,6 +82,7 @@
     <string name="tab_local_timeline">@string/local_menu</string>
     <string name="tab_public_timeline">Public timeline</string>
     <string name="tab_private_mentions">Private mentions</string>
+    <string name="cd_translated_content">Translated content: %s</string>
 
     <!-- Status -->
     <string name="no_status">No message to display</string>
