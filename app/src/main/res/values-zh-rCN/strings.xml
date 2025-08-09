@@ -1115,4 +1115,5 @@
     <string name="remaining_tags">…及另外 %d 个</string>
     <string name="tab_public_timeline">公共时间线</string>
     <string name="tab_private_mentions">私下提及</string>
+    <string name="cd_translated_content">已翻译的内容：%s</string>
 </resources>
