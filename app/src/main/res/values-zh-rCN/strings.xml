@@ -443,7 +443,7 @@
     <string name="password_too_short">密码应至少包含 8 个字符</string>
     <string name="username_error">用户名只能包含字母、数字和下划线</string>
     <string name="account_created">账号已创建！</string>
-    <string name="account_created_message">您的账号已创建！ \n \n 请考虑在接下来的 48 小时内验证您的电子邮件。 \n \n 您现在可以通过在第一个字段中写入 <b>%1$s</b> 并轻按 <b>连接</b> 来连接你的账户。 \n \n <b>重要</b>：如果您的实例需要验证，您将在验证后收到一封电子邮件！</string>
+    <string name="account_created_message">您的账号已创建！ \n \n 请考虑在接下来的 48 小时内验证您的电子邮件。 \n \n 您现在可以通过在第一个字段中写入 <b>%1$s</b> 并轻按 <b>连接</b> 来连接您的账号。 \n \n <b>重要</b>：如果您的实例需要验证，您将在验证后收到一封电子邮件！</string>
     <string name="save_draft">将消息保存在草稿中？</string>
     <string name="administration">管理</string>
     <string name="reports">举报</string>
@@ -1069,9 +1069,9 @@
     <string name="underline_links">带下划线的可点击元素</string>
     <string name="qr_code_generator">二维码生成器</string>
     <string name="toast_error_internet">没有互联网连接！</string>
-    <string name="instance_token">你的令牌</string>
+    <string name="instance_token">您的令牌</string>
     <string name="toast_error_token_empty">令牌不能为空！</string>
-    <string name="toast_fail_authenticate">应用验证账户失败！</string>
+    <string name="toast_fail_authenticate">应用验证账号失败！</string>
     <string name="use_token">使用令牌</string>
     <string name="twitter_tags">Twitter 标签（通过 Nitter）</string>
     <string name="set_pixelfed_full_media">全屏媒体</string>
@@ -1110,7 +1110,7 @@
     <string name="cd_open_profile">打开个人资料页</string>
     <string name="cd_switch_account">切换到 %s</string>
     <string name="cd_translated_media_description">翻译的媒体描述：%s</string>
-    <string name="followed_tag_success">你现在关注这个标签了！</string>
+    <string name="followed_tag_success">您现在关注这个标签了！</string>
     <string name="action_follow_tag_confirm">确定要关注 %1$s 标签吗？</string>
     <string name="remaining_tags">…及另外 %d 个</string>
     <string name="tab_public_timeline">公共时间线</string>
