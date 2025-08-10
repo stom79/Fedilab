@@ -548,8 +548,8 @@
     <string name="check_redirect">检查重定向</string>
     <string name="no_redirect">此 URL 不重定向</string>
     <string name="redirect_detected">%1$s \n\n重定向到\n\n %2$s</string>
-    <string name="set_utm_parameters">删除 UTM 参数</string>
-    <string name="set_utm_parameters_indication">在访问链接之前，应用会自动从 URL 中删除 UTM 参数。</string>
+    <string name="set_tracking_parameters">删除跟踪参数</string>
+    <string name="set_tracking_parameters_indication">在访问链接之前，应用程序会自动从 URL 中删除跟踪参数。</string>
     <string name="talking_about">%d 人正在讨论</string>
     <string name="twitter_accounts">Twitter 账号（来自 Nitter）</string>
     <string name="list_of_twitter_accounts">Twitter 用户名空格分隔</string>

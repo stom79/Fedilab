@@ -555,8 +555,8 @@
     <string name="check_redirect">Verìfica sa deviatzione</string>
     <string name="no_redirect">Custu URL non torrat a indiritzare</string>
     <string name="redirect_detected">%1$s \n \n torrat a imbiare cara a\n \n %2$s</string>
-    <string name="set_utm_parameters">Boga is paràmetros UTM</string>
-    <string name="set_utm_parameters_indication">S\'aplicatzione at a bogare in manera automàtica is paràmetros UTM dae is URL in antis de abèrrere unu ligàmene.</string>
+    <string name="set_tracking_parameters">Boga is paràmetros di tracciamento</string>
+    <string name="set_tracking_parameters_indication">S\'aplicatzione at a bogare in manera automàtica is paràmetros di tracciamento dae is URL in antis de abèrrere unu ligàmene.</string>
     <string name="talking_about">%d persones nde sunt chistionende</string>
     <string name="twitter_accounts">Contos de Twitter (pro mèdiu de Nitter)</string>
     <string name="list_of_twitter_accounts">Nùmenes de utente de Twitter separados dae ispàtzios</string>

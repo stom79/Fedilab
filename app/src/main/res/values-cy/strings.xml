@@ -571,8 +571,8 @@
     <string name="check_redirect">Check redirect</string>
     <string name="no_redirect">This URL does not redirect</string>
     <string name="redirect_detected">%1$s \n\nyn ailgyfeirio i\n\n %2$s</string>
-    <string name="set_utm_parameters">Remove UTM parameters</string>
-    <string name="set_utm_parameters_indication">The app will automatically remove UTM parameters from URLs before visiting a link.</string>
+    <string name="set_tracking_parameters">Remove tracking parameters</string>
+    <string name="set_tracking_parameters_indication">The app will automatically remove tracking parameters from URLs before visiting a link.</string>
     <string name="talking_about">%d pobl yn sôn</string>
     <string name="twitter_accounts">Cyfrifon Twitter (trwy Nitter)</string>
     <string name="list_of_twitter_accounts">Twitter usernames space separated</string>

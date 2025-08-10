@@ -560,8 +560,8 @@
     <string name="check_redirect">Wybadej przekerowanie</string>
     <string name="no_redirect">Ta adresa URL niy przekerowuje</string>
     <string name="redirect_detected">%1$s \n\nprzekerowuje do\n\n %2$s</string>
-    <string name="set_utm_parameters">Wymaż parametry UTM</string>
-    <string name="set_utm_parameters_indication">Aplikacyjo autōmatycznie wymaże parametry UTM ze adresy URL przed ôtwarciym linku.</string>
+    <string name="set_tracking_parameters">Usuń parametry śledzynio</string>
+    <string name="set_tracking_parameters_indication">Aplikacyjo autōmatycznie wymaże parametry śledzynio ze adresy URL przed ôtwarciym linku.</string>
     <string name="talking_about">%d ludzi godo</string>
     <string name="twitter_accounts">Kōnta Twitter (bez Nitter)</string>
     <string name="list_of_twitter_accounts">Miana używoczōw Twittera ôddzielōne spacyjami</string>

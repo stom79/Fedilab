@@ -568,8 +568,8 @@
 \npřesměrovává na
 \n
 \n %2$s</string>
-    <string name="set_utm_parameters">Odstranit parametry UTM</string>
-    <string name="set_utm_parameters_indication">Aplikace bude před otevřením odkazu automaticky odstraňovat parametry UTM.</string>
+    <string name="set_tracking_parameters">Odstranit parametry sledování</string>
+    <string name="set_tracking_parameters_indication">Aplikace bude před otevřením odkazu automaticky odstraňovat parametry sledování.</string>
     <string name="talking_about">Hovoří %d lidí</string>
     <string name="twitter_accounts">Účty Twitteru (přes Nitter)</string>
     <string name="list_of_twitter_accounts">Uživatelská jména Twitteru oddělená mezerou</string>

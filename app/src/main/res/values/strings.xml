@@ -651,8 +651,8 @@
     <string name="check_redirect">Check redirect</string>
     <string name="no_redirect">This URL does not redirect</string>
     <string name="redirect_detected">%1$s \n\nredirects to\n\n %2$s</string>
-    <string name="set_utm_parameters">Remove UTM parameters</string>
-    <string name="set_utm_parameters_indication">The app will automatically remove UTM parameters from URLs before visiting a link.</string>
+    <string name="set_tracking_parameters">Remove tracking parameters</string>
+    <string name="set_tracking_parameters_indication">The app will automatically remove tracking parameters from URLs before visiting a link.</string>
     <string name="talking_about">%d people talking</string>
     <string name="twitter_accounts">Twitter accounts (via Nitter)</string>
     <string name="twitter_tags">Twitter tags (via Nitter)</string>
@@ -1307,7 +1307,7 @@
     <string name="DEFAULT_THREAD_VALUE" translatable="false">ASK</string>
     <string name="SET_INVIDIOUS_HOST" translatable="false">SET_INVIDIOUS_HOST</string>
     <string name="DEFAULT_INVIDIOUS_HOST" translatable="false">invidious.snopyta.org</string>
-    <string name="SET_FILTER_UTM" translatable="false">SET_FILTER_UTM</string>
+    <string name="SET_FILTER_TRACKING" translatable="false">SET_FILTER_TRACKING</string>
     <string name="SET_NITTER" translatable="false">SET_NITTER</string>
     <string name="SET_NITTER_HOST" translatable="false">SET_NITTER_HOST</string>
     <string name="DEFAULT_NITTER_HOST" translatable="false">nitter.net</string>

@@ -551,8 +551,8 @@
     <string name="check_redirect">Comprovar la redirecció</string>
     <string name="no_redirect">El redireccionament de la URL no funciona</string>
     <string name="redirect_detected">%1$s \n\nredireccions a\n\n %2$s</string>
-    <string name="set_utm_parameters">Eliminar seguiments de màrketing (UTM)</string>
-    <string name="set_utm_parameters_indication">L\'aplicació eliminarà automàticament els seguiments de màrketing (UTM) dels URL abans de seguir un enllaç.</string>
+    <string name="set_tracking_parameters">Eliminar seguiments de màrketing</string>
+    <string name="set_tracking_parameters_indication">L\'aplicació eliminarà automàticament els seguiments de màrketing dels URL abans de seguir un enllaç.</string>
     <string name="talking_about">%d persones parlant</string>
     <string name="twitter_accounts">Comptes de Twitter (via Nitter)</string>
     <string name="list_of_twitter_accounts">Usuaris de Twitter separats per espais</string>

@@ -550,8 +550,8 @@
     <string name="check_redirect">Kontrollera omdirigering</string>
     <string name="no_redirect">Denna URL kan inte omdirigera</string>
     <string name="redirect_detected">%1$s \n\nomdirigerar till\n\n %2$s</string>
-    <string name="set_utm_parameters">Ta bort UTM parametrar</string>
-    <string name="set_utm_parameters_indication">Appen kommer automatiskt ta bort UTM-parametrar från webbadresser innan du besöker en länk.</string>
+    <string name="set_tracking_parameters">Ta bort spårningsparametrar</string>
+    <string name="set_tracking_parameters_indication">Appen kommer automatiskt ta bort spårningsparametrar från webbadresser innan du besöker en länk.</string>
     <string name="talking_about">%d personer pratar</string>
     <string name="twitter_accounts">Twitter-konton (via Nitter)</string>
     <string name="list_of_twitter_accounts">Twitteranvändarnamn separerade med mellanslag</string>

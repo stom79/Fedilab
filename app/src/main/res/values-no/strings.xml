@@ -932,7 +932,7 @@
     <string name="action_unfollow_tag">Slutt å følge emneknagg</string>
     <string name="followed_tags">Følgte emneknagger</string>
     <string name="set_unlisted_replies_indication">Det gjelder kun \"offentlige\" svar. Når aktivert, vil svarene dine automatisk ha synligheten «uopført» i stedet for «offentlig»</string>
-    <string name="set_utm_parameters_indication">Appen vil automatisk fjerne UTM-parametere fra URL-er før du besøker en lenke.</string>
+    <string name="set_tracking_parameters_indication">Appen vil automatisk fjerne sporingsparametere fra URL-er før du besøker en lenke.</string>
     <string name="login_status">Påloggingsstatus</string>
     <string name="change_logo_description">Endre logoen til appen på enheten din</string>
     <string name="action_pin">Fest melding</string>
@@ -963,7 +963,7 @@
     <string name="report_more">Er det noe mer du mener vi bør vite\?</string>
     <string name="report_more_remote">Kontoen er fra en annen server. Send en anonymisert kopi av rapporten til den andre serveren\?</string>
     <string name="administrator">Administrator</string>
-    <string name="set_utm_parameters">Fjern UTM parameter</string>
+    <string name="set_tracking_parameters">Fjern sporingsparametere</string>
     <string name="pinned">Festet</string>
     <string name="about_mastodon">\"Mastodon er ikke et enkelt nettsted som Twitter eller Facebook, det er et nettverk av tusenvis av fellesskap som drives av forskjellige organisasjoner og enkeltpersoner som gir en sømløs opplevelse av sosiale medier.\"</string>
     <string name="notif_display_follows">Følger</string>
