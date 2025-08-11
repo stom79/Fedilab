@@ -1880,6 +1880,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.buttonPost.setEnabled(!statusDraft.submitted);
 
             holder.binding.buttonPost.setOnClickListener(v -> {
+                v.setEnabled(false);
                 statusDraft.submitted = true;
                 notifyItemChanged(position);
                 manageDrafts.onSubmit(prepareDraft(statusList, this, account.instance, account.user_id));
