@@ -401,7 +401,7 @@ public class Helper {
      * - Firefox: https://firefox.settings.services.mozilla.com/v1/buckets/main/collections/query-stripping/records
      * - Brave: https://github.com/brave/brave-core/blob/master/components/query_filter/utils.cc
      */
-    private static final String[] UTM_PARAMS = {
+    private static final String[] TRACKING_PARAMS = {
             "utm_\\w+",
             "ref_\\w+",
             "__hsfp",
@@ -882,8 +882,8 @@ public class Helper {
                 return "https://" + wikipediaReplaceHost + "/" + path + lang;
             }
         }
-        boolean filterUTM = Helper.getSharedValue(context, context.getString(R.string.SET_FILTER_UTM));
-        if (filterUTM) {
+        boolean filterTracking = Helper.getSharedValue(context, context.getString(R.string.SET_FILTER_TRACKING));
+        if (filterTracking) {
             return remove_tracking_param(context, url);
         }
         return url;
@@ -900,10 +900,10 @@ public class Helper {
         if (original_content == null)
             return original_content;
         String cleaned_content = original_content;
-        for (String utm : UTM_PARAMS) {
-            cleaned_content = cleaned_content.replaceAll("&amp;" + utm + "=[0-9a-zA-Z._-]*", "");
-            cleaned_content = cleaned_content.replaceAll("&" + utm + "=[0-9a-zA-Z._-]*", "");
-            cleaned_content = cleaned_content.replaceAll("\\?" + utm + "=[0-9a-zA-Z._-]*", "?");
+        for (String param : TRACKING_PARAMS) {
+            cleaned_content = cleaned_content.replaceAll("&amp;" + param + "=[0-9a-zA-Z._-]*", "");
+            cleaned_content = cleaned_content.replaceAll("&" + param + "=[0-9a-zA-Z._-]*", "");
+            cleaned_content = cleaned_content.replaceAll("\\?" + param + "=[0-9a-zA-Z._-]*", "?");
         }
         if (cleaned_content.endsWith("?")) {
             cleaned_content = cleaned_content.substring(0, cleaned_content.length() - 1);

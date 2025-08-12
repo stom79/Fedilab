@@ -91,10 +91,10 @@
 
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
-            app:key="@string/SET_FILTER_UTM"
+            app:key="@string/SET_FILTER_TRACKING"
             app:singleLineTitle="false"
-            app:summary="@string/set_utm_parameters_indication"
-            app:title="@string/set_utm_parameters" />
+            app:summary="@string/set_tracking_parameters_indication"
+            app:title="@string/set_tracking_parameters" />
 
     </PreferenceCategory>
 
