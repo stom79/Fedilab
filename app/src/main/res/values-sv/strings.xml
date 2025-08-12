@@ -57,17 +57,17 @@
     <string name="follow_request">Följförfrågningar</string>
     <string name="settings">Inställningar</string>
     <string name="send_email">Skicka e-post</string>
-    <string name="scheduled_toots">Schemalagda toots</string>
-    <string name="disclaimer_full">Informationen nedan kan avspegla användarens profil ofullständigt.</string>
-    <string name="insert_emoji">Infoga emoji</string>
-    <string name="no_emoji">Appen kunde inte samla anpassade emojis för tillfället.</string>
-    <string name="logout_account_confirmation">Är du säker på att du vill logga ut @%1$s@%2$s?</string>
+    <string name="scheduled_toots">Schemalagda meddelanden</string>
+    <string name="disclaimer_full">Nedanstående information kan ge en ofullständig bild av användarens profil.</string>
+    <string name="insert_emoji">Infoga emotikon(er)</string>
+    <string name="no_emoji">Appen kan inte visa anpassade emotikoner för tillfället.</string>
+    <string name="logout_account_confirmation">Vill du verkligen logga ut från @%1$s@%2$s?</string>
     <!-- Status -->
-    <string name="no_status">Ingen toot att visa</string>
-    <string name="favourite_add">Lägg till detta toot till dina favoriter?</string>
-    <string name="favourite_remove">Ta bort detta toot från dina favoriter?</string>
-    <string name="reblog_add">Knuffa detta toot?</string>
-    <string name="reblog_remove">Ta bort knuff av denna toot?</string>
+    <string name="no_status">Inga meddelanden</string>
+    <string name="favourite_add">Ska detta meddelande läggas till i dina favoriter?</string>
+    <string name="favourite_remove">Ska detta meddelande inte vara favoriserat längre?</string>
+    <string name="reblog_add">Knuffa detta meddelande?</string>
+    <string name="reblog_remove">Ska detta meddelande inte knuffas längre?</string>
     <string name="more_action_1">Tysta</string>
     <string name="more_action_2">Blockera</string>
     <string name="more_action_3">Rapportera</string>
@@ -76,7 +76,7 @@
     <string name="more_action_6">Dela</string>
     <string name="more_action_7">Omnämn</string>
     <string name="more_action_8">Tidsinställd tystning</string>
-    <string name="more_action_9">Ta bort &amp; nytt utkast</string>
+    <string name="more_action_9">Ta bort &amp; skriv nytt utkast</string>
     <string-array name="more_action_confirm">
         <item>Tysta detta konto?</item>
         <item>Blockera detta konto?</item>
@@ -94,10 +94,10 @@
         <item>Ta bort &amp; skriv om denna toot?</item>
     </string-array>
     <string name="bookmarks">Bokmärken</string>
-    <string name="bookmark_add">Lägger till bokmärke</string>
+    <string name="bookmark_add">Lägg till ett bokmärke</string>
     <string name="bookmark_remove">Ta bort bokmärke</string>
-    <string name="status_bookmarked">Status har lagts till bokmärken!</string>
-    <string name="status_unbookmarked">Status togs bort från bokmärken!</string>
+    <string name="status_bookmarked">Statusen har bokmärkts!</string>
+    <string name="status_unbookmarked">Statusen togs bort från bokmärkena!</string>
     <!-- Date -->
     <string name="date_seconds">%d s</string>
     <string name="date_minutes">%d m</string>
@@ -112,7 +112,7 @@
         <item quantity="other">%d minuter</item>
     </plurals>
     <plurals name="date_hours_polls">
-        <item quantity="one">%d timma</item>
+        <item quantity="one">%d timme</item>
         <item quantity="other">%d timmar</item>
     </plurals>
     <plurals name="date_day_polls">
@@ -120,8 +120,8 @@
         <item quantity="other">%d dagar</item>
     </plurals>
     <!-- TOOT -->
-    <string name="toot_select_image_error">Ett fel uppstod när du valde media!</string>
-    <string name="toot_delete_media">Ta bort denna media?</string>
+    <string name="toot_select_image_error">Ett fel uppstod när du valde medium!</string>
+    <string name="toot_delete_media">Ta bort detta medium?</string>
     <string name="toot_error_no_content">Din toot är tom!</string>
     <string name="toot_sent">Tooten har skickats!</string>
     <string name="toot_sensitive">Känsligt innehåll?</string>
@@ -588,4 +588,26 @@
     <string name="delete_featured_hashtag">Ta bort vald tagg</string>
     <string name="no_feature_hashtag_suggestion">Förslag saknas för vald tagg.</string>
     <string name="fields_title">Lägg till eller ta bort fält</string>
+    <string name="cd_open_profile">Profilsida öppen för allmänheten</string>
+    <string name="cd_switch_account">Byt till %s</string>
+    <string name="cd_translated_media_description">Översatt mediebeskrivning: %s</string>
+    <string name="tab_home_timeline">\@sträng/kontext_hem</string>
+    <string name="tab_public_timeline">Tidslinje öppen för allmänheten</string>
+    <string name="tab_private_mentions">Privata omnämnanden</string>
+    <string name="cd_translated_content">Översatt innehåll: %s</string>
+    <string name="action_favourite">Favorit</string>
+    <string name="action_reblog">Knuffa</string>
+    <string name="action_quote">Citera</string>
+    <string name="warn_boost_no_media_description">Om meddelandet saknar beskrivning vill jag bli varnad innan jag knuffar det</string>
+    <string name="reblog_missing_description">Detta meddelande saknar mediebeskrivning. Vill du verkligen knuffa det ändå?</string>
+    <string name="add_content_warning">Lägg till en innehållsvarning</string>
+    <string name="remove_content_warning">Ta bort innehållsvarningen</string>
+    <string name="change_visibility">Ändra hur detta visas</string>
+    <string name="set_language">Ställ in språk</string>
+    <string name="action_publish">Publicera</string>
+    <string name="attach_images">Bifoga bilder</string>
+    <string name="attach_audio">Bifoga ljudfil</string>
+    <string name="attach_videos">Bifoga en film</string>
+    <string name="attach_files">Bifoga filer</string>
+    <string name="add_poll">Lägg till en omröstning</string>
 </resources>
