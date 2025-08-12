@@ -558,8 +558,8 @@
     <string name="check_redirect">Weiterleitung prüfen</string>
     <string name="no_redirect">Diese URL wird nicht weitergeleitet</string>
     <string name="redirect_detected">%1$s \n\nweitergeleitet zu\n\n %2$s</string>
-    <string name="set_tracking_parameters">Tracking-Parameter entfernen</string>
-    <string name="set_tracking_parameters_indication">Die App wird Tracking-Parameter automatisch von URLs entfernen, bevor sie einen Link besucht.</string>
+    <string name="set_utm_parameters">UTM-Parameter entfernen</string>
+    <string name="set_utm_parameters_indication">Die App wird UTM-Parameter automatisch von URLs entfernen, bevor sie einen Link besucht.</string>
     <string name="talking_about">%d Leute sprechen</string>
     <string name="twitter_accounts">Twitter-Konten (über Nitter)</string>
     <string name="list_of_twitter_accounts">Twitter-Benutzernamen durch ein Leerzeichen getrennt</string>

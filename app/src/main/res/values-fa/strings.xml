@@ -546,8 +546,8 @@
     <string name="check_redirect">بررسی تغییر مسیر</string>
     <string name="no_redirect">این نشانی تغییر مسیر نمی‌دهد</string>
     <string name="redirect_detected">%1$s \n\nبه\n\n %2$s تغییر مسیر می‌دهد</string>
-    <string name="set_tracking_parameters">پارامترهای ردیابی را حذف کنید</string>
-    <string name="set_tracking_parameters_indication">این برنامه به طور خودکار پارامترهای ردیابی را قبل از بازدید از لینک از آدرس‌ها حذف می‌کند.</string>
+    <string name="set_utm_parameters">پاک‌کردن پارامترهای UTM</string>
+    <string name="set_utm_parameters_indication">برنامه به‌طور خودکار پارامترهای UTM را از نشانی‌ها پیش از بازدید پیوند پاک می‌کند.</string>
     <string name="talking_about">%d نفر در حال گفتگو</string>
     <string name="twitter_accounts">حساب‌های توییتر (از طریق Nitter)</string>
     <string name="list_of_twitter_accounts">نام‌های کاربری توییتر با فاصله جدا شده</string>

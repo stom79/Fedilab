@@ -546,8 +546,8 @@
     <string name="check_redirect">Tjek omdiregering</string>
     <string name="no_redirect">Denne URL omdirigerer ikke</string>
     <string name="redirect_detected">%1$s\n\nomdirigerer til\n\n%2$s</string>
-    <string name="set_tracking_parameters">Fjern sporingsparametre</string>
-    <string name="set_tracking_parameters_indication">App\'en fjerner automatisk sporingsparametre fra URL\'er, inden du følger et link.</string>
+    <string name="set_utm_parameters">Fjern UTM-parametre</string>
+    <string name="set_utm_parameters_indication">App\'en fjerner automatisk UTM-parametre fra URL\'er, inden du følger et link.</string>
     <string name="talking_about">%d folk snakker</string>
     <string name="twitter_accounts">Twitter-kontoer (via Nitter)</string>
     <string name="list_of_twitter_accounts">Twitter-brugernavne, adskilt af mellemrum</string>

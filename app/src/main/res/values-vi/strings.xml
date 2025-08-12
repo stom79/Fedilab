@@ -584,8 +584,8 @@
 \nchuyển hướng tới
 \n
 \n %2$s</string>
-    <string name="set_tracking_parameters">Xóa các tham số theo dõi</string>
-    <string name="set_tracking_parameters_indication">Ứng dụng sẽ tự động xóa các tham số theo dõi khỏi URL trước khi mở liên kết.</string>
+    <string name="set_utm_parameters">Xóa UTM parameters</string>
+    <string name="set_utm_parameters_indication">Ứng dụng sẽ tự động xóa UTM parameters khỏi những URL trước khi mở một liên kết.</string>
     <string name="talking_about">%d người đang thảo luận</string>
     <string name="twitter_accounts">Tài khoản Twitter (qua Nitter)</string>
     <string name="list_of_twitter_accounts">Tên người dùng Twitter phân cách bằng dấu cách</string>

@@ -560,8 +560,8 @@
     <string name="check_redirect">Controlla reindirizzamento</string>
     <string name="no_redirect">Questo URL non reindirizza</string>
     <string name="redirect_detected">%1$s \n\nreindirizza verso\n\n %2$s</string>
-    <string name="set_tracking_parameters">Rimuovi parametri di tracciamento</string>
-    <string name="set_tracking_parameters_indication">L\'app rimuoverà automaticamente i parametri di tracciamento dagli URL prima di aprire un collegamento.</string>
+    <string name="set_utm_parameters">Rimuovi parametri UTM</string>
+    <string name="set_utm_parameters_indication">L\'app rimuoverà automaticamente i parametri UTM dagli URL prima di aprire un collegamento.</string>
     <string name="talking_about">%d persone ne parlano</string>
     <string name="twitter_accounts">Account Twitter (via Nitter)</string>
     <string name="list_of_twitter_accounts">Nomi utente Twitter separati da spazio</string>

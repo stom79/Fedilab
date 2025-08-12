@@ -563,8 +563,8 @@
     <string name="check_redirect">Проверить перенаправление</string>
     <string name="no_redirect">Этот URL не перенаправляет</string>
     <string name="redirect_detected">%1$s \n\nперенаправляет на\n\n %2$s</string>
-    <string name="set_tracking_parameters">Удалить параметры отслеживания</string>
-    <string name="set_tracking_parameters_indication">Приложение будет автоматически удалять параметры отслеживания из URL-адреса, перед посещением ссылки.</string>
+    <string name="set_utm_parameters">Удалить UTM параметры</string>
+    <string name="set_utm_parameters_indication">Приложение будет автоматически удалять UTM параметры из URL-адреса, перед посещением ссылки.</string>
     <string name="talking_about">%d люди говорят</string>
     <string name="twitter_accounts">Аккаунты Twitter (с помощью Nitter)</string>
     <string name="list_of_twitter_accounts">Имена пользователей Twitter разделённые пробелом</string>

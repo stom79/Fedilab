@@ -453,8 +453,8 @@
 \nath-stiùireadh gu
 \n
 \n%2$s</string>
-    <string name="set_tracking_parameters">Thoir air falbh paramadairean tracadh</string>
-    <string name="set_tracking_parameters_indication">Bheir an aplacaid air falbh paramadairean tracadh o URLaichean gu fèin-obrachail mus tadhail i air a’ cheangal.</string>
+    <string name="set_utm_parameters">Thoir air falbh paramadairean UTM</string>
+    <string name="set_utm_parameters_indication">Bheir an aplacaid air falbh paramadairean UTM o URLaichean gu fèin-obrachail mus tadhail i air a’ cheangal.</string>
     <string name="talking_about">Tha %d a’ bruidhinn</string>
     <string name="twitter_accounts">Cunntasan Twitter (slighe Nitter)</string>
     <string name="list_of_twitter_accounts">Ainmean-cleachdaiche Twitter, sgaraichte le beàrnan</string>

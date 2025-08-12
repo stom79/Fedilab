@@ -555,8 +555,8 @@
     <string name="check_redirect">Comprobar redirección</string>
     <string name="no_redirect">El redireccionamiento de la URL no funciona</string>
     <string name="redirect_detected">%1$s \n\nredirige a\n\n %2$s</string>
-    <string name="set_tracking_parameters">Eliminar parámetros de seguimiento</string>
-    <string name="set_tracking_parameters_indication">La aplicación eliminará automáticamente los parámetros de seguimiento de las URLs antes de visitar un enlace.</string>
+    <string name="set_utm_parameters">Eliminar parámetros UTM</string>
+    <string name="set_utm_parameters_indication">La aplicación eliminará automáticamente los parámetros UTM de las URLs antes de visitar un enlace.</string>
     <string name="talking_about">%d personas hablando</string>
     <string name="twitter_accounts">Cuentas de Twitter (vía Nitter)</string>
     <string name="list_of_twitter_accounts">Nombres de usuario de Twitter separados por un espacio</string>

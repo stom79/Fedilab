@@ -550,8 +550,8 @@
     <string name="check_redirect">Egiaztatu birbideratzea</string>
     <string name="no_redirect">URL honek ez du birbideratzen</string>
     <string name="redirect_detected">%1$s \n\n helbideak \n\n %2$s helbidera birbideratzen du</string>
-    <string name="set_tracking_parameters">Kendu jarraipen-parametroak</string>
-    <string name="set_tracking_parameters_indication">Aplikazioak automatikoki kenduko ditu URL baten jarraipen-parametroak hau bisitatu aurretik.</string>
+    <string name="set_utm_parameters">Kendu UTM parametroak</string>
+    <string name="set_utm_parameters_indication">Aplikazioak automatikoki kenduko ditu URL baten UTM parametroak hau bisitatu aurretik.</string>
     <string name="talking_about">%d pertsona hitz egiten</string>
     <string name="twitter_accounts">Twitter kontuak (Nitter bidez)</string>
     <string name="list_of_twitter_accounts">Twitter erabiltzaile-izenak zuriunez bereizita</string>

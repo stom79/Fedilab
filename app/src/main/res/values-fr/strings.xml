@@ -562,8 +562,8 @@
     <string name="check_redirect">Vérifier la redirection</string>
     <string name="no_redirect">Cette URL ne redirige pas</string>
     <string name="redirect_detected">%1$s \n\nredirige vers\n\n %2$s</string>
-    <string name="set_tracking_parameters">Supprimer les paramètres de suivi</string>
-    <string name="set_tracking_parameters_indication">L’application supprimera automatiquement les paramètres de suivi des URL avant de visiter un lien.</string>
+    <string name="set_utm_parameters">Supprimer les paramètres UTM</string>
+    <string name="set_utm_parameters_indication">L’application supprimera automatiquement les paramètres UTM des URL avant de visiter un lien.</string>
     <string name="talking_about">%d personnes en parlent</string>
     <string name="twitter_accounts">Comptes Twitter (via Nitter)</string>
     <string name="list_of_twitter_accounts">Noms d\'utilisateurs Twitter séparés par un espace</string>

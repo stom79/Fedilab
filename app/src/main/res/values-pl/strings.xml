@@ -571,8 +571,8 @@
 \nprzekierowuje do
 \n
 \n %2$s</string>
-    <string name="set_tracking_parameters">Usuń parametry śledzenia</string>
-    <string name="set_tracking_parameters_indication">Aplikacja automatycznie usunie parametry śledzenia z adresów URL przed odwiedzeniem linku.</string>
+    <string name="set_utm_parameters">Usuń parametry UTM</string>
+    <string name="set_utm_parameters_indication">Aplikacja automatycznie usunie parametry UTM z adresów URL przed odwiedzeniem linku.</string>
     <string name="talking_about">%d ludzi o tym pisze</string>
     <string name="twitter_accounts">Konta Twitter (przez Nitter)</string>
     <string name="list_of_twitter_accounts">Nazwy użytkowników Twittera oddzielone spacjami</string>

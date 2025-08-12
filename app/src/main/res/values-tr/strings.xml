@@ -559,8 +559,8 @@
 \nyönlendirir
 \n
 \n %2$s</string>
-    <string name="set_tracking_parameters">İzleme parametrelerini kaldırın</string>
-    <string name="set_tracking_parameters_indication">Uygulama, bir bağlantı ziyaret edilmeden önce bağlantılardan izleme parametrelerini otomatik olarak kaldırır.</string>
+    <string name="set_utm_parameters">UTM parametrelerini kaldır</string>
+    <string name="set_utm_parameters_indication">Uygulama, bir bağlantıyı ziyaret etmeden önce bağlantılardan UTM parametrelerini otomatik olarak kaldıracak.</string>
     <string name="talking_about">%d kişi konuşuyor</string>
     <string name="twitter_accounts">Twitter hesapları (Nitter üzerinden)</string>
     <string name="list_of_twitter_accounts">Twitter kullanıcı adları boşlukla ayrılmış</string>

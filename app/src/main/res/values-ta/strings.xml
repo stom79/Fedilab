@@ -464,14 +464,14 @@
     <string name="check_redirect">திருப்பி விடுங்கள்</string>
     <string name="no_redirect">இந்த முகவரி திருப்பிவிடாது</string>
     <string name="redirect_detected">%1$s\n\n திருப்பிவிடுகிறது\n\n %2$s</string>
-    <string name="set_tracking_parameters">கண்காணிப்பு அளவுருக்களை அகற்று</string>
+    <string name="set_utm_parameters">யுடிஎம் அளவுருக்களை அகற்று</string>
     <string name="talking_about">%d மக்கள் பேசுகிறார்கள்</string>
     <string name="twitter_accounts">ட்விட்டர் கணக்குகள் (நிட்டர் வழியாக)</string>
     <string name="list_of_twitter_accounts">ட்விட்டர் பயனர்பெயர்கள் இடம் பிரிக்கப்பட்டது</string>
     <string name="identity_proofs">அடையாள சான்றுகள்</string>
     <string name="verified_user">சரிபார்க்கப்பட்ட அடையாளம்</string>
     <string name="verified_by">%1$s ( %2$s) ஆல் சரிபார்க்கப்பட்டது</string>
-    <string name="set_tracking_parameters_indication">இணைப்பை அணுகுவதற்கு முன்பு, பயன்பாடு தானாகவே கண்காணிப்பு அளவுருக்களை நீக்குகிறது.</string>
+    <string name="set_utm_parameters_indication">இணைப்பைப் பார்வையிடுவதற்கு முன்பு பயன்பாடு தானாகவே UTM அளவுருக்களை UTM அளவுருக்களை அகற்றும்.</string>
     <string name="action_disabled">நடவடிக்கை முடக்கப்பட்டது</string>
     <string name="action_unfollow">பின்தொடரவும்</string>
     <string name="error_destination_path">ஏதோ தவறு நடந்தது, தயவுசெய்து உங்கள் பதிவிறக்க கோப்பகத்தை அமைப்புகளில் சரிபார்க்கவும்.</string>
