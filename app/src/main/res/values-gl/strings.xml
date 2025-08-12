@@ -549,8 +549,6 @@
     <string name="check_redirect">Comproba redirección</string>
     <string name="no_redirect">Este URL non redirixe</string>
     <string name="redirect_detected">%1$s \n\nredirixe a\n\n %2$s</string>
-    <string name="set_utm_parameters">Eliminar parámetros UTM</string>
-    <string name="set_utm_parameters_indication">A app borrará automáticamente os parámetros UTM dos URLs antes de visitar a ligazón.</string>
     <string name="talking_about">%d persoas comentando</string>
     <string name="twitter_accounts">Contas de Twitter (vía Nitter)</string>
     <string name="list_of_twitter_accounts">Nomes de usuaria Twitter separados por vírgulas</string>

@@ -559,8 +559,6 @@
     <string name="check_redirect">Перевірити перенаправлення</string>
     <string name="no_redirect">Ця URL-адреса не переспрямовує</string>
     <string name="redirect_detected">%1$s \n\nперенаправляє на\n\n %2$s</string>
-    <string name="set_utm_parameters">Видалити параметри UTM</string>
-    <string name="set_utm_parameters_indication">Програма автоматично видалить параметри UTM з URL-адрес перед переходом за посиланням.</string>
     <string name="talking_about">%d люди говорять</string>
     <string name="twitter_accounts">Акаунти Twitter (через Nitter)</string>
     <string name="list_of_twitter_accounts">Імена користувачів Twitter розділені пробілами</string>

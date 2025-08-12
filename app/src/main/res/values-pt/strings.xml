@@ -564,8 +564,6 @@
 \nredireciona para
 \n
 \n %2$s</string>
-    <string name="set_utm_parameters">Remover parâmetros UTM</string>
-    <string name="set_utm_parameters_indication">O aplicativo removerá automaticamente os parâmetros UTM das URLs antes de visitar um link.</string>
     <string name="talking_about">%d pessoas conversando</string>
     <string name="twitter_accounts">Contas do Twitter (via Nitter)</string>
     <string name="list_of_twitter_accounts">Nomes de usuários do Twitter separados por um espaço</string>
