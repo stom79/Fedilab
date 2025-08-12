@@ -122,16 +122,16 @@
     <!-- TOOT -->
     <string name="toot_select_image_error">Ett fel uppstod när du valde medium!</string>
     <string name="toot_delete_media">Ta bort detta medium?</string>
-    <string name="toot_error_no_content">Din toot är tom!</string>
-    <string name="toot_sent">Tooten har skickats!</string>
+    <string name="toot_error_no_content">Ditt meddelande är tomt!</string>
+    <string name="toot_sent">Meddelandet har skickats!</string>
     <string name="toot_sensitive">Känsligt innehåll?</string>
     <string name="no_draft">Inga utkast!</string>
     <string name="choose_accounts">Välj ett konto</string>
     <string name="select_accounts">Välj några konton</string>
-    <string name="remove_draft">Ta bort utkast?</string>
-    <string name="upload_form_description">Beskriv för synskadade</string>
+    <string name="remove_draft">Ta bort utkastet?</string>
+    <string name="upload_form_description">Beskriv för personer med nedsatt syn</string>
     <!-- Instance -->
-    <string name="instance_no_description">Ingen beskrivning tillgänglig!</string>
+    <string name="instance_no_description">Beskrivning saknas!</string>
     <!-- About -->
     <string name="about_vesrion">Version %1$s</string>
     <string name="about_developer">Utvecklare:</string>
@@ -610,4 +610,11 @@
     <string name="attach_videos">Bifoga en film</string>
     <string name="attach_files">Bifoga filer</string>
     <string name="add_poll">Lägg till en omröstning</string>
+    <string name="toots_visibility_title">Förvald visningsgrupp för meddelanden:</string>
+    <string name="clipboard_version">Informationen har kopierats till urklipp</string>
+    <string name="tag_already_followed">Den taggen följer du redan!</string>
+    <string name="icon_size">Piktogramstorlekar</string>
+    <string name="show_my_messages">Visa mina meddelanden</string>
+    <string name="show_privates">Visa direktmeddelanden</string>
+    <string name="more_options">Fler inställningar</string>
 </resources>
