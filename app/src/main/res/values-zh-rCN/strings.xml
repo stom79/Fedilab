@@ -1114,4 +1114,6 @@
     <string name="tab_public_timeline">公共时间线</string>
     <string name="tab_private_mentions">私下提及</string>
     <string name="cd_translated_content">已翻译的内容：%s</string>
+    <string name="set_tracking_parameters">删除跟踪参数</string>
+    <string name="set_tracking_parameters_indication">访问链接前应用会自动从 URL 删除跟踪参数。</string>
 </resources>
