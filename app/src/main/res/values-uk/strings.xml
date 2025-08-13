@@ -1124,4 +1124,6 @@
     <string name="tab_public_timeline">Публічна хронологія</string>
     <string name="tab_private_mentions">Приватні згадки</string>
     <string name="cd_translated_content">Перекладений вміст: %s</string>
+    <string name="set_tracking_parameters">Вилучити параметри відстеження</string>
+    <string name="set_tracking_parameters_indication">Додаток автоматично видалятиме параметри відстеження з URL-адрес перед переходом за посиланням.</string>
 </resources>
