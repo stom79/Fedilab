@@ -1116,4 +1116,6 @@
     <string name="tab_home_timeline">\@string/context_home</string>
     <string name="tab_local_timeline">\@string/local_menu</string>
     <string name="cd_translated_content">翻訳済みコンテンツ: %s</string>
+    <string name="set_tracking_parameters">トラッキングパラメーターを削除</string>
+    <string name="set_tracking_parameters_indication">アプリはリンクを踏む前に自動的にURLからトラッキングパラメーターを削除します。</string>
 </resources>
