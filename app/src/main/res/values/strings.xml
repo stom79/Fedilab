@@ -824,6 +824,7 @@
     <string-array name="set_logo_type_value" translatable="false">
         <item>Fedilab</item>
         <item>Fedilab UA</item>
+        <item>Fedilab PS</item>
         <item>Fedilab Pea Green</item>
         <item>FediPride</item>
         <item>FediPink</item>
@@ -847,6 +848,7 @@
     <string-array name="SET_LOGO_TYPE_VALUE" translatable="false">
         <item>Bubbles</item>
         <item>BubblesUA</item>
+        <item>BubblesPS</item>
         <item>BubblesPeaGreen</item>
         <item>BubblesPride</item>
         <item>BubblesPink</item>
@@ -871,6 +873,7 @@
     <string-array name="SET_LOGO_DRAWABLE" translatable="false">
         <item>@drawable/ic_launcher_bubbles_foreground</item>
         <item>@drawable/ic_launcher_bubbles_ua_foreground</item>
+        <item>@drawable/ic_launcher_bubbles_ps_foreground</item>
         <item>@drawable/ic_launcher_bubbles_pea_green_foreground</item>
         <item>@drawable/ic_launcher_bubbles_pride_foreground</item>
         <item>@drawable/ic_launcher_bubbles_pink_foreground</item>

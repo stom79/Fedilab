@@ -448,6 +448,26 @@
 
 
         <activity-alias
+            android:name=".activities.MainActivity.BubblesPS"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_bubbles_ps"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_bubbles_ps_round"
+            android:targetActivity=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/compose_shortcuts" />
+        </activity-alias>
+
+
+        <activity-alias
             android:name=".activities.MainActivity.BubblesPeaGreen"
             android:enabled="false"
             android:exported="true"
