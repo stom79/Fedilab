@@ -393,9 +393,11 @@ public class PinnedTimelineHelper {
                     switch (pinnedTimeline.type) {
                         case LIST:
                             tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_list);
+                            tab.setContentDescription(activity.getString(R.string.cd_list_timeline, name));
                             break;
                         case TAG:
                             tabCustomViewBinding.icon.setImageResource(R.drawable.ic_tl_tag);
+                            tab.setContentDescription("#" + name);
                             break;
                         case REMOTE:
                             switch (pinnedTimeline.remoteInstance.type) {
@@ -422,6 +424,7 @@ public class PinnedTimelineHelper {
                                     tabCustomViewBinding.icon.setImageResource(R.drawable.peertube_icon);
                                     break;
                             }
+                            tab.setContentDescription(name);
                             break;
                     }
                     tab.setCustomView(tabCustomViewBinding.getRoot());
@@ -430,24 +433,31 @@ public class PinnedTimelineHelper {
                     switch (pinnedTimeline.type) {
                         case HOME:
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_home_24);
+                            tab.setContentDescription(R.string.tab_home_timeline);
                             break;
                         case LOCAL:
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_supervisor_account_24);
+                            tab.setContentDescription(R.string.tab_local_timeline);
                             break;
                         case PUBLIC:
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_public_24);
+                            tab.setContentDescription(R.string.tab_public_timeline);
                             break;
                         case NOTIFICATION:
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_notifications_24);
+                            tab.setContentDescription(R.string.notifications);
                             break;
                         case DIRECT:
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_mail_24);
+                            tab.setContentDescription(R.string.tab_private_mentions);
                             break;
                         case BUBBLE:
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_bubble_chart_24);
+                            tab.setContentDescription(R.string.tab_bubble_timeline);
                             break;
                         case TREND_MESSAGE:
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.baseline_moving_24);
+                            tab.setContentDescription(R.string.trending);
                             break;
                     }
                     tab.setCustomView(tabCustomDefaultViewBinding.getRoot());
