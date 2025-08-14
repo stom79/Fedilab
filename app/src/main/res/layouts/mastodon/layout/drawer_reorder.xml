@@ -19,7 +19,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:contentDescription="@string/instance_logo"
+            android:importantForAccessibility="no"
             android:scaleType="center"
             tools:src="@drawable/ic_baseline_home_24" />
 
@@ -57,7 +57,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:contentDescription="@string/move_timeline"
+            android:importantForAccessibility="no"
             android:scaleType="center"
             android:src="@drawable/ic_baseline_drag_handle_24"
             tools:ignore="RtlHardcoded" />

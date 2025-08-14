@@ -72,15 +72,15 @@ public class ReorderBottomMenuAdapter extends RecyclerView.Adapter<RecyclerView.
         switch (bottomMenu.bottom_menu.get(position).item_menu_type) {
             case HOME:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_home_24);
-                title = context.getString(R.string.home_menu);
+                title = context.getString(R.string.tab_home_timeline);
                 break;
             case LOCAL:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_people_alt_24);
-                title = context.getString(R.string.local);
+                title = context.getString(R.string.tab_local_timeline);
                 break;
             case PUBLIC:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_public_24);
-                title = context.getString(R.string.v_public);
+                title = context.getString(R.string.tab_public_timeline);
                 break;
             case NOTIFICATION:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_notifications_24);
@@ -88,7 +88,7 @@ public class ReorderBottomMenuAdapter extends RecyclerView.Adapter<RecyclerView.
                 break;
             case DIRECT:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_mail_24);
-                title = context.getString(R.string.v_private);
+                title = context.getString(R.string.tab_private_mentions);
                 break;
         }
         holder.binding.text.setText(title);

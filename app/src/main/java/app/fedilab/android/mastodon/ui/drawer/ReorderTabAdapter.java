@@ -117,26 +117,33 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 break;
             case TAG:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_label_24);
-                if (pinned.pinnedTimelines.get(position).tagTimeline.displayName != null)
-                    holder.binding.text.setText(pinned.pinnedTimelines.get(position).tagTimeline.displayName);
-                else
-                    holder.binding.text.setText(pinned.pinnedTimelines.get(position).tagTimeline.name);
+                if (pinned.pinnedTimelines.get(position).tagTimeline.displayName != null) {
+                    String tagTimelineDisplayName = pinned.pinnedTimelines.get(position).tagTimeline.displayName;
+                    holder.binding.text.setText(tagTimelineDisplayName);
+                    holder.binding.getRoot().setContentDescription(context.getString(R.string.cd_hash_tag_timeline, tagTimelineDisplayName));
+                } else {
+                    String tagTimelineName = pinned.pinnedTimelines.get(position).tagTimeline.name;
+                    holder.binding.text.setText(tagTimelineName);
+                    holder.binding.getRoot().setContentDescription("#" + tagTimelineName);
+                }
                 break;
             case LIST:
+                String listTitle = pinned.pinnedTimelines.get(position).mastodonList.title;
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_view_list_24);
-                holder.binding.text.setText(pinned.pinnedTimelines.get(position).mastodonList.title);
+                holder.binding.text.setText(listTitle);
+                holder.binding.getRoot().setContentDescription(context.getString(R.string.cd_list_timeline, listTitle));
                 break;
             case HOME:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_home_24);
-                holder.binding.text.setText(R.string.home_menu);
+                holder.binding.text.setText(R.string.tab_home_timeline);
                 break;
             case LOCAL:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_supervisor_account_24);
-                holder.binding.text.setText(R.string.local_menu);
+                holder.binding.text.setText(R.string.tab_local_timeline);
                 break;
             case PUBLIC:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_public_24);
-                holder.binding.text.setText(R.string.v_public);
+                holder.binding.text.setText(R.string.tab_public_timeline);
                 break;
             case NOTIFICATION:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_notifications_24);
@@ -144,11 +151,11 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 break;
             case DIRECT:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_mail_24);
-                holder.binding.text.setText(R.string.v_direct);
+                holder.binding.text.setText(R.string.tab_private_mentions);
                 break;
             case BUBBLE:
                 holder.binding.icon.setImageResource(R.drawable.ic_baseline_bubble_chart_24);
-                holder.binding.text.setText(R.string.bubble);
+                holder.binding.text.setText(R.string.tab_bubble_timeline);
                 break;
             case TREND_MESSAGE:
                 holder.binding.icon.setImageResource(R.drawable.baseline_moving_24);
