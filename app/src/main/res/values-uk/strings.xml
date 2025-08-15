@@ -1126,4 +1126,7 @@
     <string name="cd_translated_content">Перекладений вміст: %s</string>
     <string name="set_tracking_parameters">Вилучити параметри відстеження</string>
     <string name="set_tracking_parameters_indication">Додаток автоматично видалятиме параметри відстеження з URL-адрес перед переходом за посиланням.</string>
+    <string name="tab_bubble_timeline">Хронологія бульбашок</string>
+    <string name="cd_list_timeline">%s. Хронологія списку</string>
+    <string name="cd_hash_tag_timeline">%s. Хронологія хештегів</string>
 </resources>
