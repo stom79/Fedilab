@@ -1118,4 +1118,7 @@
     <string name="cd_translated_content">翻訳済みコンテンツ: %s</string>
     <string name="set_tracking_parameters">トラッキングパラメーターを削除</string>
     <string name="set_tracking_parameters_indication">アプリはリンクを踏む前に自動的にURLからトラッキングパラメーターを削除します。</string>
+    <string name="tab_bubble_timeline">バブル・タイムライン</string>
+    <string name="cd_list_timeline">%s. リスト・タイムライン</string>
+    <string name="cd_hash_tag_timeline">%s. ハッシュタグ・タイムライン</string>
 </resources>
