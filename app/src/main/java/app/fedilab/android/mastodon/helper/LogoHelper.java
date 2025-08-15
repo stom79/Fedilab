@@ -49,30 +49,7 @@ public class LogoHelper {
     public static int getMainLogo(Context context) {
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String logo = sharedpreferences.getString(context.getString(R.string.SET_LOGO_LAUNCHER), "Bubbles");
-        switch (logo) {
-            case "Fediverse":
-                return R.drawable.fedilab_logo_fediverse;
-            case "Hero":
-                return R.drawable.fedilab_logo_hero;
-            case "Atom":
-                return R.drawable.fedilab_logo_atom;
-            case "BrainCrash":
-                return R.drawable.fedilab_logo_crash;
-            case "Mastalab":
-                return R.drawable.fedilab_logo_mastalab;
-            case "BubblesUA":
-                return R.drawable.fedilab_logo_bubbles_ua;
-            case "BubblesPeaGreen":
-                return R.drawable.fedilab_logo_bubbles_pea_green;
-            case "BubblesPride":
-                return R.drawable.fedilab_logo_bubbles_pride;
-            case "BubblesPink":
-                return R.drawable.fedilab_logo_bubbles_pink;
-            case "BubblesPirate":
-                return R.drawable.fedilab_logo_bubbles_pirate;
-            default:
-                return R.drawable.fedilab_logo_bubbles;
-        }
+        return getDrawable(logo);
     }
 
 
