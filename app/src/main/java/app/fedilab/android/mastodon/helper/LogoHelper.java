@@ -30,20 +30,14 @@ public class LogoHelper {
     public static int getNotificationIcon(Context context) {
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String logo = sharedpreferences.getString(context.getString(R.string.SET_LOGO_LAUNCHER), "Bubbles");
-        switch (logo) {
-            case "Fediverse":
-                return R.drawable.ic_plain_fediverse;
-            case "Hero":
-                return R.drawable.ic_plain_hero;
-            case "Atom":
-                return R.drawable.ic_plain_atom;
-            case "BrainCrash":
-                return R.drawable.ic_plain_crash;
-            case "Mastalab":
-                return R.drawable.ic_plain_mastalab;
-            default:
-                return R.drawable.ic_plain_bubbles;
-        }
+        return switch (logo) {
+            case "Fediverse" -> R.drawable.ic_plain_fediverse;
+            case "Hero" -> R.drawable.ic_plain_hero;
+            case "Atom" -> R.drawable.ic_plain_atom;
+            case "BrainCrash" -> R.drawable.ic_plain_crash;
+            case "Mastalab" -> R.drawable.ic_plain_mastalab;
+            default -> R.drawable.ic_plain_bubbles;
+        };
     }
 
     public static int getMainLogo(Context context) {
@@ -54,30 +48,19 @@ public class LogoHelper {
 
 
     public static int getDrawable(String value) {
-        switch (value) {
-            case "Fediverse":
-                return R.drawable.fedilab_logo_fediverse;
-            case "Hero":
-                return R.drawable.fedilab_logo_hero;
-            case "Atom":
-                return R.drawable.fedilab_logo_atom;
-            case "BrainCrash":
-                return R.drawable.fedilab_logo_crash;
-            case "Mastalab":
-                return R.drawable.fedilab_logo_mastalab;
-            case "BubblesUA":
-                return R.drawable.fedilab_logo_bubbles_ua;
-            case "BubblesPeaGreen":
-                return R.drawable.fedilab_logo_bubbles_pea_green;
-            case "BubblesPride":
-                return R.drawable.fedilab_logo_bubbles_pride;
-            case "BubblesPink":
-                return R.drawable.fedilab_logo_bubbles_pink;
-            case "BubblesPirate":
-                return R.drawable.fedilab_logo_bubbles_pirate;
-            default:
-                return R.drawable.fedilab_logo_bubbles;
-        }
+        return switch (value) {
+            case "Fediverse" -> R.drawable.fedilab_logo_fediverse;
+            case "Hero" -> R.drawable.fedilab_logo_hero;
+            case "Atom" -> R.drawable.fedilab_logo_atom;
+            case "BrainCrash" -> R.drawable.fedilab_logo_crash;
+            case "Mastalab" -> R.drawable.fedilab_logo_mastalab;
+            case "BubblesUA" -> R.drawable.fedilab_logo_bubbles_ua;
+            case "BubblesPeaGreen" -> R.drawable.fedilab_logo_bubbles_pea_green;
+            case "BubblesPride" -> R.drawable.fedilab_logo_bubbles_pride;
+            case "BubblesPink" -> R.drawable.fedilab_logo_bubbles_pink;
+            case "BubblesPirate" -> R.drawable.fedilab_logo_bubbles_pirate;
+            default -> R.drawable.fedilab_logo_bubbles;
+        };
     }
 
     public static void setDrawable(String value) {
