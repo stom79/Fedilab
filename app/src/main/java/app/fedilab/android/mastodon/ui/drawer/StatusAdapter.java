@@ -86,6 +86,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -1879,6 +1880,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 statusToDeal.sensitive = !statusToDeal.sensitive;
                                 adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                             });
+                            ViewCompat.addAccessibilityAction(
+                                    layoutMediaBinding.mediaVideo,
+                                    context.getString(statusToDeal.sensitive ? R.string.cd_show_media : R.string.cd_hide_media),
+                                    (view, arguments) -> {
+                                        statusToDeal.sensitive = !statusToDeal.sensitive;
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                        return true;
+                                    });
                         } else {
                             loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, mediaW, mediaH, ratio, statusToDeal, attachment);
                         }
@@ -1961,6 +1970,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 statusToDeal.sensitive = !statusToDeal.sensitive;
                                 adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                             });
+                            ViewCompat.addAccessibilityAction(
+                                    layoutMediaBinding.mediaVideo,
+                                    context.getString(statusToDeal.sensitive ? R.string.cd_show_media : R.string.cd_hide_media),
+                                    (view, arguments) -> {
+                                        statusToDeal.sensitive = !statusToDeal.sensitive;
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                        return true;
+                                    });
                         } else {
                             loadAndAddAttachment(context, layoutMediaBinding, holder, adapter, mediaPosition, -1.f, -1.f, -1.f, statusToDeal, attachment);
                         }
@@ -3046,6 +3063,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             statusToDeal.sensitive = !statusToDeal.sensitive;
             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
         });
+        ViewCompat.addAccessibilityAction(
+                layoutMediaBinding.media,
+                context.getString(statusToDeal.sensitive ? R.string.cd_show_media : R.string.cd_hide_media),
+                (view, arguments) -> {
+                    statusToDeal.sensitive = !statusToDeal.sensitive;
+                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    return true;
+                });
 
         if ((!statusToDeal.sensitive || expand_media) && (fullAttachement)) {
             layoutMediaBinding.getRoot().setPadding(0, 0, 0, 10);

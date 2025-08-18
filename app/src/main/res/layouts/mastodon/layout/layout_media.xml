@@ -68,6 +68,7 @@
         android:layout_alignParentTop="true"
         android:layout_margin="5dp"
         android:contentDescription="@string/visibility"
+        android:importantForAccessibility="no"
         android:src="@drawable/ic_baseline_visibility_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/media" />

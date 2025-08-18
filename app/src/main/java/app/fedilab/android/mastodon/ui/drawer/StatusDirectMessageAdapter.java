@@ -45,6 +45,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -208,7 +209,14 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
             status.sensitive = !status.sensitive;
             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
         });
-
+        ViewCompat.addAccessibilityAction(
+                layoutMediaBinding.media,
+                context.getString(status.sensitive ? R.string.cd_show_media : R.string.cd_hide_media),
+                (view, arguments) -> {
+                    status.sensitive = !status.sensitive;
+                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    return true;
+                });
     }
 
     @NotNull
@@ -687,6 +695,14 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                         status.sensitive = !status.sensitive;
                         notifyItemChanged(holder.getBindingAdapterPosition());
                     });
+                    ViewCompat.addAccessibilityAction(
+                            layoutMediaBinding.mediaVideo,
+                            context.getString(status.sensitive ? R.string.cd_show_media : R.string.cd_hide_media),
+                            (view, arguments) -> {
+                                status.sensitive = !status.sensitive;
+                                notifyItemChanged(holder.getBindingAdapterPosition());
+                                return true;
+                            });
                 } else {
                     loadAndAddAttachment(context, layoutMediaBinding, holder, this, mediaPosition, -1.f, -1.f, -1.f, status, attachment);
                 }
