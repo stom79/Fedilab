@@ -3016,9 +3016,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, statusToDeal.sensitive, false);
         if (!statusToDeal.sensitive || expand_media) {
-            layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
+            layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_24);
         } else {
-            layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
+            layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_off_24);
         }
         requestBuilder.load(attachment.preview_url).into(layoutMediaBinding.media);
         if (statusToDeal.sensitive) {

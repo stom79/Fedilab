@@ -162,9 +162,9 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
 
         RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, status.sensitive, false);
         if (!status.sensitive || expand_media) {
-            layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_24);
+            layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_24);
         } else {
-            layoutMediaBinding.viewHide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
+            layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_off_24);
         }
         requestBuilder.load(attachment.preview_url).into(layoutMediaBinding.media);
         if (status.sensitive) {

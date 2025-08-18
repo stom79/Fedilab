@@ -60,16 +60,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/media" />
 
-    <ImageView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/view_hide"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/visibility"
         android:importantForAccessibility="no"
-        android:src="@drawable/ic_baseline_visibility_24"
+        app:icon="@drawable/ic_baseline_visibility_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/media" />
 
