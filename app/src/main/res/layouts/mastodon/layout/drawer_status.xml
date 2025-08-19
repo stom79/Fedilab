@@ -568,51 +568,27 @@
                     android:layout_height="wrap_content"
                     tools:text="1 January 2021, 12:00" />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/reblog_info"
+                    style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:minWidth="48dp"
+                    android:textColor="?attr/colorControlNormal"
+                    app:icon="@drawable/ic_repeat"
+                    app:iconTint="?attr/colorControlNormal"
+                    tools:text="10" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/repeat_info"
-                        android:contentDescription="@string/reblog"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="12dp"
-                        app:srcCompat="@drawable/ic_repeat" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/reblogs_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="10" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/favourite_info"
+                    style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/fav_info"
-                        android:layout_width="20dp"
-                        android:contentDescription="@string/favourite"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="12dp"
-                        app:srcCompat="@drawable/ic_star_outline" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/favorites_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="10" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                    android:minWidth="48dp"
+                    android:textColor="?attr/colorControlNormal"
+                    app:icon="@drawable/ic_star_outline"
+                    app:iconTint="?attr/colorControlNormal"
+                    tools:text="10" />
 
                 <View
                     android:layout_width="0dp"

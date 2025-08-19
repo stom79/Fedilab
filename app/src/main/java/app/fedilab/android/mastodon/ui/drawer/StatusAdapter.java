@@ -1347,8 +1347,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (status.isFocused) {
             holder.binding.statusInfo.setVisibility(View.VISIBLE);
-            holder.binding.reblogsCount.setText(String.valueOf(status.reblogs_count));
-            holder.binding.favoritesCount.setText(String.valueOf(status.favourites_count));
+            holder.binding.reblogInfo.setText(String.valueOf(status.reblogs_count));
+            holder.binding.favouriteInfo.setText(String.valueOf(status.favourites_count));
 
             if (statusToDeal.edited_at != null) {
                 holder.binding.editTime.setText(context.getString(R.string.edited_message_at, Helper.longDateToString(status.edited_at)));
@@ -3203,10 +3203,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.poll.pollInfo.setTextColor(theme_text_color);
             holder.binding.cardDescription.setTextColor(theme_text_color);
             holder.binding.time.setTextColor(theme_text_color);
-            holder.binding.reblogsCount.setTextColor(theme_text_color);
-            holder.binding.favoritesCount.setTextColor(theme_text_color);
-            Helper.changeDrawableColor(context, holder.binding.repeatInfo, theme_text_color);
-            Helper.changeDrawableColor(context, holder.binding.favInfo, theme_text_color);
+            holder.binding.reblogInfo.setTextColor(theme_text_color);
+            holder.binding.favouriteInfo.setTextColor(theme_text_color);
+            Helper.changeDrawableColor(context, holder.binding.reblogInfo, theme_text_color);
+            Helper.changeDrawableColor(context, holder.binding.favouriteInfo, theme_text_color);
             Helper.changeDrawableColor(context, R.drawable.ic_baseline_lock_24, theme_text_color);
         }
         if (theme_text_header_1_line != -1) {
