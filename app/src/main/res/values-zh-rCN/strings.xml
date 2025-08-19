@@ -1119,4 +1119,6 @@
     <string name="tab_bubble_timeline">气泡时间线</string>
     <string name="cd_list_timeline">%s. 列表时间线</string>
     <string name="cd_hash_tag_timeline">%s. 话题标签时间线</string>
+    <string name="cd_hide_media">隐藏媒体</string>
+    <string name="cd_show_media">显示媒体</string>
 </resources>
