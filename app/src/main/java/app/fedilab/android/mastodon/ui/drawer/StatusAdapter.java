@@ -1380,6 +1380,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.binding.app.setVisibility(View.GONE);
             }
+            if (statusToDeal.language != null) {
+                holder.binding.language.setText(statusToDeal.language.toUpperCase());
+                holder.binding.language.setVisibility(View.VISIBLE);
+            } else holder.binding.language.setVisibility(View.VISIBLE);
 
         } else {
             holder.binding.app.setVisibility(View.GONE);

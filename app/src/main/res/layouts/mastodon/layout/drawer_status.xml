@@ -590,6 +590,13 @@
                     app:iconTint="?attr/colorControlNormal"
                     tools:text="10" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    tools:text="EN" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
