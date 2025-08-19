@@ -43,6 +43,7 @@
         android:visibility="gone"
         tools:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
+        android:importantForAccessibility="noHideDescendants"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -51,7 +52,6 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:paddingEnd="10dp"
-            android:importantForAccessibility="no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxHeight="300dp"

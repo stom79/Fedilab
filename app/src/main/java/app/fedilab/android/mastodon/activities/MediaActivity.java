@@ -193,7 +193,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
             binding.mediaDescription.setText(description);
             binding.translate.setOnClickListener(v -> {
                 String descriptionToTranslate = attachments.get(mediaPosition - 1).description;
-                TranslateHelper.translate(MediaActivity.this, descriptionToTranslate, status!=null?status.language:"en", translated -> {
+                TranslateHelper.translate(MediaActivity.this, descriptionToTranslate, getStatusLanguageForTranslation(), translated -> {
                     if (translated != null) {
                         attachments.get(mediaPosition - 1).translation = translated;
                         binding.mediaDescriptionTranslated.setText(translated);
@@ -248,7 +248,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
                 }
                 binding.translate.setOnClickListener(v -> {
                     String descriptionToTranslate = attachments.get(position).description;
-                    TranslateHelper.translate(MediaActivity.this, descriptionToTranslate, status!=null?status.language:"en", translated -> {
+                    TranslateHelper.translate(MediaActivity.this, descriptionToTranslate, getStatusLanguageForTranslation(), translated -> {
                         if (translated != null) {
                             attachments.get(position).translation = translated;
                             binding.mediaDescriptionTranslated.setText(translated);
@@ -292,6 +292,9 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
         setFullscreen(true);
     }
 
+    public String getStatusLanguageForTranslation() {
+        return status != null ? status.language : "en";
+    }
 
     private Spannable linkify(Context context, String content) {
         if (content == null) {
@@ -358,20 +361,20 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
             }
             return true;
         } else if (item.getItemId() == R.id.action_save) {
-            int position = binding.mediaViewpager.getCurrentItem();
-            Attachment attachment = attachments.get(position);
-            if (Build.VERSION.SDK_INT >= 23) {
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-                    if (ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(MediaActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Helper.EXTERNAL_STORAGE_REQUEST_CODE_MEDIA_SAVE);
-                    } else {
-                        if (attachment.type.compareTo("image") == 0) {
-                            MediaHelper.manageMove(MediaActivity.this, attachment.url, false);
-                        } else {
-                            MediaHelper.manageDownloadsNoPopup(MediaActivity.this, attachment.url);
-                            downloadID = -1;
-                        }
-                    }
+            saveMedia();
+        } else if (item.getItemId() == R.id.action_share) {
+            shareMedia();
+        }
+        return true;
+    }
+
+    public void saveMedia() {
+        int position = binding.mediaViewpager.getCurrentItem();
+        Attachment attachment = attachments.get(position);
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                if (ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MediaActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Helper.EXTERNAL_STORAGE_REQUEST_CODE_MEDIA_SAVE);
                 } else {
                     if (attachment.type.compareTo("image") == 0) {
                         MediaHelper.manageMove(MediaActivity.this, attachment.url, false);
@@ -381,33 +384,41 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
                     }
                 }
             } else {
-                if (attachment.type.compareToIgnoreCase("image") == 0) {
+                if (attachment.type.compareTo("image") == 0) {
                     MediaHelper.manageMove(MediaActivity.this, attachment.url, false);
                 } else {
                     MediaHelper.manageDownloadsNoPopup(MediaActivity.this, attachment.url);
                     downloadID = -1;
                 }
             }
-        } else if (item.getItemId() == R.id.action_share) {
-            int position = binding.mediaViewpager.getCurrentItem();
-            Attachment attachment = attachments.get(position);
-            if (attachment.type.compareTo("image") == 0) {
-                MediaHelper.manageMove(MediaActivity.this, attachment.url, true);
-            } else if (attachment.type.equalsIgnoreCase("video") || attachment.type.equalsIgnoreCase("audio") || attachment.type.equalsIgnoreCase("gifv")) {
-                downloadID = MediaHelper.manageDownloadsNoPopup(MediaActivity.this, attachment.url);
+        } else {
+            if (attachment.type.compareToIgnoreCase("image") == 0) {
+                MediaHelper.manageMove(MediaActivity.this, attachment.url, false);
             } else {
-                if (Build.VERSION.SDK_INT >= 23) {
-                    if (ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(MediaActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Helper.EXTERNAL_STORAGE_REQUEST_CODE_MEDIA_SHARE);
-                    } else {
-                        downloadID = MediaHelper.manageDownloadsNoPopup(MediaActivity.this, attachment.url);
-                    }
+                MediaHelper.manageDownloadsNoPopup(MediaActivity.this, attachment.url);
+                downloadID = -1;
+            }
+        }
+    }
+
+    public void shareMedia() {
+        int position = binding.mediaViewpager.getCurrentItem();
+        Attachment attachment = attachments.get(position);
+        if (attachment.type.compareTo("image") == 0) {
+            MediaHelper.manageMove(MediaActivity.this, attachment.url, true);
+        } else if (attachment.type.equalsIgnoreCase("video") || attachment.type.equalsIgnoreCase("audio") || attachment.type.equalsIgnoreCase("gifv")) {
+            downloadID = MediaHelper.manageDownloadsNoPopup(MediaActivity.this, attachment.url);
+        } else {
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(MediaActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MediaActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Helper.EXTERNAL_STORAGE_REQUEST_CODE_MEDIA_SHARE);
                 } else {
                     downloadID = MediaHelper.manageDownloadsNoPopup(MediaActivity.this, attachment.url);
                 }
+            } else {
+                downloadID = MediaHelper.manageDownloadsNoPopup(MediaActivity.this, attachment.url);
             }
         }
-        return true;
     }
 
     @Override

@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaItem;
@@ -60,6 +61,7 @@ import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.helper.CacheDataSourceFactory;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MediaHelper;
+import app.fedilab.android.mastodon.helper.TranslateHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
 import es.dmoral.toasty.Toasty;
 
@@ -74,6 +76,8 @@ public class FragmentMedia extends Fragment {
     private boolean swipeEnabled;
     private FragmentSlideMediaBinding binding;
     private SlidrInterface slidrInterface;
+    private int mediaPictureTranslateAccessibilityActionId = 0;
+    private int mediaVideoTranslateAccessibilityActionId = 0;
 
     private boolean visible = false;
 
@@ -124,7 +128,6 @@ public class FragmentMedia extends Fragment {
                 enableSliding(true);
             }
         });
-        binding.mediaPicture.setContentDescription(attachment.description);
         binding.mediaPicture.setOnClickListener(v -> {
             if (isAdded()) {
                 ((MediaActivity) requireActivity()).toogleFullScreen();
@@ -135,6 +138,37 @@ public class FragmentMedia extends Fragment {
             if (isAdded()) {
                 ((MediaActivity) requireActivity()).toogleFullScreen();
             }
+        });
+
+        if (attachment.description != null) {
+            binding.mediaPicture.setContentDescription(attachment.description);
+            mediaPictureTranslateAccessibilityActionId = ViewCompat.addAccessibilityAction(binding.mediaPicture, getString(R.string.translate), (view2, arguments) -> {
+                translate();
+                return true;
+            });
+
+            binding.mediaVideo.setContentDescription(attachment.description);
+            mediaVideoTranslateAccessibilityActionId = ViewCompat.addAccessibilityAction(binding.mediaVideo, getString(R.string.translate), (view2, arguments) -> {
+                translate();
+                return true;
+            });
+        }
+
+        mediaPictureTranslateAccessibilityActionId = ViewCompat.addAccessibilityAction(binding.mediaPicture, getString(R.string.download), (view2, arguments) -> {
+            ((MediaActivity) requireActivity()).saveMedia();
+            return true;
+        });
+        mediaPictureTranslateAccessibilityActionId = ViewCompat.addAccessibilityAction(binding.mediaVideo, getString(R.string.download), (view2, arguments) -> {
+            ((MediaActivity) requireActivity()).saveMedia();
+            return true;
+        });
+        mediaPictureTranslateAccessibilityActionId = ViewCompat.addAccessibilityAction(binding.mediaPicture, getString(R.string.share), (view2, arguments) -> {
+            ((MediaActivity) requireActivity()).shareMedia();
+            return true;
+        });
+        mediaPictureTranslateAccessibilityActionId = ViewCompat.addAccessibilityAction(binding.mediaVideo, getString(R.string.share), (view2, arguments) -> {
+            ((MediaActivity) requireActivity()).shareMedia();
+            return true;
         });
 
         String type = attachment.type;
@@ -265,6 +299,23 @@ public class FragmentMedia extends Fragment {
                 }
             }
         }
+    }
+
+    public void translate() {
+        if (attachment.translation == null) TranslateHelper.translate(
+                requireContext(),
+                attachment.description,
+                ((MediaActivity) requireActivity()).getStatusLanguageForTranslation(),
+                translated -> {
+                    attachment.translation = translated;
+                    String translatedMediaDescription = getString(R.string.cd_translated_media_description, attachment.translation);
+
+                    binding.mediaPicture.setContentDescription(translatedMediaDescription);
+                    ViewCompat.removeAccessibilityAction(binding.mediaPicture, mediaPictureTranslateAccessibilityActionId);
+
+                    binding.mediaVideo.setContentDescription(translatedMediaDescription);
+                    ViewCompat.removeAccessibilityAction(binding.mediaVideo, mediaVideoTranslateAccessibilityActionId);
+                });
     }
 
     @androidx.annotation.OptIn(markerClass = androidx.media3.common.util.UnstableApi.class)
