@@ -3205,7 +3205,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.time.setTextColor(theme_text_color);
             holder.binding.reblogsCount.setTextColor(theme_text_color);
             holder.binding.favoritesCount.setTextColor(theme_text_color);
-            holder.binding.favoritesCount.setTextColor(theme_text_color);
             Helper.changeDrawableColor(context, holder.binding.repeatInfo, theme_text_color);
             Helper.changeDrawableColor(context, holder.binding.favInfo, theme_text_color);
             Helper.changeDrawableColor(context, R.drawable.ic_baseline_lock_24, theme_text_color);
