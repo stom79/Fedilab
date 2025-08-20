@@ -1116,4 +1116,6 @@
     <string name="set_tracking_parameters_indication">A app quitará automaticamente os parámetros do URL que permiten rastrexarte ao premer nunha ligazón.</string>
     <string name="cd_list_timeline">%s. Cronoloxía da lista</string>
     <string name="cd_hash_tag_timeline">%s. Cronoloxía do cancelo</string>
+    <string name="cd_hide_media">Ocultar multimedia</string>
+    <string name="cd_show_media">Mostrar multimedia</string>
 </resources>
