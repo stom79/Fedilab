@@ -1075,9 +1075,9 @@
     <string name="action_favourite">お気に入り</string>
     <string name="action_reblog">ブースト</string>
     <string name="action_quote">引用</string>
-    <string name="add_content_warning">閲覧注意を追加</string>
-    <string name="remove_content_warning">閲覧注意を削除</string>
-    <string name="change_visibility">表示/非表示を切り替え</string>
+    <string name="add_content_warning">閲覧警告を追加</string>
+    <string name="remove_content_warning">閲覧警告を削除</string>
+    <string name="change_visibility">表示の切り替え</string>
     <string name="set_language">言語を設定</string>
     <string name="action_publish">投稿</string>
     <string name="open_new_attachment_panel">新しい添付ファイルパネルを開く</string>
@@ -1121,4 +1121,6 @@
     <string name="tab_bubble_timeline">バブル・タイムライン</string>
     <string name="cd_list_timeline">%s. リスト・タイムライン</string>
     <string name="cd_hash_tag_timeline">%s. ハッシュタグ・タイムライン</string>
+    <string name="cd_hide_media">メディアを非表示</string>
+    <string name="cd_show_media">メディアを表示</string>
 </resources>
