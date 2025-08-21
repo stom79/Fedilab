@@ -24,227 +24,231 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="24dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/fedilab_logo_bubbles" />
+
         <!-- About app name -->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:text="@string/app_name"
-            android:textSize="20sp" />
-        <!-- About version -->
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/about_version"
-                tools:text="x.y.z"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                android:textSize="16sp" />
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/about_version_copy"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp"
-                android:layout_marginStart="10dp"
-                android:contentDescription="@string/copy_version"
-                app:icon="@drawable/ic_copy_link"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <!-- About developer -->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/developer_title"
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:padding="5dp"
-            android:text="@string/about_developer"
-            android:textColor="?colorPrimary"
-            android:textSize="16sp"
-            android:visibility="gone" />
+            android:layout_gravity="center"
+            android:layout_marginTop="6dp"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/acccount_container"
+        <!-- About version -->
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/about_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="6dp"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            tools:text="X.Y.Z" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/about_version_copy"
+            style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="6dp"
+            android:contentDescription="@string/copy_version"
+            app:icon="@drawable/ic_copy_link" />
+
+        <!-- About developer -->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/about_fediverse"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Elevated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/account_pp"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/profile_picture" />
+            android:layout_marginTop="6dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="0dp"
+                android:id="@+id/acccount_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/account_dn"
-                    android:layout_width="match_parent"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/account_pp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:contentDescription="@string/profile_picture" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="16sp" />
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/account_un"
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/account_dn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fedilab Apps"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                        tools:ignore="HardcodedText" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/account_un"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        tools:text="apps@toot.fedilab.app" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/account_follow"
+                    style="@style/Widget.Material3.Button.IconButton.Filled"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="14sp" />
+                    android:contentDescription="@string/make_an_action"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@id/avatar_container"
+                    app:layout_constraintTop_toBottomOf="@id/banner_container"
+                    tools:icon="@drawable/ic_baseline_person_add_24"
+                    tools:visibility="visible" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/donate_links"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_donate"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
+
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/account_follow"
-                style="@style/Widget.Material3.Button.Icon"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/make_an_action"
-                android:scaleType="fitCenter"
-                android:visibility="gone"
-                app:layout_constraintStart_toEndOf="@id/avatar_container"
-                app:layout_constraintTop_toBottomOf="@id/banner_container"
-                tools:icon="@drawable/ic_baseline_person_add_24"
-                tools:visibility="visible" />
+                android:id="@+id/donate_liberapay"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Liberapay"
+                app:icon="@drawable/ic_liberapay"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/donate_opencollective"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="OpenCollective"
+                app:icon="@drawable/ic_opencollective"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/donate_paypal"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="PayPal"
+                app:icon="@drawable/ic_paypal"
+                tools:ignore="HardcodedText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txt_developers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:textSize="18sp"
-            android:visibility="gone" />
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/about_support"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/support_the_app_on_liberapay" />
-
+            android:layout_marginTop="12dp"
+            android:text="@string/about_website"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/about_support_paypal"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="PayPal"
-            tools:ignore="HardcodedText" />
-
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/about_website"
-            android:layout_width="match_parent"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginTop="6dp"
             android:autoLink="web"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="https://fedilab.app"
-            android:textSize="16sp"
+            android:text="fedilab.app"
+            app:icon="@drawable/ic_open_external"
             tools:ignore="HardcodedText" />
 
         <!-- About license -->
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:layout_marginTop="12dp"
+            android:text="@string/about_license"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="@string/about_license"
-                android:textSize="16sp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/about_license"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="@string/about_license_action" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <!-- About license -->
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/about_license"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:layout_marginTop="6dp"
+            android:text="@string/about_license_action"
+            app:icon="@drawable/ic_open_external" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="@string/about_code"
-                android:textSize="16sp" />
+        <!-- Source code -->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/about_code"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/about_code"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="@string/about_code_action" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/about_code"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/about_code_action"
+            app:icon="@drawable/ic_open_external" />
 
         <!-- About The Kinrar\'s API -->
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:layout_marginTop="12dp"
+            android:text="@string/about_thekinrar"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="@string/about_thekinrar"
-                android:textSize="16sp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/about_thekinrar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="@string/about_thekinrar_action" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/about_thekinrar"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/about_thekinrar_action"
+            app:icon="@drawable/ic_open_external" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 </ScrollView>

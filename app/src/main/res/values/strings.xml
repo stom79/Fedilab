@@ -186,9 +186,12 @@
     <string name="about_license">License: </string>
     <string name="about_license_action">GNU GPL V3</string>
     <string name="about_code">Source code: </string>
-    <string name="about_code_action" translatable="false">CodeBerg</string>
+    <string name="about_code_action" translatable="false">Codeberg</string>
     <string name="about_thekinrar">Search instances:</string>
     <string name="about_thekinrar_action" translatable="false">instances.social</string>
+    <string name="about_fediverse">Fediverse:</string>
+    <string name="about_website">Website:</string>
+    <string name="about_donate">Donate:</string>
     <!-- Conversation -->
     <!-- Accounts -->
     <string name="no_accounts">No account to display</string>

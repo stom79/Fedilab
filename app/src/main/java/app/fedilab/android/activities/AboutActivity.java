@@ -19,8 +19,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,31 +61,20 @@ public class AboutActivity extends BaseBarActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        String version = "";
-        try {
-            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            version = pInfo.versionName;
-            binding.aboutVersion.setText(getResources().getString(R.string.about_vesrion, version));
-        } catch (PackageManager.NameNotFoundException ignored) {
-        }
+        String version = "v" + BuildConfig.VERSION_NAME + " (" + (BuildConfig.DONATIONS ? "F-Droid" : "Google") + ")";
+        binding.aboutVersion.setText(version);
 
         binding.aboutCode.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://codeberg.org/tom79/Fedilab"));
         binding.aboutThekinrar.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://instances.social/"));
         binding.aboutLicense.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://www.gnu.org/licenses/quick-guide-gplv3.fr.html"));
-        binding.aboutSupport.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://liberapay.com/tom79"));
-        if (BuildConfig.DONATIONS) {
-            binding.aboutSupport.setVisibility(View.VISIBLE);
-        } else {
-            binding.aboutSupport.setVisibility(View.GONE);
-        }
-        binding.aboutSupportPaypal.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://www.paypal.me/Mastalab"));
+        binding.donateLiberapay.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://liberapay.com/tom79"));
+        binding.donatePaypal.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://www.paypal.me/Mastalab"));
+        binding.donateOpencollective.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://opencollective.com/fedilab"));
 
-
-        String finalVersion = version;
         binding.aboutVersionCopy.setOnClickListener(v -> {
 
             ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            String content = "Fedilab v" + finalVersion + " for " + (BuildConfig.DONATIONS ? "FDroid" : "Google");
+            String content = "Fedilab " + version;
 
             ClipData clip = ClipData.newPlainText(Helper.CLIP_BOARD, content);
             if (clipboard != null) {
@@ -96,11 +83,7 @@ public class AboutActivity extends BaseBarActivity {
             }
 
         });
-        if (BuildConfig.DONATIONS) {
-            binding.aboutSupportPaypal.setVisibility(View.VISIBLE);
-        } else {
-            binding.aboutSupportPaypal.setVisibility(View.GONE);
-        }
+        binding.donateLinks.setVisibility(BuildConfig.DONATIONS ? View.VISIBLE : View.GONE);
         binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
         binding.aboutWebsite.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://fedilab.app"));
         CrossActionHelper.fetchRemoteAccount(AboutActivity.this, "@apps@toot.fedilab.app", new CrossActionHelper.Callback() {
@@ -112,8 +95,6 @@ public class AboutActivity extends BaseBarActivity {
             @Override
             public void federatedAccount(Account account) {
                 if (account != null && account.username.equalsIgnoreCase("apps")) {
-                    binding.developerTitle.setVisibility(View.VISIBLE);
-                    binding.acccountContainer.setVisibility(View.VISIBLE);
                     MastodonHelper.loadPPMastodon(binding.accountPp, account);
                     binding.accountDn.setText(account.display_name);
                     binding.accountUn.setText(account.acct);
