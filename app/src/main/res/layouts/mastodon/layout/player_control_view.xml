@@ -8,7 +8,8 @@
     <ImageButton
         android:layout_gravity="center"
         android:id="@id/exo_play_pause"
-        style="@style/ExoMediaButton.Pause" />
+        style="@style/ExoMediaButton.Pause"
+        app:tint="?colorPrimary" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/seekbar_controller"
@@ -32,7 +33,10 @@
             android:layout_width="wrap_content"
             app:bar_height="6dp"
             android:layout_height="26dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            app:buffered_color="?colorSecondaryContainer"
+            app:played_color="?colorPrimary"
+            app:scrubber_color="?colorPrimary" />
 
         <TextView
             android:id="@id/exo_duration"
