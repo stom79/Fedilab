@@ -120,7 +120,7 @@
     <string name="toot_delete_media">このメディアを削除しますか？</string>
     <string name="toot_error_no_content">メッセージが入力されていません！</string>
     <string name="toot_sent">投稿しました！</string>
-    <string name="toot_sensitive">メディアを閲覧注意にする</string>
+    <string name="toot_sensitive">センシティブな情報ですか?</string>
     <string name="no_draft">下書きはありません！</string>
     <string name="choose_accounts">アカウントを選択</string>
     <string name="select_accounts">複数のアカウントを選択</string>
@@ -195,7 +195,7 @@
     <string name="set_notif_status">新しい投稿を通知する</string>
     <string name="set_share_validation">ブースト前に確認ダイアログを表示する</string>
     <string name="set_share_validation_fav">お気に入りに登録する前に確認ダイアログを表示する</string>
-    <string name="set_notify">通知する</string>
+    <string name="set_notify">通知しますか?</string>
     <string name="set_notif_silent">サイレント通知</string>
     <string name="set_nsfw_timeout">NSFW表示のタイムアウト(単位は秒、0でオフ)</string>
     <string name="set_med_desc_timeout">メディアの説明のタイムアウト(単位は秒、0でオフ)</string>
@@ -1016,7 +1016,7 @@
     <string name="frequency_minutes">頻度(分)</string>
     <string name="fetching_messages">投稿を取得中</string>
     <string name="add_description">説明を追加</string>
-    <string name="retrieve_remote_account">リモートアカウントを取得する</string>
+    <string name="retrieve_remote_account">リモートアカウントを取得!</string>
     <string name="exit">終了</string>
     <string name="reblog_missing_description">この投稿のメディアには説明がありません。ブーストしますか？</string>
     <string name="total_fetched">取得した投稿の総数</string>
