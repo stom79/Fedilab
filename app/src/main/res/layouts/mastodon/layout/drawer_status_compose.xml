@@ -208,19 +208,40 @@
             app:layout_constraintTop_toBottomOf="@id/text_area_divider"
             app:toggleCheckedStateOnClick="true" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_visibility"
-            style="@style/Widget.Material3.Button.IconButton.Outlined"
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/visibility_indicators_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="3dp"
             android:layout_marginVertical="6dp"
-            android:contentDescription="@string/change_visibility"
-            app:icon="@drawable/ic_compose_visibility_public"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
             app:layout_constraintBottom_toBottomOf="@id/action_buttons_barrier"
             app:layout_constraintStart_toEndOf="@id/button_sensitive"
-            app:layout_constraintTop_toBottomOf="@id/text_area_divider" />
+            app:layout_constraintTop_toBottomOf="@id/text_area_divider"
+            app:selectionRequired="false">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_visibility"
+                style="@style/Widget.Material3.Button.IconButton.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="false"
+                android:contentDescription="@string/change_visibility"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                app:icon="@drawable/ic_compose_visibility_public" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_quote_visibility"
+                style="@style/Widget.Material3.Button.IconButton.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="false"
+                android:contentDescription="@string/change_visibility"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                app:icon="@drawable/ic_baseline_people_alt_24" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_language"
@@ -232,7 +253,7 @@
             android:fontFamily="monospace"
             android:minWidth="72dp"
             app:layout_constraintBottom_toBottomOf="@id/action_buttons_barrier"
-            app:layout_constraintStart_toEndOf="@id/button_visibility"
+            app:layout_constraintStart_toEndOf="@id/visibility_indicators_group"
             app:layout_constraintTop_toBottomOf="@id/text_area_divider"
             tools:text="EN" />
 
@@ -409,7 +430,87 @@
                 style="@style/Widget.Material3.Button.IconButton.Outlined"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="96dp"
+                android:layout_marginStart="98dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                app:icon="@drawable/ic_baseline_close_24" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/quote_visibility_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_compose_panels"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:padding="6dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/action_buttons_barrier"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="6dp"
+                android:text="@string/who_can_quote"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/quote_visibility_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:orientation="vertical"
+                app:singleSelection="true">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_quote_visibility_no_one"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="36dp"
+                    android:text="@string/no_one"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/ic_baseline_block_24" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_quote_visibility_followers_only"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="36dp"
+                    android:text="@string/followers_only"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/ic_baseline_people_alt_24" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_quote_visibility_anyone"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="36dp"
+                    android:text="@string/anyone"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/ic_compose_visibility_public" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_close_quote_visibility_panel"
+                style="@style/Widget.Material3.Button.IconButton.Outlined"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="137dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
                 app:icon="@drawable/ic_baseline_close_24" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -419,7 +520,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="button_attach,button_visibility, button_language,  button_post, character_progress, button_sensitive" />
+            app:constraint_referenced_ids="button_attach, visibility_indicators_group, button_language,  button_post, character_progress, button_sensitive" />
 
 
         <com.google.android.material.checkbox.MaterialCheckBox

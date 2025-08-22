@@ -686,6 +686,9 @@
     <string name="boosted_by">Boosted by</string>
     <string name="favourited_by">Favourited by</string>
     <string name="followers_only">Followers only</string>
+    <string name="who_can_quote">Who can quote</string>
+    <string name="no_one">No one</string>
+    <string name="anyone">Anyone</string>
     <string name="other">Other</string>
     <string name="eg_sensitive_content">Eg.: Sensitive Content</string>
     <string name="Pronouns">Pronouns</string>
