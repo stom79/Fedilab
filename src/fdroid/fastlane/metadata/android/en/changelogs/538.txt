@@ -3,6 +3,7 @@ Added:
 - Add accessibility action to toggle media sensitivity of posts in timelines
 - Add accessibility actions to translate, download, share in media viewer
 - Add a language indicator to focused status
+- Add Persian language to "Change the language" preference
 
 Changed:
 - Show placeholders while profile pictures are loading
@@ -20,3 +21,4 @@ Fixed:
 - Tapping publish button multiple times publishes status multiple times
 - Alt text popup does not resize when swiping
 - Video controls not visible in light theme
+- Profile picture appears on left side of title in conversation page in RTL mode
