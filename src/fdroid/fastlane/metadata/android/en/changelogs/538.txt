@@ -1,0 +1,22 @@
+Added:
+- Add content descriptions to tabs in top bar
+- Add accessibility action to toggle media sensitivity of posts in timelines
+- Add accessibility actions to translate, download, share in media viewer
+- Add a language indicator to focused status
+
+Changed:
+- Show placeholders while profile pictures are loading
+- Update bottom navigation tab titles
+- Improve accessibility of translated content
+- Update list of tracking parameters used for "Remove UTM parameters"
+- Use 'Tracking' instead of 'UTM'
+- Improve accessibility in Manage timelines page
+- Make the show/hide media button larger
+- Update about page
+
+Fixed:
+- Bottom hashtags in bios disappear when "Highlight bottom hashtags" enabled
+- "Use an alternative frontend" breaks Medium link
+- Tapping publish button multiple times publishes status multiple times
+- Alt text popup does not resize when swiping
+- Video controls not visible in light theme
