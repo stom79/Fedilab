@@ -720,7 +720,7 @@
     <string name="label_rectangle">مستطیل</string>
     <string name="messages_in_cache_for_other_timelines">بوق‌های نهان‌شده برای دیگر خط‌های زمانی</string>
     <string name="delete_cache_message">آیا مطمئنید که می‌خواهید حافظه نهان را پاک کنید؟ اگر پیش‌نویس‌هایی با رسانه دارید، رسانه‌های پیوست از دست می‌روند.</string>
-    <string name="change_logo_description">تغییر لوگوی برنامه در دستگاه شما</string>
+    <string name="change_logo_description">تغییر نماد برنامه در دستگاه شما</string>
     <string name="action_pin">سنجاق بوق</string>
     <string name="set_unlisted_replies">پاسخ‌های فهرست‌نشده</string>
     <string name="notification_remove_from_cache">آگاه‌سازی‌ها از حافظه نهان پاک شدند.</string>
@@ -876,7 +876,7 @@
     <string name="set_display_bookmark_indication">همیشه دکمه نشانه‌گذاری را نمایش بده</string>
     <string name="fetch_more_messages">دریافت بوق‌های بیشتر…</string>
     <string name="label_oval">بیضی</string>
-    <string name="pickup_logo">انتخاب لوگو</string>
+    <string name="pickup_logo">انتخاب نماد</string>
     <string name="restart">بازآغاز</string>
     <string name="chart_home_cache">سوابق حافظه نهان خانه در هر ساعت</string>
     <string name="auto">خودکار</string>
@@ -934,7 +934,7 @@
     <string name="poll_type_single">تک‌گزینه‌ای</string>
     <string name="poll_duration">مدت نظرسنجی:</string>
     <string name="set_display_translate_indication">همیشه دکمه ترجمه را نمایش بده</string>
-    <string name="change_logo">تغییر لوگو</string>
+    <string name="change_logo">تغییر نماد</string>
     <string name="toast_unpin">بوق دیگر سنجاق نیست!</string>
     <string name="keep_notifications">نگهداری آگاه‌سازی‌ها</string>
     <string name="set_notif_update">آگاه‌سازی برای به‌روزرسانی‌ها</string>
