@@ -514,7 +514,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             initializeView();
             needToCallResume = false;
         }
-        ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
+        try {
+            ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
+        }catch (Exception ignored){}
     }
 
     /**

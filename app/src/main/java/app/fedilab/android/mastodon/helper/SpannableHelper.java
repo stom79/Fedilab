@@ -1052,10 +1052,12 @@ public class SpannableHelper {
 
         popupHashtagsBinding.muteTag.setOnClickListener(v -> {
             Filter fedilabFilter = null;
-            for (Filter filter : MainActivity.mainFilters) {
-                if (filter.title.equals(Helper.FEDILAB_MUTED_HASHTAGS)) {
-                    fedilabFilter = filter;
-                    break;
+            if(MainActivity.mainFilters != null) {
+                for (Filter filter : MainActivity.mainFilters) {
+                    if (filter.title.equals(Helper.FEDILAB_MUTED_HASHTAGS)) {
+                        fedilabFilter = filter;
+                        break;
+                    }
                 }
             }
             //Filter for Fedilab doesn't exist we have to create it
@@ -1071,7 +1073,7 @@ public class SpannableHelper {
                 FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
                 filtersVM.addFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterParams)
                         .observe((LifecycleOwner) context, filter -> {
-                            if (filter != null) {
+                            if (filter != null && MainActivity.mainFilters != null) {
                                 MainActivity.mainFilters.add(filter);
                                 addTagToFilter(context, tag, status, filter);
                             }
