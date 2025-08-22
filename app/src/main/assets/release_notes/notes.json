@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.34.1",
+    "code": "538",
+    "note": "Added:\n- Add content descriptions to tabs in top bar\n- Add accessibility action to toggle media sensitivity of posts in timelines\n- Add accessibility actions to translate, download, share in media viewer\n- Add a language indicator to focused status\n- Add Persian language to \"Change the language\" preference\n- Add new app logo\n\nChanged:\n- Show placeholders while profile pictures are loading\n- Update bottom navigation tab titles\n- Improve accessibility of translated content\n- Update list of tracking parameters used for \"Remove UTM parameters\"\n- Use 'Tracking' instead of 'UTM'\n- Improve accessibility in Manage timelines page\n- Make the show/hide media button larger\n- Update about page\n\nFixed:\n- Bottom hashtags in bios disappear when \"Highlight bottom hashtags\" enabled\n- \"Use an alternative frontend\" breaks Medium link\n- Tapping publish button multiple times publishes status multiple times\n- Alt text popup does not resize when swiping\n- Video controls not visible in light theme\n- Profile picture appears on left side of title in conversation page in RTL mode\n- Some crashes\n"
+  },
+  {
     "version": "3.34.0",
     "code": "537",
     "note": "Added:\n- 3-Dots menu for remote conversations (Federation in background)\n- Quote support for Mastodon\n- Long press on tags: Follow / Mute\n\nChanged:\n- Improve accessibility in media activity\n- Improve content descriptions\n- Update languages\n- Update launcher icons, add more monochrome icons\n- Limit the number of highlighted hashtags at the bottom of messages\n\nFixed:\n- Fix text selection stop working when composing\n- Fix a crash with threads\n- Fix empty Hashtags\n- Fix automatically expand media does not work with the Pixelfed presentation\n- Fix a crash with fit preview images feature"
@@ -208,96 +213,5 @@
     "version": "3.20.0",
     "code": "483",
     "note": "Added:\n- \"Follows you\" indicator in accounts list\n- Settings compose: display a dialog to warn if there are missing media description (default: disabled)\n- Settings > Cache:  disable battery optimization\n- Settings > Cache - Add charts to check cache logs\n- Settings > Timelines: AutoPlay gif media (default: enabled)\n- Google: Automatic backup of data and settings\n\nChanged:\n- Improve detections of gap in timelines\n- Improve media description\n- Chat view by default\n- Chat view add an indicator for messages when not direct\n\nFixed:\n- Fix an issue with cache and fetch more\n- Cache view with large fonts\n- Bad behaviors with truncated messages"
-  },
-  {
-    "version": "3.19.1",
-    "code": "482",
-    "note": "Added:\n- Settings compose: display a dialog to warn if there are missing media description (default disabled)\n- Settings > Notification:  disable battery optimization\n- Settings > Timelines: AutoPlay gif media (default: enabled)\n\nFixed:\n- Fix an issue with cache and fetch more\n- Cache view with large fonts\n- Bad behaviors with truncated messages"
-  },
-  {
-    "version": "3.19.0",
-    "code": "481",
-    "note": "Added:\n- Settings compose: don't send media if there are no description (default: disabled)\n- Settings Timelines: Enable/Disable truncate links\n- Allow to set max link length (20 - 150 chars)\n\nChanged:\n- Align media with text (left margin enabled)\n\nFixed:\n- Media previews remain the same when sharing\n- Edit media description not working\n- Accessibility (larger fonts): profiles/DM\n- Cross replies: Wrong visibility with the selected account\n- Several crashes"
-  },
-  {
-    "version": "3.18.2",
-    "code": "480",
-    "note": "Changed:\n- First media layout will depend of its ratio\n\nFixed:\n- Impossible to add media with the chat view\n- Chat view limited in chars\n- Freezes / bad behaviors due to the new media presentation"
-  },
-  {
-    "version": "3.18.1",
-    "code": "479",
-    "note": "Added:\n- Add Lingva translator (Settings > Timelines)\n- Add support for Nyastodon-style emoji reactions (skyevg)\n- Add chat view for DM (default: disable / Settings > Timelines)"
-  },
-  {
-    "version": "3.18.0",
-    "code": "478",
-    "note": "Added:\n- Support camel case tags (automatically recorded when composing)\n- Manage tags when composing (top right menu)\n- Custom tabs (default: enabled)\n\nChanged:\n- Media heights now use the screen size\n- Remove horizontal scroll for media\n- Reduce size of emoji when text size is increased\n- Update available languages in picker\n\nFixed:\n- Forwarded tags are added back after being deleted\n- TalkBack issues\n- Some crashes"
-  },
-  {
-    "version": "3.17.0",
-    "code": "477",
-    "note": "Added:\n- Peertube 2FA support\n- Cache home in background (default disabled -> New settings category and per account) / change frequency\n- Auto-fetch missing messages for the Home (default disabled -> in Settings - Timelines)\n- Automatically switch between tabs when searching\n- More deep links detection\n- Allow to group mentions at the top (default: disabled)\n\n\nFixed:\n- Dynamic color for Android 12+\n- Missing media description for previews\n- Fix a crash when replying\n- Fix button size not changed\n- Forward tags in replies\n- Media cannot be downloaded or shared with Android 10\n- Some crashes"
-  },
-  {
-    "version": "3.16.4",
-    "code": "476",
-    "note": "Added:\n- Cache home in background (default disabled -> New settings category and per account) / change frequency\n- Auto-fetch missing messages for the Home (default disabled -> in Settings - Timelines)\n- Automatically switch between tabs when searching\n\nFixed:\n- Some crashes"
-  },
-  {
-    "version": "3.16.3",
-    "code": "475",
-    "note": "Added:\n- Peertube 2FA support\n\nFixed:\n- Dynamic color for Android 12+"
-  },
-  {
-    "version": "3.16.2",
-    "code": "474",
-    "note": "Added:\n- Peertube support\n- Compose shortcut (long press launcher)\n- Long press compose button to write with another account\n- Edit description and focus for media (for the next Mastodon release)\n\nChanged:\n- Cross actions with two accounts display a dialog\n- Order & compact og values when sharing > title - url - content\n- Tap on top message (user info) open threads\n\nFixed:\n- Text cleared when adding a media\n- Fix Maths not working with quotes\n- Fix crashes"
-  },
-  {
-    "version": "3.16.1",
-    "code": "473",
-    "note": "Changed:\n- Edit description and focus for media (for the next Mastodon release)\n\nChanged:\n- Peertube: remove role support to avoid crashes with older instances\n\nFixed:\n- Fix some crashes"
-  },
-  {
-    "version": "3.16.0",
-    "code": "472",
-    "note": "Changed:\n- Peertube support\n- Compose shortcut\n- Long press compose button to write with another account\n\nChanged:\n- Cross actions with two accounts display a dialog\n- Order & compact og values when sharing > title - url - content\n\nFixed:\n- Text cleared when adding a media\n- Fix crashes"
-  },
-  {
-    "version": "3.15.2",
-    "code": "471",
-    "note": "Changed:\n- Add instance name when sharing\n\nFixed:\n- Fix a crash when removing media\n- Other minor fixes"
-  },
-  {
-    "version": "3.15.1",
-    "code": "470",
-    "note": "Changed:\n- Material dialogs\n\nFixed:\n- Light theme issues"
-  },
-  {
-    "version": "3.15.0",
-    "code": "469",
-    "note": "Added:\n- Maths support (view and compose)\n- Filter DMs in HOME (long press on the tab)\n- Filter languages for users in home timeline (from their profile)\n- Add several targeted languages for translator\n\nChanged:\n- Hide single media with preview is now a setting (default: disabled)\n- Group items in menu of messages\n\nFixed:\n- Cross-actions didn't display account instances"
-  },
-  {
-    "version": "3.14.6",
-    "code": "468",
-    "note": "Added:\n- Maths support (view and compose)\n\nChanged:\n- Hide single media with preview is now a setting (default: disabled)"
-  },
-  {
-    "version": "3.14.5",
-    "code": "467",
-    "note": "Changed:\n- Allow to swipe media for profiles\n\nFixed:\n- Fix crashes with pinch zoom\n- Copy/Paste in threads\n- Fix crash when checking redirection on http links\n- Display menu in media viewer resets pinch-zoom"
-  },
-  {
-    "version": "3.14.4",
-    "code": "466",
-    "note": "Changed:\n- Media viewer (pinch zoom)\n\nFixed:\n- Cross account actions (long press)\n- Boost color\n- Buttons not visible with custom themes.\n- Fix some bad behaviors with media viewer"
-  },
-  {
-    "version": "3.14.3",
-    "code": "465",
-    "note": "Added:\n- Display date of the message instead of the boost (default: disabled)\n- Allow to disable release notes popup in Settings\n\nFixed:\n- Fix timelines slow down and stuttering after some scrolls\n- Fix color issues with follow buttons\n- Fix import from settings (import from login was OK)"
   }
-
 ]

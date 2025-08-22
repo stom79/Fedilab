@@ -4,6 +4,7 @@ Added:
 - Add accessibility actions to translate, download, share in media viewer
 - Add a language indicator to focused status
 - Add Persian language to "Change the language" preference
+- Add new app logo
 
 Changed:
 - Show placeholders while profile pictures are loading
@@ -22,3 +23,4 @@ Fixed:
 - Alt text popup does not resize when swiping
 - Video controls not visible in light theme
 - Profile picture appears on left side of title in conversation page in RTL mode
+- Some crashes
