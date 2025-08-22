@@ -1123,4 +1123,7 @@
     <string name="cd_hash_tag_timeline">%s. ハッシュタグ・タイムライン</string>
     <string name="cd_hide_media">メディアを非表示</string>
     <string name="cd_show_media">メディアを表示</string>
+    <string name="about_fediverse">フェディバース:</string>
+    <string name="about_website">ウェブサイト:</string>
+    <string name="about_donate">寄付:</string>
 </resources>
