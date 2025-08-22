@@ -1134,4 +1134,7 @@
     <string name="about_fediverse">Федіверс:</string>
     <string name="about_website">Вебсайт:</string>
     <string name="about_donate">Пожертвувати:</string>
+    <string name="who_can_quote">Хто може цитувати</string>
+    <string name="no_one">Ніхто</string>
+    <string name="anyone">Будь-хто</string>
 </resources>
