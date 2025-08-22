@@ -339,7 +339,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/visibility_public"
-                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    style="@style/Fedilab.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/v_public"
@@ -348,7 +348,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/visibility_unlisted"
-                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    style="@style/Fedilab.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
@@ -358,7 +358,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/visibility_private"
-                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    style="@style/Fedilab.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/v_private"
@@ -367,7 +367,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/visibility_direct"
-                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    style="@style/Fedilab.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/v_direct"
