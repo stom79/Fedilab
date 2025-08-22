@@ -209,7 +209,7 @@
             app:toggleCheckedStateOnClick="true" />
 
         <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/visibility_indicators_group"
+            android:id="@+id/visibility_and_quote_approval_policy_indicators_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="3dp"
@@ -231,7 +231,7 @@
                 app:icon="@drawable/ic_compose_visibility_public" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_quote_visibility"
+                android:id="@+id/button_quote_approval_policy"
                 style="@style/Widget.Material3.Button.IconButton.Outlined"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -253,7 +253,7 @@
             android:fontFamily="monospace"
             android:minWidth="72dp"
             app:layout_constraintBottom_toBottomOf="@id/action_buttons_barrier"
-            app:layout_constraintStart_toEndOf="@id/visibility_indicators_group"
+            app:layout_constraintStart_toEndOf="@id/visibility_and_quote_approval_policy_indicators_group"
             app:layout_constraintTop_toBottomOf="@id/text_area_divider"
             tools:text="EN" />
 
@@ -438,7 +438,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/quote_visibility_panel"
+            android:id="@+id/quote_approval_policy_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_compose_panels"
@@ -458,7 +458,7 @@
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/quote_visibility_group"
+                android:id="@+id/quote_approval_policy_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
@@ -466,7 +466,7 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_quote_visibility_no_one"
+                    android:id="@+id/button_quote_approval_policy_no_one"
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -478,7 +478,7 @@
                     app:icon="@drawable/ic_baseline_block_24" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_quote_visibility_followers_only"
+                    android:id="@+id/button_quote_approval_policy_followers_only"
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -490,7 +490,7 @@
                     app:icon="@drawable/ic_baseline_people_alt_24" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_quote_visibility_anyone"
+                    android:id="@+id/button_quote_approval_policy_anyone"
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -504,7 +504,7 @@
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_close_quote_visibility_panel"
+                android:id="@+id/button_close_quote_approval_policy_panel"
                 style="@style/Widget.Material3.Button.IconButton.Outlined"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -520,7 +520,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="button_attach, visibility_indicators_group, button_language,  button_post, character_progress, button_sensitive" />
+            app:constraint_referenced_ids="button_attach, visibility_and_quote_approval_policy_indicators_group, button_language,  button_post, character_progress, button_sensitive" />
 
 
         <com.google.android.material.checkbox.MaterialCheckBox

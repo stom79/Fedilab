@@ -1643,22 +1643,22 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             switch (statusDraft.visibility.toLowerCase()) {
                 case "public" -> {
                     holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_public);
-                    holder.binding.buttonQuoteVisibility.setVisibility(View.VISIBLE);
+                    holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.VISIBLE);
                     statusDraft.visibility = MastodonHelper.visibility.PUBLIC.name();
                 }
                 case "unlisted" -> {
                     holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_unlisted);
-                    holder.binding.buttonQuoteVisibility.setVisibility(View.VISIBLE);
+                    holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.VISIBLE);
                     statusDraft.visibility = MastodonHelper.visibility.UNLISTED.name();
                 }
                 case "private" -> {
                     holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_private);
-                    holder.binding.buttonQuoteVisibility.setVisibility(View.GONE);
+                    holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.GONE);
                     statusDraft.visibility = MastodonHelper.visibility.PRIVATE.name();
                 }
                 case "direct" -> {
                     holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_direct);
-                    holder.binding.buttonQuoteVisibility.setVisibility(View.GONE);
+                    holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.GONE);
                     statusDraft.visibility = MastodonHelper.visibility.DIRECT.name();
                 }
             }
@@ -1670,53 +1670,53 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.visibilityGroup.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
                 holder.binding.buttonVisibility.setChecked(false);
             });
-            holder.binding.buttonQuoteVisibility.setOnClickListener(v -> {
-                holder.binding.quoteVisibilityPanel.setVisibility(View.VISIBLE);
-                holder.binding.quoteVisibilityGroup.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
-                holder.binding.buttonQuoteVisibility.setChecked(false);
+            holder.binding.buttonQuoteApprovalPolicy.setOnClickListener(v -> {
+                holder.binding.quoteApprovalPolicyPanel.setVisibility(View.VISIBLE);
+                holder.binding.quoteApprovalPolicyGroup.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+                holder.binding.buttonQuoteApprovalPolicy.setChecked(false);
             });
             holder.binding.buttonCloseVisibilityPanel.setOnClickListener(v -> holder.binding.visibilityPanel.setVisibility(View.GONE));
-            holder.binding.buttonCloseQuoteVisibilityPanel.setOnClickListener(v -> holder.binding.quoteVisibilityPanel.setVisibility(View.GONE));
+            holder.binding.buttonCloseQuoteApprovalPolicyPanel.setOnClickListener(v -> holder.binding.quoteApprovalPolicyPanel.setVisibility(View.GONE));
             holder.binding.buttonVisibilityDirect.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonQuoteVisibility.setVisibility(View.GONE);
+                holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.GONE);
                 holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_direct);
                 statusDraft.visibility = MastodonHelper.visibility.DIRECT.name();
 
             });
             holder.binding.buttonVisibilityPrivate.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonQuoteVisibility.setVisibility(View.GONE);
+                holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.GONE);
                 holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_private);
                 statusDraft.visibility = MastodonHelper.visibility.PRIVATE.name();
             });
             holder.binding.buttonVisibilityUnlisted.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonQuoteVisibility.setVisibility(View.VISIBLE);
+                holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.VISIBLE);
                 holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_unlisted);
                 statusDraft.visibility = MastodonHelper.visibility.UNLISTED.name();
             });
             holder.binding.buttonVisibilityPublic.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonQuoteVisibility.setVisibility(View.VISIBLE);
+                holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.VISIBLE);
                 holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_public);
                 statusDraft.visibility = MastodonHelper.visibility.PUBLIC.name();
                 unlisted_changed = true;
             });
-            holder.binding.buttonQuoteVisibilityNoOne.setOnClickListener(v -> {
-                holder.binding.quoteVisibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonQuoteVisibility.setIconResource(R.drawable.ic_baseline_block_24);
-                // Todo: "No one" quote visibility clicked
+            holder.binding.buttonQuoteApprovalPolicyNoOne.setOnClickListener(v -> {
+                holder.binding.quoteApprovalPolicyPanel.setVisibility(View.GONE);
+                holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_baseline_block_24);
+                // Todo: statusDraft.visibility = nobody
             });
-            holder.binding.buttonQuoteVisibilityFollowersOnly.setOnClickListener(v -> {
-                holder.binding.quoteVisibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonQuoteVisibility.setIconResource(R.drawable.ic_baseline_people_alt_24);
-                // Todo: "No one" quote visibility clicked
+            holder.binding.buttonQuoteApprovalPolicyFollowersOnly.setOnClickListener(v -> {
+                holder.binding.quoteApprovalPolicyPanel.setVisibility(View.GONE);
+                holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_baseline_people_alt_24);
+                // Todo: statusDraft.visibility = followers
             });
-            holder.binding.buttonQuoteVisibilityAnyone.setOnClickListener(v -> {
-                holder.binding.quoteVisibilityPanel.setVisibility(View.GONE);
-                holder.binding.buttonQuoteVisibility.setIconResource(R.drawable.ic_compose_visibility_public);
-                // Todo: "No one" quote visibility clicked
+            holder.binding.buttonQuoteApprovalPolicyAnyone.setOnClickListener(v -> {
+                holder.binding.quoteApprovalPolicyPanel.setVisibility(View.GONE);
+                holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_compose_visibility_public);
+                // Todo: statusDraft.visibility = public
             });
 
             if (statusDraft.spoilerChecked || statusDraft.spoiler_text != null && !statusDraft.spoiler_text.trim().isEmpty()) {
