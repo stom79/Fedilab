@@ -171,6 +171,7 @@
     <string name="toot_delete_media">Remove this media?</string>
     <string name="toot_error_no_content">Your message is empty!</string>
     <string name="toots_visibility_title">Visibility of the messages by default: </string>
+    <string name="default_who_can_quote">Default selection for who can quote</string>
     <string name="toot_sent">The message has been sent!</string>
     <string name="toot_sensitive">Sensitive content?</string>
     <string name="no_draft">No drafts!</string>

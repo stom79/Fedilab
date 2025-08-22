@@ -376,6 +376,57 @@
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/quote_approval_policy_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/default_who_can_quote"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                app:layout_constraintTop_toBottomOf="@id/visibility_group" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/quote_approval_policy_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="6dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/quote_approval_policy_label"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/quote_approval_policy_no_one"
+                    style="@style/Fedilab.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_one"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/ic_baseline_block_24" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/quote_approval_policy_followers_only"
+                    style="@style/Fedilab.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:text="@string/followers_only"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/ic_baseline_people_alt_24" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/quote_approval_policy_anyone"
+                    style="@style/Fedilab.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/anyone"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/ic_compose_visibility_public" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/sensitive"
                 android:layout_width="match_parent"
@@ -383,7 +434,7 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="6dp"
                 android:text="@string/set_sensitive_content"
-                app:layout_constraintTop_toBottomOf="@id/visibility_group" />
+                app:layout_constraintTop_toBottomOf="@id/quote_approval_policy_group" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/bot"
