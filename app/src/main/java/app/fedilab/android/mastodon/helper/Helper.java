@@ -985,7 +985,9 @@ public class Helper {
                 ft.commitAllowingStateLoss();
             }
         }
-        fragmentManager.executePendingTransactions();
+        if(!fragmentManager.isDestroyed()) {
+            fragmentManager.executePendingTransactions();
+        }
         return fragment;
     }
 

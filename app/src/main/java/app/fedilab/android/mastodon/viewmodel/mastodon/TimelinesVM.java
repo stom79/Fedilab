@@ -104,15 +104,23 @@ public class TimelinesVM extends AndroidViewModel {
 
 
     private static void sortDesc(List<Status> statusList) {
+        if(statusList == null) {
+            return;
+        }
         Collections.sort(statusList, (obj1, obj2) -> obj2.id.compareToIgnoreCase(obj1.id));
     }
 
     public static void sortAsc(List<Status> statusList) {
+        if(statusList == null) {
+            return;
+        }
         Collections.sort(statusList, (obj1, obj2) -> obj1.id.compareToIgnoreCase(obj2.id));
     }
 
-
     private static void sortDescConv(List<Conversation> conversationList) {
+        if(conversationList == null) {
+            return;
+        }
         Collections.sort(conversationList, (obj1, obj2) -> obj2.id.compareToIgnoreCase(obj1.id));
     }
 
