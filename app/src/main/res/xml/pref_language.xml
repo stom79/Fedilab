@@ -8,7 +8,6 @@
         app:entryValues="@array/SET_TRANSLATE_ENTRIES"
         app:iconSpaceReserved="false"
         app:key="@string/SET_DEFAULT_LOCALE_NEW"
-        app:summary="@string/set_push_notifications"
         app:title="@string/set_change_locale"
         app:useSimpleSummaryProvider="true" />
 
