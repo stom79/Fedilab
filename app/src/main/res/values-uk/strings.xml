@@ -1131,4 +1131,7 @@
     <string name="cd_hash_tag_timeline">%s. Хронологія хештегів</string>
     <string name="cd_hide_media">Приховати медіафайли</string>
     <string name="cd_show_media">Показати медіа</string>
+    <string name="about_fediverse">Федіверс:</string>
+    <string name="about_website">Вебсайт:</string>
+    <string name="about_donate">Пожертвувати:</string>
 </resources>
