@@ -62,6 +62,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -1113,79 +1114,103 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return true;
             });
             holder.binding.actionButtonBoost.setOnClickListener(v -> {
-                boolean needToWarnForMissingDescription = false;
-                if (warnNoMedia && statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
-                    for (Attachment attachment : statusToDeal.media_attachments) {
-                        if (attachment.description == null || attachment.description.trim().length() == 0) {
-                            needToWarnForMissingDescription = true;
-                            break;
-                        }
-                    }
-                }
-                if (confirmBoost || needToWarnForMissingDescription) {
-                    AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
-
-                    if (statusToDeal.reblogged) {
-                        alt_bld.setMessage(context.getString(R.string.reblog_remove));
-                    } else {
-                        if (!needToWarnForMissingDescription) {
-                            alt_bld.setMessage(context.getString(R.string.reblog_add));
-                        } else {
-                            alt_bld.setMessage(context.getString(R.string.reblog_missing_description));
-                        }
-                    }
-                    alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
-                        if (remote) {
-                            Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
-                            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
-                                    .observe((LifecycleOwner) context, results -> {
-                                        if (results != null && results.statuses != null && results.statuses.size() > 0) {
-                                            Status fetchedStatus = results.statuses.get(0);
-                                            statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id, null)
-                                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, true));
-                                        } else {
-                                            Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        } else {
-                            if (statusToDeal.reblogged) {
-                                statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                        .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.UNREBLOG_ACTION, statusToDeal, _status, false));
-                            } else {
-                                ((SparkButton) v).playAnimation();
-                                statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, null)
-                                        .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, false));
-                            }
-                        }
-                        dialog.dismiss();
-                    });
-                    alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
-                    AlertDialog alert = alt_bld.create();
-                    alert.show();
-                } else {
-                    if (remote) {
-                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
-                        searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
-                                .observe((LifecycleOwner) context, results -> {
-                                    if (results != null && results.statuses != null && results.statuses.size() > 0) {
-                                        Status fetchedStatus = results.statuses.get(0);
-                                        statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id, null)
-                                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, true));
-                                    } else {
-                                        Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                PopupMenu popupMenu = new PopupMenu(context, v);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_boost_or_quote, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int itemId = item.getItemId();
+                        if (itemId == R.id.action_reblog) {
+                            boolean needToWarnForMissingDescription = false;
+                            if (warnNoMedia && statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
+                                for (Attachment attachment : statusToDeal.media_attachments) {
+                                    if (attachment.description == null || attachment.description.trim().length() == 0) {
+                                        needToWarnForMissingDescription = true;
+                                        break;
                                     }
+                                }
+                            }
+                            if (confirmBoost || needToWarnForMissingDescription) {
+                                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
+
+                                if (statusToDeal.reblogged) {
+                                    alt_bld.setMessage(context.getString(R.string.reblog_remove));
+                                } else {
+                                    if (!needToWarnForMissingDescription) {
+                                        alt_bld.setMessage(context.getString(R.string.reblog_add));
+                                    } else {
+                                        alt_bld.setMessage(context.getString(R.string.reblog_missing_description));
+                                    }
+                                }
+                                alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
+                                    if (remote) {
+                                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                                        searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
+                                                .observe((LifecycleOwner) context, results -> {
+                                                    if (results != null && results.statuses != null && results.statuses.size() > 0) {
+                                                        Status fetchedStatus = results.statuses.get(0);
+                                                        statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id, null)
+                                                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, true));
+                                                    } else {
+                                                        Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                    } else {
+                                        if (statusToDeal.reblogged) {
+                                            statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.UNREBLOG_ACTION, statusToDeal, _status, false));
+                                        } else {
+                                            ((SparkButton) v).playAnimation();
+                                            statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, null)
+                                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, false));
+                                        }
+                                    }
+                                    dialog.dismiss();
                                 });
-                    } else {
-                        if (statusToDeal.reblogged) {
-                            statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.UNREBLOG_ACTION, statusToDeal, _status, false));
-                        } else {
-                            ((SparkButton) v).playAnimation();
-                            statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, null)
-                                    .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, false));
+                                alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                                AlertDialog alert = alt_bld.create();
+                                alert.show();
+                            } else {
+                                if (remote) {
+                                    Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                                    searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
+                                            .observe((LifecycleOwner) context, results -> {
+                                                if (results != null && results.statuses != null && results.statuses.size() > 0) {
+                                                    Status fetchedStatus = results.statuses.get(0);
+                                                    statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id, null)
+                                                            .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, true));
+                                                } else {
+                                                    Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                } else {
+                                    if (statusToDeal.reblogged) {
+                                        statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.UNREBLOG_ACTION, statusToDeal, _status, false));
+                                    } else {
+                                        ((SparkButton) v).playAnimation();
+                                        statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, null)
+                                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, false));
+                                    }
+                                }
+                            }
+                            return true;
+                        } else if (itemId == R.id.action_quote) {
+                            Intent intent = new Intent(context, ComposeActivity.class);
+                            Bundle args = new Bundle();
+                            args.putSerializable(Helper.ARG_QUOTED_MESSAGE, statusToDeal);
+                            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(bundle);
+                                context.startActivity(intent);
+                            });
+                            return true;
                         }
+                        return false;
                     }
-                }
+                });
+                popupMenu.show();
             });
             holder.binding.actionButtonBoost.setChecked(statusToDeal.reblogged);
             //---> FAVOURITE/UNFAVOURITE
@@ -2349,17 +2374,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonReplyContainer.setOnLongClickListener(v -> {
             CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.REPLY_ACTION, null, statusToDeal);
             return true;
-        });
-        holder.binding.actionButtonQuote.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ComposeActivity.class);
-            Bundle args = new Bundle();
-            args.putSerializable(Helper.ARG_QUOTED_MESSAGE, statusToDeal);
-            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                Bundle bundle = new Bundle();
-                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
-            });
         });
         holder.binding.actionButtonReplyContainer.setOnClickListener(v -> {
             if (remote) {
