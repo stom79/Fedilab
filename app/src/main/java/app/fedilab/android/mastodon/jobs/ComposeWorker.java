@@ -261,7 +261,7 @@ public class ComposeWorker extends Worker {
                 if (dataPost.scheduledDate == null) {
                     if (dataPost.statusEditId == null) {
                         statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), statuses.get(i).language, statuses.get(i).quote_id, statuses.get(i).content_type, statuses.get(i).local_only);
+                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), statuses.get(i).language, statuses.get(i).quote_approval_policy.toLowerCase(), statuses.get(i).quote_id, statuses.get(i).quote_id, statuses.get(i).content_type, statuses.get(i).local_only);
                     } else { //Status is edited
                         StatusParams statusParams = new StatusParams();
                         statusParams.status = statuses.get(i).text;
@@ -277,6 +277,8 @@ public class ComposeWorker extends Worker {
                         statusParams.sensitive =  statuses.get(i).sensitive;
                         statusParams.spoiler_text = statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null;
                         statusParams.visibility = statuses.get(i).visibility.toLowerCase();
+                        statusParams.quoted_status_id = statuses.get(i).quote_id.toLowerCase();
+                        statusParams.quote_approval_policy = statuses.get(i).quote_approval_policy.toLowerCase();
                         statusParams.language = statuses.get(i).language;
                         statusParams.media_attributes = media_attributes;
                         statusCall = mastodonStatusesService.updateStatus(null, dataPost.token,

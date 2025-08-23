@@ -64,6 +64,8 @@ public interface MastodonStatusesService {
             @Field("spoiler_text") String spoiler_text,
             @Field("visibility") String visibility,
             @Field("language") String language,
+            @Field("quote_approval_policy") String quote_approval_policy,
+            @Field("quoted_status_id") String quoted_status_id,
             @Field("quote_id") String quote_id,
             @Field("content_type") String content_type,
             @Field("local_only") Boolean local_only

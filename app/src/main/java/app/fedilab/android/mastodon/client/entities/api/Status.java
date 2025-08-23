@@ -55,10 +55,13 @@ public class Status implements Serializable, Cloneable {
     public String text;
     @SerializedName("quote_id")
     public String quote_id;
+
     @SerializedName("content_type")
     public String content_type;
     @SerializedName("visibility")
     public String visibility;
+    @SerializedName("quote_approval_policy")
+    public String quote_approval_policy;
     @SerializedName("language")
     public String language;
     @SerializedName("uri")

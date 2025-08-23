@@ -2046,7 +2046,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                         viewModelComment.comment(ADD_COMMENT, peertube.getId(), null, commentStr).observe(PeertubeActivity.this, apiResponse1 -> manageVIewPostActions(ADD_COMMENT, 0, apiResponse1));
                     } else {//Remote account is posting a message
                         StatusesVM statusesVM = new ViewModelProvider(PeertubeActivity.this).get(StatusesVM.class);
-                        statusesVM.postStatus(currentInstance, currentToken, null, commentStr, null, null, null, null, null, status.id, false, null, "public", null, null, null, null).observe(PeertubeActivity.this, this::manageVIewPostActionsMastodon);
+                        statusesVM.postStatus(currentInstance, currentToken, null, commentStr, null, null, null, null, null, status.id, false, null, "public", null, null, null, null, null).observe(PeertubeActivity.this, this::manageVIewPostActionsMastodon);
                     }
                     binding.addCommentWrite.setText("");
                 }
@@ -2058,7 +2058,7 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
                         viewModelComment.comment(REPLY, peertube.getId(), comment.getId(), commentView).observe(PeertubeActivity.this, apiResponse1 -> manageVIewPostActions(REPLY, position, apiResponse1));
                     } else {//Remote account is posting a message
                         StatusesVM statusesVM = new ViewModelProvider(PeertubeActivity.this).get(StatusesVM.class);
-                        statusesVM.postStatus(currentInstance, currentToken, null, commentView, null, null, null, null, null, status.id, false, null, "public", null, null, null, null).observe(PeertubeActivity.this, this::manageVIewPostActionsMastodon);
+                        statusesVM.postStatus(currentInstance, currentToken, null, commentView, null, null, null, null, null, status.id, false, null, "public", null, null, null, null, null).observe(PeertubeActivity.this, this::manageVIewPostActionsMastodon);
                     }
                     binding.addCommentWrite.setText("");
                 }

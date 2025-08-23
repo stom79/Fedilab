@@ -156,6 +156,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private Uri photoFileUri;
     private ScheduledStatus scheduledStatus;
     private String visibility;
+    private String quote_approval_policy;
     private Account accountMention;
     private String statusReplyId;
     private Account mentionBooster;
@@ -287,7 +288,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         statusList.addAll(0, context.ancestors);
         statusList.add(initialStatus);
         statusList.add(statusDraft.statusDraftList.get(0));
-        composeAdapter = new ComposeAdapter(statusList, context.ancestors.size(), account, accountMention, visibility, editMessageId);
+        composeAdapter = new ComposeAdapter(statusList, context.ancestors.size(), account, accountMention, visibility, quote_approval_policy, editMessageId);
         composeAdapter.mediaDescriptionCallBack = this;
         composeAdapter.promptDraftListener = this;
         composeAdapter.manageDrafts = this;
@@ -526,6 +527,10 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 } else if (visibility == null && Helper.getCurrentAccount(ComposeActivity.this) != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source != null) {
                     visibility = Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source.privacy;
                 }
+                if (quote_approval_policy == null && Helper.getCurrentAccount(ComposeActivity.this) != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source != null) {
+                    quote_approval_policy = Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source.quote_authorizations;
+                }
+
                 if(setMentionBooster) {
                     mentionBooster = (Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
                 } else {
@@ -569,6 +574,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     status.sensitive = scheduledStatus.params.sensitive;
                     status.spoiler_text = scheduledStatus.params.spoiler_text;
                     status.visibility = scheduledStatus.params.visibility;
+                    status.quote_approval_policy = scheduledStatus.params.quote_approval_policy;
                     statuses.add(status);
                     statusDraft.statusDraftList = statuses;
                 }
@@ -636,7 +642,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     }
                     int statusCount = statusList.size();
                     statusList.addAll(statusDraft.statusDraftList);
-                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, editMessageId);
+                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, quote_approval_policy, editMessageId);
                     composeAdapter.mediaDescriptionCallBack = this;
                     composeAdapter.manageDrafts = this;
                     composeAdapter.promptDraftListener = this;
@@ -709,7 +715,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     }
                     //StatusDraftList at this point should only have one element
                     statusList.addAll(statusDraftList);
-                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, editMessageId);
+                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, quote_approval_policy, editMessageId);
                     composeAdapter.mediaDescriptionCallBack = this;
                     composeAdapter.manageDrafts = this;
                     composeAdapter.promptDraftListener = this;
@@ -724,7 +730,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     statusDraftList.get(0).quote_id = statusQuoted.id;
                     //StatusDraftList at this point should only have one element
                     statusList.addAll(statusDraftList);
-                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, editMessageId);
+                    composeAdapter = new ComposeAdapter(statusList, statusCount, account, accountMention, visibility, quote_approval_policy, editMessageId);
                     composeAdapter.mediaDescriptionCallBack = this;
                     composeAdapter.manageDrafts = this;
                     composeAdapter.promptDraftListener = this;
@@ -734,7 +740,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 } else {
                     //Compose without replying
                     statusList.addAll(statusDraftList);
-                    composeAdapter = new ComposeAdapter(statusList, 0, account, accountMention, visibility, editMessageId);
+                    composeAdapter = new ComposeAdapter(statusList, 0, account, accountMention, visibility,quote_approval_policy, editMessageId);
                     composeAdapter.mediaDescriptionCallBack = this;
                     composeAdapter.manageDrafts = this;
                     composeAdapter.promptDraftListener = this;

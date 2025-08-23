@@ -167,6 +167,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int TYPE_NORMAL = 0;
     private final BaseAccount account;
     private final String visibility;
+    private final String quote_approval_policy;
     private final Account mentionedAccount;
     private final String editMessageId;
     public ManageDrafts manageDrafts;
@@ -182,12 +183,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private boolean splitChoiceDone = false;
 
 
-    public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, Account mentionedAccount, String visibility, String editMessageId) {
+    public ComposeAdapter(List<Status> statusList, int statusCount, BaseAccount account, Account mentionedAccount, String visibility, String quote_approval_policy, String editMessageId) {
         this.statusList = statusList;
         this.statusCount = statusCount;
         this.account = account;
         this.mentionedAccount = mentionedAccount;
         this.visibility = visibility;
+        this.quote_approval_policy = quote_approval_policy;
         this.editMessageId = editMessageId;
 
     }
@@ -1624,6 +1626,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (visibility != null && statusDraft.visibility == null) {
                 statusDraft.visibility = visibility;
             }
+            if(quote_approval_policy != null && statusDraft.quote_approval_policy == null) {
+                statusDraft.quote_approval_policy = quote_approval_policy;
+            }
             boolean unlistedReplies = sharedpreferences.getBoolean(context.getString(R.string.SET_UNLISTED_REPLIES), true);
             if (statusDraft.visibility == null) {
                 if (position > 0) {
@@ -1639,7 +1644,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else if (!unlisted_changed && position > 0 && position == statusCount && unlistedReplies && statusDraft.visibility.equalsIgnoreCase("public") && statusList.size() > 1) {
                 statusDraft.visibility = "unlisted";
             }
-
+            if( statusDraft.quote_approval_policy == null) { //Set a default value
+                statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.PUBLIC.name();
+            }
             switch (statusDraft.visibility.toLowerCase()) {
                 case "public" -> {
                     holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_public);
@@ -1662,6 +1669,24 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     statusDraft.visibility = MastodonHelper.visibility.DIRECT.name();
                 }
             }
+
+
+            switch (statusDraft.quote_approval_policy.toLowerCase()) {
+                case "public" -> {
+                    holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_compose_visibility_public);
+                    statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.PUBLIC.name();
+                }
+                case "followers" -> {
+                    holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_baseline_people_alt_24);
+                    statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.FOLLOWERS.name();
+                }
+                case "nobody" -> {
+                    holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_baseline_block_24);
+                    statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.NOBODY.name();
+                }
+            }
+
+
 
             holder.binding.visibilityPanel.setOnTouchListener((view, motionEvent) -> true);
             holder.binding.buttonCloseAttachmentPanel.setOnClickListener(v -> holder.binding.attachmentChoicesPanel.setVisibility(View.GONE));
@@ -1706,17 +1731,17 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.buttonQuoteApprovalPolicyNoOne.setOnClickListener(v -> {
                 holder.binding.quoteApprovalPolicyPanel.setVisibility(View.GONE);
                 holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_baseline_block_24);
-                // Todo: statusDraft.visibility = nobody
+                statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.NOBODY.name();
             });
             holder.binding.buttonQuoteApprovalPolicyFollowersOnly.setOnClickListener(v -> {
                 holder.binding.quoteApprovalPolicyPanel.setVisibility(View.GONE);
                 holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_baseline_people_alt_24);
-                // Todo: statusDraft.visibility = followers
+                statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.FOLLOWERS.name();
             });
             holder.binding.buttonQuoteApprovalPolicyAnyone.setOnClickListener(v -> {
                 holder.binding.quoteApprovalPolicyPanel.setVisibility(View.GONE);
                 holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_compose_visibility_public);
-                // Todo: statusDraft.visibility = public
+                statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.PUBLIC.name();
             });
 
             if (statusDraft.spoilerChecked || statusDraft.spoiler_text != null && !statusDraft.spoiler_text.trim().isEmpty()) {

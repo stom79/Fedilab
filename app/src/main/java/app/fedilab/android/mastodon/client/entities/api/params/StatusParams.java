@@ -33,10 +33,15 @@ public class StatusParams implements Serializable {
     public String in_reply_to_id;
     @SerializedName("sensitive")
     public Boolean sensitive;
+
     @SerializedName("spoiler_text")
     public String spoiler_text;
     @SerializedName("visibility")
     public String visibility;
+    @SerializedName("quote_approval_policy")
+    public String quote_approval_policy;
+    @SerializedName("quoted_status_id")
+    public String quoted_status_id;
     @SerializedName("language")
     public String language;
     @SerializedName("media_attributes")

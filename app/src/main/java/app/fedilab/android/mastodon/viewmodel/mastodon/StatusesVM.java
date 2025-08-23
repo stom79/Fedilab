@@ -188,6 +188,7 @@ public class StatusesVM extends AndroidViewModel {
                                        String spoiler_text,
                                        String visibility,
                                        String language,
+                                       String quote_approval_policy,
                                        String quote_id,
                                        String content_type,
                                        Boolean local_only) {
@@ -195,7 +196,7 @@ public class StatusesVM extends AndroidViewModel {
         statusMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<Status> statusCall = mastodonStatusesService.createStatus(idempotency_Key, token, text, media_ids, poll_options, poll_expire_in,
-                    poll_multiple, poll_hide_totals, in_reply_to_id, sensitive, spoiler_text, visibility, language, quote_id, content_type, local_only);
+                    poll_multiple, poll_hide_totals, in_reply_to_id, sensitive, spoiler_text, visibility, language, quote_approval_policy, quote_id, quote_id, content_type, local_only);
             Status status = null;
             if (statusCall != null) {
                 try {

@@ -42,6 +42,8 @@ public class ScheduledStatus implements Serializable {
         public String spoiler_text;
         @SerializedName("visibility")
         public String visibility;
+        @SerializedName("quote_approval_policy")
+        public String quote_approval_policy;
         @SerializedName("scheduled_at")
         public Date scheduled_at;
         @SerializedName("poll")

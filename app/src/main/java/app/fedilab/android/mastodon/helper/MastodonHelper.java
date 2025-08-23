@@ -572,6 +572,22 @@ public class MastodonHelper {
         HEADER
     }
 
+    public enum quote_visibility {
+        @SerializedName("PUBLIC")
+        PUBLIC("public"),
+        @SerializedName("FOLLOWERS")
+        FOLLOWERS("followers"),
+        @SerializedName("NOBODY")
+        NOBODY("nobody");
+        private final String value;
+        quote_visibility(String value) {
+            this.value = value;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
+
     public enum visibility {
         @SerializedName("PUBLIC")
         PUBLIC("public"),
