@@ -638,8 +638,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         if (extraFeatures && displayReactions) {
-            holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
-            holder.binding.statusEmoji.setVisibility(View.VISIBLE);
+            holder.binding.statusAddCustomEmoji.setVisibility(status.isFocused ? View.VISIBLE : View.GONE);
+            holder.binding.statusEmoji.setVisibility(status.isFocused ? View.VISIBLE : View.GONE);
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && !status.pleroma.emoji_reactions.isEmpty()) {
                 holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions, true);
