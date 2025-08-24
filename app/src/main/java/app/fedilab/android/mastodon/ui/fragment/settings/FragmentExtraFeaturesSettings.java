@@ -70,11 +70,6 @@ public class FragmentExtraFeaturesSettings extends PreferenceFragmentCompat impl
             SET_DISPLAY_TRANSLATE.setChecked(checked);
         }
 
-        SwitchPreferenceCompat SET_DISPLAY_QUOTES = findPreference(getString(R.string.SET_DISPLAY_QUOTES));
-        if (SET_DISPLAY_QUOTES != null) {
-            boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_QUOTES) + MainActivity.currentUserID + MainActivity.currentInstance, true);
-            SET_DISPLAY_QUOTES.setChecked(checked);
-        }
 
         SwitchPreferenceCompat SET_DISPLAY_REACTIONS = findPreference(getString(R.string.SET_DISPLAY_REACTIONS));
         if (SET_DISPLAY_REACTIONS != null) {
@@ -114,12 +109,6 @@ public class FragmentExtraFeaturesSettings extends PreferenceFragmentCompat impl
                 SwitchPreferenceCompat SET_DISPLAY_TRANSLATE = findPreference(getString(R.string.SET_DISPLAY_TRANSLATE));
                 if (SET_DISPLAY_TRANSLATE != null) {
                     editor.putBoolean(getString(R.string.SET_DISPLAY_TRANSLATE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_DISPLAY_TRANSLATE.isChecked());
-                }
-            }
-            if (key.compareToIgnoreCase(getString(R.string.SET_DISPLAY_QUOTES)) == 0) {
-                SwitchPreferenceCompat SET_DISPLAY_QUOTES = findPreference(getString(R.string.SET_DISPLAY_QUOTES));
-                if (SET_DISPLAY_QUOTES != null) {
-                    editor.putBoolean(getString(R.string.SET_DISPLAY_QUOTES) + MainActivity.currentUserID + MainActivity.currentInstance, SET_DISPLAY_QUOTES.isChecked());
                 }
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_DISPLAY_REACTIONS)) == 0) {

@@ -35,12 +35,13 @@
         app:key="bottom_icon"
         app:summary="@string/icons_extra_features_visibility_summary"
         app:title="@string/icons_extra_features">
-        <SwitchPreferenceCompat
+
+        <!-- <SwitchPreferenceCompat
             android:defaultValue="true"
             app:iconSpaceReserved="false"
             app:key="@string/SET_DISPLAY_QUOTES"
             app:singleLineTitle="false"
-            app:title="@string/set_display_quote_indication" />
+            app:title="@string/set_display_quote_indication" /> -->
         <SwitchPreferenceCompat
             android:defaultValue="true"
             app:iconSpaceReserved="false"

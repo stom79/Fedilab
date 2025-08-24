@@ -817,13 +817,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         int truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
 
-        if (extraFeatures) {
-            if (displayQuote) {
-                holder.binding.actionButtonQuote.setVisibility(View.VISIBLE);
-            } else {
-                holder.binding.actionButtonQuote.setVisibility(View.GONE);
-            }
-        }
 
         if (status.isMaths == null) {
             if (status.content != null && Helper.mathsPattern.matcher(status.content).find()) {
@@ -1319,9 +1312,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         holder.binding.statusAddCustomEmoji.setIconSize((int) (normalSize * scaleIcon));
         holder.binding.statusAddCustomEmoji.requestLayout();
-
-        holder.binding.actionButtonQuote.setIconSize((int) (normalSize * scaleIcon));
-        holder.binding.actionButtonQuote.requestLayout();
 
         holder.binding.statusEmoji.setIconSize((int) (normalSize * scaleIcon));
         holder.binding.statusEmoji.requestLayout();
@@ -3190,7 +3180,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (theme_icons_color != -1) {
             Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.actionButtonQuote, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.statusEmoji, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_star_24, theme_icons_color);
