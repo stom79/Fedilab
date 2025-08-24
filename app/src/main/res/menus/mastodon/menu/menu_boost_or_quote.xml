@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_reblog"
+        android:icon="@drawable/ic_round_repeat_24"
+        android:title="@string/action_reblog"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_quote"
+        android:icon="@drawable/ic_baseline_format_quote_24"
+        android:title="@string/action_quote"
+        app:showAsAction="ifRoom" />
+
+</menu>
