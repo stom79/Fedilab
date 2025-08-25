@@ -148,7 +148,12 @@
         app:key="@string/SET_DISPLAY_TRANSLATE"
         app:singleLineTitle="false"
         app:title="@string/set_display_translate_indication" />
-
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISPLAY_QUOTE"
+        app:singleLineTitle="false"
+        app:title="@string/set_display_quote_indication" />
     <ListPreference
         app:defaultValue="FEDILAB"
         app:dialogTitle="@string/translator"

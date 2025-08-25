@@ -1258,6 +1258,7 @@
     <string name="SET_PIXELFED_FULL_MEDIA" translatable="false">SET_PIXELFED_FULL_MEDIA</string>
 
     <string name="SET_DISPLAY_QUOTES" translatable="false">SET_DISPLAY_QUOTES</string>
+    <string name="SET_DISPLAY_QUOTE" translatable="false">SET_DISPLAY_QUOTE</string>
     <string name="SET_DISPLAY_REACTIONS" translatable="false">SET_DISPLAY_REACTIONS</string>
 
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
