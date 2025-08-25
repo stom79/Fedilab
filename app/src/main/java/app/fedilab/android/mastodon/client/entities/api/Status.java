@@ -62,6 +62,8 @@ public class Status implements Serializable, Cloneable {
     public String visibility;
     @SerializedName("quote_approval_policy")
     public String quote_approval_policy;
+    @SerializedName("quote_approval")
+    public QuoteApproval quote_approval;
     @SerializedName("language")
     public String language;
     @SerializedName("uri")
@@ -118,6 +120,15 @@ public class Status implements Serializable, Cloneable {
     public Boolean isMaths;
     @SerializedName("reactions")
     public List<Reaction> reactions;
+
+    public static class QuoteApproval implements Serializable {
+        @SerializedName("automatic")
+        public String[] automatic;
+        @SerializedName("current_user")
+        public String current_user;
+        @SerializedName("manual")
+        public Status[] manual;
+    }
 
     public Status getQuote() {
         Status quote = null;
@@ -245,4 +256,6 @@ public class Status implements Serializable, Cloneable {
         @SerializedName("quoted_status")
         Status quoted_status;
     }
+
+
 }

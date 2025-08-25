@@ -60,6 +60,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -1206,6 +1207,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if(displayQuote) {
                     PopupMenu popupMenu = new PopupMenu(context, v);
                     popupMenu.getMenuInflater().inflate(R.menu.menu_boost_or_quote, popupMenu.getMenu());
+                    if(statusToDeal.quote_approval != null && statusToDeal.quote_approval.current_user != null && statusToDeal.quote_approval.current_user.equalsIgnoreCase("denied") ) {
+                        popupMenu.getMenu().findItem(R.id.action_quote).setEnabled(false);
+                    } else {
+                        popupMenu.getMenu().findItem(R.id.action_quote).setEnabled(true);
+                    }
                     popupMenu.setOnMenuItemClickListener(item -> {
                         int itemId = item.getItemId();
                         if (itemId == R.id.action_reblog) {
