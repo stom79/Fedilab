@@ -109,7 +109,7 @@
         <item quantity="two">eiliad</item>
         <item quantity="few">%d eiliadau</item>
         <item quantity="many">%d eiliadau</item>
-        <item quantity="other"/>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="date_minutes_polls">
         <item quantity="zero">%d minutes</item>
@@ -125,7 +125,7 @@
         <item quantity="two">%d awr</item>
         <item quantity="few">%d oriau</item>
         <item quantity="many">%d oriau</item>
-        <item quantity="other"/>
+        <item quantity="other"></item>
     </plurals>
     <plurals name="date_day_polls">
         <item quantity="zero">%d days</item>
@@ -133,7 +133,7 @@
         <item quantity="two">%d dydd</item>
         <item quantity="few">%d dyddiau</item>
         <item quantity="many">%d dyddiau</item>
-        <item quantity="other"/>
+        <item quantity="other"></item>
     </plurals>
     <!-- TOOT -->
     <string name="toot_select_image_error">Roedd gwall!</string>
@@ -503,7 +503,7 @@
         <item quantity="two">%d pleidleisiwr</item>
         <item quantity="few">%d pleidleisiwyr</item>
         <item quantity="many">%d pleidleisiwyr</item>
-        <item quantity="other"/>
+        <item quantity="other"></item>
     </plurals>
     <string-array name="poll_choice_type">
         <item>Single choice</item>
