@@ -21,7 +21,7 @@
     <string name="tags">Мітки</string>
     <string name="save">Зберегти</string>
     <string name="instance">Екземпляр</string>
-    <string name="instance_example">Екземпляр: mastodon.social</string>
+    <string name="instance_example">Наприклад: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Тепер працює з обліковим записом %1$s</string>
     <string name="add_account">Додати обліковий запис</string>
     <string name="clipboard">Вміст повідомлення скопійований в буфер обміну</string>
