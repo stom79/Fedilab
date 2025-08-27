@@ -72,6 +72,16 @@
         app:singleLineTitle="false"
         app:title="@string/truncate_links" />
 
+    <androidx.preference.SeekBarPreference
+        android:defaultValue="30"
+        android:max="150"
+        app:dependency="@string/SET_TRUNCATE_LINKS"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRUNCATE_LINKS_MAX"
+        app:min="20"
+        app:showSeekBarValue="true"
+        app:singleLineTitle="false"
+        app:title="@string/truncate_links_max" />
 
     <SwitchPreferenceCompat
         android:defaultValue="true"
@@ -94,16 +104,6 @@
         app:singleLineTitle="false"
         app:title="@string/pronouns_support" />
 
-    <androidx.preference.SeekBarPreference
-        android:defaultValue="30"
-        android:max="150"
-        app:dependency="@string/SET_TRUNCATE_LINKS"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_TRUNCATE_LINKS_MAX"
-        app:min="20"
-        app:showSeekBarValue="true"
-        app:singleLineTitle="false"
-        app:title="@string/truncate_links_max" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
