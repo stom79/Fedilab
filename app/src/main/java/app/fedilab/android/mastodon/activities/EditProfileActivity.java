@@ -190,7 +190,6 @@ public class EditProfileActivity extends BaseBarActivity {
                 case "public" -> binding.visibilityPublic.setChecked(true);
                 case "unlisted" -> binding.visibilityUnlisted.setChecked(true);
                 case "private" -> binding.visibilityPrivate.setChecked(true);
-                case "direct" -> binding.visibilityDirect.setChecked(true);
             }
         } else {
             binding.sensitive.setVisibility(View.GONE);
@@ -392,8 +391,6 @@ public class EditProfileActivity extends BaseBarActivity {
             return "unlisted";
         } else if (binding.visibilityPrivate.isChecked()) {
             return "private";
-        } else if (binding.visibilityDirect.isChecked()) {
-            return "direct";
         }
         return null;
     }
