@@ -24,6 +24,8 @@ public class Source implements Serializable {
     public String privacy;
     @SerializedName("sensitive")
     public boolean sensitive;
+    @SerializedName("quote_policy")
+    public String quotePolicy;
     @SerializedName("language")
     public String language;
     @SerializedName("note")
@@ -40,5 +42,7 @@ public class Source implements Serializable {
         public boolean sensitive;
         @SerializedName("language")
         public String language;
+        @SerializedName("quote_policy")
+        public String quotePolicy;
     }
 }

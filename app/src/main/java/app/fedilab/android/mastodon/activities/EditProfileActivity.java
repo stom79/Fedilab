@@ -197,6 +197,18 @@ public class EditProfileActivity extends BaseBarActivity {
             binding.visibilityGroup.setVisibility(View.GONE);
         }
 
+        String quotePolicy = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.quotePolicy;
+        if (quotePolicy != null) {
+            switch (quotePolicy) {
+                case "nobody" -> binding.quoteApprovalPolicyNoOne.setChecked(true);
+                case "followers" -> binding.quoteApprovalPolicyFollowersOnly.setChecked(true);
+                case "public" -> binding.quoteApprovalPolicyAnyone.setChecked(true);
+            }
+        } else {
+            binding.quoteApprovalPolicyLabel.setVisibility(View.GONE);
+            binding.quoteApprovalPolicyGroup.setVisibility(View.GONE);
+        }
+
         binding.bot.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.bot);
         binding.discoverable.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.discoverable);
 
@@ -386,6 +398,17 @@ public class EditProfileActivity extends BaseBarActivity {
         return null;
     }
 
+    private String getQuotePolicy() {
+        if (binding.quoteApprovalPolicyNoOne.isChecked()) {
+            return "nobody";
+        } else if (binding.quoteApprovalPolicyFollowersOnly.isChecked()) {
+            return "followers";
+        } else if (binding.quoteApprovalPolicyAnyone.isChecked()) {
+            return "public";
+        }
+        return null;
+    }
+
     LinkedHashMap<Integer, Field.FieldParams> getFields() {
         LinkedHashMap<Integer, Field.FieldParams> fields = new LinkedHashMap<>();
         for (int i = 0; i < binding.fieldsContainer.getChildCount(); i++) {
@@ -421,6 +444,7 @@ public class EditProfileActivity extends BaseBarActivity {
                             binding.locked.isChecked(),
                             getPrivacy(),
                             binding.sensitive.isChecked(),
+                            getQuotePolicy(),
                             null,
                             getFields(),
                             getFeaturedHashtags()
