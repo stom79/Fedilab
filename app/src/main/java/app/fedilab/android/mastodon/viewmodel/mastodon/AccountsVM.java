@@ -251,6 +251,7 @@ public class AccountsVM extends AndroidViewModel {
      * @param locked       Whether manual approval of follow requests is required.
      * @param privacy      Default post privacy for authored statuses.
      * @param sensitive    Whether to mark authored statuses as sensitive by default.
+     * @param quotePolicy  Default value for who can quote statuses
      * @param language     Default language to use for authored statuses. (ISO 6391)
      * @param fields       Profile metadata name (By default, max 4 fields and 255 characters per property/value)
      * @param featuredHashtags Featured hashtags that will be displayed on the profile
@@ -264,6 +265,7 @@ public class AccountsVM extends AndroidViewModel {
                                                Boolean locked,
                                                String privacy,
                                                Boolean sensitive,
+                                               String quotePolicy,
                                                String language,
                                                LinkedHashMap<Integer, Field.FieldParams> fields,
                                                List<String> featuredHashtags
@@ -286,6 +288,7 @@ public class AccountsVM extends AndroidViewModel {
             accountParams.source.privacy = privacy;
             accountParams.source.language = language;
             accountParams.source.sensitive = sensitive;
+            accountParams.source.quotePolicy = quotePolicy;
             accountParams.fields = fields;
             Call<Account> accountCall = mastodonAccountsService.update_credentials(token, accountParams);
             // Call<Account> accountCall = mastodonAccountsService.update_credentials(token, discoverable, bot, displayName, note, locked, privacy, sensitive, language, fields);

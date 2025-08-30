@@ -365,15 +365,6 @@
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_compose_visibility_private" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/visibility_direct"
-                    style="@style/Fedilab.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/v_direct"
-                    android:textAlignment="textStart"
-                    app:icon="@drawable/ic_compose_visibility_direct" />
-
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <com.google.android.material.textview.MaterialTextView

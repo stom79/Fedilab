@@ -36,21 +36,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         app:errorEnabled="true"
+        android:hint="@string/instance"
+        app:helperText="@string/instance_example"
         app:layout_constraintBottom_toTopOf="@id/login_token_layout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/login_instance"
-            style="@style/Widget.Material3.TextInputEditText.FilledBox"
+            style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dropDownAnchor="@id/login_instance_layout"
-            android:hint="@string/instance_example"
             android:imeOptions="actionDone"
             android:inputType="textWebEmailAddress"
             android:singleLine="true" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -59,8 +62,10 @@
         tools:visibility="visible"
         android:id="@+id/login_token_layout"
         android:layout_width="match_parent"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="12dp"
         app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@id/continue_button"
         app:layout_constraintTop_toBottomOf="@+id/login_instance_layout"
@@ -68,19 +73,21 @@
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/login_token"
-            style="@style/Widget.Material3.TextInputEditText.FilledBox"
+            style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/instance_token"
             android:imeOptions="actionDone"
             android:inputType="text"
             android:singleLine="true" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/continue_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="@string/keepon"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -93,19 +100,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginBottom="12dp"
         android:text="@string/dont_have_an_account"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/no_account_a"
+        app:layout_constraintBottom_toBottomOf="@id/no_account_a"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.textview.MaterialTextView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/no_account_a"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginBottom="12dp"
         android:text="@string/join_the_fediverse"
-        android:textColor="?android:textColorLink"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/no_account_q" />
 

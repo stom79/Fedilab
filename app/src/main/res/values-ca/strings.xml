@@ -1110,4 +1110,23 @@
     <string name="action_follow_tag_confirm">Estàs segura de seguir l\'etiqueta %1$s??</string>
     <string name="underline_bottom_hashtags">Ressaltar etiquetes inferiors</string>
     <string name="remaining_tags">…i %d més</string>
+    <string name="tab_home_timeline">\@string/context_home</string>
+    <string name="tab_local_timeline">\@string/local_menu</string>
+    <string name="tab_public_timeline">Pissarra pública</string>
+    <string name="tab_private_mentions">Mencions privades</string>
+    <string name="tab_bubble_timeline">Pissarra de bafarada</string>
+    <string name="cd_translated_content">Contingut traduït: %s</string>
+    <string name="cd_list_timeline">%s. Pissarra de llista</string>
+    <string name="cd_hash_tag_timeline">%s. Pissarra de hashtag</string>
+    <string name="cd_hide_media">Ocultar mèdia</string>
+    <string name="cd_show_media">Mostrar mèdia</string>
+    <string name="default_who_can_quote">Selecció predeterminada de qui pot citar</string>
+    <string name="about_fediverse">Fediverse:</string>
+    <string name="about_website">Pàgina web:</string>
+    <string name="about_donate">Donacions:</string>
+    <string name="set_tracking_parameters">Suprimir paràmetres de rastreig</string>
+    <string name="set_tracking_parameters_indication">L\'app suprimirà automàticament els paràmetres de rastreig d\'URLs abans de visitar un enllaç.</string>
+    <string name="who_can_quote">Qui pot citar</string>
+    <string name="no_one">Ningú</string>
+    <string name="anyone">Tothom</string>
 </resources>

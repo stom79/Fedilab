@@ -21,7 +21,7 @@
     <string name="tags">Etiquetas</string>
     <string name="save">Gardar</string>
     <string name="instance">Instancia</string>
-    <string name="instance_example">Instancia: mastodon.social</string>
+    <string name="instance_example">Ex.: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">%1$s é a conta activa</string>
     <string name="add_account">Engadir unha conta</string>
     <string name="clipboard">Copiose ao portapapeis o contido da mensaxe</string>
@@ -1118,4 +1118,11 @@
     <string name="cd_hash_tag_timeline">%s. Cronoloxía do cancelo</string>
     <string name="cd_hide_media">Ocultar multimedia</string>
     <string name="cd_show_media">Mostrar multimedia</string>
+    <string name="default_who_can_quote">Valor por defecto para quen pode citar</string>
+    <string name="about_fediverse">Fediverso:</string>
+    <string name="about_website">Sitio web:</string>
+    <string name="about_donate">Doar:</string>
+    <string name="who_can_quote">Quen pode citar</string>
+    <string name="no_one">Ninguén</string>
+    <string name="anyone">Calquera</string>
 </resources>

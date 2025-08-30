@@ -21,7 +21,7 @@
     <string name="tags">标签</string>
     <string name="save">保存</string>
     <string name="instance">实例</string>
-    <string name="instance_example">实例：mastodon.social</string>
+    <string name="instance_example">如：mastodon.social</string>
     <string name="toast_account_changed" formatted="false">现在使用账号 %1$s</string>
     <string name="add_account">添加账号</string>
     <string name="clipboard">消息内容已复制到剪贴板</string>
@@ -1127,4 +1127,5 @@
     <string name="who_can_quote">谁可引用</string>
     <string name="no_one">无人</string>
     <string name="anyone">任何人</string>
+    <string name="default_who_can_quote">谁可以引用的默认选择</string>
 </resources>

@@ -190,11 +190,22 @@ public class EditProfileActivity extends BaseBarActivity {
                 case "public" -> binding.visibilityPublic.setChecked(true);
                 case "unlisted" -> binding.visibilityUnlisted.setChecked(true);
                 case "private" -> binding.visibilityPrivate.setChecked(true);
-                case "direct" -> binding.visibilityDirect.setChecked(true);
             }
         } else {
             binding.sensitive.setVisibility(View.GONE);
             binding.visibilityGroup.setVisibility(View.GONE);
+        }
+
+        String quotePolicy = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.quotePolicy;
+        if (quotePolicy != null) {
+            switch (quotePolicy) {
+                case "nobody" -> binding.quoteApprovalPolicyNoOne.setChecked(true);
+                case "followers" -> binding.quoteApprovalPolicyFollowersOnly.setChecked(true);
+                case "public" -> binding.quoteApprovalPolicyAnyone.setChecked(true);
+            }
+        } else {
+            binding.quoteApprovalPolicyLabel.setVisibility(View.GONE);
+            binding.quoteApprovalPolicyGroup.setVisibility(View.GONE);
         }
 
         binding.bot.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.bot);
@@ -380,8 +391,17 @@ public class EditProfileActivity extends BaseBarActivity {
             return "unlisted";
         } else if (binding.visibilityPrivate.isChecked()) {
             return "private";
-        } else if (binding.visibilityDirect.isChecked()) {
-            return "direct";
+        }
+        return null;
+    }
+
+    private String getQuotePolicy() {
+        if (binding.quoteApprovalPolicyNoOne.isChecked()) {
+            return "nobody";
+        } else if (binding.quoteApprovalPolicyFollowersOnly.isChecked()) {
+            return "followers";
+        } else if (binding.quoteApprovalPolicyAnyone.isChecked()) {
+            return "public";
         }
         return null;
     }
@@ -421,6 +441,7 @@ public class EditProfileActivity extends BaseBarActivity {
                             binding.locked.isChecked(),
                             getPrivacy(),
                             binding.sensitive.isChecked(),
+                            getQuotePolicy(),
                             null,
                             getFields(),
                             getFeaturedHashtags()

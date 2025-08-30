@@ -21,7 +21,7 @@
     <string name="tags">タグ</string>
     <string name="save">保存</string>
     <string name="instance">サーバー</string>
-    <string name="instance_example">サーバー: mastodon.social</string>
+    <string name="instance_example">例: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">アカウント %1$s に切り替えました</string>
     <string name="add_account">アカウントを追加</string>
     <string name="clipboard">投稿の内容をクリップボードにコピーしました</string>
