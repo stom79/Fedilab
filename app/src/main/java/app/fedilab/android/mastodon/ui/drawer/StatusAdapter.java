@@ -634,15 +634,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             LinearLayoutCompat.MarginLayoutParams pet = (LinearLayoutCompat.MarginLayoutParams) holder.binding.editTime.getLayoutParams();
             pet.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.editTime.setLayoutParams(pet);
-            LinearLayoutCompat.MarginLayoutParams psi = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusInfo.getLayoutParams();
-            psi.setMarginStart((int) Helper.convertDpToPixel(6, context));
-            holder.binding.statusInfo.setLayoutParams(psi);
             LinearLayoutCompat.MarginLayoutParams pas = (LinearLayoutCompat.MarginLayoutParams) holder.binding.actionShareContainer.getLayoutParams();
             pas.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.actionShareContainer.setLayoutParams(pas);
             LinearLayoutCompat.MarginLayoutParams pab = (LinearLayoutCompat.MarginLayoutParams) holder.binding.actionButtons.getLayoutParams();
             pab.setMarginStart((int) Helper.convertDpToPixel(6, context));
             holder.binding.actionButtons.setLayoutParams(pab);
+            LinearLayoutCompat.MarginLayoutParams psic = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusInfoContainer.getLayoutParams();
+            psic.setMarginStart((int) Helper.convertDpToPixel(0, context));
+            holder.binding.statusInfoContainer.setLayoutParams(psic);
         } else {
             LinearLayoutCompat.MarginLayoutParams psq = (LinearLayoutCompat.MarginLayoutParams) holder.binding.quotedMessage.cardviewContainer.getLayoutParams();
             psq.setMarginStart((int) Helper.convertDpToPixel(48, context));
