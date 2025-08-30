@@ -833,7 +833,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
 
     @Override
     public void onBackPressed() {
-        Log.v(TAG, "onBackPressed");
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {

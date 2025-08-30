@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -196,7 +197,7 @@ public class EditProfileActivity extends BaseBarActivity {
             binding.visibilityGroup.setVisibility(View.GONE);
         }
 
-        String quotePolicy = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.quotePolicy;
+        String quotePolicy = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.quote_policy;
         if (quotePolicy != null) {
             switch (quotePolicy) {
                 case "nobody" -> binding.quoteApprovalPolicyNoOne.setChecked(true);

@@ -288,7 +288,7 @@ public class AccountsVM extends AndroidViewModel {
             accountParams.source.privacy = privacy;
             accountParams.source.language = language;
             accountParams.source.sensitive = sensitive;
-            accountParams.source.quotePolicy = quotePolicy;
+            accountParams.source.quote_policy = quotePolicy;
             accountParams.fields = fields;
             Call<Account> accountCall = mastodonAccountsService.update_credentials(token, accountParams);
             // Call<Account> accountCall = mastodonAccountsService.update_credentials(token, discoverable, bot, displayName, note, locked, privacy, sensitive, language, fields);
