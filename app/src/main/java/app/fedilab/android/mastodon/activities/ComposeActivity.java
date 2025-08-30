@@ -528,7 +528,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     visibility = Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source.privacy;
                 }
                 if (quote_approval_policy == null && Helper.getCurrentAccount(ComposeActivity.this) != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source != null) {
-                    quote_approval_policy = Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source.quote_authorizations;
+                    quote_approval_policy = Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source.quote_policy;
                 }
 
                 if(setMentionBooster) {

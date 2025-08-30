@@ -22,8 +22,8 @@ import java.util.List;
 public class Source implements Serializable {
     @SerializedName("privacy")
     public String privacy;
-    @SerializedName("quote_authorizations")
-    public String quote_authorizations;
+    @SerializedName("quote_policy")
+    public String quote_policy;
     @SerializedName("sensitive")
     public boolean sensitive;
     @SerializedName("language")
@@ -38,8 +38,8 @@ public class Source implements Serializable {
     public static class SourceParams implements Serializable {
         @SerializedName("privacy")
         public String privacy;
-        @SerializedName("quote_authorizations")
-        public String quote_authorizations;
+        @SerializedName("quote_policy")
+        public String quote_policy;
         @SerializedName("sensitive")
         public boolean sensitive;
         @SerializedName("language")
