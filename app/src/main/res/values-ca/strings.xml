@@ -21,7 +21,7 @@
     <string name="tags">Etiquetes</string>
     <string name="save">Desar</string>
     <string name="instance">Instància</string>
-    <string name="instance_example">Instància: mastodon.social</string>
+    <string name="instance_example">P. ex.: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Ara funciona amb el compte %1$s</string>
     <string name="add_account">Afegir un compte</string>
     <string name="clipboard">El contingut del bram s\'ha copiat al porta-retalls</string>
