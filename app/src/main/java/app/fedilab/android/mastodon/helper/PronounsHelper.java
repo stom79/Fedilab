@@ -41,6 +41,12 @@ public class PronounsHelper {
             add("personlig pronomen");
             add("人称");
             add("人稱");
+            add("местоимения");
+            add("местоим");
+            add("الضمائر");
+            add("vietniekvārdi");
+            add("vietniekvārds");
+            add("vietniekv");
         }
     };
 }
