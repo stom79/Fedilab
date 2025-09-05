@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:key="@string/SET_COLOR_VISIBILITY_PUBLIC"
+        app:iconSpaceReserved="false"
+        app:summary="@string/visibility_color_public"
+        app:title="@string/v_public" />
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:key="@string/SET_COLOR_VISIBILITY_UNLISTED"
+        app:iconSpaceReserved="false"
+        app:summary="@string/visibility_color_unlisted"
+        app:title="@string/v_unlisted" />
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:key="@string/SET_COLOR_VISIBILITY_PRIVATE"
+        app:iconSpaceReserved="false"
+        app:summary="@string/visibility_color_private"
+        app:title="@string/v_private" />
+
+    <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:key="@string/SET_COLOR_VISIBILITY_DIRECT"
+        app:iconSpaceReserved="false"
+        app:summary="@string/visibility_color_direct"
+        app:title="@string/v_direct" />
+
+</androidx.preference.PreferenceScreen>

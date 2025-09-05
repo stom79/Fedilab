@@ -1194,6 +1194,7 @@
     <string name="SET_CUSTOMIZE_LIGHT_COLORS" translatable="false">SET_CUSTOMIZE_LIGHT_COLORS</string>
     <string name="SET_CHAT_FOR_CONVERSATION" translatable="false">SET_CHAT_FOR_CONVERSATION</string>
 
+    <string name="SET_CUSTOMIZE_COLORS_VISIBILITY" translatable="false">SET_CUSTOMIZE_COLORS_VISIBILITY</string>
     <string name="SET_CUSTOMIZE_LIGHT_COLORS_ACTION" translatable="false">SET_CUSTOMIZE_LIGHT_COLORS_ACTION</string>
     <string name="SET_CUSTOMIZE_DARK_COLORS" translatable="false">SET_CUSTOMIZE_DARK_COLORS</string>
     <string name="SET_CUSTOMIZE_DARK_COLORS_ACTION" translatable="false">SET_CUSTOMIZE_DARK_COLORS_ACTION</string>
@@ -1219,6 +1220,10 @@
     <string name="SET_LIGHT_LINK" translatable="false">SET_LIGHT_LINK</string>
     <string name="SET_LIGHT_ICON" translatable="false">SET_LIGHT_ICON</string>
 
+    <string name="SET_COLOR_VISIBILITY_PUBLIC">SET_COLOR_VISIBILITY_PUBLIC</string>
+    <string name="SET_COLOR_VISIBILITY_UNLISTED">SET_COLOR_VISIBILITY_UNLISTED</string>
+    <string name="SET_COLOR_VISIBILITY_PRIVATE">SET_COLOR_VISIBILITY_PRIVATE</string>
+    <string name="SET_COLOR_VISIBILITY_DIRECT">SET_COLOR_VISIBILITY_DIRECT</string>
 
     <string name="SET_DEFAULT_THEME" translatable="false">SYSTEM</string>
     <string name="SET_AUTO_PLAY_GIG_MEDIA" translatable="false">SET_AUTO_PLAY_GIG_MEDIA</string>
@@ -1312,6 +1317,7 @@
     <string name="SET_VIDEO_CACHE" translatable="false">SET_VIDEO_CACHE</string>
     <string name="SET_WATERMARK" translatable="false">SET_WATERMARK</string>
     <string name="SET_UNLISTED_REPLIES" translatable="false">SET_UNLISTED_REPLIES</string>
+    <string name="SET_COLORIZE_FOR_VISIBILITY" translatable="false">SET_COLORIZE_FOR_VISIBILITY</string>
     <string name="SET_SELECTED_LANGUAGE" translatable="false">SET_SELECTED_LANGUAGE</string>
     <string name="SET_WATERMARK_TEXT" translatable="false">SET_WATERMARK_TEXT</string>
     <string name="SET_MATHS_COMPOSER" translatable="false">SET_MATHS_COMPOSER</string>
@@ -1351,6 +1357,12 @@
     <string name="notification_sounds">Notification sounds</string>
     <string name="disable_notifications">Disable notifications</string>
     <string name="notifications_are">During this time slot</string>
+
+    <string name="visibility_color_public">Color for the public visibility</string>
+    <string name="visibility_color_unlisted">Color for the unlisted visibility</string>
+    <string name="visibility_color_private">Color for the private visibility</string>
+    <string name="visibility_color_direct">Color for the direct visibility</string>
+
     <string name="pref_theme_base">Base of the theme</string>
     <string name="pref_theme_base_summary">Choose if the base of the theme should be dark or light</string>
     <string name="pref_custom_theme_new_summary">Allow to create your custom theme</string>
@@ -1889,6 +1901,8 @@
     <string name="edited_message_at">Edited at %1$s</string>
     <string name="created_message_at">Created at %1$s</string>
     <string name="max_indentation_thread">Max indentation in threads</string>
+    <string name="set_colorize_visibility">Underline visibility</string>
+    <string name="set_colorize_visibility_indication">The visibility button and the bottom of the compose area will have different colors depending of the visibility selected when composing.</string>
     <string name="set_unlisted_replies">Unlisted replies</string>
     <string name="set_unlisted_replies_indication">It only concerns \"public\" replies. When enabled, your replies will automatically have the visibility \"unlisted\" instead of \"public\"</string>
     <string name="notification_remove_from_cache">Notifications have been removed from cache.</string>
@@ -2019,6 +2033,8 @@
     <string name="set_customize_dark">Customize Dark Theme</string>
     <string name="set_customize_dark_indication">Allows to customize some elements in messages for the dark theme.</string>
     <string name="set_custom_colors">Set custom colors</string>
+    <string name="set_custom_colors_visibility">Set custom colors for the visibility</string>
+
     <string name="light_custom_colors">Light - Custom colors</string>
     <string name="cark_custom_colors">Dark - Custom colors</string>
     <string name="display_remote_conversation">Display remote conversation</string>

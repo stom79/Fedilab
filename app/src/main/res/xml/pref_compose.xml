@@ -66,6 +66,22 @@
         app:summary="@string/set_unlisted_replies_indication"
         app:title="@string/set_unlisted_replies" />
 
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_COLORIZE_FOR_VISIBILITY"
+        app:singleLineTitle="false"
+        app:summary="@string/set_colorize_visibility_indication"
+        app:title="@string/set_colorize_visibility" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/set_custom_colors_visibility"
+        app:dependency="@string/SET_COLORIZE_FOR_VISIBILITY"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CUSTOMIZE_COLORS_VISIBILITY" />
+
     <MultiSelectListPreference
         app:iconSpaceReserved="false"
         app:key="@string/SET_SELECTED_LANGUAGE"

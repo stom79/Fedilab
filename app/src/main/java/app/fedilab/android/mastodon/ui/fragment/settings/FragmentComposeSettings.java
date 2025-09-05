@@ -18,9 +18,12 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.MultiSelectListPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
@@ -66,6 +69,17 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
             SET_MENTION_BOOSTER.setChecked(val);
         }
 
+
+        Preference SET_CUSTOMIZE_COLORS_VISIBILITY = findPreference(getString(R.string.SET_CUSTOMIZE_COLORS_VISIBILITY));
+        if (SET_CUSTOMIZE_COLORS_VISIBILITY != null) {
+            SET_CUSTOMIZE_COLORS_VISIBILITY.setOnPreferenceClickListener(preference -> {
+                NavOptions.Builder navBuilder = new NavOptions.Builder();
+                navBuilder.setEnterAnim(R.anim.enter).setExitAnim(R.anim.exit).setPopEnterAnim(R.anim.pop_enter).setPopExitAnim(R.anim.pop_exit);
+
+                Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(R.id.FragmentCustomLightSettings, null, navBuilder.build());
+                return true;
+            });
+        }
 
         MultiSelectListPreference SET_SELECTED_LANGUAGE = findPreference(getString(R.string.SET_SELECTED_LANGUAGE));
         if (SET_SELECTED_LANGUAGE != null) {
