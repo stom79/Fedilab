@@ -76,7 +76,7 @@ public class FragmentComposeSettings extends PreferenceFragmentCompat implements
                 NavOptions.Builder navBuilder = new NavOptions.Builder();
                 navBuilder.setEnterAnim(R.anim.enter).setExitAnim(R.anim.exit).setPopEnterAnim(R.anim.pop_enter).setPopExitAnim(R.anim.pop_exit);
 
-                Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(R.id.FragmentCustomLightSettings, null, navBuilder.build());
+                Navigation.findNavController(requireActivity(), R.id.fragment_container).navigate(R.id.FragmentCustomVisibilityColors, null, navBuilder.build());
                 return true;
             });
         }

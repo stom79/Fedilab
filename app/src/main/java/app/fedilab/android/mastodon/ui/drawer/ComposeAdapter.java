@@ -29,9 +29,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,6 +46,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -192,6 +196,55 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.quote_approval_policy = quote_approval_policy;
         this.editMessageId = editMessageId;
 
+    }
+
+    public static void applyColor(Context context, ComposeViewHolder holder, String visibility) {
+        if(visibility == null){
+            return;
+        }
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean colorizeVisibility = sharedpreferences.getBoolean(context.getString(R.string.SET_COLORIZE_FOR_VISIBILITY), true);
+        if(colorizeVisibility) {
+            int color_public = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_PUBLIC), -1);
+            int color_unlisted  = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_UNLISTED), -1);
+            int color_private  = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_PRIVATE), -1);
+            int color_direct  = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_DIRECT), -1);
+            Drawable mdrawable = holder.binding.content.getBackground();
+
+            if(visibility.equalsIgnoreCase("public") ) {
+                if(color_public != -1) {
+                    mdrawable.setColorFilter(color_public, PorterDuff.Mode.SRC_ATOP);
+                    holder.binding.content.setBackgroundDrawable(mdrawable);
+                    holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_public));
+                } else {
+
+                }
+            } else if(visibility.equalsIgnoreCase("unlisted") ) {
+                if(color_unlisted != -1) {
+                    mdrawable.setColorFilter(color_unlisted, PorterDuff.Mode.SRC_ATOP);
+                    holder.binding.content.setBackgroundDrawable(mdrawable);
+                    holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_unlisted));
+                } else {
+
+                }
+            } else if(visibility.equalsIgnoreCase("private") ) {
+                if(color_private != -1) {
+                    mdrawable.setColorFilter(color_private, PorterDuff.Mode.SRC_ATOP);
+                    holder.binding.content.setBackgroundDrawable(mdrawable);
+                    holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_private));
+                } else {
+
+                }
+            } else if(visibility.equalsIgnoreCase("direct") ) {
+                if(color_direct != -1) {
+                    mdrawable.setColorFilter(color_direct, PorterDuff.Mode.SRC_ATOP);
+                    holder.binding.content.setBackgroundDrawable(mdrawable);
+                    holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_direct));
+                } else {
+
+                }
+            }
+        }
     }
 
     public static int countMorseChar(String content) {
@@ -1670,7 +1723,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
 
-
             switch (statusDraft.quote_approval_policy.toLowerCase()) {
                 case "public" -> {
                     holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_compose_visibility_public);
@@ -1707,6 +1759,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.GONE);
                 holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_direct);
                 statusDraft.visibility = MastodonHelper.visibility.DIRECT.name();
+                applyColor(context, holder, statusDraft.visibility);
 
             });
             holder.binding.buttonVisibilityPrivate.setOnClickListener(v -> {
@@ -1714,18 +1767,21 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.GONE);
                 holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_private);
                 statusDraft.visibility = MastodonHelper.visibility.PRIVATE.name();
+                applyColor(context, holder, statusDraft.visibility);
             });
             holder.binding.buttonVisibilityUnlisted.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
                 holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.VISIBLE);
                 holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_unlisted);
                 statusDraft.visibility = MastodonHelper.visibility.UNLISTED.name();
+                applyColor(context, holder, statusDraft.visibility);
             });
             holder.binding.buttonVisibilityPublic.setOnClickListener(v -> {
                 holder.binding.visibilityPanel.setVisibility(View.GONE);
                 holder.binding.buttonQuoteApprovalPolicy.setVisibility(View.VISIBLE);
                 holder.binding.buttonVisibility.setIconResource(R.drawable.ic_compose_visibility_public);
                 statusDraft.visibility = MastodonHelper.visibility.PUBLIC.name();
+                applyColor(context, holder, statusDraft.visibility);
                 unlisted_changed = true;
             });
             holder.binding.buttonQuoteApprovalPolicyNoOne.setOnClickListener(v -> {
@@ -1763,7 +1819,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
             //Last compose drawer
             buttonVisibility(holder);
-
+            applyColor(context, holder, statusDraft.visibility);
             if (emojis != null && !emojis.isEmpty()) {
                 holder.binding.buttonEmoji.setVisibility(View.VISIBLE);
             } else {

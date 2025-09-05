@@ -167,6 +167,12 @@
         android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentCustomDarkSettings"
         android:label="@string/cark_custom_colors" />
 
+
+    <fragment
+        android:id="@+id/FragmentCustomVisibilityColors"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentCustomVisibilityColorsSettings"
+        android:label="@string/set_custom_colors_visibility" />
+
     <activity
         android:id="@+id/EditProfileActivity"
         android:name="app.fedilab.android.mastodon.activities.EditProfileActivity" />
