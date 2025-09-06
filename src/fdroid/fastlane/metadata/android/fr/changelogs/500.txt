@@ -1,0 +1,14 @@
+Ajouté :
+- Trois nouvelles icônes d'application (Pride, Rose, et Pirate)
+- Conservation des positions dans les conversations distantes
+
+Réparé :
+- Markdown: arrêt du parsing des tags et support du text barré
+- Le curseur est plus visible lors de l'ecriture
+- Les limites de caractères des instances modifiées ignorées
+- Les tabs dans les profils
+- Les tags n'étaient pas clickables dans certaines langues
+- Bug avec les comptes ayant énormément de followers
+- Crash avec plusieurs gifs dans le même message
+- Comptage du maximum de caracteres
+- Quelques crashs

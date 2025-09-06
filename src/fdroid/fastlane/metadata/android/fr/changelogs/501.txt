@@ -1,0 +1,8 @@
+Ajouts :
+- Support d'Android 14
+- Séparation automatiques des longs messages dans les threads (par défaut : DEMANDER)
+- Les liens et medias sonts clickables lors de l'écriture
+
+Réparé :
+- Évite l'erreur 429 avec NTFY
+- Plusieurs crash sont réparés
