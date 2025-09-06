@@ -395,7 +395,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/no_one"
                     android:textAlignment="textStart"
-                    app:icon="@drawable/ic_baseline_block_24" />
+                    app:icon="@drawable/ic_quote_policy_nobody" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/quote_approval_policy_followers_only"
@@ -405,7 +405,7 @@
                     android:layout_marginTop="0dp"
                     android:text="@string/followers_only"
                     android:textAlignment="textStart"
-                    app:icon="@drawable/ic_baseline_people_alt_24" />
+                    app:icon="@drawable/ic_quote_policy_followers" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/quote_approval_policy_anyone"
@@ -414,7 +414,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/anyone"
                     android:textAlignment="textStart"
-                    app:icon="@drawable/ic_compose_visibility_public" />
+                    app:icon="@drawable/ic_quote_policy_public" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 

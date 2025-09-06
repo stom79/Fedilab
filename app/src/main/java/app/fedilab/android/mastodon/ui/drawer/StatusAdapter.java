@@ -969,8 +969,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonFavorite.setInactiveImage(R.drawable.ic_round_star_border_24);
         holder.binding.actionButtonBookmark.setActiveImage(R.drawable.ic_round_bookmark_24);
         holder.binding.actionButtonBookmark.setInactiveImage(R.drawable.ic_round_bookmark_border_24);
-        holder.binding.actionButtonBoost.setActiveImage(R.drawable.ic_round_repeat_active_24);
-        holder.binding.actionButtonBoost.setInactiveImage(R.drawable.ic_round_repeat_24);
+        if (displayQuote) {
+            holder.binding.actionButtonBoost.setActiveImage(R.drawable.ic_quote_or_boost_active);
+            holder.binding.actionButtonBoost.setInactiveImage(R.drawable.ic_quote_or_boost);
+        } else {
+            holder.binding.actionButtonBoost.setActiveImage(R.drawable.ic_round_repeat_active_24);
+            holder.binding.actionButtonBoost.setInactiveImage(R.drawable.ic_round_repeat_24);
+        }
         holder.binding.actionButtonFavorite.setActiveImageTint(R.color.marked_icon);
         holder.binding.actionButtonBoost.setActiveImageTint(R.color.boost_icon);
         holder.binding.actionButtonBookmark.setActiveImageTint(R.color.marked_icon);
