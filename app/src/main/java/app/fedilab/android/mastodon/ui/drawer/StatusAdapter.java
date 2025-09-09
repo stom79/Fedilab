@@ -579,7 +579,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
         boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
         boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, true);
-        boolean displayTranslate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_TRANSLATE) + MainActivity.currentUserID + MainActivity.currentInstance, false);
+        String translateButton = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, "auto");
+        String[] translateButtonEntryValues = context.getResources().getStringArray(R.array.set_translate_button_entry_values);
         boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
         boolean removeLeftMargin = sharedpreferences.getBoolean(context.getString(R.string.SET_REMOVE_LEFT_MARGIN), false);
         boolean extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
@@ -1076,13 +1077,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.binding.actionButtonBookmark.setVisibility(View.GONE);
             }
-            if (displayTranslate) {
-                if (statusToDeal.language != null && statusToDeal.language.trim().length() > 0 && statusToDeal.language.equalsIgnoreCase(MyTransL.getLocale())) {
+            if (translateButton.equals(translateButtonEntryValues[0])) { // Show
+                holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
+            } else if (translateButton.equals(translateButtonEntryValues[1])) { // Auto
+                if (statusToDeal.language != null && !statusToDeal.language.trim().isEmpty() && statusToDeal.language.equalsIgnoreCase(MyTransL.getLocale())) {
                     holder.binding.actionButtonTranslate.setVisibility(View.GONE);
                 } else {
                     holder.binding.actionButtonTranslate.setVisibility(View.VISIBLE);
                 }
-            } else {
+            } else if (translateButton.equals(translateButtonEntryValues[2])) { // Hide
                 holder.binding.actionButtonTranslate.setVisibility(View.GONE);
             }
             //--- ACTIONS ---

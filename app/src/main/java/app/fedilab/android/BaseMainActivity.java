@@ -1132,6 +1132,19 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
         String software = sharedpreferences.getString(PREF_USER_SOFTWARE, null);
 
+        if (sharedpreferences.getString(getString(R.string.SET_TRANSLATE_BUTTON) + currentUserID + currentInstance, null) == null) {
+            boolean oldTranslateButtonPrefValue =
+                    sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_TRANSLATE) + currentUserID + currentInstance, false);
+            String[] translateButtonEntryValues = getResources().getStringArray(R.array.set_translate_button_entry_values);
+            String newTranslateButtonValue;
+            if (oldTranslateButtonPrefValue)
+                newTranslateButtonValue = translateButtonEntryValues[1];
+            else
+                newTranslateButtonValue = translateButtonEntryValues[2];
+            sharedpreferences.edit()
+                    .putString(getString(R.string.SET_TRANSLATE_BUTTON) + currentUserID + currentInstance, newTranslateButtonValue)
+                    .apply();
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ActivityResultLauncher<String> permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
