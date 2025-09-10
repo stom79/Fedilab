@@ -21,7 +21,7 @@
     <string name="tags">Sildid</string>
     <string name="save">Salvesta</string>
     <string name="instance">Teenuse server</string>
-    <string name="instance_example">Koduserver: mastodon.social</string>
+    <string name="instance_example">Näiteks: mastodon.social</string>
     <string name="replies">Vastused</string>
     <string name="username">Kasutajanimi</string>
     <string name="drafts">Kavandid</string>
@@ -155,4 +155,28 @@
     <string name="toast_unbookmark">Sõnum eemaldati sinu järjehoidjate seast!</string>
     <string name="set_toots_page">Sõnumite arv ühel laadimiskorral</string>
     <string name="direct_message">Otsesõnum</string>
+    <string name="cd_hide_media">Peida meedium</string>
+    <string name="cd_show_media">Näita meediumi</string>
+    <string name="choose_accounts">Vali kasutajakonto</string>
+    <string name="select_accounts">Vali mõned kasutajakontod</string>
+    <string name="remove_draft">Kas kustutad kavandi?</string>
+    <string name="upload_form_description">Kirjelda seda nägemispuudega inimeste jaoks</string>
+    <string name="instance_no_description">Kirjeldust pole saadaval!</string>
+    <string name="notif_mention">mainis sind</string>
+    <string name="notif_reblog">andis sinu olekule hoogu</string>
+    <string name="notif_favourite">lisas sinu oleku lemmikuks</string>
+    <string name="notif_follow">hakkas sind jälgima</string>
+    <string name="notif_follow_request">küsis, kas ta võib sind jälgida</string>
+    <string name="delete_notification_ask_all">Kas kustutad kõik teavitused?</string>
+    <string name="delete_notification_all">Kõik teavitused on kustutatud!</string>
+    <string name="followers">Jälgijad</string>
+    <string name="client_error">Kliendi tunnust pole võimalik tuvastada!</string>
+    <string name="toast_block">See kasutajakonto on blokeeritud!</string>
+    <string name="toast_unblock">See kasutajakonto enam pole blokeeritud!</string>
+    <string name="toast_mute">See kasutajakonto on summutatud!</string>
+    <string name="toast_unmute">See kasutajakonto enam pole summutatud!</string>
+    <string name="toast_follow">See kasutajakonto on nüüd jälgimisel!</string>
+    <string name="toast_unfollow">See kasutajakonto enam pole jälgimisel!</string>
+    <string name="toast_error">Vaat, kus lops! Tekkis üks viga!</string>
+    <string name="toast_error_internet">Internetiühendus puudub!</string>
 </resources>
