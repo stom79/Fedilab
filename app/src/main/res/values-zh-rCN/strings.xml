@@ -1128,4 +1128,5 @@
     <string name="no_one">无人</string>
     <string name="anyone">任何人</string>
     <string name="default_who_can_quote">谁可以引用的默认选择</string>
+    <string name="set_translate_button">翻译按钮</string>
 </resources>
