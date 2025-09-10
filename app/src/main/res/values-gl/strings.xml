@@ -1125,4 +1125,5 @@
     <string name="who_can_quote">Quen pode citar</string>
     <string name="no_one">Ninguén</string>
     <string name="anyone">Calquera</string>
+    <string name="set_translate_button">Botón para traducir</string>
 </resources>
