@@ -21,7 +21,7 @@
     <string name="tags">Tagy</string>
     <string name="save">Uložit</string>
     <string name="instance">Instance</string>
-    <string name="instance_example">Instance: mastodon.social</string>
+    <string name="instance_example">Např.: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Nyní používáte účet %1$s</string>
     <string name="add_account">Přidat účet</string>
     <string name="clipboard">Obsah zprávy byl zkopírován do schránky</string>
@@ -1149,4 +1149,6 @@
     <string name="set_mention_booster_indication">Při odpovídání na boost bude v odpovědi zmíněna osoba, která boostovala původní zprávu</string>
     <string name="underline_bottom_hashtags">Zvýraznit spodní hashtagy</string>
     <string name="remaining_tags">…a dalších %d</string>
+    <string name="default_who_can_quote">Výchozí výběr pro toho, kdo může citovat</string>
+    <string name="set_translate_button">Tlačítko překladu</string>
 </resources>
