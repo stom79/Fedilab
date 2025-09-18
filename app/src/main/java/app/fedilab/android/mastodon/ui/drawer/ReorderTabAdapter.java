@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -190,6 +191,16 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return true;
             }
             return false;
+        });
+        ViewCompat.addAccessibilityAction(holder.binding.getRoot(), context.getString(R.string.move_timeline_up), (view, arguments) -> {
+            int bindingAdapterPosition = viewHolder.getBindingAdapterPosition();
+            if (bindingAdapterPosition > 0) onItemMove(bindingAdapterPosition, bindingAdapterPosition - 1);
+            return true;
+        });
+        ViewCompat.addAccessibilityAction(holder.binding.getRoot(), context.getString(R.string.move_timeline_down), (view, arguments) -> {
+            int bindingAdapterPosition = viewHolder.getBindingAdapterPosition();
+            if (bindingAdapterPosition < pinned.pinnedTimelines.size() - 1) onItemMove(bindingAdapterPosition, bindingAdapterPosition + 1);
+            return true;
         });
         PinnedTimeline item = pinned.pinnedTimelines.get(position);
         if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {

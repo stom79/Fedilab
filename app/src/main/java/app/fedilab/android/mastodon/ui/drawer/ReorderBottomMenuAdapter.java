@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
@@ -126,7 +127,16 @@ public class ReorderBottomMenuAdapter extends RecyclerView.Adapter<RecyclerView.
             }
             return false;
         });
-
+        ViewCompat.addAccessibilityAction(holder.binding.getRoot(), context.getString(R.string.move_timeline_up), (view, arguments) -> {
+            int bindingAdapterPosition = viewHolder.getBindingAdapterPosition();
+            if (bindingAdapterPosition > 0) onItemMove(bindingAdapterPosition, bindingAdapterPosition - 1);
+            return true;
+        });
+        ViewCompat.addAccessibilityAction(holder.binding.getRoot(), context.getString(R.string.move_timeline_down), (view, arguments) -> {
+            int bindingAdapterPosition = viewHolder.getBindingAdapterPosition();
+            if (bindingAdapterPosition < bottomMenu.bottom_menu.size() - 1) onItemMove(bindingAdapterPosition, bindingAdapterPosition + 1);
+            return true;
+        });
     }
 
     @Override

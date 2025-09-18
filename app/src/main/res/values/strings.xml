@@ -483,6 +483,8 @@
     <string name="reorder_list_deleted">List permanently deleted</string>
     <string name="reorder_instance_removed">Followed instance removed</string>
     <string name="reorder_tag_removed">Pinned tag removed</string>
+    <string name="move_timeline_up">Move timeline up</string>
+    <string name="move_timeline_down">Move timeline down</string>
     <string name="undo">Undo</string>
     <string name="warning_main_timeline">Main timelines can only be hidden!</string>
     <string name="set_sensitive_content">Always mark media as sensitive</string>
