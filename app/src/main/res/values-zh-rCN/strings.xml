@@ -1129,4 +1129,6 @@
     <string name="anyone">任何人</string>
     <string name="default_who_can_quote">谁可以引用的默认选择</string>
     <string name="set_translate_button">翻译按钮</string>
+    <string name="move_timeline_up">上移时间轴</string>
+    <string name="move_timeline_down">下移时间轴</string>
 </resources>
