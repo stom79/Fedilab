@@ -21,7 +21,10 @@
         android:id="@+id/action_pin"
         android:title="@string/action_pin"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/action_quote_policy"
+        android:title="@string/action_quote_policy"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_share_action"
         android:title="@string/more_action_6"

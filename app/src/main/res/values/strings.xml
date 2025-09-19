@@ -1906,6 +1906,7 @@
     <string name="change_logo">Change logo</string>
     <string name="change_logo_description">Change the logo of the app on your device</string>
     <string name="action_pin">Pin message</string>
+    <string name="action_quote_policy">Change who can quote you</string>
     <string name="action_unpin">Unpin message</string>
     <string name="toast_unpin">The message is no longer pinned!</string>
     <string name="toast_pin">The message has been pinned</string>

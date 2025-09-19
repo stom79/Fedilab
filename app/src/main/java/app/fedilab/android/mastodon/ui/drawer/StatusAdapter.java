@@ -60,6 +60,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -2600,6 +2601,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private") && !isOwner))
             popup.getMenu().findItem(R.id.action_schedule_boost).setVisible(false);
         if (isOwner) {
+            //TODO: remove when ready
+            popup.getMenu().findItem(R.id.action_quote_policy).setVisible(false);
             popup.getMenu().findItem(R.id.action_block).setVisible(false);
             popup.getMenu().findItem(R.id.action_mute).setVisible(false);
             popup.getMenu().findItem(R.id.action_report).setVisible(false);
@@ -2608,6 +2611,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             popup.getMenu().findItem(R.id.action_pin).setVisible(!statusToDeal.visibility.equalsIgnoreCase("direct"));
             stringArrayConf = context.getResources().getStringArray(R.array.more_action_owner_confirm);
         } else {
+            popup.getMenu().findItem(R.id.action_quote_policy).setVisible(false);
             popup.getMenu().findItem(R.id.action_pin).setVisible(false);
             popup.getMenu().findItem(R.id.action_redraft).setVisible(false);
             popup.getMenu().findItem(R.id.action_edit).setVisible(false);
@@ -2767,7 +2771,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     statusesVM.pin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_pin)).show());
                 }
                 return true;
-            } else if (itemId == R.id.action_bookmark) {
+            } else if (itemId == R.id.action_quote_policy) {
+                String currentPolicy = "public";
+                if(statusToDeal.quote_approval != null && statusToDeal.quote_approval.automatic != null && statusToDeal.quote_approval.automatic.length > 0) {
+                    currentPolicy = statusToDeal.quote_approval.automatic[0];
+                }
+
+                return true;
+            }else if (itemId == R.id.action_bookmark) {
                 if (statusToDeal.bookmarked) {
                     statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_unbookmarked)).show());
                 } else {
