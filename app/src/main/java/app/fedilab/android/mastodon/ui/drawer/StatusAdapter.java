@@ -686,12 +686,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return false;
             });
             holder.binding.quotedMessage.statusContent.setOnClickListener(v -> {
-                if (status.isFocused || v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
+                /*if (status.isFocused || v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
                     if (v.getTag() == SpannableHelper.CLICKABLE_SPAN) {
                         v.setTag(null);
                     }
                     return;
-                }
+                }*/
                 if (!remote) {
                     Intent intent = new Intent(context, ContextActivity.class);
                     Bundle args = new Bundle();
