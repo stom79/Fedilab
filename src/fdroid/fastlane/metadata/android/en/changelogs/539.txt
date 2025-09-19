@@ -4,6 +4,7 @@ Added:
 - Change default quote policy in settings
 - Add colors in compose depending of the visibility (can be disabled/colors can be changed)
 - Add accessibility actions to move timelines up/down in Manage timelines page
+- Add accessibility actions to hide, delete timelines in 'Manage timelines' page
 
 Changed:
 - Boost & quote buttons are merged (can be disabled in settings)
