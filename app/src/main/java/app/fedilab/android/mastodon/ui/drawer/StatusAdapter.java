@@ -3238,6 +3238,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_star_24, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_repeat_24, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_quote_or_boost, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.visibility, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_star_border_24, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_person, theme_icons_color);
