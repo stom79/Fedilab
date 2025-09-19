@@ -37,7 +37,6 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,7 +86,6 @@ import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
 import app.fedilab.android.mastodon.client.entities.api.Status;
-import app.fedilab.android.mastodon.client.entities.api.Tag;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.MarkdownConverter;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
@@ -1017,9 +1015,6 @@ public class SpannableHelper {
         if (text == null) {
             return null;
         }
-        Log.v(Helper.TAG,"text1 : " + text);
-        text = text.replaceAll("&nbsp"," ");
-        Log.v(Helper.TAG,"text2 : " + text);
         SpannableString initialContent = new SpannableString(text);
 
         SpannableStringBuilder content = new SpannableStringBuilder(initialContent);
