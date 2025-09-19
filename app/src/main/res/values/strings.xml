@@ -94,6 +94,7 @@
     <string name="reblog_add">Boost this message?</string>
     <string name="action_favourite">Favorite</string>
     <string name="action_reblog">Boost</string>
+    <string name="action_unreblog">Unboost</string>
     <string name="action_quote">Quote</string>
     <string name="warn_boost_no_media_description">Warn if message has no media description before boosting</string>
     <string name="reblog_missing_description">This message has missing media description. Are you sure to boost it?</string>

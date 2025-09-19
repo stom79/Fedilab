@@ -1220,6 +1220,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else {
                         popupMenu.getMenu().findItem(R.id.action_quote).setEnabled(true);
                     }
+                    MenuItem reblogItem = popupMenu.getMenu().findItem(R.id.action_reblog);
+                    if(statusToDeal.reblogged) {
+                        reblogItem.setTitle(R.string.action_unreblog);
+                    } else {
+                        reblogItem.setTitle(R.string.action_reblog);
+                    }
                     popupMenu.setOnMenuItemClickListener(item -> {
                         int itemId = item.getItemId();
                         if (itemId == R.id.action_reblog) {
