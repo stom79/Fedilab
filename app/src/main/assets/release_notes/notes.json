@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.35.0",
+    "code": "539",
+    "note": "Added:\n- Full Mastodon quotes support\n- Quote button can be hidden in Settings > Timeline\n- Change default quote policy in settings\n- Add colors in compose depending of the visibility (can be disabled/colors can be changed)\n- Add accessibility actions to move timelines up/down in Manage timelines page\n\nChanged:\n- Boost & quote buttons are merged (can be disabled in settings)\n- Show emoji buttons only in focused status\n- Add popup menu for boost/quote actions in status\n- Improve UI and accessibility in login page\n- Move \"Max chars in links\" next to \"Truncate links\"\n- Add more translated pronouns for keys support\n- When focused, information about a message are displayed on 2 lines\n\nFixed:\n- Left margin not removed for bottom information\n- Make content warning text selectable\n- Disable HTML parsing in display names\n- Improve translate button preference\n- Fix some crashes"
+  },
+  {
     "version": "3.34.1",
     "code": "538",
     "note": "Added:\n- Add content descriptions to tabs in top bar\n- Add accessibility action to toggle media sensitivity of posts in timelines\n- Add accessibility actions to translate, download, share in media viewer\n- Add a language indicator to focused status\n- Add Persian language to \"Change the language\" preference\n- Add new app logo\n\nChanged:\n- Show placeholders while profile pictures are loading\n- Update bottom navigation tab titles\n- Improve accessibility of translated content\n- Update list of tracking parameters used for \"Remove UTM parameters\"\n- Use 'Tracking' instead of 'UTM'\n- Improve accessibility in Manage timelines page\n- Make the show/hide media button larger\n- Update about page\n\nFixed:\n- Bottom hashtags in bios disappear when \"Highlight bottom hashtags\" enabled\n- \"Use an alternative frontend\" breaks Medium link\n- Tapping publish button multiple times publishes status multiple times\n- Alt text popup does not resize when swiping\n- Video controls not visible in light theme\n- Profile picture appears on left side of title in conversation page in RTL mode\n- Some crashes\n"

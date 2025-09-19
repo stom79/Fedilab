@@ -37,6 +37,7 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -187,8 +188,10 @@ public class SpannableHelper {
         if(!markdownSupport) {
             text = text.replaceAll("((<\\s?p\\s?>|<\\s?br\\s?/?>)&gt;(((?!(<\\s?br\\s?/?>|<\\s?/s?p\\s?>)).)*))", "$2<blockquote>$3</blockquote>");
         }
-        text = text.trim().replaceAll("\\s{3}", "&nbsp;&nbsp;&nbsp;");
-        text = text.trim().replaceAll("\\s{2}", "&nbsp;&nbsp;");
+        if(convertHtml) {
+            text = text.trim().replaceAll("\\s{3}", "&nbsp;&nbsp;&nbsp;");
+            text = text.trim().replaceAll("\\s{2}", "&nbsp;&nbsp;");
+        }
         SpannableString initialContent;
         if (convertHtml) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -1014,7 +1017,9 @@ public class SpannableHelper {
         if (text == null) {
             return null;
         }
-
+        Log.v(Helper.TAG,"text1 : " + text);
+        text = text.replaceAll("&nbsp"," ");
+        Log.v(Helper.TAG,"text2 : " + text);
         SpannableString initialContent = new SpannableString(text);
 
         SpannableStringBuilder content = new SpannableStringBuilder(initialContent);
