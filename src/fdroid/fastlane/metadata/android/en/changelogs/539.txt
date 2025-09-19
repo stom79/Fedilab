@@ -1,0 +1,20 @@
+Added:
+- Mastodon quotes support
+- Quote button can be hidden in Settings > Timeline
+- Change default quote policy in settings
+- Add colors in compose depending of the visibility (can be disabled / colors can be changed)
+- Add accessibility actions to move timelines up/down in Manage timelines page
+
+Changed:
+- Boost & quote button are merged
+- Show emoji buttons only in focused status
+- Add popup menu for boost, quote actions in status
+- Improve UI and accessibility in login page
+- Move "Max chars in links" next to "Truncate links"
+- Add more translated pronouns for keys support(translations)
+
+Fixed:
+- Left margin not removed for bottom information
+- Make content warning text selectable
+- Disable HTML parsing in display names
+- Improve translate button preference
