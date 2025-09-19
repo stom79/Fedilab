@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.activities;
  * see <http://www.gnu.org/licenses>. */
 
 
+import static app.fedilab.android.mastodon.client.entities.app.Timeline.TimeLineEnum.QUOTE_TIMELINE;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -60,8 +62,10 @@ public class TimelineActivity extends BaseBarActivity {
         String tagged = null;
         String timelineAccountId = null;
         Status status = null;
+        String status_id = null;
         if (bundle != null) {
             timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
+            status_id = bundle.getString(Helper.ARG_STATUS_ID);
             lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);
             pinnedTimeline = (PinnedTimeline) bundle.getSerializable(Helper.ARG_REMOTE_INSTANCE);
             status = (Status) bundle.getSerializable(Helper.ARG_STATUS);
@@ -74,9 +78,13 @@ public class TimelineActivity extends BaseBarActivity {
         if(tagged != null) {
             setTitle(String.format("#%s",tagged));
         }
+        if(timelineType == QUOTE_TIMELINE) {
+            setTitle(R.string.quoting_messages);
+        }
         FragmentMastodonTimeline fragmentMastodonTimeline = new FragmentMastodonTimeline();
         Bundle args = new Bundle();
         args.putSerializable(Helper.ARG_TIMELINE_TYPE, timelineType);
+        args.putString(Helper.ARG_STATUS_ID,status_id);
         args.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinnedTimeline);
         args.putSerializable(Helper.ARG_LEMMY_POST_ID, lemmy_post_id);
         args.putSerializable(Helper.ARG_TAGGED, tagged);

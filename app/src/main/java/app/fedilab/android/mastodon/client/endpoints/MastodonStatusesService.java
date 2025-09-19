@@ -82,6 +82,7 @@ public interface MastodonStatusesService {
             @Path("id") String id);
 
 
+
     @Headers({"Accept: application/json"})
     @PUT("statuses/{id}")
     Call<Status> updateStatus(
@@ -176,6 +177,18 @@ public interface MastodonStatusesService {
             @Query("min_id") String min_id,
             @Query("limit") int limit
     );
+
+
+    @GET("statuses/{id}/quotes")
+    Call<List<Status>> getStatusQuotes(
+            @Header("Authorization") String token,
+            @Path("id") String id,
+            @Query("max_id") String max_id,
+            @Query("since_id") String since_id,
+            @Query("min_id") String min_id,
+            @Query("limit") int limit
+    );
+
 
     //Add status to favourites
     @POST("statuses/{id}/favourite")

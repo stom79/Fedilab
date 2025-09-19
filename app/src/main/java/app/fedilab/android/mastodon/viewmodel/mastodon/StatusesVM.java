@@ -26,6 +26,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.net.IDN;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +44,7 @@ import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
 import app.fedilab.android.mastodon.client.entities.api.ScheduledStatuses;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.api.StatusSource;
+import app.fedilab.android.mastodon.client.entities.api.Statuses;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
@@ -65,6 +67,7 @@ public class StatusesVM extends AndroidViewModel {
 
 
     private MutableLiveData<Status> statusMutableLiveData;
+    private MutableLiveData<Statuses> statusesMutableLiveData;
     private MutableLiveData<List<Status>> statusListMutableLiveData;
     private MutableLiveData<StatusSource> statusSourceMutableLiveData;
     private MutableLiveData<ScheduledStatus> scheduledStatusMutableLiveData;
@@ -375,6 +378,8 @@ public class StatusesVM extends AndroidViewModel {
         return statusListMutableLiveData;
     }
 
+
+
     /**
      * Delete a status by ID
      *
@@ -543,6 +548,59 @@ public class StatusesVM extends AndroidViewModel {
         }).start();
         return accountsMutableLiveData;
     }
+
+
+
+    /**
+     * Statuses that quoted a status by ID
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @param id       String - id of the status
+     * @param max_id   String
+     * @param since_id String
+     * @param min_id   String
+     * @return LiveData<Statuses>
+     */
+    public LiveData<Statuses> quotedStatus(@NonNull String instance,
+                                           String token,
+                                           @NonNull String id,
+                                           String max_id,
+                                           String since_id,
+                                           String min_id) {
+        MastodonStatusesService mastodonStatusesService = init(instance);
+        statusesMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            int limit = MastodonHelper.statusesPerCall(getApplication().getApplicationContext());
+            Call<List<Status>> statusesCall = mastodonStatusesService.getStatusQuotes(token, id, max_id, since_id, min_id, limit);
+            List<Status> statuses = null;
+            Headers headers = null;
+            if (statusesCall != null) {
+                try {
+                    Response<List<Status>> statusesResponse = statusesCall.execute();
+                    if (statusesResponse.isSuccessful()) {
+                        statuses = statusesResponse.body();
+                    }
+                    headers = statusesResponse.headers();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Statuses statusesPagination = new Statuses();
+            if(statuses == null) {
+                statuses = new ArrayList<>();
+            }
+            statusesPagination.statuses = statuses;
+            if (headers != null) {
+                statusesPagination.pagination = MastodonHelper.getPagination(headers);
+            }
+            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statusesPagination);
+            mainHandler.post(myRunnable);
+        }).start();
+        return statusesMutableLiveData;
+    }
+
 
     /**
      * Add a status to favourites by ID

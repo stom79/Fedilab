@@ -72,6 +72,7 @@ import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
 import es.dmoral.toasty.Toasty;
 
@@ -83,6 +84,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private boolean scrollingUp;
     private FragmentPaginationBinding binding;
     private TimelinesVM timelinesVM;
+    private StatusesVM statusesVM;
     private AccountsVM accountsVM;
     private boolean flagLoading;
     private String search, searchCache;
@@ -91,6 +93,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private Integer offset;
     private StatusAdapter statusAdapter;
     private Timeline.TimeLineEnum timelineType;
+    private String status_id;
     private String tagged;
     private List<Status> timelineStatuses;
     //Handle actions that can be done in other fragments
@@ -418,6 +421,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
             lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);
             list_id = bundle.getString(Helper.ARG_LIST_ID, null);
+            status_id = bundle.getString(Helper.ARG_STATUS_ID, null);
             search = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
             tagged = bundle.getString(Helper.ARG_TAGGED, null);
             searchCache = bundle.getString(Helper.ARG_SEARCH_KEYWORD_CACHE, null);
@@ -491,6 +495,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
         timelinesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, TimelinesVM.class);
         accountsVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, AccountsVM.class);
+        statusesVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, StatusesVM.class);
         initialStatuses = null;
         lockForResumeCall = 0;
 
@@ -689,6 +694,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         if (initialStatus != null) {
             timelineStatuses.add(initialStatus);
+        }
+        if(statuses.statuses == null) {
+            statuses.statuses = new ArrayList<>();
         }
         timelineStatuses.addAll(statuses.statuses);
         if (max_id == null || (statuses.pagination.max_id != null && Helper.compareTo(statuses.pagination.max_id, max_id) < 0) || timelineType.getValue().startsWith("TREND_")) {
@@ -1268,6 +1276,16 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
             } else if (direction == DIRECTION.BOTTOM) {
                 accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), max_id, null, null)
+                        .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+            } else {
+                flagLoading = false;
+            }
+        }else if (timelineType == Timeline.TimeLineEnum.QUOTE_TIMELINE) {
+            if (direction == null) {
+                statusesVM.quotedStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status_id, null, null, null)
+                        .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+            } else if (direction == DIRECTION.BOTTOM) {
+                statusesVM.quotedStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, status_id, max_id, null, null)
                         .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
             } else {
                 flagLoading = false;

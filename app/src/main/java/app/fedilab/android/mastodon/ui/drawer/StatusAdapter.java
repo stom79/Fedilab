@@ -60,7 +60,6 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -2095,8 +2094,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         });
         holder.binding.quoteInfo.setOnClickListener(v->{
-            if (statusToDeal.quotes_count > 0) {
-
+            if (statusToDeal.quotes_count > 0 && statusToDeal.account.id.compareTo(BaseMainActivity.currentUserID) == 0) {
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.QUOTE_TIMELINE);
+                args.putSerializable(Helper.ARG_STATUS_ID, statusToDeal.id);
+                Intent intent = new Intent(context, TimelineActivity.class);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
             }
         });
 
