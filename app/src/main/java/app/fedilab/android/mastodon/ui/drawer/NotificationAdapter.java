@@ -72,6 +72,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_ADMIN_SIGNUP = 11;
     private final int TYPE_ADMIN_REPORT = 12;
     private final int TYPE_HIDDEN = 13;
+    private final int TYPE_QUOTE = 14;
+
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
     private RecyclerView mRecyclerView;
@@ -156,6 +158,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 case "reblog" -> {
                     if (notificationList.get(position).status != null) {
                         return TYPE_REBLOG;
+                    } else {
+                        return TYPE_HIDDEN;
+                    }
+                }
+                case "quote" -> {
+                    if (notificationList.get(position).status != null) {
+                        return TYPE_QUOTE;
                     } else {
                         return TYPE_HIDDEN;
                     }
@@ -351,7 +360,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_star_24);
             } else if (getItemViewType(position) == TYPE_REBLOG) {
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_repeat_24);
-            } else if (getItemViewType(position) == TYPE_UPDATE) {
+            }  else if (getItemViewType(position) == TYPE_QUOTE) {
+                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_format_quote_24);
+            }else if (getItemViewType(position) == TYPE_UPDATE) {
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_edit_24);
             } else if (getItemViewType(position) == TYPE_REACTION) {
                 holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_insert_emoticon_24);
@@ -384,7 +395,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             statusManagement(context, statusesVM, searchVM, holderStatus, mRecyclerView, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, false, null);
             holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));
             holderStatus.bindingNotification.status.pronouns.setVisibility(View.GONE);
-            if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS || getItemViewType(position) == TYPE_REACTION) {
+            if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS || getItemViewType(position) == TYPE_REACTION || getItemViewType(position) == TYPE_QUOTE ) {
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.VISIBLE);
                 String title = "";
                 if (getItemViewType(position) == TYPE_MENTION) {
@@ -434,7 +445,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 } else if (getItemViewType(position) == TYPE_REBLOG) {
                    // title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
                     title = notification.account.display_name;
-                } else if (getItemViewType(position) == TYPE_UPDATE) {
+                } else if (getItemViewType(position) == TYPE_QUOTE) {
+                    // title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
+                    title = notification.account.display_name;
+                }else if (getItemViewType(position) == TYPE_UPDATE) {
                   //  title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_update));
                     title = notification.account.display_name;
                 } else if (getItemViewType(position) == TYPE_POLL) {

@@ -78,6 +78,15 @@
                 android:text="@string/notif_display_reblogs"
                 app:icon="@drawable/ic_baseline_repeat_24" />
 
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/display_quotes"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notif_display_quotes"
+                app:icon="@drawable/ic_baseline_format_quote_24" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/display_poll_results"
                 style="@style/Widget.Material3.Button.OutlinedButton.Icon"

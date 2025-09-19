@@ -76,6 +76,7 @@ public class FragmentNotificationContainer extends Fragment {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_reply_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_star_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_repeat));
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_format_quote_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_poll_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_home_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_person_add_alt_1_24));
@@ -103,6 +104,7 @@ public class FragmentNotificationContainer extends Fragment {
             dialogView.displayMentions.setChecked(true);
             dialogView.displayFavourites.setChecked(true);
             dialogView.displayReblogs.setChecked(true);
+            dialogView.displayQuotes.setChecked(true);
             dialogView.displayPollResults.setChecked(true);
             dialogView.displayUpdatesFromPeople.setChecked(true);
             dialogView.displayFollows.setChecked(true);
@@ -126,6 +128,10 @@ public class FragmentNotificationContainer extends Fragment {
                         case "reblog" -> {
                             excludedCategoriesList.add("reblog");
                             dialogView.displayReblogs.setChecked(false);
+                        }
+                        case "quote" -> {
+                            excludedCategoriesList.add("quote");
+                            dialogView.displayQuotes.setChecked(false);
                         }
                         case "poll" -> {
                             excludedCategoriesList.add("poll");
@@ -163,7 +169,9 @@ public class FragmentNotificationContainer extends Fragment {
                     notificationType = "favourite";
                 } else if (checkedId == R.id.display_reblogs) {
                     notificationType = "reblog";
-                } else if (checkedId == R.id.display_poll_results) {
+                } else if (checkedId == R.id.display_quotes) {
+                    notificationType = "quote";
+                }else if (checkedId == R.id.display_poll_results) {
                     notificationType = "poll";
                 } else if (checkedId == R.id.display_updates_from_people) {
                     notificationType = "status";

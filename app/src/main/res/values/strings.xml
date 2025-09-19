@@ -748,6 +748,7 @@
     <string name="notif_display_mentions">Mentions</string>
     <string name="notif_display_favourites">Favourites</string>
     <string name="notif_display_reblogs">Reblogs</string>
+    <string name="notif_display_quotes">Quotes</string>
     <string name="notif_display_poll_results">Poll results</string>
     <string name="notif_display_updates_from_people">Updates from people</string>
     <string name="notif_display_follows">Follows</string>
