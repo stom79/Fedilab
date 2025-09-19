@@ -1421,8 +1421,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         if (status.isFocused) {
-            holder.binding.statusInfo.setVisibility(View.VISIBLE);
+            holder.binding.statusInfoContainer.setVisibility(View.VISIBLE);
             holder.binding.reblogInfo.setText(String.valueOf(status.reblogs_count));
+            holder.binding.quoteInfo.setText(String.valueOf(status.quotes_count));
             holder.binding.favouriteInfo.setText(String.valueOf(status.favourites_count));
 
             if (statusToDeal.edited_at != null) {
@@ -1492,7 +1493,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.binding.replyCount.setVisibility(View.GONE);
                 }
             }
-            holder.binding.statusInfo.setVisibility(View.GONE);
+            holder.binding.statusInfoContainer.setVisibility(View.GONE);
             holder.binding.dateShort.setVisibility(View.VISIBLE);
             holder.binding.visibilitySmall.setVisibility(View.VISIBLE);
             if (statusToDeal.edited_at != null) {
@@ -2091,6 +2092,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 });
+            }
+        });
+        holder.binding.quoteInfo.setOnClickListener(v->{
+            if (statusToDeal.quotes_count > 0) {
+
             }
         });
 
@@ -3272,8 +3278,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.cardDescription.setTextColor(theme_text_color);
             holder.binding.time.setTextColor(theme_text_color);
             holder.binding.reblogInfo.setTextColor(theme_text_color);
+            holder.binding.quoteInfo.setTextColor(theme_text_color);
             holder.binding.favouriteInfo.setTextColor(theme_text_color);
             Helper.changeDrawableColor(context, holder.binding.reblogInfo, theme_text_color);
+            Helper.changeDrawableColor(context, holder.binding.quoteInfo, theme_text_color);
             Helper.changeDrawableColor(context, holder.binding.favouriteInfo, theme_text_color);
             Helper.changeDrawableColor(context, R.drawable.ic_baseline_lock_24, theme_text_color);
         }

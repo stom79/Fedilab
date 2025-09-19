@@ -76,6 +76,9 @@ public class Status implements Serializable, Cloneable {
     public long reblogs_count;
     @SerializedName("favourites_count")
     public long favourites_count;
+    @SerializedName("quotes_count")
+    public long quotes_count;
+
     @SerializedName("favourited")
     public boolean favourited;
     @SerializedName("reblogged")
