@@ -1141,4 +1141,14 @@
     <string name="set_translate_button">Кнопка перекладу</string>
     <string name="move_timeline_up">Перемістити часову шкалу вгору</string>
     <string name="move_timeline_down">Перемістити часову шкалу вниз</string>
+    <string name="action_unreblog">Зняти посилення</string>
+    <string name="quoting_messages">Цитування повідомлень</string>
+    <string name="notif_display_quotes">Цитати</string>
+    <string name="visibility_color_public">Колір для видимості для публіки</string>
+    <string name="visibility_color_unlisted">Колір для видимості не в списку</string>
+    <string name="visibility_color_private">Колір для приватної видимості</string>
+    <string name="visibility_color_direct">Колір для прямої видимості</string>
+    <string name="set_colorize_visibility">Видимість підкреслення</string>
+    <string name="set_colorize_visibility_indication">Кнопка видимості та нижня частина області створення повідомлення матимуть різні кольори залежно від видимості, вибраної під час створення.</string>
+    <string name="set_custom_colors_visibility">Встановлення власних кольорів для видимості</string>
 </resources>
