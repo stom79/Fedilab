@@ -171,18 +171,7 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
         }
 
-        holder.binding.hide.setOnClickListener(v -> {
-            pinned.pinnedTimelines.get(position).displayed = !pinned.pinnedTimelines.get(position).displayed;
-            notifyItemChanged(position);
-            new Thread(() -> {
-                try {
-                    new Pinned(context).updatePinned(pinned);
-                    ((ReorderTimelinesActivity) context).setChanges(true);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        });
+        holder.binding.hide.setOnClickListener(v -> onHidePressed(position));
 
         // Start a drag whenever the handle view it touched
         holder.binding.handle.setOnTouchListener((v, event) -> {
@@ -202,65 +191,89 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (bindingAdapterPosition < pinned.pinnedTimelines.size() - 1) onItemMove(bindingAdapterPosition, bindingAdapterPosition + 1);
             return true;
         });
+        ViewCompat.addAccessibilityAction(holder.binding.getRoot(), context.getString(R.string.hide_timeline), (view, arguments) -> {
+            onHidePressed(position);
+            return true;
+        });
         PinnedTimeline item = pinned.pinnedTimelines.get(position);
         if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
             holder.binding.delete.setVisibility(View.VISIBLE);
+            holder.binding.delete.setOnClickListener(v -> onDeletePressed(item, position));
+            ViewCompat.addAccessibilityAction(holder.binding.getRoot(), context.getString(R.string.delete_timeline), (view, arguments) -> {
+                onDeletePressed(item, position);
+                return true;
+            });
         } else {
             holder.binding.delete.setVisibility(View.GONE);
         }
-        holder.binding.delete.setOnClickListener(v -> {
-            if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
-                AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
-                String title = "";
-                String message = "";
-                alt_bld.setTitle(R.string.action_lists_delete);
-                alt_bld.setMessage(R.string.action_lists_confirm_delete);
-                switch (item.type) {
-                    case TAG:
-                    case REMOTE:
-                        title = context.getString(R.string.action_pinned_delete);
-                        message = context.getString(R.string.unpin_timeline_description);
-                        break;
-                    case LIST:
-                        title = context.getString(R.string.action_lists_delete);
-                        message = context.getString(R.string.action_lists_confirm_delete);
-                        break;
-                }
-                alt_bld.setTitle(title);
-                alt_bld.setMessage(message);
+    }
 
-                alt_bld.setPositiveButton(R.string.delete, (dialog, id) -> {
-                    //change position of pinned that are after the removed item
-                    if (position < pinned.pinnedTimelines.size()) {
-                        for (int i = item.position + 1; i < pinned.pinnedTimelines.size(); i++) {
-                            pinned.pinnedTimelines.get(i).position -= 1;
-                        }
-                        pinned.pinnedTimelines.remove(position);
-                        notifyItemRemoved(position);
-                        notifyItemChanged(position, pinned.pinnedTimelines.size() - position);
-                        try {
-                            new Pinned(context).updatePinned(pinned);
-                        } catch (DBException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    if (item.type == Timeline.TimeLineEnum.LIST) {
-                        TimelinesVM timelinesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(TimelinesVM.class);
-                        timelinesVM.deleteList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, item.mastodonList.id);
-                    }
-
-
-                    ((ReorderTimelinesActivity) context).setChanges(true);
-                    dialog.dismiss();
-
-                });
-                alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
-                AlertDialog alert = alt_bld.create();
-                alert.show();
-
+    private void onHidePressed(int position) {
+        pinned.pinnedTimelines.get(position).displayed = !pinned.pinnedTimelines.get(position).displayed;
+        notifyItemChanged(position);
+        new Thread(() -> {
+            try {
+                new Pinned(context).updatePinned(pinned);
+                ((ReorderTimelinesActivity) context).setChanges(true);
+            } catch (DBException e) {
+                e.printStackTrace();
             }
-        });
+        }).start();
+    }
+
+    private void onDeletePressed(PinnedTimeline item, int position) {
+        if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
+            AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
+            String title = "";
+            String message = "";
+            alt_bld.setTitle(R.string.action_lists_delete);
+            alt_bld.setMessage(R.string.action_lists_confirm_delete);
+            switch (item.type) {
+                case TAG:
+                case REMOTE:
+                    title = context.getString(R.string.action_pinned_delete);
+                    message = context.getString(R.string.unpin_timeline_description);
+                    break;
+                case LIST:
+                    title = context.getString(R.string.action_lists_delete);
+                    message = context.getString(R.string.action_lists_confirm_delete);
+                    break;
+            }
+            alt_bld.setTitle(title);
+            alt_bld.setMessage(message);
+
+            alt_bld.setPositiveButton(R.string.delete, (dialog, id) -> {
+                //change position of pinned that are after the removed item
+                if (position < pinned.pinnedTimelines.size()) {
+                    for (int i = item.position + 1; i < pinned.pinnedTimelines.size(); i++) {
+                        pinned.pinnedTimelines.get(i).position -= 1;
+                    }
+                    pinned.pinnedTimelines.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemChanged(position, pinned.pinnedTimelines.size() - position);
+                    try {
+                        new Pinned(context).updatePinned(pinned);
+                    } catch (DBException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (item.type == Timeline.TimeLineEnum.LIST) {
+                    TimelinesVM timelinesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(TimelinesVM.class);
+                    timelinesVM.deleteList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, item.mastodonList.id);
+                }
+
+
+                ((ReorderTimelinesActivity) context).setChanges(true);
+                dialog.dismiss();
+
+            });
+            alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+            AlertDialog alert = alt_bld.create();
+            alert.show();
+
+        }
+
     }
 
     @Override

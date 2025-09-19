@@ -100,24 +100,7 @@ public class ReorderBottomMenuAdapter extends RecyclerView.Adapter<RecyclerView.
             holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
         }
 
-        holder.binding.hide.setOnClickListener(v -> {
-            bottomMenu.bottom_menu.get(position).visible = !bottomMenu.bottom_menu.get(position).visible;
-            bottomMenu.user_id = MainActivity.currentUserID;
-            bottomMenu.instance = MainActivity.currentInstance;
-            if (bottomMenu.bottom_menu.get(position).visible) {
-                holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_24);
-            } else {
-                holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
-            }
-            new Thread(() -> {
-                try {
-                    new BottomMenu(context).insertOrUpdate(bottomMenu);
-                    ((ReorderTimelinesActivity) context).setBottomChanges(true);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        });
+        holder.binding.hide.setOnClickListener(v -> onHidePressed(holder, position));
 
         // Start a drag whenever the handle view it touched
         holder.binding.handle.setOnTouchListener((v, event) -> {
@@ -137,6 +120,29 @@ public class ReorderBottomMenuAdapter extends RecyclerView.Adapter<RecyclerView.
             if (bindingAdapterPosition < bottomMenu.bottom_menu.size() - 1) onItemMove(bindingAdapterPosition, bindingAdapterPosition + 1);
             return true;
         });
+        ViewCompat.addAccessibilityAction(holder.binding.getRoot(), context.getString(R.string.hide_timeline), (view, arguments) -> {
+            onHidePressed(holder, position);
+            return true;
+        });
+    }
+
+    private void onHidePressed(ReorderViewHolder holder, int position) {
+        bottomMenu.bottom_menu.get(position).visible = !bottomMenu.bottom_menu.get(position).visible;
+        bottomMenu.user_id = MainActivity.currentUserID;
+        bottomMenu.instance = MainActivity.currentInstance;
+        if (bottomMenu.bottom_menu.get(position).visible) {
+            holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_24);
+        } else {
+            holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
+        }
+        new Thread(() -> {
+            try {
+                new BottomMenu(context).insertOrUpdate(bottomMenu);
+                ((ReorderTimelinesActivity) context).setBottomChanges(true);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @Override
