@@ -1126,4 +1126,12 @@
     <string name="no_one">Ninguén</string>
     <string name="anyone">Calquera</string>
     <string name="set_translate_button">Botón para traducir</string>
+    <string name="move_timeline_up">Mover arriba a cronoloxía</string>
+    <string name="move_timeline_down">Mover abaixo a cronoloxía</string>
+    <string name="visibility_color_public">Cor para a visibilidade pública</string>
+    <string name="visibility_color_unlisted">Cor para a visibilidade pública limitada</string>
+    <string name="visibility_color_private">Cor para a visibilidade privada</string>
+    <string name="set_colorize_visibility">Subliñar visibilidade</string>
+    <string name="set_colorize_visibility_indication">O botón do alcance da publicación na área de redacción terá diferente cor dependendo da visibilidade seleccionada ao escribir.</string>
+    <string name="set_custom_colors_visibility">Establecer as cores para o alcance</string>
 </resources>
