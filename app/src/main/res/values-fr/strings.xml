@@ -21,7 +21,7 @@
     <string name="tags">Étiquettes</string>
     <string name="save">Sauvegarder</string>
     <string name="instance">Instance</string>
-    <string name="instance_example">Instance : mastodon.social</string>
+    <string name="instance_example">Ex. : mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Utilisation du compte %1$s</string>
     <string name="add_account">Ajouter un compte</string>
     <string name="clipboard">Le contenu du message a été copié dans le presse-papier</string>
@@ -127,7 +127,7 @@
     <string name="toot_select_image_error">Une erreur s’est produite lors de la sélection du média !</string>
     <string name="toot_delete_media">Supprimer le média ?</string>
     <string name="toot_error_no_content">Votre message est vide !</string>
-    <string name="toot_sent">Le message a été envoyé !</string>
+    <string name="toot_sent">Le message a été envoyé !</string>
     <string name="toot_sensitive">Contenu sensible ?</string>
     <string name="no_draft">Aucun brouillon !</string>
     <string name="choose_accounts">Choisissez un compte</string>
@@ -626,7 +626,7 @@
     <string name="more_actions">Autres actions</string>
     <string name="types_of_notifications_to_display">Types de notifications à afficher</string>
     <string name="set_unfollow_validation_title">Confirmer les désabonnements</string>
-    <string name="message_has_been_sent">Le message a été envoyé !</string>
+    <string name="message_has_been_sent">Le message a été envoyé !</string>
     <string name="poll_type">Type de sondage :</string>
     <string name="poll_duration">Durée du sondage :</string>
     <string name="set_accounts_page">Nombre de comptes par chargement</string>

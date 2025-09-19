@@ -1130,4 +1130,5 @@
     <string name="who_can_quote">見積可能者</string>
     <string name="no_one">誰も</string>
     <string name="anyone">誰か</string>
+    <string name="set_translate_button">翻訳ボタン</string>
 </resources>

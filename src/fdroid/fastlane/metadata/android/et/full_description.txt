@@ -1,0 +1,23 @@
+Rakendus toetab järgmisi võrgustikke:
+- Mastodon, Peertube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica
+
+Rakenduse mõned olulised funktsionaalsused:
+- Jutulõngade koostamine
+- Mitme kasutajakonto tugi
+- Sõnumite saatmise ajastamine nutiseadme poolel
+- Kaugserverite jälgimine ja nendega suhestumine
+- Kasutajakontode ülesed tegevused pika vajutusega
+- Tõlkimise võimalus
+- Mitu valikut andmete automaatseks uuenduseks
+  - Tõuketeavitused UnifiedPushi abil (sealhulgas FDroidi versioonis ka ntfy)
+  - Ühenduse säilitamine reaalajas teavituste jaoks
+  - Viivitusega teavitused (ühenduse loomine iga 30 sekundi järel)
+- Youtube'i ja Twitteri linkide asendamine vastavalt Invidiouse ja Nitteri serveri linkidega
+- Kujunduste kohandamine, import, eksport ja kirjeldamine
+- Rakenduse andmebaasi eksport ja import
+- Emojide valija ja kohandatud emojid
+- Mitu erinevat käivitusikooni
+- Mastodoni sõnumite detailse filtreerimise võimalused
+- mastoarti sildiga kunsti ajajoone kuvamine
+- Mastodoni sõnumite eksport
+- Jagatavate võrguaadresside muutmine jagamiseks teiste seadmetega

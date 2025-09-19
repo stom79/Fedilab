@@ -1011,14 +1011,11 @@ public class SpannableHelper {
 
     public static Spannable convertEmoji(Activity activity, String text, Account account, WeakReference<View> viewWeakReference) {
 
-        SpannableString initialContent;
         if (text == null) {
             return null;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
-        else
-            initialContent = new SpannableString(Html.fromHtml(text));
+
+        SpannableString initialContent = new SpannableString(text);
 
         SpannableStringBuilder content = new SpannableStringBuilder(initialContent);
         List<Emoji> emojiList = account.emojis;

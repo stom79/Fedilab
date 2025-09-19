@@ -1138,4 +1138,7 @@
     <string name="no_one">Ніхто</string>
     <string name="anyone">Будь-хто</string>
     <string name="default_who_can_quote">Вибір за замовчуванням для тих, хто може котирувати</string>
+    <string name="set_translate_button">Кнопка перекладу</string>
+    <string name="move_timeline_up">Перемістити часову шкалу вгору</string>
+    <string name="move_timeline_down">Перемістити часову шкалу вниз</string>
 </resources>

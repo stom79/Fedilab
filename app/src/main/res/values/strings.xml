@@ -483,6 +483,8 @@
     <string name="reorder_list_deleted">List permanently deleted</string>
     <string name="reorder_instance_removed">Followed instance removed</string>
     <string name="reorder_tag_removed">Pinned tag removed</string>
+    <string name="move_timeline_up">Move timeline up</string>
+    <string name="move_timeline_down">Move timeline down</string>
     <string name="undo">Undo</string>
     <string name="warning_main_timeline">Main timelines can only be hidden!</string>
     <string name="set_sensitive_content">Always mark media as sensitive</string>
@@ -772,6 +774,16 @@
     <string name="no_account_in_list">No accounts found for this list!</string>
     <string name="scheduled">Scheduled</string>
 
+    <string-array name="set_translate_button_entries">
+        <item>Show</item>
+        <item>Auto (depending on post language)</item>
+        <item>Hide</item>
+    </string-array>
+    <string-array name="set_translate_button_entry_values" translatable="false">
+        <item>show</item>
+        <item>auto</item>
+        <item>hide</item>
+    </string-array>
 
     <string-array name="set_thread_message_value">
         <item>Ask</item>
@@ -1268,6 +1280,7 @@
     <string name="SET_DISPLAY_REACTIONS" translatable="false">SET_DISPLAY_REACTIONS</string>
 
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
+    <string name="SET_TRANSLATE_BUTTON" translatable="false">SET_TRANSLATE_BUTTON</string>
     <string name="SET_POST_FORMAT" translatable="false">SET_POST_FORMAT</string>
     <string name="SET_COMPOSE_LOCAL_ONLY" translatable="false">SET_COMPOSE_LOCAL_ONLY</string>
 
@@ -1383,6 +1396,7 @@
     <string name="poll_duration">Poll duration:</string>
     <string name="set_display_bookmark_indication">Always display bookmark button</string>
     <string name="set_display_translate_indication">Always display translate button</string>
+    <string name="set_translate_button">Translate button</string>
     <string name="display">Display</string>
     <string name="bottom_menu">Bottom menu</string>
     <string name="top_menu">Top bar menu</string>

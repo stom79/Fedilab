@@ -21,7 +21,7 @@
     <string name="tags">Etiquetas</string>
     <string name="save">Guardar</string>
     <string name="instance">Instancia</string>
-    <string name="instance_example">Instancia: mastodon.social</string>
+    <string name="instance_example">P.ej.: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Ahora funciona con la cuenta %1$s</string>
     <string name="add_account">Agregar una cuenta</string>
     <string name="clipboard">El contenido del mensaje ha sido copiado al portapapeles</string>
@@ -1012,7 +1012,7 @@
     <string name="card_picture">Imagen de tarjeta</string>
     <string name="notif_display_reblogs">Impulsos</string>
     <string name="set_mention_at_top_indication">Cuando respondas las menciones serán añadidas al principio del mensaje</string>
-    <string name="show_content">Mostrar contenido &gt;</string>
+    <string name="show_content"><![CDATA[Mostrar contenido >]]></string>
     <string name="show_self_replies">Mostrar auto respuestas</string>
     <string name="show_self_boosts">Mostrar auto impulsos</string>
     <string name="show_my_messages">Mostrar mis mensajes</string>

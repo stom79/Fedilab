@@ -88,10 +88,10 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, true);
             SET_DISPLAY_BOOKMARK.setChecked(checked);
         }
-        SwitchPreferenceCompat SET_DISPLAY_TRANSLATE = findPreference(getString(R.string.SET_DISPLAY_TRANSLATE));
-        if (SET_DISPLAY_TRANSLATE != null) {
-            boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_TRANSLATE) + MainActivity.currentUserID + MainActivity.currentInstance, false);
-            SET_DISPLAY_TRANSLATE.setChecked(checked);
+        ListPreference SET_TRANSLATE_BUTTON = findPreference(getString(R.string.SET_TRANSLATE_BUTTON));
+        if (SET_TRANSLATE_BUTTON != null) {
+            String value = sharedpreferences.getString(getString(R.string.SET_TRANSLATE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, null);
+            SET_TRANSLATE_BUTTON.setValue(value);
         }
 
         SwitchPreferenceCompat SET_DISPLAY_QUOTE = findPreference(getString(R.string.SET_DISPLAY_QUOTE));
@@ -125,10 +125,10 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
                     editor.putBoolean(getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, SET_DISPLAY_BOOKMARK.isChecked());
                 }
             }
-            if (key.compareToIgnoreCase(getString(R.string.SET_DISPLAY_TRANSLATE)) == 0) {
-                SwitchPreferenceCompat SET_DISPLAY_TRANSLATE = findPreference(getString(R.string.SET_DISPLAY_TRANSLATE));
-                if (SET_DISPLAY_TRANSLATE != null) {
-                    editor.putBoolean(getString(R.string.SET_DISPLAY_TRANSLATE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_DISPLAY_TRANSLATE.isChecked());
+            if (key.compareToIgnoreCase(getString(R.string.SET_TRANSLATE_BUTTON)) == 0) {
+                ListPreference SET_TRANSLATE_BUTTON = findPreference(getString(R.string.SET_TRANSLATE_BUTTON));
+                if (SET_TRANSLATE_BUTTON != null) {
+                    editor.putString(getString(R.string.SET_TRANSLATE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, SET_TRANSLATE_BUTTON.getValue());
                 }
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_DISPLAY_QUOTE)) == 0) {

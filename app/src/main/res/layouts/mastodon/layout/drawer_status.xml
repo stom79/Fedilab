@@ -257,6 +257,7 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
+            android:textIsSelectable="true"
             tools:text="Warning: Lorem Ipsum below" />
 
         <com.google.android.material.button.MaterialButton

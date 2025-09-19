@@ -95,7 +95,7 @@ public class Account implements Serializable {
         if (display_name == null || display_name.isEmpty()) {
             display_name = username;
         }
-        return SpannableHelper.convert(context, display_name, null, this, null, viewWeakReference, null, true, false);
+        return SpannableHelper.convert(context, display_name, null, this, null, viewWeakReference, null, false, false);
     }
 
     public synchronized Spannable getSpanDisplayNameEmoji(Activity activity, WeakReference<View> viewWeakReference) {

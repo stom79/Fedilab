@@ -1709,15 +1709,15 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             switch (statusDraft.quote_approval_policy.toLowerCase()) {
                 case "public" -> {
-                    holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_compose_visibility_public);
+                    holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_quote_policy_public);
                     statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.PUBLIC.name();
                 }
                 case "followers" -> {
-                    holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_baseline_people_alt_24);
+                    holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_quote_policy_followers);
                     statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.FOLLOWERS.name();
                 }
                 case "nobody" -> {
-                    holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_baseline_block_24);
+                    holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_quote_policy_nobody);
                     statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.NOBODY.name();
                 }
             }
@@ -1770,17 +1770,17 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
             holder.binding.buttonQuoteApprovalPolicyNoOne.setOnClickListener(v -> {
                 holder.binding.quoteApprovalPolicyPanel.setVisibility(View.GONE);
-                holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_baseline_block_24);
+                holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_quote_policy_nobody);
                 statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.NOBODY.name();
             });
             holder.binding.buttonQuoteApprovalPolicyFollowersOnly.setOnClickListener(v -> {
                 holder.binding.quoteApprovalPolicyPanel.setVisibility(View.GONE);
-                holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_baseline_people_alt_24);
+                holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_quote_policy_followers);
                 statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.FOLLOWERS.name();
             });
             holder.binding.buttonQuoteApprovalPolicyAnyone.setOnClickListener(v -> {
                 holder.binding.quoteApprovalPolicyPanel.setVisibility(View.GONE);
-                holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_compose_visibility_public);
+                holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_quote_policy_public);
                 statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.PUBLIC.name();
             });
 
