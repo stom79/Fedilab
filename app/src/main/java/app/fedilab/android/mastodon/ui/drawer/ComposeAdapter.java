@@ -205,44 +205,28 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean colorizeVisibility = sharedpreferences.getBoolean(context.getString(R.string.SET_COLORIZE_FOR_VISIBILITY), true);
         if(colorizeVisibility) {
-            int color_public = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_PUBLIC), -1);
-            int color_unlisted  = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_UNLISTED), -1);
-            int color_private  = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_PRIVATE), -1);
-            int color_direct  = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_DIRECT), -1);
+            int color_public = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_PUBLIC), 0xff388E3C);
+            int color_unlisted  = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_UNLISTED), 0xff0288D1);
+            int color_private  = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_PRIVATE), 0xffFBC02D);
+            int color_direct  = sharedpreferences.getInt(context.getString(R.string.SET_COLOR_VISIBILITY_DIRECT), 0xffE64A19);
             Drawable mdrawable = holder.binding.content.getBackground();
 
             if(visibility.equalsIgnoreCase("public") ) {
-                if(color_public != -1) {
-                    mdrawable.setColorFilter(color_public, PorterDuff.Mode.SRC_ATOP);
-                    holder.binding.content.setBackgroundDrawable(mdrawable);
-                    holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_public));
-                } else {
-
-                }
+                mdrawable.setColorFilter(color_public, PorterDuff.Mode.SRC_ATOP);
+                holder.binding.content.setBackgroundDrawable(mdrawable);
+                holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_public));
             } else if(visibility.equalsIgnoreCase("unlisted") ) {
-                if(color_unlisted != -1) {
-                    mdrawable.setColorFilter(color_unlisted, PorterDuff.Mode.SRC_ATOP);
-                    holder.binding.content.setBackgroundDrawable(mdrawable);
-                    holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_unlisted));
-                } else {
-
-                }
+                mdrawable.setColorFilter(color_unlisted, PorterDuff.Mode.SRC_ATOP);
+                holder.binding.content.setBackgroundDrawable(mdrawable);
+                holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_unlisted));
             } else if(visibility.equalsIgnoreCase("private") ) {
-                if(color_private != -1) {
-                    mdrawable.setColorFilter(color_private, PorterDuff.Mode.SRC_ATOP);
-                    holder.binding.content.setBackgroundDrawable(mdrawable);
-                    holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_private));
-                } else {
-
-                }
+                mdrawable.setColorFilter(color_private, PorterDuff.Mode.SRC_ATOP);
+                holder.binding.content.setBackgroundDrawable(mdrawable);
+                holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_private));
             } else if(visibility.equalsIgnoreCase("direct") ) {
-                if(color_direct != -1) {
-                    mdrawable.setColorFilter(color_direct, PorterDuff.Mode.SRC_ATOP);
-                    holder.binding.content.setBackgroundDrawable(mdrawable);
-                    holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_direct));
-                } else {
-
-                }
+                mdrawable.setColorFilter(color_direct, PorterDuff.Mode.SRC_ATOP);
+                holder.binding.content.setBackgroundDrawable(mdrawable);
+                holder.binding.buttonVisibility.setBackgroundTintList(ColorStateList.valueOf(color_direct));
             }
         }
     }

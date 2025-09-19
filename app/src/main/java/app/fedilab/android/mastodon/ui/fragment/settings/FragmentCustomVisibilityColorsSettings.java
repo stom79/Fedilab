@@ -18,7 +18,11 @@ package app.fedilab.android.mastodon.ui.fragment.settings;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import app.fedilab.android.R;
 
@@ -31,6 +35,27 @@ public class FragmentCustomVisibilityColorsSettings extends PreferenceFragmentCo
     }
 
     private void createPref() {
+        Preference SET_RESET_CUSTOM_COLOR_VISIBILITY = findPreference(getString(R.string.SET_RESET_CUSTOM_COLOR_VISIBILITY));
+        if (SET_RESET_CUSTOM_COLOR_VISIBILITY != null) {
+            SET_RESET_CUSTOM_COLOR_VISIBILITY.setOnPreferenceClickListener(preference -> {
+                AlertDialog.Builder resetConfirm = new MaterialAlertDialogBuilder(requireActivity());
+                resetConfirm.setMessage(getString(R.string.reset_color));
+                resetConfirm.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
+                resetConfirm.setPositiveButton(R.string.reset, (dialog, which) -> {
+                    SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+                    if (sharedPreferences != null) {
+                        sharedPreferences.edit().remove(getString(R.string.SET_COLOR_VISIBILITY_PUBLIC)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_COLOR_VISIBILITY_UNLISTED)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_COLOR_VISIBILITY_PRIVATE)).apply();
+                        sharedPreferences.edit().remove(getString(R.string.SET_COLOR_VISIBILITY_DIRECT)).apply();
+                    }
+
+                    dialog.dismiss();
+                });
+                resetConfirm.show();
+                return true;
+            });
+        }
     }
 
     @Override

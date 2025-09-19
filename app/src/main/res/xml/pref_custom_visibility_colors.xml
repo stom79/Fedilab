@@ -5,27 +5,38 @@
     android:layout_height="match_parent">
 
     <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:defaultValue="0xff388E3C"
         android:key="@string/SET_COLOR_VISIBILITY_PUBLIC"
         app:iconSpaceReserved="false"
         app:summary="@string/visibility_color_public"
         app:title="@string/v_public" />
 
     <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:defaultValue="0xff0288D1"
         android:key="@string/SET_COLOR_VISIBILITY_UNLISTED"
         app:iconSpaceReserved="false"
         app:summary="@string/visibility_color_unlisted"
         app:title="@string/v_unlisted" />
 
     <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:defaultValue="0xffFBC02D"
         android:key="@string/SET_COLOR_VISIBILITY_PRIVATE"
         app:iconSpaceReserved="false"
         app:summary="@string/visibility_color_private"
         app:title="@string/v_private" />
 
     <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+        android:defaultValue="0xffE64A19"
         android:key="@string/SET_COLOR_VISIBILITY_DIRECT"
         app:iconSpaceReserved="false"
         app:summary="@string/visibility_color_direct"
         app:title="@string/v_direct" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/reset_color"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_RESET_CUSTOM_COLOR_VISIBILITY" />
 
 </androidx.preference.PreferenceScreen>

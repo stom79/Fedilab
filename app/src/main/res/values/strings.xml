@@ -1220,10 +1220,11 @@
     <string name="SET_LIGHT_LINK" translatable="false">SET_LIGHT_LINK</string>
     <string name="SET_LIGHT_ICON" translatable="false">SET_LIGHT_ICON</string>
 
-    <string name="SET_COLOR_VISIBILITY_PUBLIC">SET_COLOR_VISIBILITY_PUBLIC</string>
-    <string name="SET_COLOR_VISIBILITY_UNLISTED">SET_COLOR_VISIBILITY_UNLISTED</string>
-    <string name="SET_COLOR_VISIBILITY_PRIVATE">SET_COLOR_VISIBILITY_PRIVATE</string>
-    <string name="SET_COLOR_VISIBILITY_DIRECT">SET_COLOR_VISIBILITY_DIRECT</string>
+    <string name="SET_COLOR_VISIBILITY_PUBLIC" translatable="false">SET_COLOR_VISIBILITY_PUBLIC</string>
+    <string name="SET_COLOR_VISIBILITY_UNLISTED" translatable="false">SET_COLOR_VISIBILITY_UNLISTED</string>
+    <string name="SET_COLOR_VISIBILITY_PRIVATE" translatable="false">SET_COLOR_VISIBILITY_PRIVATE</string>
+    <string name="SET_COLOR_VISIBILITY_DIRECT" translatable="false">SET_COLOR_VISIBILITY_DIRECT</string>
+    <string name="SET_RESET_CUSTOM_COLOR_VISIBILITY" translatable="false">SET_RESET_CUSTOM_COLOR_VISIBILITY</string>
 
     <string name="SET_DEFAULT_THEME" translatable="false">SYSTEM</string>
     <string name="SET_AUTO_PLAY_GIG_MEDIA" translatable="false">SET_AUTO_PLAY_GIG_MEDIA</string>
