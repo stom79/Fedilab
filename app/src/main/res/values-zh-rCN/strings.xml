@@ -241,7 +241,7 @@
     <string name="keywords_hint_custom_sharing">关键字…</string>
     <!-- ACTIVITY CACHE -->
     <string name="v_public">公开</string>
-    <string name="v_unlisted">不公开</string>
+    <string name="v_unlisted">不列出</string>
     <string name="v_private">私密</string>
     <string name="v_direct">私信</string>
     <!-- PRIVACY -->
