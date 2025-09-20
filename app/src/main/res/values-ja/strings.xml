@@ -1131,4 +1131,9 @@
     <string name="no_one">誰も</string>
     <string name="anyone">誰か</string>
     <string name="set_translate_button">翻訳ボタン</string>
+    <string name="action_unreblog">アンブースト</string>
+    <string name="move_timeline_up">タイムラインを上へ</string>
+    <string name="move_timeline_down">タイムラインを下へ</string>
+    <string name="quoting_messages">メッセージを引用</string>
+    <string name="notif_display_quotes">引用</string>
 </resources>
