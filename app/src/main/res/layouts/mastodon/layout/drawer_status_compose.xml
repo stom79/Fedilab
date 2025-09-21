@@ -466,14 +466,14 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_quote_approval_policy_no_one"
+                    android:id="@+id/button_quote_approval_policy_just_me"
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:minHeight="36dp"
-                    android:text="@string/no_one"
+                    android:text="@string/just_me"
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_quote_policy_nobody" />
 

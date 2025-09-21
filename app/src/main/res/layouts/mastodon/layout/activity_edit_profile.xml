@@ -389,11 +389,11 @@
                 app:singleSelection="true">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/quote_approval_policy_no_one"
+                    android:id="@+id/quote_approval_policy_just_me"
                     style="@style/Fedilab.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/no_one"
+                    android:text="@string/just_me"
                     android:textAlignment="textStart"
                     app:icon="@drawable/ic_quote_policy_nobody" />
 
