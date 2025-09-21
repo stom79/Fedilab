@@ -1130,4 +1130,17 @@
     <string name="no_one">Ningú</string>
     <string name="anyone">Tothom</string>
     <string name="set_translate_button">Botó de traducció</string>
+    <string name="action_unreblog">Desdifondre</string>
+    <string name="move_timeline_up">Moure pissarra cap amunt</string>
+    <string name="move_timeline_down">Moure pissarra cap avall</string>
+    <string name="quoting_messages">Missatges citadors</string>
+    <string name="notif_display_quotes">Citacions</string>
+    <string name="visibility_color_public">Color de la visibilitat pública</string>
+    <string name="visibility_color_unlisted">Color de visibilitat de no llistat</string>
+    <string name="visibility_color_private">Color de visibilitat privada</string>
+    <string name="visibility_color_direct">Color de visibilitat directa</string>
+    <string name="action_quote_policy">Canviar qui us pot citar</string>
+    <string name="set_colorize_visibility">Visibilitat de subratllat</string>
+    <string name="set_colorize_visibility_indication">El botó de visibilitat de l\'àrea de redacció tindrà colors diferents segons la visibilitat escollida.</string>
+    <string name="set_custom_colors_visibility">Definir colors de visibilitat a mida</string>
 </resources>
