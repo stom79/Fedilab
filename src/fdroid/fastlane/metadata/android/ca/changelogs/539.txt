@@ -1,0 +1,31 @@
+Nou:
+
+- Suport integral a citacions Mastodon
+
+- Botó de citació ocultable a configuració > Cronograma
+- Canviar règim de citacions a configuració
+- Colors a redacció que depenen de la visibilitat (és pot deshabilitar/canviar els colors)
+- Accions d'accessibilitat per manipular i gestionar pissarres
+- Accions d'accessibilitat per ocultar i esborrar pissarres a la pàgina "Gestionar pissarres". 
+
+Canvis:
+- Fusió dels botons Difondre i Citar (es pot deshabilitar a configuració)
+- Botons d'emoticones només quan es focalitzen
+- Menú desplegable a l'estat per accions de difusió/citació
+- Millora de la IU i accessibilitat de pàgina de registre
+- Es trasllada "Màx crcters en enllaços" al costat de "Truncar enllaços"
+
+- Més traduccions de pronoms per a les tecles 
+- 2 línies d'info quan es focalitza sobre un missatge 
+
+Reparacions:
+
+- Marge esquerre persistent al capdavall de la Informació
+
+- Text d'avís de contingut seleccionable
+
+- Deshabilitat el processament d'HTML en noms visibles
+
+- Millora de preferència de botó de traducció
+
+- Fallides diverses
