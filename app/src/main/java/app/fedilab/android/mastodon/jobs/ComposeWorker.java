@@ -277,7 +277,10 @@ public class ComposeWorker extends Worker {
                         statusParams.sensitive =  statuses.get(i).sensitive;
                         statusParams.spoiler_text = statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null;
                         statusParams.visibility = statuses.get(i).visibility.toLowerCase();
-                        statusParams.quoted_status_id = statuses.get(i).quote_id.toLowerCase();
+                        String quote_id = statuses.get(i).quote_id;
+                        if (quote_id != null) {
+                            statusParams.quoted_status_id = quote_id.toLowerCase();
+                        }
                         statusParams.quote_approval_policy = statuses.get(i).quote_approval_policy.toLowerCase();
                         statusParams.language = statuses.get(i).language;
                         statusParams.media_attributes = media_attributes;
