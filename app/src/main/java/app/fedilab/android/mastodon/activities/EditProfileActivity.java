@@ -200,7 +200,7 @@ public class EditProfileActivity extends BaseBarActivity {
         String quotePolicy = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.quote_policy;
         if (quotePolicy != null) {
             switch (quotePolicy) {
-                case "nobody" -> binding.quoteApprovalPolicyNoOne.setChecked(true);
+                case "nobody" -> binding.quoteApprovalPolicyJustMe.setChecked(true);
                 case "followers" -> binding.quoteApprovalPolicyFollowersOnly.setChecked(true);
                 case "public" -> binding.quoteApprovalPolicyAnyone.setChecked(true);
             }
@@ -397,7 +397,7 @@ public class EditProfileActivity extends BaseBarActivity {
     }
 
     private String getQuotePolicy() {
-        if (binding.quoteApprovalPolicyNoOne.isChecked()) {
+        if (binding.quoteApprovalPolicyJustMe.isChecked()) {
             return "nobody";
         } else if (binding.quoteApprovalPolicyFollowersOnly.isChecked()) {
             return "followers";

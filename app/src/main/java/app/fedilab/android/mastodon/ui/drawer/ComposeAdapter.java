@@ -1768,7 +1768,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 applyColor(context, holder, statusDraft.visibility);
                 unlisted_changed = true;
             });
-            holder.binding.buttonQuoteApprovalPolicyNoOne.setOnClickListener(v -> {
+            holder.binding.buttonQuoteApprovalPolicyJustMe.setOnClickListener(v -> {
                 holder.binding.quoteApprovalPolicyPanel.setVisibility(View.GONE);
                 holder.binding.buttonQuoteApprovalPolicy.setIconResource(R.drawable.ic_quote_policy_nobody);
                 statusDraft.quote_approval_policy = MastodonHelper.quote_visibility.NOBODY.name();
