@@ -1151,4 +1151,5 @@
     <string name="set_colorize_visibility_indication">Кнопка видимості та нижня частина області створення повідомлення матимуть різні кольори залежно від видимості, вибраної під час створення.</string>
     <string name="set_custom_colors_visibility">Встановлення власних кольорів для видимості</string>
     <string name="action_quote_policy">Змінити, хто може вас цитувати</string>
+    <string name="just_me">Тільки я</string>
 </resources>
