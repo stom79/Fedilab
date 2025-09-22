@@ -1134,7 +1134,6 @@
     <string name="set_tracking_parameters">Odstranit sledovací parametry</string>
     <string name="set_tracking_parameters_indication">Aplikace automaticky odstraní sledovací parametry z URL před návštěvou odkazu.</string>
     <string name="who_can_quote">Kdo může citovat</string>
-    <string name="just_me">Nikdo</string>
     <string name="anyone">Kdokoliv</string>
     <string name="add_featured_hashtag">Přidat oblíbený hashtag</string>
     <string name="no_feature_hashtag_suggestion">Žádné návrhy na oblíbené hashtagy!</string>

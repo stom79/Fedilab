@@ -1127,7 +1127,6 @@
     <string name="set_tracking_parameters">Suprimir paràmetres de rastreig</string>
     <string name="set_tracking_parameters_indication">L\'app suprimirà automàticament els paràmetres de rastreig d\'URLs abans de visitar un enllaç.</string>
     <string name="who_can_quote">Qui pot citar</string>
-    <string name="just_me">Ningú</string>
     <string name="anyone">Tothom</string>
     <string name="set_translate_button">Botó de traducció</string>
     <string name="action_unreblog">Desdifondre</string>
