@@ -363,7 +363,7 @@ public class Helper {
     public static final Pattern mathsComposePattern = Pattern.compile("\\\\\\(.*\\\\\\)|\\\\\\[.*\\\\\\]");
     public static final Pattern twitterPattern = Pattern.compile("((@[\\w]+)@twitter\\.com)");
     public static final Pattern youtubePattern = Pattern.compile("(www\\.|m\\.)?(youtube\\.com|youtu\\.be|youtube-nocookie\\.com)/(((?!([\"'<])).)*)");
-    public static final Pattern nitterPattern = Pattern.compile("(mobile\\.|www\\.)?twitter\\.com([\\w/-]+)");
+    public static final Pattern nitterPattern = Pattern.compile("(mobile\\.|www\\.)?(twitter|x)\\.com([\\w/-]+)");
     public static final Pattern bibliogramPattern = Pattern.compile("(m\\.|www\\.)?instagram.com(/p/[\\w-/]+)");
     public static final Pattern libredditPattern = Pattern.compile("(www\\.|m\\.)?(reddit\\.com|preview\\.redd\\.it|i\\.redd\\.it|redd\\.it)/(((?!([\"'<])).)*)");
     public static final Pattern ouichesPattern = Pattern.compile("https?://ouich\\.es/tag/(\\w+)");
@@ -794,7 +794,7 @@ public class Helper {
         if (nitter) {
             matcher = Helper.nitterPattern.matcher(url);
             if (matcher.find()) {
-                final String nitter_directory = matcher.group(2);
+                final String nitter_directory = matcher.group(3);
                 String nitterHost = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
                 if (nitterHost.trim().isEmpty()) {
                     nitterHost = context.getString(R.string.DEFAULT_NITTER_HOST);
