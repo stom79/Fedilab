@@ -1128,7 +1128,6 @@
     <string name="about_donate">寄付:</string>
     <string name="default_who_can_quote">デフォルトの見積可能者を選択</string>
     <string name="who_can_quote">見積可能者</string>
-    <string name="no_one">誰も</string>
     <string name="anyone">誰か</string>
     <string name="set_translate_button">翻訳ボタン</string>
     <string name="action_unreblog">アンブースト</string>

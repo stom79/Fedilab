@@ -1125,7 +1125,6 @@
     <string name="about_fediverse">联邦宇宙：</string>
     <string name="about_website">网站：</string>
     <string name="who_can_quote">谁可引用</string>
-    <string name="no_one">无人</string>
     <string name="anyone">任何人</string>
     <string name="default_who_can_quote">谁可以引用的默认选择</string>
     <string name="set_translate_button">翻译按钮</string>

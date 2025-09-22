@@ -692,7 +692,7 @@
     <string name="followers_only">Followers only</string>
     <string name="who_can_quote">Who can quote</string>
     <string name="quoting_messages">Quoting messages</string>
-    <string name="no_one">No one</string>
+    <string name="just_me">Just me</string>
     <string name="anyone">Anyone</string>
     <string name="other">Other</string>
     <string name="eg_sensitive_content">Eg.: Sensitive Content</string>
