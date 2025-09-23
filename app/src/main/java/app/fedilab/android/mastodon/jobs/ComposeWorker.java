@@ -281,7 +281,10 @@ public class ComposeWorker extends Worker {
                         if (quote_id != null) {
                             statusParams.quoted_status_id = quote_id.toLowerCase();
                         }
-                        statusParams.quote_approval_policy = statuses.get(i).quote_approval_policy.toLowerCase();
+                        String quote_approval_policy = statuses.get(i).quote_approval_policy;
+                        if(quote_approval_policy != null) {
+                            statusParams.quote_approval_policy = quote_approval_policy.toLowerCase();
+                        }
                         statusParams.language = statuses.get(i).language;
                         statusParams.media_attributes = media_attributes;
                         statusCall = mastodonStatusesService.updateStatus(null, dataPost.token,
