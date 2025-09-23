@@ -1,0 +1,9 @@
+Added:
+- Extends filters to quoted messages
+
+Changed:
+- Replace "No one" by "Just me" for quote approval policy
+
+Fixed:
+- Crash when editing messages
+- Add x.com domain to the alternate frontend URL patterns

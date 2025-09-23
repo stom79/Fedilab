@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.35.",
+    "code": "540",
+    "note": "Added:\n- Extends filters to quoted messages\n\nChanged:\n- Replace \"No one\" by \"Just me\" for quote approval policy\n\nFixed:\n- Crash when editing messages\n- Add x.com domain to the alternate frontend URL patterns"
+  },
+  {
     "version": "3.35.0",
     "code": "539",
     "note": "Added:\n- Full Mastodon quotes support\n- Quote button can be hidden in Settings > Timeline\n- Change default quote policy in settings\n- Add colors in compose depending of the visibility (can be disabled/colors can be changed)\n- Add accessibility actions to move timelines up/down in Manage timelines page\n- Add accessibility actions to hide, delete timelines in 'Manage timelines' page\n\nChanged:\n- Boost & quote buttons are merged (can be disabled in settings)\n- Show emoji buttons only in focused status\n- Add popup menu for boost/quote actions in status\n- Improve UI and accessibility in login page\n- Move \"Max chars in links\" next to \"Truncate links\"\n- Add more translated pronouns for keys support\n- When focused, information about a message are displayed on 2 lines\n\nFixed:\n- Left margin not removed for bottom information\n- Make content warning text selectable\n- Disable HTML parsing in display names\n- Improve translate button preference\n- Fix some crashes"
