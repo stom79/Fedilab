@@ -1138,4 +1138,5 @@
     <string name="notif_display_quotes">Citas</string>
     <string name="action_quote_policy">Elixe quen pode citarte</string>
     <string name="visibility_color_direct">Cor para mensaxes directas</string>
+    <string name="just_me">Só eu</string>
 </resources>
