@@ -1,0 +1,14 @@
+Tillagt:
+- Tre nya appikoner (Pride, rosa och pirat)
+- Behåll läsläget för fjärrkonversationer
+
+Fixat:
+- Markdown: stoppa parsingtaggar och stöd strykning av text
+- Pekaren syns bättre när du skriver
+- Begränsad teckenlängd på vissa instanser funkar nu
+- Tabulatorer i profiler
+- Taggar för vissa språk är nu klickbara
+- Åtgärdad bugg när kontot har stor mängd följare
+- Åtgärdat när ett meddelande har många gif-bilder
+- Högsta antal tecken för omröstningar
+- Vissa andra kraschar har också fixats

@@ -1,0 +1,8 @@
+Tillagt:
+- Stöd för Android 14
+- Delar upp långa meddelanden i trådar (standard: ASK)
+- Länkar och media kan klickas när du skriver
+
+Fixat:
+- Slipper fel 429 med NTFY
+- Flera övriga krascher har fixats
