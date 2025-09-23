@@ -13,7 +13,7 @@ Canvis:
 - Botons d'emoticones només quan es focalitzen
 - Menú desplegable a l'estat per accions de difusió/citació
 - Millora de la IU i accessibilitat de pàgina de registre
-- Es trasllada "Màx crcters en enllaços" al costat de "Truncar enllaços"
+- Es trasllada "Màx crtrs en enllaços" al costat de "Truncar enllaços"
 
 - Més traduccions de pronoms per a les tecles 
 - 2 línies d'info quan es focalitza sobre un missatge 
