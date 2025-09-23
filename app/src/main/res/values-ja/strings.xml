@@ -1135,4 +1135,13 @@
     <string name="move_timeline_down">タイムラインを下へ</string>
     <string name="quoting_messages">メッセージを引用</string>
     <string name="notif_display_quotes">引用</string>
+    <string name="just_me">自分だけ</string>
+    <string name="visibility_color_public">全体の色の見え方</string>
+    <string name="visibility_color_unlisted">未掲載部分の見え方の色</string>
+    <string name="visibility_color_private">プライベートの見え方の色</string>
+    <string name="visibility_color_direct">ダイレクトの見え方の色</string>
+    <string name="action_quote_policy">引用可能範囲の変更</string>
+    <string name="set_colorize_visibility">下線の見え方</string>
+    <string name="set_colorize_visibility_indication">見え方ボタンと下部の構成範囲は、作成時に選択された見え方に応じた異なる色になります。</string>
+    <string name="set_custom_colors_visibility">見え方に任意の色をセットする</string>
 </resources>
