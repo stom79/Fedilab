@@ -135,6 +135,17 @@ public class TimelineHelper {
                                     content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
                                 else
                                     content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
+                                if(status.reblog == null && status.getQuote() != null) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                        content += Html.fromHtml(status.getQuote().content, Html.FROM_HTML_MODE_LEGACY).toString();
+                                    else
+                                        content += Html.fromHtml(status.getQuote().content).toString();
+                                } else if(status.reblog != null && status.reblog.getQuote() != null) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                        content += Html.fromHtml(status.reblog.getQuote().content, Html.FROM_HTML_MODE_LEGACY).toString();
+                                    else
+                                        content += Html.fromHtml(status.reblog.getQuote().content).toString();
+                                }
                             } catch (Exception e) {
                                 content = status.reblog != null ? status.reblog.content : status.content;
                             }
