@@ -1,0 +1,9 @@
+Novidade:
+- Ampliación dos filtros ás mensaxes citadas
+
+Cambios:
+- Substitución de "Ninguén" por "Só eu" nas directivas para permitir citas
+
+Arranxos:
+- problema ao editar mensaxes
+- adición do dominio x.com aos patróns URL para interface alternativa
