@@ -926,7 +926,7 @@
     <string name="blocked_domains">Заблокированные домены</string>
     <string name="set_language_picker">Позволяет сократить список языков при составлении сообщения.</string>
     <string name="more_options">Больше настроек</string>
-    <string name="action_reblog">Повысить</string>
+    <string name="action_reblog">Продвинуть</string>
     <string name="add_content_warning">Добавить предупреждение о содержимом</string>
     <string name="close_new_attachment_panel">Закрыть новую панель вложения</string>
     <string name="open_new_attachment_panel">Открыть новую панель вложения</string>
@@ -1037,4 +1037,9 @@
     <string name="admin_domainblock_reject_media">Игнорироать все жалобы, поступающие от этого домена. Не имеет значения для приостановок</string>
     <string name="admin_reject_reports">Отклонять жалобы</string>
     <string name="admin_domainblock_reject_reports">Игнорироать все жалобы, поступающие от этого домена. Не имеет значения для приостановок</string>
+    <string name="who_can_quote">Кто может цитировать</string>
+    <string name="default_who_can_quote">Кто может цитировать по умолчанию</string>
+    <string name="set_display_quote_indication">Отображать кнопку \"Цитировать\"</string>
+    <string name="notif_display_quotes">Цитаты</string>
+    <string name="action_quote_policy">Настроить разрешения цитирования</string>
 </resources>
