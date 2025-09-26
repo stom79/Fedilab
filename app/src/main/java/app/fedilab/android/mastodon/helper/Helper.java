@@ -1994,23 +1994,13 @@ public class Helper {
                 } catch (Exception ignored) {
                 }
                 if (BuildConfig.DONATIONS) {
-                    binding.aboutSupport.setVisibility(View.VISIBLE);
-                    binding.aboutSupportPaypal.setVisibility(View.VISIBLE);
+                    binding.donationsMethods.setVisibility(View.VISIBLE);
+                    binding.donateLiberapay.setOnClickListener(v -> Helper.openBrowser(activity, "https://liberapay.com/tom79"));
+                    binding.donatePaypal.setOnClickListener(v -> Helper.openBrowser(activity, "https://www.paypal.me/Mastalab"));
+                    binding.donateOpencollective.setOnClickListener(v -> Helper.openBrowser(activity, "https://opencollective.com/fedilab"));
                 } else {
-                    binding.aboutSupport.setVisibility(View.GONE);
-                    binding.aboutSupportPaypal.setVisibility(View.GONE);
+                    binding.donationsMethods.setVisibility(View.GONE);
                 }
-                binding.accountFollow.setIconResource(R.drawable.ic_baseline_person_add_24);
-                binding.aboutSupport.setOnClickListener(v -> {
-                    Intent intentLiberapay = new Intent(Intent.ACTION_VIEW);
-                    intentLiberapay.setData(Uri.parse("https://liberapay.com/tom79"));
-                    try {
-                        activity.startActivity(intentLiberapay);
-                    } catch (Exception e) {
-                        Helper.openBrowser(activity, "https://liberapay.com/tom79");
-                    }
-                });
-                binding.aboutSupportPaypal.setOnClickListener(v -> Helper.openBrowser(activity, "https://www.paypal.me/Mastalab"));
                 CrossActionHelper.fetchRemoteAccount(activity, "@apps@toot.fedilab.app", new CrossActionHelper.Callback() {
                     @Override
                     public void federatedStatus(Status status) {
@@ -2021,10 +2011,10 @@ public class Helper {
                     public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
                         if (account != null && account.username.equalsIgnoreCase("apps")) {
 
-                            MastodonHelper.loadPPMastodon(binding.accountPp, account);
-                            binding.accountDn.setText(account.display_name);
-                            binding.accountUn.setText(account.acct);
-                            binding.accountPp.setOnClickListener(v -> {
+                            MastodonHelper.loadPPMastodon(binding.accountContainer.avatar, account);
+                            binding.accountContainer.displayName.setText(account.display_name);
+                            binding.accountContainer.username.setText(account.acct);
+                            binding.accountContainer.avatar.setOnClickListener(v -> {
                                 Intent intent = new Intent(activity, ProfileActivity.class);
                                 Bundle args = new Bundle();
                                 args.putSerializable(Helper.ARG_ACCOUNT, account);
@@ -2043,10 +2033,9 @@ public class Helper {
                                     .observe((LifecycleOwner) activity, relationShips -> {
                                         if (relationShips != null && relationShips.size() > 0) {
                                             if (!relationShips.get(0).following) {
-                                                binding.acccountContainer.setVisibility(View.VISIBLE);
-                                                binding.accountFollow.setVisibility(View.VISIBLE);
-                                                binding.accountFollow.setOnClickListener(v -> accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null)
-                                                        .observe((LifecycleOwner) activity, relationShip -> binding.accountFollow.setVisibility(View.GONE)));
+                                                binding.accountContainer.getRoot().setVisibility(View.VISIBLE);
+                                                binding.accountContainer.listAction.setOnClickListener(v -> accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null)
+                                                        .observe((LifecycleOwner) activity, relationShip -> binding.accountContainer.listAction.setVisibility(View.GONE)));
                                             }
                                         }
                                     });

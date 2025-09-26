@@ -1,85 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_margin="6dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/version"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
-        android:padding="2dp"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:textSize="16sp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/translate"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:contentDescription="@string/translate"
-        app:icon="@drawable/ic_baseline_translate_24"
-        app:iconPadding="0dp" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container_trans"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="6dp"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:padding="6dp">
 
-        <View
-            android:id="@+id/translation_border_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/translation_border"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/translation_border_top" />
-
-        <androidx.constraintlayout.widget.Placeholder
-            android:id="@+id/translation_border_top"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            app:layout_constraintBottom_toBottomOf="@id/translation_label"
-            app:layout_constraintEnd_toEndOf="@id/translation_label"
-            app:layout_constraintTop_toTopOf="@id/translation_label" />
-
-        <TextView
-            android:id="@+id/translation_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
-            android:text="@string/translation"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/note_translated"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/translation_label"
-            app:layout_goneMarginBottom="8dp" />
+            android:ellipsize="end"
+            android:focusable="true"
+            android:lines="1"
+            android:padding="6dp"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            tools:text="1.0.0 (100)" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:padding="6dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            tools:maxLines="5"
+            tools:text="@tools:sample/lorem/random" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/translate"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:contentDescription="@string/translate"
+            android:importantForAccessibility="no"
+            app:icon="@drawable/ic_baseline_translate_24" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_trans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <View
+                android:id="@+id/translation_border_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/translation_border"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/translation_border_top" />
+
+            <androidx.constraintlayout.widget.Placeholder
+                android:id="@+id/translation_border_top"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="@id/translation_label"
+                app:layout_constraintEnd_toEndOf="@id/translation_label"
+                app:layout_constraintTop_toTopOf="@id/translation_label" />
+
+            <TextView
+                android:id="@+id/translation_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="?colorSurface"
+                android:importantForAccessibility="no"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                android:text="@string/translation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/note_translated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/translation_label"
+                app:layout_goneMarginBottom="8dp"
+                tools:maxLines="5"
+                tools:text="@tools:sample/lorem/random" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</com.google.android.material.card.MaterialCardView>

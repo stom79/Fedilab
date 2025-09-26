@@ -20,88 +20,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="6dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/releasenotes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_margin="6dp"
         android:layout_weight="1" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/acccount_container"
+    <include
+        android:id="@+id/account_container"
+        layout="@layout/drawer_account_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/about_support"
-        tools:visibility="visible">
+        android:layout_marginTop="12dp" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/account_pp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_margin="10dp"
-            android:contentDescription="@string/profile_picture" />
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/about_donate"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/donations_methods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/donate_liberapay"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/account_dn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="16sp" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/account_un"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="14sp" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Liberapay"
+            app:cornerRadius="0dp"
+            app:icon="@drawable/ic_liberapay"
+            app:iconGravity="top"
+            tools:ignore="HardcodedText" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/account_follow"
-            style="@style/Widget.Material3.Button.Icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
-            android:contentDescription="@string/make_an_action"
-            android:scaleType="fitCenter"
-            android:visibility="gone"
-            tools:icon="@drawable/ic_baseline_person_add_24"
-            tools:visibility="visible" />
+            android:id="@+id/donate_opencollective"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="OpenCollective"
+            app:cornerRadius="0dp"
+            app:icon="@drawable/ic_opencollective"
+            app:iconGravity="top"
+            tools:ignore="HardcodedText" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/donate_paypal"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="PayPal"
+            app:cornerRadius="0dp"
+            app:icon="@drawable/ic_paypal"
+            app:iconGravity="top"
+            tools:ignore="HardcodedText" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/about_support"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="@string/support_the_app_on_liberapay" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/about_support_paypal"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="PayPal"
-        tools:ignore="HardcodedText" />
 </androidx.appcompat.widget.LinearLayoutCompat>

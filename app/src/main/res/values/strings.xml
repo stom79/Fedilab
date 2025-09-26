@@ -86,6 +86,7 @@
     <string name="cd_translated_content">Translated content: %s</string>
     <string name="cd_list_timeline">%s. List timeline</string>
     <string name="cd_hash_tag_timeline">%s. Hash tag timeline</string>
+    <string name="cd_release_note">Translated release note: %s</string>
 
     <!-- Status -->
     <string name="no_status">No message to display</string>

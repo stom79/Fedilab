@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -68,22 +69,31 @@ public class ReleaseNoteAdapter extends RecyclerView.Adapter<ReleaseNoteAdapter.
         holder.binding.version.setText(String.format(Locale.getDefault(), "%s (%s)", note.version, note.code));
         if (note.noteTranslated != null) {
             holder.binding.noteTranslated.setText(note.noteTranslated);
+            holder.binding.containerTrans.setContentDescription(context.getString(R.string.cd_release_note, note.noteTranslated));
             holder.binding.containerTrans.setVisibility(View.VISIBLE);
             holder.binding.translate.setVisibility(View.GONE);
         } else {
             holder.binding.containerTrans.setVisibility(View.GONE);
             holder.binding.translate.setVisibility(View.VISIBLE);
         }
-        holder.binding.translate.setOnClickListener(v -> TranslateHelper.translate(context, note.note, "en", translated -> {
+        holder.binding.translate.setOnClickListener(v -> onTranslatePressed(note, holder.getBindingAdapterPosition()));
+        ViewCompat.addAccessibilityAction(holder.binding.note, context.getString(R.string.translate), (view, arguments) -> {
+            onTranslatePressed(note, holder.getBindingAdapterPosition());
+            return true;
+        });
+        holder.binding.translate.setOnClickListener(v -> onTranslatePressed(note, holder.getBindingAdapterPosition()));
+    }
+
+    private void onTranslatePressed(ReleaseNote.Note note, int bindingAdapterPosition) {
+        TranslateHelper.translate(context, note.note, "en", translated -> {
             if (translated != null) {
                 note.noteTranslated = translated;
-                notifyItemChanged(holder.getBindingAdapterPosition());
+                notifyItemChanged(bindingAdapterPosition);
             } else {
                 Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
             }
-        }));
+        });
     }
-
 
     public static class ReleaseNoteViewHolder extends RecyclerView.ViewHolder {
         DrawerReleaseNoteBinding binding;
