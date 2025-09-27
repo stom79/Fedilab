@@ -1144,4 +1144,5 @@
     <string name="set_colorize_visibility">下線の見え方</string>
     <string name="set_colorize_visibility_indication">見え方ボタンと下部の構成範囲は、作成時に選択された見え方に応じた異なる色になります。</string>
     <string name="set_custom_colors_visibility">見え方に任意の色をセットする</string>
+    <string name="cd_release_note">リリースノート翻訳の進捗: %s</string>
 </resources>
