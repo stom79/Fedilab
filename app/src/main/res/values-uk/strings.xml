@@ -1152,4 +1152,5 @@
     <string name="set_custom_colors_visibility">Встановлення власних кольорів для видимості</string>
     <string name="action_quote_policy">Змінити, хто може вас цитувати</string>
     <string name="just_me">Тільки я</string>
+    <string name="cd_release_note">Перекладена примітка до випуску: %s</string>
 </resources>
