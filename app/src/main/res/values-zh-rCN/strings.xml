@@ -1142,4 +1142,5 @@
     <string name="set_colorize_visibility_indication">根据编辑时所选的可见性不同，可见性按钮和编辑区域底部会有不同颜色。</string>
     <string name="set_custom_colors_visibility">自定义可见性颜色</string>
     <string name="just_me">只有我</string>
+    <string name="cd_release_note">已翻译的发行日志：%s</string>
 </resources>
