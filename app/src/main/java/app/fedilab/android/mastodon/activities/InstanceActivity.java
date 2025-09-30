@@ -133,6 +133,7 @@ public class InstanceActivity extends DialogFragment {
                 binding.version.setText(instance.version);
 
                 binding.uri.setText(instance.uri);
+                binding.uri.setOnClickListener(v -> Helper.openBrowser(requireActivity(), "https://" + instance.uri));
 
                 if (instance.email == null) {
                     binding.contact.setVisibility(View.GONE);
