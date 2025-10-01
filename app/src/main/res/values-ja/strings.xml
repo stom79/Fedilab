@@ -70,7 +70,7 @@
     <string name="reblog_remove">この投稿のブーストを取り消しますか？</string>
     <string name="more_action_1">ミュート</string>
     <string name="more_action_2">ブロック</string>
-    <string name="more_action_3">報告</string>
+    <string name="more_action_3">通報</string>
     <string name="more_action_4">削除</string>
     <string name="more_action_5">コピー</string>
     <string name="more_action_6">共有</string>
@@ -448,7 +448,7 @@
 \n <b>重要</b>: サーバーが認証を要求する場合、一度確認のためのメールが届きます！ </string>
     <string name="save_draft">メッセージを下書きに保存しますか？</string>
     <string name="administration">管理</string>
-    <string name="reports">報告</string>
+    <string name="reports">通報</string>
     <string name="unresolved">未解決</string>
     <string name="remote">リモート</string>
     <string name="active">アクティブ</string>
@@ -478,7 +478,7 @@
     <string name="crash_message">メールでクラッシュレポートを送ることができます。これは、問題の修正に役立ちます :)\n\n追加のコンテンツを付加することもできます。ありがとうございます！</string>
     <string name="visibility">公開範囲</string>
     <string name="set_disable_animated_emoji">動くカスタム絵文字を無効にする</string>
-    <string name="report_account">アカウントを報告</string>
+    <string name="report_account">アカウントを通報</string>
     <plurals name="number_of_voters">
         <item quantity="other">%d票</item>
     </plurals>
@@ -571,7 +571,7 @@
     <string name="select_distributors">ディストリビューターを選択</string>
     <string name="hide_content"><![CDATA[内容を非表示 <]]></string>
     <string name="stop_recording">レコーディングを停止</string>
-    <string name="report_title">%1$sを報告しています</string>
+    <string name="report_title">%1$sを通報しています</string>
     <string name="report_indication_title_status">この投稿で何が起こっているのか教えてください</string>
     <string name="report_indication_title_status_more">最適なものを選択してください</string>
     <string name="report_val_more1">目に入ると不快なものです</string>
@@ -583,7 +583,7 @@
     <string name="report_1_title">この投稿を非表示にしますか？</string>
     <string name="report_1_unfollow_title">%1$sのフォローを解除する</string>
     <string name="report_1_block">これらのユーザーの投稿は表示されなくなります。これらのユーザーはあなたの投稿を見たり、あなたをフォローすることはできなくなります。これらのユーザーはあなたにブロックされているということを知ることができます。</string>
-    <string name="report_2_title">この報告を裏付ける投稿はありますか？</string>
+    <string name="report_2_title">この通報を裏付ける投稿はありますか？</string>
     <string name="report_more_additional">追加のコメント</string>
     <string name="report_more_remote">これは他のサーバーのアカウントです。匿名化されたレポートのコピーを送信しますか？</string>
     <string name="report_more_forward">%1$sに転送</string>
@@ -671,13 +671,13 @@
     <string name="report_val_more3">私は特定のルールに違反していることを認識しています</string>
     <string name="report_1_title_more">Mastodonで表示される内容をコントロールするオプション:</string>
     <string name="report_1_mute">これらのユーザーの投稿は表示されなくなります。これらのユーザーは引き続きあなたをフォローしたり、あなたの投稿を見たりできますが、あなたがミュートしていることを知ることはできません。</string>
-    <string name="report_sent">レポートを送信しました！</string>
+    <string name="report_sent">通報しました！</string>
     <string name="delete_field">項目を削除</string>
     <string name="is_down">ダウンしています！</string>
     <string name="customize_timelines">タイムラインをカスタマイズ</string>
     <string name="pref_theme_base">テーマのベース</string>
     <string name="bottom_menu">ボトムメニュー</string>
-    <string name="origin_report">報告されたアカウントのサーバー</string>
+    <string name="origin_report">通報されたアカウントのサーバー</string>
     <string name="resolved">解決済み</string>
     <string name="fetch_more_messages">さらに投稿を読み込む…</string>
     <string name="messages_in_cache_for_home">ホームの投稿のキャッシュ</string>
@@ -774,7 +774,7 @@
     <string name="account_suspended">アカウントを凍結しました</string>
     <string name="account_disabled">アカウントを無効化しました</string>
     <string name="account_silenced">アカウントをサイレンスしました</string>
-    <string name="report">報告</string>
+    <string name="report">通報</string>
     <string name="state">状態</string>
     <string name="load_media_type_title">メディアのサムネイルを読み込む</string>
     <string name="set_use_cache_indication">タイムラインがキャッシュされるのでアプリが高速になります。</string>
@@ -855,7 +855,7 @@
     <string name="Suggestions">おすすめ</string>
     <string name="not_interested">興味なし</string>
     <string name="delete_timeline">タイムラインの削除</string>
-    <string name="notif_submitted_report">レポートを送信しました</string>
+    <string name="notif_submitted_report">通報しました</string>
     <string name="notif_signed_up">登録しました</string>
     <string name="import_data">データをインポート</string>
     <string name="admin_reject_reports">通報を却下</string>
