@@ -1918,6 +1918,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 player.setMediaSource(videoSource);
                                 player.prepare();
                                 player.setPlayWhenReady(true);
+                                holder.activePlayers.add(player);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -1931,7 +1932,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     adapter.notifyItemChanged(position);
 
                                     if (timeout > 0) {
-                                        new CountDownTimer((timeout * 1000L), 1000) {
+                                        if (holder.activeTimer != null) {
+                                            holder.activeTimer.cancel();
+                                        }
+                                        holder.activeTimer = new CountDownTimer((timeout * 1000L), 1000) {
                                             public void onTick(long millisUntilFinished) {
                                             }
 
@@ -1939,7 +1943,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                 statusToDeal.sensitive = true;
                                                 adapter.notifyItemChanged(position);
                                             }
-                                        }.start();
+                                        };
+                                        holder.activeTimer.start();
                                     }
                                     return;
                                 }
@@ -2009,6 +2014,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 player.setMediaSource(videoSource);
                                 player.prepare();
                                 player.setPlayWhenReady(true);
+                                holder.activePlayers.add(player);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -2021,7 +2027,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     adapter.notifyItemChanged(position);
 
                                     if (timeout > 0) {
-                                        new CountDownTimer((timeout * 1000L), 1000) {
+                                        if (holder.activeTimer != null) {
+                                            holder.activeTimer.cancel();
+                                        }
+                                        holder.activeTimer = new CountDownTimer((timeout * 1000L), 1000) {
                                             public void onTick(long millisUntilFinished) {
                                             }
 
@@ -2029,7 +2038,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                 statusToDeal.sensitive = true;
                                                 adapter.notifyItemChanged(position);
                                             }
-                                        }.start();
+                                        };
+                                        holder.activeTimer.start();
                                     }
                                     return;
                                 }
@@ -3813,7 +3823,21 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder viewHolder) {
         super.onViewRecycled(viewHolder);
         if (viewHolder instanceof StatusViewHolder holder) {
-            //Release players
+            //Cancel active timer
+            if (holder.activeTimer != null) {
+                holder.activeTimer.cancel();
+                holder.activeTimer = null;
+            }
+
+            //Release all tracked players
+            for (ExoPlayer player : holder.activePlayers) {
+                if (player != null) {
+                    player.release();
+                }
+            }
+            holder.activePlayers.clear();
+
+            //Release players in views (legacy cleanup)
             if (holder.binding != null) { //Cropped views
                 if(holder.binding.media.getRoot().getChildCount() > 0) {
                     for(int i = 0 ; i < holder.binding.media.getRoot().getChildCount() ; i++ ) {
@@ -3853,6 +3877,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DrawerStatusPixelfedBinding bindingPixelfed;
         DrawerStatusFilteredBinding bindingFiltered;
         DrawerStatusFilteredHideBinding bindingFilteredHide;
+        List<ExoPlayer> activePlayers = new ArrayList<>();
+        CountDownTimer activeTimer;
 
         StatusViewHolder(DrawerStatusBinding itemView) {
             super(itemView.getRoot());
