@@ -1723,9 +1723,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else {
                         measuredWidth = holder.binding.media.mediaContainer.getWidth();
                     }
-                    if (adapter != null && statusList != null) {
-                        adapter.notifyItemChanged(0, statusList.size());
-                    }
                 }
             });
         }
