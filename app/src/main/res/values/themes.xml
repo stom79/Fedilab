@@ -285,4 +285,28 @@
     <style name="AppSwitchPreferenceCompatStyle" parent="@style/Preference.SwitchPreferenceCompat.Material">
         <item name="widgetLayout">@layout/preference_switch_material</item>
     </style>
+
+    <!-- Profile image shapes -->
+    <style name="ShapeAppearanceOverlay.Fedilab.ProfileImage.Circle" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Fedilab.ProfileImage.Diamond" parent="">
+        <item name="cornerSize">50%</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Fedilab.ProfileImage.Octagon" parent="">
+        <item name="cornerSize">29%</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Fedilab.ProfileImage.RoundedSquare" parent="">
+        <item name="cornerSize">12%</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Fedilab.ProfileImage.Square" parent="">
+        <item name="cornerSize">0dp</item>
+    </style>
 </resources>

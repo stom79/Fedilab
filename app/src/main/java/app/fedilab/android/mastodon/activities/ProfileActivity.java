@@ -72,6 +72,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.shape.ShapeAppearanceModel;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
@@ -456,6 +457,21 @@ public class ProfileActivity extends BaseActivity {
         boolean disableGif = sharedpreferences.getBoolean(getString(R.string.SET_DISABLE_GIF), false);
         String targetedUrl = disableGif ? account.avatar_static : account.avatar;
         // MastodonHelper.loadPPMastodon(binding.accountPp, account);
+        String profileImageShapePref = sharedpreferences.getString(getString(R.string.SET_PROFILE_IMAGE_SHAPE), "rounded_square");
+        binding.accountPp.setShapeAppearanceModel(
+                ShapeAppearanceModel
+                        .builder(
+                                this,
+                                R.style.ShapeAppearance_MaterialComponents,
+                                switch (profileImageShapePref) {
+                                    case "circle" -> R.style.ShapeAppearanceOverlay_Fedilab_ProfileImage_Circle;
+                                    case "diamond" -> R.style.ShapeAppearanceOverlay_Fedilab_ProfileImage_Diamond;
+                                    case "octagon" -> R.style.ShapeAppearanceOverlay_Fedilab_ProfileImage_Octagon;
+                                    case "square" -> R.style.ShapeAppearanceOverlay_Fedilab_ProfileImage_Square;
+                                    default -> R.style.ShapeAppearanceOverlay_Fedilab_ProfileImage_RoundedSquare;
+                                })
+                        .build()
+        );
         Glide.with(ProfileActivity.this)
                 .asDrawable()
                 .dontTransform()

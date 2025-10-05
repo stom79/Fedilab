@@ -56,6 +56,10 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
             return;
         }
 
+        ListPreference SET_PROFILE_IMAGE_SHAPE = findPreference(getString(R.string.SET_PROFILE_IMAGE_SHAPE));
+        if (SET_PROFILE_IMAGE_SHAPE != null)
+            SET_PROFILE_IMAGE_SHAPE.setIcon(getProfileImageShapeDrawable(SET_PROFILE_IMAGE_SHAPE.getValue()));
+
         //Theme for dialogs
         ImageListPreference SET_LOGO_LAUNCHER = findPreference(getString(R.string.SET_LOGO_LAUNCHER));
         if (SET_LOGO_LAUNCHER != null) {
@@ -82,6 +86,17 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
             SET_EXTAND_EXTRA_FEATURES.setChecked(checked);
         }
         recreate = false;
+    }
+
+    private int getProfileImageShapeDrawable(String profileImageShapePrefValue) {
+        return switch (profileImageShapePrefValue) {
+            case "circle" -> R.drawable.profile_image_shape_circle;
+            case "diamond" -> R.drawable.profile_image_shape_diamond;
+            case "octagon" -> R.drawable.profile_image_shape_octagon;
+            case "rounded_square" -> R.drawable.profile_image_shape_rounded_square;
+            case "square" -> R.drawable.profile_image_shape_square;
+            default -> 0;
+        };
     }
 
     @Override
@@ -115,6 +130,11 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
                     editor.putBoolean(getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, SET_EXTAND_EXTRA_FEATURES.isChecked());
                 }
                 recreate = true;
+            }
+            if (key.compareToIgnoreCase(getString(R.string.SET_PROFILE_IMAGE_SHAPE)) == 0) {
+                ListPreference SET_PROFILE_IMAGE_SHAPE = findPreference(getString(R.string.SET_PROFILE_IMAGE_SHAPE));
+                if (SET_PROFILE_IMAGE_SHAPE != null)
+                    SET_PROFILE_IMAGE_SHAPE.setIcon(getProfileImageShapeDrawable(SET_PROFILE_IMAGE_SHAPE.getValue()));
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_LOGO_LAUNCHER)) == 0) {
                 ListPreference SET_LOGO_LAUNCHER = findPreference(getString(R.string.SET_LOGO_LAUNCHER));

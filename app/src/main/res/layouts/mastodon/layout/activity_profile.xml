@@ -82,27 +82,20 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/avatar_container"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/account_pp"
                     android:layout_width="108dp"
                     android:layout_height="108dp"
-                    app:cardElevation="6dp"
+                    android:contentDescription="@string/profile_picture"
+                    android:elevation="6dp"
+                    android:scaleType="centerCrop"
+                    android:transitionName="@string/activity_porfile_pp"
                     app:layout_constraintBottom_toBottomOf="@id/banner_container"
                     app:layout_constraintEnd_toEndOf="@id/banner_container"
                     app:layout_constraintStart_toStartOf="@id/banner_container"
-                    app:layout_constraintTop_toBottomOf="@id/banner_container">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/account_pp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/profile_picture"
-                        android:scaleType="centerCrop"
-                        android:transitionName="@string/activity_porfile_pp"
-                        app:layout_scrollFlags="scroll"
-                        tools:src="@tools:sample/avatars" />
-
-                </com.google.android.material.card.MaterialCardView>
+                    app:layout_constraintTop_toBottomOf="@id/banner_container"
+                    app:layout_scrollFlags="scroll"
+                    tools:src="@tools:sample/avatars" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/account_follow"
@@ -155,7 +148,7 @@
                     android:singleLine="true"
                     app:layout_constraintEnd_toEndOf="@id/banner_container"
                     app:layout_constraintStart_toStartOf="@id/banner_container"
-                    app:layout_constraintTop_toBottomOf="@id/avatar_container"
+                    app:layout_constraintTop_toBottomOf="@id/account_pp"
                     tools:text="@tools:sample/first_names" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat

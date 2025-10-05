@@ -849,6 +849,22 @@
         <item>Fetch at fixed times</item>
         <item>No notifications</item>
     </string-array>
+
+    <string-array name="set_profile_image_shape_entries">
+        <item>Circle</item>
+        <item>Diamond</item>
+        <item>Octagon</item>
+        <item>Rounded Square</item>
+        <item>Square</item>
+    </string-array>
+    <string-array name="set_profile_image_shape_entry_values" translatable="false">
+        <item>circle</item>
+        <item>diamond</item>
+        <item>octagon</item>
+        <item>rounded_square</item>
+        <item>square</item>
+    </string-array>
+
     <string-array name="set_logo_type_value" translatable="false">
         <item>Fedilab</item>
         <item>Fedilab UA</item>
@@ -1304,6 +1320,7 @@
     <string name="SET_DISPLAY_RELATIVE_DATE" translatable="false">SET_DISPLAY_RELATIVE_DATE</string>
     <string name="SET_REMOVE_LEFT_MARGIN" translatable="false">SET_REMOVE_LEFT_MARGIN</string>
 
+    <string name="SET_PROFILE_IMAGE_SHAPE" translatable="false">SET_PROFILE_IMAGE_SHAPE</string>
     <string name="SET_PROFILE_REMOTELY" translatable="false">SET_PROFILE_REMOTELY</string>
     <string name="SET_CONVERSATION_REMOTELY" translatable="false">SET_CONVERSATION_REMOTELY</string>
     <string name="SET_EXTAND_EXTRA_FEATURES" translatable="false">SET_EXTAND_EXTRA_FEATURES</string>
@@ -2101,6 +2118,7 @@
     <string name="set_remote_conversation_title">Remote conversations</string>
     <string name="set_remote_profile">The app will display publicly profiles to get all messages. Interactions will need an extra step to federate messages.</string>
     <string name="set_remote_conversation">The app will display publicly conversations to get all messages. Interactions will need an extra step to federate messages.</string>
+    <string name="set_profile_image_shape">Profile image shape</string>
     <string name="local_only">Local only</string>
     <string name="set_display_local_only">Display \"Local only\" button</string>
     <string name="set_pixelfed_presentation">Pixelfed presentation for media</string>
