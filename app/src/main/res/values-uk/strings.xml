@@ -1153,4 +1153,5 @@
     <string name="action_quote_policy">Змінити, хто може вас цитувати</string>
     <string name="just_me">Тільки я</string>
     <string name="cd_release_note">Перекладена примітка до випуску: %s</string>
+    <string name="set_profile_image_shape">Форма зображення профілю</string>
 </resources>
