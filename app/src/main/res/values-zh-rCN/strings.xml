@@ -1143,4 +1143,5 @@
     <string name="set_custom_colors_visibility">自定义可见性颜色</string>
     <string name="just_me">只有我</string>
     <string name="cd_release_note">已翻译的发行日志：%s</string>
+    <string name="set_profile_image_shape">个人资料图片形状</string>
 </resources>
