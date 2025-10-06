@@ -1146,6 +1146,19 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     .apply();
         }
 
+        if (sharedpreferences.getString(getString(R.string.SET_LINK_PREVIEWS), null) == null) {
+            boolean oldDisplayCardValue = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_CARD), false);
+            String[] linkPreviewsEntryValues = getResources().getStringArray(R.array.set_link_previews_entry_values);
+            String newLinkPreviewsValue;
+            if (oldDisplayCardValue)
+                newLinkPreviewsValue = linkPreviewsEntryValues[0];
+            else
+                newLinkPreviewsValue = linkPreviewsEntryValues[1];
+            sharedpreferences.edit()
+                    .putString(getString(R.string.SET_LINK_PREVIEWS), newLinkPreviewsValue)
+                    .apply();
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ActivityResultLauncher<String> permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (!isGranted) {

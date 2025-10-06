@@ -297,6 +297,14 @@
         app:singleLineTitle="false"
         app:title="@string/set_display_card" />
 
+    <ListPreference
+        android:entries="@array/set_link_previews_entries"
+        android:entryValues="@array/set_link_previews_entry_values"
+        android:title="@string/set_link_previews"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_LINK_PREVIEWS"
+        app:useSimpleSummaryProvider="true" />
+
     <androidx.preference.SeekBarPreference
         android:defaultValue="40"
         app:min="10"

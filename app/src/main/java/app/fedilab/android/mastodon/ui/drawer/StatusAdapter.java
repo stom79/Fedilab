@@ -572,7 +572,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
         boolean expand_cw = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_CW), false);
-        boolean display_card = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_CARD), false);
+        String linkPreviews = sharedpreferences.getString(context.getString(R.string.SET_LINK_PREVIEWS), "hide_when_media");
+        String[] linkPreviewsEntryValues = context.getResources().getStringArray(R.array.set_link_previews_entry_values);
         boolean share_details = sharedpreferences.getBoolean(context.getString(R.string.SET_SHARE_DETAILS), true);
         boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
         boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
@@ -1017,6 +1018,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 //adapter.notifyItemChanged(holder.getBindingAdapterPosition());
             }
         }
+
+        boolean display_card = linkPreviews.equals(linkPreviewsEntryValues[0]) || (linkPreviews.equals(linkPreviewsEntryValues[1]) && (statusToDeal.media_attachments.isEmpty() || (hideSingleMediaWithCard && statusToDeal.media_attachments.size() == 1)));
 
         if (statusToDeal.card != null && (display_card || statusToDeal.isFocused) && statusToDeal.quote_id == null) {
             if (statusToDeal.card.width > statusToDeal.card.height) {

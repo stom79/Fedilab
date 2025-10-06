@@ -789,6 +789,17 @@
         <item>hide</item>
     </string-array>
 
+    <string-array name="set_link_previews_entries">
+        <item>Always show</item>
+        <item>Hide in posts with media</item>
+        <item>Always hide</item>
+    </string-array>
+    <string-array name="set_link_previews_entry_values" translatable="false">
+        <item>show</item>
+        <item>hide_when_media</item>
+        <item>hide</item>
+    </string-array>
+
     <string-array name="set_thread_message_value">
         <item>Ask</item>
         <item>Disable</item>
@@ -1049,6 +1060,7 @@
 
 
     <string name="SET_DISPLAY_CARD" translatable="false">SET_DISPLAY_CARD</string>
+    <string name="SET_LINK_PREVIEWS" translatable="false">SET_LINK_PREVIEWS</string>
     <string name="SET_DISPLAY_VIDEO_PREVIEWS" translatable="false">SET_DISPLAY_VIDEO_PREVIEWS</string>
     <string name="SET_NOTIFICATION_ACTION" translatable="false">SET_NOTIFICATION_ACTION</string>
     <string name="SET_FEATURED_TAGS" translatable="false">SET_FEATURED_TAGS</string>
@@ -1418,6 +1430,7 @@
     <string name="set_display_bookmark_indication">Always display bookmark button</string>
     <string name="set_display_translate_indication">Always display translate button</string>
     <string name="set_translate_button">Translate button</string>
+    <string name="set_link_previews">Link previews</string>
     <string name="display">Display</string>
     <string name="bottom_menu">Bottom menu</string>
     <string name="top_menu">Top bar menu</string>
