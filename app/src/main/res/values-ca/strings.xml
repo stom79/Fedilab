@@ -1144,4 +1144,5 @@
     <string name="set_custom_colors_visibility">Definir colors de visibilitat a mida</string>
     <string name="cd_release_note">Traducció de nota d\'actualització: %s</string>
     <string name="just_me">Jo sola</string>
+    <string name="set_profile_image_shape">Aspecte de la foto de perfil</string>
 </resources>
