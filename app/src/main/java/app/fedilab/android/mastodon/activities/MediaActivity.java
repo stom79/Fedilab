@@ -172,18 +172,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
         String description = attachments.get(mediaPosition - 1).description;
         handler = new Handler();
         if (attachments.get(mediaPosition - 1).status != null) {
-            binding.originalMessage.setOnClickListener(v -> {
-                Intent intentContext = new Intent(MediaActivity.this, ContextActivity.class);
-                Bundle args = new Bundle();
-                args.putSerializable(Helper.ARG_STATUS, attachments.get(mediaPosition - 1).status);
-                new CachedBundle(MediaActivity.this).insertBundle(args, Helper.getCurrentAccount(MediaActivity.this), bundleId -> {
-                    Bundle bundleCached = new Bundle();
-                    bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
-                    intentContext.putExtras(bundleCached);
-                    intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intentContext);
-                });
-            });
+            binding.originalMessage.setOnClickListener(v -> openOriginalMessage(mediaPosition - 1));
         }
 
         binding.mediaDescription.setMovementMethod(LinkMovementMethod.getInstance());
@@ -239,6 +228,9 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
                     mediaPosition = 1;
                 }
                 String description = attachments.get(position).description;
+                if (attachments.get(position).status != null) {
+                    binding.originalMessage.setOnClickListener(v -> openOriginalMessage(position));
+                }
                 if (handler != null) {
                     handler.removeCallbacksAndMessages(null);
                 }
@@ -290,6 +282,19 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
             }
         });
         setFullscreen(true);
+    }
+
+    private void openOriginalMessage(int position) {
+        Intent intentContext = new Intent(MediaActivity.this, ContextActivity.class);
+        Bundle args = new Bundle();
+        args.putSerializable(Helper.ARG_STATUS, attachments.get(position).status);
+        new CachedBundle(MediaActivity.this).insertBundle(args, Helper.getCurrentAccount(MediaActivity.this), bundleId -> {
+            Bundle bundleCached = new Bundle();
+            bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId);
+            intentContext.putExtras(bundleCached);
+            intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intentContext);
+        });
     }
 
     public String getStatusLanguageForTranslation() {
