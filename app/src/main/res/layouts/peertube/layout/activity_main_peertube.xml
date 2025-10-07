@@ -51,7 +51,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:contentDescription="@string/select_accounts" />
+                        android:contentDescription="@string/open_menu" />
 
                     <TextView
                         android:layout_marginStart="10dp"
