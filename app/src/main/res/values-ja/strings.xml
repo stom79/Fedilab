@@ -1146,4 +1146,5 @@
     <string name="set_custom_colors_visibility">見え方に任意の色をセットする</string>
     <string name="cd_release_note">リリースノート翻訳の進捗: %s</string>
     <string name="set_profile_image_shape">プロフィール画像の形</string>
+    <string name="set_link_previews">リンクのプレビュー</string>
 </resources>
