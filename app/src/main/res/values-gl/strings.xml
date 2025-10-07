@@ -1140,4 +1140,8 @@
     <string name="visibility_color_direct">Cor para mensaxes directas</string>
     <string name="just_me">Só eu</string>
     <string name="cd_release_note">Nota traducida sobre a versión: %s</string>
+    <string name="tab_home_timeline">\@string/context_home</string>
+    <string name="tab_local_timeline">\@string/local_menu</string>
+    <string name="set_link_previews">Vista previa de ligazóns</string>
+    <string name="set_profile_image_shape">Forma da imaxe do perfil</string>
 </resources>
