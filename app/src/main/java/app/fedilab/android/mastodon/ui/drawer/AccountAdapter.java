@@ -293,6 +293,8 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         account.relationShip = relationShip;
                                         adapter.notifyItemChanged(position);
                                     });
+                            if (BaseMainActivity.filteredAccounts != null && BaseMainActivity.filteredAccounts.contains(account))
+                                accountsVM.unmuteHome(Helper.getCurrentAccount(context), account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
                             dialog.dismiss();
                         });
                         unfollowConfirm.show();
@@ -302,6 +304,8 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     account.relationShip = relationShip;
                                     adapter.notifyItemChanged(position);
                                 });
+                        if (BaseMainActivity.filteredAccounts != null && BaseMainActivity.filteredAccounts.contains(account))
+                            accountsVM.unmuteHome(Helper.getCurrentAccount(context), account).observe((LifecycleOwner) context, account1 -> adapter.notifyItemChanged(accountViewHolder.getLayoutPosition()));
                     }
 
                 }

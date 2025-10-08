@@ -684,6 +684,8 @@ public class ProfileActivity extends BaseActivity {
                                     this.relationship = relationShip;
                                     updateAccount();
                                 });
+                        if (BaseMainActivity.filteredAccounts != null && BaseMainActivity.filteredAccounts.contains(account))
+                            accountsVM.unmuteHome(Helper.getCurrentAccount(this), account);
                         dialog.dismiss();
                     });
                     unfollowConfirm.show();
@@ -695,6 +697,8 @@ public class ProfileActivity extends BaseActivity {
                                 this.relationship = relationShip;
                                 updateAccount();
                             });
+                    if (BaseMainActivity.filteredAccounts != null && BaseMainActivity.filteredAccounts.contains(account))
+                        accountsVM.unmuteHome(Helper.getCurrentAccount(this), account);
                 }
 
             } else if (doAction == action.UNBLOCK) {

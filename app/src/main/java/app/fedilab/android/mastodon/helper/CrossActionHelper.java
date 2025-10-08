@@ -233,6 +233,8 @@ public class CrossActionHelper {
                 assert accountsVM != null;
                 accountsVM.unfollow(ownerAccount.instance, ownerAccount.token, targetedAccount.id)
                         .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_unfollow), Toasty.LENGTH_SHORT).show());
+                if (BaseMainActivity.filteredAccounts != null && BaseMainActivity.filteredAccounts.contains(targetedAccount))
+                    accountsVM.unmuteHome(ownerAccount, targetedAccount);
             }
             case FAVOURITE_ACTION -> {
                 assert statusesVM != null;

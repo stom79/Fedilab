@@ -197,14 +197,18 @@ public class ReportActivity extends BaseBarActivity {
                             binding.groupMute.setVisibility(View.VISIBLE);
                         }
                     }
-                    binding.actionUnfollow.setOnClickListener(v -> accountsVM.unfollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
-                            .observe(ReportActivity.this, rsUnfollow -> {
-                                if (rsUnfollow != null) {
-                                    relationShip = rsUnfollow;
-                                    Toasty.info(ReportActivity.this, getString(R.string.toast_unfollow), Toasty.LENGTH_LONG).show();
-                                    binding.groupUnfollow.setVisibility(View.GONE);
-                                }
-                            }));
+                    binding.actionUnfollow.setOnClickListener(v -> {
+                        accountsVM.unfollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                                .observe(ReportActivity.this, rsUnfollow -> {
+                                    if (rsUnfollow != null) {
+                                        relationShip = rsUnfollow;
+                                        Toasty.info(ReportActivity.this, getString(R.string.toast_unfollow), Toasty.LENGTH_LONG).show();
+                                        binding.groupUnfollow.setVisibility(View.GONE);
+                                    }
+                                });
+                        if (BaseMainActivity.filteredAccounts != null && BaseMainActivity.filteredAccounts.contains(account))
+                            accountsVM.unmuteHome(Helper.getCurrentAccount(this), account);
+                    });
                     binding.actionMute.setOnClickListener(v -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, null, null)
                             .observe(ReportActivity.this, rsMute -> {
                                 if (rsMute != null) {
