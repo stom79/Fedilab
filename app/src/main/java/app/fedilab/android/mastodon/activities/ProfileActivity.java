@@ -691,7 +691,6 @@ public class ProfileActivity extends BaseActivity {
                     unfollowConfirm.show();
                 } else {
                     binding.accountFollow.setEnabled(false);
-                    binding.accountFollow.setEnabled(false);
                     accountsVM.unfollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
                             .observe(ProfileActivity.this, relationShip -> {
                                 this.relationship = relationShip;
