@@ -177,7 +177,7 @@
     <string name="toot_sensitive">Sensitive content?</string>
     <string name="no_draft">No drafts!</string>
     <string name="choose_accounts">Choose an account</string>
-    <string name="select_accounts">Select some accounts</string>
+    <string name="select_accounts">Search accounts you follow</string>
     <string name="remove_draft">Delete draft?</string>
     <string name="upload_form_description">Describe for the visually impaired</string>
     <!-- Instance -->
