@@ -25,7 +25,7 @@
     <string name="instance">Instance</string>
     <string name="instance_example">E.g.: mastodon.social</string>
     <string name="instance_token">Your token</string>
-    <string name="toast_account_changed" formatted="false">Now works with the account %1$s</string>
+    <string name="toast_account_changed" formatted="false">Switched to account %1$s</string>
     <string name="add_account">Add an account</string>
     <string name="clipboard">The content of the message has been copied to the clipboard</string>
     <string name="clipboard_url">The URL of the message has been copied to the clipboard</string>
@@ -178,7 +178,7 @@
     <string name="toot_sensitive">Sensitive content?</string>
     <string name="no_draft">No drafts!</string>
     <string name="choose_accounts">Choose an account</string>
-    <string name="select_accounts">Select some accounts</string>
+    <string name="select_accounts">Search accounts you follow</string>
     <string name="remove_draft">Delete draft?</string>
     <string name="upload_form_description">Describe for the visually impaired</string>
     <!-- Instance -->
