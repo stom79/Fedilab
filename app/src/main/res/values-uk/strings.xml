@@ -22,7 +22,7 @@
     <string name="save">Зберегти</string>
     <string name="instance">Екземпляр</string>
     <string name="instance_example">Наприклад: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">Тепер працює з обліковим записом %1$s</string>
+    <string name="toast_account_changed" formatted="false">Переключено на обліковий запис %1$s</string>
     <string name="add_account">Додати обліковий запис</string>
     <string name="clipboard">Вміст повідомлення скопійований в буфер обміну</string>
     <string name="clipboard_url">URL-адресу повідомлення скопійовано в буфер обміну</string>
@@ -135,7 +135,7 @@
     <string name="toot_sensitive">Чутливий вміст?</string>
     <string name="no_draft">Чернетки відсутні!</string>
     <string name="choose_accounts">Оберіть обліковий запис</string>
-    <string name="select_accounts">Оберіть деякі облікові записи</string>
+    <string name="select_accounts">Пошук облікових записів, на які ви підписані</string>
     <string name="remove_draft">Видалити чернетку?</string>
     <string name="upload_form_description">Прочитати для людей з вадами зору</string>
     <!-- Instance -->
