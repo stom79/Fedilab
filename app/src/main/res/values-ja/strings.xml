@@ -22,7 +22,7 @@
     <string name="save">保存</string>
     <string name="instance">サーバー</string>
     <string name="instance_example">例: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">アカウント %1$s に切り替えました</string>
+    <string name="toast_account_changed" formatted="false">アカウント %1$s へ切り替えました</string>
     <string name="add_account">アカウントを追加</string>
     <string name="clipboard">投稿の内容をクリップボードにコピーしました</string>
     <string name="clipboard_url">投稿のURLをクリップボードにコピーしました</string>
@@ -123,7 +123,7 @@
     <string name="toot_sensitive">センシティブな情報ですか?</string>
     <string name="no_draft">下書きはありません！</string>
     <string name="choose_accounts">アカウントを選択</string>
-    <string name="select_accounts">複数のアカウントを選択</string>
+    <string name="select_accounts">フォロー中のアカウントを検索</string>
     <string name="remove_draft">下書きを削除しますか？</string>
     <string name="upload_form_description">視覚障害者のための説明</string>
     <!-- Instance -->
