@@ -22,7 +22,7 @@
     <string name="save">Gardar</string>
     <string name="instance">Instancia</string>
     <string name="instance_example">Ex.: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">%1$s é a conta activa</string>
+    <string name="toast_account_changed" formatted="false">Cambiaches á conta %1$s</string>
     <string name="add_account">Engadir unha conta</string>
     <string name="clipboard">Copiose ao portapapeis o contido da mensaxe</string>
     <string name="clipboard_url">Copiouse o URL da mensaxe ao portapapéis</string>
@@ -127,7 +127,7 @@
     <string name="toot_sensitive">Contido sensible?</string>
     <string name="no_draft">Sen borradores!</string>
     <string name="choose_accounts">Escolla unha conta</string>
-    <string name="select_accounts">Escolla varias contas</string>
+    <string name="select_accounts">Busca contas que segues</string>
     <string name="remove_draft">Eliminar borrador?</string>
     <string name="upload_form_description">Descrición para usuarias con deficiencias visuais</string>
     <!-- Instance -->
