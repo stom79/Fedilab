@@ -22,7 +22,7 @@
     <string name="save">Desar</string>
     <string name="instance">Instància</string>
     <string name="instance_example">P. ex.: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">Ara funciona amb el compte %1$s</string>
+    <string name="toast_account_changed" formatted="false">S\'ha passat al compte %1$s</string>
     <string name="add_account">Afegir un compte</string>
     <string name="clipboard">El contingut del bram s\'ha copiat al porta-retalls</string>
     <string name="clipboard_url">L\'adreça web del bram s\'ha copiat al porta-retalls</string>
@@ -131,7 +131,7 @@
     <string name="toot_sensitive">És contingut sensible?</string>
     <string name="no_draft">No hi ha esborranys!</string>
     <string name="choose_accounts">Escull un compte</string>
-    <string name="select_accounts">Seleccionar alguns comptes</string>
+    <string name="select_accounts">Cercar entre comptes que segueixes</string>
     <string name="remove_draft">Vols suprimir l\'esborrany?</string>
     <string name="upload_form_description">Descriu-ho per a disminuïts visuals</string>
     <!-- Instance -->
