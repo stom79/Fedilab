@@ -21,8 +21,8 @@
     <string name="tags">برچسب‌ها</string>
     <string name="save">ذخیره</string>
     <string name="instance">نمونه</string>
-    <string name="instance_example">نمونه: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">اکنون با این حساب کار می‌کند: %1$s</string>
+    <string name="instance_example">مانند: mastodon.social</string>
+    <string name="toast_account_changed" formatted="false">به حساب %1$s آمدید</string>
     <string name="add_account">افزودن حساب کاربری</string>
     <string name="clipboard">محتوای بوق در بریده‌دان رونویسی شد</string>
     <string name="clipboard_url">نشانی بوق در بریده‌دان رونویسی شد</string>
@@ -127,7 +127,7 @@
     <string name="toot_sensitive">محتوای حساس؟</string>
     <string name="no_draft">پیش‌نویسی وجود ندارد!</string>
     <string name="choose_accounts">انتخاب حساب</string>
-    <string name="select_accounts">چند حساب انتخاب کنید</string>
+    <string name="select_accounts">بین حساب‌هایی که دنبال می‌کنید جستجو کنید</string>
     <string name="remove_draft">پیش‌نویس پاک شود؟</string>
     <string name="upload_form_description">توصیف برای افراد با مشکل بینایی</string>
     <!-- Instance -->
@@ -821,7 +821,7 @@
     <string name="underline_links">خط زیر موارد قابل کلیک</string>
     <string name="notif_update_push">بوقی که هم‌رسانی کردید ویرایش شده است</string>
     <string name="type_of_notifications_title">نوع آگاه‌سازی‌ها را انتخاب کنید</string>
-    <string name="admin_scope">من مدیر هستم</string>
+    <string name="admin_scope">من ناظر هستم</string>
     <string name="label_shape">شکل</string>
     <string name="account_undisabled">حساب فعال شد</string>
     <string name="set_audo_hide_compose_summary">پنهان‌سازی خودکار دکمه نوشتن هنگام پیمایش به بالا در خط زمانی</string>
@@ -867,7 +867,7 @@
     <string name="action_tag_follow">دنبال کردن برچسب</string>
     <string name="notif_reported">گزارشی فرستاد</string>
     <string name="private_comment">دیدگاه خصوصی</string>
-    <string name="admin_domainblock_private_comment">دیدگاه درباره این محدودیت دامنه برای استفاده داخلی مدیران.</string>
+    <string name="admin_domainblock_private_comment">دیدگاه درباره محدودیت این دامنه برای استفاده داخلی مدیران.</string>
     <string name="messages_stored_in_drafts">بوق‌های ذخیره‌شده در پیش‌نویس‌ها</string>
     <string name="more_actions">کنش‌های بیشتر</string>
     <string name="status">وضعیت</string>
@@ -947,7 +947,7 @@
     <string name="created_message_at">ایجادشده در %1$s</string>
     <string name="joined">پیوسته</string>
     <string name="recent_ip">آی‌پی اخیر</string>
-    <string name="moderator">مدیر</string>
+    <string name="moderator">ناظر</string>
     <string name="administrator">مدیر</string>
     <string name="confirmed">پذیرفته‌شده</string>
     <string name="account_silenced">حساب بی‌صدا شد</string>
@@ -1025,8 +1025,8 @@
     <string name="filtered_by">پالایش‌شده: %1$s</string>
     <string name="toast_error_add_to_list">برنامه نتوانست حساب را به فهرست بیفزاید!</string>
     <string name="Suggestions">پیشنهادها</string>
-    <string name="set_notif_user_sign_up">نام‌نویسی جدید (مدیران)</string>
-    <string name="set_notif_admin_report">گزارش جدید (مدیران)</string>
+    <string name="set_notif_user_sign_up">نام‌نویسی جدید (ناظران)</string>
+    <string name="set_notif_admin_report">گزارش جدید (ناظران)</string>
     <string name="open_with_account">گشودن با حساب دیگر</string>
     <string name="reject_media">رد رسانه</string>
     <string name="admin_domainblock_domain">بستن دامنه مانع ایجاد ورودی‌های حساب در پایگاه داده نمی‌شود، اما روش‌های نظارتی خاصی را به‌صورت خودکار و گذشته‌نگر بر آن حساب‌ها اعمال می‌کند.</string>
@@ -1088,4 +1088,57 @@
     <string name="toast_error_media">رسانه بارگیری نشد!</string>
     <string name="fetch_remote_media">دریافت خودکار رسانه‌های نمونه میزبان هنگام در دسترس نبودن</string>
     <string name="set_custom_accent_value_dark_description">رنگی که برای پوسته تیره اعمال می‌شود</string>
+    <string name="links">پیوندها</string>
+    <string name="cd_open_profile">بازکردن صفحه نمایه</string>
+    <string name="cd_switch_account">جابه‌جایی به %s</string>
+    <string name="cd_translated_media_description">توضیح رسانه ترجمه‌شده: %s</string>
+    <string name="tab_home_timeline">\@string/زمینه_خانه</string>
+    <string name="tab_local_timeline">\@string/فهرست_محلی</string>
+    <string name="tab_public_timeline">خط زمان عمومی</string>
+    <string name="tab_private_mentions">یادکردهای خصوصی</string>
+    <string name="tab_bubble_timeline">خط زمان حبابی</string>
+    <string name="cd_translated_content">محتوای ترجمه‌شده: %s</string>
+    <string name="cd_list_timeline">%s. خط زمان فهرست</string>
+    <string name="cd_hash_tag_timeline">%s. خط زمان برچسب</string>
+    <string name="cd_release_note">یادداشت انتشار ترجمه‌شده: %s</string>
+    <string name="action_unreblog">لغو تقویت</string>
+    <string name="cd_hide_media">پنهان کردن رسانه</string>
+    <string name="cd_show_media">نمایش رسانه</string>
+    <string name="default_who_can_quote">انتخاب پیش‌فرض برای چه کسی می‌تواند نقل‌قول کند</string>
+    <string name="about_fediverse">فدیورس:</string>
+    <string name="about_website">وبگاه:</string>
+    <string name="about_donate">اهدا:</string>
+    <string name="move_timeline_up">بالا بردن خط زمان</string>
+    <string name="move_timeline_down">پایین بردن خط زمان</string>
+    <string name="set_tracking_parameters">برداشتن پارامترهای ردیابی</string>
+    <string name="set_tracking_parameters_indication">برنامه به‌صورت خودکار پارامترهای ردیابی را از نشانی‌ها پیش از بازدید پیوند حذف می‌کند.</string>
+    <string name="who_can_quote">چه کسی می‌تواند نقل‌قول کند</string>
+    <string name="quoting_messages">نقل‌قول پیام‌ها</string>
+    <string name="just_me">فقط من</string>
+    <string name="anyone">هر کس</string>
+    <string name="notif_display_quotes">نقل‌قول‌ها</string>
+    <string name="add_featured_hashtag">افزودن برچسب برجسته</string>
+    <string name="no_feature_hashtag_suggestion">هیچ پیشنهادی برای برچسب‌های برجسته نیست!</string>
+    <string name="fields_title">افزودن یا برداشتن زمینه‌ها</string>
+    <string name="featured_hashtags_title">افزودن یا برداشتن برچسب‌های برجسته</string>
+    <string name="delete_featured_hashtag">پاک کردن برچسب برجسته</string>
+    <string name="delete_featured_hashtag_confirm">آیا مطمئن هستید که می‌خواهید برچسب برجسته را پاک کنید؟</string>
+    <string name="visibility_color_public">رنگ برای دید عمومی</string>
+    <string name="visibility_color_unlisted">رنگ برای دید فهرست‌نشده</string>
+    <string name="visibility_color_private">رنگ برای دید خصوصی</string>
+    <string name="visibility_color_direct">رنگ برای دید مستقیم</string>
+    <string name="set_translate_button">دکمه ترجمه</string>
+    <string name="set_link_previews">پیش‌نمایش پیوند</string>
+    <string name="link_image">تصویر پیوست‌شده به پیوند</string>
+    <string name="action_quote_policy">تغییر اینکه چه کسی می‌تواند شما را نقل‌قول کند</string>
+    <string name="set_colorize_visibility">زیرخط کردن دید</string>
+    <string name="set_colorize_visibility_indication">دکمه دید و پایین ناحیه نگارش بسته به دید انتخاب‌شده هنگام نگارش، رنگ‌های متفاوتی خواهند داشت.</string>
+    <string name="followed_tag_success">اکنون این برچسب را دنبال می‌کنید!</string>
+    <string name="set_custom_colors_visibility">تنظیم رنگ‌های سفارشی برای دید</string>
+    <string name="set_profile_image_shape">شکل تصویر نمایه</string>
+    <string name="set_mention_booster">یادکرد تقویت‌کننده</string>
+    <string name="set_mention_booster_indication">هنگام پاسخ به یک تقویت، شخصی که تقویت کرده در پاسخ یاد خواهد شد</string>
+    <string name="underline_bottom_hashtags">برجسته‌سازی برچسب‌های پایین</string>
+    <string name="remaining_tags">…و %d مورد دیگر</string>
+    <string name="action_follow_tag_confirm">آیا مطمئنید که میخواهید برچسب %1$s را دنبال کنید؟؟</string>
 </resources>
