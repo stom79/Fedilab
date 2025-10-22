@@ -866,7 +866,7 @@
     <string name="channel_notif_report">新しい通報</string>
     <string name="notif_update_push">あなたが共有した投稿が編集されました</string>
     <string name="notif_sign_up">ユーザーが登録しました</string>
-    <string name="notif_report">ユーザーが通報を送信しました</string>
+    <string name="notif_report">ユーザーが報告を送りました</string>
     <string name="sign_ups">新規登録</string>
     <string name="mute_tag">タグ %1$s をブロックしますか？</string>
     <string name="admin_reject_media">メディアファイルを拒否</string>
