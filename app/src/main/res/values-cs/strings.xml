@@ -993,7 +993,7 @@
     <string name="proxy_protocol">Protokol</string>
     <string name="proxy_protocol_http">HTTP</string>
     <string name="about_peertube">„PeerTube je nástroj pro sdílení videa vyvinutý francouzskou neziskovou organizací Framasoft.…PeerTube umožňuje, aby byly platformy vzájemně propojeny a vytvořily tak velkou síť platforem, které jsou zároveň autonomní i propojené.“</string>
-    <string name="following">Sledující</string>
+    <string name="following">Sledovaní</string>
     <string name="toast_error_peertube_not_supported">Vaše instance Peertube je příliš stará a nemůže být aplikací podporována.</string>
     <string name="compose_shortcut_short_label1">Vytváření</string>
     <string name="otp_message">Token pro dvoufaktorovou autentizaci</string>
