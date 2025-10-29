@@ -235,36 +235,30 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         excludeType.add("admin.sign_up");
         excludeType.add("admin.report");
         excludeType.add("pleroma:emoji_reaction");
-        if (notificationType == NotificationTypeEnum.ALL) {
-            aggregateNotification = sharedpreferences.getBoolean(getString(R.string.SET_AGGREGATE_NOTIFICATION), true);
-            if (excludedCategories != null) {
-                excludeType = new ArrayList<>();
-                String[] categoriesArray = excludedCategories.split("\\|");
-                Collections.addAll(excludeType, categoriesArray);
-            } else {
-                excludeType = null;
+        switch (notificationType) {
+            case ALL -> {
+                aggregateNotification = sharedpreferences.getBoolean(getString(R.string.SET_AGGREGATE_NOTIFICATION), true);
+                if (excludedCategories != null) {
+                    excludeType = new ArrayList<>();
+                    String[] categoriesArray = excludedCategories.split("\\|");
+                    Collections.addAll(excludeType, categoriesArray);
+                } else {
+                    excludeType = null;
+                }
             }
-        } else if (notificationType == NotificationTypeEnum.MENTIONS) {
-            excludeType.remove("mention");
-        } else if (notificationType == NotificationTypeEnum.FAVOURITES) {
-            excludeType.remove("favourite");
-        } else if (notificationType == NotificationTypeEnum.REBLOGS) {
-            excludeType.remove("reblog");
-        } else if (notificationType == NotificationTypeEnum.QUOTES) {
-            excludeType.remove("quote");
-        } else if (notificationType == NotificationTypeEnum.POLLS) {
-            excludeType.remove("poll");
-        } else if (notificationType == NotificationTypeEnum.UPDATES) {
-            excludeType.remove("update");
-        } else if (notificationType == NotificationTypeEnum.TOOTS) {
-            excludeType.remove("status");
-        } else if (notificationType == NotificationTypeEnum.ADMIN_SIGNUP) {
-            excludeType.remove("admin.sign_up");
-        } else if (notificationType == NotificationTypeEnum.ADMIN_REPORT) {
-            excludeType.remove("admin.report");
-        } else if (notificationType == NotificationTypeEnum.FOLLOWS) {
-            excludeType.remove("follow");
-            excludeType.remove("follow_request");
+            case MENTIONS -> excludeType.remove("mention");
+            case FAVOURITES -> excludeType.remove("favourite");
+            case UPDATES -> excludeType.remove("update");
+            case REBLOGS -> excludeType.remove("reblog");
+            case QUOTES -> excludeType.remove("quote");
+            case POLLS -> excludeType.remove("poll");
+            case ADMIN_SIGNUP -> excludeType.remove("admin.sign_up");
+            case ADMIN_REPORT -> excludeType.remove("admin.report");
+            case TOOTS -> excludeType.remove("status");
+            case FOLLOWS -> {
+                excludeType.remove("follow");
+                excludeType.remove("follow_request");
+            }
         }
         return excludeType;
     }
