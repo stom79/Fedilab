@@ -226,6 +226,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         excludeType.add("follow");
         excludeType.add("favourite");
         excludeType.add("reblog");
+        excludeType.add("quote");
         excludeType.add("poll");
         excludeType.add("follow_request");
         excludeType.add("mention");
@@ -249,6 +250,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             excludeType.remove("favourite");
         } else if (notificationType == NotificationTypeEnum.REBLOGS) {
             excludeType.remove("reblog");
+        } else if (notificationType == NotificationTypeEnum.QUOTES) {
+            excludeType.remove("quote");
         } else if (notificationType == NotificationTypeEnum.POLLS) {
             excludeType.remove("poll");
         } else if (notificationType == NotificationTypeEnum.UPDATES) {
@@ -723,10 +726,12 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         MENTIONS("MENTIONS"),
         @SerializedName("FAVOURITES")
         FAVOURITES("FAVOURITES"),
-        @SerializedName("REBLOGS")
-        UPDATES("UPDATES"),
         @SerializedName("UPDATES")
+        UPDATES("UPDATES"),
+        @SerializedName("REBLOGS")
         REBLOGS("REBLOGS"),
+        @SerializedName("QUOTES")
+        QUOTES("QUOTES"),
         @SerializedName("POLLS")
         POLLS("POLLS"),
         @SerializedName("ADMIN_SIGNUP")
