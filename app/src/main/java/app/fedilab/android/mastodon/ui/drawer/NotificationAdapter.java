@@ -135,11 +135,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
+        Notification notification = notificationList.get(position);
 
-        if (notificationList.get(position).filteredByApp != null) {
+        if (notification.filteredByApp != null) {
             return TYPE_FILERED;
         }
-        String type = notificationList.get(position).type;
+        String type = notification.type;
         if (type != null) {
             switch (type) {
                 case "follow" -> {
@@ -149,49 +150,49 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     return TYPE_FOLLOW_REQUEST;
                 }
                 case "mention" -> {
-                    if (notificationList.get(position).status != null) {
+                    if (notification.status != null) {
                         return TYPE_MENTION;
                     } else {
                         return TYPE_HIDDEN;
                     }
                 }
                 case "reblog" -> {
-                    if (notificationList.get(position).status != null) {
+                    if (notification.status != null) {
                         return TYPE_REBLOG;
                     } else {
                         return TYPE_HIDDEN;
                     }
                 }
                 case "quote" -> {
-                    if (notificationList.get(position).status != null) {
+                    if (notification.status != null) {
                         return TYPE_QUOTE;
                     } else {
                         return TYPE_HIDDEN;
                     }
                 }
                 case "update" -> {
-                    if (notificationList.get(position).status != null) {
+                    if (notification.status != null) {
                         return TYPE_UPDATE;
                     } else {
                         return TYPE_HIDDEN;
                     }
                 }
                 case "favourite" -> {
-                    if (notificationList.get(position).status != null) {
+                    if (notification.status != null) {
                         return TYPE_FAVOURITE;
                     } else {
                         return TYPE_HIDDEN;
                     }
                 }
                 case "poll" -> {
-                    if (notificationList.get(position).status != null) {
+                    if (notification.status != null) {
                         return TYPE_POLL;
                     } else {
                         return TYPE_HIDDEN;
                     }
                 }
                 case "status" -> {
-                    if (notificationList.get(position).status != null) {
+                    if (notification.status != null) {
                         return TYPE_STATUS;
                     } else {
                         return TYPE_HIDDEN;
@@ -204,7 +205,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     return TYPE_ADMIN_REPORT;
                 }
                 case "pleroma:emoji_reaction" -> {
-                    if (notificationList.get(position).status != null) {
+                    if (notification.status != null) {
                         return TYPE_REACTION;
                     } else {
                         return TYPE_HIDDEN;
@@ -250,7 +251,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (notification == null || notification.account == null) {
             return;
         }
-        if (getItemViewType(position) == TYPE_FOLLOW || getItemViewType(position) == TYPE_FOLLOW_REQUEST || getItemViewType(position) == TYPE_ADMIN_REPORT || getItemViewType(position) == TYPE_ADMIN_SIGNUP) {
+        int itemViewType = getItemViewType(position);
+        if (itemViewType == TYPE_FOLLOW || itemViewType == TYPE_FOLLOW_REQUEST || itemViewType == TYPE_ADMIN_REPORT || itemViewType == TYPE_ADMIN_SIGNUP) {
             ViewHolderFollow holderFollow = (ViewHolderFollow) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
@@ -266,16 +268,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             holderFollow.binding.rejectButton.setVisibility(View.GONE);
             holderFollow.binding.acceptButton.setVisibility(View.GONE);
-            if (getItemViewType(position) == TYPE_FOLLOW_REQUEST) {
-                holderFollow.binding.rejectButton.setVisibility(View.VISIBLE);
-                holderFollow.binding.acceptButton.setVisibility(View.VISIBLE);
-                holderFollow.binding.title.setText(R.string.follow_request);
-            } else if (getItemViewType(position) == TYPE_ADMIN_REPORT) {
-                holderFollow.binding.title.setText(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_submitted_report)));
-            } else if (getItemViewType(position) == TYPE_ADMIN_SIGNUP) {
-                holderFollow.binding.title.setText(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_signed_up)));
-            } else {
-                holderFollow.binding.title.setText(R.string.follow);
+            switch (itemViewType) {
+                case TYPE_FOLLOW_REQUEST -> {
+                    holderFollow.binding.rejectButton.setVisibility(View.VISIBLE);
+                    holderFollow.binding.acceptButton.setVisibility(View.VISIBLE);
+                    holderFollow.binding.title.setText(R.string.follow_request);
+                }
+                case TYPE_ADMIN_REPORT ->
+                        holderFollow.binding.title.setText(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_submitted_report)));
+                case TYPE_ADMIN_SIGNUP ->
+                        holderFollow.binding.title.setText(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_signed_up)));
+                default -> holderFollow.binding.title.setText(R.string.follow);
             }
             AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
             holderFollow.binding.rejectButton.setOnClickListener(v -> accountsVM.rejectFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
@@ -335,7 +338,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderFollow.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }
             applyColorAccount(context, holderFollow);
-        } else if (getItemViewType(position) == TYPE_FILERED) {
+        } else if (itemViewType == TYPE_FILERED) {
             StatusAdapter.StatusViewHolder holder = (StatusAdapter.StatusViewHolder) viewHolder;
 
             holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, notification.filteredByApp.title));
@@ -343,7 +346,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 notification.filteredByApp = null;
                 notifyItemChanged(position);
             });
-        } else if (notification.status != null && getItemViewType(position) != TYPE_HIDDEN) {
+        } else if (notification.status != null && itemViewType != TYPE_HIDDEN) {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
@@ -352,22 +355,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             holderStatus.bindingNotification.status.typeOfNotification.setVisibility(View.VISIBLE);
 
-            if (getItemViewType(position) == TYPE_MENTION) {
-                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_message_24);
-            } else if (getItemViewType(position) == TYPE_STATUS) {
-                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_message_24);
-            } else if (getItemViewType(position) == TYPE_FAVOURITE) {
-                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_star_24);
-            } else if (getItemViewType(position) == TYPE_REBLOG) {
-                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_repeat_24);
-            }  else if (getItemViewType(position) == TYPE_QUOTE) {
-                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_format_quote_24);
-            }else if (getItemViewType(position) == TYPE_UPDATE) {
-                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_edit_24);
-            } else if (getItemViewType(position) == TYPE_REACTION) {
-                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_insert_emoticon_24);
-            } else if (getItemViewType(position) == TYPE_POLL) {
-                holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_poll_24);
+            switch (itemViewType) {
+                case TYPE_MENTION, TYPE_STATUS ->
+                        holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_message_24);
+                case TYPE_FAVOURITE -> holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_star_24);
+                case TYPE_REBLOG -> holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_repeat_24);
+                case TYPE_QUOTE ->
+                        holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_format_quote_24);
+                case TYPE_UPDATE -> holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_edit_24);
+                case TYPE_REACTION ->
+                        holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_insert_emoticon_24);
+                case TYPE_POLL -> holderStatus.bindingNotification.status.typeOfNotification.setImageResource(R.drawable.ic_baseline_poll_24);
             }
             int theme_icons_color = -1;
             boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
@@ -395,34 +393,31 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             statusManagement(context, statusesVM, searchVM, holderStatus, mRecyclerView, this, null, notification.status, Timeline.TimeLineEnum.NOTIFICATION, false, true, false, null);
             holderStatus.bindingNotification.status.dateShort.setText(Helper.dateDiff(context, notification.created_at));
             holderStatus.bindingNotification.status.pronouns.setVisibility(View.GONE);
-            if (getItemViewType(position) == TYPE_MENTION || getItemViewType(position) == TYPE_STATUS || getItemViewType(position) == TYPE_REACTION || getItemViewType(position) == TYPE_QUOTE ) {
+            if (itemViewType == TYPE_MENTION || itemViewType == TYPE_STATUS || itemViewType == TYPE_REACTION || itemViewType == TYPE_QUOTE ) {
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.VISIBLE);
                 String title = "";
-                if (getItemViewType(position) == TYPE_MENTION) {
-                    //title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_mention));
-                    title = notification.account.display_name;
-                } else if (getItemViewType(position) == TYPE_STATUS) {
-                   // title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_status));
-                    title = notification.account.display_name;
-                } else if (getItemViewType(position) == TYPE_REACTION) {
-                    if (notification.emoji == null) {
-                        notification.emoji = "";
-                    }
-                    //title = String.format(Locale.getDefault(), "%s reacted with %s", notification.account.username, notification.emoji);
-                    title = notification.account.username;
-                    MastodonHelper.loadPPMastodon(holderStatus.bindingNotification.status.avatar, notification.account);
-                    holderStatus.bindingNotification.status.statusUserInfo.setOnClickListener(v -> {
-                        Intent intent = new Intent(context, ProfileActivity.class);
-                        Bundle args = new Bundle();
-                        args.putSerializable(Helper.ARG_ACCOUNT, notification.account);
-                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                            Bundle bundle = new Bundle();
-                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                            intent.putExtras(bundle);
-                            context.startActivity(intent);
+                switch (itemViewType) {
+                    case TYPE_MENTION, TYPE_STATUS, TYPE_QUOTE -> title = notification.account.display_name;
+                    case TYPE_REACTION -> {
+                        if (notification.emoji == null) {
+                            notification.emoji = "";
+                        }
+                        //title = String.format(Locale.getDefault(), "%s reacted with %s", notification.account.username, notification.emoji);
+                        title = notification.account.username;
+                        MastodonHelper.loadPPMastodon(holderStatus.bindingNotification.status.avatar, notification.account);
+                        holderStatus.bindingNotification.status.statusUserInfo.setOnClickListener(v -> {
+                            Intent intent = new Intent(context, ProfileActivity.class);
+                            Bundle args = new Bundle();
+                            args.putSerializable(Helper.ARG_ACCOUNT, notification.account);
+                            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(bundle);
+                                context.startActivity(intent);
+                            });
                         });
-                    });
-                    holderStatus.bindingNotification.status.mainContainer.setAlpha(.8f);
+                        holderStatus.bindingNotification.status.mainContainer.setAlpha(.8f);
+                    }
                 }
                 holderStatus.bindingNotification.status.displayName.setText(
                         notification.account.getSpanDisplayNameTitle(context,
@@ -437,25 +432,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     holderStatus.bindingNotification.status.media.mediaContainer.setVisibility(View.GONE);
                     holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.GONE);
                 }
-                String title = "";
+                String title = switch (itemViewType) {
+                    case TYPE_FAVOURITE, TYPE_REBLOG, TYPE_UPDATE -> notification.account.display_name;
+                    case TYPE_POLL -> context.getString(R.string.notif_poll);
+                    default -> "";
+                };
                 MastodonHelper.loadPPMastodon(holderStatus.binding.avatar, notification.account);
-                if (getItemViewType(position) == TYPE_FAVOURITE) {
-                   // title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_favourite));
-                    title = notification.account.display_name;
-                } else if (getItemViewType(position) == TYPE_REBLOG) {
-                   // title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
-                    title = notification.account.display_name;
-                } else if (getItemViewType(position) == TYPE_QUOTE) {
-                    // title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_reblog));
-                    title = notification.account.display_name;
-                }else if (getItemViewType(position) == TYPE_UPDATE) {
-                  //  title = String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_update));
-                    title = notification.account.display_name;
-                } else if (getItemViewType(position) == TYPE_POLL) {
-                    title = context.getString(R.string.notif_poll);
-                } else if (getItemViewType(position) == TYPE_POLL) {
-                    title = context.getString(R.string.notif_poll);
-                }
                 if (notification.relatedNotifications != null && !notification.relatedNotifications.isEmpty()) {
                     if (notification.type.equals("favourite")) {
                         holderStatus.bindingNotification.typeOfConcat.setText(R.string.also_favourite_by);
