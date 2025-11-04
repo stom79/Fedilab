@@ -1600,6 +1600,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
                         }),
                 TextView.BufferType.SPANNABLE);
+        ViewCompat.addAccessibilityAction(holder.binding.statusContent, context.getString(R.string.translate), (view, arguments) -> {
+            translate(context, statusToDeal, holder, adapter);
+            return true;
+        });
         boolean underlineBottomHashTags = sharedpreferences.getBoolean(context.getString(R.string.SET_UNDERLINE_BOTTOM_HASHTAGS), true);
         if(underlineBottomHashTags) {
             int link_color;
