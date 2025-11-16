@@ -6,6 +6,10 @@
         android:title="@string/translate"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_quote"
+        android:title="@string/action_quote"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_bookmark"
         android:title="@string/bookmark_add"
         app:showAsAction="never" />

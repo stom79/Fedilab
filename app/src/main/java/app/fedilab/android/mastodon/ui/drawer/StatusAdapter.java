@@ -49,6 +49,7 @@ import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -62,6 +63,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -73,6 +75,7 @@ import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -145,6 +148,7 @@ import app.fedilab.android.databinding.DrawerStatusPixelfedBinding;
 import app.fedilab.android.databinding.DrawerStatusReportBinding;
 import app.fedilab.android.databinding.LayoutMediaBinding;
 import app.fedilab.android.databinding.LayoutPollItemBinding;
+import app.fedilab.android.databinding.PopupBoostQuoteBinding;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
 import app.fedilab.android.mastodon.activities.ContextActivity;
 import app.fedilab.android.mastodon.activities.CustomSharingActivity;
@@ -982,7 +986,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonFavorite.setInactiveImage(R.drawable.ic_round_star_border_24);
         holder.binding.actionButtonBookmark.setActiveImage(R.drawable.ic_round_bookmark_24);
         holder.binding.actionButtonBookmark.setInactiveImage(R.drawable.ic_round_bookmark_border_24);
-        if (displayQuote) {
+        if (quoteButton.equals(quoteButtonEntryValues[1])) {
             holder.binding.actionButtonBoost.setActiveImage(R.drawable.ic_quote_or_boost_active);
             holder.binding.actionButtonBoost.setInactiveImage(R.drawable.ic_quote_or_boost);
         } else {
@@ -1226,47 +1230,48 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return true;
             });
             holder.binding.actionButtonBoost.setOnClickListener(v -> {
-                if(displayQuote) {
-                    PopupMenu popupMenu = new PopupMenu(context, v);
-                    popupMenu.getMenuInflater().inflate(R.menu.menu_boost_or_quote, popupMenu.getMenu());
-                    if(statusToDeal.quote_approval != null && statusToDeal.quote_approval.current_user != null && statusToDeal.quote_approval.current_user.equalsIgnoreCase("denied") ) {
-                        popupMenu.getMenu().findItem(R.id.action_quote).setEnabled(false);
-                    } else {
-                        popupMenu.getMenu().findItem(R.id.action_quote).setEnabled(true);
-                    }
-                    MenuItem reblogItem = popupMenu.getMenu().findItem(R.id.action_reblog);
+                if(quoteButton.equals(quoteButtonEntryValues[1])) {
+                    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    PopupWindow popupWindow = new PopupWindow(context);
+                    PopupBoostQuoteBinding popupBoostQuoteBinding = PopupBoostQuoteBinding.inflate(layoutInflater);
+                    popupWindow.setContentView(popupBoostQuoteBinding.getRoot());
+                    popupWindow.setWidth(LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+                    popupWindow.setHeight(LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+                    popupWindow.setFocusable(true);
+                    popupWindow.setBackgroundDrawable(new ColorDrawable());
+                    popupWindow.setAnimationStyle(R.style.boostQuotePopupWindowAnimation);
+
+                    popupBoostQuoteBinding.boostButton.setIconSize(iconSize);
+                    popupBoostQuoteBinding.quoteButton.setIconSize(iconSize);
                     if(statusToDeal.reblogged) {
-                        reblogItem.setTitle(R.string.action_unreblog);
+                        popupBoostQuoteBinding.boostButton.setText(R.string.action_unreblog);
+                        Helper.changeDrawableColor(context, popupBoostQuoteBinding.boostButton, R.color.boost_icon);
                     } else {
-                        reblogItem.setTitle(R.string.action_reblog);
+                        popupBoostQuoteBinding.boostButton.setText(R.string.action_reblog);
                     }
-                    popupMenu.setOnMenuItemClickListener(item -> {
-                        int itemId = item.getItemId();
-                        if (itemId == R.id.action_reblog) {
-                            reblogTap(context,
-                                    v,
-                                    statusesVM,
-                                    searchVM,
-                                    holder,
-                                    adapter,
-                                    statusToDeal,
-                                    warnNoMedia, confirmBoost, remote);
-                            return true;
-                        } else if (itemId == R.id.action_quote) {
-                            Intent intent = new Intent(context, ComposeActivity.class);
-                            Bundle args = new Bundle();
-                            args.putSerializable(Helper.ARG_QUOTED_MESSAGE, statusToDeal);
-                            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                                Bundle bundle = new Bundle();
-                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                                intent.putExtras(bundle);
-                                context.startActivity(intent);
-                            });
-                            return true;
-                        }
-                        return false;
+                    popupBoostQuoteBinding.boostButton.setOnClickListener(v2 -> {
+                        popupWindow.dismiss();
+                        reblogTap(context,
+                                v,
+                                statusesVM,
+                                searchVM,
+                                holder,
+                                adapter,
+                                statusToDeal,
+                                warnNoMedia, confirmBoost, remote);
                     });
-                    popupMenu.show();
+                    if(statusToDeal.quote_approval != null && statusToDeal.quote_approval.current_user != null && statusToDeal.quote_approval.current_user.equalsIgnoreCase("denied") ) {
+                        popupBoostQuoteBinding.quoteButton.setEnabled(false);
+                    } else {
+                        popupBoostQuoteBinding.quoteButton.setOnClickListener(v2 -> {
+                            quote(context, status);
+                            popupWindow.dismiss();
+                        });
+                    }
+
+                    int[] actionButtonBoostLocation = new int[2];
+                    holder.binding.actionButtonBoost.getLocationInWindow(actionButtonBoostLocation);
+                    popupWindow.showAtLocation(holder.binding.actionButtonBoost, Gravity.NO_GRAVITY, actionButtonBoostLocation[0], actionButtonBoostLocation[1]);
                 } else {
                     reblogTap(context,
                             v,
@@ -1280,6 +1285,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             });
             holder.binding.actionButtonBoost.setChecked(statusToDeal.reblogged);
+            // Quote button
+            if(quoteButton.equals(quoteButtonEntryValues[0])) {
+                holder.binding.actionButtonQuote.setVisibility(View.VISIBLE);
+                holder.binding.actionButtonQuote.setOnClickListener(v -> quote(context, status));
+            } else {
+                holder.binding.actionButtonQuote.setVisibility(View.GONE);
+            }
             //---> FAVOURITE/UNFAVOURITE
             holder.binding.actionButtonFavorite.setOnLongClickListener(v -> {
                 if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private"))) {
@@ -2574,6 +2586,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+    private static void quote(Context context, Status status) {
+        Intent intent = new Intent(context, ComposeActivity.class);
+        Bundle args = new Bundle();
+        args.putSerializable(Helper.ARG_QUOTED_MESSAGE, status);
+        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
+        });
+    }
+
     private static void clickMoreAction(Context context,
                                         StatusesVM statusesVM,
                                         StatusViewHolder holder,
@@ -2588,6 +2612,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 .inflate(R.menu.option_toot, popup.getMenu());
         if (statusToDeal.visibility.equals("private") || statusToDeal.visibility.equals("direct")) {
             popup.getMenu().findItem(R.id.action_mention).setVisible(false);
+        }
+        if (!quoteButton.equals(quoteButtonEntryValues[2])){
+            popup.getMenu().findItem(R.id.action_quote).setVisible(false);
         }
         if (statusToDeal.bookmarked)
             popup.getMenu().findItem(R.id.action_bookmark).setTitle(R.string.bookmark_remove);
@@ -2782,7 +2809,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
 
                 return true;
-            }else if (itemId == R.id.action_bookmark) {
+            } else if (itemId == R.id.action_quote) {
+                quote(context, statusToDeal);
+                return true;
+            } else if (itemId == R.id.action_bookmark) {
                 if (statusToDeal.bookmarked) {
                     statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_unbookmarked)).show());
                 } else {

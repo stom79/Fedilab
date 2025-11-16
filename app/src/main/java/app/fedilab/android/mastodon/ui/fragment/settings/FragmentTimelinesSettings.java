@@ -94,10 +94,10 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
             SET_TRANSLATE_BUTTON.setValue(value);
         }
 
-        SwitchPreferenceCompat SET_DISPLAY_QUOTE = findPreference(getString(R.string.SET_DISPLAY_QUOTE));
-        if (SET_DISPLAY_QUOTE != null) {
-            boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_QUOTE) + MainActivity.currentUserID + MainActivity.currentInstance, true);
-            SET_DISPLAY_QUOTE.setChecked(checked);
+        ListPreference SET_QUOTE_BUTTON = findPreference(getString(R.string.SET_QUOTE_BUTTON));
+        if (SET_QUOTE_BUTTON != null) {
+            String value = sharedpreferences.getString(getString(R.string.SET_QUOTE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, null);
+            SET_QUOTE_BUTTON.setValue(value);
         }
 
         SwitchPreferenceCompat SET_PIXELFED_PRESENTATION = findPreference(getString(R.string.SET_PIXELFED_PRESENTATION));
@@ -131,10 +131,10 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
                     editor.putString(getString(R.string.SET_TRANSLATE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, SET_TRANSLATE_BUTTON.getValue());
                 }
             }
-            if (key.compareToIgnoreCase(getString(R.string.SET_DISPLAY_QUOTE)) == 0) {
-                SwitchPreferenceCompat SET_DISPLAY_QUOTE = findPreference(getString(R.string.SET_DISPLAY_QUOTE));
-                if (SET_DISPLAY_QUOTE != null) {
-                    editor.putBoolean(getString(R.string.SET_DISPLAY_QUOTE) + MainActivity.currentUserID + MainActivity.currentInstance, SET_DISPLAY_QUOTE.isChecked());
+            if (key.compareToIgnoreCase(getString(R.string.SET_QUOTE_BUTTON)) == 0) {
+                ListPreference SET_QUOTE_BUTTON = findPreference(getString(R.string.SET_QUOTE_BUTTON));
+                if (SET_QUOTE_BUTTON != null) {
+                    editor.putString(getString(R.string.SET_QUOTE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, SET_QUOTE_BUTTON.getValue());
                 }
             }
             if (key.compareToIgnoreCase(getString(R.string.SET_PIXELFED_PRESENTATION)) == 0) {

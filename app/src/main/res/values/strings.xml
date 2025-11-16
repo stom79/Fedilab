@@ -789,6 +789,19 @@
         <item>hide</item>
     </string-array>
 
+    <string-array name="set_quote_button_entries">
+        <item>Dedicated button</item>
+        <item>Combine with boost button</item>
+        <item>In menu</item>
+        <item>Disable</item>
+    </string-array>
+    <string-array name="set_quote_button_entry_values" translatable="false">
+        <item>dedicated</item>
+        <item>combine_with_boost</item>
+        <item>in_menu</item>
+        <item>disable</item>
+    </string-array>
+
     <string-array name="set_link_previews_entries">
         <item>Always show</item>
         <item>Hide in posts with media</item>
@@ -1313,6 +1326,7 @@
 
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
     <string name="SET_TRANSLATE_BUTTON" translatable="false">SET_TRANSLATE_BUTTON</string>
+    <string name="SET_QUOTE_BUTTON" translatable="false">SET_QUOTE_BUTTON</string>
     <string name="SET_POST_FORMAT" translatable="false">SET_POST_FORMAT</string>
     <string name="SET_COMPOSE_LOCAL_ONLY" translatable="false">SET_COMPOSE_LOCAL_ONLY</string>
 
@@ -2119,7 +2133,7 @@
     <string name="set_post_format">Post format</string>
     <string name="icons_extra_features">Icons for extra features</string>
     <string name="icons_extra_features_visibility_summary">If your instance does not accept some extra features, you can hide these icons</string>
-    <string name="set_display_quote_indication">Display the \"Quote\" button</string>
+    <string name="set_display_quote_indication">Quote button</string>
     <string name="set_display_reaction_indication">Display \"Reactions\" buttons</string>
     <string name="bubble">Bubble</string>
     <string name="exclude_visibility">Exclude visibility</string>

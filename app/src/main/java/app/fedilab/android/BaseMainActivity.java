@@ -1145,6 +1145,19 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     .putString(getString(R.string.SET_TRANSLATE_BUTTON) + currentUserID + currentInstance, newTranslateButtonValue)
                     .apply();
         }
+        if (sharedpreferences.getString(getString(R.string.SET_QUOTE_BUTTON) + currentUserID + currentInstance, null) == null) {
+            boolean oldQuoteButtonPrefValue =
+                    sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_QUOTE) + currentUserID + currentInstance, false);
+            String[] quoteButtonEntryValues = getResources().getStringArray(R.array.set_quote_button_entry_values);
+            String newQuoteButtonValue;
+            if (oldQuoteButtonPrefValue)
+                newQuoteButtonValue = quoteButtonEntryValues[0];
+            else
+                newQuoteButtonValue = quoteButtonEntryValues[2];
+            sharedpreferences.edit()
+                    .putString(getString(R.string.SET_QUOTE_BUTTON) + currentUserID + currentInstance, newQuoteButtonValue)
+                    .apply();
+        }
 
         if (sharedpreferences.getString(getString(R.string.SET_LINK_PREVIEWS), null) == null) {
             boolean oldDisplayCardValue = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_CARD), false);

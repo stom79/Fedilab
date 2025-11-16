@@ -309,4 +309,9 @@
     <style name="ShapeAppearanceOverlay.Fedilab.ProfileImage.Square" parent="">
         <item name="cornerSize">0dp</item>
     </style>
+    
+    <style name="boostQuotePopupWindowAnimation">
+        <item name="android:windowEnterAnimation">@anim/popup_window_enter</item>
+        <item name="android:windowExitAnimation">@anim/popup_window_exit</item>
+    </style>
 </resources>

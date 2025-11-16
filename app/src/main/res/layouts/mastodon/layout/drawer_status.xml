@@ -778,6 +778,20 @@
 
             </RelativeLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/action_button_quote"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/action_quote"
+                android:visibility="gone"
+                app:icon="@drawable/ic_baseline_format_quote_24"
+                app:iconGravity="textStart"
+                app:iconSize="28dp"
+                app:iconTint="?colorControlNormal"
+                app:layout_constraintWidth_max="48dp"
+                tools:visibility="visible" />
+
             <RelativeLayout
                 android:id="@+id/action_button_favorite_container"
                 android:layout_width="0dp"
@@ -901,7 +915,7 @@
                 android:id="@+id/action_buttons_flow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:constraint_referenced_ids="action_button_reply_container,action_button_boost_container,action_button_favorite_container,action_button_bookmark,action_button_translate,action_button_maths,status_add_custom_emoji,status_emoji,action_button_more"
+                app:constraint_referenced_ids="action_button_reply_container,action_button_boost_container,action_button_quote,action_button_favorite_container,action_button_bookmark,action_button_translate,action_button_maths,status_add_custom_emoji,status_emoji,action_button_more"
                 app:flow_horizontalStyle="spread_inside" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
