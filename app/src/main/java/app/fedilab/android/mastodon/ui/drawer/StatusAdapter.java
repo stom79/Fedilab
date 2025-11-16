@@ -219,6 +219,48 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private boolean pixelfedFullScreenMedia;
     private RecyclerView mRecyclerView;
 
+    // Preferences
+    private static boolean expand_cw;
+    private static String linkPreviews;
+    private static String[] linkPreviewsEntryValues;
+    private static boolean share_details;
+    private static boolean confirmFav;
+    private static boolean confirmBoost;
+    private static boolean fullAttachement;
+    private static boolean expand_media;
+    private static boolean displayBookmark;
+    private static String translateButton;
+    private static String[] translateButtonEntryValues;
+    private static boolean displayCounters;
+    private static boolean removeLeftMargin;
+    private static boolean extraFeatures;
+    private static String quoteButton;
+    private static String[] quoteButtonEntryValues;
+    private static boolean displayReactions;
+    private static boolean compactButtons;
+    private static boolean originalDateForBoost;
+    private static boolean relativeDate;
+    private static boolean hideSingleMediaWithCard;
+    private static boolean autofetch;
+    private static boolean warnNoMedia;
+    private static String loadMediaType;
+    private static boolean pronounsSupport;
+    private static int truncate_toots_size;
+    private static float scale;
+    private static float scaleIcon;
+    private static boolean underlineBottomHashTags;
+    private static boolean customLight;
+    private static boolean customDark;
+    private static int link_color_light;
+    private static int link_color_dark;
+    private static boolean autoplaygif;
+    private static int video_cache;
+    private static int timeout;
+
+    private static int iconSize;
+    private static int dp6;
+    private static int dp48;
+
     public StatusAdapter(List<Status> statuses, Timeline.TimeLineEnum timelineType, boolean minified, boolean canBeFederated, boolean checkRemotely) {
         this.statusList = statuses;
         this.timelineType = timelineType;
@@ -564,36 +606,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (status == null) {
             return;
         }
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         boolean remote = timelineType == Timeline.TimeLineEnum.REMOTE || checkRemotely;
 
         Status statusToDeal = status.reblog != null ? status.reblog : status;
-
-
-        boolean expand_cw = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_CW), false);
-        String linkPreviews = sharedpreferences.getString(context.getString(R.string.SET_LINK_PREVIEWS), "hide_when_media");
-        String[] linkPreviewsEntryValues = context.getResources().getStringArray(R.array.set_link_previews_entry_values);
-        boolean share_details = sharedpreferences.getBoolean(context.getString(R.string.SET_SHARE_DETAILS), true);
-        boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
-        boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
-        boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
-        boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
-        boolean displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, true);
-        String translateButton = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, "auto");
-        String[] translateButtonEntryValues = context.getResources().getStringArray(R.array.set_translate_button_entry_values);
-        boolean displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
-        boolean removeLeftMargin = sharedpreferences.getBoolean(context.getString(R.string.SET_REMOVE_LEFT_MARGIN), false);
-        boolean extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
-        boolean displayQuote = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_QUOTE) + MainActivity.currentUserID + MainActivity.currentInstance, true);
-        boolean displayReactions = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_REACTIONS) + MainActivity.currentUserID + MainActivity.currentInstance, true);
-        boolean compactButtons = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COMPACT_ACTION_BUTTON), false);
-        boolean originalDateForBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_BOOST_ORIGINAL_DATE), true);
-        boolean relativeDate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_RELATIVE_DATE), true);
-        boolean hideSingleMediaWithCard = sharedpreferences.getBoolean(context.getString(R.string.SET_HIDE_SINGLE_MEDIA_WITH_CARD), false);
-        boolean autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
-        boolean warnNoMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_MANDATORY_ALT_TEXT_FOR_BOOSTS), true);
-
 
         if (compactButtons) {
             ConstraintSet set = new ConstraintSet();
@@ -604,55 +620,53 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (removeLeftMargin) {
             LinearLayoutCompat.MarginLayoutParams p = (LinearLayoutCompat.MarginLayoutParams) holder.binding.spoiler.getLayoutParams();
-            p.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            p.setMarginStart(dp6);
             holder.binding.spoiler.setLayoutParams(p);
             LinearLayoutCompat.MarginLayoutParams pe = (LinearLayoutCompat.MarginLayoutParams) holder.binding.spoilerExpand.getLayoutParams();
-            pe.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            pe.setMarginStart(dp6);
             holder.binding.spoilerExpand.setLayoutParams(pe);
             LinearLayoutCompat.MarginLayoutParams psc = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusContent.getLayoutParams();
-            psc.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            psc.setMarginStart(dp6);
             holder.binding.statusContent.setLayoutParams(psc);
             LinearLayoutCompat.MarginLayoutParams pst = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusHashtags.getLayoutParams();
-            pst.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            pst.setMarginStart(dp6);
             holder.binding.statusHashtags.setLayoutParams(pst);
             LinearLayoutCompat.MarginLayoutParams psq = (LinearLayoutCompat.MarginLayoutParams) holder.binding.quotedMessage.cardviewContainer.getLayoutParams();
-            psq.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            psq.setMarginStart(dp6);
             holder.binding.quotedMessage.cardviewContainer.setLayoutParams(psq);
             LinearLayoutCompat.MarginLayoutParams pct = (LinearLayoutCompat.MarginLayoutParams) holder.binding.containerTrans.getLayoutParams();
-            pct.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            pct.setMarginStart(dp6);
             holder.binding.containerTrans.setLayoutParams(psc);
             LinearLayoutCompat.MarginLayoutParams pcv = (LinearLayoutCompat.MarginLayoutParams) holder.binding.card.getLayoutParams();
-            pcv.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            pcv.setMarginStart(dp6);
             holder.binding.card.setLayoutParams(pcv);
             LinearLayoutCompat.MarginLayoutParams pmc = (LinearLayoutCompat.MarginLayoutParams) holder.binding.mediaContainer.getLayoutParams();
-            pmc.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            pmc.setMarginStart(dp6);
             holder.binding.mediaContainer.setLayoutParams(pmc);
             LinearLayoutCompat.MarginLayoutParams pal = (LinearLayoutCompat.MarginLayoutParams) holder.binding.mediaCroppedContainer.getLayoutParams();
-            pal.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            pal.setMarginStart(dp6);
             holder.binding.mediaCroppedContainer.setLayoutParams(pal);
             LinearLayoutCompat.MarginLayoutParams pp = (LinearLayoutCompat.MarginLayoutParams) holder.binding.poll.pollContainer.getLayoutParams();
-            pp.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            pp.setMarginStart(dp6);
             holder.binding.poll.pollContainer.setLayoutParams(pp);
             LinearLayoutCompat.MarginLayoutParams pet = (LinearLayoutCompat.MarginLayoutParams) holder.binding.editTime.getLayoutParams();
-            pet.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            pet.setMarginStart(dp6);
             holder.binding.editTime.setLayoutParams(pet);
             LinearLayoutCompat.MarginLayoutParams pas = (LinearLayoutCompat.MarginLayoutParams) holder.binding.actionShareContainer.getLayoutParams();
-            pas.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            pas.setMarginStart(dp6);
             holder.binding.actionShareContainer.setLayoutParams(pas);
             LinearLayoutCompat.MarginLayoutParams pab = (LinearLayoutCompat.MarginLayoutParams) holder.binding.actionButtons.getLayoutParams();
-            pab.setMarginStart((int) Helper.convertDpToPixel(6, context));
+            pab.setMarginStart(dp6);
             holder.binding.actionButtons.setLayoutParams(pab);
             LinearLayoutCompat.MarginLayoutParams psic = (LinearLayoutCompat.MarginLayoutParams) holder.binding.statusInfoContainer.getLayoutParams();
-            psic.setMarginStart((int) Helper.convertDpToPixel(0, context));
+            psic.setMarginStart(0);
             holder.binding.statusInfoContainer.setLayoutParams(psic);
         } else {
             LinearLayoutCompat.MarginLayoutParams psq = (LinearLayoutCompat.MarginLayoutParams) holder.binding.quotedMessage.cardviewContainer.getLayoutParams();
-            psq.setMarginStart((int) Helper.convertDpToPixel(48, context));
+            psq.setMarginStart(dp48);
             holder.binding.quotedMessage.cardviewContainer.setLayoutParams(psq);
         }
 
-        String loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
-        boolean pronounsSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_PRONOUNS_SUPPORT), true);
         if(pronounsSupport) {
             if (statusToDeal.pronouns == null && statusToDeal.account != null && statusToDeal.account.fields != null && statusToDeal.account.fields.size() > 0) {
                 for (Field field : statusToDeal.account.fields) {
@@ -913,9 +927,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusAddCustomEmoji.setVisibility(View.GONE);
             holder.binding.statusEmoji.setVisibility(View.GONE);
         }
-
-        int truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
-
 
         if (status.isMaths == null) {
             if (status.content != null && Helper.mathsPattern.matcher(status.content).find()) {
@@ -1350,8 +1361,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 TextView.BufferType.SPANNABLE);
         holder.binding.username.setText(String.format("@%s", statusToDeal.account.acct));
         //final float scale = context.getResources().getDisplayMetrics().density;
-        final float scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.1f);
-        final float scaleIcon = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE_ICON), 1.1f);
         if (statusToDeal.account.locked) {
             Drawable img = ContextCompat.getDrawable(context, R.drawable.ic_baseline_lock_24);
             assert img != null;
@@ -1361,28 +1370,27 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.username.setCompoundDrawables(null, null, null, null);
         }
         //Button sizes depending of the defined scale
-        float normalSize = Helper.convertDpToPixel(28, context);
-        holder.binding.actionButtonReply.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.actionButtonReply.getLayoutParams().height = (int) (normalSize * scaleIcon);
+        holder.binding.actionButtonReply.getLayoutParams().width = iconSize;
+        holder.binding.actionButtonReply.getLayoutParams().height = iconSize;
         holder.binding.actionButtonReply.requestLayout();
 
-        holder.binding.actionButtonTranslate.setIconSize((int) (normalSize * scaleIcon));
+        holder.binding.actionButtonTranslate.setIconSize(iconSize);
         holder.binding.actionButtonTranslate.requestLayout();
 
-        holder.binding.actionButtonBoost.setImageSize((int) (normalSize * scaleIcon));
-        holder.binding.actionButtonFavorite.setImageSize((int) (normalSize * scaleIcon));
-        holder.binding.actionButtonBookmark.setImageSize((int) (normalSize * scaleIcon));
+        holder.binding.actionButtonBoost.setImageSize(iconSize);
+        holder.binding.actionButtonFavorite.setImageSize(iconSize);
+        holder.binding.actionButtonBookmark.setImageSize(iconSize);
 
-        holder.binding.statusAddCustomEmoji.setIconSize((int) (normalSize * scaleIcon));
+        holder.binding.statusAddCustomEmoji.setIconSize(iconSize);
         holder.binding.statusAddCustomEmoji.requestLayout();
 
-        holder.binding.statusEmoji.setIconSize((int) (normalSize * scaleIcon));
+        holder.binding.statusEmoji.setIconSize(iconSize);
         holder.binding.statusEmoji.requestLayout();
 
-        holder.binding.actionButtonMore.setIconSize((int) (normalSize * scaleIcon));
+        holder.binding.actionButtonMore.setIconSize(iconSize);
         holder.binding.actionButtonMore.requestLayout();
-        holder.binding.actionShare.getLayoutParams().width = (int) (normalSize * scaleIcon);
-        holder.binding.actionShare.getLayoutParams().height = (int) (normalSize * scaleIcon);
+        holder.binding.actionShare.getLayoutParams().width = iconSize;
+        holder.binding.actionShare.getLayoutParams().height = iconSize;
         holder.binding.actionShare.requestLayout();
 
         if (statusToDeal.account.bot) {
@@ -1604,21 +1612,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             translate(context, statusToDeal, holder, adapter);
             return true;
         });
-        boolean underlineBottomHashTags = sharedpreferences.getBoolean(context.getString(R.string.SET_UNDERLINE_BOTTOM_HASHTAGS), true);
         if(underlineBottomHashTags) {
-            int link_color;
-            boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
-            boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
             int linkColor = -1;
             if (currentNightMode == Configuration.UI_MODE_NIGHT_NO && customLight) {
-                link_color = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_LINK), -1);
-                if (link_color != -1) {
-                    linkColor = link_color;
+                if (link_color_light != -1) {
+                    linkColor = link_color_light;
                 }
             } else if (currentNightMode == Configuration.UI_MODE_NIGHT_YES && customDark) {
-                link_color = sharedpreferences.getInt(context.getString(R.string.SET_DARK_LINK), -1);
-                if (link_color != -1) {
-                    linkColor = link_color;
+                if (link_color_dark != -1) {
+                    linkColor = link_color_dark;
                 }
             }
             if (statusToDeal.getBottomTags().length > 0) {
@@ -1785,7 +1787,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.displayMedia.setVisibility(View.GONE);
                 holder.binding.media.mediaContainer.setVisibility(View.VISIBLE);
                 int mediaPosition = 1;
-                boolean autoplaygif = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_PLAY_GIG_MEDIA), false);
 
                 for (Attachment attachment : statusToDeal.media_attachments) {
                     float ratio = 1.0f;
@@ -1895,7 +1896,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             layoutMediaBinding.mediaVideo.setLayoutParams(lp);
 
                             Uri uri = Uri.parse(attachment.url);
-                            int video_cache = sharedpreferences.getInt(context.getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
                             ProgressiveMediaSource videoSource;
                             MediaItem mediaItem = new MediaItem.Builder().setUri(uri).build();
                             if (video_cache == 0) {
@@ -1931,7 +1931,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                             int finalMediaPosition = mediaPosition;
                             layoutMediaBinding.mediaVideo.setOnClickListener(v -> {
-                                final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
                                 if (statusToDeal.sensitive && !expand_media) {
                                     statusToDeal.sensitive = false;
                                     int position = holder.getBindingAdapterPosition();
@@ -1986,7 +1985,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             layoutMediaBinding.mediaVideo.setVisibility(View.VISIBLE);
                             layoutMediaBinding.mediaVideo.onResume();
                             Uri uri = Uri.parse(attachment.url);
-                            int video_cache = sharedpreferences.getInt(context.getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
                             ProgressiveMediaSource videoSource;
                             MediaItem mediaItem = new MediaItem.Builder().setUri(uri).build();
                             if (video_cache == 0) {
@@ -2021,7 +2019,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             }
                             int finalMediaPosition = mediaPosition;
                             layoutMediaBinding.mediaVideo.setOnClickListener(v -> {
-                                final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
                                 if (statusToDeal.sensitive && !expand_media) {
                                     statusToDeal.sensitive = false;
                                     int position = holder.getBindingAdapterPosition();
@@ -3384,6 +3381,51 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+
+        Context context = recyclerView.getContext();
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        expand_cw = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_CW), false);
+        linkPreviews = sharedpreferences.getString(context.getString(R.string.SET_LINK_PREVIEWS), "hide_when_media");
+        linkPreviewsEntryValues = context.getResources().getStringArray(R.array.set_link_previews_entry_values);
+        share_details = sharedpreferences.getBoolean(context.getString(R.string.SET_SHARE_DETAILS), true);
+        confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
+        confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
+        fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
+        expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
+        displayBookmark = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, true);
+        translateButton = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, "auto");
+        translateButtonEntryValues = context.getResources().getStringArray(R.array.set_translate_button_entry_values);
+        quoteButton = sharedpreferences.getString(context.getString(R.string.SET_QUOTE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, "auto");
+        quoteButtonEntryValues = context.getResources().getStringArray(R.array.set_quote_button_entry_values);
+        displayCounters = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COUNTER_FAV_BOOST), false);
+        removeLeftMargin = sharedpreferences.getBoolean(context.getString(R.string.SET_REMOVE_LEFT_MARGIN), false);
+        extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
+        displayReactions = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_REACTIONS) + MainActivity.currentUserID + MainActivity.currentInstance, true);
+        compactButtons = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COMPACT_ACTION_BUTTON), false);
+        originalDateForBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_BOOST_ORIGINAL_DATE), true);
+        relativeDate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_RELATIVE_DATE), true);
+        hideSingleMediaWithCard = sharedpreferences.getBoolean(context.getString(R.string.SET_HIDE_SINGLE_MEDIA_WITH_CARD), false);
+        autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
+        warnNoMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_MANDATORY_ALT_TEXT_FOR_BOOSTS), true);
+        loadMediaType = sharedpreferences.getString(context.getString(R.string.SET_LOAD_MEDIA_TYPE), "ALWAYS");
+        pronounsSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_PRONOUNS_SUPPORT), true);
+        truncate_toots_size = sharedpreferences.getInt(context.getString(R.string.SET_TRUNCATE_TOOTS_SIZE), 0);
+        scale = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE), 1.1f);
+        scaleIcon = sharedpreferences.getFloat(context.getString(R.string.SET_FONT_SCALE_ICON), 1.1f);
+        underlineBottomHashTags = sharedpreferences.getBoolean(context.getString(R.string.SET_UNDERLINE_BOTTOM_HASHTAGS), true);
+        customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
+        customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
+        link_color_light = sharedpreferences.getInt(context.getString(R.string.SET_LIGHT_LINK), -1);
+        link_color_dark = sharedpreferences.getInt(context.getString(R.string.SET_DARK_LINK), -1);
+        autoplaygif = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_PLAY_GIG_MEDIA), false);
+        video_cache = sharedpreferences.getInt(context.getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
+        timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
+        video_cache = sharedpreferences.getInt(context.getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
+
+        iconSize = (int) (Helper.convertDpToPixel(28, context) * scaleIcon);
+        dp6 = (int) Helper.convertDpToPixel(6, context);
+        dp48 = (int) Helper.convertDpToPixel(48, context);
 
         mRecyclerView = recyclerView;
     }
