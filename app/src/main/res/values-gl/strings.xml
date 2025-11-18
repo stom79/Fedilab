@@ -933,7 +933,7 @@
     <string name="set_post_format">Formato da publicación</string>
     <string name="icons_extra_features">Iconas para Extras</string>
     <string name="icons_extra_features_visibility_summary">Se a túa instancia non acepta características extra, podes agochar estas iconas</string>
-    <string name="set_display_quote_indication">Mostrar botón \"Cita\"</string>
+    <string name="set_display_quote_indication">Botón de citar</string>
     <string name="set_display_reaction_indication">Mostrar botóns de \"Reaccións\"</string>
     <string name="self">Propio</string>
     <string name="following">Seguindo</string>
