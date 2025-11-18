@@ -957,7 +957,7 @@
     <string name="set_translator_version">翻译器版本</string>
     <string name="set_extand_extra_features_title">额外功能</string>
     <string name="icons_visibility">图标可见性</string>
-    <string name="set_display_quote_indication">显示“引用”按钮</string>
+    <string name="set_display_quote_indication">“引用”按钮</string>
     <string name="set_display_reaction_indication">显示“回应”按钮</string>
     <string name="bubble">气泡</string>
     <string name="exclude_visibility">排除可见性</string>
