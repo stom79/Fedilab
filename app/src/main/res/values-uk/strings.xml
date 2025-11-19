@@ -929,7 +929,7 @@
     <string name="tags_deleted">У мітці було видалено!</string>
     <string name="set_remove_left_margin">Видаліть ліве поле на шкалі часу, щоб зробити повідомлення більш компактними</string>
     <string name="version">Версія</string>
-    <string name="set_display_quote_indication">Відобразити кнопку «Цитувати»</string>
+    <string name="set_display_quote_indication">Кнопка цитати</string>
     <string name="set_alt_text_mandatory_description">Повідомлення не буде надіслано, якщо в медіафайлі відсутній опис</string>
     <string name="toot_error_no_media_description">Немає описів медіа</string>
     <string name="post_format">Формат публікації</string>
