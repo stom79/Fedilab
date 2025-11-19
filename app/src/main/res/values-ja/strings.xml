@@ -928,7 +928,7 @@
     <string name="admin_domainblock_private_comment">このドメイン制限に関するコメントで、モデレーターによって内部で使用されます。</string>
     <string name="admin_domainblock_public_comment">このドメイン制限に関するコメントで、ドメイン制限リストの公開が有効な場合に一般外部向けに使用されます。</string>
     <string name="set_translator_version">翻訳ツールのバージョン</string>
-    <string name="set_display_quote_indication">「引用」ボタンを表示</string>
+    <string name="set_display_quote_indication">引用ボタン</string>
     <string name="bubble">バブル</string>
     <string name="exclude_visibility">表示設定を除外する</string>
     <string name="following">フォロー中</string>
