@@ -1327,6 +1327,8 @@
     <string name="SET_DISPLAY_TRANSLATE" translatable="false">SET_DISPLAY_TRANSLATE</string>
     <string name="SET_TRANSLATE_BUTTON" translatable="false">SET_TRANSLATE_BUTTON</string>
     <string name="SET_QUOTE_BUTTON" translatable="false">SET_QUOTE_BUTTON</string>
+    <string name="SET_SENSITIVE_INDICATOR" translatable="false">SET_SENSITIVE_INDICATOR</string>
+    <string name="SET_MEDIA_DESCRIPTION_INDICATOR" translatable="false">SET_MEDIA_DESCRIPTION_INDICATOR</string>
     <string name="SET_POST_FORMAT" translatable="false">SET_POST_FORMAT</string>
     <string name="SET_COMPOSE_LOCAL_ONLY" translatable="false">SET_COMPOSE_LOCAL_ONLY</string>
 
@@ -2134,6 +2136,10 @@
     <string name="icons_extra_features">Icons for extra features</string>
     <string name="icons_extra_features_visibility_summary">If your instance does not accept some extra features, you can hide these icons</string>
     <string name="set_display_quote_indication">Quote button</string>
+    <string name="set_sensitive_indicator">Sensitive indicator</string>
+    <string name="set_sensitive_indicator_summary">Display an indicator for sensitive media</string>
+    <string name="set_media_description_indicator">Media description indicator</string>
+    <string name="set_media_description_indicator_summary">Display an indicator for media with a description</string>
     <string name="set_display_reaction_indication">Display \"Reactions\" buttons</string>
     <string name="bubble">Bubble</string>
     <string name="exclude_visibility">Exclude visibility</string>

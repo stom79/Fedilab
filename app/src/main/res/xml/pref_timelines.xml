@@ -156,6 +156,20 @@
         app:icon="@drawable/ic_baseline_format_quote_24"
         app:key="@string/SET_QUOTE_BUTTON"
         app:useSimpleSummaryProvider="true" />
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:icon="@drawable/ic_compose_sensitive"
+        app:key="@string/SET_SENSITIVE_INDICATOR"
+        app:singleLineTitle="false"
+        app:summary="@string/set_sensitive_indicator_summary"
+        app:title="@string/set_sensitive_indicator" />
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:icon="@drawable/ic_outline_note_alt_24"
+        app:key="@string/SET_MEDIA_DESCRIPTION_INDICATOR"
+        app:singleLineTitle="false"
+        app:summary="@string/set_media_description_indicator_summary"
+        app:title="@string/set_media_description_indicator" />
     <ListPreference
         app:defaultValue="FEDILAB"
         app:dialogTitle="@string/translator"

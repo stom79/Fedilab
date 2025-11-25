@@ -260,6 +260,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static boolean autoplaygif;
     private static int video_cache;
     private static int timeout;
+    private static boolean sensitiveIndicator;
+    private static boolean mediaDescriptionIndicator;
 
     private static int iconSize;
     private static int dp6;
@@ -1974,10 +1976,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     context.startActivity(mediaIntent, options.toBundle());
                                 });
                             });
-                            layoutMediaBinding.viewHide.setOnClickListener(v -> {
-                                statusToDeal.sensitive = !statusToDeal.sensitive;
-                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                            });
+                            if (sensitiveIndicator) {
+                                layoutMediaBinding.viewHide.setOnClickListener(v -> {
+                                    statusToDeal.sensitive = !statusToDeal.sensitive;
+                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                });
+                            } else {
+                                layoutMediaBinding.viewHide.setVisibility(View.GONE);
+                            }
                             ViewCompat.addAccessibilityAction(
                                     layoutMediaBinding.mediaVideo,
                                     context.getString(statusToDeal.sensitive ? R.string.cd_show_media : R.string.cd_hide_media),
@@ -2062,10 +2068,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     context.startActivity(mediaIntent, options.toBundle());
                                 });
                             });
-                            layoutMediaBinding.viewHide.setOnClickListener(v -> {
-                                statusToDeal.sensitive = !statusToDeal.sensitive;
-                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                            });
+                            if (sensitiveIndicator) {
+                                layoutMediaBinding.viewHide.setOnClickListener(v -> {
+                                    statusToDeal.sensitive = !statusToDeal.sensitive;
+                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                });
+                            } else {
+                                layoutMediaBinding.viewHide.setVisibility(View.GONE);
+                            }
                             ViewCompat.addAccessibilityAction(
                                     layoutMediaBinding.mediaVideo,
                                     context.getString(statusToDeal.sensitive ? R.string.cd_show_media : R.string.cd_hide_media),
@@ -3135,24 +3145,34 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             layoutMediaBinding.playMusic.setVisibility(View.GONE);
         }
-        if (attachment.description != null && !attachment.description.isEmpty()) {
+        if (mediaDescriptionIndicator && (attachment.description != null && !attachment.description.isEmpty())) {
             layoutMediaBinding.viewDescription.setVisibility(View.VISIBLE);
         } else {
             layoutMediaBinding.viewDescription.setVisibility(View.GONE);
         }
 
         RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, statusToDeal.sensitive, false);
-        if (!statusToDeal.sensitive || expand_media) {
-            layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_24);
+        if (sensitiveIndicator) {
+            if (!statusToDeal.sensitive || expand_media) {
+                layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_24);
+            } else {
+                layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_off_24);
+            }
+
+            if (statusToDeal.sensitive) {
+                Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, ThemeHelper.getAttColor(context, R.attr.colorError));
+            } else {
+                Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.white);
+            }
+
+            layoutMediaBinding.viewHide.setOnClickListener(v -> {
+                statusToDeal.sensitive = !statusToDeal.sensitive;
+                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+            });
         } else {
-            layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_off_24);
+            layoutMediaBinding.viewHide.setVisibility(View.GONE);
         }
         requestBuilder.load(attachment.preview_url).into(layoutMediaBinding.media);
-        if (statusToDeal.sensitive) {
-            Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, ThemeHelper.getAttColor(context, R.attr.colorError));
-        } else {
-            Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, R.color.white);
-        }
 
         layoutMediaBinding.media.setOnClickListener(v -> {
             if (statusToDeal.sensitive && !expand_media) {
@@ -3185,10 +3205,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         .makeSceneTransitionAnimation((Activity) context, layoutMediaBinding.media, statusToDeal.media_attachments.get(0).url);
                 context.startActivity(mediaIntent, options.toBundle());
             });
-        });
-        layoutMediaBinding.viewHide.setOnClickListener(v -> {
-            statusToDeal.sensitive = !statusToDeal.sensitive;
-            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
         });
         ViewCompat.addAccessibilityAction(
                 layoutMediaBinding.media,
@@ -3452,6 +3468,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         video_cache = sharedpreferences.getInt(context.getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
         timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
         video_cache = sharedpreferences.getInt(context.getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
+        sensitiveIndicator = sharedpreferences.getBoolean(context.getString(R.string.SET_SENSITIVE_INDICATOR), true);
+        mediaDescriptionIndicator = sharedpreferences.getBoolean(context.getString(R.string.SET_MEDIA_DESCRIPTION_INDICATOR), true);
 
         iconSize = (int) (Helper.convertDpToPixel(28, context) * scaleIcon);
         dp6 = (int) Helper.convertDpToPixel(6, context);
