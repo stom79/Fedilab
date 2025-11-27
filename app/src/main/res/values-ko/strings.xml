@@ -1140,4 +1140,8 @@
     <string name="set_custom_accent_light_value">밝은 강조 색</string>
     <string name="set_custom_accent_dark_value">어두운 강조 색</string>
     <string name="set_remote_conversation">앱은 모든 메시지를 수신하기 위해 모든 대화를 표시합니다. 상호작용 시 메시지를 연동하려면 추가 단계가 필요합니다.</string>
+    <string name="set_sensitive_indicator_summary">민감한 미디어에 마크 표시</string>
+    <string name="set_sensitive_indicator">민감함 마크</string>
+    <string name="set_media_description_indicator">미디어 설명 인디케이터</string>
+    <string name="set_media_description_indicator_summary">설명이 있는 미디어에 인디케이터 표시</string>
 </resources>
