@@ -1155,4 +1155,8 @@
     <string name="cd_release_note">Перекладена примітка до випуску: %s</string>
     <string name="set_profile_image_shape">Форма зображення профілю</string>
     <string name="set_link_previews">Попередній перегляд посилань</string>
+    <string name="set_sensitive_indicator">Чутливий індикатор</string>
+    <string name="set_sensitive_indicator_summary">Відображати індикатор для чутливих медіафайлів</string>
+    <string name="set_media_description_indicator">Індикатор опису медіафайлу</string>
+    <string name="set_media_description_indicator_summary">Відображати індикатор медіафайлів з описом</string>
 </resources>
