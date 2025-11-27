@@ -1147,4 +1147,8 @@
     <string name="cd_release_note">リリースノート翻訳の進捗: %s</string>
     <string name="set_profile_image_shape">プロフィール画像の形</string>
     <string name="set_link_previews">リンクのプレビュー</string>
+    <string name="set_sensitive_indicator">センシティブ・インジケーター</string>
+    <string name="set_sensitive_indicator_summary">センシティブなメディアのインジケーターを表示</string>
+    <string name="set_media_description_indicator">メディアの説明インジケーター</string>
+    <string name="set_media_description_indicator_summary">説明付きメディアのインジケーターを表示</string>
 </resources>
