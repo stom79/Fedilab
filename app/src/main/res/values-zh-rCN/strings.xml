@@ -1145,4 +1145,8 @@
     <string name="cd_release_note">已翻译的发行日志：%s</string>
     <string name="set_profile_image_shape">个人资料图片形状</string>
     <string name="set_link_previews">链接预览</string>
+    <string name="set_sensitive_indicator">敏感指示器</string>
+    <string name="set_sensitive_indicator_summary">显示敏感媒体内容指示器</string>
+    <string name="set_media_description_indicator">媒体内容描述指示器</string>
+    <string name="set_media_description_indicator_summary">展示带描述媒体内容的指示器</string>
 </resources>
