@@ -1144,4 +1144,8 @@
     <string name="tab_local_timeline">\@string/local_menu</string>
     <string name="set_link_previews">Vista previa de ligazóns</string>
     <string name="set_profile_image_shape">Forma da imaxe do perfil</string>
+    <string name="set_sensitive_indicator">Indicador CW</string>
+    <string name="set_sensitive_indicator_summary">Mostra un indicador para multimedia sensible</string>
+    <string name="set_media_description_indicator">Indicador de descrición</string>
+    <string name="set_media_description_indicator_summary">Mostra un indicador para a descrición do multimedia</string>
 </resources>
