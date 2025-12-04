@@ -846,7 +846,7 @@
     <string name="thread_long_this_message">Vols dividir aquests brams en les respostes?</string>
     <string name="thread_long_message_no">No dividir-los</string>
     <string name="cark_custom_colors">Fosc - Colors a mida</string>
-    <string name="set_display_quote_indication">Mostrar el botó \"Citar\"</string>
+    <string name="set_display_quote_indication">Botó citar</string>
     <string name="translate_in">Traduir a</string>
     <string name="reject_media">Rebutjar els mèdia</string>
     <string name="moderator">Moderadora</string>
@@ -1146,4 +1146,8 @@
     <string name="just_me">Jo sola</string>
     <string name="set_profile_image_shape">Aspecte de la foto de perfil</string>
     <string name="set_link_previews">Previsionats d\'enllaços</string>
+    <string name="set_sensitive_indicator">Indicador de sensible</string>
+    <string name="set_sensitive_indicator_summary">Mostra un indicador d\'imatges sensibles</string>
+    <string name="set_media_description_indicator">Indicador de descripció de mèdia</string>
+    <string name="set_media_description_indicator_summary">Mostra un indicador per als mèdia acompanyats d\'una descripció</string>
 </resources>
