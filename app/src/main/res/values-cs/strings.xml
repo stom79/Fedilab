@@ -22,7 +22,7 @@
     <string name="save">Uložit</string>
     <string name="instance">Instance</string>
     <string name="instance_example">Např.: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">Nyní používáte účet %1$s</string>
+    <string name="toast_account_changed" formatted="false">Přepnuto na účet %1$s</string>
     <string name="add_account">Přidat účet</string>
     <string name="clipboard">Obsah zprávy byl zkopírován do schránky</string>
     <string name="clipboard_url">Adresa zprávy byla zkopírována do schránky</string>
@@ -131,7 +131,7 @@
     <string name="toot_sensitive">Citlivý obsah\?</string>
     <string name="no_draft">Žádné koncepty!</string>
     <string name="choose_accounts">Vyberte účet</string>
-    <string name="select_accounts">Vyberte účty</string>
+    <string name="select_accounts">Hledání sledovaných účtů</string>
     <string name="remove_draft">Odstranit koncept\?</string>
     <string name="upload_form_description">Popsat pro zrakově postižené</string>
     <!-- Instance -->
