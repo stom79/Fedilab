@@ -953,7 +953,7 @@
     <string name="post_format">Formát příspěvků</string>
     <string name="icons_extra_features">Ikony pro extra funkce</string>
     <string name="icons_extra_features_visibility_summary">Pokud vaše instance nepodporuje některé extra funkce, můžete tyto ikony skýt</string>
-    <string name="set_display_quote_indication">Zobrazit tlačítko „Citovat“</string>
+    <string name="set_display_quote_indication">Tlačítko pro citaci</string>
     <string name="set_display_reaction_indication">Zobrazit tlačítko „Reakce“</string>
     <string name="set_extand_extra_features">Povolením této volby se zobrazí extra funkce. Jsou určeny pro softwary sociálních sítí jako Pleroma, Akkoma nebo Glitch Social</string>
     <string name="set_extand_extra_features_title">Extra funkce</string>
@@ -1150,4 +1150,25 @@
     <string name="remaining_tags">…a dalších %d</string>
     <string name="default_who_can_quote">Výchozí výběr pro toho, kdo může citovat</string>
     <string name="set_translate_button">Tlačítko překladu</string>
+    <string name="cd_release_note">Přeložená poznámka k vydání: %s</string>
+    <string name="action_unreblog">Zrušit boost</string>
+    <string name="move_timeline_up">Posunout časovou osu nahoru</string>
+    <string name="move_timeline_down">Posunout časovou osu dolů</string>
+    <string name="quoting_messages">Citace zpráv</string>
+    <string name="just_me">Jen já</string>
+    <string name="notif_display_quotes">Citace</string>
+    <string name="visibility_color_public">Barva pro veřejnou viditelnost</string>
+    <string name="visibility_color_unlisted">Barva pro neuvedenou viditelnost</string>
+    <string name="visibility_color_private">Barva pro soukromou viditelnost</string>
+    <string name="visibility_color_direct">Barva pro přímé zprávy</string>
+    <string name="set_link_previews">Náhledy odkazů</string>
+    <string name="action_quote_policy">Změnit, kdo vás může citovat</string>
+    <string name="set_colorize_visibility">Viditelnost podtržení</string>
+    <string name="set_colorize_visibility_indication">Tlačítko viditelnosti a dolní část oblasti pro psaní zprávy budou mít různé barvy v závislosti na viditelnost vybrané při tvorbě zprávy.</string>
+    <string name="set_custom_colors_visibility">Nastavit vlastní barvy pro viditelnost</string>
+    <string name="set_sensitive_indicator">Indikátor citlivosti</string>
+    <string name="set_sensitive_indicator_summary">Zobrazovat indikátor pro citlivá média</string>
+    <string name="set_media_description_indicator">Indikátor popisu médií</string>
+    <string name="set_media_description_indicator_summary">Zobrazovat indikátor pro média s popisem</string>
+    <string name="set_profile_image_shape">Tvar profilového obrázku</string>
 </resources>
