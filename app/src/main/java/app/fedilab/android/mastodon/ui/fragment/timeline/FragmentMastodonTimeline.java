@@ -1352,6 +1352,21 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, null, null, null, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
                         .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
             }
+        } else if (direction == null && checkRemotely) {
+            // Handle remote profile reload (e.g., after filter change)
+            accountsVM.getAccountStatuses(tempInstance, null, accountId, null, null, null, null, null, false, true, tagged, MastodonHelper.statusesPerCall(requireActivity()))
+                    .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(tempInstance, null, accountId, null, null, null, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
+                            .observe(getViewLifecycleOwner(), otherStatuses -> {
+                                if (otherStatuses != null && otherStatuses.statuses != null) {
+                                    if (pinnedStatuses != null && pinnedStatuses.statuses != null) {
+                                        for (Status status : pinnedStatuses.statuses) {
+                                            status.pinned = true;
+                                        }
+                                        otherStatuses.statuses.addAll(0, pinnedStatuses.statuses);
+                                    }
+                                    initializeStatusesCommonView(otherStatuses);
+                                }
+                            }));
         } else if (direction == DIRECTION.BOTTOM) {
             accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, max_id, null, null, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
                     .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
