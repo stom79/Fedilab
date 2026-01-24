@@ -62,11 +62,10 @@ public class Helper {
      * @param content String - Content to translate
      * @param toLanguage String - The targeted locale
      * @param deepLParams DeepLParams - The deepl paramaters see: https://www.deepl.com/api.html#api_reference_article
-     * @param apikey String - The Deepl API Key
-     * @return String - absolute URL for Deepl
+     * @param isPro boolean - Whether to use pro API endpoint
+     * @return String - absolute URL for Deepl (without auth_key, use Authorization header instead)
      */
-    public static String getDeeplAbsoluteUrl(String content, String toLanguage, Params deepLParams, String apikey) {
-        String key = "&auth_key=" + apikey;
+    public static String getDeeplAbsoluteUrl(String content, String toLanguage, Params deepLParams, boolean isPro) {
         toLanguage = toLanguage.replace("null", "");
         String lang = "target_lang=" + toLanguage.toUpperCase();
         String text;
@@ -99,11 +98,20 @@ public class Helper {
         if (deepLParams.getNon_splitting_tags() != null)
             params += "&tag_handling=" + deepLParams.getNon_splitting_tags();
 
-        if (deepLParams.isPro()) {
-            return Helper.DEEPL_BASE_URL + text + lang + params + key;
+        if (isPro) {
+            return Helper.DEEPL_BASE_URL + text + lang + params;
         } else {
-            return Helper.DEEPL_BASE_FREE_URL + text + lang + params + key;
+            return Helper.DEEPL_BASE_FREE_URL + text + lang + params;
         }
+    }
+
+    /***
+     * Returns the Authorization header value for DeepL API
+     * @param apikey String - The Deepl API Key
+     * @return String - Authorization header value
+     */
+    public static String getDeeplAuthorizationHeader(String apikey) {
+        return "DeepL-Auth-Key " + apikey;
     }
 
 

@@ -127,8 +127,9 @@ public class TransAsync {
             } else if (te == MyTransL.translatorEngine.DEEPL) {
                 String key = MyTransL.getInstance(te).getDeeplAPIKey();
                 params.setSplit_sentences(true);
-                url = Helper.getDeeplAbsoluteUrl(contentToSend, toLanguage, params, key);
-                str_response = new Client().get(url, this.timeout);
+                url = Helper.getDeeplAbsoluteUrl(contentToSend, toLanguage, params, params.isPro());
+                String authHeader = Helper.getDeeplAuthorizationHeader(key);
+                str_response = new Client().get(url, this.timeout, authHeader);
             } else if (te == MyTransL.translatorEngine.SYSTRAN) {
                 String key = MyTransL.getInstance(te).getSystranAPIKey();
                 url = Helper.getSystranAbsoluteUrl(contentToSend, key, toLanguage);

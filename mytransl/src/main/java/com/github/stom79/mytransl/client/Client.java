@@ -59,11 +59,30 @@ public class Client {
      */
     @SuppressWarnings({"SameParameterValue"})
     public String get(String urlConnection, int timeout) throws IOException, NoSuchAlgorithmException, KeyManagementException, HttpsConnectionException {
+        return get(urlConnection, timeout, null);
+    }
+
+    /***
+     * Get call to the translator API with Authorization header
+     * @param urlConnection - String url to query
+     * @param timeout - int a timeout
+     * @param authorizationHeader - String authorization header value (can be null)
+     * @return response - String
+     * @throws IOException - Exception
+     * @throws NoSuchAlgorithmException - Exception
+     * @throws KeyManagementException - Exception
+     * @throws HttpsConnectionException - Exception
+     */
+    @SuppressWarnings({"SameParameterValue"})
+    public String get(String urlConnection, int timeout, String authorizationHeader) throws IOException, NoSuchAlgorithmException, KeyManagementException, HttpsConnectionException {
         URL url = new URL(urlConnection);
         HttpsURLConnection httpsURLConnection = (HttpsURLConnection) url.openConnection();
         httpsURLConnection.setConnectTimeout(timeout * 1000);
         httpsURLConnection.setRequestProperty("http.keepAlive", "false");
         httpsURLConnection.setRequestProperty("User-Agent", USER_AGENT);
+        if (authorizationHeader != null) {
+            httpsURLConnection.setRequestProperty("Authorization", authorizationHeader);
+        }
         httpsURLConnection.setRequestMethod("GET");
         //Read the reply
         if (httpsURLConnection.getResponseCode() >= 200 && httpsURLConnection.getResponseCode() < 400) {
