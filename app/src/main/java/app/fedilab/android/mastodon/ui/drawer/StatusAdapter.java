@@ -3110,6 +3110,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (fullAttachement && mediaH > 0 && (!statusToDeal.sensitive || expand_media)) {
             lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
             layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        } else if (fullAttachement && attachment.type != null && attachment.type.equalsIgnoreCase("audio")) {
+            // For audio with fullAttachment, set a minimum height so the audio icon is visible and clickable
+            int minHeight = (int) Helper.convertDpToPixel(200, context);
+            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, minHeight);
+            layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
             lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutMediaBinding.media.setScaleType(ImageView.ScaleType.CENTER_CROP);
