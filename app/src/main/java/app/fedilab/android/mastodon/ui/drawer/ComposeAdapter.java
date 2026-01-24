@@ -599,6 +599,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         threadConfirm.setPositiveButton(R.string.thread_long_message_yes, (dialog, which) -> {
                             String currentContent = holder.binding.content.getText().toString();
                             ArrayList<String> splitText = ComposeHelper.splitToots(currentContent, max_car);
+                            if (splitText == null || splitText.isEmpty()) {
+                                dialog.dismiss();
+                                return;
+                            }
                             holder.binding.content.setText(splitText.get(0));
                             int statusListSize = statusList.size();
                             int i = 0;

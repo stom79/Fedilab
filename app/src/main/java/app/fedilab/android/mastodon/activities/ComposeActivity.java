@@ -294,6 +294,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         composeAdapter.manageDrafts = this;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
         binding.recyclerView.setLayoutManager(mLayoutManager);
+        binding.recyclerView.setItemAnimator(null);
         binding.recyclerView.setAdapter(composeAdapter);
         composeAdapter.setStatusCount(context.ancestors.size() + 1);
         binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
@@ -649,6 +650,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     composeAdapter.promptDraftListener = this;
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
                     binding.recyclerView.setLayoutManager(mLayoutManager);
+                    binding.recyclerView.setItemAnimator(null);
                     binding.recyclerView.setAdapter(composeAdapter);
                     binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
 
@@ -722,6 +724,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     composeAdapter.promptDraftListener = this;
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
                     binding.recyclerView.setLayoutManager(mLayoutManager);
+                    binding.recyclerView.setItemAnimator(null);
                     binding.recyclerView.setAdapter(composeAdapter);
                     statusesVM.getContext(currentInstance, BaseMainActivity.currentToken, statusReply.id)
                             .observe(ComposeActivity.this, this::initializeContextView);
@@ -737,6 +740,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     composeAdapter.promptDraftListener = this;
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
                     binding.recyclerView.setLayoutManager(mLayoutManager);
+                    binding.recyclerView.setItemAnimator(null);
                     binding.recyclerView.setAdapter(composeAdapter);
                 } else {
                     //Compose without replying
@@ -747,6 +751,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     composeAdapter.promptDraftListener = this;
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(ComposeActivity.this);
                     binding.recyclerView.setLayoutManager(mLayoutManager);
+                    binding.recyclerView.setItemAnimator(null);
                     binding.recyclerView.setAdapter(composeAdapter);
                     if (statusMention != null) {
                         composeAdapter.loadMentions(statusMention);

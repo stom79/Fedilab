@@ -260,8 +260,10 @@ public class ComposeWorker extends Worker {
 
                 if (dataPost.scheduledDate == null) {
                     if (dataPost.statusEditId == null) {
+                        String visibility = statuses.get(i).visibility != null ? statuses.get(i).visibility.toLowerCase() : null;
+                        String quoteApprovalPolicy = statuses.get(i).quote_approval_policy != null ? statuses.get(i).quote_approval_policy.toLowerCase() : null;
                         statusCall = mastodonStatusesService.createStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), statuses.get(i).language, statuses.get(i).quote_approval_policy.toLowerCase(), statuses.get(i).quote_id, statuses.get(i).quote_id, statuses.get(i).content_type, statuses.get(i).local_only);
+                                poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, visibility, statuses.get(i).language, quoteApprovalPolicy, statuses.get(i).quote_id, statuses.get(i).quote_id, statuses.get(i).content_type, statuses.get(i).local_only);
                     } else { //Status is edited
                         StatusParams statusParams = new StatusParams();
                         statusParams.status = statuses.get(i).text;
@@ -276,7 +278,7 @@ public class ComposeWorker extends Worker {
                         statusParams.in_reply_to_id =  statuses.get(i).quote_id == null ? in_reply_to_status : null;
                         statusParams.sensitive =  statuses.get(i).sensitive;
                         statusParams.spoiler_text = statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null;
-                        statusParams.visibility = statuses.get(i).visibility.toLowerCase();
+                        statusParams.visibility = statuses.get(i).visibility != null ? statuses.get(i).visibility.toLowerCase() : null;
                         String quote_id = statuses.get(i).quote_id;
                         if (quote_id != null) {
                             statusParams.quoted_status_id = quote_id.toLowerCase();
@@ -384,8 +386,9 @@ public class ComposeWorker extends Worker {
                             e.printStackTrace();
                         }
                     }
+                    String scheduledVisibility = statuses.get(i).visibility != null ? statuses.get(i).visibility.toLowerCase() : null;
                     Call<ScheduledStatus> scheduledStatusCall = mastodonStatusesService.createScheduledStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                            poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, statuses.get(i).visibility.toLowerCase(), dataPost.scheduledDate, statuses.get(i).language);
+                            poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, scheduledVisibility, dataPost.scheduledDate, statuses.get(i).language);
                     try {
                         Response<ScheduledStatus> statusResponse = scheduledStatusCall.execute();
 

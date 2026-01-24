@@ -65,7 +65,7 @@ public class FragmentMastodonContext extends Fragment {
         @Override
         public void onReceive(android.content.Context context, Intent intent) {
             Bundle args = intent.getExtras();
-            if (args != null) {
+            if (args != null && isAdded()) {
                 long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
                 new CachedBundle(requireActivity()).getBundle(bundleId, Helper.getCurrentAccount(requireActivity()), bundle -> {
                     Status receivedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS_ACTION);
@@ -111,7 +111,7 @@ public class FragmentMastodonContext extends Fragment {
                             statusAdapter.notifyItemChanged(position);
                         }
                     } else if (statusPosted != null && statusAdapter != null) {
-                        if (requireActivity() instanceof ContextActivity) {
+                        if (isAdded() && requireActivity() instanceof ContextActivity) {
                             int i = 0;
                             for (Status status : statuses) {
                                 if (status.id.equals(statusPosted.in_reply_to_id)) {
