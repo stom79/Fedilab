@@ -63,6 +63,7 @@ import app.fedilab.android.databinding.DatetimePickerBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.RelationShip;
+import app.fedilab.android.mastodon.client.entities.api.Instance;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.ScheduledBoost;
 import app.fedilab.android.mastodon.exception.DBException;
@@ -552,14 +553,32 @@ public class MastodonHelper {
     }
 
     public static int getInstanceMaxChars(Context context) {
+        return getInstanceMaxChars(context, MainActivity.currentInstance);
+    }
+
+    public static int getInstanceMaxChars(Context context, String instance) {
         int max_car;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        int val = sharedpreferences.getInt(context.getString(R.string.SET_MAX_INSTANCE_CHAR) + MainActivity.currentInstance, -1);
+        int val = sharedpreferences.getInt(context.getString(R.string.SET_MAX_INSTANCE_CHAR) + instance, -1);
         if (val != -1) {
             return val;
         } else {
-            if (instanceInfo != null) {
+            // Check if we're dealing with the current instance or a different one
+            if (instance != null && instance.equals(MainActivity.currentInstance) && instanceInfo != null) {
                 max_car = instanceInfo.max_toot_chars != null && instanceInfo.max_toot_chars.matches("\\d+") ? Integer.parseInt(instanceInfo.max_toot_chars) : instanceInfo.configuration.statusesConf.max_characters;
+            } else if (instance != null) {
+                // For cross-posting: load instance info from SharedPreferences
+                String instanceInfoStr = sharedpreferences.getString(context.getString(R.string.INSTANCE_INFO) + instance, null);
+                if (instanceInfoStr != null) {
+                    Instance crossInstanceInfo = Instance.restore(instanceInfoStr);
+                    if (crossInstanceInfo != null) {
+                        max_car = crossInstanceInfo.max_toot_chars != null && crossInstanceInfo.max_toot_chars.matches("\\d+") ? Integer.parseInt(crossInstanceInfo.max_toot_chars) : crossInstanceInfo.configuration.statusesConf.max_characters;
+                    } else {
+                        max_car = 500;
+                    }
+                } else {
+                    max_car = 500;
+                }
             } else {
                 max_car = 500;
             }

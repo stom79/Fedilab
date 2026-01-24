@@ -585,7 +585,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 buttonVisibility(holder);
                 //Text is copied pasted and the content is greater than the max of the instance
-                int max_car = MastodonHelper.getInstanceMaxChars(context);
+                int max_car = MastodonHelper.getInstanceMaxChars(context, account.instance);
                 if (ComposeHelper.countLength(s.toString()) > max_car) {
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
                     String defaultFormat = sharedpreferences.getString(context.getString(R.string.SET_THREAD_MESSAGE), context.getString(R.string.DEFAULT_THREAD_VALUE));
@@ -640,7 +640,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void afterTextChanged(Editable s) {
                 String contentString = s.toString();
                 if (proceedToSplit) {
-                    int max_car = MastodonHelper.getInstanceMaxChars(context);
+                    int max_car = MastodonHelper.getInstanceMaxChars(context, account.instance);
                     ArrayList<String> splitText = ComposeHelper.splitToots(contentString, max_car);
                     if(!splitText.isEmpty()) {
                         contentString = splitText.get(0);
@@ -655,7 +655,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
                 //Copy/past
-                int max_car = MastodonHelper.getInstanceMaxChars(context);
+                int max_car = MastodonHelper.getInstanceMaxChars(context, account.instance);
                 if (currentLength > max_car) {
                     holder.binding.characterCount.setTextColor(Color.RED);
                 } else {
@@ -878,7 +878,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 matcherEmoji = emojiPattern.matcher(searchIn);
                 if (matcherMention.matches()) {
                     String searchGroup = matcherMention.group();
-                    accountsVM.searchAccounts(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, searchGroup, 5, false, false).observe((LifecycleOwner) context, accounts -> {
+                    accountsVM.searchAccounts(account.instance, account.token, searchGroup, 5, false, false).observe((LifecycleOwner) context, accounts -> {
                         if (accounts == null) {
                             return;
                         }
@@ -926,7 +926,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     String searchGroup = matcherTag.group(3);
                     if (searchGroup != null) {
                         List<String> camelTags = new CamelTag(context).getBy(searchGroup);
-                        searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, searchGroup, null,
+                        searchVM.search(account.instance, account.token, searchGroup, null,
                                 "hashtags", false, true, false, 0,
                                 null, null, 10).observe((LifecycleOwner) context,
                                 results -> {
@@ -999,13 +999,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         List<Emoji> emojisToDisplay = new ArrayList<>();
                         try {
                             if (emojisList == null || emojisList.isEmpty()) {
-                                emojisList = new EmojiInstance(context).getEmojiList(BaseMainActivity.currentInstance);
+                                emojisList = new EmojiInstance(context).getEmojiList(account.instance);
                             }
                             if (emojis == null) {
                                 return;
                             } else if (emojisList == null) {
-                                if (emojis.containsKey(BaseMainActivity.currentInstance)) {
-                                    emojisList = emojis.get(BaseMainActivity.currentInstance);
+                                if (emojis.containsKey(account.instance)) {
+                                    emojisList = emojis.get(account.instance);
                                 }
                             }
                             if (emojisList == null) {
@@ -1196,7 +1196,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 for (Attachment attachment : attachmentList) {
                     if(attachment.url == null) {
                         StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
-                        statusesVM.getAttachment(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, attachment.id)
+                        statusesVM.getAttachment(account.instance, account.token, attachment.id)
                                 .observe((LifecycleOwner) context, attachmentReceived -> {
                                     if(attachmentReceived != null) {
                                         List<Attachment> attachments = statusList.get(position).media_attachments;
@@ -1829,7 +1829,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 else
                     statusDraft.text = new SpannableString(Html.fromHtml(statusDraft.content)).toString();
             }
-            int max_car = MastodonHelper.getInstanceMaxChars(context);
+            int max_car = MastodonHelper.getInstanceMaxChars(context, account.instance);
             holder.binding.content.setText(statusDraft.text);
             holder.binding.characterProgress.setMax(max_car);
             updateCharacterCount(holder);
@@ -1961,7 +1961,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         promptDraftListener.promptDraft();
                     }
                     int currentLength = MastodonHelper.countLength(holder);
-                    int max_car = MastodonHelper.getInstanceMaxChars(context);
+                    int max_car = MastodonHelper.getInstanceMaxChars(context, account.instance);
                     if (currentLength > max_car) {
                         holder.binding.characterCount.setTextColor(Color.RED);
                     } else {
