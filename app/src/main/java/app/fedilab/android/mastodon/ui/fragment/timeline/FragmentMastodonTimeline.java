@@ -1158,7 +1158,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 } else {
                     binding.swipeContainer.setRefreshing(false);
                 }
-            }else { //Other remote timelines
+            } else if (pinnedTimeline != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.MASTODON_TRENDING) {
+                if (direction == null) {
+                    timelinesVM.getStatusTrends(null, remoteInstance, null, MastodonHelper.statusesPerCall(requireActivity()))
+                            .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                } else if (direction == DIRECTION.BOTTOM) {
+                    timelinesVM.getStatusTrends(null, remoteInstance, max_id, MastodonHelper.statusesPerCall(requireActivity()))
+                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                } else {
+                    flagLoading = false;
+                }
+            } else { //Other remote timelines
                 routeCommon(direction, fetchingMissing, fetchStatus);
             }
         } else if (timelineType == Timeline.TimeLineEnum.LIST) { //LIST TIMELINE

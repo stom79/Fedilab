@@ -197,6 +197,8 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                         .build();
                 if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.mastodon_instance) {
                     url = "https://" + instanceName + "/api/v1/timelines/public?local=true";
+                } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.mastodon_trending_instance) {
+                    url = "https://" + instanceName + "/api/v1/trends/statuses";
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.peertube_instance) {
                     url = "https://" + instanceName + "/api/v1/videos/";
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.pixelfed_instance) {
@@ -249,6 +251,8 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                                     RemoteInstance.InstanceType instanceType = null;
                                     if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.mastodon_instance) {
                                         instanceType = RemoteInstance.InstanceType.MASTODON;
+                                    } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.mastodon_trending_instance) {
+                                        instanceType = RemoteInstance.InstanceType.MASTODON_TRENDING;
                                     } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.peertube_instance) {
                                         instanceType = RemoteInstance.InstanceType.PEERTUBE;
                                     } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.pixelfed_instance) {

@@ -40,6 +40,8 @@ public class RemoteInstance implements Serializable {
     public enum InstanceType {
         @SerializedName("MASTODON")
         MASTODON("MASTODON"),
+        @SerializedName("MASTODON_TRENDING")
+        MASTODON_TRENDING("MASTODON_TRENDING"),
         @SerializedName("PIXELFED")
         PIXELFED("PIXELFED"),
         @SerializedName("PEERTUBE")

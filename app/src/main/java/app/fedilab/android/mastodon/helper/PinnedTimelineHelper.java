@@ -407,6 +407,9 @@ public class PinnedTimelineHelper {
                                 case MASTODON:
                                     tabCustomViewBinding.icon.setImageResource(R.drawable.mastodon_icon_item);
                                     break;
+                                case MASTODON_TRENDING:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_trending_up_24);
+                                    break;
                                 case LEMMY:
                                     tabCustomViewBinding.icon.setImageResource(R.drawable.lemmy);
                                     break;
@@ -505,6 +508,9 @@ public class PinnedTimelineHelper {
                         switch (pinnedTimeline.remoteInstance.type) {
                             case MASTODON:
                                 item.setIcon(R.drawable.mastodon_icon_item);
+                                break;
+                            case MASTODON_TRENDING:
+                                item.setIcon(R.drawable.ic_baseline_trending_up_24);
                                 break;
                             case PEERTUBE:
                                 item.setIcon(R.drawable.peertube_icon);
