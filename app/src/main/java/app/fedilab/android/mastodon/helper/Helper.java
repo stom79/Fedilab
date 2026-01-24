@@ -1408,7 +1408,9 @@ public class Helper {
                 Date now = new Date();
                 attachment.filename = formatter.format(now) + "." + extension;
                 Set<String> imageType = new HashSet<>(Arrays.asList("image/png", "image/jpeg", "image/jpg"));
-                if (imageType.contains(attachment.mimeType)) {
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                boolean compressImages = sharedpreferences.getBoolean(context.getString(R.string.SET_PICTURE_COMPRESSED), false);
+                if (compressImages && imageType.contains(attachment.mimeType)) {
                     final File certCacheDir = new File(context.getCacheDir(), TEMP_MEDIA_DIRECTORY);
                     boolean isCertCacheDirExists = certCacheDir.exists();
                     if (!isCertCacheDirExists) {

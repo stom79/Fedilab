@@ -41,7 +41,6 @@
         app:summary="@string/set_mention_booster_indication"
         app:title="@string/set_mention_booster" />
 
-    <!--
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:iconSpaceReserved="false"
@@ -49,15 +48,6 @@
         app:singleLineTitle="false"
         app:summary="@string/set_resize_picture_indication"
         app:title="@string/set_resize_picture" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_VIDEO_COMPRESSED"
-        app:singleLineTitle="false"
-        app:summary="@string/set_resize_video_indication"
-        app:title="@string/set_resize_video" />
-    -->
     <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"
