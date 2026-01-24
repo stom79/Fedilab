@@ -208,7 +208,8 @@ public class FragmentMedia extends Fragment {
                                     Drawable scaledRessource = MediaHelper.rescaleImageIfNeeded(requireActivity(), resource);
                                     binding.mediaPicture.setImageDrawable(scaledRessource);
 
-                                    if (attachment.type.equalsIgnoreCase("image") && !attachment.url.toLowerCase().endsWith(".gif")) {
+                                    boolean isAnimatedFormat = attachment.url.toLowerCase().endsWith(".gif") || attachment.url.toLowerCase().endsWith(".webp");
+                                    if (attachment.type.equalsIgnoreCase("image") && !isAnimatedFormat) {
                                         binding.mediaPicture.setVisibility(View.VISIBLE);
                                         final Handler handler = new Handler();
                                         handler.postDelayed(() -> {
@@ -237,7 +238,7 @@ public class FragmentMedia extends Fragment {
                                                         );
                                             }
                                         }, 500);
-                                    } else if (attachment.type.equalsIgnoreCase("image") && attachment.url.toLowerCase().endsWith(".gif")) {
+                                    } else if (attachment.type.equalsIgnoreCase("image") && isAnimatedFormat) {
                                         binding.loader.setVisibility(View.GONE);
                                         binding.mediaPicture.setVisibility(View.VISIBLE);
                                         if (Helper.isValidContextForGlide(requireActivity())) {
