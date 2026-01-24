@@ -733,6 +733,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     statusToDeal.getQuote().getSpanContent(context, remote,
                             new WeakReference<>(holder.binding.quotedMessage.statusContent), null),
                     TextView.BufferType.SPANNABLE);
+            if (truncate_toots_size > 0) {
+                holder.binding.quotedMessage.statusContent.setMaxLines(truncate_toots_size);
+                holder.binding.quotedMessage.statusContent.setEllipsize(TextUtils.TruncateAt.END);
+            }
             MastodonHelper.loadPPMastodon(holder.binding.quotedMessage.avatar, statusToDeal.getQuote().account);
             if (statusToDeal.getQuote().account != null) {
                 holder.binding.quotedMessage.displayName.setText(
