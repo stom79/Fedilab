@@ -966,29 +966,40 @@ public class Helper {
                                        @Nullable Bundle args,
                                        @Nullable String tag,
                                        @Nullable String backStackName) {
+        // Check if FragmentManager is in a valid state
+        if (fragmentManager.isDestroyed() || fragmentManager.isStateSaved()) {
+            return fragment;
+        }
+
+        Fragment _fragment = fragmentManager.findFragmentByTag(tag);
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
-        Fragment _fragment = fragmentManager.findFragmentByTag(tag);
+
         if (_fragment != null && _fragment.isAdded()) {
-            ft.show(_fragment).commitAllowingStateLoss();
-            fragment = _fragment;
+            // Reuse existing fragment
+            ft.show(_fragment);
+            try {
+                ft.commit();
+            } catch (IllegalStateException e) {
+                // State already saved, cannot commit
+                return _fragment;
+            }
+            return _fragment;
         } else {
+            // Add new fragment
             if (args != null) fragment.setArguments(args);
-            ft = fragmentManager.beginTransaction();
             ft.add(containerViewId, fragment, tag);
             if (backStackName != null) {
-                try {
-                    ft.addToBackStack(backStackName);
-                }catch (Exception ignored){}
+                ft.addToBackStack(backStackName);
             }
-            if (!fragmentManager.isDestroyed()) {
-                ft.commitAllowingStateLoss();
+            try {
+                ft.commit();
+            } catch (IllegalStateException e) {
+                // State already saved, cannot commit
+                return fragment;
             }
+            return fragment;
         }
-        if(!fragmentManager.isDestroyed()) {
-            fragmentManager.executePendingTransactions();
-        }
-        return fragment;
     }
 
     /**

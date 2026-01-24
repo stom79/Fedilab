@@ -75,7 +75,7 @@ public class TimelineHelper {
      * @return filtered List<Status>
      */
     public static List<Status> filterStatus(Context context, List<Status> statuses, Timeline.TimeLineEnum filterTimeLineType) {
-        //A security to make sure filters have been fetched before displaying messages
+        // Ensure filters have been fetched before displaying messages
         if (!BaseMainActivity.filterFetched && BaseMainActivity.filterFetchedRetry < 3) {
             MastodonFiltersService mastodonFiltersService = initv2(context);
             List<Filter> filterList;
@@ -95,133 +95,220 @@ public class TimelineHelper {
             BaseMainActivity.filterFetchedRetry++;
         }
 
-        //If there are filters:
-        if (BaseMainActivity.mainFilters != null && !BaseMainActivity.mainFilters.isEmpty() && statuses != null && !statuses.isEmpty()) {
+        if (statuses == null || statuses.isEmpty()) {
+            return statuses;
+        }
 
-            //Loop through filters
+        // Precompile patterns for all active filters
+        List<CompiledFilter> compiledFilters = new ArrayList<>();
+        if (BaseMainActivity.mainFilters != null && !BaseMainActivity.mainFilters.isEmpty()) {
+            Date now = new Date();
             for (Filter filter : BaseMainActivity.mainFilters) {
-                if (filter.expires_at != null && filter.expires_at.before(new Date())) {
-                    //Expired filter
+                // Skip expired filters
+                if (filter.expires_at != null && filter.expires_at.before(now)) {
                     continue;
                 }
+
+                // Check context
+                boolean contextMatches = false;
                 if (filterTimeLineType == Timeline.TimeLineEnum.HOME || filterTimeLineType == Timeline.TimeLineEnum.LIST) {
-                    if (!filter.context.contains("home")) continue;
+                    contextMatches = filter.context.contains("home");
                 } else if (filterTimeLineType == Timeline.TimeLineEnum.NOTIFICATION) {
-                    if (!filter.context.contains("notifications")) continue;
+                    contextMatches = filter.context.contains("notifications");
                 } else if (filterTimeLineType == Timeline.TimeLineEnum.CONTEXT) {
-                    if (!filter.context.contains("thread")) continue;
+                    contextMatches = filter.context.contains("thread");
                 } else if (filterTimeLineType == Timeline.TimeLineEnum.ACCOUNT_TIMELINE) {
-                    if (!filter.context.contains("account")) continue;
+                    contextMatches = filter.context.contains("account");
                 } else {
-                    if (!filter.context.contains("public")) continue;
+                    contextMatches = filter.context.contains("public");
                 }
-                if (filter.keywords != null && !filter.keywords.isEmpty()) {
-                    for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
-                        String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).find() ? "\\b" : "";
-                        String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).find() ? "\\b" : "";
-                        Pattern p;
-                        if (filterKeyword.whole_word) {
-                            p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE);
-                        } else {
-                            p = Pattern.compile("(" + Pattern.quote(filterKeyword.keyword) + ")", Pattern.CASE_INSENSITIVE);
-                        }
-                        for (Status status : statuses) {
-                            if (status.account.id.equals(MainActivity.currentUserID)) {
-                                continue;
-                            }
-                            String content;
-                            try {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
-                                else
-                                    content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
-                                if(status.reblog == null && status.getQuote() != null) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                        content += Html.fromHtml(status.getQuote().content, Html.FROM_HTML_MODE_LEGACY).toString();
-                                    else
-                                        content += Html.fromHtml(status.getQuote().content).toString();
-                                } else if(status.reblog != null && status.reblog.getQuote() != null) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                        content += Html.fromHtml(status.reblog.getQuote().content, Html.FROM_HTML_MODE_LEGACY).toString();
-                                    else
-                                        content += Html.fromHtml(status.reblog.getQuote().content).toString();
-                                }
-                            } catch (Exception e) {
-                                content = status.reblog != null ? status.reblog.content : status.content;
-                            }
-                            Matcher m = p.matcher(content);
-                            if (m.find()) {
-                                status.filteredByApp = filter;
-                                continue;
-                            }
-                            if (status.spoiler_text != null) {
-                                String spoilerText;
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                    spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
-                                else
-                                    spoilerText = Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
-                                Matcher ms = p.matcher(spoilerText);
-                                if (ms.find()) {
-                                    status.filteredByApp = filter;
-                                    continue;
-                                }
-                            }
-                            List<Attachment> mediaAttachments = status.reblog != null ? status.reblog.media_attachments : status.media_attachments;
-                            if(mediaAttachments != null && !mediaAttachments.isEmpty()) {
-                                for(Attachment attachment : mediaAttachments) {
-                                    if(attachment.description != null) {
-                                        Matcher ms = p.matcher(attachment.description );
-                                        if (ms.find()) {
-                                            status.filteredByApp = filter;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
+
+                if (!contextMatches || filter.keywords == null || filter.keywords.isEmpty()) {
+                    continue;
+                }
+
+                // Precompile patterns for this filter
+                List<Pattern> patterns = new ArrayList<>();
+                for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
+                    String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).find() ? "\\b" : "";
+                    String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).find() ? "\\b" : "";
+                    Pattern p;
+                    if (filterKeyword.whole_word) {
+                        p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE);
+                    } else {
+                        p = Pattern.compile("(" + Pattern.quote(filterKeyword.keyword) + ")", Pattern.CASE_INSENSITIVE);
+                    }
+                    patterns.add(p);
+                }
+                compiledFilters.add(new CompiledFilter(filter, patterns));
+            }
+        }
+
+        // Apply filters to statuses (inverted loop order for early exit)
+        for (Status status : statuses) {
+            // Skip user's own statuses
+            if (status.account.id.equals(MainActivity.currentUserID)) {
+                continue;
+            }
+
+            // Cache parsed HTML content
+            String content = parseStatusContent(status);
+            String spoilerText = parseStatusSpoiler(status);
+            List<Attachment> mediaAttachments = status.reblog != null ? status.reblog.media_attachments : status.media_attachments;
+
+            // Check against all compiled filters
+            for (CompiledFilter compiledFilter : compiledFilters) {
+                boolean matched = false;
+
+                // Check content
+                for (Pattern pattern : compiledFilter.patterns) {
+                    if (pattern.matcher(content).find()) {
+                        matched = true;
+                        break;
+                    }
+                }
+
+                // Check spoiler text
+                if (!matched && spoilerText != null) {
+                    for (Pattern pattern : compiledFilter.patterns) {
+                        if (pattern.matcher(spoilerText).find()) {
+                            matched = true;
+                            break;
                         }
                     }
                 }
+
+                // Check media attachments
+                if (!matched && mediaAttachments != null && !mediaAttachments.isEmpty()) {
+                    for (Attachment attachment : mediaAttachments) {
+                        if (attachment.description != null) {
+                            for (Pattern pattern : compiledFilter.patterns) {
+                                if (pattern.matcher(attachment.description).find()) {
+                                    matched = true;
+                                    break;
+                                }
+                            }
+                            if (matched) break;
+                        }
+                    }
+                }
+
+                if (matched) {
+                    status.filteredByApp = compiledFilter.filter;
+                    break; // Stop checking other filters for this status
+                }
             }
         }
-        if (statuses != null && !statuses.isEmpty()) {
+
+        // Apply additional filters for HOME timeline
+        if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             boolean groupReblogs = sharedpreferences.getBoolean(context.getString(R.string.SET_GROUP_REBLOGS), true);
-            if (filterTimeLineType == Timeline.TimeLineEnum.HOME) {
 
-                for (int i = 0; i < statuses.size(); i++) {
-                    if (filteredAccounts != null && !filteredAccounts.isEmpty()) {
-                        for (Account account : filteredAccounts) {
-                            if (account.acct.equals(statuses.get(i).account.acct) || (statuses.get(i).reblog != null && account.acct.equals(statuses.get(i).reblog.account.acct))) {
-                                Filter filterCustom = new Filter();
-                                filterCustom.filter_action = "hide";
-                                ArrayList<String> contextCustom = new ArrayList<>();
-                                contextCustom.add("home");
-                                filterCustom.title = "Fedilab";
-                                filterCustom.context = contextCustom;
-                                statuses.get(i).filteredByApp = filterCustom;
-                                break;
-                            }
+            // Index seen reblog IDs for O(1) lookup
+            java.util.HashSet<String> seenReblogIds = new java.util.HashSet<>();
+
+            for (int i = 0; i < statuses.size(); i++) {
+                Status currentStatus = statuses.get(i);
+
+                // Check filtered accounts
+                if (filteredAccounts != null && !filteredAccounts.isEmpty()) {
+                    for (Account account : filteredAccounts) {
+                        if (account.acct.equals(currentStatus.account.acct) ||
+                            (currentStatus.reblog != null && account.acct.equals(currentStatus.reblog.account.acct))) {
+                            Filter filterCustom = new Filter();
+                            filterCustom.filter_action = "hide";
+                            ArrayList<String> contextCustom = new ArrayList<>();
+                            contextCustom.add("home");
+                            filterCustom.title = "Fedilab";
+                            filterCustom.context = contextCustom;
+                            currentStatus.filteredByApp = filterCustom;
+                            break;
                         }
                     }
-                    //Group boosts
-                    if (groupReblogs && statuses.get(i).filteredByApp == null && statuses.get(i).reblog != null) {
-                        for (int j = 0; j < i; j++) {
-                            if (statuses.get(j).reblog != null && statuses.get(j).reblog.id.equals(statuses.get(i).reblog.id)) {
-                                Filter filterCustom = new Filter();
-                                filterCustom.filter_action = "hide";
-                                ArrayList<String> contextCustom = new ArrayList<>();
-                                contextCustom.add("home");
-                                filterCustom.title = "Fedilab reblog";
-                                filterCustom.context = contextCustom;
-                                statuses.get(i).filteredByApp = filterCustom;
-                            }
-                        }
-                    }
+                }
 
+                // Group duplicate reblogs using HashSet
+                if (groupReblogs && currentStatus.filteredByApp == null && currentStatus.reblog != null) {
+                    if (seenReblogIds.contains(currentStatus.reblog.id)) {
+                        Filter filterCustom = new Filter();
+                        filterCustom.filter_action = "hide";
+                        ArrayList<String> contextCustom = new ArrayList<>();
+                        contextCustom.add("home");
+                        filterCustom.title = "Fedilab reblog";
+                        filterCustom.context = contextCustom;
+                        currentStatus.filteredByApp = filterCustom;
+                    } else {
+                        seenReblogIds.add(currentStatus.reblog.id);
+                    }
                 }
             }
         }
+
         return statuses;
+    }
+
+    /**
+     * Parse HTML content from status (cached per status)
+     */
+    private static String parseStatusContent(Status status) {
+        try {
+            String content;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
+            } else {
+                content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
+            }
+
+            // Append quote content if present
+            if (status.reblog == null && status.getQuote() != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    content += Html.fromHtml(status.getQuote().content, Html.FROM_HTML_MODE_LEGACY).toString();
+                } else {
+                    content += Html.fromHtml(status.getQuote().content).toString();
+                }
+            } else if (status.reblog != null && status.reblog.getQuote() != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    content += Html.fromHtml(status.reblog.getQuote().content, Html.FROM_HTML_MODE_LEGACY).toString();
+                } else {
+                    content += Html.fromHtml(status.reblog.getQuote().content).toString();
+                }
+            }
+            return content;
+        } catch (Exception e) {
+            return status.reblog != null ? status.reblog.content : status.content;
+        }
+    }
+
+    /**
+     * Parse HTML spoiler text from status
+     */
+    private static String parseStatusSpoiler(Status status) {
+        if (status.spoiler_text == null) {
+            return null;
+        }
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                return Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text, Html.FROM_HTML_MODE_LEGACY).toString();
+            } else {
+                return Html.fromHtml(status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text).toString();
+            }
+        } catch (Exception e) {
+            return status.reblog != null ? status.reblog.spoiler_text : status.spoiler_text;
+        }
+    }
+
+    /**
+     * Helper class to hold precompiled filter patterns
+     */
+    private static class CompiledFilter {
+        final Filter filter;
+        final List<Pattern> patterns;
+
+        CompiledFilter(Filter filter, List<Pattern> patterns) {
+            this.filter = filter;
+            this.patterns = patterns;
+        }
     }
 
     /**
