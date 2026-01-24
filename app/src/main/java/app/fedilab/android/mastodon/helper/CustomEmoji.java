@@ -34,6 +34,7 @@ public class CustomEmoji extends ReplacementSpan {
     private float scale;
     private Drawable imageDrawable;
     private boolean callbackCalled;
+    private boolean loadFailed;
 
     CustomEmoji(WeakReference<View> viewWeakReference) {
         Context mContext = viewWeakReference.get().getContext();
@@ -44,6 +45,7 @@ public class CustomEmoji extends ReplacementSpan {
             scale = 1.3f;
         }
         callbackCalled = false;
+        loadFailed = false;
     }
 
     public SpannableStringBuilder makeEmoji(SpannableStringBuilder content, List<Emoji> emojiList, boolean animate, Status.Callback callback) {
@@ -82,6 +84,8 @@ public class CustomEmoji extends ReplacementSpan {
             canvas.translate(x, (float) transY);
             imageDrawable.draw(canvas);
             canvas.restore();
+        } else if (loadFailed) {
+            canvas.drawText(charSequence, start, end, x, y, paint);
         }
     }
 
@@ -135,6 +139,15 @@ public class CustomEmoji extends ReplacementSpan {
                 if (callback != null && !callbackCalled) {
                     callbackCalled = true;
                     callback.emojiFetched();
+                }
+            }
+
+            @Override
+            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                loadFailed = true;
+                View view = viewWeakReference.get();
+                if (view != null) {
+                    view.invalidate();
                 }
             }
 
