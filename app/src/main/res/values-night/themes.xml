@@ -46,11 +46,13 @@
         </item>
         <item name="android:windowSharedElementExitTransition">@transition/change_image_transform
         </item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
         <item name="alertDialogTheme">@style/AppThemeAlertDialog</item>
     </style>
 
     <style name="AppThemeBar" parent="Theme.Material3.Dark">
         <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
         <item name="linkColor">@color/md_theme_dark_primary</item>
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>

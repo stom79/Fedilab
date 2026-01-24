@@ -160,4 +160,9 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
     public void networkUnavailable() {
 
     }
+
+    @Override
+    public void onTimeout(int startId, int fgsType) {
+        stopSelf();
+    }
 }

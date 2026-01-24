@@ -46,6 +46,7 @@
         <item name="android:windowSharedElementExitTransition">@transition/change_image_transform
         </item>
         <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
         <item name="alertDialogTheme">@style/AppThemeAlertDialog</item>
     </style>
 
@@ -83,6 +84,7 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="android:isLightTheme" tools:targetApi="q">true</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
         <item name="alertDialogTheme">@style/AppThemeAlertDialog</item>
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
     </style>
