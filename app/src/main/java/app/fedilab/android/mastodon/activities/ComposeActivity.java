@@ -573,6 +573,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     }
                     status.sensitive = scheduledStatus.params.sensitive;
                     status.spoiler_text = scheduledStatus.params.spoiler_text;
+                    status.spoilerChecked = scheduledStatus.params.spoiler_text != null && !scheduledStatus.params.spoiler_text.isEmpty();
                     status.visibility = scheduledStatus.params.visibility;
                     status.quote_approval_policy = scheduledStatus.params.quote_approval_policy;
                     statuses.add(status);
