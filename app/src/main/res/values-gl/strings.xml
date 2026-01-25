@@ -1148,4 +1148,5 @@
     <string name="set_sensitive_indicator_summary">Mostra un indicador para multimedia sensible</string>
     <string name="set_media_description_indicator">Indicador de descrición</string>
     <string name="set_media_description_indicator_summary">Mostra un indicador para a descrición do multimedia</string>
+    <string name="mastodon_trending_instance">Instancia Mastodon en voga</string>
 </resources>
