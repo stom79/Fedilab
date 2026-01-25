@@ -142,10 +142,15 @@ public class MediaHelper {
                         if (fileName.endsWith(".bin")) {
                             fileName = fileName.replace(".bin", ".jpg");
                         }
-                        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                        File targeted_folder = new File(path, context.getString(R.string.app_name));
+                        File targeted_folder;
+                        if (share) {
+                            targeted_folder = new File(context.getCacheDir(), "shared_media");
+                        } else {
+                            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                            targeted_folder = new File(path, context.getString(R.string.app_name));
+                        }
                         if (!targeted_folder.exists()) {
-                            boolean created = targeted_folder.mkdir();
+                            boolean created = targeted_folder.mkdirs();
                             if (!created) {
                                 Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                 return;
@@ -166,21 +171,23 @@ public class MediaHelper {
                             long size = in.size();
                             in.transferTo(0, size, out);
                             String mime = getMimeType(url);
-                            final Intent intent = new Intent();
-                            intent.setAction(Intent.ACTION_VIEW);
-                            Uri uri = Uri.fromFile(backupFile);
-                            intent.setDataAndType(uri, mime);
-                            MediaScannerConnection.scanFile(context, new String[]{backupFile.getAbsolutePath()}, null, null);
                             if (!share) {
+                                final Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_VIEW);
+                                Uri uri = Uri.fromFile(backupFile);
+                                intent.setDataAndType(uri, mime);
+                                MediaScannerConnection.scanFile(context, new String[]{backupFile.getAbsolutePath()}, null, null);
                                 Helper.notify_user(context, Helper.getCurrentAccount(context), intent, BitmapFactory.decodeResource(context.getResources(),
                                         getMainLogo(context)), Helper.NotifType.STORE, context.getString(R.string.save_over), context.getString(R.string.download_from, fileName));
                                 Toasty.success(context, context.getString(R.string.save_over), Toasty.LENGTH_LONG).show();
                             } else {
+                                Uri uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileProvider", backupFile);
                                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                                 shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
                                 shareIntent.setType(mime);
+                                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                 try {
-                                    context.startActivity(shareIntent);
+                                    context.startActivity(Intent.createChooser(shareIntent, null));
                                 } catch (Exception ignored) {
                                 }
                             }
