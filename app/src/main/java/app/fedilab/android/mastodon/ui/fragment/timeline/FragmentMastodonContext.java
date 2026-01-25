@@ -46,6 +46,7 @@ import app.fedilab.android.mastodon.client.entities.api.Context;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
+import app.fedilab.android.mastodon.helper.CommentDecorationHelper;
 import app.fedilab.android.mastodon.helper.DividerDecoration;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
@@ -290,8 +291,14 @@ public class FragmentMastodonContext extends Fragment {
         //Build the array of statuses
         statuses.addAll(0, context.ancestors);
         statusAdapter.notifyItemRangeInserted(0, statusPosition);
-        statuses.addAll(statusPosition + 1, context.descendants);
-        statusAdapter.notifyItemRangeInserted(statusPosition + 1, context.descendants.size());
+        List<String> allParentIds = new ArrayList<>();
+        for (Status ancestor : context.ancestors) {
+            allParentIds.add(ancestor.id);
+        }
+        allParentIds.add(focusedStatus.id);
+        List<Status> sortedDescendants = CommentDecorationHelper.sortDescendantsAsTree(context.descendants, allParentIds);
+        statuses.addAll(statusPosition + 1, sortedDescendants);
+        statusAdapter.notifyItemRangeInserted(statusPosition + 1, sortedDescendants.size());
         if (binding.recyclerView.getItemDecorationCount() > 0) {
             for (int i = 0; i < binding.recyclerView.getItemDecorationCount(); i++) {
                 binding.recyclerView.removeItemDecorationAt(i);

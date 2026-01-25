@@ -17,7 +17,10 @@ package app.fedilab.android.mastodon.helper;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import app.fedilab.android.mastodon.client.entities.api.Status;
 
@@ -65,6 +68,46 @@ public class CommentDecorationHelper {
                 currentIndentation = 1;
             }
             return Math.min(currentIndentation, maxIndent);
+        }
+    }
+
+    /**
+     * Sort descendants into tree order (depth-first) so replies appear right after their parent
+     *
+     * @param descendants  List of descendants in chronological order from API
+     * @param allParentIds List of all status IDs that can be parents (ancestors + focused)
+     * @return List of descendants sorted in tree order
+     */
+    public static List<Status> sortDescendantsAsTree(List<Status> descendants, List<String> allParentIds) {
+        if (descendants == null || descendants.isEmpty()) {
+            return new ArrayList<>();
+        }
+        Map<String, List<Status>> repliesMap = new HashMap<>();
+        for (Status status : descendants) {
+            String replyToId = status.in_reply_to_id;
+            if (replyToId != null) {
+                if (!repliesMap.containsKey(replyToId)) {
+                    repliesMap.put(replyToId, new ArrayList<>());
+                }
+                repliesMap.get(replyToId).add(status);
+            }
+        }
+        List<Status> sorted = new ArrayList<>();
+        for (String parentId : allParentIds) {
+            addRepliesRecursively(sorted, parentId, repliesMap);
+        }
+        return sorted;
+    }
+
+    private static void addRepliesRecursively(List<Status> sorted, String parentId, Map<String, List<Status>> repliesMap) {
+        List<Status> directReplies = repliesMap.get(parentId);
+        if (directReplies != null) {
+            for (Status reply : directReplies) {
+                if (!sorted.contains(reply)) {
+                    sorted.add(reply);
+                    addRepliesRecursively(sorted, reply.id, repliesMap);
+                }
+            }
         }
     }
 

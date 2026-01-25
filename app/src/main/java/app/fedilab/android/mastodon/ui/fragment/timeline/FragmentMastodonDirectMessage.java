@@ -85,6 +85,7 @@ import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.helper.CommentDecorationHelper;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.imageeditor.EditImageActivity;
@@ -945,8 +946,14 @@ public class FragmentMastodonDirectMessage extends Fragment {
         //Build the array of statuses
         statuses.addAll(0, context.ancestors);
         statusDirectMessageAdapter.notifyItemRangeInserted(0, statusPosition);
-        statuses.addAll(statusPosition + 1, context.descendants);
-        statusDirectMessageAdapter.notifyItemRangeInserted(statusPosition + 1, context.descendants.size());
+        List<String> allParentIds = new ArrayList<>();
+        for (Status ancestor : context.ancestors) {
+            allParentIds.add(ancestor.id);
+        }
+        allParentIds.add(focusedStatus.id);
+        List<Status> sortedDescendants = CommentDecorationHelper.sortDescendantsAsTree(context.descendants, allParentIds);
+        statuses.addAll(statusPosition + 1, sortedDescendants);
+        statusDirectMessageAdapter.notifyItemRangeInserted(statusPosition + 1, sortedDescendants.size());
         binding.swipeContainer.setRefreshing(false);
         initiliazeStatus();
     }
