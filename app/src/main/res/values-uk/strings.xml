@@ -1159,4 +1159,5 @@
     <string name="set_sensitive_indicator_summary">Відображати індикатор для чутливих медіафайлів</string>
     <string name="set_media_description_indicator">Індикатор опису медіафайлу</string>
     <string name="set_media_description_indicator_summary">Відображати індикатор медіафайлів з описом</string>
+    <string name="mastodon_trending_instance">Трендовий екземпляр Mastodon</string>
 </resources>
