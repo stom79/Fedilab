@@ -112,7 +112,7 @@ public class SpannableHelper {
     private static final String patternBottomTags = "\\n{2,}((#[\\w_À-ú-]+)(\\s*| *))+$";
 
     public static String[] hasBottomTags(String text) {
-        if (text == null) {
+        if (text == null || text.length() > 10000) {
             return new String[]{};
         }
         SpannableString initialContent;
@@ -183,7 +183,7 @@ public class SpannableHelper {
             mentions.addAll(status.mentions);
         }
         boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), false);
-        if(!markdownSupport) {
+        if(!markdownSupport && text.length() < 10000) {
             text = text.replaceAll("((<\\s?p\\s?>|<\\s?br\\s?/?>)&gt;(((?!(<\\s?br\\s?/?>|<\\s?/s?p\\s?>)).)*))", "$2<blockquote>$3</blockquote>");
         }
         if(convertHtml) {
@@ -199,7 +199,6 @@ public class SpannableHelper {
         } else {
             initialContent = new SpannableString(text);
         }
-
 
         //Get all links
         SpannableStringBuilder content;
@@ -406,7 +405,7 @@ public class SpannableHelper {
         }
 
         boolean underlineBottomHashTags = sharedpreferences.getBoolean(context.getString(R.string.SET_UNDERLINE_BOTTOM_HASHTAGS), true);
-        if(underlineBottomHashTags && !keepOriginalBottomHashTags) {
+        if(underlineBottomHashTags && !keepOriginalBottomHashTags && content.length() < 10000) {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
             final Pattern bottomTagsPattern = Pattern.compile(patternBottomTags, Pattern.CASE_INSENSITIVE);
             Matcher matcherBottomTags = bottomTagsPattern.matcher(content);

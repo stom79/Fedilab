@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.util.AttributeSet;
 
@@ -43,16 +44,26 @@ public class CustomTextView extends AppCompatTextView {
     private final boolean emoji;
     private float emojiSize;
 
+    @SuppressLint("WrongConstant")
     public CustomTextView(Context context) {
         super(context);
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         emoji = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_EMOJI), false);
+        // Use simple break strategy to avoid ANR on very long text without spaces
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setBreakStrategy(0); // LineBreaker.BREAK_STRATEGY_SIMPLE
+        }
     }
 
+    @SuppressLint("WrongConstant")
     public CustomTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         emoji = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_EMOJI), false);
+        // Use simple break strategy to avoid ANR on very long text without spaces
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setBreakStrategy(0); // LineBreaker.BREAK_STRATEGY_SIMPLE
+        }
 
         final Paint.FontMetrics fontMetrics = getPaint().getFontMetrics();
         final float defaultEmojiSize = fontMetrics.descent - fontMetrics.ascent;

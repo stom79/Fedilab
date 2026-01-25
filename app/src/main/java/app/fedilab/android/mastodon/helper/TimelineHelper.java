@@ -280,17 +280,12 @@ public class TimelineHelper {
             }
 
             // Append quote content if present
-            if (status.reblog == null && status.getQuote() != null) {
+            Status quote = status.reblog == null ? status.getQuote() : (status.reblog != null ? status.reblog.getQuote() : null);
+            if (quote != null && quote.content != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    content += Html.fromHtml(status.getQuote().content, Html.FROM_HTML_MODE_LEGACY).toString();
+                    content += Html.fromHtml(quote.content, Html.FROM_HTML_MODE_LEGACY).toString();
                 } else {
-                    content += Html.fromHtml(status.getQuote().content).toString();
-                }
-            } else if (status.reblog != null && status.reblog.getQuote() != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    content += Html.fromHtml(status.reblog.getQuote().content, Html.FROM_HTML_MODE_LEGACY).toString();
-                } else {
-                    content += Html.fromHtml(status.reblog.getQuote().content).toString();
+                    content += Html.fromHtml(quote.content).toString();
                 }
             }
             return content;

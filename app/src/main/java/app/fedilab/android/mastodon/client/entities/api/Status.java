@@ -144,9 +144,9 @@ public class Status implements Serializable, Cloneable {
         Gson gson = new Gson();
         try{
             quote = gson.fromJson(json, Status.class);
-            if(quote.account == null) {
+            if(quote != null && quote.account == null) {
                 MastodonQuote mastodonQuote = gson.fromJson(json, MastodonQuote.class);
-                if(mastodonQuote.quoted_status != null && (mastodonQuote.state != null && mastodonQuote.state.equals("accepted"))) {
+                if(mastodonQuote != null && mastodonQuote.quoted_status != null && (mastodonQuote.state != null && mastodonQuote.state.equals("accepted"))) {
                     quote = mastodonQuote.quoted_status;
                 }
             }
