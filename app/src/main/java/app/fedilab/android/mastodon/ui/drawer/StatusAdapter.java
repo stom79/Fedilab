@@ -752,9 +752,19 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         statusToDeal.getQuote().getSpanSpoiler(context,
                                 new WeakReference<>(holder.binding.quotedMessage.spoiler), null),
                         TextView.BufferType.SPANNABLE);
+                if (statusToDeal.getQuote().isExpended) {
+                    holder.binding.quotedMessage.statusContent.setVisibility(View.VISIBLE);
+                } else {
+                    holder.binding.quotedMessage.statusContent.setVisibility(View.GONE);
+                }
+                holder.binding.quotedMessage.spoiler.setOnClickListener(v -> {
+                    statusToDeal.getQuote().isExpended = !statusToDeal.getQuote().isExpended;
+                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                });
             } else {
                 holder.binding.quotedMessage.spoiler.setVisibility(View.GONE);
                 holder.binding.quotedMessage.spoiler.setText(null);
+                holder.binding.quotedMessage.statusContent.setVisibility(View.VISIBLE);
             }
             holder.binding.quotedMessage.cardviewContainer.setVisibility(View.VISIBLE);
         } else {
