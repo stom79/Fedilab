@@ -1149,4 +1149,5 @@
     <string name="set_sensitive_indicator_summary">显示敏感媒体内容指示器</string>
     <string name="set_media_description_indicator">媒体内容描述指示器</string>
     <string name="set_media_description_indicator_summary">展示带描述媒体内容的指示器</string>
+    <string name="mastodon_trending_instance">Mastodon 热门实例</string>
 </resources>
