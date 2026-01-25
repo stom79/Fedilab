@@ -1151,4 +1151,5 @@
     <string name="set_sensitive_indicator_summary">センシティブなメディアのインジケーターを表示</string>
     <string name="set_media_description_indicator">メディアの説明インジケーター</string>
     <string name="set_media_description_indicator_summary">説明付きメディアのインジケーターを表示</string>
+    <string name="mastodon_trending_instance">マストドンで話題のインスタンス</string>
 </resources>
