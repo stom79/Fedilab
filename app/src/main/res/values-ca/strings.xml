@@ -43,7 +43,7 @@
     <string name="favourite">Preferits</string>
     <string name="follow">Noves seguidores</string>
     <string name="mention">Mencions</string>
-    <string name="reblog">Difusions</string>
+    <string name="reblog">Impulsos</string>
     <string name="show_boosts">Mostrar difusions</string>
     <string name="show_replies">Mostra les respostes</string>
     <string name="action_open_in_web">Obrir al navegador</string>
