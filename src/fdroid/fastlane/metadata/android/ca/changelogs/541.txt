@@ -1,0 +1,30 @@
+Afegit:
+- Control remot de tendències de Mastodon com a pissarra fixable
+- Opció per carregar contingut multimèdia sense comprimir (desactivada per defecte)
+- Opció d'ocultar indicadors de "contingut delicat" i "descripció del contingut multimèdia"
+- Opció de forma de la imatge de perfil a la pàgina del perfil
+- Acció d'accessibilitat per traducció del contingut en curs
+- Nova preferència amb opcions per canviar com es mostra el botó de cita
+
+Canvis:
+- Migració a targetSdk 35
+- Millor preferència de previsualització d'enllaços
+- Tria d'usuària emergent per impuls+cita
+- Treu el compte d\'"Inici silenciat" en deixar de seguir
+- Instància d'URI clicable al diàleg "Sobre la instància"
+
+Corregit:
+- Mostrava marcador de posició per a emojis no federats
+- No filtrava missatges després de carregar el perfil remot
+- No es reproduïa el WebP animat al visor multimèdia
+- No es podia clicar àudio amb el previsionat ajustat
+- Publicació creuada: instància correcta per al límit de caràcters i els emojis
+- No es trunquen les publicacions citades
+- Es perdia contingut en editar publicacions programades
+- Traducció DeepL mitjançant la capçalera d'autorització
+- "Obrir el missatge original" n'obria un d'incorrecte
+- Notificacions de citacions (tipus que no s'exclou correctament, la pestanya Cites mostra enquestes)
+- Parpelleig del vídeo
+- Problema amb el reproductor
+- Millores amb els filtres
+- Algunes fallides
