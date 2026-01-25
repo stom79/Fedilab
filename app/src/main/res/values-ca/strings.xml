@@ -600,7 +600,7 @@
     <string name="report_all_more">Seleccioneu totes les opcions pertinents</string>
     <string name="report_more">Hi ha res més que creguis que ens cal saber?</string>
     <string name="report_more_additional">Altres comentaris</string>
-    <string name="notif_display_reblogs">Reblogs</string>
+    <string name="notif_display_reblogs">Difusions</string>
     <string name="report_3_title">Quines normes s\'estan transgredint?</string>
     <string name="notif_display_updates_from_people">Últimes accions de la gent</string>
     <string name="interactions">Interaccions</string>
@@ -1150,4 +1150,5 @@
     <string name="set_sensitive_indicator_summary">Mostra un indicador d\'imatges sensibles</string>
     <string name="set_media_description_indicator">Indicador de descripció de mèdia</string>
     <string name="set_media_description_indicator_summary">Mostra un indicador per als mèdia acompanyats d\'una descripció</string>
+    <string name="mastodon_trending_instance">Instància popular de Mastodon</string>
 </resources>
