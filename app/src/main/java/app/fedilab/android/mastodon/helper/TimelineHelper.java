@@ -43,6 +43,7 @@ import app.fedilab.android.mastodon.client.endpoints.MastodonFiltersService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
+import app.fedilab.android.mastodon.client.entities.api.FilterStatus;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
@@ -123,22 +124,26 @@ public class TimelineHelper {
                     contextMatches = filter.context.contains("public");
                 }
 
-                if (!contextMatches || filter.keywords == null || filter.keywords.isEmpty()) {
+                boolean hasKeywords = filter.keywords != null && !filter.keywords.isEmpty();
+                boolean hasStatuses = filter.statuses != null && !filter.statuses.isEmpty();
+                if (!contextMatches || (!hasKeywords && !hasStatuses)) {
                     continue;
                 }
 
                 // Precompile patterns for this filter
                 List<Pattern> patterns = new ArrayList<>();
-                for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
-                    String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).find() ? "\\b" : "";
-                    String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).find() ? "\\b" : "";
-                    Pattern p;
-                    if (filterKeyword.whole_word) {
-                        p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE);
-                    } else {
-                        p = Pattern.compile("(" + Pattern.quote(filterKeyword.keyword) + ")", Pattern.CASE_INSENSITIVE);
+                if (hasKeywords) {
+                    for (Filter.KeywordsAttributes filterKeyword : filter.keywords) {
+                        String sb = Pattern.compile("\\A[A-Za-z0-9_]").matcher(filterKeyword.keyword).find() ? "\\b" : "";
+                        String eb = Pattern.compile("[A-Za-z0-9_]\\z").matcher(filterKeyword.keyword).find() ? "\\b" : "";
+                        Pattern p;
+                        if (filterKeyword.whole_word) {
+                            p = Pattern.compile(sb + "(" + Pattern.quote(filterKeyword.keyword) + ")" + eb, Pattern.CASE_INSENSITIVE);
+                        } else {
+                            p = Pattern.compile("(" + Pattern.quote(filterKeyword.keyword) + ")", Pattern.CASE_INSENSITIVE);
+                        }
+                        patterns.add(p);
                     }
-                    patterns.add(p);
                 }
                 compiledFilters.add(new CompiledFilter(filter, patterns));
             }
@@ -160,35 +165,49 @@ public class TimelineHelper {
             for (CompiledFilter compiledFilter : compiledFilters) {
                 boolean matched = false;
 
-                // Check content
-                for (Pattern pattern : compiledFilter.patterns) {
-                    if (pattern.matcher(content).find()) {
-                        matched = true;
-                        break;
-                    }
-                }
-
-                // Check spoiler text
-                if (!matched && spoilerText != null) {
-                    for (Pattern pattern : compiledFilter.patterns) {
-                        if (pattern.matcher(spoilerText).find()) {
+                // Check if status ID is in filter's statuses list
+                if (compiledFilter.filter.statuses != null) {
+                    String statusIdToCheck = status.reblog != null ? status.reblog.id : status.id;
+                    for (FilterStatus filterStatus : compiledFilter.filter.statuses) {
+                        if (filterStatus.status_id != null && filterStatus.status_id.equals(statusIdToCheck)) {
                             matched = true;
                             break;
                         }
                     }
                 }
 
-                // Check media attachments
-                if (!matched && mediaAttachments != null && !mediaAttachments.isEmpty()) {
-                    for (Attachment attachment : mediaAttachments) {
-                        if (attachment.description != null) {
-                            for (Pattern pattern : compiledFilter.patterns) {
-                                if (pattern.matcher(attachment.description).find()) {
-                                    matched = true;
-                                    break;
-                                }
+                // Check keywords (content, spoiler, media) if not already matched by status ID
+                if (!matched) {
+                    // Check content
+                    for (Pattern pattern : compiledFilter.patterns) {
+                        if (pattern.matcher(content).find()) {
+                            matched = true;
+                            break;
+                        }
+                    }
+
+                    // Check spoiler text
+                    if (!matched && spoilerText != null) {
+                        for (Pattern pattern : compiledFilter.patterns) {
+                            if (pattern.matcher(spoilerText).find()) {
+                                matched = true;
+                                break;
                             }
-                            if (matched) break;
+                        }
+                    }
+
+                    // Check media attachments
+                    if (!matched && mediaAttachments != null && !mediaAttachments.isEmpty()) {
+                        for (Attachment attachment : mediaAttachments) {
+                            if (attachment.description != null) {
+                                for (Pattern pattern : compiledFilter.patterns) {
+                                    if (pattern.matcher(attachment.description).find()) {
+                                        matched = true;
+                                        break;
+                                    }
+                                }
+                                if (matched) break;
+                            }
                         }
                     }
                 }

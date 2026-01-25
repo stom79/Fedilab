@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/status_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="?selectableItemBackground"
+        android:drawableStart="@drawable/ic_baseline_open_with_24"
+        android:drawablePadding="8dp"
+        android:drawableTint="?colorPrimary"
+        android:ellipsize="middle"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:textColor="?colorPrimary"
+        android:textSize="12sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/delete_status"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="@string/delete"
+        android:scaleType="fitCenter"
+        app:icon="@drawable/ic_baseline_delete_24"
+        app:strokeColor="?colorPrimary" />
+</androidx.appcompat.widget.LinearLayoutCompat>

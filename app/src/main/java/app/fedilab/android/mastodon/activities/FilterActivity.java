@@ -44,7 +44,9 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityFiltersBinding;
 import app.fedilab.android.databinding.PopupAddFilterBinding;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
+import app.fedilab.android.mastodon.client.entities.api.FilterStatus;
 import app.fedilab.android.mastodon.ui.drawer.FilterAdapter;
+import app.fedilab.android.mastodon.ui.drawer.FilteredStatusAdapter;
 import app.fedilab.android.mastodon.ui.drawer.KeywordAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.FiltersVM;
 
@@ -139,6 +141,29 @@ public class FilterActivity extends BaseBarActivity implements FilterAdapter.Del
         popupAddFilterBinding.lvKeywords.setAdapter(keywordAdapter);
         popupAddFilterBinding.lvKeywords.setNestedScrollingEnabled(false);
         popupAddFilterBinding.lvKeywords.setLayoutManager(new LinearLayoutManager(context));
+
+        // Setup filtered statuses list
+        if (filter != null && filter.statuses != null && !filter.statuses.isEmpty()) {
+            popupAddFilterBinding.filteredStatusesContainer.setVisibility(View.VISIBLE);
+            FilteredStatusAdapter filteredStatusAdapter = new FilteredStatusAdapter(filter.statuses, null);
+            filteredStatusAdapter.setDeleteListener((filterStatus, position) -> {
+                new MaterialAlertDialogBuilder(context)
+                        .setTitle(R.string.delete)
+                        .setMessage(filterStatus.status_id)
+                        .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                        .setPositiveButton(R.string.delete, (dialog, which) -> {
+                            filtersVM.removeStatusFromFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, filterStatus.id);
+                            filteredStatusAdapter.removeItem(position);
+                            if (filter.statuses.isEmpty()) {
+                                popupAddFilterBinding.filteredStatusesContainer.setVisibility(View.GONE);
+                            }
+                        })
+                        .show();
+            });
+            popupAddFilterBinding.lvFilteredStatuses.setAdapter(filteredStatusAdapter);
+            popupAddFilterBinding.lvFilteredStatuses.setNestedScrollingEnabled(false);
+            popupAddFilterBinding.lvFilteredStatuses.setLayoutManager(new LinearLayoutManager(context));
+        }
 
         popupAddFilterBinding.addKeyword.setOnClickListener(v -> {
             Filter.KeywordsParams keywordsParams = new Filter.KeywordsParams();

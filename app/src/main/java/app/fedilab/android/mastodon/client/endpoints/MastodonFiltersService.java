@@ -18,6 +18,7 @@ package app.fedilab.android.mastodon.client.endpoints;
 import java.util.List;
 
 import app.fedilab.android.mastodon.client.entities.api.Filter;
+import app.fedilab.android.mastodon.client.entities.api.FilterStatus;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -102,5 +103,27 @@ public interface MastodonFiltersService {
             @Path("id") String id
     );
 
+    //Get statuses for a filter
+    @GET("filters/{filter_id}/statuses")
+    Call<List<FilterStatus>> getStatusFilter(
+            @Header("Authorization") String token,
+            @Path("filter_id") String filter_id
+    );
+
+    //Add a status to a filter
+    @FormUrlEncoded
+    @POST("filters/{filter_id}/statuses")
+    Call<FilterStatus> addStatusFilter(
+            @Header("Authorization") String token,
+            @Path("filter_id") String filter_id,
+            @Field("status_id") String status_id
+    );
+
+    //Remove a status from a filter
+    @DELETE("filters/statuses/{id}")
+    Call<Void> removeStatusFilter(
+            @Header("Authorization") String token,
+            @Path("id") String id
+    );
 
 }

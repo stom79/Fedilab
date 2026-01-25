@@ -88,6 +88,10 @@
                 android:id="@+id/action_timed_mute"
                 android:title="@string/more_action_8"
                 app:showAsAction="never" />
+            <item
+                android:id="@+id/action_filter_status"
+                android:title="@string/filter_this_post"
+                app:showAsAction="never" />
         </menu>
     </item>
 

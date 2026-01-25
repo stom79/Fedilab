@@ -509,6 +509,11 @@
     <string name="unmute_conversation">Unmute conversation</string>
     <string name="toast_unmute_conversation">The conversation is no longer muted!</string>
     <string name="toast_mute_conversation">The conversation is muted</string>
+    <string name="filter_this_post">Filter this post</string>
+    <string name="select_filter">Select a filter</string>
+    <string name="toast_status_filtered">Post added to filter</string>
+    <string name="no_filters_available">No filters available. Create one first in settings.</string>
+    <string name="filtered_statuses">Filtered posts</string>
     <string name="category_general">General</string>
     <string name="category_regional">Regional</string>
     <string name="category_art">Art</string>

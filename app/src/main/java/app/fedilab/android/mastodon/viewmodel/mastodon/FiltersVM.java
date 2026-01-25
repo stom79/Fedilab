@@ -30,6 +30,7 @@ import java.util.List;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.mastodon.client.endpoints.MastodonFiltersService;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
+import app.fedilab.android.mastodon.client.entities.api.FilterStatus;
 import app.fedilab.android.mastodon.helper.Helper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -45,6 +46,7 @@ public class FiltersVM extends AndroidViewModel {
 
     private MutableLiveData<Filter> filterMutableLiveData;
     private MutableLiveData<List<Filter>> filterListMutableLiveData;
+    private MutableLiveData<FilterStatus> filterStatusMutableLiveData;
 
     public FiltersVM(@NonNull Application application) {
         super(application);
@@ -220,6 +222,56 @@ public class FiltersVM extends AndroidViewModel {
             if (removeFilterCall != null) {
                 try {
                     removeFilterCall.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * Add a status to a filter
+     *
+     * @param filterId  ID of the filter
+     * @param statusId  ID of the status to add
+     * @return {@link LiveData} containing a {@link FilterStatus}
+     */
+    public LiveData<FilterStatus> addStatusToFilter(@NonNull String instance, String token, @NonNull String filterId, @NonNull String statusId) {
+        filterStatusMutableLiveData = new MutableLiveData<>();
+        MastodonFiltersService mastodonFiltersService = initV2(instance);
+        new Thread(() -> {
+            FilterStatus filterStatus = null;
+            Call<FilterStatus> addStatusFilterCall = mastodonFiltersService.addStatusFilter(token, filterId, statusId);
+            if (addStatusFilterCall != null) {
+                try {
+                    Response<FilterStatus> response = addStatusFilterCall.execute();
+                    if (response.isSuccessful()) {
+                        filterStatus = response.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            FilterStatus finalFilterStatus = filterStatus;
+            Runnable myRunnable = () -> filterStatusMutableLiveData.setValue(finalFilterStatus);
+            mainHandler.post(myRunnable);
+        }).start();
+        return filterStatusMutableLiveData;
+    }
+
+    /**
+     * Remove a status from a filter
+     *
+     * @param filterStatusId  ID of the FilterStatus entry (not the status ID)
+     */
+    public void removeStatusFromFilter(@NonNull String instance, String token, @NonNull String filterStatusId) {
+        MastodonFiltersService mastodonFiltersService = initV2(instance);
+        new Thread(() -> {
+            Call<Void> removeStatusFilterCall = mastodonFiltersService.removeStatusFilter(token, filterStatusId);
+            if (removeStatusFilterCall != null) {
+                try {
+                    removeStatusFilterCall.execute();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

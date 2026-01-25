@@ -35,6 +35,8 @@ public class Filter implements Serializable {
     public String filter_action;
     @SerializedName("keywords")
     public List<KeywordsAttributes> keywords;
+    @SerializedName("statuses")
+    public List<FilterStatus> statuses;
 
     public static String getValueOf(FilterParams filterParams) {
         Gson gson = new Gson();

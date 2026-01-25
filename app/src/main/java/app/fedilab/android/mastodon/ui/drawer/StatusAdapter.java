@@ -163,6 +163,7 @@ import app.fedilab.android.mastodon.activities.TimelineActivity;
 import app.fedilab.android.mastodon.activities.admin.AdminAccountActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Field;
+import app.fedilab.android.mastodon.client.entities.api.Filter;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.Reaction;
@@ -193,6 +194,7 @@ import app.fedilab.android.mastodon.helper.TimelineHelper;
 import app.fedilab.android.mastodon.helper.TranslateHelper;
 import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonContext;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.FiltersVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
 import app.fedilab.android.mastodon.viewmodel.pleroma.ActionsVM;
@@ -2823,6 +2825,37 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.muteHome(Helper.getCurrentAccount(context), statusToDeal.account)
                         .observe((LifecycleOwner) context, account -> Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show()));
                 builderInner.show();
+            } else if (itemId == R.id.action_filter_status) {
+                FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
+                filtersVM.getFilters(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
+                        .observe((LifecycleOwner) context, filters -> {
+                            if (filters == null || filters.isEmpty()) {
+                                Toasty.info(context, context.getString(R.string.no_filters_available), Toasty.LENGTH_LONG).show();
+                                return;
+                            }
+                            String[] filterTitles = new String[filters.size()];
+                            for (int i = 0; i < filters.size(); i++) {
+                                filterTitles[i] = filters.get(i).title;
+                            }
+                            AlertDialog.Builder builderSingle = new MaterialAlertDialogBuilder(context);
+                            builderSingle.setTitle(R.string.select_filter);
+                            builderSingle.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                            builderSingle.setItems(filterTitles, (dialog, which) -> {
+                                Filter selectedFilter = filters.get(which);
+                                filtersVM.addStatusToFilter(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, selectedFilter.id, statusToDeal.id)
+                                        .observe((LifecycleOwner) context, filterStatus -> {
+                                            if (filterStatus != null) {
+                                                statusToDeal.filteredByApp = selectedFilter;
+                                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                                Toasty.success(context, context.getString(R.string.toast_status_filtered), Toasty.LENGTH_LONG).show();
+                                            } else {
+                                                Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
+                                            }
+                                        });
+                            });
+                            builderSingle.show();
+                        });
+                return true;
             } else if (itemId == R.id.action_mute_conversation) {
                 if (statusToDeal.muted) {
                     statusesVM.unMute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show());
