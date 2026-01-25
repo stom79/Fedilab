@@ -769,6 +769,36 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.quotedMessage.spoiler.setText(null);
                 holder.binding.quotedMessage.statusContent.setVisibility(View.VISIBLE);
             }
+            // Display media attachments in quoted message
+            if (statusToDeal.getQuote().media_attachments != null && !statusToDeal.getQuote().media_attachments.isEmpty()) {
+                List<Attachment> quoteAttachments = statusToDeal.getQuote().media_attachments;
+                Attachment firstAttachment = quoteAttachments.get(0);
+                String url = firstAttachment.preview_url != null ? firstAttachment.preview_url : firstAttachment.url;
+                Glide.with(context).load(url).into(holder.binding.quotedMessage.quotedMedia);
+                holder.binding.quotedMessage.quotedMedia.setVisibility(View.VISIBLE);
+                holder.binding.quotedMessage.quotedMedia.setOnClickListener(v -> {
+                    Intent mediaIntent = new Intent(context, MediaActivity.class);
+                    Bundle args = new Bundle();
+                    args.putInt(Helper.ARG_MEDIA_POSITION, 0);
+                    args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(quoteAttachments));
+                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        mediaIntent.putExtras(bundle);
+                        context.startActivity(mediaIntent);
+                    });
+                });
+                if (quoteAttachments.size() > 1) {
+                    holder.binding.quotedMessage.quotedMediaMore.setVisibility(View.VISIBLE);
+                    holder.binding.quotedMessage.quotedMediaCount.setText(
+                            context.getString(R.string.plus_media, quoteAttachments.size() - 1));
+                } else {
+                    holder.binding.quotedMessage.quotedMediaMore.setVisibility(View.GONE);
+                }
+            } else {
+                holder.binding.quotedMessage.quotedMedia.setVisibility(View.GONE);
+                holder.binding.quotedMessage.quotedMediaMore.setVisibility(View.GONE);
+            }
             holder.binding.quotedMessage.cardviewContainer.setVisibility(View.VISIBLE);
         } else {
             holder.binding.quotedMessage.cardviewContainer.setVisibility(View.GONE);

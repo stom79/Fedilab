@@ -41,6 +41,7 @@
     <string name="open_with">Open with</string>
     <string name="validate">Validate</string>
     <string name="media">Media</string>
+    <string name="plus_media">+%d media</string>
     <string name="share_with">Share with</string>
     <string name="shared_via">Shared via Fedilab</string>
     <string name="replies">Replies</string>

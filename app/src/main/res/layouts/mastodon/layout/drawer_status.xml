@@ -465,7 +465,7 @@
 
         <include
             android:id="@+id/quoted_message"
-            layout="@layout/drawer_status_simple"
+            layout="@layout/drawer_status_quoted"
             android:visibility="gone"
             tools:visibility="visible" />
 
