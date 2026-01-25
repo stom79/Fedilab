@@ -260,6 +260,8 @@ public class Helper {
     public static final String ARG_SHARE_URL_MEDIA = "ARG_SHARE_URL_MEDIA";
     public static final String ARG_SHARE_URL = "ARG_SHARE_URL";
     public static final String ARG_SHARE_TITLE = "ARG_SHARE_TITLE";
+    public static final String ARG_URL = "ARG_URL";
+    public static final String ARG_TITLE = "ARG_TITLE";
     public static final String ARG_SHARE_SUBJECT = "ARG_SHARE_SUBJECT";
     public static final String ARG_SHARE_DESCRIPTION = "ARG_SHARE_DESCRIPTION";
     public static final String ARG_SHARE_CONTENT = "ARG_SHARE_CONTENT";

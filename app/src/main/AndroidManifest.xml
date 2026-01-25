@@ -230,6 +230,9 @@
             android:name=".mastodon.activities.HashTagActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
+            android:name=".mastodon.activities.LinkTimelineActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
             android:name=".mastodon.activities.AnnouncementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity

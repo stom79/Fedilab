@@ -305,13 +305,6 @@
         app:singleLineTitle="false"
         app:title="@string/set_disable_animated_emoji" />
 
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_DISPLAY_CARD"
-        app:singleLineTitle="false"
-        app:title="@string/set_display_card" />
-
     <ListPreference
         android:entries="@array/set_link_previews_entries"
         android:entryValues="@array/set_link_previews_entry_values"

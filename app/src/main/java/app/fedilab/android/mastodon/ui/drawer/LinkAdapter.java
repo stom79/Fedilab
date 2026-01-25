@@ -46,6 +46,7 @@ import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerLinkBinding;
+import app.fedilab.android.mastodon.activities.LinkTimelineActivity;
 import app.fedilab.android.mastodon.activities.MediaActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.History;
@@ -162,6 +163,19 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         linkViewHolder.binding.chart.invalidate();
 
         linkViewHolder.binding.getRoot().setOnClickListener(v -> Helper.openBrowser(context, link.url));
+
+        linkViewHolder.binding.showDiscussions.setOnClickListener(v -> {
+            Intent intent = new Intent(context, LinkTimelineActivity.class);
+            Bundle args = new Bundle();
+            args.putString(Helper.ARG_URL, link.url);
+            args.putString(Helper.ARG_TITLE, link.title);
+            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            });
+        });
     }
 
     @Override

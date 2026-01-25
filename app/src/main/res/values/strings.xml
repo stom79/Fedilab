@@ -1503,6 +1503,7 @@
     <string name="refresh_every">Fetch notifications every:</string>
     <string name="type_of_notifications_delay_title">Notifications fetch time</string>
     <string name="link_image">Image attached to the link</string>
+    <string name="see_discussions">See discussions</string>
     <string-array name="photo_editor_emoji" translatable="false">
         <!--  Smiles  -->
         <item>u+1f604</item>

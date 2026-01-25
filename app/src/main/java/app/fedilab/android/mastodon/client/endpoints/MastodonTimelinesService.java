@@ -86,6 +86,17 @@ public interface MastodonTimelinesService {
                                    @Query("offset") Integer offset,
                                    @Query("limit") Integer limit);
 
+    //Timeline for a specific link
+    @GET("timelines/link")
+    Call<List<Status>> getLinkTimeline(
+            @Header("Authorization") String token,
+            @Query("url") String url,
+            @Query("max_id") String max_id,
+            @Query("since_id") String since_id,
+            @Query("min_id") String min_id,
+            @Query("limit") Integer limit
+    );
+
     //Public Tags timelines
     @GET("timelines/tag/{hashtag}")
     Call<List<Status>> getHashTag(

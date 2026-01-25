@@ -279,6 +279,38 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
     /**
+     * Timeline for a specific link
+     *
+     * @param url    URL of the link
+     * @param max_id String
+     * @param limit  int
+     * @return {@link LiveData} containing a {@link Statuses}
+     */
+    public LiveData<Statuses> getLinkTimeline(String token, @NonNull String instance, String url, String max_id, String since_id, String min_id, Integer limit) {
+        MastodonTimelinesService mastodonTimelinesService = init(instance);
+        statusesMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Statuses statuses = new Statuses();
+            Call<List<Status>> linkTimelineCall = mastodonTimelinesService.getLinkTimeline(token, url, max_id, since_id, min_id, limit);
+            if (linkTimelineCall != null) {
+                try {
+                    Response<List<Status>> linkTimelineResponse = linkTimelineCall.execute();
+                    if (linkTimelineResponse.isSuccessful()) {
+                        statuses.statuses = linkTimelineResponse.body();
+                        statuses.pagination = MastodonHelper.getPagination(linkTimelineResponse.headers());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Runnable myRunnable = () -> statusesMutableLiveData.setValue(statuses);
+            mainHandler.post(myRunnable);
+        }).start();
+        return statusesMutableLiveData;
+    }
+
+    /**
      * Public timeline for Nitter
      *
      * @param max_position Return results older than this id

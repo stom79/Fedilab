@@ -83,6 +83,13 @@
                 android:layout_height="50dp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/show_discussions"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/see_discussions"
+            app:icon="@drawable/ic_baseline_chat_bubble_24" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </com.google.android.material.card.MaterialCardView>
