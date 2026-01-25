@@ -107,6 +107,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         final int timeout = sharedpreferences.getInt(context.getString(R.string.SET_NSFW_TIMEOUT), 5);
         boolean long_press_media = sharedpreferences.getBoolean(context.getString(R.string.SET_LONG_PRESS_STORE_MEDIA), false);
         boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
+        boolean autoplaygif = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_PLAY_GIG_MEDIA), false);
 
         LinearLayout.LayoutParams lp;
 
@@ -160,13 +161,15 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         }
 
 
-        RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, status.sensitive, false);
+        boolean allowAnimation = autoplaygif && attachment.url != null && attachment.url.toLowerCase().endsWith(".webp") && (!status.sensitive || expand_media);
+        RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, status.sensitive, false, allowAnimation);
         if (!status.sensitive || expand_media) {
             layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_24);
         } else {
             layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_off_24);
         }
-        requestBuilder.load(attachment.preview_url).into(layoutMediaBinding.media);
+        String mediaUrl = allowAnimation ? attachment.url : attachment.preview_url;
+        requestBuilder.load(mediaUrl).into(layoutMediaBinding.media);
         if (status.sensitive) {
             Helper.changeDrawableColor(context, layoutMediaBinding.viewHide, ThemeHelper.getAttColor(context, R.attr.colorError));
         } else {

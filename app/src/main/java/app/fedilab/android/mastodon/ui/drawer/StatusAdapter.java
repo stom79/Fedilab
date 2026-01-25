@@ -3047,7 +3047,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public static RequestBuilder<Drawable> prepareRequestBuilder(Context context, Attachment attachment,
                                                                  float mediaW, float mediaH,
-                                                                 float focusX, float focusY, boolean isSensitive, boolean isArt) {
+                                                                 float focusX, float focusY, boolean isSensitive, boolean isArt,
+                                                                 boolean allowAnimation) {
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
@@ -3072,21 +3073,27 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     requestBuilder = requestBuilder.placeholder(new BitmapDrawable(context.getResources(), placeholder));
                 }
                 requestBuilder = requestBuilder.apply(new RequestOptions().transform(new GlideFocus(focusX, focusY)));
-                requestBuilder = requestBuilder.dontAnimate();
+                if (!allowAnimation) {
+                    requestBuilder = requestBuilder.dontAnimate();
+                }
             } else {
                 if (placeholder != null) {
                     requestBuilder = requestBuilder.placeholder(new BitmapDrawable(context.getResources(), placeholder));
                 } else {
                     requestBuilder = requestBuilder.placeholder(R.color.transparent_grey);
                 }
-                requestBuilder = requestBuilder.dontAnimate();
+                if (!allowAnimation) {
+                    requestBuilder = requestBuilder.dontAnimate();
+                }
                 requestBuilder = requestBuilder.apply(new RequestOptions().override((int) mediaW, (int) mediaH));
                 requestBuilder = requestBuilder.fitCenter();
             }
         } else {
             requestBuilder = glideRequests.asDrawable()
-                    .dontAnimate()
                     .apply(new RequestOptions().transform(new BlurTransformation(50, 3)));
+            if (!allowAnimation) {
+                requestBuilder = requestBuilder.dontAnimate();
+            }
             //    .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners((int) Helper.convertDpToPixel(3, context))))
         }
         return requestBuilder;
@@ -3167,7 +3174,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             layoutMediaBinding.viewDescription.setVisibility(View.GONE);
         }
 
-        RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, statusToDeal.sensitive, false);
+        boolean allowAnimation = autoplaygif && attachment.url != null && attachment.url.toLowerCase().endsWith(".webp") && (!statusToDeal.sensitive || expand_media);
+        RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, statusToDeal.sensitive, false, allowAnimation);
         if (sensitiveIndicator) {
             if (!statusToDeal.sensitive || expand_media) {
                 layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_24);
@@ -3188,7 +3196,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             layoutMediaBinding.viewHide.setVisibility(View.GONE);
         }
-        requestBuilder.load(attachment.preview_url).into(layoutMediaBinding.media);
+        String mediaUrl = allowAnimation ? attachment.url : attachment.preview_url;
+        requestBuilder.load(mediaUrl).into(layoutMediaBinding.media);
 
         layoutMediaBinding.media.setOnClickListener(v -> {
             if (statusToDeal.sensitive && !expand_media) {
@@ -3437,7 +3446,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mediaH = attachment.meta.getSmall().height;
             mediaW = attachment.meta.getSmall().width;
         }
-        return prepareRequestBuilder(context, attachment, mediaW, mediaH, focusX, focusY, attachment.sensitive, timelineType == Timeline.TimeLineEnum.ART).load(attachment);
+        return prepareRequestBuilder(context, attachment, mediaW, mediaH, focusX, focusY, attachment.sensitive, timelineType == Timeline.TimeLineEnum.ART, false).load(attachment);
     }
 
     @Override
@@ -3717,8 +3726,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
                     holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     holder.bindingArt.artMedia.setLayoutParams(lp);
-                    RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, status.art_attachment, mediaW * ratio, mediaH * ratio, 1.0f, 1.0f, status.sensitive, true);
-                    requestBuilder.load(status.art_attachment.preview_url).into(holder.bindingArt.artMedia);
+                    boolean allowAnimationArt = autoplaygif && status.art_attachment.url != null && status.art_attachment.url.toLowerCase().endsWith(".webp") && !status.sensitive;
+                    RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, status.art_attachment, mediaW * ratio, mediaH * ratio, 1.0f, 1.0f, status.sensitive, true, allowAnimationArt);
+                    String artMediaUrl = allowAnimationArt ? status.art_attachment.url : status.art_attachment.preview_url;
+                    requestBuilder.load(artMediaUrl).into(holder.bindingArt.artMedia);
                 }
 
             }
