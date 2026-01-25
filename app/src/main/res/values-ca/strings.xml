@@ -59,8 +59,8 @@
     <string name="send_email">Enviar un correu electrònic</string>
     <string name="scheduled_toots">Publicacions programades</string>
     <string name="disclaimer_full">Aquesta informació d\'usuària pot estar incompleta.</string>
-    <string name="insert_emoji">Inserir emoji</string>
-    <string name="no_emoji">L\'app no ha recollit emojis personalitzats de moment.</string>
+    <string name="insert_emoji">Inserir emoticona</string>
+    <string name="no_emoji">L\'app no ha recollit encara emoticones personalitzades.</string>
     <string name="logout_account_confirmation">Estàs segura que vols tancar la sessió @%1$s@%2$s?</string>
     <!-- Status -->
     <string name="no_status">No hi ha cap bram per mostrar</string>
