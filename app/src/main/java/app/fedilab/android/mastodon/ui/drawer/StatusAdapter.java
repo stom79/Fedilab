@@ -46,6 +46,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -967,10 +968,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusContent.setVisibility(View.GONE);
             holder.binding.statusContentMaths.removeAllViews();
             MathJaxConfig mathJaxConfig = new MathJaxConfig();
-            switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-                case Configuration.UI_MODE_NIGHT_YES -> mathJaxConfig.setTextColor("white");
-                case Configuration.UI_MODE_NIGHT_NO -> mathJaxConfig.setTextColor("black");
-            }
+            int backgroundColor = ThemeHelper.getAttColor(context, android.R.attr.windowBackground);
+            // Check if background is dark based on luminance
+            int r = Color.red(backgroundColor);
+            int g = Color.green(backgroundColor);
+            int b = Color.blue(backgroundColor);
+            double luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+            mathJaxConfig.setTextColor(luminance < 0.5 ? "white" : "black");
             mathJaxConfig.setAutomaticLinebreaks(true);
 
             MathJaxView mathview = new MathJaxView(context, mathJaxConfig);

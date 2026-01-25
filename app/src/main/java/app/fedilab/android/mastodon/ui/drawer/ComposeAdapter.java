@@ -823,12 +823,12 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         MathJaxConfig mathJaxConfig = new MathJaxConfig();
                         mathJaxConfig.setAutomaticLinebreaks(true);
                         mathJaxConfig.setInput(TeX);
-                        switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-                            case Configuration.UI_MODE_NIGHT_YES ->
-                                    mathJaxConfig.setTextColor("white");
-                            case Configuration.UI_MODE_NIGHT_NO ->
-                                    mathJaxConfig.setTextColor("black");
-                        }
+                        int backgroundColor = ThemeHelper.getAttColor(context, android.R.attr.windowBackground);
+                        int r = Color.red(backgroundColor);
+                        int g = Color.green(backgroundColor);
+                        int b = Color.blue(backgroundColor);
+                        double luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+                        mathJaxConfig.setTextColor(luminance < 0.5 ? "white" : "black");
                         statusList.get(holder.getBindingAdapterPosition()).mathJaxView = new MathJaxView(context, mathJaxConfig);
                         holder.binding.laTexViewContainer.addView(statusList.get(holder.getBindingAdapterPosition()).mathJaxView);
                         holder.binding.laTexViewContainer.setVisibility(View.VISIBLE);
