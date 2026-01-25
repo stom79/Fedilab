@@ -1,0 +1,17 @@
+Added:
+- Add discussions view for trending links
+- Add media display for quoted messages
+- Add "Filter this post" feature
+
+Changed:
+- MathJax text color adapts to actual theme background
+
+Fixed:
+- ANR on long text without spaces
+- NPE in quote handling
+- Respect user's default quote policy when composing new posts
+- Hide CW-protected content in quoted posts
+- Image sharing to other apps
+- Animated WebP autoplay in timeline
+- Thread reply ordering in conversation view
+- Unfollow button not displayed on profile
