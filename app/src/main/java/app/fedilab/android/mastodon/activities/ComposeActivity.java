@@ -528,10 +528,6 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 } else if (visibility == null && Helper.getCurrentAccount(ComposeActivity.this) != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source != null) {
                     visibility = Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source.privacy;
                 }
-                if (quote_approval_policy == null && Helper.getCurrentAccount(ComposeActivity.this) != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source != null) {
-                    quote_approval_policy = Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source.quote_policy;
-                }
-
                 if(setMentionBooster) {
                     mentionBooster = (Account) b.getSerializable(Helper.ARG_MENTION_BOOSTER);
                 } else {
@@ -546,6 +542,10 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 sharedTitle = b.getString(Helper.ARG_SHARE_TITLE, null);
                 sharedDescription = b.getString(Helper.ARG_SHARE_DESCRIPTION, null);
                 shareURL = b.getString(Helper.ARG_SHARE_URL, null);
+            }
+            // Set default quote policy from account settings
+            if (quote_approval_policy == null && Helper.getCurrentAccount(ComposeActivity.this) != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account != null && Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source != null) {
+                quote_approval_policy = Helper.getCurrentAccount(ComposeActivity.this).mastodon_account.source.quote_policy;
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> {
