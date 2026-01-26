@@ -1,0 +1,17 @@
+Afegit:
+- Vista de debats als enllaços de tendència
+- Visionat de mèdia de missatges citats
+- Funció de "Filtrar la publicació"
+
+Canviat:
+- El color del text de MathJax s'adapta al fons del tema
+
+Corregit:
+- ANR en text llarg sense espais
+- NPE en la gestió de cites
+- Respecta la política de cites predeterminada de la usuària en redactar noves publicacions
+- Amaga contingut protegit en publicacions citades
+- Compartició d'imatges amb altres aplicacions
+- Reproducció d'animacions WebP automàtica a les pissarres
+- Ordre de resposta del fil en vista de conversa
+- El botó Deixar de seguir no es veia al perfil

@@ -1149,4 +1149,11 @@
     <string name="set_media_description_indicator">Indicador de descrición</string>
     <string name="set_media_description_indicator_summary">Mostra un indicador para a descrición do multimedia</string>
     <string name="mastodon_trending_instance">Instancia Mastodon en voga</string>
+    <string name="plus_media">+%d multimedia</string>
+    <string name="filter_this_post">Filtrar esta publicación</string>
+    <string name="select_filter">Escoller un filtro</string>
+    <string name="toast_status_filtered">Publicación engadida ao filtro</string>
+    <string name="no_filters_available">Sen filtros dispoñibles. Crea un nos axustes.</string>
+    <string name="filtered_statuses">Publicacións filtradas</string>
+    <string name="see_discussions">Ver conversas</string>
 </resources>
