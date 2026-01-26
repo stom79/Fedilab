@@ -616,6 +616,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return;
         }
 
+        // Initialize static arrays if not already done (can happen when called from NotificationAdapter)
+        if (linkPreviewsEntryValues == null) {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            linkPreviews = sharedpreferences.getString(context.getString(R.string.SET_LINK_PREVIEWS), "hide_when_media");
+            linkPreviewsEntryValues = context.getResources().getStringArray(R.array.set_link_previews_entry_values);
+            translateButton = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, "auto");
+            translateButtonEntryValues = context.getResources().getStringArray(R.array.set_translate_button_entry_values);
+            quoteButton = sharedpreferences.getString(context.getString(R.string.SET_QUOTE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, "auto");
+            quoteButtonEntryValues = context.getResources().getStringArray(R.array.set_quote_button_entry_values);
+        }
+
         boolean remote = timelineType == Timeline.TimeLineEnum.REMOTE || checkRemotely;
 
         Status statusToDeal = status.reblog != null ? status.reblog : status;
