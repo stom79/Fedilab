@@ -712,6 +712,12 @@ public class TimelinesVM extends AndroidViewModel {
                     timelineCall = mastodonTimelinesService.getHome(timelineParams.token, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit, timelineParams.local);
                     break;
                 case REMOTE:
+                    if (timelineParams.hashtagTrim != null && !timelineParams.hashtagTrim.isEmpty()) {
+                        timelineCall = mastodonTimelinesService.getHashTag(timelineParams.token, timelineParams.hashtagTrim, true, timelineParams.onlyMedia, null, null, null, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
+                    } else {
+                        timelineCall = mastodonTimelinesService.getPublic(timelineParams.token, true, false, timelineParams.onlyMedia, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
+                    }
+                    break;
                 case LOCAL:
                     timelineCall = mastodonTimelinesService.getPublic(timelineParams.token, true, false, timelineParams.onlyMedia, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
                     break;

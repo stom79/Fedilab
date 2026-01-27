@@ -218,6 +218,21 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String publicTrendsDomain;
 
 
+    //Allow to update pinnedTimeline for remote instance filter
+    public void updatePinnedTimeline(PinnedTimeline pinnedTimeline) {
+        this.pinnedTimeline = pinnedTimeline;
+        // Update ident and slug for the new filter
+        if (remoteInstance != null && pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
+            ident = "@R@" + remoteInstance;
+            if (pinnedTimeline.remoteInstance.filteredWith != null && !pinnedTimeline.remoteInstance.filteredWith.trim().isEmpty()) {
+                ident += "@F@" + pinnedTimeline.remoteInstance.filteredWith.trim();
+            }
+            if (timelineType != null) {
+                slug = timelineType.getValue() + "|" + ident;
+            }
+        }
+    }
+
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
         initialStatuses = null;
@@ -227,21 +242,20 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             timelineStatuses = new ArrayList<>();
             if (statusAdapter != null) {
                 statusAdapter.notifyItemRangeRemoved(0, count);
-                max_id = statusReport != null ? statusReport.id : null;
-                offset = 0;
-                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-                rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
-                //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
-                if (max_id == null && !isViewInitialized && rememberPosition) {
-                    max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
-                }
-                //Only fragment in main view pager should not have the view initialized
-                //AND Only the first fragment will initialize its view
-                flagLoading = false;
-                router(null);
             }
         }
-
+        max_id = statusReport != null ? statusReport.id : null;
+        offset = 0;
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
+        //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
+        if (max_id == null && !isViewInitialized && rememberPosition) {
+            max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
+        }
+        //Only fragment in main view pager should not have the view initialized
+        //AND Only the first fragment will initialize its view
+        flagLoading = false;
+        router(null);
     }
 
     @Override
@@ -483,6 +497,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 ident = "@R@" + pinnedTimeline.remoteInstance.host;
             } else {
                 ident = "@R@" + remoteInstance;
+                if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null && pinnedTimeline.remoteInstance.filteredWith != null && !pinnedTimeline.remoteInstance.filteredWith.trim().isEmpty()) {
+                    ident += "@F@" + pinnedTimeline.remoteInstance.filteredWith.trim();
+                }
             }
         } else if (search != null) {
             ident = "@S@" + search;
@@ -885,6 +902,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             case REMOTE -> {
                 timelineParams.instance = remoteInstance;
                 timelineParams.token = null;
+                if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null
+                        && pinnedTimeline.remoteInstance.filteredWith != null
+                        && !pinnedTimeline.remoteInstance.filteredWith.trim().isEmpty()) {
+                    timelineParams.hashtagTrim = pinnedTimeline.remoteInstance.filteredWith.trim();
+                    if (timelineParams.hashtagTrim.startsWith("#")) {
+                        timelineParams.hashtagTrim = timelineParams.hashtagTrim.substring(1);
+                    }
+                }
             }
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
