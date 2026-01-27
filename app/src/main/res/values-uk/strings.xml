@@ -1160,4 +1160,11 @@
     <string name="set_media_description_indicator">Індикатор опису медіафайлу</string>
     <string name="set_media_description_indicator_summary">Відображати індикатор медіафайлів з описом</string>
     <string name="mastodon_trending_instance">Трендовий екземпляр Mastodon</string>
+    <string name="plus_media">+%d медіафайл</string>
+    <string name="filter_this_post">Фільтрувати цю публікацію</string>
+    <string name="select_filter">Виберіть фільтр</string>
+    <string name="toast_status_filtered">Публікацію додано до фільтра</string>
+    <string name="no_filters_available">Немає фільтрів. Спочатку створіть один у налаштуваннях.</string>
+    <string name="filtered_statuses">Відфільтровані публікації</string>
+    <string name="see_discussions">Дивитися обговорення</string>
 </resources>
