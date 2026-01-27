@@ -1859,6 +1859,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.displayMedia.setVisibility(View.GONE);
                 holder.binding.media.mediaContainer.setVisibility(View.VISIBLE);
                 int mediaPosition = 1;
+                boolean forceGridView = false;
 
                 for (Attachment attachment : statusToDeal.media_attachments) {
                     float ratio = 1.0f;
@@ -1871,11 +1872,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             ratio = measuredWidth > 0 ? measuredWidth / mediaW : 1.0f;
                         }
                     }
+                    boolean currentFullAttachment = fullAttachement;
                     if(ratio >= 5) {
-                        fullAttachement = false;
+                        currentFullAttachment = false;
+                        forceGridView = true;
                     }
                     LayoutMediaBinding layoutMediaBinding = LayoutMediaBinding.inflate(LayoutInflater.from(context));
-                    if ((fullAttachement && (!statusToDeal.sensitive || expand_media))) {
+                    if ((currentFullAttachment && (!statusToDeal.sensitive || expand_media))) {
                         holder.binding.mediaContainer.addView(layoutMediaBinding.getRoot());
                     } else {
                         if (mediaPosition == 1) {
@@ -1896,7 +1899,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             holder.binding.media.media4Container.addView(layoutMediaBinding.getRoot());
                         }
                     }
-                    if (!fullAttachement || statusToDeal.sensitive) {
+                    if (!currentFullAttachment || statusToDeal.sensitive) {
                         int defaultHeight = (int) Helper.convertDpToPixel(300, context);
                         int orientation = context.getResources().getConfiguration().orientation;
                         if (orientation == Configuration.ORIENTATION_PORTRAIT && measuredWidth > 0) {
@@ -1952,7 +1955,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             holder.binding.media.moreMedia.setText(context.getString(R.string.more_media, "+" + (statusToDeal.media_attachments.size() - 4)));
                         }
                     }
-                    if (fullAttachement && (!statusToDeal.sensitive || expand_media)) {
+                    if (currentFullAttachment && (!statusToDeal.sensitive || expand_media)) {
 
 
                         if (autoplaygif && attachment.type.equalsIgnoreCase("gifv") && mediaPosition == 1) {
@@ -2159,7 +2162,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                     mediaPosition++;
                 }
-                if (!fullAttachement || (statusToDeal.sensitive && !expand_media)) {
+                if (!fullAttachement || forceGridView || (statusToDeal.sensitive && !expand_media)) {
                     holder.binding.mediaContainer.setVisibility(View.GONE);
                     holder.binding.media.mediaContainer.setVisibility(View.VISIBLE);
                 } else {
