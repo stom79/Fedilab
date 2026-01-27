@@ -1,0 +1,6 @@
+Fixed:
+- Crash when app starts on notifications tab
+- Fit preview images setting overwritten by high ratio media
+- Remote instance hashtag filter not applying
+- Timeline filter menu text truncation
+- Notification tabs count and foreground service stop

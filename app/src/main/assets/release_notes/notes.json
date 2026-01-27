@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.36.0-beta-3",
+    "code": "543",
+    "note": "Fixed:\n- Crash when app starts on notifications tab\n- Fit preview images setting overwritten by high ratio media\n- Remote instance hashtag filter not applying\n- Timeline filter menu text truncation\n- Notification tabs count and foreground service stop"
+  },
+  {
     "version": "3.36.0-beta-2",
     "code": "542",
     "note": "Added:\n- Add discussions view for trending links\n- Add media display for quoted messages\n- Add \"Filter this post\" feature\n\nChanged:\n- MathJax text color adapts to actual theme background\n\nFixed:\n- ANR on long text without spaces\n- NPE in quote handling\n- Respect user's default quote policy when composing new posts\n- Hide CW-protected content in quoted posts\n- Image sharing to other apps\n- Animated WebP autoplay in timeline\n- Thread reply ordering in conversation view\n- Unfollow button not displayed on profile"
