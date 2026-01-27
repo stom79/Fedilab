@@ -1152,4 +1152,11 @@
     <string name="set_media_description_indicator">メディアの説明インジケーター</string>
     <string name="set_media_description_indicator_summary">説明付きメディアのインジケーターを表示</string>
     <string name="mastodon_trending_instance">マストドンで話題のインスタンス</string>
+    <string name="plus_media">+%d メディア</string>
+    <string name="filter_this_post">このポストをフィルタ</string>
+    <string name="select_filter">フィルタを選択</string>
+    <string name="toast_status_filtered">フィルタにポストを追加</string>
+    <string name="no_filters_available">利用可能なフィルタがありません。最初に設定で作成して下さい。</string>
+    <string name="filtered_statuses">フィルタされたポスト</string>
+    <string name="see_discussions">ディスカッションを閲覧</string>
 </resources>
