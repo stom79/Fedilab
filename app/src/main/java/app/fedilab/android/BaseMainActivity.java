@@ -128,6 +128,7 @@ import app.fedilab.android.activities.LoginActivity;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityMainBinding;
 import app.fedilab.android.databinding.NavHeaderMainBinding;
+import app.fedilab.android.databinding.PopupFilterTimelineBinding;
 import app.fedilab.android.mastodon.activities.ActionActivity;
 import app.fedilab.android.mastodon.activities.AnnouncementActivity;
 import app.fedilab.android.mastodon.activities.BaseActivity;
@@ -1668,40 +1669,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     }
 
     private void manageFilters(int position) {
-        View view = binding.bottomNavView.findViewById(R.id.nav_home);
         boolean showExtendedFilter = true;
         if (position == BottomMenu.getPosition(bottomMenu, R.id.nav_local)) {
-            view = binding.bottomNavView.findViewById(R.id.nav_local);
             showExtendedFilter = false;
         } else if (position == BottomMenu.getPosition(bottomMenu, R.id.nav_public)) {
-            view = binding.bottomNavView.findViewById(R.id.nav_public);
             showExtendedFilter = false;
-        }
-        PopupMenu popup = new PopupMenu(BaseMainActivity.this, view, Gravity.TOP);
-        popup.getMenuInflater()
-                .inflate(R.menu.option_filter_toots, popup.getMenu());
-        Menu menu = popup.getMenu();
-        final MenuItem itemShowBoosts = menu.findItem(R.id.action_show_boosts);
-        final MenuItem itemShowMyMessages = menu.findItem(R.id.action_show_my_messages);
-        final MenuItem itemShowSelfBoosts = menu.findItem(R.id.action_show_self_boosts);
-        final MenuItem itemShowDMs = menu.findItem(R.id.action_show_dms);
-        final MenuItem itemShowReplies = menu.findItem(R.id.action_show_replies);
-        final MenuItem itemShowSelfReplies = menu.findItem(R.id.action_show_self_replies);
-        final MenuItem itemFilter = menu.findItem(R.id.action_filter);
-        if (!showExtendedFilter) {
-            itemShowBoosts.setVisible(false);
-            itemShowReplies.setVisible(false);
-            itemShowSelfBoosts.setVisible(false);
-            itemShowSelfReplies.setVisible(false);
-            itemShowMyMessages.setVisible(false);
-            itemShowDMs.setVisible(false);
-        } else {
-            itemShowBoosts.setVisible(true);
-            itemShowReplies.setVisible(true);
-            itemShowSelfBoosts.setVisible(true);
-            itemShowSelfReplies.setVisible(true);
-            itemShowMyMessages.setVisible(true);
-            itemShowDMs.setVisible(true);
         }
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
@@ -1714,16 +1686,123 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             show_filtered = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
         }
 
-        itemShowBoosts.setChecked(show_boosts);
-        itemShowMyMessages.setChecked(show_my_messages);
-        itemShowReplies.setChecked(show_replies);
-        itemShowSelfBoosts.setChecked(show_self_boosts);
-        itemShowSelfReplies.setChecked(show_self_replies);
-        itemShowDMs.setChecked(show_dms);
-        if (show_filtered != null && show_filtered.length() > 0) {
-            itemFilter.setTitle(show_filtered);
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(BaseMainActivity.this);
+        PopupFilterTimelineBinding dialogView = PopupFilterTimelineBinding.inflate(getLayoutInflater());
+        dialogBuilder.setView(dialogView.getRoot());
+
+        // Set initial checkbox states
+        dialogView.showBoosts.setChecked(show_boosts);
+        dialogView.showReplies.setChecked(show_replies);
+        dialogView.showSelfBoosts.setChecked(show_self_boosts);
+        dialogView.showSelfReplies.setChecked(show_self_replies);
+        dialogView.showMyMessages.setChecked(show_my_messages);
+        dialogView.showDms.setChecked(show_dms);
+
+        // Hide extended filters for local/public timelines
+        if (!showExtendedFilter) {
+            dialogView.showBoosts.setVisibility(View.GONE);
+            dialogView.showReplies.setVisibility(View.GONE);
+            dialogView.showSelfBoosts.setVisibility(View.GONE);
+            dialogView.showSelfReplies.setVisibility(View.GONE);
+            dialogView.showMyMessages.setVisibility(View.GONE);
+            dialogView.showDms.setVisibility(View.GONE);
         }
-        popup.setOnDismissListener(menu1 -> {
+
+        // Update filter button text if there's an active filter
+        if (show_filtered != null && show_filtered.length() > 0) {
+            dialogView.filterRegex.setText(show_filtered);
+        }
+
+        final SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        // Checkbox listeners
+        dialogView.showBoosts.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_boosts = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, show_boosts);
+            editor.apply();
+        });
+
+        dialogView.showReplies.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_replies = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
+            editor.apply();
+        });
+
+        dialogView.showSelfBoosts.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_self_boosts = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance, show_self_boosts);
+            editor.apply();
+        });
+
+        dialogView.showSelfReplies.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_self_replies = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance, show_self_replies);
+            editor.apply();
+        });
+
+        dialogView.showMyMessages.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_my_messages = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance, show_my_messages);
+            editor.apply();
+        });
+
+        dialogView.showDms.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_dms = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, show_dms);
+            editor.apply();
+        });
+
+        String finalShow_filtered = show_filtered;
+        dialogView.filterRegex.setOnClickListener(v -> {
+            AlertDialog.Builder regexDialogBuilder = new MaterialAlertDialogBuilder(BaseMainActivity.this);
+            View regexDialogView = getLayoutInflater().inflate(R.layout.popup_filter_regex, new LinearLayout(BaseMainActivity.this), false);
+            regexDialogBuilder.setView(regexDialogView);
+            final EditText editText = regexDialogView.findViewById(R.id.filter_regex);
+            Toast alertRegex = Toasty.warning(BaseMainActivity.this, getString(R.string.alert_regex), Toast.LENGTH_LONG);
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    try {
+                        Pattern.compile("(" + s.toString() + ")", Pattern.CASE_INSENSITIVE);
+                    } catch (Exception e) {
+                        if (!alertRegex.getView().isShown()) {
+                            alertRegex.show();
+                        }
+                    }
+                }
+            });
+            if (finalShow_filtered != null) {
+                editText.setText(finalShow_filtered);
+                editText.setSelection(editText.getText().toString().length());
+            }
+            regexDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                dialogView.filterRegex.setText(editText.getText().toString().trim());
+                if (position == 0) {
+                    editor.putString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, editText.getText().toString().trim());
+                    regex_home = editText.getText().toString().trim();
+                } else if (position == 1) {
+                    editor.putString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, editText.getText().toString().trim());
+                    regex_local = editText.getText().toString().trim();
+                } else if (position == 2) {
+                    editor.putString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, editText.getText().toString().trim());
+                    regex_public = editText.getText().toString().trim();
+                }
+                editor.apply();
+            });
+            AlertDialog regexAlertDialog = regexDialogBuilder.create();
+            regexAlertDialog.show();
+        });
+
+        dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
+        dialogBuilder.setOnDismissListener(dialog -> {
             if (binding.viewPager.getAdapter() != null) {
                 int tabPosition = binding.tabLayout.getSelectedTabPosition();
                 Fragment fragment = (Fragment) binding.viewPager.getAdapter().instantiateItem(binding.viewPager, Math.max(tabPosition, 0));
@@ -1732,107 +1811,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
             }
         });
-        String finalShow_filtered = show_filtered;
-        popup.setOnMenuItemClickListener(item -> {
-            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-            item.setActionView(new View(BaseMainActivity.this));
-            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem item) {
-                    return false;
-                }
-
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item) {
-                    return false;
-                }
-            });
-            final SharedPreferences.Editor editor = sharedpreferences.edit();
-            int itemId = item.getItemId();
-            if (itemId == R.id.action_show_boosts) {
-                show_boosts = !show_boosts;
-                editor.putBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, show_boosts);
-                itemShowBoosts.setChecked(show_boosts);
-                editor.apply();
-            } else if (itemId == R.id.action_show_my_messages) {
-                show_my_messages = !show_my_messages;
-                editor.putBoolean(getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance, show_my_messages);
-                itemShowMyMessages.setChecked(show_my_messages);
-                editor.apply();
-            } else if (itemId == R.id.action_show_self_boosts) {
-                show_self_boosts = !show_self_boosts;
-                editor.putBoolean(getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance, show_self_boosts);
-                itemShowSelfBoosts.setChecked(show_self_boosts);
-                editor.apply();
-            } else if (itemId == R.id.action_show_replies) {
-                show_replies = !show_replies;
-                editor.putBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
-                itemShowReplies.setChecked(show_replies);
-                editor.apply();
-            } else if (itemId == R.id.action_show_self_replies) {
-                show_self_replies = !show_self_replies;
-                editor.putBoolean(getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance, show_self_replies);
-                itemShowSelfReplies.setChecked(show_self_replies);
-                editor.apply();
-            } else if (itemId == R.id.action_show_dms) {
-                show_dms = !show_dms;
-                editor.putBoolean(getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, show_dms);
-                itemShowDMs.setChecked(show_dms);
-                editor.apply();
-            } else if (itemId == R.id.action_filter) {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(BaseMainActivity.this);
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.popup_filter_regex, new LinearLayout(BaseMainActivity.this), false);
-                dialogBuilder.setView(dialogView);
-                final EditText editText = dialogView.findViewById(R.id.filter_regex);
-                Toast alertRegex = Toasty.warning(BaseMainActivity.this, getString(R.string.alert_regex), Toast.LENGTH_LONG);
-                editText.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        try {
-                            Pattern.compile("(" + s.toString() + ")", Pattern.CASE_INSENSITIVE);
-                        } catch (Exception e) {
-                            if (!alertRegex.getView().isShown()) {
-                                alertRegex.show();
-                            }
-                        }
-
-                    }
-                });
-                if (finalShow_filtered != null) {
-                    editText.setText(finalShow_filtered);
-                    editText.setSelection(editText.getText().toString().length());
-                }
-                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-                    itemFilter.setTitle(editText.getText().toString().trim());
-                    if (position == 0) {
-                        editor.putString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, editText.getText().toString().trim());
-                        regex_home = editText.getText().toString().trim();
-                    } else if (position == 1) {
-                        editor.putString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, editText.getText().toString().trim());
-                        regex_local = editText.getText().toString().trim();
-                    } else if (position == 2) {
-                        editor.putString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, editText.getText().toString().trim());
-                        regex_public = editText.getText().toString().trim();
-                    }
-                    editor.apply();
-                });
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.show();
-                return true;
-            }
-            return false;
-        });
-        popup.show();
-
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
     }
 
     public void refreshFragment() {

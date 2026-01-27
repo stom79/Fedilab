@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +66,11 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityMainBinding;
 import app.fedilab.android.databinding.DialogBubbleExcludeVisibilityBinding;
 import app.fedilab.android.databinding.DialogBubbleReplyVisibilityBinding;
+import app.fedilab.android.databinding.PopupFilterBubbleTimelineBinding;
+import app.fedilab.android.databinding.PopupFilterInstanceTimelineBinding;
+import app.fedilab.android.databinding.PopupFilterNitterTimelineBinding;
+import app.fedilab.android.databinding.PopupFilterTagTimelineBinding;
+import app.fedilab.android.databinding.PopupFilterTimelineBinding;
 import app.fedilab.android.databinding.TabCustomDefaultViewBinding;
 import app.fedilab.android.databinding.TabCustomViewBinding;
 import app.fedilab.android.mastodon.client.entities.api.MastodonList;
@@ -689,32 +695,7 @@ public class PinnedTimelineHelper {
      */
     public static void defaultClick(BaseMainActivity activity, Timeline.TimeLineEnum timeLineEnum, View view, ActivityMainBinding activityMainBinding, int position) {
         boolean showExtendedFilter = timeLineEnum == Timeline.TimeLineEnum.HOME;
-        PopupMenu popup = new PopupMenu(activity, view);
-        popup.getMenuInflater()
-                .inflate(R.menu.option_filter_toots, popup.getMenu());
-        Menu menu = popup.getMenu();
-        final MenuItem itemShowBoosts = menu.findItem(R.id.action_show_boosts);
-        final MenuItem itemShowMyMessages = menu.findItem(R.id.action_show_my_messages);
-        final MenuItem itemShowSelfBoosts = menu.findItem(R.id.action_show_self_boosts);
-        final MenuItem itemShowReplies = menu.findItem(R.id.action_show_replies);
-        final MenuItem itemShowSelfReplies = menu.findItem(R.id.action_show_self_replies);
-        final MenuItem itemShowDMs = menu.findItem(R.id.action_show_dms);
-        final MenuItem itemFilter = menu.findItem(R.id.action_filter);
-        if (!showExtendedFilter) {
-            itemShowBoosts.setVisible(false);
-            itemShowReplies.setVisible(false);
-            itemShowSelfBoosts.setVisible(false);
-            itemShowSelfReplies.setVisible(false);
-            itemShowMyMessages.setVisible(false);
-            itemShowDMs.setVisible(false);
-        } else {
-            itemShowBoosts.setVisible(true);
-            itemShowReplies.setVisible(true);
-            itemShowSelfBoosts.setVisible(true);
-            itemShowSelfReplies.setVisible(true);
-            itemShowMyMessages.setVisible(true);
-            itemShowDMs.setVisible(true);
-        }
+
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         String show_filtered = null;
         if (timeLineEnum == Timeline.TimeLineEnum.HOME) {
@@ -725,16 +706,123 @@ public class PinnedTimelineHelper {
             show_filtered = sharedpreferences.getString(activity.getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
         }
 
-        itemShowBoosts.setChecked(show_boosts);
-        itemShowMyMessages.setChecked(show_my_messages);
-        itemShowReplies.setChecked(show_replies);
-        itemShowSelfBoosts.setChecked(show_self_boosts);
-        itemShowSelfReplies.setChecked(show_self_replies);
-        itemShowDMs.setChecked(show_dms);
-        if (show_filtered != null && show_filtered.length() > 0) {
-            itemFilter.setTitle(show_filtered);
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
+        PopupFilterTimelineBinding dialogView = PopupFilterTimelineBinding.inflate(activity.getLayoutInflater());
+        dialogBuilder.setView(dialogView.getRoot());
+
+        // Set initial checkbox states
+        dialogView.showBoosts.setChecked(show_boosts);
+        dialogView.showReplies.setChecked(show_replies);
+        dialogView.showSelfBoosts.setChecked(show_self_boosts);
+        dialogView.showSelfReplies.setChecked(show_self_replies);
+        dialogView.showMyMessages.setChecked(show_my_messages);
+        dialogView.showDms.setChecked(show_dms);
+
+        // Hide extended filters for local/public timelines
+        if (!showExtendedFilter) {
+            dialogView.showBoosts.setVisibility(View.GONE);
+            dialogView.showReplies.setVisibility(View.GONE);
+            dialogView.showSelfBoosts.setVisibility(View.GONE);
+            dialogView.showSelfReplies.setVisibility(View.GONE);
+            dialogView.showMyMessages.setVisibility(View.GONE);
+            dialogView.showDms.setVisibility(View.GONE);
         }
-        popup.setOnDismissListener(menu1 -> {
+
+        // Update filter button text if there's an active filter
+        if (show_filtered != null && show_filtered.length() > 0) {
+            dialogView.filterRegex.setText(show_filtered);
+        }
+
+        final SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        // Checkbox listeners
+        dialogView.showBoosts.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_boosts = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, show_boosts);
+            editor.apply();
+        });
+
+        dialogView.showReplies.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_replies = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
+            editor.apply();
+        });
+
+        dialogView.showSelfBoosts.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_self_boosts = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance, show_self_boosts);
+            editor.apply();
+        });
+
+        dialogView.showSelfReplies.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_self_replies = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance, show_self_replies);
+            editor.apply();
+        });
+
+        dialogView.showMyMessages.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_my_messages = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance, show_my_messages);
+            editor.apply();
+        });
+
+        dialogView.showDms.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            show_dms = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, show_dms);
+            editor.apply();
+        });
+
+        String finalShow_filtered = show_filtered;
+        dialogView.filterRegex.setOnClickListener(v -> {
+            AlertDialog.Builder regexDialogBuilder = new MaterialAlertDialogBuilder(activity);
+            View regexDialogView = activity.getLayoutInflater().inflate(R.layout.popup_filter_regex, new LinearLayout(activity), false);
+            regexDialogBuilder.setView(regexDialogView);
+            final EditText editText = regexDialogView.findViewById(R.id.filter_regex);
+            Toast alertRegex = Toasty.warning(activity, activity.getString(R.string.alert_regex), Toast.LENGTH_LONG);
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    try {
+                        Pattern.compile("(" + s.toString() + ")", Pattern.CASE_INSENSITIVE);
+                    } catch (Exception e) {
+                        if (!alertRegex.getView().isShown()) {
+                            alertRegex.show();
+                        }
+                    }
+                }
+            });
+            if (finalShow_filtered != null) {
+                editText.setText(finalShow_filtered);
+                editText.setSelection(editText.getText().toString().length());
+            }
+            regexDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                dialogView.filterRegex.setText(editText.getText().toString().trim());
+                if (position == 0) {
+                    editor.putString(activity.getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, editText.getText().toString().trim());
+                    BaseMainActivity.regex_home = editText.getText().toString().trim();
+                } else if (position == 1) {
+                    editor.putString(activity.getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, editText.getText().toString().trim());
+                    BaseMainActivity.regex_local = editText.getText().toString().trim();
+                } else if (position == 2) {
+                    editor.putString(activity.getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, editText.getText().toString().trim());
+                    BaseMainActivity.regex_public = editText.getText().toString().trim();
+                }
+                editor.apply();
+            });
+            AlertDialog regexAlertDialog = regexDialogBuilder.create();
+            regexAlertDialog.show();
+        });
+
+        dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
+        dialogBuilder.setOnDismissListener(dialog -> {
             if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
                 Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
                 if (fragment instanceof FragmentMastodonTimeline fragmentMastodonTimeline && fragment.isVisible()) {
@@ -742,106 +830,8 @@ public class PinnedTimelineHelper {
                 }
             }
         });
-        String finalShow_filtered = show_filtered;
-        popup.setOnMenuItemClickListener(item -> {
-            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-            item.setActionView(new View(activity));
-            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem item) {
-                    return false;
-                }
-
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item) {
-                    return false;
-                }
-            });
-            final SharedPreferences.Editor editor = sharedpreferences.edit();
-            int itemId = item.getItemId();
-            if (itemId == R.id.action_show_boosts) {
-                show_boosts = !show_boosts;
-                editor.putBoolean(activity.getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, show_boosts);
-                itemShowBoosts.setChecked(show_boosts);
-                editor.apply();
-            } else if (itemId == R.id.action_show_my_messages) {
-                show_my_messages = !show_my_messages;
-                editor.putBoolean(activity.getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance, show_my_messages);
-                itemShowMyMessages.setChecked(show_my_messages);
-                editor.apply();
-            } else if (itemId == R.id.action_show_self_boosts) {
-                show_self_boosts = !show_self_boosts;
-                editor.putBoolean(activity.getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance, show_self_boosts);
-                itemShowSelfBoosts.setChecked(show_self_boosts);
-                editor.apply();
-            } else if (itemId == R.id.action_show_replies) {
-                show_replies = !show_replies;
-                editor.putBoolean(activity.getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
-                itemShowReplies.setChecked(show_replies);
-                editor.apply();
-            } else if (itemId == R.id.action_show_self_replies) {
-                show_self_replies = !show_self_replies;
-                editor.putBoolean(activity.getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance, show_self_replies);
-                itemShowSelfReplies.setChecked(show_self_replies);
-                editor.apply();
-            } else if (itemId == R.id.action_show_dms) {
-                show_dms = !show_dms;
-                editor.putBoolean(activity.getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, show_dms);
-                itemShowDMs.setChecked(show_dms);
-                editor.apply();
-            } else if (itemId == R.id.action_filter) {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
-                LayoutInflater inflater = activity.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.popup_filter_regex, new LinearLayout(activity), false);
-                dialogBuilder.setView(dialogView);
-                final EditText editText = dialogView.findViewById(R.id.filter_regex);
-                Toast alertRegex = Toasty.warning(activity, activity.getString(R.string.alert_regex), Toast.LENGTH_LONG);
-                editText.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        try {
-                            Pattern.compile("(" + s.toString() + ")", Pattern.CASE_INSENSITIVE);
-                        } catch (Exception e) {
-                            if (!alertRegex.getView().isShown()) {
-                                alertRegex.show();
-                            }
-                        }
-
-                    }
-                });
-                if (finalShow_filtered != null) {
-                    editText.setText(finalShow_filtered);
-                    editText.setSelection(editText.getText().toString().length());
-                }
-                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-                    itemFilter.setTitle(editText.getText().toString().trim());
-                    if (position == 0) {
-                        editor.putString(activity.getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, editText.getText().toString().trim());
-                        BaseMainActivity.regex_home = editText.getText().toString().trim();
-                    } else if (position == 1) {
-                        editor.putString(activity.getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, editText.getText().toString().trim());
-                        BaseMainActivity.regex_local = editText.getText().toString().trim();
-                    } else if (position == 2) {
-                        editor.putString(activity.getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, editText.getText().toString().trim());
-                        BaseMainActivity.regex_public = editText.getText().toString().trim();
-                    }
-                    editor.apply();
-                });
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.show();
-                return true;
-            }
-            return false;
-        });
-        popup.show();
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
     }
 
 
@@ -879,7 +869,6 @@ public class PinnedTimelineHelper {
      */
     public static void tagClick(BaseMainActivity activity, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position, String slug) {
         int toRemove = itemToRemoveInBottomMenu(activity);
-        PopupMenu popup = new PopupMenu(activity, view);
         int offSetPosition = position - (FedilabPageAdapter.BOTTOM_TIMELINE_COUNT - toRemove);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
@@ -894,23 +883,149 @@ public class PinnedTimelineHelper {
             tag = tagTimeline.displayName;
         else
             tag = tagTimeline.name;
-        popup.getMenuInflater()
-                .inflate(R.menu.option_tag_timeline, popup.getMenu());
-        Menu menu = popup.getMenu();
 
-
-        final MenuItem itemMediaOnly = menu.findItem(R.id.action_show_media_only);
-        final MenuItem itemShowNSFW = menu.findItem(R.id.action_show_nsfw);
-
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
+        PopupFilterTagTimelineBinding dialogView = PopupFilterTagTimelineBinding.inflate(activity.getLayoutInflater());
+        dialogBuilder.setView(dialogView.getRoot());
 
         final boolean[] changes = {false};
-        final boolean[] mediaOnly = {false};
-        final boolean[] showNSFW = {false};
-        mediaOnly[0] = tagTimeline.isART;
-        showNSFW[0] = tagTimeline.isNSFW;
-        itemMediaOnly.setChecked(mediaOnly[0]);
-        itemShowNSFW.setChecked(showNSFW[0]);
-        popup.setOnDismissListener(menu1 -> {
+        dialogView.actionShowMediaOnly.setChecked(tagTimeline.isART);
+        dialogView.actionShowNsfw.setChecked(tagTimeline.isNSFW);
+
+        int finalOffSetPosition = offSetPosition;
+        String finalTag = tag;
+
+        dialogView.actionShowMediaOnly.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            changes[0] = true;
+            tagTimeline.isART = isChecked;
+            pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
+            try {
+                new Pinned(activity).updatePinned(pinned);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        });
+
+        dialogView.actionShowNsfw.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            changes[0] = true;
+            tagTimeline.isNSFW = isChecked;
+            pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
+            try {
+                new Pinned(activity).updatePinned(pinned);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        });
+
+        dialogView.actionDisplayname.setOnClickListener(v -> {
+            changes[0] = true;
+            AlertDialog.Builder nameDialogBuilder = new MaterialAlertDialogBuilder(activity);
+            View nameDialogView = activity.getLayoutInflater().inflate(R.layout.tags_name, new LinearLayout(activity), false);
+            nameDialogBuilder.setView(nameDialogView);
+            final EditText editTextName = nameDialogView.findViewById(R.id.column_name);
+            if (tagTimeline.displayName != null) {
+                editTextName.setText(tagTimeline.displayName);
+                editTextName.setSelection(editTextName.getText().toString().length());
+            }
+            nameDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                String values = editTextName.getText().toString();
+                if (values.trim().length() == 0)
+                    values = finalTag;
+                tagTimeline.displayName = values;
+                View titleView = view.findViewById(R.id.title);
+                if (titleView instanceof AppCompatTextView) {
+                    ((AppCompatTextView) titleView).setText(tagTimeline.displayName);
+                }
+                pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            });
+            nameDialogBuilder.create().show();
+        });
+
+        dialogView.actionAny.setOnClickListener(v -> {
+            changes[0] = true;
+            AlertDialog.Builder anyDialogBuilder = new MaterialAlertDialogBuilder(activity);
+            View anyDialogView = activity.getLayoutInflater().inflate(R.layout.tags_any, new LinearLayout(activity), false);
+            anyDialogBuilder.setView(anyDialogView);
+            final EditText editText = anyDialogView.findViewById(R.id.filter_any);
+            if (tagTimeline.any != null) {
+                StringBuilder valuesTag = new StringBuilder();
+                for (String val : tagTimeline.any)
+                    valuesTag.append(val).append(" ");
+                editText.setText(valuesTag.toString());
+                editText.setSelection(editText.getText().toString().length());
+            }
+            anyDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                String[] values = editText.getText().toString().trim().split("\\s+");
+                tagTimeline.any = new ArrayList<>(Arrays.asList(values));
+                pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            });
+            anyDialogBuilder.create().show();
+        });
+
+        dialogView.actionAll.setOnClickListener(v -> {
+            changes[0] = true;
+            AlertDialog.Builder allDialogBuilder = new MaterialAlertDialogBuilder(activity);
+            View allDialogView = activity.getLayoutInflater().inflate(R.layout.tags_all, new LinearLayout(activity), false);
+            allDialogBuilder.setView(allDialogView);
+            final EditText editTextAll = allDialogView.findViewById(R.id.filter_all);
+            if (tagTimeline.all != null) {
+                StringBuilder valuesTag = new StringBuilder();
+                for (String val : tagTimeline.all)
+                    valuesTag.append(val).append(" ");
+                editTextAll.setText(valuesTag.toString());
+                editTextAll.setSelection(editTextAll.getText().toString().length());
+            }
+            allDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                String[] values = editTextAll.getText().toString().trim().split("\\s+");
+                tagTimeline.all = new ArrayList<>(Arrays.asList(values));
+                pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            });
+            allDialogBuilder.create().show();
+        });
+
+        dialogView.actionNone.setOnClickListener(v -> {
+            changes[0] = true;
+            AlertDialog.Builder noneDialogBuilder = new MaterialAlertDialogBuilder(activity);
+            View noneDialogView = activity.getLayoutInflater().inflate(R.layout.tags_all, new LinearLayout(activity), false);
+            noneDialogBuilder.setView(noneDialogView);
+            final EditText editTextNone = noneDialogView.findViewById(R.id.filter_all);
+            if (tagTimeline.none != null) {
+                StringBuilder valuesTag = new StringBuilder();
+                for (String val : tagTimeline.none)
+                    valuesTag.append(val).append(" ");
+                editTextNone.setText(valuesTag.toString());
+                editTextNone.setSelection(editTextNone.getText().toString().length());
+            }
+            noneDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                String[] values = editTextNone.getText().toString().trim().split("\\s+");
+                tagTimeline.none = new ArrayList<>(Arrays.asList(values));
+                pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            });
+            noneDialogBuilder.create().show();
+        });
+
+        dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
+        dialogBuilder.setOnDismissListener(dialog -> {
             if (changes[0]) {
                 if (activityMainBinding.viewPager.getAdapter() != null) {
                     try {
@@ -941,164 +1056,7 @@ public class PinnedTimelineHelper {
                 }
             }
         });
-
-
-        int finalOffSetPosition = offSetPosition;
-        popup.setOnMenuItemClickListener(item -> {
-            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-            item.setActionView(new View(activity));
-            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem item) {
-                    return false;
-                }
-
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item) {
-                    return false;
-                }
-            });
-            changes[0] = true;
-            int itemId = item.getItemId();
-            if (itemId == R.id.action_show_media_only) {
-                mediaOnly[0] = !mediaOnly[0];
-                tagTimeline.isART = mediaOnly[0];
-                pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
-                itemMediaOnly.setChecked(mediaOnly[0]);
-                try {
-                    new Pinned(activity).updatePinned(pinned);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            } else if (itemId == R.id.action_show_nsfw) {
-                showNSFW[0] = !showNSFW[0];
-                tagTimeline.isNSFW = showNSFW[0];
-                pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
-                itemShowNSFW.setChecked(showNSFW[0]);
-                try {
-                    new Pinned(activity).updatePinned(pinned);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            } else if (itemId == R.id.action_any) {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
-                LayoutInflater inflater = activity.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.tags_any, new LinearLayout(activity), false);
-                dialogBuilder.setView(dialogView);
-                final EditText editText = dialogView.findViewById(R.id.filter_any);
-                if (tagTimeline.any != null) {
-                    StringBuilder valuesTag = new StringBuilder();
-                    for (String val : tagTimeline.any)
-                        valuesTag.append(val).append(" ");
-                    editText.setText(valuesTag.toString());
-                    editText.setSelection(editText.getText().toString().length());
-                }
-                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-                    String[] values = editText.getText().toString().trim().split("\\s+");
-                    tagTimeline.any = new ArrayList<>(Arrays.asList(values));
-                    pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
-                    try {
-                        new Pinned(activity).updatePinned(pinned);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                });
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.show();
-            } else if (itemId == R.id.action_all) {
-                AlertDialog.Builder dialogBuilder;
-                LayoutInflater inflater;
-                View dialogView;
-                AlertDialog alertDialog;
-                dialogBuilder = new MaterialAlertDialogBuilder(activity);
-                inflater = activity.getLayoutInflater();
-                dialogView = inflater.inflate(R.layout.tags_all, new LinearLayout(activity), false);
-                dialogBuilder.setView(dialogView);
-                final EditText editTextAll = dialogView.findViewById(R.id.filter_all);
-                if (tagTimeline.all != null) {
-                    StringBuilder valuesTag = new StringBuilder();
-                    for (String val : tagTimeline.all)
-                        valuesTag.append(val).append(" ");
-                    editTextAll.setText(valuesTag.toString());
-                    editTextAll.setSelection(editTextAll.getText().toString().length());
-                }
-                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-                    String[] values = editTextAll.getText().toString().trim().split("\\s+");
-                    tagTimeline.all = new ArrayList<>(Arrays.asList(values));
-                    pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
-                    try {
-                        new Pinned(activity).updatePinned(pinned);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                });
-                alertDialog = dialogBuilder.create();
-                alertDialog.show();
-            } else if (itemId == R.id.action_none) {
-                AlertDialog.Builder dialogBuilder;
-                LayoutInflater inflater;
-                View dialogView;
-                AlertDialog alertDialog;
-                dialogBuilder = new MaterialAlertDialogBuilder(activity);
-                inflater = activity.getLayoutInflater();
-                dialogView = inflater.inflate(R.layout.tags_all, new LinearLayout(activity), false);
-                dialogBuilder.setView(dialogView);
-                final EditText editTextNone = dialogView.findViewById(R.id.filter_all);
-                if (tagTimeline.none != null) {
-                    StringBuilder valuesTag = new StringBuilder();
-                    for (String val : tagTimeline.none)
-                        valuesTag.append(val).append(" ");
-                    editTextNone.setText(valuesTag.toString());
-                    editTextNone.setSelection(editTextNone.getText().toString().length());
-                }
-                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-                    String[] values = editTextNone.getText().toString().trim().split("\\s+");
-                    tagTimeline.none = new ArrayList<>(Arrays.asList(values));
-                    pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
-                    try {
-                        new Pinned(activity).updatePinned(pinned);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                });
-                alertDialog = dialogBuilder.create();
-                alertDialog.show();
-            } else if (itemId == R.id.action_displayname) {
-                AlertDialog.Builder dialogBuilder;
-                LayoutInflater inflater;
-                View dialogView;
-                AlertDialog alertDialog;
-                dialogBuilder = new MaterialAlertDialogBuilder(activity);
-                inflater = activity.getLayoutInflater();
-                dialogView = inflater.inflate(R.layout.tags_name, new LinearLayout(activity), false);
-                dialogBuilder.setView(dialogView);
-                final EditText editTextName = dialogView.findViewById(R.id.column_name);
-                if (tagTimeline.displayName != null) {
-                    editTextName.setText(tagTimeline.displayName);
-                    editTextName.setSelection(editTextName.getText().toString().length());
-                }
-                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-                    String values = editTextName.getText().toString();
-                    if (values.trim().length() == 0)
-                        values = tag;
-                    tagTimeline.displayName = values;
-                    View titleView = view.findViewById(R.id.title);
-                    if (titleView instanceof AppCompatTextView) {
-                        ((AppCompatTextView) titleView).setText(tagTimeline.displayName);
-                    }
-                    pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
-                    try {
-                        new Pinned(activity).updatePinned(pinned);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                });
-                alertDialog = dialogBuilder.create();
-                alertDialog.show();
-            }
-            return false;
-        });
-        popup.show();
+        dialogBuilder.create().show();
     }
 
 
@@ -1112,7 +1070,6 @@ public class PinnedTimelineHelper {
      */
     public static void bubbleClick(BaseMainActivity activity, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position, String slug) {
         int toRemove = itemToRemoveInBottomMenu(activity);
-        PopupMenu popup = new PopupMenu(activity, view);
         int offSetPosition = position - (FedilabPageAdapter.BOTTOM_TIMELINE_COUNT - toRemove);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
@@ -1125,22 +1082,167 @@ public class PinnedTimelineHelper {
         }
         BubbleTimeline bubbleTimeline = pinned.pinnedTimelines.get(offSetPosition).bubbleTimeline;
 
-        popup.getMenuInflater()
-                .inflate(R.menu.option_bubble_timeline, popup.getMenu());
-        Menu menu = popup.getMenu();
-
-        final MenuItem itemMediaOnly = menu.findItem(R.id.action_show_media_only);
-        final MenuItem itemRemote = menu.findItem(R.id.action_remote);
-
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
+        PopupFilterBubbleTimelineBinding dialogView = PopupFilterBubbleTimelineBinding.inflate(activity.getLayoutInflater());
+        dialogBuilder.setView(dialogView.getRoot());
 
         final boolean[] changes = {false};
-        final boolean[] mediaOnly = {false};
-        final boolean[] remote = {false};
-        mediaOnly[0] = bubbleTimeline.only_media;
-        remote[0] = bubbleTimeline.remote;
-        itemMediaOnly.setChecked(mediaOnly[0]);
-        itemRemote.setChecked(remote[0]);
-        popup.setOnDismissListener(menu1 -> {
+        dialogView.actionShowMediaOnly.setChecked(bubbleTimeline.only_media);
+        dialogView.actionRemote.setChecked(bubbleTimeline.remote);
+
+        int finalOffSetPosition = offSetPosition;
+
+        dialogView.actionShowMediaOnly.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            changes[0] = true;
+            bubbleTimeline.only_media = isChecked;
+            pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
+            try {
+                new Pinned(activity).updatePinned(pinned);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        });
+
+        dialogView.actionRemote.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            changes[0] = true;
+            bubbleTimeline.remote = isChecked;
+            pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
+            try {
+                new Pinned(activity).updatePinned(pinned);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        });
+
+        dialogView.actionExcludeVisibility.setOnClickListener(v -> {
+            changes[0] = true;
+            AlertDialog.Builder excludeDialogBuilder = new MaterialAlertDialogBuilder(activity);
+            DialogBubbleExcludeVisibilityBinding dialogBinding = DialogBubbleExcludeVisibilityBinding.inflate(activity.getLayoutInflater());
+            excludeDialogBuilder.setView(dialogBinding.getRoot());
+            excludeDialogBuilder.setTitle(R.string.exclude_visibility);
+            if (bubbleTimeline.exclude_visibilities == null) {
+                bubbleTimeline.exclude_visibilities = new ArrayList<>();
+            }
+            for (String value : bubbleTimeline.exclude_visibilities) {
+                if (value.equalsIgnoreCase("public")) {
+                    dialogBinding.valuePublic.setChecked(true);
+                }
+                if (value.equalsIgnoreCase("local")) {
+                    dialogBinding.valueLocal.setChecked(true);
+                }
+                if (value.equalsIgnoreCase("direct")) {
+                    dialogBinding.valueDirect.setChecked(true);
+                }
+                if (value.equalsIgnoreCase("list")) {
+                    dialogBinding.valueList.setChecked(true);
+                }
+                if (value.equalsIgnoreCase("private")) {
+                    dialogBinding.valuePrivate.setChecked(true);
+                }
+                if (value.equalsIgnoreCase("unlisted")) {
+                    dialogBinding.valueUnlisted.setChecked(true);
+                }
+            }
+            dialogBinding.valuePrivate.setOnCheckedChangeListener((compoundButton, checked) -> {
+                if (checked) {
+                    if (!bubbleTimeline.exclude_visibilities.contains("private")) {
+                        bubbleTimeline.exclude_visibilities.add("private");
+                    }
+                } else {
+                    bubbleTimeline.exclude_visibilities.remove("private");
+                }
+            });
+            dialogBinding.valueDirect.setOnCheckedChangeListener((compoundButton, checked) -> {
+                if (checked) {
+                    if (!bubbleTimeline.exclude_visibilities.contains("direct")) {
+                        bubbleTimeline.exclude_visibilities.add("direct");
+                    }
+                } else {
+                    bubbleTimeline.exclude_visibilities.remove("direct");
+                }
+            });
+            dialogBinding.valueList.setOnCheckedChangeListener((compoundButton, checked) -> {
+                if (checked) {
+                    if (!bubbleTimeline.exclude_visibilities.contains("list")) {
+                        bubbleTimeline.exclude_visibilities.add("list");
+                    }
+                } else {
+                    bubbleTimeline.exclude_visibilities.remove("list");
+                }
+            });
+            dialogBinding.valueLocal.setOnCheckedChangeListener((compoundButton, checked) -> {
+                if (checked) {
+                    if (!bubbleTimeline.exclude_visibilities.contains("local")) {
+                        bubbleTimeline.exclude_visibilities.add("local");
+                    }
+                } else {
+                    bubbleTimeline.exclude_visibilities.remove("local");
+                }
+            });
+            dialogBinding.valuePublic.setOnCheckedChangeListener((compoundButton, checked) -> {
+                if (checked) {
+                    if (!bubbleTimeline.exclude_visibilities.contains("public")) {
+                        bubbleTimeline.exclude_visibilities.add("public");
+                    }
+                } else {
+                    bubbleTimeline.exclude_visibilities.remove("public");
+                }
+            });
+            dialogBinding.valueUnlisted.setOnCheckedChangeListener((compoundButton, checked) -> {
+                if (checked) {
+                    if (!bubbleTimeline.exclude_visibilities.contains("unlisted")) {
+                        bubbleTimeline.exclude_visibilities.add("unlisted");
+                    }
+                } else {
+                    bubbleTimeline.exclude_visibilities.remove("unlisted");
+                }
+            });
+            excludeDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            });
+            excludeDialogBuilder.create().show();
+        });
+
+        dialogView.actionReplyVisibility.setOnClickListener(v -> {
+            changes[0] = true;
+            AlertDialog.Builder replyDialogBuilder = new MaterialAlertDialogBuilder(activity);
+            DialogBubbleReplyVisibilityBinding dialogBinding = DialogBubbleReplyVisibilityBinding.inflate(activity.getLayoutInflater());
+            replyDialogBuilder.setView(dialogBinding.getRoot());
+            replyDialogBuilder.setTitle(R.string.reply_visibility);
+            int checkedId = R.id.all;
+            if (bubbleTimeline.reply_visibility != null && bubbleTimeline.reply_visibility.equalsIgnoreCase("following")) {
+                checkedId = R.id.following;
+            } else if (bubbleTimeline.reply_visibility != null && bubbleTimeline.reply_visibility.equalsIgnoreCase("self")) {
+                checkedId = R.id.self;
+            }
+            dialogBinding.replyVisibility.check(checkedId);
+            dialogBinding.replyVisibility.setOnCheckedChangeListener((radioGroup, checkedElement) -> {
+                if (checkedElement == R.id.all) {
+                    bubbleTimeline.reply_visibility = null;
+                } else if (checkedElement == R.id.following) {
+                    bubbleTimeline.reply_visibility = "following";
+                } else if (checkedElement == R.id.self) {
+                    bubbleTimeline.reply_visibility = "self";
+                }
+            });
+            replyDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            });
+            replyDialogBuilder.create().show();
+        });
+
+        dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
+        dialogBuilder.setOnDismissListener(dialog -> {
             if (changes[0]) {
                 if (activityMainBinding.viewPager.getAdapter() != null) {
                     try {
@@ -1171,174 +1273,7 @@ public class PinnedTimelineHelper {
                 }
             }
         });
-
-
-        int finalOffSetPosition = offSetPosition;
-        popup.setOnMenuItemClickListener(item -> {
-            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-            item.setActionView(new View(activity));
-            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem item) {
-                    return false;
-                }
-
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item) {
-                    return false;
-                }
-            });
-            changes[0] = true;
-            int itemId = item.getItemId();
-            if (itemId == R.id.action_show_media_only) {
-                mediaOnly[0] = !mediaOnly[0];
-                bubbleTimeline.only_media = mediaOnly[0];
-                pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
-                itemMediaOnly.setChecked(mediaOnly[0]);
-                try {
-                    new Pinned(activity).updatePinned(pinned);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            } else if (itemId == R.id.action_remote) {
-                remote[0] = !remote[0];
-                bubbleTimeline.remote = remote[0];
-                pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
-                itemRemote.setChecked(remote[0]);
-                try {
-                    new Pinned(activity).updatePinned(pinned);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            } else if (itemId == R.id.action_exclude_visibility) {
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
-                DialogBubbleExcludeVisibilityBinding dialogBinding = DialogBubbleExcludeVisibilityBinding.inflate(activity.getLayoutInflater());
-                dialogBuilder.setView(dialogBinding.getRoot());
-                dialogBuilder.setTitle(R.string.exclude_visibility);
-                if (bubbleTimeline.exclude_visibilities == null) {
-                    bubbleTimeline.exclude_visibilities = new ArrayList<>();
-                }
-                for (String value : bubbleTimeline.exclude_visibilities) {
-                    if (value.equalsIgnoreCase("public")) {
-                        dialogBinding.valuePublic.setChecked(true);
-                    }
-                    if (value.equalsIgnoreCase("local")) {
-                        dialogBinding.valueLocal.setChecked(true);
-                    }
-                    if (value.equalsIgnoreCase("direct")) {
-                        dialogBinding.valueDirect.setChecked(true);
-                    }
-                    if (value.equalsIgnoreCase("list")) {
-                        dialogBinding.valueList.setChecked(true);
-                    }
-                    if (value.equalsIgnoreCase("private")) {
-                        dialogBinding.valuePrivate.setChecked(true);
-                    }
-                    if (value.equalsIgnoreCase("unlisted")) {
-                        dialogBinding.valueUnlisted.setChecked(true);
-                    }
-                }
-                dialogBinding.valuePrivate.setOnCheckedChangeListener((compoundButton, checked) -> {
-                    if (checked) {
-                        if (!bubbleTimeline.exclude_visibilities.contains("private")) {
-                            bubbleTimeline.exclude_visibilities.add("private");
-                        }
-                    } else {
-                        bubbleTimeline.exclude_visibilities.remove("private");
-                    }
-                });
-                dialogBinding.valueDirect.setOnCheckedChangeListener((compoundButton, checked) -> {
-                    if (checked) {
-                        if (!bubbleTimeline.exclude_visibilities.contains("direct")) {
-                            bubbleTimeline.exclude_visibilities.add("direct");
-                        }
-                    } else {
-                        bubbleTimeline.exclude_visibilities.remove("direct");
-                    }
-                });
-                dialogBinding.valueList.setOnCheckedChangeListener((compoundButton, checked) -> {
-                    if (checked) {
-                        if (!bubbleTimeline.exclude_visibilities.contains("list")) {
-                            bubbleTimeline.exclude_visibilities.add("list");
-                        }
-                    } else {
-                        bubbleTimeline.exclude_visibilities.remove("list");
-                    }
-                });
-                dialogBinding.valueLocal.setOnCheckedChangeListener((compoundButton, checked) -> {
-                    if (checked) {
-                        if (!bubbleTimeline.exclude_visibilities.contains("local")) {
-                            bubbleTimeline.exclude_visibilities.add("local");
-                        }
-                    } else {
-                        bubbleTimeline.exclude_visibilities.remove("local");
-                    }
-                });
-                dialogBinding.valuePublic.setOnCheckedChangeListener((compoundButton, checked) -> {
-                    if (checked) {
-                        if (!bubbleTimeline.exclude_visibilities.contains("public")) {
-                            bubbleTimeline.exclude_visibilities.add("public");
-                        }
-                    } else {
-                        bubbleTimeline.exclude_visibilities.remove("public");
-                    }
-                });
-                dialogBinding.valueUnlisted.setOnCheckedChangeListener((compoundButton, checked) -> {
-                    if (checked) {
-                        if (!bubbleTimeline.exclude_visibilities.contains("unlisted")) {
-                            bubbleTimeline.exclude_visibilities.add("unlisted");
-                        }
-                    } else {
-                        bubbleTimeline.exclude_visibilities.remove("unlisted");
-                    }
-                });
-                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-                    pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
-                    try {
-                        new Pinned(activity).updatePinned(pinned);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                });
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.show();
-            } else if (itemId == R.id.action_reply_visibility) {
-                AlertDialog.Builder dialogBuilder;
-                AlertDialog alertDialog;
-                dialogBuilder = new MaterialAlertDialogBuilder(activity);
-                DialogBubbleReplyVisibilityBinding dialogBinding = DialogBubbleReplyVisibilityBinding.inflate(activity.getLayoutInflater());
-                dialogBuilder.setView(dialogBinding.getRoot());
-                dialogBuilder.setTitle(R.string.reply_visibility);
-                int checkedId = R.id.all;
-                if (bubbleTimeline.reply_visibility != null && bubbleTimeline.reply_visibility.equalsIgnoreCase("following")) {
-                    checkedId = R.id.following;
-                } else if (bubbleTimeline.reply_visibility != null && bubbleTimeline.reply_visibility.equalsIgnoreCase("self")) {
-                    checkedId = R.id.self;
-                }
-                dialogBinding.replyVisibility.check(checkedId);
-                dialogBinding.replyVisibility.setOnCheckedChangeListener((radioGroup, checkedElement) -> {
-                    if (checkedElement == R.id.all) {
-                        bubbleTimeline.reply_visibility = null;
-                    } else if (checkedElement == R.id.following) {
-                        bubbleTimeline.reply_visibility = "following";
-                    } else if (checkedElement == R.id.self) {
-                        bubbleTimeline.reply_visibility = "self";
-                    }
-                });
-                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-                    pinned.pinnedTimelines.get(finalOffSetPosition).bubbleTimeline = bubbleTimeline;
-                    try {
-                        new Pinned(activity).updatePinned(pinned);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                });
-                alertDialog = dialogBuilder.create();
-                alertDialog.show();
-            }
-            return false;
-        });
-        popup.show();
+        dialogBuilder.create().show();
     }
 
 
@@ -1352,7 +1287,6 @@ public class PinnedTimelineHelper {
      */
     public static void instanceClick(BaseMainActivity activity, Pinned pinned, View view, ActivityMainBinding activityMainBinding, int position, String slug) {
 
-        PopupMenu popup = new PopupMenu(activity, view);
         int toRemove = itemToRemoveInBottomMenu(activity);
         int offSetPosition = position - (FedilabPageAdapter.BOTTOM_TIMELINE_COUNT - toRemove);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -1364,147 +1298,65 @@ public class PinnedTimelineHelper {
 
         if (remoteInstance == null)
             return;
+
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
+        PopupFilterInstanceTimelineBinding dialogView = PopupFilterInstanceTimelineBinding.inflate(activity.getLayoutInflater());
+        dialogBuilder.setView(dialogView.getRoot());
+
         final String[] currentFilter = {remoteInstance.filteredWith};
         final boolean[] changes = {false};
-        String title;
-        if (currentFilter[0] == null) {
-            title = "✔ " + activity.getString(R.string.all);
-        } else {
-            title = activity.getString(R.string.all);
-        }
-
-        MenuItem itemAll = popup.getMenu().add(0, 0, Menu.NONE, title);
-
         int finalOffSetPosition = offSetPosition;
-        itemAll.setOnMenuItemClickListener(item -> {
-            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-            item.setActionView(new View(activity));
-            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem item) {
-                    return false;
-                }
 
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item) {
-                    return false;
-                }
-            });
+        // Add "All" radio button
+        RadioButton allRadio = new RadioButton(activity);
+        allRadio.setText(activity.getString(R.string.all));
+        allRadio.setChecked(currentFilter[0] == null);
+        allRadio.setId(View.generateViewId());
+        dialogView.filterGroup.addView(allRadio);
+
+        allRadio.setOnClickListener(v -> {
             changes[0] = true;
-            FragmentMastodonTimeline fragmentMastodonTimeline = null;
-            try {
-                new StatusCache(activity).deleteForSlug(slug);
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-            if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
-                Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
-                if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                    fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                }
-            }
-            if (fragmentMastodonTimeline == null)
-                return false;
-            FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
-
             pinned.pinnedTimelines.get(finalOffSetPosition).remoteInstance.filteredWith = null;
             remoteInstance.filteredWith = null;
-            currentFilter[0] = null;
-            pinned.pinnedTimelines.get(finalOffSetPosition).remoteInstance = remoteInstance;
             try {
                 new Pinned(activity).updatePinned(pinned);
             } catch (DBException e) {
                 e.printStackTrace();
             }
-            fragTransaction1.detach(fragmentMastodonTimeline).commit();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned.pinnedTimelines.get(finalOffSetPosition));
-            bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
-            bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
-            fragmentMastodonTimeline.setArguments(bundle);
-            FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
-            fragTransaction2.attach(fragmentMastodonTimeline);
-            fragTransaction2.commit();
-            fragmentMastodonTimeline.recreate();
-            popup.getMenu().close();
-            return false;
         });
 
+        // Add tag radio buttons
         java.util.List<String> tags = remoteInstance.tags;
-        if (tags != null && tags.size() > 0) {
+        if (tags != null && !tags.isEmpty()) {
             java.util.Collections.sort(tags);
             for (String tag : tags) {
-                if (tag == null || tag.length() == 0)
+                if (tag == null || tag.isEmpty())
                     continue;
-                if (currentFilter[0] != null && currentFilter[0].equals(tag)) {
-                    title = "✔ " + tag;
-                } else {
-                    title = tag;
-                }
-                MenuItem item = popup.getMenu().add(0, 0, Menu.NONE, title);
-                int finalOffSetPosition1 = offSetPosition;
-                item.setOnMenuItemClickListener(item1 -> {
-                    FragmentMastodonTimeline fragmentMastodonTimeline = null;
-                    if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
-                        Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
-                        if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                            fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                            fragmentMastodonTimeline.refreshAllAdapters();
-                        }
-                    }
-                    try {
-                        new StatusCache(activity).deleteForSlug(slug);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                    FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
-                    if (fragmentMastodonTimeline == null)
-                        return false;
-                    pinned.pinnedTimelines.get(finalOffSetPosition1).remoteInstance.filteredWith = tag;
+                RadioButton tagRadio = new RadioButton(activity);
+                tagRadio.setText(tag);
+                tagRadio.setChecked(currentFilter[0] != null && currentFilter[0].equals(tag));
+                tagRadio.setId(View.generateViewId());
+                dialogView.filterGroup.addView(tagRadio);
+
+                tagRadio.setOnClickListener(v -> {
+                    changes[0] = true;
+                    pinned.pinnedTimelines.get(finalOffSetPosition).remoteInstance.filteredWith = tag;
                     remoteInstance.filteredWith = tag;
                     try {
                         new Pinned(activity).updatePinned(pinned);
                     } catch (DBException e) {
                         e.printStackTrace();
                     }
-                    currentFilter[0] = remoteInstance.filteredWith;
-                    fragTransaction1.detach(fragmentMastodonTimeline).commit();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned.pinnedTimelines.get(finalOffSetPosition1));
-                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
-                    bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
-                    fragmentMastodonTimeline.setArguments(bundle);
-                    FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
-                    fragTransaction2.attach(fragmentMastodonTimeline);
-                    fragTransaction2.commit();
-                    fragmentMastodonTimeline.recreate();
-                    return false;
                 });
             }
         }
 
-
-        MenuItem itemadd = popup.getMenu().add(0, 0, Menu.NONE, activity.getString(R.string.add_tags));
-        itemadd.setOnMenuItemClickListener(item -> {
-            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-            item.setActionView(new View(activity));
-            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                @Override
-                public boolean onMenuItemActionExpand(MenuItem item) {
-                    return false;
-                }
-
-                @Override
-                public boolean onMenuItemActionCollapse(MenuItem item) {
-                    return false;
-                }
-            });
-            changes[0] = true;
-            AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
-            LayoutInflater inflater = activity.getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.tags_instance, new LinearLayout(activity), false);
-            dialogBuilder.setView(dialogView);
-            final EditText editText = dialogView.findViewById(R.id.filter_words);
+        // Add tags button
+        dialogView.actionAddTags.setOnClickListener(v -> {
+            AlertDialog.Builder tagsDialogBuilder = new MaterialAlertDialogBuilder(activity);
+            View tagsDialogView = activity.getLayoutInflater().inflate(R.layout.tags_instance, new LinearLayout(activity), false);
+            tagsDialogBuilder.setView(tagsDialogView);
+            final EditText editText = tagsDialogView.findViewById(R.id.filter_words);
             if (remoteInstance.tags != null) {
                 StringBuilder valuesTag = new StringBuilder();
                 for (String val : remoteInstance.tags)
@@ -1512,7 +1364,7 @@ public class PinnedTimelineHelper {
                 editText.setText(valuesTag.toString());
                 editText.setSelection(editText.getText().toString().length());
             }
-            dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+            tagsDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
                 String[] values = editText.getText().toString().trim().split("\\s+");
                 remoteInstance.tags = new ArrayList<>(Arrays.asList(values));
                 try {
@@ -1520,48 +1372,33 @@ public class PinnedTimelineHelper {
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
-                popup.getMenu().clear();
-                popup.getMenu().close();
-                instanceClick(activity, pinned, view, activityMainBinding, position, slug);
             });
-            AlertDialog alertDialog = dialogBuilder.create();
-            alertDialog.show();
-            return false;
+            tagsDialogBuilder.create().show();
         });
 
-        int finalOffSetPosition2 = offSetPosition;
-        popup.setOnDismissListener(menu -> {
+        dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
+        dialogBuilder.setOnDismissListener(dialog -> {
             if (changes[0]) {
-                FragmentMastodonTimeline fragmentMastodonTimeline = null;
                 try {
                     new StatusCache(activity).deleteForSlug(slug);
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(activity.getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
+                editor.commit();
+
                 if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
                     Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
-                    if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                        fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                        fragmentMastodonTimeline.refreshAllAdapters();
+                    if (fragment instanceof FragmentMastodonTimeline fragmentMastodonTimeline && fragment.isVisible()) {
+                        fragmentMastodonTimeline.updatePinnedTimeline(pinned.pinnedTimelines.get(finalOffSetPosition));
+                        fragmentMastodonTimeline.recreate();
                     }
                 }
-                FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
-                if (fragmentMastodonTimeline == null)
-                    return;
-                fragTransaction1.detach(fragmentMastodonTimeline).commit();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned.pinnedTimelines.get(finalOffSetPosition2));
-                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
-                bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
-                fragmentMastodonTimeline.setArguments(bundle);
-                FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
-                fragTransaction2.attach(fragmentMastodonTimeline);
-                fragTransaction2.commit();
-                fragmentMastodonTimeline.recreate();
             }
         });
-
-        popup.show();
+        dialogBuilder.create().show();
     }
 
     /**
@@ -1583,103 +1420,96 @@ public class PinnedTimelineHelper {
         RemoteInstance remoteInstance = pinned.pinnedTimelines.get(offSetPosition).remoteInstance;
         if (remoteInstance == null)
             return;
-        PopupMenu popup = new PopupMenu(activity, view);
-        popup.getMenuInflater()
-                .inflate(R.menu.option_nitter_timeline, popup.getMenu());
-        if(remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG) {
-            MenuItem item = popup.getMenu().findItem(R.id.action_nitter_manage_accounts);
-            if(item != null) {
-                item.setTitle(R.string.manage_tags);
-            }
+
+        AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
+        PopupFilterNitterTimelineBinding dialogView = PopupFilterNitterTimelineBinding.inflate(activity.getLayoutInflater());
+        dialogBuilder.setView(dialogView.getRoot());
+
+        if (remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG) {
+            dialogView.actionNitterManageAccounts.setText(R.string.manage_tags);
         }
+
         int finalOffSetPosition = offSetPosition;
-        popup.setOnMenuItemClickListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.action_displayname) {
-                AlertDialog.Builder dialogBuilder;
-                LayoutInflater inflater;
-                View dialogView;
-                AlertDialog alertDialog;
-                dialogBuilder = new MaterialAlertDialogBuilder(activity);
-                inflater = activity.getLayoutInflater();
-                dialogView = inflater.inflate(R.layout.tags_name, new LinearLayout(activity), false);
-                dialogBuilder.setView(dialogView);
-                final EditText editTextName = dialogView.findViewById(R.id.column_name);
-                if (remoteInstance.displayName != null) {
-                    editTextName.setText(remoteInstance.displayName);
-                    editTextName.setSelection(editTextName.getText().toString().length());
-                }
-                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-                    String values = editTextName.getText().toString();
-                    if (values.trim().isEmpty()) {
-                        values = remoteInstance.displayName;
-                    }
-                    remoteInstance.displayName = values;
-                    View titleView = view.findViewById(R.id.title);
-                    if (titleView instanceof AppCompatTextView) {
-                        ((AppCompatTextView) titleView).setText(remoteInstance.displayName);
-                    }
-                    pinned.pinnedTimelines.get(finalOffSetPosition).remoteInstance = remoteInstance;
-                    try {
-                        new Pinned(activity).updatePinned(pinned);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                });
-                alertDialog = dialogBuilder.create();
-                alertDialog.show();
-            } else if (itemId == R.id.action_nitter_manage_accounts) {
-                String accounts = remoteInstance.host;
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(activity);
-                LayoutInflater inflater = activity.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.tags_any, new LinearLayout(activity), false);
-                dialogBuilder.setView(dialogView);
-                final EditText editText = dialogView.findViewById(R.id.filter_any);
-                editText.setHint(R.string.list_of_twitter_accounts);
-                if (accounts != null) {
-                    editText.setText(accounts);
-                    editText.setSelection(editText.getText().toString().length());
-                }
-                dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
-                    pinned.pinnedTimelines.get(finalOffSetPosition).remoteInstance.host = editText.getText().toString().trim();
-                    try {
-                        new Pinned(activity).updatePinned(pinned);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                    FragmentMastodonTimeline fragmentMastodonTimeline = null;
-                    try {
-                        new StatusCache(activity).deleteForSlug(slug);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
-                    if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
-                        Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
-                        if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
-                            fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
-                            fragmentMastodonTimeline.refreshAllAdapters();
-                        }
-                    }
-                    FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
-                    if (fragmentMastodonTimeline == null)
-                        return;
-                    fragTransaction1.detach(fragmentMastodonTimeline).commit();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned.pinnedTimelines.get(finalOffSetPosition));
-                    bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
-                    bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
-                    fragmentMastodonTimeline.setArguments(bundle);
-                    FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
-                    fragTransaction2.attach(fragmentMastodonTimeline);
-                    fragTransaction2.commit();
-                    fragmentMastodonTimeline.recreate();
-                });
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.show();
+
+        dialogView.actionDisplayname.setOnClickListener(v -> {
+            AlertDialog.Builder nameDialogBuilder = new MaterialAlertDialogBuilder(activity);
+            View nameDialogView = activity.getLayoutInflater().inflate(R.layout.tags_name, new LinearLayout(activity), false);
+            nameDialogBuilder.setView(nameDialogView);
+            final EditText editTextName = nameDialogView.findViewById(R.id.column_name);
+            if (remoteInstance.displayName != null) {
+                editTextName.setText(remoteInstance.displayName);
+                editTextName.setSelection(editTextName.getText().toString().length());
             }
-            return true;
+            nameDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                String values = editTextName.getText().toString();
+                if (values.trim().isEmpty()) {
+                    values = remoteInstance.displayName;
+                }
+                remoteInstance.displayName = values;
+                View titleView = view.findViewById(R.id.title);
+                if (titleView instanceof AppCompatTextView) {
+                    ((AppCompatTextView) titleView).setText(remoteInstance.displayName);
+                }
+                pinned.pinnedTimelines.get(finalOffSetPosition).remoteInstance = remoteInstance;
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            });
+            nameDialogBuilder.create().show();
         });
-        popup.show();
+
+        dialogView.actionNitterManageAccounts.setOnClickListener(v -> {
+            String accounts = remoteInstance.host;
+            AlertDialog.Builder accountsDialogBuilder = new MaterialAlertDialogBuilder(activity);
+            View accountsDialogView = activity.getLayoutInflater().inflate(R.layout.tags_any, new LinearLayout(activity), false);
+            accountsDialogBuilder.setView(accountsDialogView);
+            final EditText editText = accountsDialogView.findViewById(R.id.filter_any);
+            editText.setHint(R.string.list_of_twitter_accounts);
+            if (accounts != null) {
+                editText.setText(accounts);
+                editText.setSelection(editText.getText().toString().length());
+            }
+            accountsDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
+                pinned.pinnedTimelines.get(finalOffSetPosition).remoteInstance.host = editText.getText().toString().trim();
+                try {
+                    new Pinned(activity).updatePinned(pinned);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+                FragmentMastodonTimeline fragmentMastodonTimeline = null;
+                try {
+                    new StatusCache(activity).deleteForSlug(slug);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+                if (activityMainBinding.viewPager.getAdapter() != null && activityMainBinding.tabLayout.getSelectedTabPosition() != -1) {
+                    Fragment fragment = (Fragment) activityMainBinding.viewPager.getAdapter().instantiateItem(activityMainBinding.viewPager, activityMainBinding.tabLayout.getSelectedTabPosition());
+                    if (fragment instanceof FragmentMastodonTimeline && fragment.isVisible()) {
+                        fragmentMastodonTimeline = ((FragmentMastodonTimeline) fragment);
+                        fragmentMastodonTimeline.refreshAllAdapters();
+                    }
+                }
+                FragmentTransaction fragTransaction1 = activity.getSupportFragmentManager().beginTransaction();
+                if (fragmentMastodonTimeline == null)
+                    return;
+                fragTransaction1.detach(fragmentMastodonTimeline).commit();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinned.pinnedTimelines.get(finalOffSetPosition));
+                bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.REMOTE);
+                bundle.putSerializable(Helper.ARG_INITIALIZE_VIEW, false);
+                fragmentMastodonTimeline.setArguments(bundle);
+                FragmentTransaction fragTransaction2 = activity.getSupportFragmentManager().beginTransaction();
+                fragTransaction2.attach(fragmentMastodonTimeline);
+                fragTransaction2.commit();
+                fragmentMastodonTimeline.recreate();
+            });
+            accountsDialogBuilder.create().show();
+        });
+
+        dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
+        dialogBuilder.create().show();
     }
 
 

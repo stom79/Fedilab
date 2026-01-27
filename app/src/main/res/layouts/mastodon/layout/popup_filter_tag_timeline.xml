@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/fab_margin">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_displayname"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/change_tag_column"
+            android:textAlignment="textStart" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/action_show_media_only"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/show_media_only" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/action_show_nsfw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/show_media_nsfw" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_any"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/any_tags"
+            android:textAlignment="textStart" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_all"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/all_tags"
+            android:textAlignment="textStart" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_none"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/none_tags"
+            android:textAlignment="textStart" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</ScrollView>
