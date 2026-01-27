@@ -104,7 +104,10 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
                 peertubeInformation.setTranslations(new LinkedHashMap<>());
                 peertubeInformation = new RetrofitPeertubeAPI(RetrieveInfoService.this).getPeertubeInformation();
                 Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> stopForeground(true);
+                Runnable myRunnable = () -> {
+                    stopForeground(true);
+                    stopSelf();
+                };
                 mainHandler.post(myRunnable);
             }
         };
@@ -151,6 +154,7 @@ public class RetrieveInfoService extends Service implements NetworkStateReceiver
                     peertubeInformation = new RetrofitPeertubeAPI(RetrieveInfoService.this).getPeertubeInformation();
                 }
                 stopForeground(true);
+                stopSelf();
             }
         };
         thread.start();

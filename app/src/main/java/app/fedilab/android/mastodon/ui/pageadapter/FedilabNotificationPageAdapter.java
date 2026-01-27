@@ -90,6 +90,6 @@ public class FedilabNotificationPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return extended ? 10 : 2;
+        return extended ? 11 : 2;
     }
 }
