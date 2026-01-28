@@ -3,7 +3,7 @@
     <string name="action_about">Sobre</string>
     <string name="action_about_instance">Sobre a instancia</string>
     <string name="action_privacy">Privacidade</string>
-    <string name="action_cache">Caché</string>
+    <string name="action_cache">Mem. tobo</string>
     <string name="action_logout">Pechar sesión</string>
     <!-- common -->
     <string name="close">Pechar</string>
@@ -497,8 +497,8 @@
         <item>7 días</item>
     </string-array>
     <string name="poll_duplicated_entry">A sondaxe non pode ter opición duplicadas!</string>
-    <string name="set_clear_cache_exit">Limpar caché ao saír</string>
-    <string name="set_clear_cache_exit_indication">A caché (medios, menxases almacenadas, datos do navegador incluído) borraranse automáticamente ao saír da aplicación.</string>
+    <string name="set_clear_cache_exit">Limpar memoria tobo ao saír</string>
+    <string name="set_clear_cache_exit_indication">Vaise limpar de xeito automático a memoria tobo (multimedia, menxases almacenadas, datos do navegador) ao saír da aplicación.</string>
     <string name="unfollow_confirm">Queres deixar de seguir esta conta?</string>
     <string name="set_unfollow_validation">Mostrar cadro de confirmación antes de deixar de seguir</string>
     <string name="replace_medium">Substituír ligazóns a Medium</string>
@@ -561,7 +561,7 @@
     <string name="action_announcements">Anuncios</string>
     <string name="no_announcements">Sen anuncios!</string>
     <string name="add_reaction">Engadir reacción</string>
-    <string name="set_video_cache">Caché para vídeo en MB, cero significa sen caché.</string>
+    <string name="set_video_cache">Memoria para vídeo en MB, cero significa sen memoria tobo.</string>
     <string name="set_watermark">Marcas de auga</string>
     <string name="set_watermark_indication">Engadir marcas de auga automáticamente ás imaxes. O texto pódese personalizar para cada conta.</string>
     <string name="no_distributors_found">Non se atopan distribuidores!</string>
@@ -696,12 +696,12 @@
     <string name="set_timelines_in_a_list_title">Cronoloxías nunha lista</string>
     <string name="set_timelines_in_a_list">Ao activalas, tódalas cronoloxías fixadas monstraranse nun menú despregable</string>
     <string name="set_single_topbar">Ao activala, a app só terá unha única barra para as cronoloxías</string>
-    <string name="messages_in_cache_for_home">Mensaxes na caché para Inicio</string>
+    <string name="messages_in_cache_for_home">Mensaxes do Inicio na memoria tobo</string>
     <string name="fetch_more_messages">Obter máis mensaxes…</string>
     <string name="action_announcement_from_to">Anuncio - %1$s - %2$s</string>
-    <string name="clear_cache">Limpar caché</string>
+    <string name="clear_cache">Limpar memoria</string>
     <string name="view_the_original_message">Abrir mensaxe orixinal</string>
-    <string name="set_use_cache_indication">As conoloxías irán á caché para que a aplicación sexa máis rápida.</string>
+    <string name="set_use_cache_indication">As conoloxías irán á memoria tobo para que a aplicación sexa máis rápida.</string>
     <string name="reply">Responder</string>
     <string name="display_options">Opcións de presentación</string>
     <string name="toast_token">A app non puido obter un token</string>
@@ -713,10 +713,10 @@
     <string name="set_display_counter">Mostra contadores nas mensaxes</string>
     <string name="load_media_type_title">Cargar miniaturas multimedia</string>
     <string name="display_media">Mostrar multimedia</string>
-    <string name="cached_messages">Mensaxe na caché</string>
+    <string name="cached_messages">Mensaxe na memoria</string>
     <string name="fetch_notifications">Obter notificacións</string>
     <string name="set_single_topbar_title">Barra única</string>
-    <string name="set_use_cache">Usar caché</string>
+    <string name="set_use_cache">Usar memoria tobo</string>
     <string name="set_display_counters">Mostrar contadores</string>
     <string name="open_draft">Abrir borrador</string>
     <string name="type_of_notifications_delay_title">Tempo entre notificacións</string>
@@ -724,20 +724,20 @@
     <string name="resolved">Resolta</string>
     <string name="label_oval">Oval</string>
     <string name="my_instance">A miña instancia</string>
-    <string name="delete_cache">Baleirar caché</string>
-    <string name="messages_in_cache_for_other_timelines">Mensaxes na caché para outras cronoloxías</string>
+    <string name="delete_cache">Baleirar memoria tobo</string>
+    <string name="messages_in_cache_for_other_timelines">Mensaxes na memoria para outras cronoloxías</string>
     <string name="messages_stored_in_drafts">Mensaxes gardadas en borradores</string>
     <string name="my_app">A miña app</string>
     <string name="msg_save_image">Tes a certeza de saír sen gardar a imaxe\?</string>
     <string name="tap_here_to_refresh_poll">Toca aquí para actualizar a enquisa</string>
     <string name="approved">Aprobado</string>
-    <string name="files_cache_size">Tamaño dos ficheiros da caché</string>
+    <string name="files_cache_size">Tamaño da memoria tobo</string>
     <string name="approve">Aprobar</string>
     <string name="origin_report">Orixe da conta denunciada</string>
     <string name="most_recent">Máis recente</string>
     <string name="label_shape">Forma</string>
     <string name="label_eraser_mode">Modo Borrar</string>
-    <string name="delete_cache_message">Tes a certeza de querer baleirar a caché\? Se tes borradores que inclúen multimedia, estes perderanse.</string>
+    <string name="delete_cache_message">Tes a certeza de querer baleirar a memoria tobo? Se tes borradores que inclúen multimedia, estes perderanse.</string>
     <string name="my_account">A miña conta</string>
     <string name="set_display_counters_description">Mostrará un contador nas cronoloxías das pestanas para as novas mensaxes</string>
     <string name="load_settings">Cargar axustes exportados</string>
@@ -781,7 +781,7 @@
     <string name="set_unlisted_replies_indication">Só aplica a respostas \"públicas\". Ao activalo, as respostas terán automáticamente visibilidade \"non listada\" no lugar de \"pública\"</string>
     <string name="toast_unpin">A mensaxe xa non está fixada!</string>
     <string name="toast_pin">Fixouse a mensaxe</string>
-    <string name="notification_remove_from_cache">Eliminadas da caché as notificacións.</string>
+    <string name="notification_remove_from_cache">Eliminadas da memoria as notificacións.</string>
     <string name="email_status">Estado do email</string>
     <string name="login_status">Estado da sesión</string>
     <string name="assign_to_me">Asignarma</string>
@@ -979,7 +979,7 @@
     <string name="fetch_home_every">Actualizar Inicio cada</string>
     <string name="set_fetch_home">Actualizar automáticamente mensaxes de inicio</string>
     <string name="type_of_home_delay_title">Intervalo de actualización</string>
-    <string name="home_cache">Caché do Inicio</string>
+    <string name="home_cache">Memoria tobo de Inicio</string>
     <string name="fetch_home_messages">Obter mensaxes</string>
     <string name="auto_fetch_missing">Obter automáticamente as mensaxes que faltan</string>
     <string name="pinned">Fixada</string>
@@ -1006,7 +1006,7 @@
     <string name="set_alt_text_mandatory_warn">Só avisar</string>
     <string name="set_autoplay_gif">Reprodución autom. do multimedia</string>
     <string name="set_remove_battery">Ignorar optimizacións da batería</string>
-    <string name="check_home_cache">Comprobar caché de Inicio</string>
+    <string name="check_home_cache">Comprobar a memoria para Inicio</string>
     <string name="new_messages">Novas mensaxes</string>
     <string name="updated_messages">Mensaxes actualizadas</string>
     <string name="frequency_minutes">Frecuencia (minutos)</string>
@@ -1017,12 +1017,12 @@
     <string name="follows_you">Séguete</string>
     <string name="last_24_h">Últimas 24 horas</string>
     <string name="messages">%1$d mensaxes na memoria</string>
-    <string name="chart_home_cache_logs">Rexistro da caché de Inicio</string>
+    <string name="chart_home_cache_logs">Rexistro da memoria de Inicio</string>
     <string name="updated_count">%d mensaxes actualizadas</string>
-    <string name="chart_home_cache">Rexistros na caché de Inicio por hora</string>
+    <string name="chart_home_cache">Rexistros por hora da memoria para Inicio</string>
     <string name="fails">Falla</string>
     <string name="total_fetched">Total de mensaxes obtidas</string>
-    <string name="no_cached_messages">Non hai mensaxes na caché de Inicio!</string>
+    <string name="no_cached_messages">Non hai mensaxes na memoria para Inicio!</string>
     <string name="toast_error_media">Non se puido cargar o multimedia!</string>
     <string name="load_media_remotely">Cargar multimedia remoto</string>
     <string name="reblog_missing_description">A esta mensaxe fáltalle a descrición do multimedia. Así a todo, queres promovela\?</string>
