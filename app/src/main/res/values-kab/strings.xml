@@ -10,8 +10,8 @@
     <string name="yes">Ih</string>
     <string name="no">Ala</string>
     <string name="cancel">Sefsex</string>
-    <string name="download">Sider</string>
-    <string name="download_file">Asider n %1$s</string>
+    <string name="download">Sader</string>
+    <string name="download_file">Asader n %1$s</string>
     <string name="save_over">Amidya ittwasekles</string>
     <string name="download_from" formatted="false">Afaylu: %1$s</string>
     <string name="password">Awal uffir</string>
