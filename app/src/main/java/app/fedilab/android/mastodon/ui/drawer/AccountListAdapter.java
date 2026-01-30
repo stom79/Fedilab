@@ -42,6 +42,7 @@ import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyTimelinesVM;
 
 
 public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -51,6 +52,8 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final MastodonList mastodonList;
     private Context context;
     private TimelinesVM timelinesVM;
+    private MisskeyTimelinesVM misskeyTimelinesVM;
+    private boolean isMisskey;
 
     public AccountListAdapter(MastodonList mastodonList, List<Account> accountList, List<Account> searchList) {
         this.mastodonList = mastodonList;
@@ -72,6 +75,14 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.context = parent.getContext();
         timelinesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(TimelinesVM.class);
+        app.fedilab.android.mastodon.client.entities.app.Account.API currentApi = BaseMainActivity.api;
+        if (currentApi == null && Helper.getCurrentAccount(context) != null) {
+            currentApi = Helper.getCurrentAccount(context).api;
+        }
+        isMisskey = currentApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY;
+        if (isMisskey) {
+            misskeyTimelinesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyTimelinesVM.class);
+        }
         DrawerAccountListBinding itemBinding = DrawerAccountListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new AccountListViewHolder(itemBinding);
     }
@@ -100,9 +111,13 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 holder.binding.listAction.setBackgroundTintList(ColorStateList.valueOf(ThemeHelper.getAttColor(context, R.attr.colorError)));
                 holder.binding.listAction.setIconResource(R.drawable.ic_baseline_person_remove_alt_1_24);
                 holder.binding.listAction.setOnClickListener(v -> {
-                    List<String> ids = new ArrayList<>();
-                    ids.add(account.id);
-                    timelinesVM.deleteAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, ids);
+                    if (isMisskey) {
+                        misskeyTimelinesVM.removeUserFromList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, account.id);
+                    } else {
+                        List<String> ids = new ArrayList<>();
+                        ids.add(account.id);
+                        timelinesVM.deleteAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, ids);
+                    }
                     accountList.remove(account);
                     notifyItemChanged(position);
                 });
@@ -110,9 +125,13 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 holder.binding.listAction.setIconResource(R.drawable.ic_baseline_person_add_alt_1_24);
                 holder.binding.listAction.setOnClickListener(v -> {
                     accountList.add(0, account);
-                    List<String> ids = new ArrayList<>();
-                    ids.add(account.id);
-                    timelinesVM.addAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, ids);
+                    if (isMisskey) {
+                        misskeyTimelinesVM.addUserToList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, account.id);
+                    } else {
+                        List<String> ids = new ArrayList<>();
+                        ids.add(account.id);
+                        timelinesVM.addAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, ids);
+                    }
                     notifyItemChanged(position);
                 });
             }
@@ -121,9 +140,13 @@ public class AccountListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             holder.binding.listAction.setIconResource(R.drawable.ic_baseline_person_remove_alt_1_24);
             holder.binding.listAction.setOnClickListener(v -> {
                 accountList.remove(account);
-                List<String> ids = new ArrayList<>();
-                ids.add(account.id);
-                timelinesVM.deleteAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, ids);
+                if (isMisskey) {
+                    misskeyTimelinesVM.removeUserFromList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, account.id);
+                } else {
+                    List<String> ids = new ArrayList<>();
+                    ids.add(account.id);
+                    timelinesVM.deleteAccountsList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, ids);
+                }
                 notifyItemRemoved(position);
             });
         }

@@ -23,22 +23,16 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.vanniktech.emoji.EmojiManager;
-import com.vanniktech.emoji.EmojiPopup;
-import com.vanniktech.emoji.one.EmojiOneProvider;
+import app.fedilab.android.mastodon.helper.UnifiedEmojiPicker;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -57,7 +51,6 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
     private final List<Announcement> announcements;
     private Context context;
     private AnnouncementsVM announcementsVM;
-    private AlertDialog alertDialogEmoji;
 
     public AnnouncementAdapter(List<Announcement> announcements) {
         this.announcements = announcements;
@@ -120,16 +113,17 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         } else {
             holder.binding.dates.setVisibility(View.GONE);
         }
-        holder.binding.statusEmoji.setOnClickListener(v -> {
-            EmojiManager.install(new EmojiOneProvider());
-            final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.statusEmoji).setOnEmojiPopupDismissListener(() -> {
-                        InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(holder.binding.statusEmoji.getWindowToken(), 0);
-                    }).setOnEmojiClickListener((emoji, imageView) -> {
-                        String emojiStr = imageView.getUnicode();
+        holder.binding.statusAddCustomEmoji.setOnClickListener(v -> {
+            List<app.fedilab.android.mastodon.client.entities.api.Emoji> customEmojis =
+                    emojis != null ? emojis.get(BaseMainActivity.currentInstance) : null;
+            UnifiedEmojiPicker.show(context,
+                    holder.binding.statusAddCustomEmoji,
+                    holder.binding.layoutReactions.fakeEdittext,
+                    customEmojis,
+                    unicode -> {
                         boolean alreadyAdded = false;
                         for (Reaction reaction : announcement.reactions) {
-                            if (reaction.name.compareTo(emojiStr) == 0) {
+                            if (reaction.name.compareTo(unicode) == 0) {
                                 alreadyAdded = true;
                                 reaction.count = (reaction.count - 1);
                                 if (reaction.count == 0) {
@@ -143,74 +137,47 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
                             Reaction reaction = new Reaction();
                             reaction.me = true;
                             reaction.count = 1;
-                            reaction.name = emojiStr;
+                            reaction.name = unicode;
                             announcement.reactions.add(0, reaction);
                             notifyItemChanged(position);
                         }
                         announcementsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AnnouncementsVM.class);
                         if (alreadyAdded) {
-                            announcementsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
+                            announcementsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, unicode);
                         } else {
-                            announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
+                            announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, unicode);
                         }
-                    })
-                    .build(holder.binding.layoutReactions.fakeEdittext);
-            emojiPopup.toggle();
-        });
-        holder.binding.statusAddCustomEmoji.setOnClickListener(v -> {
-            final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
-            int paddingPixel = 15;
-            float density = context.getResources().getDisplayMetrics().density;
-            int paddingDp = (int) (paddingPixel * density);
-            builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-            builder.setTitle(R.string.insert_emoji);
-            if (emojis != null && emojis.size() > 0) {
-                GridView gridView = new GridView(context);
-                gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
-                gridView.setNumColumns(5);
-                gridView.setOnItemClickListener((parent, view, index, id) -> {
-                    String emojiStr = emojis.get(BaseMainActivity.currentInstance).get(index).shortcode;
-                    String url = emojis.get(BaseMainActivity.currentInstance).get(index).url;
-                    String static_url = emojis.get(BaseMainActivity.currentInstance).get(index).static_url;
-                    boolean alreadyAdded = false;
-                    for (Reaction reaction : announcement.reactions) {
-                        if (reaction.name.compareTo(emojiStr) == 0) {
-                            alreadyAdded = true;
-                            reaction.count = (reaction.count - 1);
-                            if (reaction.count == 0) {
-                                announcement.reactions.remove(reaction);
+                    },
+                    (shortcode, url, staticUrl) -> {
+                        boolean alreadyAdded = false;
+                        for (Reaction reaction : announcement.reactions) {
+                            if (reaction.name.compareTo(shortcode) == 0) {
+                                alreadyAdded = true;
+                                reaction.count = (reaction.count - 1);
+                                if (reaction.count == 0) {
+                                    announcement.reactions.remove(reaction);
+                                }
+                                notifyItemChanged(position);
+                                break;
                             }
-                            notifyItemChanged(position);
-                            break;
                         }
-                    }
-                    if (!alreadyAdded) {
-                        Reaction reaction = new Reaction();
-                        reaction.me = true;
-                        reaction.count = 1;
-                        reaction.name = emojiStr;
-                        reaction.url = url;
-                        reaction.static_url = static_url;
-                        announcement.reactions.add(0, reaction);
-                        notifyItemChanged(position);
-                    }
-                    announcementsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AnnouncementsVM.class);
-                    if (alreadyAdded) {
-                        announcementsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
-                    } else {
-                        announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, emojiStr);
-                    }
-                    alertDialogEmoji.dismiss();
-                });
-                gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
-                builder.setView(gridView);
-            } else {
-                TextView textView = new TextView(context);
-                textView.setText(context.getString(R.string.no_emoji));
-                textView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
-                builder.setView(textView);
-            }
-            alertDialogEmoji = builder.show();
+                        if (!alreadyAdded) {
+                            Reaction reaction = new Reaction();
+                            reaction.me = true;
+                            reaction.count = 1;
+                            reaction.name = shortcode;
+                            reaction.url = url;
+                            reaction.static_url = staticUrl;
+                            announcement.reactions.add(0, reaction);
+                            notifyItemChanged(position);
+                        }
+                        announcementsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AnnouncementsVM.class);
+                        if (alreadyAdded) {
+                            announcementsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, shortcode);
+                        } else {
+                            announcementsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, announcement.id, shortcode);
+                        }
+                    });
         });
     }
 

@@ -30,6 +30,7 @@ import java.util.List;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerReactionBinding;
+import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.Reaction;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
@@ -91,13 +92,39 @@ public class ReactionAdapter extends RecyclerView.Adapter<ReactionAdapter.Reacti
         } else {
             holder.binding.reactionContainer.setBackgroundResource(R.drawable.reaction_border);
         }
-        if (reaction.url != null) {
+        String emojiUrl = reaction.url;
+        if (emojiUrl == null && reaction.name != null && reaction.name.startsWith(":")) {
+            String shortcode = reaction.name.replace(":", "");
+            if (shortcode.endsWith("@.")) {
+                shortcode = shortcode.substring(0, shortcode.length() - 2);
+            }
+            List<Emoji> instanceEmojis = BaseMainActivity.emojis.get(BaseMainActivity.currentInstance);
+            if (instanceEmojis != null) {
+                for (Emoji emoji : instanceEmojis) {
+                    if (emoji.shortcode != null && emoji.shortcode.equals(shortcode)) {
+                        emojiUrl = emoji.url;
+                        reaction.url = emojiUrl;
+                        reaction.static_url = emoji.static_url;
+                        break;
+                    }
+                }
+            }
+        }
+        if (emojiUrl != null) {
             holder.binding.reactionName.setVisibility(View.GONE);
             holder.binding.reactionEmoji.setVisibility(View.VISIBLE);
             holder.binding.reactionEmoji.setContentDescription(reaction.name);
-            Helper.loadImage(holder.binding.reactionEmoji, reaction.url);
+            Helper.loadImage(holder.binding.reactionEmoji, emojiUrl);
         } else {
-            holder.binding.reactionName.setText(reaction.name);
+            String displayName = reaction.name;
+            if (displayName != null && displayName.startsWith(":") && displayName.endsWith(":")) {
+                displayName = displayName.substring(1, displayName.length() - 1);
+                if (displayName.endsWith("@.")) {
+                    displayName = displayName.substring(0, displayName.length() - 2);
+                }
+                displayName = ":" + displayName + ":";
+            }
+            holder.binding.reactionName.setText(displayName);
             holder.binding.reactionName.setVisibility(View.VISIBLE);
             holder.binding.reactionEmoji.setVisibility(View.GONE);
         }

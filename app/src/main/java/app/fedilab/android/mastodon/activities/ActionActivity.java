@@ -21,6 +21,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.view.View;
+
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityActionsBinding;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
@@ -34,6 +37,7 @@ public class ActionActivity extends BaseBarActivity {
 
     private ActivityActionsBinding binding;
     private boolean canGoBack;
+    private boolean isMisskey;
     private FragmentMastodonTimeline fragmentMastodonTimeline;
     private FragmentMastodonAccount fragmentMastodonAccount;
     private FragmentMastodonDomainBlock fragmentMastodonDomainBlock;
@@ -49,12 +53,24 @@ public class ActionActivity extends BaseBarActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         canGoBack = false;
+
+        app.fedilab.android.mastodon.client.entities.app.Account.API currentApi = BaseMainActivity.api;
+        if (currentApi == null && Helper.getCurrentAccount(ActionActivity.this) != null) {
+            currentApi = Helper.getCurrentAccount(ActionActivity.this).api;
+        }
+        isMisskey = currentApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY;
+
         binding.favourites.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.FAVOURITE_TIMELINE));
         binding.bookmarks.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.BOOKMARK_TIMELINE));
         binding.muted.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.MUTED_TIMELINE));
         binding.blocked.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.BLOCKED_TIMELINE));
         binding.domainBlock.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.BLOCKED_DOMAIN_TIMELINE));
         binding.mutedHome.setOnClickListener(v -> displayTimeline(Timeline.TimeLineEnum.MUTED_TIMELINE_HOME));
+
+        if (isMisskey) {
+            binding.domainBlock.setVisibility(View.GONE);
+            binding.favourites.setText(R.string.reactions);
+        }
     }
 
     private void displayTimeline(Timeline.TimeLineEnum type) {
@@ -102,7 +118,7 @@ public class ActionActivity extends BaseBarActivity {
         }
         switch (type) {
             case MUTED_TIMELINE -> setTitle(R.string.muted_menu);
-            case FAVOURITE_TIMELINE -> setTitle(R.string.favourite);
+            case FAVOURITE_TIMELINE -> setTitle(isMisskey ? R.string.reactions : R.string.favourite);
             case BLOCKED_TIMELINE -> setTitle(R.string.blocked_menu);
             case BOOKMARK_TIMELINE -> setTitle(R.string.bookmarks);
             case BLOCKED_DOMAIN_TIMELINE -> setTitle(R.string.blocked_domains);

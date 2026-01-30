@@ -37,10 +37,12 @@ import app.fedilab.android.mastodon.client.entities.app.ScheduledBoost;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.ui.drawer.StatusScheduledAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyStatusesVM;
 
 public class FragmentScheduled extends Fragment implements StatusScheduledAdapter.ScheduledActions {
 
@@ -69,6 +71,14 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
     }
 
     private void displayScheduledServer() {
+        Account.API currentApi = BaseMainActivity.api;
+        if (currentApi == null && Helper.getCurrentAccount(requireActivity()) != null) {
+            currentApi = Helper.getCurrentAccount(requireActivity()).api;
+        }
+        if (currentApi == Account.API.MISSKEY) {
+            displayScheduledMisskey();
+            return;
+        }
         StatusesVM statusesVM = new ViewModelProvider(requireActivity()).get(StatusesVM.class);
         statusesVM.getScheduledStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
                 .observe(requireActivity(), scheduledStatuses -> {
@@ -80,6 +90,24 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
                         binding.recyclerView.setLayoutManager(linearLayoutManager);
 
+                    } else {
+                        binding.noAction.setVisibility(View.VISIBLE);
+                        binding.recyclerView.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private void displayScheduledMisskey() {
+        MisskeyStatusesVM misskeyStatusesVM = new ViewModelProvider(requireActivity()).get(MisskeyStatusesVM.class);
+        misskeyStatusesVM.getScheduledNotes(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, MastodonHelper.statusesPerCall(requireActivity()), 0)
+                .observe(requireActivity(), scheduledStatuses -> {
+                    binding.loader.setVisibility(View.GONE);
+                    if (scheduledStatuses != null && scheduledStatuses.scheduledStatuses != null && !scheduledStatuses.scheduledStatuses.isEmpty()) {
+                        StatusScheduledAdapter statusScheduledAdapter = new StatusScheduledAdapter(scheduledStatuses.scheduledStatuses, null, null);
+                        statusScheduledAdapter.scheduledActions = FragmentScheduled.this;
+                        binding.recyclerView.setAdapter(statusScheduledAdapter);
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+                        binding.recyclerView.setLayoutManager(linearLayoutManager);
                     } else {
                         binding.noAction.setVisibility(View.VISIBLE);
                         binding.recyclerView.setVisibility(View.GONE);

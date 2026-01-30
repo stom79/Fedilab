@@ -70,6 +70,7 @@ import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.jobs.ScheduleBoostWorker;
 import app.fedilab.android.mastodon.ui.drawer.ComposeAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyAccountsVM;
 import es.dmoral.toasty.Toasty;
 import okhttp3.Headers;
 
@@ -490,7 +491,6 @@ public class MastodonHelper {
                     //Clear content
                     Toasty.info(context, context.getString(R.string.boost_scheduled), Toast.LENGTH_LONG).show();
                 } else {
-                    AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
                     String accountId;
                     String acct;
                     if (account == null) {
@@ -500,12 +500,27 @@ public class MastodonHelper {
                         accountId = account.id;
                         acct = account.acct;
                     }
-                    accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountId, true, (int) delayToPass / 1000)
-                            .observe((LifecycleOwner) context, relationShip -> {
-                                if (listener != null) {
-                                    listener.onTimedMute(relationShip);
-                                }
-                            });
+                    app.fedilab.android.mastodon.client.entities.app.Account.API currentApi = BaseMainActivity.api;
+                    if (currentApi == null && Helper.getCurrentAccount(context) != null) {
+                        currentApi = Helper.getCurrentAccount(context).api;
+                    }
+                    if (currentApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                        MisskeyAccountsVM misskeyAccountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyAccountsVM.class);
+                        misskeyAccountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountId, time)
+                                .observe((LifecycleOwner) context, relationShip -> {
+                                    if (listener != null) {
+                                        listener.onTimedMute(relationShip);
+                                    }
+                                });
+                    } else {
+                        AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
+                        accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountId, true, (int) delayToPass / 1000)
+                                .observe((LifecycleOwner) context, relationShip -> {
+                                    if (listener != null) {
+                                        listener.onTimedMute(relationShip);
+                                    }
+                                });
+                    }
                     Toasty.info(context, context.getString(R.string.timed_mute_date, acct, Helper.dateToString(calendar.getTime())), Toast.LENGTH_LONG).show();
                 }
                 alertDialogBoost.dismiss();

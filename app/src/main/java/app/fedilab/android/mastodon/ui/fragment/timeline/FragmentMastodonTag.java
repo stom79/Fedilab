@@ -44,6 +44,7 @@ import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.ui.drawer.TagAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyTimelinesVM;
 
 
 public class FragmentMastodonTag extends Fragment {
@@ -88,15 +89,31 @@ public class FragmentMastodonTag extends Fragment {
      */
     private void router() {
         if (search != null && timelineType == null) {
-            SearchVM searchVM = new ViewModelProvider(FragmentMastodonTag.this).get(SearchVM.class);
-            searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "hashtags", false, true, false, offset, null, null, MastodonHelper.SEARCH_PER_CALL)
-                    .observe(getViewLifecycleOwner(), results -> {
-                        if (results != null && results.hashtags != null && offset == 0) {
-                            initializeTagCommonView(results.hashtags);
-                        } else if (results != null && results.hashtags != null) {
-                            dealWithPaginationTag(results.hashtags);
-                        }
-                    });
+            app.fedilab.android.mastodon.client.entities.app.Account.API currentApi = BaseMainActivity.api;
+            if (currentApi == null && Helper.getCurrentAccount(requireActivity()) != null) {
+                currentApi = Helper.getCurrentAccount(requireActivity()).api;
+            }
+            if (currentApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                MisskeyTimelinesVM misskeyTimelinesVM = new ViewModelProvider(FragmentMastodonTag.this).get(MisskeyTimelinesVM.class);
+                misskeyTimelinesVM.searchHashtags(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), MastodonHelper.SEARCH_PER_CALL)
+                        .observe(getViewLifecycleOwner(), tags -> {
+                            if (tags != null && offset == 0) {
+                                initializeTagCommonView(tags);
+                            } else if (tags != null) {
+                                dealWithPaginationTag(tags);
+                            }
+                        });
+            } else {
+                SearchVM searchVM = new ViewModelProvider(FragmentMastodonTag.this).get(SearchVM.class);
+                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "hashtags", false, true, false, offset, null, null, MastodonHelper.SEARCH_PER_CALL)
+                        .observe(getViewLifecycleOwner(), results -> {
+                            if (results != null && results.hashtags != null && offset == 0) {
+                                initializeTagCommonView(results.hashtags);
+                            } else if (results != null && results.hashtags != null) {
+                                dealWithPaginationTag(results.hashtags);
+                            }
+                        });
+            }
         } else if (timelineType == Timeline.TimeLineEnum.TREND_TAG) {
             TimelinesVM timelinesVM = new ViewModelProvider(FragmentMastodonTag.this).get(TimelinesVM.class);
             timelinesVM.getTagsTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, offset, MastodonHelper.SEARCH_PER_CALL)

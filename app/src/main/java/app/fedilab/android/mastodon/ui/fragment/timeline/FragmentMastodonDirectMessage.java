@@ -278,7 +278,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
                 WorkManager.getInstance(requireActivity()).enqueue(request);
 
             } else {
-                new ThreadMessageService(requireActivity(), currentInstance, currentUserID, currentToken, statusDraft, null, null, null);
+                new ThreadMessageService(requireActivity(), currentInstance, currentUserID, currentToken, statusDraft, null, null, null, null);
             }
         }).start();
     }

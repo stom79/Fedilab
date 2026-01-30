@@ -47,6 +47,9 @@ import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AdminVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.OauthVM;
+import app.fedilab.android.misskey.helper.MisskeyHelper;
+import app.fedilab.android.misskey.viewmodel.MisskeyAccountsVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyOauthVM;
 import app.fedilab.android.ui.fragment.FragmentLoginMain;
 import es.dmoral.toasty.Toasty;
 
@@ -57,6 +60,7 @@ public class LoginActivity extends BaseActivity {
     public static Account.API apiLogin;
     public static String currentInstanceLogin, client_idLogin, client_secretLogin, softwareLogin;
     public static boolean requestedAdmin;
+    public static String misskeySessionId;
 
 
     @SuppressLint("ApplySharedPref")
@@ -68,7 +72,7 @@ public class LoginActivity extends BaseActivity {
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 BaseMainActivity.currentToken = account.token;
                 BaseMainActivity.currentUserID = account.user_id;
-                BaseMainActivity.api = Account.API.MASTODON;
+                BaseMainActivity.api = account.api != null ? account.api : Account.API.MASTODON;
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(Helper.PREF_USER_TOKEN, account.token);
@@ -88,56 +92,99 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void manageItent(Intent intent) {
-
-        if (intent != null && intent.getData() != null && intent.getData().toString().contains(MastodonHelper.REDIRECT_CONTENT_WEB + "?code=")) {
-            String url = intent.getData().toString();
-            Matcher matcher = Helper.codePattern.matcher(url);
-            if (!matcher.find()) {
-                Toasty.error(LoginActivity.this, getString(R.string.toast_code_error), Toast.LENGTH_LONG).show();
-                return;
-            }
-            String code = matcher.group(1);
-            OauthVM oauthVM = new ViewModelProvider(LoginActivity.this).get(OauthVM.class);
-            //We are dealing with a Mastodon API
-            //API call to get the user token
-            String scope = requestedAdmin ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
-            oauthVM.createToken(currentInstanceLogin, "authorization_code", client_idLogin, client_secretLogin, Helper.REDIRECT_CONTENT_WEB, scope, code)
-                    .observe(LoginActivity.this, tokenObj -> {
-                        if (tokenObj != null) {
-                            Account account = new Account();
-                            account.client_id = client_idLogin;
-                            account.client_secret = client_secretLogin;
-                            account.token = tokenObj.token_type + " " + tokenObj.access_token;
-                            account.api = apiLogin;
-                            account.software = softwareLogin;
-                            account.instance = currentInstanceLogin;
-                            //API call to retrieve account information for the new token
-                            AccountsVM accountsVM = new ViewModelProvider(LoginActivity.this).get(AccountsVM.class);
-                            accountsVM.getConnectedAccount(currentInstanceLogin, account.token).observe(LoginActivity.this, mastodonAccount -> {
-                                if (mastodonAccount != null) {
-                                    account.mastodon_account = mastodonAccount;
-                                    account.user_id = mastodonAccount.id;
-                                    //We check if user have really moderator rights
-                                    if (requestedAdmin) {
-                                        AdminVM adminVM = new ViewModelProvider(LoginActivity.this).get(AdminVM.class);
-                                        adminVM.getAccount(account.instance, account.token, account.user_id).observe(LoginActivity.this, adminAccount -> {
-                                            account.admin = adminAccount != null;
-                                            proceedLogin(LoginActivity.this, account);
-                                        });
-                                    } else {
-                                        proceedLogin(LoginActivity.this, account);
-                                    }
-                                } else {
-                                    Toasty.error(LoginActivity.this, getString(R.string.toast_token), Toast.LENGTH_LONG).show();
-                                }
-
-                            });
-                        } else {
-                            Toasty.error(LoginActivity.this, getString(R.string.toast_token), Toast.LENGTH_LONG).show();
-                        }
-
-                    });
+        if (intent == null || intent.getData() == null) {
+            return;
         }
+        String url = intent.getData().toString();
+
+        if (url.contains(MisskeyHelper.REDIRECT_URI)) {
+            manageMisskeyCallback(url);
+        } else if (url.contains(MastodonHelper.REDIRECT_CONTENT_WEB + "?code=")) {
+            manageMastodonCallback(url);
+        }
+    }
+
+    private void manageMastodonCallback(String url) {
+        Matcher matcher = Helper.codePattern.matcher(url);
+        if (!matcher.find()) {
+            Toasty.error(LoginActivity.this, getString(R.string.toast_code_error), Toast.LENGTH_LONG).show();
+            return;
+        }
+        String code = matcher.group(1);
+        OauthVM oauthVM = new ViewModelProvider(LoginActivity.this).get(OauthVM.class);
+        String scope = requestedAdmin ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
+        oauthVM.createToken(currentInstanceLogin, "authorization_code", client_idLogin, client_secretLogin, Helper.REDIRECT_CONTENT_WEB, scope, code)
+                .observe(LoginActivity.this, tokenObj -> {
+                    if (tokenObj != null) {
+                        Account account = new Account();
+                        account.client_id = client_idLogin;
+                        account.client_secret = client_secretLogin;
+                        account.token = tokenObj.token_type + " " + tokenObj.access_token;
+                        account.api = apiLogin;
+                        account.software = softwareLogin;
+                        account.instance = currentInstanceLogin;
+                        AccountsVM accountsVM = new ViewModelProvider(LoginActivity.this).get(AccountsVM.class);
+                        accountsVM.getConnectedAccount(currentInstanceLogin, account.token).observe(LoginActivity.this, mastodonAccount -> {
+                            if (mastodonAccount != null) {
+                                account.mastodon_account = mastodonAccount;
+                                account.user_id = mastodonAccount.id;
+                                if (requestedAdmin) {
+                                    AdminVM adminVM = new ViewModelProvider(LoginActivity.this).get(AdminVM.class);
+                                    adminVM.getAccount(account.instance, account.token, account.user_id).observe(LoginActivity.this, adminAccount -> {
+                                        account.admin = adminAccount != null;
+                                        proceedLogin(LoginActivity.this, account);
+                                    });
+                                } else {
+                                    proceedLogin(LoginActivity.this, account);
+                                }
+                            } else {
+                                Toasty.error(LoginActivity.this, getString(R.string.toast_token), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Toasty.error(LoginActivity.this, getString(R.string.toast_token), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void manageMisskeyCallback(String url) {
+        Matcher sessionMatcher = Helper.sessionPattern.matcher(url);
+        if (!sessionMatcher.find()) {
+            Toasty.error(LoginActivity.this, getString(R.string.toast_code_error), Toast.LENGTH_LONG).show();
+            return;
+        }
+        String session = sessionMatcher.group(1);
+
+        if (misskeySessionId != null && !misskeySessionId.equals(session)) {
+            Toasty.error(LoginActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        MisskeyOauthVM misskeyOauthVM = new ViewModelProvider(LoginActivity.this).get(MisskeyOauthVM.class);
+        misskeyOauthVM.checkMiAuth(currentInstanceLogin, session).observe(LoginActivity.this, misskeyToken -> {
+            if (misskeyToken != null && misskeyToken.token != null) {
+                Account account = new Account();
+                account.client_id = "";
+                account.client_secret = "";
+                account.token = misskeyToken.token;
+                account.api = Account.API.MISSKEY;
+                account.software = softwareLogin;
+                account.instance = currentInstanceLogin;
+
+                MisskeyAccountsVM misskeyAccountsVM = new ViewModelProvider(LoginActivity.this).get(MisskeyAccountsVM.class);
+                misskeyAccountsVM.verifyCredentials(currentInstanceLogin, account.token).observe(LoginActivity.this, mastodonAccount -> {
+                    if (mastodonAccount != null) {
+                        account.mastodon_account = mastodonAccount;
+                        account.user_id = mastodonAccount.id;
+                        proceedLogin(LoginActivity.this, account);
+                    } else {
+                        Toasty.error(LoginActivity.this, getString(R.string.toast_token), Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                Toasty.error(LoginActivity.this, getString(R.string.toast_token), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override

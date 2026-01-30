@@ -83,7 +83,9 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Announcement;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Emoji;
+import app.fedilab.android.mastodon.client.entities.api.EmojiInstance;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
+import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
@@ -382,6 +384,13 @@ public class SpannableHelper {
             emojiList = account.emojis;
         } else if (announcement != null) {
             emojiList = announcement.emojis;
+        }
+        if ((emojiList == null || emojiList.isEmpty()) && content.toString().contains(":")) {
+            try {
+                EmojiInstance emojiInstance = new EmojiInstance(context);
+                emojiList = emojiInstance.getEmojiList(BaseMainActivity.currentInstance);
+            } catch (DBException ignored) {
+            }
         }
         boolean animate = !sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
         CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));

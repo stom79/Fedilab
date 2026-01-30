@@ -29,6 +29,7 @@ import android.view.View;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.LiveData;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -63,6 +64,8 @@ import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonTimelin
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.ReorderVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyAccountsVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyTimelinesVM;
 import es.dmoral.toasty.Toasty;
 
 
@@ -73,6 +76,9 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
     private ActivityListBinding binding;
     private boolean canGoBack;
     private TimelinesVM timelinesVM;
+    private MisskeyTimelinesVM misskeyTimelinesVM;
+    private MisskeyAccountsVM misskeyAccountsVM;
+    private boolean isMisskey;
     private MastodonList mastodonList;
     private ArrayList<MastodonList> mastodonListList;
     private MastodonListAdapter mastodonListAdapter;
@@ -97,10 +103,26 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
         flagLoading = false;
         orderASC = true;
         max_id = null;
+        app.fedilab.android.mastodon.client.entities.app.Account.API currentApi = BaseMainActivity.api;
+        if (currentApi == null && Helper.getCurrentAccount(MastodonListActivity.this) != null) {
+            currentApi = Helper.getCurrentAccount(MastodonListActivity.this).api;
+        }
+        isMisskey = currentApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY;
+
         accountsVM = new ViewModelProvider(MastodonListActivity.this).get(AccountsVM.class);
         timelinesVM = new ViewModelProvider(MastodonListActivity.this).get(TimelinesVM.class);
-        timelinesVM.getLists(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
-                .observe(MastodonListActivity.this, mastodonLists -> {
+        if (isMisskey) {
+            misskeyTimelinesVM = new ViewModelProvider(MastodonListActivity.this).get(MisskeyTimelinesVM.class);
+            misskeyAccountsVM = new ViewModelProvider(MastodonListActivity.this).get(MisskeyAccountsVM.class);
+        }
+
+        LiveData<List<MastodonList>> listsLiveData;
+        if (isMisskey) {
+            listsLiveData = misskeyTimelinesVM.getLists(BaseMainActivity.currentInstance, BaseMainActivity.currentToken);
+        } else {
+            listsLiveData = timelinesVM.getLists(BaseMainActivity.currentInstance, BaseMainActivity.currentToken);
+        }
+        listsLiveData.observe(MastodonListActivity.this, mastodonLists -> {
                     ReorderVM reorderVM = new ViewModelProvider(MastodonListActivity.this).get(ReorderVM.class);
                     reorderVM.getPinned().observe(MastodonListActivity.this, pinned -> {
                         if (mastodonLists != null && mastodonLists.size() > 0) {
@@ -172,12 +194,21 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
             AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(MastodonListActivity.this);
             dialogBuilder.setTitle(R.string.put_all_accounts_in_home_muted);
             dialogBuilder.setPositiveButton(R.string.mute_them_all, (dialog, id) -> {
-                timelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, null, null, 0)
-                        .observe(MastodonListActivity.this, accounts -> {
-                            if (accounts != null && accounts.size() > 0) {
-                                accountsVM.muteAccountsHome(Helper.getCurrentAccount(MastodonListActivity.this), accounts);
-                            }
-                        });
+                if (isMisskey) {
+                    misskeyTimelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id)
+                            .observe(MastodonListActivity.this, accounts -> {
+                                if (accounts != null && accounts.size() > 0) {
+                                    accountsVM.muteAccountsHome(Helper.getCurrentAccount(MastodonListActivity.this), accounts);
+                                }
+                            });
+                } else {
+                    timelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, null, null, 0)
+                            .observe(MastodonListActivity.this, accounts -> {
+                                if (accounts != null && accounts.size() > 0) {
+                                    accountsVM.muteAccountsHome(Helper.getCurrentAccount(MastodonListActivity.this), accounts);
+                                }
+                            });
+                }
                 dialog.dismiss();
             });
             dialogBuilder.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
@@ -197,53 +228,71 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                 }
                 return false;
             });
-            timelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, null, null, 10)
-                    .observe(MastodonListActivity.this, accounts -> {
-                        popupManageAccountsListBinding.loader.setVisibility(View.GONE);
-                        accountsInList = accounts;
-                        if (accountsInList == null) {
-                            accountsInList = new ArrayList<>();
-                        }
-                        if (accountsInList.size() > 0) {
-                            max_id = accountsInList.get(accountsInList.size() - 1).id;
-                            popupManageAccountsListBinding.noContent.setVisibility(View.GONE);
-                            popupManageAccountsListBinding.lvAccountsCurrent.setVisibility(View.VISIBLE);
-                        } else {
-                            popupManageAccountsListBinding.noContent.setVisibility(View.VISIBLE);
-                            popupManageAccountsListBinding.lvAccountsCurrent.setVisibility(View.GONE);
-                        }
-                        accountsInListAdapter = new AccountListAdapter(mastodonList, accountsInList, null);
-                        popupManageAccountsListBinding.lvAccountsCurrent.setAdapter(accountsInListAdapter);
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MastodonListActivity.this);
-                        popupManageAccountsListBinding.lvAccountsCurrent.setLayoutManager(linearLayoutManager);
-                        popupManageAccountsListBinding.lvAccountsCurrent.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                            @Override
-                            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-                                if (dy > 0) {
-                                    int visibleItemCount = linearLayoutManager.getChildCount();
-                                    int totalItemCount = linearLayoutManager.getItemCount();
-                                    if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                                        if (!flagLoading) {
-                                            flagLoading = true;
-                                            timelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, max_id, null, 10)
-                                                    .observe(MastodonListActivity.this, accounts -> {
-                                                        if (accounts != null && accounts.size() > 0) {
-                                                            int position = accountsInList.size();
-                                                            max_id = accountsInList.get(accounts.size() - 1).id;
-                                                            accountsInList.addAll(accounts);
-                                                            accountsInListAdapter.notifyItemRangeChanged(position, accounts.size());
-                                                        }
-
-                                                    });
-
+            if (isMisskey) {
+                misskeyTimelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id)
+                        .observe(MastodonListActivity.this, accounts -> {
+                            popupManageAccountsListBinding.loader.setVisibility(View.GONE);
+                            accountsInList = accounts;
+                            if (accountsInList == null) {
+                                accountsInList = new ArrayList<>();
+                            }
+                            if (accountsInList.size() > 0) {
+                                popupManageAccountsListBinding.noContent.setVisibility(View.GONE);
+                                popupManageAccountsListBinding.lvAccountsCurrent.setVisibility(View.VISIBLE);
+                            } else {
+                                popupManageAccountsListBinding.noContent.setVisibility(View.VISIBLE);
+                                popupManageAccountsListBinding.lvAccountsCurrent.setVisibility(View.GONE);
+                            }
+                            accountsInListAdapter = new AccountListAdapter(mastodonList, accountsInList, null);
+                            popupManageAccountsListBinding.lvAccountsCurrent.setAdapter(accountsInListAdapter);
+                            popupManageAccountsListBinding.lvAccountsCurrent.setLayoutManager(new LinearLayoutManager(MastodonListActivity.this));
+                        });
+            } else {
+                timelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, null, null, 10)
+                        .observe(MastodonListActivity.this, accounts -> {
+                            popupManageAccountsListBinding.loader.setVisibility(View.GONE);
+                            accountsInList = accounts;
+                            if (accountsInList == null) {
+                                accountsInList = new ArrayList<>();
+                            }
+                            if (accountsInList.size() > 0) {
+                                max_id = accountsInList.get(accountsInList.size() - 1).id;
+                                popupManageAccountsListBinding.noContent.setVisibility(View.GONE);
+                                popupManageAccountsListBinding.lvAccountsCurrent.setVisibility(View.VISIBLE);
+                            } else {
+                                popupManageAccountsListBinding.noContent.setVisibility(View.VISIBLE);
+                                popupManageAccountsListBinding.lvAccountsCurrent.setVisibility(View.GONE);
+                            }
+                            accountsInListAdapter = new AccountListAdapter(mastodonList, accountsInList, null);
+                            popupManageAccountsListBinding.lvAccountsCurrent.setAdapter(accountsInListAdapter);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MastodonListActivity.this);
+                            popupManageAccountsListBinding.lvAccountsCurrent.setLayoutManager(linearLayoutManager);
+                            popupManageAccountsListBinding.lvAccountsCurrent.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                                @Override
+                                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                                    int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                                    if (dy > 0) {
+                                        int visibleItemCount = linearLayoutManager.getChildCount();
+                                        int totalItemCount = linearLayoutManager.getItemCount();
+                                        if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                                            if (!flagLoading) {
+                                                flagLoading = true;
+                                                timelinesVM.getAccountsInList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, max_id, null, 10)
+                                                        .observe(MastodonListActivity.this, moreAccounts -> {
+                                                            if (moreAccounts != null && moreAccounts.size() > 0) {
+                                                                int position = accountsInList.size();
+                                                                max_id = accountsInList.get(moreAccounts.size() - 1).id;
+                                                                accountsInList.addAll(moreAccounts);
+                                                                accountsInListAdapter.notifyItemRangeChanged(position, moreAccounts.size());
+                                                            }
+                                                        });
+                                            }
                                         }
                                     }
                                 }
-
-                            }
+                            });
                         });
-                    });
+            }
 
             popupManageAccountsListBinding.searchAccount.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -262,6 +311,16 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                 @Override
                 public void afterTextChanged(Editable s) {
                     if (s != null && s.length() > 0) {
+                        if (isMisskey) {
+                            misskeyAccountsVM.searchUsers(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, s.toString(), 20)
+                                    .observe(MastodonListActivity.this, searchAccounts -> {
+                                        popupManageAccountsListBinding.lvAccountsSearch.setVisibility(View.VISIBLE);
+                                        popupManageAccountsListBinding.lvAccountsCurrent.setVisibility(View.GONE);
+                                        AccountListAdapter accountListAdapter = new AccountListAdapter(mastodonList, accountsInList, searchAccounts != null ? searchAccounts.accounts : null);
+                                        popupManageAccountsListBinding.lvAccountsSearch.setAdapter(accountListAdapter);
+                                        popupManageAccountsListBinding.lvAccountsSearch.setLayoutManager(new LinearLayoutManager(MastodonListActivity.this));
+                                    });
+                        } else {
                         accountsVM.searchAccounts(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, s.toString(), 20, true, true)
                                 .observe(MastodonListActivity.this, accounts -> {
                                     popupManageAccountsListBinding.lvAccountsSearch.setVisibility(View.VISIBLE);
@@ -270,6 +329,7 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
                                     popupManageAccountsListBinding.lvAccountsSearch.setAdapter(accountListAdapter);
                                     popupManageAccountsListBinding.lvAccountsSearch.setLayoutManager(new LinearLayoutManager(MastodonListActivity.this));
                                 });
+                        }
                     } else {
                         popupManageAccountsListBinding.lvAccountsSearch.setVisibility(View.GONE);
                         popupManageAccountsListBinding.lvAccountsCurrent.setVisibility(View.VISIBLE);
@@ -284,7 +344,11 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
             alt_bld.setTitle(R.string.action_lists_delete);
             alt_bld.setMessage(R.string.action_lists_confirm_delete);
             alt_bld.setPositiveButton(R.string.delete, (dialog, id) -> {
-                timelinesVM.deleteList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id);
+                if (isMisskey) {
+                    misskeyTimelinesVM.deleteList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id);
+                } else {
+                    timelinesVM.deleteList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id);
+                }
                 int position = 0;
                 for (MastodonList mastodonListTmp : mastodonListList) {
                     if (mastodonListTmp.id.equalsIgnoreCase(mastodonList.id)) {
@@ -329,8 +393,13 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
             popupAddListBinding.addList.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
             dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
                 if (popupAddListBinding.addList.getText() != null && popupAddListBinding.addList.getText().toString().trim().length() > 0) {
-                    timelinesVM.createList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, popupAddListBinding.addList.getText().toString().trim(), null)
-                            .observe(MastodonListActivity.this, newMastodonList -> {
+                    LiveData<MastodonList> createLiveData;
+                    if (isMisskey) {
+                        createLiveData = misskeyTimelinesVM.createList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, popupAddListBinding.addList.getText().toString().trim());
+                    } else {
+                        createLiveData = timelinesVM.createList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, popupAddListBinding.addList.getText().toString().trim(), null);
+                    }
+                    createLiveData.observe(MastodonListActivity.this, newMastodonList -> {
                                 if (mastodonListList == null) {
                                     mastodonListList = new ArrayList<>();
                                 }
@@ -376,10 +445,13 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
             popupAddListBinding.addList.setSelection(Objects.requireNonNull(popupAddListBinding.addList.getText()).length());
             dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
                 if (popupAddListBinding.addList.getText() != null && popupAddListBinding.addList.getText().toString().trim().length() > 0) {
-                    timelinesVM.updateList(
-                                    BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id,
-                                    popupAddListBinding.addList.getText().toString().trim(), null)
-                            .observe(MastodonListActivity.this, newMastodonList -> {
+                    LiveData<MastodonList> updateLiveData;
+                    if (isMisskey) {
+                        updateLiveData = misskeyTimelinesVM.updateList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, popupAddListBinding.addList.getText().toString().trim());
+                    } else {
+                        updateLiveData = timelinesVM.updateList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, popupAddListBinding.addList.getText().toString().trim(), null);
+                    }
+                    updateLiveData.observe(MastodonListActivity.this, newMastodonList -> {
                                 if (mastodonListList != null && newMastodonList != null) {
                                     int position = 0;
                                     for (MastodonList mastodonList : mastodonListList) {

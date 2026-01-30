@@ -56,8 +56,10 @@ import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.ui.drawer.NotificationAdapter;
+import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.viewmodel.mastodon.NotificationsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyNotificationsVM;
 
 
 public class FragmentMastodonNotification extends Fragment implements NotificationAdapter.FetchMoreCallBack {
@@ -65,6 +67,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
 
     private FragmentPaginationBinding binding;
     private NotificationsVM notificationsVM;
+    private MisskeyNotificationsVM misskeyNotificationsVM;
     private boolean flagLoading;
     private List<Notification> notificationList;
     private NotificationAdapter notificationAdapter;
@@ -192,6 +195,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         notificationsVM = new ViewModelProvider(FragmentMastodonNotification.this).get(NotificationsVM.class);
+        misskeyNotificationsVM = new ViewModelProvider(FragmentMastodonNotification.this).get(MisskeyNotificationsVM.class);
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         max_id = null;
@@ -474,6 +478,14 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     }
 
     private void getLiveNotifications(FragmentMastodonTimeline.DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams, Notification notificationToUpdate) {
+        Account.API currentApi = BaseMainActivity.api;
+        if (currentApi == null && Helper.getCurrentAccount(requireActivity()) != null) {
+            currentApi = Helper.getCurrentAccount(requireActivity()).api;
+        }
+        if (currentApi == Account.API.MISSKEY) {
+            getLiveMisskeyNotifications(direction, fetchingMissing, timelineParams, notificationToUpdate);
+            return;
+        }
         if (direction == null) {
             notificationsVM.getNotifications(notificationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notifications -> {
@@ -488,6 +500,63 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                     .observe(getViewLifecycleOwner(), notificationsTop -> dealWithPagination(notificationsTop, FragmentMastodonTimeline.DIRECTION.TOP, fetchingMissing, notificationToUpdate));
         } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
             notificationsVM.getNotifications(notificationList, timelineParams)
+                    .observe(getViewLifecycleOwner(), notificationsRefresh -> {
+                        if (notificationAdapter != null) {
+                            dealWithPagination(notificationsRefresh, direction, true, notificationToUpdate);
+                        } else {
+                            initializeNotificationView(notificationsRefresh);
+                        }
+                    });
+        }
+    }
+
+    private void getLiveMisskeyNotifications(FragmentMastodonTimeline.DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams, Notification notificationToUpdate) {
+        String[] excludeTypesArray = null;
+        if (timelineParams.excludeType != null && !timelineParams.excludeType.isEmpty()) {
+            excludeTypesArray = timelineParams.excludeType.toArray(new String[0]);
+        }
+        if (direction == null) {
+            misskeyNotificationsVM.getNotifications(
+                            BaseMainActivity.currentInstance,
+                            BaseMainActivity.currentToken,
+                            timelineParams.maxId,
+                            timelineParams.minId,
+                            timelineParams.limit,
+                            null,
+                            excludeTypesArray)
+                    .observe(getViewLifecycleOwner(), notifications -> {
+                        initialNotifications = notifications;
+                        initializeNotificationView(notifications);
+                    });
+        } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
+            misskeyNotificationsVM.getNotifications(
+                            BaseMainActivity.currentInstance,
+                            BaseMainActivity.currentToken,
+                            timelineParams.maxId,
+                            timelineParams.minId,
+                            timelineParams.limit,
+                            null,
+                            excludeTypesArray)
+                    .observe(getViewLifecycleOwner(), notificationsBottom -> dealWithPagination(notificationsBottom, FragmentMastodonTimeline.DIRECTION.BOTTOM, fetchingMissing, notificationToUpdate));
+        } else if (direction == FragmentMastodonTimeline.DIRECTION.TOP) {
+            misskeyNotificationsVM.getNotifications(
+                            BaseMainActivity.currentInstance,
+                            BaseMainActivity.currentToken,
+                            timelineParams.maxId,
+                            timelineParams.minId,
+                            timelineParams.limit,
+                            null,
+                            excludeTypesArray)
+                    .observe(getViewLifecycleOwner(), notificationsTop -> dealWithPagination(notificationsTop, FragmentMastodonTimeline.DIRECTION.TOP, fetchingMissing, notificationToUpdate));
+        } else if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
+            misskeyNotificationsVM.getNotifications(
+                            BaseMainActivity.currentInstance,
+                            BaseMainActivity.currentToken,
+                            timelineParams.maxId,
+                            timelineParams.minId,
+                            timelineParams.limit,
+                            null,
+                            excludeTypesArray)
                     .observe(getViewLifecycleOwner(), notificationsRefresh -> {
                         if (notificationAdapter != null) {
                             dealWithPagination(notificationsRefresh, direction, true, notificationToUpdate);

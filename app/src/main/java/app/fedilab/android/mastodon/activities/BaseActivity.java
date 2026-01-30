@@ -37,7 +37,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
 import com.vanniktech.emoji.EmojiManager;
-import com.vanniktech.emoji.one.EmojiOneProvider;
+import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import org.conscrypt.Conscrypt;
 
@@ -54,7 +54,7 @@ public class BaseActivity extends AppCompatActivity {
     public static int currentThemeId;
 
     static {
-        EmojiManager.install(new EmojiOneProvider());
+        EmojiManager.install(new GoogleEmojiProvider());
     }
 
     @SuppressLint("RestrictedApi")

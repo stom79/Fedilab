@@ -162,6 +162,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private Account mentionBooster;
     private String sharedSubject, sharedContent, sharedTitle, sharedDescription, shareURL, sharedUrlMedia;
     private String editMessageId;
+    private String redraftStatusId;
 
     private static int visibilityToNumber(String visibility) {
         return switch (visibility) {
@@ -520,6 +521,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 boolean setMentionBooster = sharedpreferences.getBoolean(getString(R.string.SET_MENTION_BOOSTER) + account.user_id + account.instance, false);
 
                 editMessageId = b.getString(Helper.ARG_EDIT_STATUS_ID, null);
+                redraftStatusId = b.getString(Helper.ARG_REDRAFT_STATUS_ID, null);
                 instance = b.getString(Helper.ARG_INSTANCE, null);
                 token = b.getString(Helper.ARG_TOKEN, null);
                 visibility = b.getString(Helper.ARG_VISIBILITY, null);
@@ -1014,6 +1016,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         .putString(Helper.ARG_INSTANCE, instance)
                         .putString(Helper.ARG_TOKEN, token)
                         .putString(Helper.ARG_EDIT_STATUS_ID, editMessageId)
+                        .putString(Helper.ARG_REDRAFT_STATUS_ID, redraftStatusId)
                         .putString(Helper.ARG_USER_ID, account.user_id)
                         .putString(Helper.ARG_SCHEDULED_ID, scheduledStatusId)
                         .putString(Helper.ARG_SCHEDULED_DATE, scheduledDate).build();
@@ -1025,7 +1028,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
 
             } else {
                 String scheduledStatusId = scheduledStatus!=null&&scheduledStatus.id!=null?scheduledStatus.id:null;
-                new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate, editMessageId, scheduledStatusId);
+                new ThreadMessageService(ComposeActivity.this, instance, account.user_id, token, statusDraft, scheduledDate, editMessageId, scheduledStatusId, redraftStatusId);
             }
             finish();
         }

@@ -60,6 +60,7 @@ import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyAccountsVM;
 import es.dmoral.toasty.Toasty;
 
 public class EditProfileActivity extends BaseBarActivity {
@@ -68,6 +69,8 @@ public class EditProfileActivity extends BaseBarActivity {
     public static final int PICK_MEDIA_HEADER = 5706;
     private ActivityEditProfileBinding binding;
     private AccountsVM accountsVM;
+    private MisskeyAccountsVM misskeyAccountsVM;
+    private boolean isMisskey;
     private static final int MAX_FIELDS = 4;
     private static final int MAX_FEATURED_HASHTAGS = 10;
 
@@ -97,15 +100,34 @@ public class EditProfileActivity extends BaseBarActivity {
         });
         accountsVM = new ViewModelProvider(EditProfileActivity.this).get(AccountsVM.class);
 
-        accountsVM.getConnectedAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
-                .observe(EditProfileActivity.this, account -> {
-                    if (account != null) {
-                        Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
-                        initializeView();
-                    } else {
-                        Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
-                    }
-                });
+        app.fedilab.android.mastodon.client.entities.app.Account.API currentApi = BaseMainActivity.api;
+        if (currentApi == null && Helper.getCurrentAccount(EditProfileActivity.this) != null) {
+            currentApi = Helper.getCurrentAccount(EditProfileActivity.this).api;
+        }
+        isMisskey = currentApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY;
+
+        if (isMisskey) {
+            misskeyAccountsVM = new ViewModelProvider(EditProfileActivity.this).get(MisskeyAccountsVM.class);
+            misskeyAccountsVM.verifyCredentials(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
+                    .observe(EditProfileActivity.this, account -> {
+                        if (account != null) {
+                            Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
+                            initializeView();
+                        } else {
+                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                        }
+                    });
+        } else {
+            accountsVM.getConnectedAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
+                    .observe(EditProfileActivity.this, account -> {
+                        if (account != null) {
+                            Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
+                            initializeView();
+                        } else {
+                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                        }
+                    });
+        }
 
 
     }
@@ -124,6 +146,18 @@ public class EditProfileActivity extends BaseBarActivity {
             bio = Html.fromHtml(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.note).toString();
         binding.bio.setText(bio);
 
+        if (isMisskey) {
+            binding.fieldsMainContainer.setVisibility(View.GONE);
+            binding.featuredHashtagsMainContainer.setVisibility(View.GONE);
+            binding.visibilityLabel.setVisibility(View.GONE);
+            binding.visibilityGroup.setVisibility(View.GONE);
+            binding.quoteApprovalPolicyLabel.setVisibility(View.GONE);
+            binding.quoteApprovalPolicyGroup.setVisibility(View.GONE);
+            binding.sensitive.setVisibility(View.GONE);
+            binding.discoverable.setVisibility(View.GONE);
+        }
+
+        if (!isMisskey) {
         accountsVM.getFeaturedTagsSuggestions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken).observe(this, featuredTags -> {
             StringBuilder text = new StringBuilder(getString(R.string.no_feature_hashtag_suggestion));
             if(featuredTags != null && !featuredTags.isEmpty()) {
@@ -185,19 +219,21 @@ public class EditProfileActivity extends BaseBarActivity {
                 }
             });
         });
-        if (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source != null) {
+        }
+
+        if (!isMisskey && Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source != null) {
             binding.sensitive.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.sensitive);
             switch (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.privacy) {
                 case "public" -> binding.visibilityPublic.setChecked(true);
                 case "unlisted" -> binding.visibilityUnlisted.setChecked(true);
                 case "private" -> binding.visibilityPrivate.setChecked(true);
             }
-        } else {
+        } else if (!isMisskey) {
             binding.sensitive.setVisibility(View.GONE);
             binding.visibilityGroup.setVisibility(View.GONE);
         }
 
-        String quotePolicy = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.quote_policy;
+        String quotePolicy = !isMisskey && Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source != null ? Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.source.quote_policy : null;
         if (quotePolicy != null) {
             switch (quotePolicy) {
                 case "nobody" -> binding.quoteApprovalPolicyJustMe.setChecked(true);
@@ -210,13 +246,16 @@ public class EditProfileActivity extends BaseBarActivity {
         }
 
         binding.bot.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.bot);
-        binding.discoverable.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.discoverable);
+        if (!isMisskey) {
+            binding.discoverable.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.discoverable);
+        }
 
         if (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.locked) {
             binding.locked.setChecked(true);
         } else {
             binding.unlocked.setChecked(true);
         }
+        if (!isMisskey) {
         List<Field> fields = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.fields;
         if (fields != null && !fields.isEmpty()) {
             for (Field field : fields) {
@@ -278,6 +317,7 @@ public class EditProfileActivity extends BaseBarActivity {
                 binding.addField.setVisibility(View.VISIBLE);
             }
         });
+        }
         binding.headerSelect.setOnClickListener(view -> startActivityForResult(prepareIntent(), EditProfileActivity.PICK_MEDIA_HEADER));
 
         binding.avatarSelect.setOnClickListener(view -> startActivityForResult(prepareIntent(), EditProfileActivity.PICK_MEDIA_AVATAR));
@@ -295,24 +335,45 @@ public class EditProfileActivity extends BaseBarActivity {
                         .load(uri)
                         .thumbnail(0.1f)
                         .into(binding.accountPp);
-                accountsVM.updateProfilePicture(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, uri, AccountsVM.UpdateMediaType.AVATAR)
-                        .observe(EditProfileActivity.this, account -> {
-                            if (account != null) {
-                                sendBroadCast(account);
-                                binding.avatarProgress.setVisibility(View.GONE);
-                                Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
-                                Helper.recreateMainActivity(EditProfileActivity.this);
-                                new Thread(() -> {
-                                    try {
-                                        new app.fedilab.android.mastodon.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
-                                    } catch (DBException e) {
-                                        e.printStackTrace();
-                                    }
-                                }).start();
-                            } else {
-                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
-                            }
-                        });
+                if (isMisskey) {
+                    misskeyAccountsVM.updateProfilePicture(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, uri, true)
+                            .observe(EditProfileActivity.this, account -> {
+                                if (account != null) {
+                                    sendBroadCast(account);
+                                    binding.avatarProgress.setVisibility(View.GONE);
+                                    Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
+                                    Helper.recreateMainActivity(EditProfileActivity.this);
+                                    new Thread(() -> {
+                                        try {
+                                            new app.fedilab.android.mastodon.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
+                                        } catch (DBException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }).start();
+                                } else {
+                                    Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                                }
+                            });
+                } else {
+                    accountsVM.updateProfilePicture(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, uri, AccountsVM.UpdateMediaType.AVATAR)
+                            .observe(EditProfileActivity.this, account -> {
+                                if (account != null) {
+                                    sendBroadCast(account);
+                                    binding.avatarProgress.setVisibility(View.GONE);
+                                    Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
+                                    Helper.recreateMainActivity(EditProfileActivity.this);
+                                    new Thread(() -> {
+                                        try {
+                                            new app.fedilab.android.mastodon.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
+                                        } catch (DBException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }).start();
+                                } else {
+                                    Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                                }
+                            });
+                }
             } else {
                 Toasty.error(EditProfileActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
             }
@@ -323,24 +384,45 @@ public class EditProfileActivity extends BaseBarActivity {
                     .thumbnail(0.1f)
                     .into(binding.bannerPp);
             binding.headerProgress.setVisibility(View.VISIBLE);
-            accountsVM.updateProfilePicture(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, data.getData(), AccountsVM.UpdateMediaType.HEADER)
-                    .observe(EditProfileActivity.this, account -> {
-                        if (account != null) {
-                            sendBroadCast(account);
-                            binding.headerProgress.setVisibility(View.GONE);
-                            Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
-                            new Thread(() -> {
-                                try {
-                                    new app.fedilab.android.mastodon.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
-                                } catch (DBException e) {
-                                    e.printStackTrace();
-                                }
-                            }).start();
-                            Helper.recreateMainActivity(EditProfileActivity.this);
-                        } else {
-                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
-                        }
-                    });
+            if (isMisskey) {
+                misskeyAccountsVM.updateProfilePicture(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, data.getData(), false)
+                        .observe(EditProfileActivity.this, account -> {
+                            if (account != null) {
+                                sendBroadCast(account);
+                                binding.headerProgress.setVisibility(View.GONE);
+                                Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
+                                new Thread(() -> {
+                                    try {
+                                        new app.fedilab.android.mastodon.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                                Helper.recreateMainActivity(EditProfileActivity.this);
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
+                        });
+            } else {
+                accountsVM.updateProfilePicture(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, data.getData(), AccountsVM.UpdateMediaType.HEADER)
+                        .observe(EditProfileActivity.this, account -> {
+                            if (account != null) {
+                                sendBroadCast(account);
+                                binding.headerProgress.setVisibility(View.GONE);
+                                Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
+                                new Thread(() -> {
+                                    try {
+                                        new app.fedilab.android.mastodon.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                                Helper.recreateMainActivity(EditProfileActivity.this);
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
+                        });
+            }
         }
     }
 
@@ -434,37 +516,62 @@ public class EditProfileActivity extends BaseBarActivity {
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_save) {
-            accountsVM.updateCredentials(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
-                            binding.discoverable.isChecked(),
-                            binding.bot.isChecked(),
-                            Objects.requireNonNull(binding.displayName.getText()).toString().trim(),
-                            Objects.requireNonNull(binding.bio.getText()).toString(),
-                            binding.locked.isChecked(),
-                            getPrivacy(),
-                            binding.sensitive.isChecked(),
-                            getQuotePolicy(),
-                            null,
-                            getFields(),
-                            getFeaturedHashtags()
-                    )
-                    .observe(EditProfileActivity.this, account -> {
-                        if (account != null) {
-                            Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
-                            new Thread(() -> {
-                                try {
-                                    new app.fedilab.android.mastodon.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
-                                    sendBroadCast(account);
-                                } catch (DBException e) {
-                                    e.printStackTrace();
-                                }
-                            }).start();
-                            Toasty.success(EditProfileActivity.this, getString(R.string.profiled_updated), Toasty.LENGTH_LONG).show();
-                            finish();
-                        } else {
-                            Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
-                        }
-
-                    });
+            if (isMisskey) {
+                misskeyAccountsVM.updateCredentials(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
+                                Objects.requireNonNull(binding.displayName.getText()).toString().trim(),
+                                Objects.requireNonNull(binding.bio.getText()).toString(),
+                                binding.locked.isChecked(),
+                                binding.bot.isChecked()
+                        )
+                        .observe(EditProfileActivity.this, account -> {
+                            if (account != null) {
+                                Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
+                                new Thread(() -> {
+                                    try {
+                                        new app.fedilab.android.mastodon.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
+                                        sendBroadCast(account);
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                                Toasty.success(EditProfileActivity.this, getString(R.string.profiled_updated), Toasty.LENGTH_LONG).show();
+                                finish();
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
+                        });
+            } else {
+                accountsVM.updateCredentials(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
+                                binding.discoverable.isChecked(),
+                                binding.bot.isChecked(),
+                                Objects.requireNonNull(binding.displayName.getText()).toString().trim(),
+                                Objects.requireNonNull(binding.bio.getText()).toString(),
+                                binding.locked.isChecked(),
+                                getPrivacy(),
+                                binding.sensitive.isChecked(),
+                                getQuotePolicy(),
+                                null,
+                                getFields(),
+                                getFeaturedHashtags()
+                        )
+                        .observe(EditProfileActivity.this, account -> {
+                            if (account != null) {
+                                Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
+                                new Thread(() -> {
+                                    try {
+                                        new app.fedilab.android.mastodon.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
+                                        sendBroadCast(account);
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                                Toasty.success(EditProfileActivity.this, getString(R.string.profiled_updated), Toasty.LENGTH_LONG).show();
+                                finish();
+                            } else {
+                                Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
+                            }
+                        });
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -236,6 +236,7 @@ public class Helper {
 
     public static final String ARG_STATUS_DRAFT = "ARG_STATUS_DRAFT";
     public static final String ARG_EDIT_STATUS_ID = "ARG_EDIT_STATUS_ID";
+    public static final String ARG_REDRAFT_STATUS_ID = "ARG_REDRAFT_STATUS_ID";
 
     public static final String ARG_STATUS_SCHEDULED = "ARG_STATUS_SCHEDULED";
     public static final String ARG_SLUG_OF_FIRST_FRAGMENT = "ARG_SLUG_OF_FIRST_FRAGMENT";
@@ -376,6 +377,8 @@ public class Helper {
     public static final Pattern mediumPattern = Pattern.compile("([\\w@-]*)?\\.?medium.com/@?([./\\w-]+)");
     public static final Pattern wikipediaPattern = Pattern.compile("([\\w_-]+)\\.wikipedia.org/(((?!([\"'<])).)*)");
     public static final Pattern codePattern = Pattern.compile("code=([\\w-]+)");
+    public static final Pattern statePattern = Pattern.compile("state=([\\w-]+)");
+    public static final Pattern sessionPattern = Pattern.compile("session=([\\w-]+)");
     public static final Pattern nitterIDPattern = Pattern.compile("/status/(\\d+)");
     public static final Pattern emailPattern = Pattern.compile("(\\s+[\\w_.-]+@[a-zA-Z0-9][a-zA-Z0-9.-]{1,61}[a-zA-Z0-9](?:\\.[a-zA-Z]{2,})+)");
     public static final Pattern statusIdInUrl = Pattern.compile("statuses/(\\w+)");

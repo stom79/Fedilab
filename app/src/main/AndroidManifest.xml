@@ -94,6 +94,9 @@
                 <data
                     android:host="backtofedilab"
                     android:scheme="fedilab" />
+                <data
+                    android:host="misskey-auth"
+                    android:scheme="fedilab" />
             </intent-filter>
         </activity>
 

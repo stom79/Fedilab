@@ -78,9 +78,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.vanniktech.emoji.EmojiManager;
-import com.vanniktech.emoji.EmojiPopup;
-import com.vanniktech.emoji.one.EmojiOneProvider;
+import app.fedilab.android.mastodon.helper.UnifiedEmojiPicker;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,7 +105,6 @@ import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ComposeAttachmentItemBinding;
 import app.fedilab.android.databinding.ComposePollBinding;
 import app.fedilab.android.databinding.ComposePollItemBinding;
-import app.fedilab.android.databinding.CustomEmojiPickerBinding;
 import app.fedilab.android.databinding.DrawerMediaListBinding;
 import app.fedilab.android.databinding.DrawerStatusComposeBinding;
 import app.fedilab.android.databinding.DrawerStatusSimpleBinding;
@@ -179,7 +176,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public MediaDescriptionCallBack mediaDescriptionCallBack;
     private int statusCount;
     private Context context;
-    private AlertDialog alertDialogEmoji;
     private List<Emoji> emojisList = new ArrayList<>();
     private boolean unlisted_changed = false;
     private RecyclerView mRecyclerView;
@@ -1541,7 +1537,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.buttonMathsComposer.setVisibility(View.GONE);
             }
 
-            holder.binding.buttonEmojiOne.setVisibility(View.VISIBLE);
             if (extraFeatures) {
                 boolean displayLocalOnly = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_LOCAL_ONLY) + MainActivity.currentUserID + MainActivity.currentInstance, true);
                 holder.binding.buttonTextFormat.setVisibility(View.VISIBLE);
@@ -1598,15 +1593,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.binding.buttonTextFormat.setVisibility(View.GONE);
             }
-            holder.binding.buttonEmojiOne.setOnClickListener(v -> {
-                InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(holder.binding.buttonEmojiOne.getWindowToken(), 0);
-                EmojiManager.install(new EmojiOneProvider());
-                final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.buttonEmojiOne).setOnEmojiPopupDismissListener(() -> {
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                }).build(holder.binding.content);
-                emojiPopup.toggle();
-            });
 
             int newInputType = holder.binding.content.getInputType() & (holder.binding.content.getInputType() ^ InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
             holder.binding.content.setInputType(newInputType);
@@ -1808,17 +1794,20 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //Last compose drawer
             buttonVisibility(holder);
             applyColor(context, holder, statusDraft.visibility);
-            if (emojis != null && !emojis.isEmpty()) {
-                holder.binding.buttonEmoji.setVisibility(View.VISIBLE);
-            } else {
-                holder.binding.buttonEmoji.setVisibility(View.GONE);
-            }
+            holder.binding.buttonEmoji.setVisibility(View.VISIBLE);
             holder.binding.buttonEmoji.setOnClickListener(v -> {
-                try {
-                    displayEmojiPicker(holder, account.instance);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
+                List<app.fedilab.android.mastodon.client.entities.api.Emoji> customEmojis =
+                        emojis != null ? emojis.get(account.instance) : null;
+                UnifiedEmojiPicker.show(context,
+                        holder.binding.buttonEmoji,
+                        holder.binding.content,
+                        customEmojis,
+                        null,
+                        (shortcode, url, staticUrl) -> {
+                            holder.binding.content.getText().insert(
+                                    holder.binding.content.getSelectionStart(),
+                                    " :" + shortcode + ": ");
+                        });
             });
             displayAttachments(holder, position, -1);
             manageMentions(context, statusDraft, holder);
@@ -2281,65 +2270,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         alertPollDiaslog.show();
     }
 
-    /**
-     * Display the emoji picker in the current message
-     *
-     * @param holder - view for the message {@link ComposeViewHolder}
-     */
-    private void displayEmojiPicker(ComposeViewHolder holder, String instance) throws DBException {
-        final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
-        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-        builder.setTitle(R.string.insert_emoji);
-        CustomEmojiPickerBinding customEmojiPickerBinding = CustomEmojiPickerBinding.inflate(LayoutInflater.from(context), new LinearLayout(context), false);
-        if (emojis != null && !emojis.isEmpty()) {
-            customEmojiPickerBinding.gridview.setAdapter(new EmojiAdapter(emojis.get(instance)));
-            customEmojiPickerBinding.gridview.setOnItemClickListener((parent, view, position, id) -> {
-                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + Objects.requireNonNull(emojis.get(instance)).get(position).shortcode + ": ");
-                alertDialogEmoji.dismiss();
-            });
-        }
-        customEmojiPickerBinding.toolbarSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(customEmojiPickerBinding.toolbarSearch.getWindowToken(), 0);
-                try {
-                    new EmojiInstance(context).getEmojiListFiltered(instance, query.trim(), emojiList -> {
-                        if (emojiList != null) {
-                            customEmojiPickerBinding.gridview.setAdapter(new EmojiAdapter(emojiList));
-                            customEmojiPickerBinding.gridview.setOnItemClickListener((parent, view, position, id) -> {
-                                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojiList.get(position).shortcode + ": ");
-                                alertDialogEmoji.dismiss();
-                            });
-                        }
-                    });
-                } catch (DBException e) {
-                    throw new RuntimeException(e);
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                try {
-                    new EmojiInstance(context).getEmojiListFiltered(instance, newText.trim(), emojiList -> {
-                        if (emojiList != null) {
-                            customEmojiPickerBinding.gridview.setAdapter(new EmojiAdapter(emojiList));
-                            customEmojiPickerBinding.gridview.setOnItemClickListener((parent, view, position, id) -> {
-                                holder.binding.content.getText().insert(holder.binding.content.getSelectionStart(), " :" + emojiList.get(position).shortcode + ": ");
-                                alertDialogEmoji.dismiss();
-                            });
-                        }
-                    });
-                } catch (DBException e) {
-                    throw new RuntimeException(e);
-                }
-                return false;
-            }
-        });
-        builder.setView(customEmojiPickerBinding.getRoot());
-        alertDialogEmoji = builder.show();
-    }
 
 
     public interface MediaDescriptionCallBack {

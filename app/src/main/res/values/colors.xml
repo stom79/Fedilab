@@ -84,6 +84,7 @@
 
     <color name="marked_icon">#ca8f04</color>
     <color name="boost_icon">#2b90d9</color>
+    <color name="reaction_icon">#E04040</color>
     <color name="transparent">#00000000</color>
 
     <color name="transparent_grey">#77000000</color>

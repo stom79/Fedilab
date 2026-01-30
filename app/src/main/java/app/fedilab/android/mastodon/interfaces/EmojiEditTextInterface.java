@@ -3,7 +3,7 @@ package app.fedilab.android.mastodon.interfaces;
 import androidx.annotation.DimenRes;
 import androidx.annotation.Px;
 
-import com.vanniktech.emoji.emoji.Emoji;
+import com.vanniktech.emoji.Emoji;
 
 public interface EmojiEditTextInterface {
     void backspace();

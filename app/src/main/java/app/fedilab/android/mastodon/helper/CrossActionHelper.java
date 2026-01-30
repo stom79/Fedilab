@@ -31,6 +31,8 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.net.IDN;
 import java.util.ArrayList;
@@ -51,6 +53,12 @@ import app.fedilab.android.mastodon.ui.drawer.AccountsSearchAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
+import app.fedilab.android.misskey.client.endpoints.MisskeyService;
+import app.fedilab.android.misskey.client.entities.MisskeyNote;
+import app.fedilab.android.misskey.client.entities.MisskeyRequest;
+import app.fedilab.android.misskey.client.entities.MisskeyUser;
+import app.fedilab.android.misskey.viewmodel.MisskeyAccountsVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyStatusesVM;
 import es.dmoral.toasty.Toasty;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -155,10 +163,18 @@ public class CrossActionHelper {
      */
     private static void fetchRemote(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull BaseAccount ownerAccount, app.fedilab.android.mastodon.client.entities.api.Account targetedAccount, Status targetedStatus) {
 
-        SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get("crossactions", SearchVM.class);
         if (actionType == TypeOfCrossAction.COMPOSE) {
             applyAction(context, actionType, ownerAccount, null, null);
-        } else if (targetedAccount != null) {
+            return;
+        }
+
+        if (ownerAccount.api == Account.API.MISSKEY) {
+            fetchRemoteMisskey(context, actionType, ownerAccount, targetedAccount, targetedStatus);
+            return;
+        }
+
+        SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get("crossactions", SearchVM.class);
+        if (targetedAccount != null) {
             String search;
             if (targetedAccount.acct.contains("@")) { //Not from same instance
                 search = targetedAccount.acct;
@@ -191,9 +207,79 @@ public class CrossActionHelper {
     }
 
     /**
+     * Fetch remote content via Misskey ap/show endpoint
+     */
+    private static void fetchRemoteMisskey(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull BaseAccount ownerAccount, app.fedilab.android.mastodon.client.entities.api.Account targetedAccount, Status targetedStatus) {
+        new Thread(() -> {
+            String uri = null;
+            if (targetedStatus != null) {
+                uri = targetedStatus.uri;
+            } else if (targetedAccount != null) {
+                uri = targetedAccount.url;
+            }
+            if (uri == null) {
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                mainHandler.post(() -> Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show());
+                return;
+            }
+            try {
+                MisskeyService misskeyService = initMisskey(context, ownerAccount.instance);
+                MisskeyRequest.ApShowRequest request = new MisskeyRequest.ApShowRequest(ownerAccount.token, uri);
+                retrofit2.Response<MisskeyService.ApShowResponse> response = misskeyService.apShow(request).execute();
+                if (response.isSuccessful() && response.body() != null) {
+                    MisskeyService.ApShowResponse apResponse = response.body();
+                    Gson gson = Helper.getDateBuilder();
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    if ("Note".equals(apResponse.type) && targetedStatus != null) {
+                        MisskeyNote note = gson.fromJson(apResponse.object, MisskeyNote.class);
+                        if (note != null) {
+                            Status resolvedStatus = note.toStatus(ownerAccount.instance);
+                            mainHandler.post(() -> applyAction(context, actionType, ownerAccount, null, resolvedStatus));
+                        } else {
+                            mainHandler.post(() -> Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show());
+                        }
+                    } else if ("User".equals(apResponse.type) && targetedAccount != null) {
+                        MisskeyUser user = gson.fromJson(apResponse.object, MisskeyUser.class);
+                        if (user != null) {
+                            app.fedilab.android.mastodon.client.entities.api.Account resolvedAccount = user.toAccount();
+                            mainHandler.post(() -> applyAction(context, actionType, ownerAccount, resolvedAccount, null));
+                        } else {
+                            mainHandler.post(() -> Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show());
+                        }
+                    } else {
+                        mainHandler.post(() -> Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show());
+                    }
+                } else {
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    mainHandler.post(() -> Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                mainHandler.post(() -> Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show());
+            }
+        }).start();
+    }
+
+    private static MisskeyService initMisskey(Context context, String instance) {
+        final OkHttpClient okHttpClient = Helper.myOkHttpClient(context);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/")
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MisskeyService.class);
+    }
+
+    /**
      * Do action when status or account has been fetched
      */
     private static void applyAction(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull BaseAccount ownerAccount, app.fedilab.android.mastodon.client.entities.api.Account targetedAccount, Status targetedStatus) {
+
+        if (ownerAccount.api == Account.API.MISSKEY) {
+            applyMisskeyAction(context, actionType, ownerAccount, targetedAccount, targetedStatus);
+            return;
+        }
 
         AccountsVM accountsVM = null;
         StatusesVM statusesVM = null;
@@ -265,6 +351,106 @@ public class CrossActionHelper {
                 assert statusesVM != null;
                 statusesVM.unReblog(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
                         .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_unreblog), Toasty.LENGTH_SHORT).show());
+            }
+            case REPLY_ACTION -> {
+                Intent intent = new Intent(context, ComposeActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS_REPLY, targetedStatus);
+                args.putSerializable(Helper.ARG_ACCOUNT, ownerAccount);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                });
+            }
+            case COMPOSE -> {
+                Intent intentCompose = new Intent(context, ComposeActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, ownerAccount);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intentCompose.putExtras(bundle);
+                    context.startActivity(intentCompose);
+                });
+            }
+        }
+    }
+
+    /**
+     * Apply action using Misskey API
+     */
+    private static void applyMisskeyAction(@NonNull Context context, @NonNull TypeOfCrossAction actionType, @NonNull BaseAccount ownerAccount, app.fedilab.android.mastodon.client.entities.api.Account targetedAccount, Status targetedStatus) {
+
+        MisskeyAccountsVM misskeyAccountsVM = null;
+        MisskeyStatusesVM misskeyStatusesVM = null;
+        if (targetedAccount != null) {
+            misskeyAccountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get("crossactions", MisskeyAccountsVM.class);
+        }
+        if (targetedStatus != null) {
+            misskeyStatusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get("crossactions", MisskeyStatusesVM.class);
+        }
+        switch (actionType) {
+            case MUTE_ACTION -> {
+                assert misskeyAccountsVM != null;
+                misskeyAccountsVM.mute(ownerAccount.instance, ownerAccount.token, targetedAccount.id)
+                        .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_SHORT).show());
+            }
+            case UNMUTE_ACTION -> {
+                assert misskeyAccountsVM != null;
+                misskeyAccountsVM.unmute(ownerAccount.instance, ownerAccount.token, targetedAccount.id)
+                        .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_unmute), Toasty.LENGTH_SHORT).show());
+            }
+            case BLOCK_ACTION -> {
+                assert misskeyAccountsVM != null;
+                misskeyAccountsVM.block(ownerAccount.instance, ownerAccount.token, targetedAccount.id)
+                        .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_block), Toasty.LENGTH_SHORT).show());
+            }
+            case UNBLOCK_ACTION -> {
+                assert misskeyAccountsVM != null;
+                misskeyAccountsVM.unblock(ownerAccount.instance, ownerAccount.token, targetedAccount.id)
+                        .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_unblock), Toasty.LENGTH_SHORT).show());
+            }
+            case FOLLOW_ACTION -> {
+                assert misskeyAccountsVM != null;
+                misskeyAccountsVM.follow(ownerAccount.instance, ownerAccount.token, targetedAccount.id)
+                        .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_follow), Toasty.LENGTH_SHORT).show());
+            }
+            case UNFOLLOW_ACTION -> {
+                assert misskeyAccountsVM != null;
+                misskeyAccountsVM.unfollow(ownerAccount.instance, ownerAccount.token, targetedAccount.id)
+                        .observe((LifecycleOwner) context, relationShip -> Toasty.info(context, context.getString(R.string.toast_unfollow), Toasty.LENGTH_SHORT).show());
+            }
+            case FAVOURITE_ACTION -> {
+                assert misskeyStatusesVM != null;
+                misskeyStatusesVM.createReaction(ownerAccount.instance, ownerAccount.token, targetedStatus.id, null)
+                        .observe((LifecycleOwner) context, success -> Toasty.info(context, context.getString(R.string.toast_favourite), Toasty.LENGTH_SHORT).show());
+            }
+            case UNFAVOURITE_ACTION -> {
+                assert misskeyStatusesVM != null;
+                misskeyStatusesVM.deleteReaction(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
+                        .observe((LifecycleOwner) context, success -> Toasty.info(context, context.getString(R.string.toast_unfavourite), Toasty.LENGTH_SHORT).show());
+            }
+            case BOOKMARK_ACTION -> {
+                assert misskeyStatusesVM != null;
+                misskeyStatusesVM.createFavorite(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
+                        .observe((LifecycleOwner) context, success -> Toasty.info(context, context.getString(R.string.toast_bookmark), Toasty.LENGTH_SHORT).show());
+            }
+            case UNBOOKMARK_ACTION -> {
+                assert misskeyStatusesVM != null;
+                misskeyStatusesVM.deleteFavorite(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
+                        .observe((LifecycleOwner) context, success -> Toasty.info(context, context.getString(R.string.toast_unbookmark), Toasty.LENGTH_SHORT).show());
+            }
+            case REBLOG_ACTION -> {
+                assert misskeyStatusesVM != null;
+                misskeyStatusesVM.renote(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
+                        .observe((LifecycleOwner) context, status -> Toasty.info(context, context.getString(R.string.toast_reblog), Toasty.LENGTH_SHORT).show());
+            }
+            case UNREBLOG_ACTION -> {
+                assert misskeyStatusesVM != null;
+                misskeyStatusesVM.unrenote(ownerAccount.instance, ownerAccount.token, targetedStatus.id)
+                        .observe((LifecycleOwner) context, success -> Toasty.info(context, context.getString(R.string.toast_unreblog), Toasty.LENGTH_SHORT).show());
             }
             case REPLY_ACTION -> {
                 Intent intent = new Intent(context, ComposeActivity.class);

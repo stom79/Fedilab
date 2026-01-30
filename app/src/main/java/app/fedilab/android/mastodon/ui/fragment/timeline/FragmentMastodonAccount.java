@@ -53,6 +53,7 @@ import app.fedilab.android.mastodon.ui.drawer.AccountAdapter;
 import app.fedilab.android.mastodon.ui.pageadapter.FedilabProfileTLPageAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyAccountsVM;
 import es.dmoral.toasty.Toasty;
 
 
@@ -61,6 +62,8 @@ public class FragmentMastodonAccount extends Fragment {
 
     private FragmentPaginationBinding binding;
     private AccountsVM accountsVM;
+    private MisskeyAccountsVM misskeyAccountsVM;
+    private boolean isMisskey;
     private boolean flagLoading;
     private List<Account> accounts;
     private String max_id;
@@ -116,6 +119,14 @@ public class FragmentMastodonAccount extends Fragment {
             }
         }
         accountsVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, AccountsVM.class);
+        app.fedilab.android.mastodon.client.entities.app.Account.API currentApi = BaseMainActivity.api;
+        if (currentApi == null && Helper.getCurrentAccount(requireActivity()) != null) {
+            currentApi = Helper.getCurrentAccount(requireActivity()).api;
+        }
+        isMisskey = currentApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY;
+        if (isMisskey) {
+            misskeyAccountsVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, MisskeyAccountsVM.class);
+        }
         max_id = null;
         offset = 0;
         if (search != null) {
@@ -180,55 +191,95 @@ public class FragmentMastodonAccount extends Fragment {
 
     private void fetchAccount(boolean firstLoad, String accountProfileId) {
         if (followType == FedilabProfileTLPageAdapter.follow_type.FOLLOWERS) {
-            if (firstLoad) {
-                accountsVM.getAccountFollowers(instance, token, accountProfileId, null, null)
-                        .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+            if (isMisskey) {
+                if (firstLoad) {
+                    misskeyAccountsVM.getFollowers(instance, token, accountProfileId, null, null)
+                            .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+                } else {
+                    misskeyAccountsVM.getFollowers(instance, token, accountProfileId, max_id, null)
+                            .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                }
             } else {
-                accountsVM.getAccountFollowers(instance, token, accountProfileId, max_id, null)
-                        .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                if (firstLoad) {
+                    accountsVM.getAccountFollowers(instance, token, accountProfileId, null, null)
+                            .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+                } else {
+                    accountsVM.getAccountFollowers(instance, token, accountProfileId, max_id, null)
+                            .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                }
             }
         } else if (followType == FedilabProfileTLPageAdapter.follow_type.FOLLOWING) {
-            if (firstLoad) {
-                accountsVM.getAccountFollowing(instance, token, accountProfileId, null, null)
-                        .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+            if (isMisskey) {
+                if (firstLoad) {
+                    misskeyAccountsVM.getFollowing(instance, token, accountProfileId, null, null)
+                            .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+                } else {
+                    misskeyAccountsVM.getFollowing(instance, token, accountProfileId, max_id, null)
+                            .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                }
             } else {
-                accountsVM.getAccountFollowing(instance, token, accountProfileId, max_id, null)
-                        .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                if (firstLoad) {
+                    accountsVM.getAccountFollowing(instance, token, accountProfileId, null, null)
+                            .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+                } else {
+                    accountsVM.getAccountFollowing(instance, token, accountProfileId, max_id, null)
+                            .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                }
             }
         } else if (search != null) {
-            SearchVM searchVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, SearchVM.class);
-            if (firstLoad) {
-                searchVM.search(instance, token, search.trim(), null, "accounts", false, true, false, 0, null, null, MastodonHelper.SEARCH_PER_CALL)
-                        .observe(getViewLifecycleOwner(), results -> {
-                            if (results != null) {
-                                Accounts accounts = new Accounts();
-                                Pagination pagination = new Pagination();
-                                accounts.accounts = results.accounts;
-                                accounts.pagination = pagination;
-                                initializeAccountCommonView(accounts);
-                            } else {
-                                Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-                            }
-                        });
+            if (isMisskey) {
+                if (firstLoad) {
+                    misskeyAccountsVM.searchUsers(instance, token, search.trim(), MastodonHelper.SEARCH_PER_CALL)
+                            .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+                } else {
+                    misskeyAccountsVM.searchUsers(instance, token, search.trim(), MastodonHelper.SEARCH_PER_CALL)
+                            .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                }
             } else {
-                searchVM.search(instance, token, search.trim(), null, "accounts", false, true, false, offset, null, null, MastodonHelper.SEARCH_PER_CALL)
-                        .observe(getViewLifecycleOwner(), results -> {
-                            if (results != null) {
-                                Accounts accounts = new Accounts();
-                                Pagination pagination = new Pagination();
-                                accounts.accounts = results.accounts;
-                                accounts.pagination = pagination;
-                                dealWithPagination(accounts);
-                            }
-                        });
+                SearchVM searchVM = new ViewModelProvider(FragmentMastodonAccount.this).get(viewModelKey, SearchVM.class);
+                if (firstLoad) {
+                    searchVM.search(instance, token, search.trim(), null, "accounts", false, true, false, 0, null, null, MastodonHelper.SEARCH_PER_CALL)
+                            .observe(getViewLifecycleOwner(), results -> {
+                                if (results != null) {
+                                    Accounts accounts = new Accounts();
+                                    Pagination pagination = new Pagination();
+                                    accounts.accounts = results.accounts;
+                                    accounts.pagination = pagination;
+                                    initializeAccountCommonView(accounts);
+                                } else {
+                                    Toasty.error(requireActivity(), getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    searchVM.search(instance, token, search.trim(), null, "accounts", false, true, false, offset, null, null, MastodonHelper.SEARCH_PER_CALL)
+                            .observe(getViewLifecycleOwner(), results -> {
+                                if (results != null) {
+                                    Accounts accounts = new Accounts();
+                                    Pagination pagination = new Pagination();
+                                    accounts.accounts = results.accounts;
+                                    accounts.pagination = pagination;
+                                    dealWithPagination(accounts);
+                                }
+                            });
+                }
             }
         } else if (timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE) {
-            if (firstLoad) {
-                accountsVM.getMutes(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), null, null)
-                        .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+            if (isMisskey) {
+                if (firstLoad) {
+                    misskeyAccountsVM.getMutes(instance, token, null, MastodonHelper.accountsPerCall(requireActivity()))
+                            .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+                } else {
+                    misskeyAccountsVM.getMutes(instance, token, max_id, MastodonHelper.accountsPerCall(requireActivity()))
+                            .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                }
             } else {
-                accountsVM.getMutes(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), max_id, null)
-                        .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                if (firstLoad) {
+                    accountsVM.getMutes(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), null, null)
+                            .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+                } else {
+                    accountsVM.getMutes(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), max_id, null)
+                            .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                }
             }
         } else if (timelineType == Timeline.TimeLineEnum.MUTED_TIMELINE_HOME) {
             if (firstLoad) {
@@ -236,12 +287,22 @@ public class FragmentMastodonAccount extends Fragment {
                         .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
             }
         } else if (timelineType == Timeline.TimeLineEnum.BLOCKED_TIMELINE) {
-            if (firstLoad) {
-                accountsVM.getBlocks(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), null, null)
-                        .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+            if (isMisskey) {
+                if (firstLoad) {
+                    misskeyAccountsVM.getBlocks(instance, token, null, MastodonHelper.accountsPerCall(requireActivity()))
+                            .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+                } else {
+                    misskeyAccountsVM.getBlocks(instance, token, max_id, MastodonHelper.accountsPerCall(requireActivity()))
+                            .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                }
             } else {
-                accountsVM.getBlocks(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), max_id, null)
-                        .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                if (firstLoad) {
+                    accountsVM.getBlocks(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), null, null)
+                            .observe(getViewLifecycleOwner(), this::initializeAccountCommonView);
+                } else {
+                    accountsVM.getBlocks(instance, token, String.valueOf(MastodonHelper.accountsPerCall(requireActivity())), max_id, null)
+                            .observe(getViewLifecycleOwner(), this::dealWithPagination);
+                }
             }
         } else if (timelineType == Timeline.TimeLineEnum.ACCOUNT_DIRECTORY) {
             if (firstLoad) {

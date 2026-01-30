@@ -23,7 +23,7 @@ import app.fedilab.android.mastodon.jobs.ComposeWorker;
 
 public class ThreadMessageService {
 
-    public ThreadMessageService(Context context, String instance, String userId, String token, StatusDraft statusDraft, String scheduledDate, String editMessageId, String scheduledStatusId) {
+    public ThreadMessageService(Context context, String instance, String userId, String token, StatusDraft statusDraft, String scheduledDate, String editMessageId, String scheduledStatusId, String redraftStatusId) {
         ComposeWorker.DataPost dataPost = new ComposeWorker.DataPost();
         dataPost.instance = instance;
         dataPost.userId = userId;
@@ -32,6 +32,7 @@ public class ThreadMessageService {
         dataPost.statusDraft = statusDraft;
         dataPost.statusEditId = editMessageId;
         dataPost.scheduledId = scheduledStatusId;
+        dataPost.redraftStatusId = redraftStatusId;
         ComposeWorker.publishMessage(context, dataPost);
     }
 }

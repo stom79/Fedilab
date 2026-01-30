@@ -68,6 +68,11 @@ import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
+import app.fedilab.android.misskey.client.endpoints.MisskeyService;
+import app.fedilab.android.misskey.client.entities.MisskeyFile;
+import app.fedilab.android.misskey.client.entities.MisskeyRequest;
+import app.fedilab.android.misskey.client.entities.NoteCreateRequest;
+import app.fedilab.android.misskey.client.entities.NoteCreateResponse;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -100,7 +105,27 @@ public class ComposeWorker extends Worker {
         return retrofit.create(MastodonStatusesService.class);
     }
 
+    private static MisskeyService initMisskey(Context context, String instance) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/")
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                .client(Helper.myPostOkHttpClient(context))
+                .build();
+        return retrofit.create(MisskeyService.class);
+    }
+
     public static void publishMessage(Context context, DataPost dataPost) {
+        BaseAccount account = null;
+        try {
+            account = new Account(context).getAccountByToken(dataPost.token);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        if (account != null && account.api == Account.API.MISSKEY) {
+            publishMisskeyMessage(context, dataPost, account);
+            return;
+        }
+
         long totalMediaSize;
         long totalBitRead;
         MastodonStatusesService mastodonStatusesService = init(context, dataPost.instance);
@@ -145,13 +170,9 @@ public class ComposeWorker extends Worker {
                 }
             }
             if (watermarkText == null || watermarkText.trim().isEmpty()) {
-                try {
-                    BaseAccount account = new Account(context).getAccountByToken(dataPost.token);
+                if (account != null && account.mastodon_account != null) {
                     watermarkText = account.mastodon_account.username + "@" + account.instance;
-                } catch (DBException e) {
-                    e.printStackTrace();
                 }
-
             }
             dataPost.messageToSend = statuses.size() - startingPosition;
             dataPost.messageSent = 0;
@@ -219,12 +240,6 @@ public class ComposeWorker extends Worker {
                     Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
                     args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, context.getString(R.string.media_cannot_be_uploaded));
                     args.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
-                    BaseAccount account = null;
-                    try {
-                        account = new Account(context).getAccountByToken(dataPost.token);
-                    } catch (DBException e) {
-                        e.printStackTrace();
-                    }
                     new CachedBundle(context).insertBundle(args, account, bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
@@ -324,6 +339,14 @@ public class ComposeWorker extends Worker {
                                     } catch (DBException e) {
                                         e.printStackTrace();
                                     }
+                                    if (dataPost.redraftStatusId != null) {
+                                        try {
+                                            mastodonStatusesService.deleteStatus(dataPost.token, dataPost.redraftStatusId).execute();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        dataPost.redraftStatusId = null;
+                                    }
                                     if (dataPost.service != null) {
                                         dataPost.service.stopSelf();
                                     }
@@ -339,13 +362,6 @@ public class ComposeWorker extends Worker {
                                 err = err.replaceAll("\\{\"error\":\"(.*)\"\\}", "$1");
                             }
                             args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, err);
-
-                            BaseAccount account = null;
-                            try {
-                                account = new Account(context).getAccountByToken(dataPost.token);
-                            } catch (DBException e) {
-                                e.printStackTrace();
-                            }
                             new CachedBundle(context).insertBundle(args, account, bundleId -> {
                                 Bundle bundle = new Bundle();
                                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
@@ -362,12 +378,6 @@ public class ComposeWorker extends Worker {
                         args.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
                         Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
                         args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, e.getMessage());
-                        BaseAccount account = null;
-                        try {
-                            account = new Account(context).getAccountByToken(dataPost.token);
-                        } catch (DBException e2) {
-                            e2.printStackTrace();
-                        }
                         new CachedBundle(context).insertBundle(args, account, bundleId -> {
                             Bundle bundle = new Bundle();
                             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
@@ -436,12 +446,6 @@ public class ComposeWorker extends Worker {
             args.putString(Helper.ARG_EDIT_STATUS_ID, dataPost.statusEditId);
             Intent intentBD = new Intent(Helper.BROADCAST_DATA);
             args.putSerializable(Helper.RECEIVE_STATUS_ACTION, firstSendMessage);
-            BaseAccount account = null;
-            try {
-                account = new Account(context).getAccountByToken(dataPost.token);
-            } catch (DBException e2) {
-                e2.printStackTrace();
-            }
             new CachedBundle(context).insertBundle(args, account, bundleId -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
@@ -498,6 +502,200 @@ public class ComposeWorker extends Worker {
         }
     }
 
+    private static void publishMisskeyMessage(Context context, DataPost dataPost, BaseAccount account) {
+        MisskeyService misskeyService = initMisskey(context, dataPost.instance);
+
+        if (dataPost.statusDraft == null || dataPost.statusDraft.statusDraftList == null || dataPost.statusDraft.statusDraftList.isEmpty()) {
+            return;
+        }
+
+        if (dataPost.statusDraft.state == null) {
+            dataPost.statusDraft.state = new PostState();
+            dataPost.statusDraft.state.posts = new ArrayList<>();
+            dataPost.statusDraft.state.number_of_posts = dataPost.statusDraft.statusDraftList.size();
+            for (Status status : dataPost.statusDraft.statusDraftList) {
+                PostState.Post post = new PostState.Post();
+                post.number_of_media = status.media_attachments != null ? status.media_attachments.size() : 0;
+                dataPost.statusDraft.state.posts.add(post);
+            }
+        }
+
+        int startingPosition = 0;
+        for (PostState.Post post : dataPost.statusDraft.state.posts) {
+            if (post.id == null || post.id.startsWith("@fedilab_compose_")) {
+                break;
+            }
+            startingPosition++;
+        }
+
+        List<Status> statuses = dataPost.statusDraft.statusDraftList;
+        String in_reply_to_status = null;
+        if (dataPost.statusDraft.statusReplyList != null && !dataPost.statusDraft.statusReplyList.isEmpty()) {
+            in_reply_to_status = dataPost.statusDraft.statusReplyList.get(dataPost.statusDraft.statusReplyList.size() - 1).id;
+        }
+
+        Status firstSendMessage = null;
+
+        for (int i = startingPosition; i < statuses.size(); i++) {
+            List<String> fileIds = null;
+
+            if (statuses.get(i).media_attachments != null && !statuses.get(i).media_attachments.isEmpty()) {
+                fileIds = new ArrayList<>();
+                for (Attachment attachment : statuses.get(i).media_attachments) {
+                    if (attachment.id != null) {
+                        fileIds.add(attachment.id);
+                    } else {
+                        MultipartBody.Part fileMultipartBody = Helper.getMultipartBody("file", attachment);
+                        try {
+                            RequestBody tokenBody = RequestBody.create(MediaType.parse("text/plain"), dataPost.token);
+                            RequestBody sensitiveBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(statuses.get(i).sensitive));
+                            RequestBody commentBody = attachment.description != null ?
+                                    RequestBody.create(MediaType.parse("text/plain"), attachment.description) : null;
+
+                            Response<MisskeyFile> response = misskeyService.uploadFile(tokenBody, fileMultipartBody, sensitiveBody, commentBody).execute();
+                            if (response.isSuccessful() && response.body() != null) {
+                                fileIds.add(response.body().id);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            NoteCreateRequest request = new NoteCreateRequest(dataPost.token);
+            request.text = statuses.get(i).text;
+            request.visibility = NoteCreateRequest.mapVisibility(statuses.get(i).visibility);
+            request.cw = statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null;
+            request.replyId = statuses.get(i).quote_id == null ? in_reply_to_status : null;
+            request.fileIds = fileIds;
+            request.localOnly = statuses.get(i).local_only;
+
+            if (dataPost.scheduledDate != null) {
+                try {
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(Helper.SCHEDULE_DATE_FORMAT, java.util.Locale.getDefault());
+                    java.util.Date date = sdf.parse(dataPost.scheduledDate);
+                    if (date != null) {
+                        request.scheduledAt = date.getTime();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (statuses.get(i).poll != null && statuses.get(i).poll.options != null && !statuses.get(i).poll.options.isEmpty()) {
+                NoteCreateRequest.PollRequest pollRequest = new NoteCreateRequest.PollRequest();
+                pollRequest.choices = new java.util.ArrayList<>();
+                for (app.fedilab.android.mastodon.client.entities.api.Poll.PollItem option : statuses.get(i).poll.options) {
+                    if (option.title != null && !option.title.trim().isEmpty()) {
+                        pollRequest.choices.add(option.title);
+                    }
+                }
+                pollRequest.multiple = statuses.get(i).poll.multiple;
+                if (statuses.get(i).poll.expire_in > 0) {
+                    pollRequest.expiredAfter = (long) statuses.get(i).poll.expire_in * 1000L;
+                }
+                request.poll = pollRequest;
+            }
+
+            try {
+                Response<NoteCreateResponse> response = misskeyService.createNote(request).execute();
+                if (response.isSuccessful()) {
+                    if (request.scheduledAt != null) {
+                        // Scheduled note: no createdNote in response, just mark as successful
+                        dataPost.statusDraft.state.posts_successfully_sent = i;
+                        try {
+                            new StatusDraft(context.getApplicationContext()).updatePostState(dataPost.statusDraft);
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                        if (i >= dataPost.statusDraft.statusDraftList.size() - 1) {
+                            try {
+                                new StatusDraft(context).removeDraft(dataPost.statusDraft);
+                            } catch (DBException e) {
+                                e.printStackTrace();
+                            }
+                            if (dataPost.service != null) {
+                                dataPost.service.stopSelf();
+                            }
+                        }
+                    } else if (response.body() != null && response.body().createdNote != null) {
+                        Status statusReply = response.body().createdNote.toStatus(dataPost.instance);
+                        if (dataPost.statusEditId == null) {
+                            StatusAdapter.sendAction(context, Helper.ARG_STATUS_POSTED, statusReply, null);
+                        }
+                        if (firstSendMessage == null) {
+                            firstSendMessage = statusReply;
+                        }
+                        in_reply_to_status = statusReply.id;
+                        dataPost.statusDraft.state.posts_successfully_sent = i;
+
+                        try {
+                            new StatusDraft(context.getApplicationContext()).updatePostState(dataPost.statusDraft);
+                        } catch (DBException e) {
+                            e.printStackTrace();
+                        }
+                        if (i >= dataPost.statusDraft.statusDraftList.size() - 1) {
+                            try {
+                                new StatusDraft(context).removeDraft(dataPost.statusDraft);
+                            } catch (DBException e) {
+                                e.printStackTrace();
+                            }
+                            if (dataPost.redraftStatusId != null) {
+                                try {
+                                    misskeyService.deleteNote(new MisskeyRequest.NoteIdRequest(dataPost.token, dataPost.redraftStatusId)).execute();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                dataPost.redraftStatusId = null;
+                            }
+                            if (dataPost.service != null) {
+                                dataPost.service.stopSelf();
+                            }
+                        }
+                    }
+                } else {
+                    Bundle args = new Bundle();
+                    args.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
+                    Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
+                    args.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
+                    String err = response.errorBody() != null ? response.errorBody().string() : context.getString(R.string.toast_error);
+                    args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, err);
+                    new CachedBundle(context).insertBundle(args, account, bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intentBD.putExtras(bundle);
+                        intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                        context.sendBroadcast(intentBD);
+                    });
+                    return;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Bundle args = new Bundle();
+                args.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
+                args.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
+                Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
+                args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, e.getMessage());
+                new CachedBundle(context).insertBundle(args, account, bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intentBD.putExtras(bundle);
+                    intentBD.setPackage(BuildConfig.APPLICATION_ID);
+                    context.sendBroadcast(intentBD);
+                });
+                return;
+            }
+        }
+
+        if (firstSendMessage != null) {
+            try {
+                new StatusDraft(context).removeDraft(dataPost.statusDraft);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @NonNull
     @Override
@@ -518,6 +716,7 @@ public class ComposeWorker extends Worker {
         String userId = inputData.getString(Helper.ARG_USER_ID);
         String scheduledDate = inputData.getString(Helper.ARG_SCHEDULED_DATE);
         String editMessageId = inputData.getString(Helper.ARG_EDIT_STATUS_ID);
+        String redraftStatusId = inputData.getString(Helper.ARG_REDRAFT_STATUS_ID);
         //Should not be null, but a simple security
         if (token == null) {
             token = BaseMainActivity.currentToken;
@@ -535,6 +734,7 @@ public class ComposeWorker extends Worker {
         dataPost.notificationBuilder = notificationBuilder;
         dataPost.notificationManager = notificationManager;
         dataPost.statusEditId = editMessageId;
+        dataPost.redraftStatusId = redraftStatusId;
         // Mark the Worker as important
         setForegroundAsync(createForegroundInfo());
         publishMessage(getApplicationContext(), dataPost);
@@ -610,6 +810,7 @@ public class ComposeWorker extends Worker {
         public String userId;
         public String scheduledId;
         public String statusEditId;
+        public String redraftStatusId;
         public StatusDraft statusDraft;
         public int messageToSend;
         public int messageSent;

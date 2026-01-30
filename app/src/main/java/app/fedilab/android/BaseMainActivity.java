@@ -1189,6 +1189,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     currentToken = sharedpreferences.getString(PREF_USER_TOKEN, null);
                 }
                 Helper.setCurrentAccount(new Account(BaseMainActivity.this).getConnectedAccount());
+                if (Helper.getCurrentAccount(BaseMainActivity.this) != null) {
+                    api = Helper.getCurrentAccount(BaseMainActivity.this).api;
+                }
             } catch (DBException e) {
                 e.printStackTrace();
             }
@@ -1268,6 +1271,16 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
                 if (Helper.getCurrentAccount(BaseMainActivity.this).admin) {
                     binding.navView.getMenu().findItem(R.id.nav_administration).setVisible(true);
+                }
+                if (api == Account.API.MISSKEY) {
+                    binding.navView.getMenu().findItem(R.id.nav_filter).setVisible(false);
+                    binding.navView.getMenu().findItem(R.id.nav_followed_tags).setVisible(false);
+                    binding.navView.getMenu().findItem(R.id.nav_announcements).setVisible(false);
+                    binding.navView.getMenu().findItem(R.id.nav_trends).setVisible(false);
+                    binding.navView.getMenu().findItem(R.id.nav_suggestions).setVisible(false);
+                    binding.navView.getMenu().findItem(R.id.nav_directory).setVisible(false);
+                    binding.navView.getMenu().findItem(R.id.nav_about_instance).setVisible(false);
+                    binding.navView.getMenu().findItem(R.id.nav_instance_info).setVisible(false);
                 }
                 if (bottomMenu != null) {
                     //ManageClick on bottom menu items
@@ -1636,8 +1649,27 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         if (emojis == null || !emojis.containsKey(BaseMainActivity.currentInstance) || emojis.get(BaseMainActivity.currentInstance) == null) {
             new Thread(() -> {
                 try {
-                    emojis.put(currentInstance, new EmojiInstance(BaseMainActivity.this).getEmojiList(BaseMainActivity.currentInstance));
-                } catch (DBException e) {
+                    if (api == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                        app.fedilab.android.misskey.client.endpoints.MisskeyService misskeyService =
+                                new retrofit2.Retrofit.Builder()
+                                        .baseUrl("https://" + java.net.IDN.toASCII(currentInstance, java.net.IDN.ALLOW_UNASSIGNED) + "/api/")
+                                        .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create(Helper.getDateBuilder()))
+                                        .client(Helper.myOkHttpClient(BaseMainActivity.this))
+                                        .build()
+                                        .create(app.fedilab.android.misskey.client.endpoints.MisskeyService.class);
+                        retrofit2.Response<app.fedilab.android.misskey.client.endpoints.MisskeyService.MisskeyEmojisResponse> response =
+                                misskeyService.getEmojis().execute();
+                        if (response.isSuccessful() && response.body() != null && response.body().emojis != null) {
+                            List<app.fedilab.android.mastodon.client.entities.api.Emoji> emojiList = new java.util.ArrayList<>();
+                            for (app.fedilab.android.misskey.client.entities.MisskeyEmoji misskeyEmoji : response.body().emojis) {
+                                emojiList.add(misskeyEmoji.toEmoji());
+                            }
+                            emojis.put(currentInstance, emojiList);
+                        }
+                    } else {
+                        emojis.put(currentInstance, new EmojiInstance(BaseMainActivity.this).getEmojiList(BaseMainActivity.currentInstance));
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }).start();

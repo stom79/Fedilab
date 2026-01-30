@@ -52,8 +52,10 @@ import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.ScheduledBoost;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
+import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyStatusesVM;
 
 
 public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduledAdapter.StatusScheduledHolder> {
@@ -154,15 +156,30 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
             unfollowConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {
                 if (scheduledStatuses != null && scheduledStatuses.size() > position) {
-                    StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
-                    statusesVM.deleteScheduledStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, scheduledStatuses.get(position).id)
-                            .observe((LifecycleOwner) context, unused -> {
-                                scheduledStatuses.remove(scheduledStatuses.get(position));
-                                if (scheduledStatuses.isEmpty()) {
-                                    scheduledActions.onAllDeleted();
-                                }
-                                notifyItemRemoved(position);
-                            });
+                    Account.API currentApi = BaseMainActivity.api;
+                    if (currentApi == Account.API.MISSKEY) {
+                        MisskeyStatusesVM misskeyStatusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
+                        misskeyStatusesVM.cancelScheduledNote(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, scheduledStatuses.get(position).id)
+                                .observe((LifecycleOwner) context, success -> {
+                                    if (success != null && success) {
+                                        scheduledStatuses.remove(scheduledStatuses.get(position));
+                                        if (scheduledStatuses.isEmpty()) {
+                                            scheduledActions.onAllDeleted();
+                                        }
+                                        notifyItemRemoved(position);
+                                    }
+                                });
+                    } else {
+                        StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
+                        statusesVM.deleteScheduledStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, scheduledStatuses.get(position).id)
+                                .observe((LifecycleOwner) context, unused -> {
+                                    scheduledStatuses.remove(scheduledStatuses.get(position));
+                                    if (scheduledStatuses.isEmpty()) {
+                                        scheduledActions.onAllDeleted();
+                                    }
+                                    notifyItemRemoved(position);
+                                });
+                    }
                 } else if (statusDraftList != null && statusDraftList.size() > position) {
                     try {
                         new StatusDraft(context).removeScheduled(statusDraftList.get(position));

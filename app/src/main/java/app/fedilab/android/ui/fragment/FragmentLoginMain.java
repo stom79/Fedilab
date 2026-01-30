@@ -20,6 +20,7 @@ import static app.fedilab.android.activities.LoginActivity.apiLogin;
 import static app.fedilab.android.activities.LoginActivity.client_idLogin;
 import static app.fedilab.android.activities.LoginActivity.client_secretLogin;
 import static app.fedilab.android.activities.LoginActivity.currentInstanceLogin;
+import static app.fedilab.android.activities.LoginActivity.misskeySessionId;
 import static app.fedilab.android.activities.LoginActivity.requestedAdmin;
 import static app.fedilab.android.activities.LoginActivity.softwareLogin;
 
@@ -71,6 +72,7 @@ import app.fedilab.android.mastodon.viewmodel.mastodon.AdminVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AppsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.InstanceSocialVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.NodeInfoVM;
+import app.fedilab.android.misskey.helper.MisskeyHelper;
 import app.fedilab.android.peertube.client.entities.Token;
 import es.dmoral.toasty.Toasty;
 
@@ -207,6 +209,15 @@ public class FragmentLoginMain extends Fragment {
                         case "PEERTUBE":
                             apiLogin = Account.API.PEERTUBE;
                             break;
+                        case "MISSKEY":
+                        case "FIREFISH":
+                        case "SHARKEY":
+                        case "ICESHRIMP":
+                        case "CALCKEY":
+                        case "FOUNDKEY":
+                        case "MEISSKEY":
+                            apiLogin = Account.API.MISSKEY;
+                            break;
                         default:
                             apiLogin = Account.API.MASTODON;
                             break;
@@ -252,13 +263,13 @@ public class FragmentLoginMain extends Fragment {
                 }
 
                 binding.continueButton.setEnabled(true);
-                if (apiLogin != Account.API.PEERTUBE) {
-                    retrievesClientId(currentInstanceLogin);
-                } else {
+                if (apiLogin == Account.API.PEERTUBE) {
                     Intent peertubeLogin = new Intent(requireActivity(), app.fedilab.android.peertube.activities.LoginActivity.class);
                     peertubeLogin.putExtra(Helper.ARG_INSTANCE, instance);
                     startActivity(peertubeLogin);
                     requireActivity().finish();
+                } else {
+                    retrievesClientId(currentInstanceLogin);
                 }
             });
         });
@@ -350,45 +361,58 @@ public class FragmentLoginMain extends Fragment {
         }
 
         currentInstanceLogin = host;
-        String scopes = requestedAdmin ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
-        AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
-        appsVM.createApp(currentInstanceLogin, getString(R.string.app_name),
-                Helper.REDIRECT_CONTENT_WEB,
-                scopes,
-                Helper.WEBSITE_VALUE
-        ).observe(requireActivity(), app -> {
-            if (app != null) {
-                client_idLogin = app.client_id;
-                client_secretLogin = app.client_secret;
-                String redirectUrl = MastodonHelper.authorizeURL(currentInstanceLogin, client_idLogin, requestedAdmin);
-                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-                boolean customTab = sharedpreferences.getBoolean(getString(R.string.SET_CUSTOM_TABS), true);
-                if (customTab) {
-                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    int colorInt = ThemeHelper.getAttColor(requireActivity(), R.attr.statusBar);
-                    CustomTabColorSchemeParams defaultColors = new CustomTabColorSchemeParams.Builder()
-                            .setToolbarColor(colorInt)
-                            .build();
-                    builder.setDefaultColorSchemeParams(defaultColors);
-                    CustomTabsIntent customTabsIntent = builder.build();
-                    customTabsIntent.launchUrl(requireActivity(), Uri.parse(redirectUrl));
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setData(Uri.parse(redirectUrl));
-                    try {
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
-                    }
-                }
+
+        if (apiLogin == Account.API.MISSKEY) {
+            misskeySessionId = MisskeyHelper.generateSessionId();
+            String redirectUrl = MisskeyHelper.buildMiAuthUrl(currentInstanceLogin, misskeySessionId, getString(R.string.app_name));
+            if (redirectUrl != null) {
+                openLoginPage(redirectUrl);
             } else {
                 Toasty.error(requireActivity(), getString(R.string.client_error), Toasty.LENGTH_SHORT).show();
             }
-
-        });
+        } else {
+            String scopes = requestedAdmin ? Helper.OAUTH_SCOPES_ADMIN : Helper.OAUTH_SCOPES;
+            AppsVM appsVM = new ViewModelProvider(requireActivity()).get(AppsVM.class);
+            appsVM.createApp(currentInstanceLogin, getString(R.string.app_name),
+                    Helper.REDIRECT_CONTENT_WEB,
+                    scopes,
+                    Helper.WEBSITE_VALUE
+            ).observe(requireActivity(), app -> {
+                if (app != null) {
+                    client_idLogin = app.client_id;
+                    client_secretLogin = app.client_secret;
+                    String redirectUrl = MastodonHelper.authorizeURL(currentInstanceLogin, client_idLogin, requestedAdmin);
+                    openLoginPage(redirectUrl);
+                } else {
+                    Toasty.error(requireActivity(), getString(R.string.client_error), Toasty.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
+    private void openLoginPage(String redirectUrl) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean customTab = sharedpreferences.getBoolean(getString(R.string.SET_CUSTOM_TABS), true);
+        if (customTab) {
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            int colorInt = ThemeHelper.getAttColor(requireActivity(), R.attr.statusBar);
+            CustomTabColorSchemeParams defaultColors = new CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(colorInt)
+                    .build();
+            builder.setDefaultColorSchemeParams(defaultColors);
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(requireActivity(), Uri.parse(redirectUrl));
+        } else {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setData(Uri.parse(redirectUrl));
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                Toasty.error(requireActivity(), getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
     @SuppressWarnings("deprecation")
     @Override

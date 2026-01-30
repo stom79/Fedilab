@@ -49,8 +49,11 @@ import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.CommentDecorationHelper;
 import app.fedilab.android.mastodon.helper.DividerDecoration;
 import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.BaseMainActivity;
+import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyStatusesVM;
 
 
 public class FragmentMastodonContext extends Fragment {
@@ -59,6 +62,8 @@ public class FragmentMastodonContext extends Fragment {
     public FirstMessage firstMessage;
     private FragmentPaginationBinding binding;
     private StatusesVM statusesVM;
+    private MisskeyStatusesVM misskeyStatusesVM;
+    private boolean isMisskey;
     private List<Status> statuses;
     private StatusAdapter statusAdapter;
     //Handle actions that can be done in other fragments
@@ -205,6 +210,14 @@ public class FragmentMastodonContext extends Fragment {
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
         binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
         statusesVM = new ViewModelProvider(FragmentMastodonContext.this).get(StatusesVM.class);
+        Account.API currentApi = BaseMainActivity.api;
+        if (currentApi == null && Helper.getCurrentAccount(requireActivity()) != null) {
+            currentApi = Helper.getCurrentAccount(requireActivity()).api;
+        }
+        isMisskey = currentApi == Account.API.MISSKEY && remote_instance == null;
+        if (isMisskey) {
+            misskeyStatusesVM = new ViewModelProvider(FragmentMastodonContext.this).get(MisskeyStatusesVM.class);
+        }
         binding.recyclerView.setNestedScrollingEnabled(true);
         this.statuses = new ArrayList<>();
         focusedStatus.isFocused = true;
@@ -218,12 +231,12 @@ public class FragmentMastodonContext extends Fragment {
             if (!this.statuses.isEmpty() && !refresh) {
                 binding.swipeContainer.setRefreshing(true);
                 pullToRefresh = true;
-                statusesVM.getContext(user_instance, user_token, focusedStatus.id)
+                getContextLiveData(focusedStatus.id)
                         .observe(getViewLifecycleOwner(), this::initializeContextView);
             }
         });
         if (focusedStatus != null) {
-            statusesVM.getContext(user_instance, user_token, focusedStatus.id)
+            getContextLiveData(focusedStatus.id)
                     .observe(getViewLifecycleOwner(), this::initializeContextView);
         }
 
@@ -251,9 +264,16 @@ public class FragmentMastodonContext extends Fragment {
             } else {
                 id = focusedStatus.id;
             }
-            statusesVM.getContext(user_instance, user_token, id)
+            getContextLiveData(id)
                     .observe(FragmentMastodonContext.this, this::initializeContextView);
         }
+    }
+
+    private androidx.lifecycle.LiveData<Context> getContextLiveData(String statusId) {
+        if (isMisskey && misskeyStatusesVM != null) {
+            return misskeyStatusesVM.getContext(user_instance, user_token, statusId);
+        }
+        return statusesVM.getContext(user_instance, user_token, statusId);
     }
 
 

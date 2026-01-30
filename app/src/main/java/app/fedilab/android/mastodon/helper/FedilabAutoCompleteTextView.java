@@ -21,8 +21,7 @@ import androidx.core.view.inputmethod.InputContentInfoCompat;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.vanniktech.emoji.EmojiManager;
-import com.vanniktech.emoji.emoji.Emoji;
+import com.vanniktech.emoji.Emoji;
 
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.interfaces.EmojiEditTextInterface;
@@ -136,7 +135,7 @@ public class FedilabAutoCompleteTextView extends MaterialAutoCompleteTextView im
         final Paint.FontMetrics fontMetrics = getPaint().getFontMetrics();
         final float defaultEmojiSize = fontMetrics.descent - fontMetrics.ascent;
         if (emoji && !ComposeAdapter.autocomplete) {
-            EmojiManager.getInstance().replaceWithImages(getContext(), getText(), emojiSize, defaultEmojiSize);
+            EmojiHelper.replaceWithImages(getContext(), getText(), emojiSize != 0f ? emojiSize : defaultEmojiSize);
         }
     }
 

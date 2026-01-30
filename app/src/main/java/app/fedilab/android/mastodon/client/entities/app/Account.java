@@ -567,6 +567,9 @@ public class Account extends BaseAccount implements Serializable {
             case "PEERTUBE":
                 api = API.PEERTUBE;
                 break;
+            case "MISSKEY":
+                api = API.MISSKEY;
+                break;
             default:
                 api = API.UNKNOWN;
                 break;
@@ -586,6 +589,7 @@ public class Account extends BaseAccount implements Serializable {
         PLEROMA,
         PIXELFED,
         PEERTUBE,
+        MISSKEY,
         UNKNOWN
     }
 }

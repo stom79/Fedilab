@@ -123,6 +123,7 @@ import app.fedilab.android.mastodon.ui.drawer.IdentityProofsAdapter;
 import app.fedilab.android.mastodon.ui.drawer.StatusAdapter;
 import app.fedilab.android.mastodon.ui.pageadapter.FedilabProfileTLPageAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyAccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.NodeInfoVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.ReorderVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
@@ -137,6 +138,8 @@ public class ProfileActivity extends BaseActivity {
     private Account account;
     private action doAction;
     private AccountsVM accountsVM;
+    private MisskeyAccountsVM misskeyAccountsVM;
+    private boolean isMisskey;
     private RecyclerView identityProofsRecycler;
     private List<IdentityProof> identityProofList;
     private ActivityProfileBinding binding;
@@ -194,6 +197,14 @@ public class ProfileActivity extends BaseActivity {
         float scale = sharedpreferences.getFloat(getString(R.string.SET_FONT_SCALE), 1.1f);
         binding.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18 * 1.1f / scale);
         accountsVM = new ViewModelProvider(ProfileActivity.this).get(AccountsVM.class);
+        app.fedilab.android.mastodon.client.entities.app.Account.API currentApi = BaseMainActivity.api;
+        if (currentApi == null && Helper.getCurrentAccount(ProfileActivity.this) != null) {
+            currentApi = Helper.getCurrentAccount(ProfileActivity.this).api;
+        }
+        isMisskey = currentApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY;
+        if (isMisskey) {
+            misskeyAccountsVM = new ViewModelProvider(ProfileActivity.this).get(MisskeyAccountsVM.class);
+        }
         homeMuted = false;
         if (args != null) {
             long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
@@ -213,10 +224,17 @@ public class ProfileActivity extends BaseActivity {
         if (account != null) {
             initializeView(account);
         } else if (account_id != null) {
-            accountsVM.getAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account_id).observe(ProfileActivity.this, fetchedAccount -> {
-                account = fetchedAccount;
-                initializeView(account);
-            });
+            if (isMisskey) {
+                misskeyAccountsVM.getAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account_id).observe(ProfileActivity.this, fetchedAccount -> {
+                    account = fetchedAccount;
+                    initializeView(account);
+                });
+            } else {
+                accountsVM.getAccount(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account_id).observe(ProfileActivity.this, fetchedAccount -> {
+                    account = fetchedAccount;
+                    initializeView(account);
+                });
+            }
         } else if (mention_str != null) {
             accountsVM.searchAccounts(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mention_str, 1, true, false).observe(ProfileActivity.this, accounts -> {
                 if (accounts != null && !accounts.isEmpty()) {
@@ -234,9 +252,11 @@ public class ProfileActivity extends BaseActivity {
         //Check if account is homeMuted
         accountsVM.isMuted(Helper.getCurrentAccount(ProfileActivity.this), account).observe(this, result -> homeMuted = result != null && result);
         ContextCompat.registerReceiver(ProfileActivity.this, broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
-        //Search for featured tags
-
-        accountsVM.getAccountFeaturedTags(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account!=null?account.id:account_id).observe(this, featuredTags -> {
+        //Search for featured tags (not available on Misskey)
+        if (isMisskey) {
+            binding.featuredHashtagsContainer.setVisibility(View.GONE);
+        }
+        if (!isMisskey) accountsVM.getAccountFeaturedTags(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account!=null?account.id:account_id).observe(this, featuredTags -> {
             if(featuredTags != null && !featuredTags.isEmpty()) {
                 binding.featuredHashtagsContainer.setVisibility(View.VISIBLE);
                 binding.featuredHashtags.removeAllViews();
@@ -379,25 +399,32 @@ public class ProfileActivity extends BaseActivity {
         //Retrieve relationship with the connected account
         List<String> accountListToCheck = new ArrayList<>();
         accountListToCheck.add(account.id);
-        //Retrieve relation ship
-        accountsVM.getRelationships(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountListToCheck).observe(ProfileActivity.this, relationShips -> {
-            if (relationShips != null && !relationShips.isEmpty()) {
-                this.relationship = relationShips.get(0);
+        if (isMisskey) {
+            if (account.relationShip != null) {
+                this.relationship = account.relationShip;
                 updateAccount();
             }
-        });
-        accountsVM.getFamiliarFollowers(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountListToCheck).observe(ProfileActivity.this, familiarFollowersList -> {
-            if (familiarFollowersList != null && !familiarFollowersList.isEmpty()) {
-                this.familiarFollowers = familiarFollowersList.get(0);
-                updateAccount();
-            }
-        });
+        } else {
+            //Retrieve relation ship
+            accountsVM.getRelationships(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountListToCheck).observe(ProfileActivity.this, relationShips -> {
+                if (relationShips != null && !relationShips.isEmpty()) {
+                    this.relationship = relationShips.get(0);
+                    updateAccount();
+                }
+            });
+            accountsVM.getFamiliarFollowers(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountListToCheck).observe(ProfileActivity.this, familiarFollowersList -> {
+                if (familiarFollowersList != null && !familiarFollowersList.isEmpty()) {
+                    this.familiarFollowers = familiarFollowersList.get(0);
+                    updateAccount();
+                }
+            });
 
-        //Retrieve identity proofs
-        accountsVM.getIdentityProofs(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id).observe(ProfileActivity.this, identityProofs -> {
-            this.identityProofList = identityProofs;
-            updateAccount();
-        });
+            //Retrieve identity proofs
+            accountsVM.getIdentityProofs(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id).observe(ProfileActivity.this, identityProofs -> {
+                this.identityProofList = identityProofs;
+                updateAccount();
+            });
+        }
 
         binding.accountTabLayout.clearOnTabSelectedListeners();
         binding.accountTabLayout.removeAllTabs();
@@ -600,7 +627,7 @@ public class ProfileActivity extends BaseActivity {
         binding.accountNote.setText(
                 account.getSpanNote(ProfileActivity.this,
                         new WeakReference<>(binding.accountNote), () -> {
-                            //TODO: replace this hack
+                            // Re-render after async emoji/image loading completes
                             binding.accountNote.setText(
                                     account.getSpanNote(ProfileActivity.this,
                                             new WeakReference<>(binding.accountNote)), TextView.BufferType.SPANNABLE);
@@ -665,11 +692,19 @@ public class ProfileActivity extends BaseActivity {
                 Toasty.info(ProfileActivity.this, getString(R.string.nothing_to_do), Toast.LENGTH_LONG).show();
             } else if (doAction == action.FOLLOW) {
                 binding.accountFollow.setEnabled(false);
-                accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null)
-                        .observe(ProfileActivity.this, relationShip -> {
-                            this.relationship = relationShip;
-                            updateAccount();
-                        });
+                if (isMisskey) {
+                    misskeyAccountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                            .observe(ProfileActivity.this, relationShip -> {
+                                this.relationship = relationShip;
+                                updateAccount();
+                            });
+                } else {
+                    accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null)
+                            .observe(ProfileActivity.this, relationShip -> {
+                                this.relationship = relationShip;
+                                updateAccount();
+                            });
+                }
             } else if (doAction == action.UNFOLLOW) {
                 boolean confirm_unfollow = sharedpreferences.getBoolean(getString(R.string.SET_UNFOLLOW_VALIDATION), true);
                 if (confirm_unfollow) {
@@ -679,11 +714,19 @@ public class ProfileActivity extends BaseActivity {
                     unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                     unfollowConfirm.setPositiveButton(R.string.yes, (dialog, which) -> {
                         binding.accountFollow.setEnabled(false);
-                        accountsVM.unfollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
-                                .observe(ProfileActivity.this, relationShip -> {
-                                    this.relationship = relationShip;
-                                    updateAccount();
-                                });
+                        if (isMisskey) {
+                            misskeyAccountsVM.unfollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                                    .observe(ProfileActivity.this, relationShip -> {
+                                        this.relationship = relationShip;
+                                        updateAccount();
+                                    });
+                        } else {
+                            accountsVM.unfollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                                    .observe(ProfileActivity.this, relationShip -> {
+                                        this.relationship = relationShip;
+                                        updateAccount();
+                                    });
+                        }
                         if (BaseMainActivity.filteredAccounts != null && BaseMainActivity.filteredAccounts.contains(account))
                             accountsVM.unmuteHome(Helper.getCurrentAccount(this), account);
                         dialog.dismiss();
@@ -691,22 +734,38 @@ public class ProfileActivity extends BaseActivity {
                     unfollowConfirm.show();
                 } else {
                     binding.accountFollow.setEnabled(false);
-                    accountsVM.unfollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
-                            .observe(ProfileActivity.this, relationShip -> {
-                                this.relationship = relationShip;
-                                updateAccount();
-                            });
+                    if (isMisskey) {
+                        misskeyAccountsVM.unfollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                                .observe(ProfileActivity.this, relationShip -> {
+                                    this.relationship = relationShip;
+                                    updateAccount();
+                                });
+                    } else {
+                        accountsVM.unfollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                                .observe(ProfileActivity.this, relationShip -> {
+                                    this.relationship = relationShip;
+                                    updateAccount();
+                                });
+                    }
                     if (BaseMainActivity.filteredAccounts != null && BaseMainActivity.filteredAccounts.contains(account))
                         accountsVM.unmuteHome(Helper.getCurrentAccount(this), account);
                 }
 
             } else if (doAction == action.UNBLOCK) {
                 binding.accountFollow.setEnabled(false);
-                accountsVM.unblock(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
-                        .observe(ProfileActivity.this, relationShip -> {
-                            this.relationship = relationShip;
-                            updateAccount();
-                        });
+                if (isMisskey) {
+                    misskeyAccountsVM.unblock(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                            .observe(ProfileActivity.this, relationShip -> {
+                                this.relationship = relationShip;
+                                updateAccount();
+                            });
+                } else {
+                    accountsVM.unblock(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id)
+                            .observe(ProfileActivity.this, relationShip -> {
+                                this.relationship = relationShip;
+                                updateAccount();
+                            });
+                }
             }
         });
         binding.accountFollow.setOnLongClickListener(v -> {
@@ -943,6 +1002,15 @@ public class ProfileActivity extends BaseActivity {
                 menu.findItem(R.id.action_mute_home).setVisible(true);
                 menu.findItem(R.id.action_timed_mute).setVisible(true);
                 menu.findItem(R.id.action_mention).setVisible(true);
+                if (isMisskey) {
+                    menu.findItem(R.id.action_block_instance).setVisible(false);
+                    menu.findItem(R.id.action_follow_instance).setVisible(false);
+                    menu.findItem(R.id.action_endorse).setVisible(false);
+                    menu.findItem(R.id.action_hide_boost).setVisible(false);
+                    menu.findItem(R.id.action_subscribed_language).setVisible(false);
+                    menu.findItem(R.id.action_mute_home).setVisible(false);
+                    menu.findItem(R.id.action_direct_message).setVisible(false);
+                }
             }
             //Update menu title depending of relationship
             if (relationship != null) {
@@ -1301,32 +1369,54 @@ public class ProfileActivity extends BaseActivity {
                 } else {
                     target = account.id;
                 }
-                if (relationship.muting) {
-                    accountsVM.unmute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                if (isMisskey) {
+                    if (relationship.muting) {
+                        misskeyAccountsVM.unmute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                .observe(ProfileActivity.this, relationShip -> {
+                                    this.relationship = relationShip;
+                                    updateAccount();
+                                });
+                        return true;
+                    }
+                    builderInner = new MaterialAlertDialogBuilder(ProfileActivity.this);
+                    builderInner.setTitle(stringArrayConf[0]);
+                    builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                    builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> {
+                        misskeyAccountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                .observe(ProfileActivity.this, relationShip -> {
+                                    this.relationship = relationShip;
+                                    updateAccount();
+                                });
+                        dialog.dismiss();
+                    });
+                    builderInner.show();
+                } else {
+                    if (relationship.muting) {
+                        accountsVM.unmute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                .observe(ProfileActivity.this, relationShip -> {
+                                    this.relationship = relationShip;
+                                    updateAccount();
+                                });
+                        return true;
+                    }
+                    builderInner = new MaterialAlertDialogBuilder(ProfileActivity.this);
+                    builderInner.setTitle(stringArrayConf[0]);
+                    builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                    builderInner.setNegativeButton(R.string.keep_notifications, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, false, 0)
                             .observe(ProfileActivity.this, relationShip -> {
                                 this.relationship = relationShip;
                                 updateAccount();
-                            });
-                    return true;
+                            }));
+                    builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> {
+                        accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, true, 0)
+                                .observe(ProfileActivity.this, relationShip -> {
+                                    this.relationship = relationShip;
+                                    updateAccount();
+                                });
+                        dialog.dismiss();
+                    });
+                    builderInner.show();
                 }
-                builderInner = new MaterialAlertDialogBuilder(ProfileActivity.this);
-                builderInner.setTitle(stringArrayConf[0]);
-
-                builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                builderInner.setNegativeButton(R.string.keep_notifications, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, false, 0)
-                        .observe(ProfileActivity.this, relationShip -> {
-                            this.relationship = relationShip;
-                            updateAccount();
-                        }));
-                builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> {
-                    accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target, true, 0)
-                            .observe(ProfileActivity.this, relationShip -> {
-                                this.relationship = relationShip;
-                                updateAccount();
-                            });
-                    dialog.dismiss();
-                });
-                builderInner.show();
             }
         } else if (itemId == R.id.action_mute_home) {
             AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(ProfileActivity.this);
@@ -1357,15 +1447,39 @@ public class ProfileActivity extends BaseActivity {
             });
             return true;
         } else if (itemId == R.id.action_report) {
-            Intent intent = new Intent(ProfileActivity.this, ReportActivity.class);
-            Bundle args = new Bundle();
-            args.putSerializable(Helper.ARG_ACCOUNT, account);
-            new CachedBundle(ProfileActivity.this).insertBundle(args, Helper.getCurrentAccount(ProfileActivity.this), bundleId -> {
-                Bundle bundle = new Bundle();
-                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            });
+            if (isMisskey) {
+                AlertDialog.Builder builderReport = new MaterialAlertDialogBuilder(ProfileActivity.this);
+                builderReport.setTitle(R.string.report_account);
+                android.widget.EditText input = new android.widget.EditText(ProfileActivity.this);
+                input.setHint(R.string.add_description);
+                input.setSingleLine(false);
+                input.setMinLines(3);
+                builderReport.setView(input);
+                builderReport.setPositiveButton(R.string.report_account, (dialog, which) -> {
+                    String comment = input.getText().toString().trim();
+                    MisskeyAccountsVM misskeyAccountsVM = new ViewModelProvider(ProfileActivity.this).get(MisskeyAccountsVM.class);
+                    misskeyAccountsVM.reportAbuse(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, comment)
+                            .observe(ProfileActivity.this, success -> {
+                                if (success != null && success) {
+                                    Toasty.success(ProfileActivity.this, getString(R.string.report_sent), Toasty.LENGTH_LONG).show();
+                                } else {
+                                    Toasty.error(ProfileActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
+                                }
+                            });
+                });
+                builderReport.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                builderReport.show();
+            } else {
+                Intent intent = new Intent(ProfileActivity.this, ReportActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, account);
+                new CachedBundle(ProfileActivity.this).insertBundle(args, Helper.getCurrentAccount(ProfileActivity.this), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                });
+            }
             return true;
         } else if (itemId == R.id.action_block) {
             AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(ProfileActivity.this);
@@ -1388,19 +1502,36 @@ public class ProfileActivity extends BaseActivity {
                 } else {
                     target = account.id;
                 }
-                switch (doActionAccount) {
-                    case BLOCK ->
-                            accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
-                                    .observe(ProfileActivity.this, relationShip -> {
-                                        this.relationship = relationShip;
-                                        updateAccount();
-                                    });
-                    case UNBLOCK ->
-                            accountsVM.unblock(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
-                                    .observe(ProfileActivity.this, relationShip -> {
-                                        this.relationship = relationShip;
-                                        updateAccount();
-                                    });
+                if (isMisskey) {
+                    switch (doActionAccount) {
+                        case BLOCK ->
+                                misskeyAccountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                        .observe(ProfileActivity.this, relationShip -> {
+                                            this.relationship = relationShip;
+                                            updateAccount();
+                                        });
+                        case UNBLOCK ->
+                                misskeyAccountsVM.unblock(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                        .observe(ProfileActivity.this, relationShip -> {
+                                            this.relationship = relationShip;
+                                            updateAccount();
+                                        });
+                    }
+                } else {
+                    switch (doActionAccount) {
+                        case BLOCK ->
+                                accountsVM.block(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                        .observe(ProfileActivity.this, relationShip -> {
+                                            this.relationship = relationShip;
+                                            updateAccount();
+                                        });
+                        case UNBLOCK ->
+                                accountsVM.unblock(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, target)
+                                        .observe(ProfileActivity.this, relationShip -> {
+                                            this.relationship = relationShip;
+                                            updateAccount();
+                                        });
+                    }
                 }
                 dialog.dismiss();
             });

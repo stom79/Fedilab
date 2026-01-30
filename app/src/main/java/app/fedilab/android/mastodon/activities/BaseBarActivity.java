@@ -37,7 +37,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
 import com.vanniktech.emoji.EmojiManager;
-import com.vanniktech.emoji.one.EmojiOneProvider;
+import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import org.conscrypt.Conscrypt;
 
@@ -52,7 +52,7 @@ import app.fedilab.android.mastodon.helper.ThemeHelper;
 public class BaseBarActivity extends AppCompatActivity {
 
     static {
-        EmojiManager.install(new EmojiOneProvider());
+        EmojiManager.install(new GoogleEmojiProvider());
     }
 
     @Override

@@ -120,9 +120,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
-import com.vanniktech.emoji.EmojiManager;
-import com.vanniktech.emoji.EmojiPopup;
-import com.vanniktech.emoji.one.EmojiOneProvider;
+import app.fedilab.android.mastodon.helper.UnifiedEmojiPicker;
 import com.varunest.sparkbutton.SparkButton;
 
 import java.lang.ref.WeakReference;
@@ -197,6 +195,8 @@ import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.FiltersVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyAccountsVM;
+import app.fedilab.android.misskey.viewmodel.MisskeyStatusesVM;
 import app.fedilab.android.mastodon.viewmodel.pleroma.ActionsVM;
 import de.timfreiheit.mathjax.android.MathJaxConfig;
 import de.timfreiheit.mathjax.android.MathJaxView;
@@ -511,6 +511,34 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                   RecyclerView.Adapter<RecyclerView.ViewHolder> adapter,
                                   Status statusToDeal,
                                   boolean warnNoMedia, boolean confirmBoost, boolean remote) {
+        app.fedilab.android.mastodon.client.entities.app.Account.API currentApi = BaseMainActivity.api;
+        if (currentApi == null && Helper.getCurrentAccount(context) != null) {
+            currentApi = Helper.getCurrentAccount(context).api;
+        }
+        if (currentApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+            MisskeyStatusesVM misskeyStatusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
+            if (statusToDeal.reblogged) {
+                misskeyStatusesVM.unrenote(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                        .observe((LifecycleOwner) context, success -> {
+                            if (success) {
+                                statusToDeal.reblogged = false;
+                                statusToDeal.reblogs_count = Math.max(0, statusToDeal.reblogs_count - 1);
+                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                            }
+                        });
+            } else {
+                ((SparkButton) v).playAnimation();
+                misskeyStatusesVM.renote(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                        .observe((LifecycleOwner) context, _status -> {
+                            if (_status != null) {
+                                statusToDeal.reblogged = true;
+                                statusToDeal.reblogs_count++;
+                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                            }
+                        });
+            }
+            return;
+        }
         boolean needToWarnForMissingDescription = false;
         if (warnNoMedia && statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
             for (Attachment attachment : statusToDeal.media_attachments) {
@@ -634,7 +662,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (compactButtons) {
             ConstraintSet set = new ConstraintSet();
             set.clone(holder.binding.actionButtons);
-            set.clear(R.id.status_emoji, ConstraintSet.END);
+            set.clear(R.id.status_add_custom_emoji, ConstraintSet.END);
             set.applyTo(holder.binding.actionButtons);
         }
 
@@ -815,9 +843,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.quotedMessage.cardviewContainer.setVisibility(View.GONE);
         }
 
-        if (extraFeatures && displayReactions) {
-            holder.binding.statusAddCustomEmoji.setVisibility(status.isFocused ? View.VISIBLE : View.GONE);
-            holder.binding.statusEmoji.setVisibility(status.isFocused ? View.VISIBLE : View.GONE);
+        app.fedilab.android.mastodon.client.entities.app.Account.API reactionApi = BaseMainActivity.api;
+        if (reactionApi == null && Helper.getCurrentAccount(context) != null) {
+            reactionApi = Helper.getCurrentAccount(context).api;
+        }
+        boolean isMisskeyReaction = reactionApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY;
+        boolean showReactions = (extraFeatures && displayReactions) || isMisskeyReaction;
+        if (showReactions) {
+            if (isMisskeyReaction) {
+                holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.statusAddCustomEmoji.setVisibility(status.isFocused ? View.VISIBLE : View.GONE);
+            }
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && !status.pleroma.emoji_reactions.isEmpty()) {
                 holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions, true);
@@ -836,160 +873,22 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.layoutReactions.getRoot().setVisibility(View.GONE);
                 holder.binding.layoutReactions.reactionsView.setAdapter(null);
             }
-            holder.binding.statusEmoji.setOnClickListener(v -> {
-                EmojiManager.install(new EmojiOneProvider());
-                final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(holder.binding.statusEmoji).setOnEmojiPopupDismissListener(() -> {
-                            InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(holder.binding.statusEmoji.getWindowToken(), 0);
-                        }).setOnEmojiClickListener((emoji, imageView) -> {
-                            String emojiStr = imageView.getUnicode();
-                            boolean alreadyAdded = false;
-                            if (status.pleroma != null && status.pleroma.emoji_reactions != null) {
-                                for (Reaction reaction : status.pleroma.emoji_reactions) {
-                                    if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
-                                        alreadyAdded = true;
-                                        reaction.count = (reaction.count - 1);
-                                        if (reaction.count == 0) {
-                                            status.pleroma.emoji_reactions.remove(reaction);
-                                        }
-                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                                        break;
-                                    }
-                                }
-                                if (!alreadyAdded) {
-                                    Reaction reaction = new Reaction();
-                                    reaction.me = true;
-                                    reaction.count = 1;
-                                    reaction.name = emojiStr;
-                                    status.pleroma.emoji_reactions.add(0, reaction);
-                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                                }
-                                ActionsVM actionVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
-                                if (alreadyAdded) {
-                                    actionVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                                } else {
-                                    actionVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                                }
-                            } else if (status.reactions != null) {
-                                for (Reaction reaction : status.reactions) {
-                                    if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
-                                        alreadyAdded = true;
-                                        reaction.count = (reaction.count - 1);
-                                        if (reaction.count == 0) {
-                                            status.reactions.remove(reaction);
-                                        }
-                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                                        break;
-                                    }
-                                }
-                                if (!alreadyAdded) {
-                                    Reaction reaction = new Reaction();
-                                    reaction.me = true;
-                                    reaction.count = 1;
-                                    reaction.name = emojiStr;
-                                    status.reactions.add(0, reaction);
-                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                                }
-                                if (alreadyAdded) {
-                                    statusesVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                                } else {
-                                    statusesVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                                }
-                            }
-                        })
-                        .build(holder.binding.layoutReactions.fakeEdittext);
-                emojiPopup.toggle();
-            });
             holder.binding.statusAddCustomEmoji.setOnClickListener(v -> {
-
-                final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
-                int paddingPixel = 15;
-                float density = context.getResources().getDisplayMetrics().density;
-                int paddingDp = (int) (paddingPixel * density);
-                builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                builder.setTitle(R.string.insert_emoji);
-                if (emojis != null && emojis.size() > 0) {
-                    GridView gridView = new GridView(context);
-                    gridView.setAdapter(new EmojiAdapter(emojis.get(BaseMainActivity.currentInstance)));
-                    gridView.setNumColumns(5);
-                    gridView.setOnItemClickListener((parent, view, index, id) -> {
-                        if (emojis.get(BaseMainActivity.currentInstance) == null) {
-                            return;
-                        }
-                        String emojiStr = emojis.get(BaseMainActivity.currentInstance).get(index).shortcode;
-                        String url = emojis.get(BaseMainActivity.currentInstance).get(index).url;
-                        String static_url = emojis.get(BaseMainActivity.currentInstance).get(index).static_url;
-                        boolean alreadyAdded = false;
-                        if (status.pleroma != null && status.pleroma.emoji_reactions != null) {
-                            for (Reaction reaction : status.pleroma.emoji_reactions) {
-                                if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
-                                    alreadyAdded = true;
-                                    reaction.count = (reaction.count - 1);
-                                    if (reaction.count == 0) {
-                                        status.pleroma.emoji_reactions.remove(reaction);
-                                    }
-                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                                    break;
-                                }
-                            }
-                            if (!alreadyAdded) {
-                                Reaction reaction = new Reaction();
-                                reaction.me = true;
-                                reaction.count = 1;
-                                reaction.name = emojiStr;
-                                reaction.url = url;
-                                reaction.static_url = static_url;
-                                status.pleroma.emoji_reactions.add(0, reaction);
-                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                            }
-                            ActionsVM actionsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
-                            if (alreadyAdded) {
-                                actionsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                            } else {
-                                actionsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                            }
-                        } else if (status.reactions != null) {
-                            for (Reaction reaction : status.reactions) {
-                                if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
-                                    alreadyAdded = true;
-                                    reaction.count = (reaction.count - 1);
-                                    if (reaction.count == 0) {
-                                        status.reactions.remove(reaction);
-                                    }
-                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                                    break;
-                                }
-                            }
-                            if (!alreadyAdded) {
-                                Reaction reaction = new Reaction();
-                                reaction.me = true;
-                                reaction.count = 1;
-                                reaction.name = emojiStr;
-                                reaction.url = url;
-                                reaction.static_url = static_url;
-                                status.reactions.add(0, reaction);
-                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                            }
-                            if (alreadyAdded) {
-                                statusesVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                            } else {
-                                statusesVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
-                            }
-                        }
-                    });
-                    gridView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
-                    builder.setView(gridView);
-                } else {
-                    TextView textView = new TextView(context);
-                    textView.setText(context.getString(R.string.no_emoji));
-                    textView.setPadding(paddingDp, paddingDp, paddingDp, paddingDp);
-                    builder.setView(textView);
-                }
-                builder.show();
+                List<app.fedilab.android.mastodon.client.entities.api.Emoji> customEmojis =
+                        emojis != null ? emojis.get(BaseMainActivity.currentInstance) : null;
+                UnifiedEmojiPicker.show(context,
+                        holder.binding.statusAddCustomEmoji,
+                        holder.binding.layoutReactions.fakeEdittext,
+                        customEmojis,
+                        unicode -> {
+                            handleUnicodeReaction(context, adapter, holder, status, statusToDeal, isMisskeyReaction, unicode, statusesVM);
+                        },
+                        (shortcode, url, staticUrl) -> {
+                            handleCustomReaction(context, adapter, holder, status, statusToDeal, isMisskeyReaction, shortcode, url, staticUrl, statusesVM);
+                        });
             });
         } else {
             holder.binding.statusAddCustomEmoji.setVisibility(View.GONE);
-            holder.binding.statusEmoji.setVisibility(View.GONE);
         }
 
         if (status.isMaths == null) {
@@ -1045,8 +944,21 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             status.mathsShown = !status.mathsShown;
             adapter.notifyItemChanged(holder.getBindingAdapterPosition());
         });
-        holder.binding.actionButtonFavorite.setActiveImage(R.drawable.ic_round_star_24);
-        holder.binding.actionButtonFavorite.setInactiveImage(R.drawable.ic_round_star_border_24);
+        app.fedilab.android.mastodon.client.entities.app.Account.API favIconApi = BaseMainActivity.api;
+        if (favIconApi == null && Helper.getCurrentAccount(context) != null) {
+            favIconApi = Helper.getCurrentAccount(context).api;
+        }
+        if (favIconApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+            holder.binding.actionButtonFavorite.setActiveImage(R.drawable.ic_heart_filled_24);
+            holder.binding.actionButtonFavorite.setInactiveImage(R.drawable.ic_heart_24);
+            holder.binding.actionButtonFavorite.setActiveImageTint(R.color.reaction_icon);
+            holder.binding.actionButtonFavorite.setPrimaryColor(ContextCompat.getColor(context, R.color.reaction_icon));
+            holder.binding.actionButtonFavorite.setSecondaryColor(ContextCompat.getColor(context, R.color.reaction_icon));
+        } else {
+            holder.binding.actionButtonFavorite.setActiveImage(R.drawable.ic_round_star_24);
+            holder.binding.actionButtonFavorite.setInactiveImage(R.drawable.ic_round_star_border_24);
+            holder.binding.actionButtonFavorite.setActiveImageTint(R.color.marked_icon);
+        }
         holder.binding.actionButtonBookmark.setActiveImage(R.drawable.ic_round_bookmark_24);
         holder.binding.actionButtonBookmark.setInactiveImage(R.drawable.ic_round_bookmark_border_24);
         if (quoteButton.equals(quoteButtonEntryValues[1])) {
@@ -1056,7 +968,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.actionButtonBoost.setActiveImage(R.drawable.ic_round_repeat_active_24);
             holder.binding.actionButtonBoost.setInactiveImage(R.drawable.ic_round_repeat_24);
         }
-        holder.binding.actionButtonFavorite.setActiveImageTint(R.color.marked_icon);
         holder.binding.actionButtonBoost.setActiveImageTint(R.color.boost_icon);
         holder.binding.actionButtonBookmark.setActiveImageTint(R.color.marked_icon);
         applyColor(context, holder);
@@ -1178,7 +1089,31 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             holder.binding.actionButtonTranslate.setOnClickListener(v -> translate(context, statusToDeal, holder, adapter));
             holder.binding.actionButtonBookmark.setOnClickListener(v -> {
-                if (remote) {
+                app.fedilab.android.mastodon.client.entities.app.Account.API bookmarkApi = BaseMainActivity.api;
+                if (bookmarkApi == null && Helper.getCurrentAccount(context) != null) {
+                    bookmarkApi = Helper.getCurrentAccount(context).api;
+                }
+                if (bookmarkApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                    MisskeyStatusesVM misskeyBookmarkVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
+                    if (statusToDeal.bookmarked) {
+                        misskeyBookmarkVM.deleteFavorite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, success -> {
+                                    if (success) {
+                                        statusToDeal.bookmarked = false;
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                    }
+                                });
+                    } else {
+                        ((SparkButton) v).playAnimation();
+                        misskeyBookmarkVM.createFavorite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, success -> {
+                                    if (success) {
+                                        statusToDeal.bookmarked = true;
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                    }
+                                });
+                    }
+                } else if (remote) {
                     Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                     searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
                             .observe((LifecycleOwner) context, results -> {
@@ -1364,6 +1299,34 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return true;
             });
             holder.binding.actionButtonFavorite.setOnClickListener(v -> {
+                app.fedilab.android.mastodon.client.entities.app.Account.API favApi = BaseMainActivity.api;
+                if (favApi == null && Helper.getCurrentAccount(context) != null) {
+                    favApi = Helper.getCurrentAccount(context).api;
+                }
+                if (favApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                    MisskeyStatusesVM misskeyStatusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
+                    if (statusToDeal.favourited) {
+                        misskeyStatusesVM.deleteReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, success -> {
+                                    if (success) {
+                                        statusToDeal.favourited = false;
+                                        statusToDeal.favourites_count = Math.max(0, statusToDeal.favourites_count - 1);
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                    }
+                                });
+                    } else {
+                        ((SparkButton) v).playAnimation();
+                        misskeyStatusesVM.createReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, null)
+                                .observe((LifecycleOwner) context, success -> {
+                                    if (success) {
+                                        statusToDeal.favourited = true;
+                                        statusToDeal.favourites_count++;
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                    }
+                                });
+                    }
+                    return;
+                }
                 if (confirmFav) {
                     AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
                     if (status.favourited) {
@@ -1458,9 +1421,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         holder.binding.statusAddCustomEmoji.setIconSize(iconSize);
         holder.binding.statusAddCustomEmoji.requestLayout();
-
-        holder.binding.statusEmoji.setIconSize(iconSize);
-        holder.binding.statusEmoji.requestLayout();
 
         holder.binding.actionButtonMore.setIconSize(iconSize);
         holder.binding.actionButtonMore.requestLayout();
@@ -1845,7 +1805,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //--- MEDIA ATTACHMENT ---
         boolean cardDisplayed = (statusToDeal.card != null && (display_card || statusToDeal.isFocused) && statusToDeal.quote_id == null);
         if (statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0 && (!hideSingleMediaWithCard || !cardDisplayed || statusToDeal.media_attachments.size() > 1)) {
-            if ((loadMediaType.equals("ASK") || (loadMediaType.equals("WIFI") && !TimelineHelper.isOnWIFI(context))) && !statusToDeal.canLoadMedia) {
+            if (loadMediaType != null && (loadMediaType.equals("ASK") || (loadMediaType.equals("WIFI") && !TimelineHelper.isOnWIFI(context))) && !statusToDeal.canLoadMedia) {
                 holder.binding.mediaContainer.setVisibility(View.GONE);
                 holder.binding.media.mediaContainer.setVisibility(View.GONE);
                 holder.binding.displayMedia.setVisibility(View.VISIBLE);
@@ -2338,7 +2298,29 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             return;
                     }
                     //Vote on the poll
-                    if (remote) {
+                    app.fedilab.android.mastodon.client.entities.app.Account.API pollApi = BaseMainActivity.api;
+                    if (pollApi == null && Helper.getCurrentAccount(context) != null) {
+                        pollApi = Helper.getCurrentAccount(context).api;
+                    }
+                    if (pollApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                        MisskeyStatusesVM misskeyPollVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
+                        misskeyPollVM.votePoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.poll.id, choice)
+                                .observe((LifecycleOwner) context, poll -> {
+                                    if (poll != null) {
+                                        int i = 0;
+                                        for (Poll.PollItem item : statusToDeal.poll.options) {
+                                            if (item.span_title != null) {
+                                                poll.options.get(i).span_title = item.span_title;
+                                            } else {
+                                                poll.options.get(i).span_title = new SpannableString(item.title);
+                                            }
+                                            i++;
+                                        }
+                                        statusToDeal.poll = poll;
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                    }
+                                });
+                    } else if (remote) {
                         Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
                         searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
                                 .observe((LifecycleOwner) context, results -> {
@@ -2384,23 +2366,48 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 });
             }
-            holder.binding.poll.refreshPoll.setOnClickListener(v -> statusesVM.getPoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.poll.id)
-                    .observe((LifecycleOwner) context, poll -> {
-                        if (poll != null) {
-                            //Store span elements
-                            int i = 0;
-                            for (Poll.PollItem item : statusToDeal.poll.options) {
-                                if (item.span_title != null) {
-                                    poll.options.get(i).span_title = item.span_title;
-                                } else {
-                                    poll.options.get(i).span_title = new SpannableString(item.title);
+            holder.binding.poll.refreshPoll.setOnClickListener(v -> {
+                app.fedilab.android.mastodon.client.entities.app.Account.API refreshPollApi = BaseMainActivity.api;
+                if (refreshPollApi == null && Helper.getCurrentAccount(context) != null) {
+                    refreshPollApi = Helper.getCurrentAccount(context).api;
+                }
+                if (refreshPollApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                    MisskeyStatusesVM misskeyRefreshPollVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
+                    misskeyRefreshPollVM.getPoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.poll.id)
+                            .observe((LifecycleOwner) context, poll -> {
+                                if (poll != null) {
+                                    int i = 0;
+                                    for (Poll.PollItem item : statusToDeal.poll.options) {
+                                        if (item.span_title != null) {
+                                            poll.options.get(i).span_title = item.span_title;
+                                        } else {
+                                            poll.options.get(i).span_title = new SpannableString(item.title);
+                                        }
+                                        i++;
+                                    }
+                                    statusToDeal.poll = poll;
+                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                                 }
-                                i++;
-                            }
-                            statusToDeal.poll = poll;
-                            adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                        }
-                    }));
+                            });
+                } else {
+                    statusesVM.getPoll(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.poll.id)
+                            .observe((LifecycleOwner) context, poll -> {
+                                if (poll != null) {
+                                    int i = 0;
+                                    for (Poll.PollItem item : statusToDeal.poll.options) {
+                                        if (item.span_title != null) {
+                                            poll.options.get(i).span_title = item.span_title;
+                                        } else {
+                                            poll.options.get(i).span_title = new SpannableString(item.title);
+                                        }
+                                        i++;
+                                    }
+                                    statusToDeal.poll = poll;
+                                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                }
+                            });
+                }
+            });
             if (statusToDeal.spoiler_text == null || statusToDeal.spoiler_text.trim().isEmpty() || statusToDeal.isExpended) {
                 holder.binding.poll.pollContainer.setVisibility(View.VISIBLE);
             } else {
@@ -2679,6 +2686,29 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         });
     }
 
+    private static void openRedraftCompose(Context context, Status statusToDeal, String originalStatusId) {
+        Intent intent = new Intent(context, ComposeActivity.class);
+        StatusDraft statusDraft = new StatusDraft();
+        statusDraft.statusDraftList = new ArrayList<>();
+        statusDraft.statusReplyList = new ArrayList<>();
+        String inReplyToId = statusToDeal.in_reply_to_id;
+        statusToDeal.id = null;
+        if (statusToDeal.spoiler_text != null && statusToDeal.spoiler_text.length() > 0) {
+            statusToDeal.spoilerChecked = true;
+        }
+        statusDraft.statusDraftList.add(statusToDeal);
+        Bundle args = new Bundle();
+        args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
+        args.putString(Helper.ARG_STATUS_REPLY_ID, inReplyToId);
+        args.putString(Helper.ARG_REDRAFT_STATUS_ID, originalStatusId);
+        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
+        });
+    }
+
     private static void clickMoreAction(Context context,
                                         StatusesVM statusesVM,
                                         StatusViewHolder holder,
@@ -2712,8 +2742,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final String[] stringArrayConf;
         if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private") && !isOwner))
             popup.getMenu().findItem(R.id.action_schedule_boost).setVisible(false);
+        app.fedilab.android.mastodon.client.entities.app.Account.API menuApi = BaseMainActivity.api;
+        if (menuApi == null && Helper.getCurrentAccount(context) != null) {
+            menuApi = Helper.getCurrentAccount(context).api;
+        }
         if (isOwner) {
-            //TODO: remove when ready
             popup.getMenu().findItem(R.id.action_quote_policy).setVisible(false);
             popup.getMenu().findItem(R.id.action_block).setVisible(false);
             popup.getMenu().findItem(R.id.action_mute).setVisible(false);
@@ -2721,6 +2754,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             popup.getMenu().findItem(R.id.action_timed_mute).setVisible(false);
             popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
             popup.getMenu().findItem(R.id.action_pin).setVisible(!statusToDeal.visibility.equalsIgnoreCase("direct"));
+            if (menuApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                popup.getMenu().findItem(R.id.action_edit).setVisible(false);
+            }
             stringArrayConf = context.getResources().getStringArray(R.array.more_action_owner_confirm);
         } else {
             popup.getMenu().findItem(R.id.action_quote_policy).setVisible(false);
@@ -2730,6 +2766,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             popup.getMenu().findItem(R.id.action_remove).setVisible(false);
             if (statusToDeal.account.acct.split("@").length < 2)
                 popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
+            if (menuApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
+            }
             stringArrayConf = context.getResources().getStringArray(R.array.more_action_confirm);
         }
         popup.getMenu().findItem(R.id.action_admin).setVisible(Helper.getCurrentAccount(context).admin);
@@ -2746,31 +2785,32 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
                 builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
                     if (statusList != null) {
+                        String originalStatusId = statusToDeal.id;
                         int position = holder.getBindingAdapterPosition();
                         statusList.remove(statusToDeal);
                         adapter.notifyItemRemoved(position);
-                        statusesVM.deleteStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, statusDeleted -> {
-                            Intent intent = new Intent(context, ComposeActivity.class);
-                            StatusDraft statusDraft = new StatusDraft();
-                            statusDraft.statusDraftList = new ArrayList<>();
-                            statusDraft.statusReplyList = new ArrayList<>();
-                            if (statusDeleted == null) {
-                                Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
-                                return;
-                            }
-                            statusDeleted.id = null;
-                            statusDraft.statusDraftList.add(statusDeleted);
-                            Bundle args = new Bundle();
-                            args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
-                            args.putSerializable(Helper.ARG_STATUS_REPLY_ID, statusDeleted.in_reply_to_id);
-                            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                                Bundle bundle = new Bundle();
-                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                                intent.putExtras(bundle);
-                                context.startActivity(intent);
-                            });
+
+                        app.fedilab.android.mastodon.client.entities.app.Account.API redraftApi = BaseMainActivity.api;
+                        if (redraftApi == null && Helper.getCurrentAccount(context) != null) {
+                            redraftApi = Helper.getCurrentAccount(context).api;
+                        }
+
+                        if (redraftApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                            openRedraftCompose(context, statusToDeal, originalStatusId);
                             sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
-                        });
+                        } else {
+                            statusesVM.getStatusSource(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                    .observe((LifecycleOwner) context, statusSource -> {
+                                        if (statusSource != null) {
+                                            statusToDeal.text = statusSource.text;
+                                            statusToDeal.spoiler_text = statusSource.spoiler_text;
+                                            openRedraftCompose(context, statusToDeal, originalStatusId);
+                                            sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
+                                        } else {
+                                            Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
                     }
                 });
                 builderInner.setMessage(statusToDeal.text);
@@ -2826,13 +2866,32 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 else
                     builderInner.setMessage(Html.fromHtml(statusToDeal.content).toString());
                 builderInner.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                builderInner.setPositiveButton(R.string.yes, (dialog, which) -> statusesVM.deleteStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
-                        .observe((LifecycleOwner) context, statusDeleted -> {
-                            int position = holder.getBindingAdapterPosition();
-                            statusList.remove(statusToDeal);
-                            adapter.notifyItemRemoved(position);
-                            sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
-                        }));
+                builderInner.setPositiveButton(R.string.yes, (dialog, which) -> {
+                    app.fedilab.android.mastodon.client.entities.app.Account.API deleteApi = BaseMainActivity.api;
+                    if (deleteApi == null && Helper.getCurrentAccount(context) != null) {
+                        deleteApi = Helper.getCurrentAccount(context).api;
+                    }
+                    if (deleteApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                        MisskeyStatusesVM misskeyStatusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
+                        misskeyStatusesVM.deleteNote(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, success -> {
+                                    if (success) {
+                                        int position = holder.getBindingAdapterPosition();
+                                        statusList.remove(statusToDeal);
+                                        adapter.notifyItemRemoved(position);
+                                        sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
+                                    }
+                                });
+                    } else {
+                        statusesVM.deleteStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, statusDeleted -> {
+                                    int position = holder.getBindingAdapterPosition();
+                                    statusList.remove(statusToDeal);
+                                    adapter.notifyItemRemoved(position);
+                                    sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
+                                });
+                    }
+                });
                 builderInner.show();
             } else if (itemId == R.id.action_block_domain) {
                 AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
@@ -2846,20 +2905,33 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
                 builderInner.show();
             } else if (itemId == R.id.action_mute) {
+                app.fedilab.android.mastodon.client.entities.app.Account.API muteApi = BaseMainActivity.api;
+                if (muteApi == null && Helper.getCurrentAccount(context) != null) {
+                    muteApi = Helper.getCurrentAccount(context).api;
+                }
                 AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
                 builderInner.setTitle(stringArrayConf[0]);
                 builderInner.setMessage(statusToDeal.account.acct);
                 builderInner.setNeutralButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-                builderInner.setNegativeButton(R.string.keep_notifications, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, false, null)
-                        .observe((LifecycleOwner) context, relationShip -> {
-                            sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
-                            Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
-                        }));
-                builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, null, null)
-                        .observe((LifecycleOwner) context, relationShip -> {
-                            sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
-                            Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
-                        }));
+                if (muteApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                    MisskeyAccountsVM misskeyMuteVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyAccountsVM.class);
+                    builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> misskeyMuteVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id)
+                            .observe((LifecycleOwner) context, relationShip -> {
+                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
+                                Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
+                            }));
+                } else {
+                    builderInner.setNegativeButton(R.string.keep_notifications, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, false, null)
+                            .observe((LifecycleOwner) context, relationShip -> {
+                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
+                                Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
+                            }));
+                    builderInner.setPositiveButton(R.string.action_mute, (dialog, which) -> accountsVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, null, null)
+                            .observe((LifecycleOwner) context, relationShip -> {
+                                sendAction(context, Helper.ARG_STATUS_ACCOUNT_ID_DELETED, null, statusToDeal.account.id);
+                                Toasty.info(context, context.getString(R.string.toast_mute), Toasty.LENGTH_LONG).show();
+                            }));
+                }
                 builderInner.show();
             } else if (itemId == R.id.action_mute_home) {
                 AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(context);
@@ -2908,10 +2980,35 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 return true;
             } else if (itemId == R.id.action_pin) {
-                if (statusToDeal.pinned) {
-                    statusesVM.unPin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unpin)).show());
+                app.fedilab.android.mastodon.client.entities.app.Account.API pinApi = BaseMainActivity.api;
+                if (pinApi == null && Helper.getCurrentAccount(context) != null) {
+                    pinApi = Helper.getCurrentAccount(context).api;
+                }
+                if (pinApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                    MisskeyStatusesVM misskeyPinVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
+                    if (statusToDeal.pinned) {
+                        misskeyPinVM.unpin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, status1 -> {
+                                    if (status1 != null) {
+                                        statusToDeal.pinned = false;
+                                        Toasty.info(context, context.getString(R.string.toast_unpin)).show();
+                                    }
+                                });
+                    } else {
+                        misskeyPinVM.pin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, status1 -> {
+                                    if (status1 != null) {
+                                        statusToDeal.pinned = true;
+                                        Toasty.info(context, context.getString(R.string.toast_pin)).show();
+                                    }
+                                });
+                    }
                 } else {
-                    statusesVM.pin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_pin)).show());
+                    if (statusToDeal.pinned) {
+                        statusesVM.unPin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unpin)).show());
+                    } else {
+                        statusesVM.pin(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_pin)).show());
+                    }
                 }
                 return true;
             } else if (itemId == R.id.action_quote_policy) {
@@ -2925,10 +3022,35 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 quote(context, statusToDeal);
                 return true;
             } else if (itemId == R.id.action_bookmark) {
-                if (statusToDeal.bookmarked) {
-                    statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_unbookmarked)).show());
+                app.fedilab.android.mastodon.client.entities.app.Account.API bookmarkMenuApi = BaseMainActivity.api;
+                if (bookmarkMenuApi == null && Helper.getCurrentAccount(context) != null) {
+                    bookmarkMenuApi = Helper.getCurrentAccount(context).api;
+                }
+                if (bookmarkMenuApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                    MisskeyStatusesVM misskeyBookmarkMenuVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
+                    if (statusToDeal.bookmarked) {
+                        misskeyBookmarkMenuVM.deleteFavorite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, success -> {
+                                    if (success) {
+                                        statusToDeal.bookmarked = false;
+                                        Toasty.info(context, context.getString(R.string.status_unbookmarked)).show();
+                                    }
+                                });
+                    } else {
+                        misskeyBookmarkMenuVM.createFavorite(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, success -> {
+                                    if (success) {
+                                        statusToDeal.bookmarked = true;
+                                        Toasty.info(context, context.getString(R.string.status_bookmarked)).show();
+                                    }
+                                });
+                    }
                 } else {
-                    statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_bookmarked)).show());
+                    if (statusToDeal.bookmarked) {
+                        statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_unbookmarked)).show());
+                    } else {
+                        statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_bookmarked)).show());
+                    }
                 }
             } else if (itemId == R.id.action_timed_mute) {
                 MastodonHelper.scheduleBoost(context, MastodonHelper.ScheduleType.TIMED_MUTED, statusToDeal, null, null);
@@ -2948,15 +3070,43 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 translate(context, statusToDeal, holder, adapter);
                 return true;
             } else if (itemId == R.id.action_report) {
-                Intent intent = new Intent(context, ReportActivity.class);
-                Bundle args = new Bundle();
-                args.putSerializable(Helper.ARG_STATUS, statusToDeal);
-                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
-                });
+                app.fedilab.android.mastodon.client.entities.app.Account.API reportApi = BaseMainActivity.api;
+                if (reportApi == null && Helper.getCurrentAccount(context) != null) {
+                    reportApi = Helper.getCurrentAccount(context).api;
+                }
+                if (reportApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                    AlertDialog.Builder builderReport = new MaterialAlertDialogBuilder(context);
+                    builderReport.setTitle(R.string.report_account);
+                    android.widget.EditText input = new android.widget.EditText(context);
+                    input.setHint(R.string.add_description);
+                    input.setSingleLine(false);
+                    input.setMinLines(3);
+                    builderReport.setView(input);
+                    builderReport.setPositiveButton(R.string.report_account, (dialog, which) -> {
+                        String comment = input.getText().toString().trim();
+                        MisskeyAccountsVM misskeyAccountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyAccountsVM.class);
+                        misskeyAccountsVM.reportAbuse(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.account.id, comment)
+                                .observe((LifecycleOwner) context, success -> {
+                                    if (success != null && success) {
+                                        Toasty.success(context, context.getString(R.string.report_sent), Toasty.LENGTH_LONG).show();
+                                    } else {
+                                        Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
+                                    }
+                                });
+                    });
+                    builderReport.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                    builderReport.show();
+                } else {
+                    Intent intent = new Intent(context, ReportActivity.class);
+                    Bundle args = new Bundle();
+                    args.putSerializable(Helper.ARG_STATUS, statusToDeal);
+                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    });
+                }
             } else if (itemId == R.id.action_copy) {
                 ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 String content;
@@ -3431,9 +3581,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (theme_icons_color != -1) {
             Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.statusEmoji, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_star_24, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_heart_24, theme_icons_color);
+            Helper.changeDrawableColor(context, R.drawable.ic_heart_filled_24, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_repeat_24, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_quote_or_boost, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.visibility, theme_icons_color);
@@ -4129,5 +4280,187 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
+    private static void handleUnicodeReaction(Context context, RecyclerView.Adapter<RecyclerView.ViewHolder> adapter,
+                                              StatusViewHolder holder, Status status, Status statusToDeal,
+                                              boolean isMisskeyReaction, String emojiStr,
+                                              StatusesVM statusesVM) {
+        boolean alreadyAdded = false;
+        if (isMisskeyReaction) {
+            if (status.reactions == null) {
+                status.reactions = new ArrayList<>();
+            }
+            for (Reaction reaction : status.reactions) {
+                if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
+                    alreadyAdded = true;
+                    reaction.count = (reaction.count - 1);
+                    if (reaction.count == 0) {
+                        status.reactions.remove(reaction);
+                    }
+                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    break;
+                }
+            }
+            if (!alreadyAdded) {
+                Reaction reaction = new Reaction();
+                reaction.me = true;
+                reaction.count = 1;
+                reaction.name = emojiStr;
+                status.reactions.add(0, reaction);
+                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+            }
+            MisskeyStatusesVM misskeyReactionVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
+            if (alreadyAdded) {
+                misskeyReactionVM.deleteReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id);
+            } else {
+                misskeyReactionVM.createReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+            }
+        } else if (status.pleroma != null && status.pleroma.emoji_reactions != null) {
+            for (Reaction reaction : status.pleroma.emoji_reactions) {
+                if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
+                    alreadyAdded = true;
+                    reaction.count = (reaction.count - 1);
+                    if (reaction.count == 0) {
+                        status.pleroma.emoji_reactions.remove(reaction);
+                    }
+                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    break;
+                }
+            }
+            if (!alreadyAdded) {
+                Reaction reaction = new Reaction();
+                reaction.me = true;
+                reaction.count = 1;
+                reaction.name = emojiStr;
+                status.pleroma.emoji_reactions.add(0, reaction);
+                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+            }
+            ActionsVM actionVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
+            if (alreadyAdded) {
+                actionVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+            } else {
+                actionVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+            }
+        } else if (status.reactions != null) {
+            for (Reaction reaction : status.reactions) {
+                if (reaction.name.compareTo(emojiStr) == 0 && reaction.me) {
+                    alreadyAdded = true;
+                    reaction.count = (reaction.count - 1);
+                    if (reaction.count == 0) {
+                        status.reactions.remove(reaction);
+                    }
+                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    break;
+                }
+            }
+            if (!alreadyAdded) {
+                Reaction reaction = new Reaction();
+                reaction.me = true;
+                reaction.count = 1;
+                reaction.name = emojiStr;
+                status.reactions.add(0, reaction);
+                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+            }
+            if (alreadyAdded) {
+                statusesVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+            } else {
+                statusesVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, emojiStr);
+            }
+        }
+    }
+
+    private static void handleCustomReaction(Context context, RecyclerView.Adapter<RecyclerView.ViewHolder> adapter,
+                                             StatusViewHolder holder, Status status, Status statusToDeal,
+                                             boolean isMisskeyReaction, String shortcode, String url, String staticUrl,
+                                             StatusesVM statusesVM) {
+        boolean alreadyAdded = false;
+        if (isMisskeyReaction) {
+            String misskeyEmojiCode = ":" + shortcode + "@.:";
+            if (status.reactions == null) {
+                status.reactions = new ArrayList<>();
+            }
+            for (Reaction reaction : status.reactions) {
+                if (reaction.name.compareTo(misskeyEmojiCode) == 0 && reaction.me) {
+                    alreadyAdded = true;
+                    reaction.count = (reaction.count - 1);
+                    if (reaction.count == 0) {
+                        status.reactions.remove(reaction);
+                    }
+                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    break;
+                }
+            }
+            if (!alreadyAdded) {
+                Reaction reaction = new Reaction();
+                reaction.me = true;
+                reaction.count = 1;
+                reaction.name = misskeyEmojiCode;
+                reaction.url = url;
+                reaction.static_url = staticUrl;
+                status.reactions.add(0, reaction);
+                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+            }
+            MisskeyStatusesVM misskeyReactionVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
+            if (alreadyAdded) {
+                misskeyReactionVM.deleteReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id);
+            } else {
+                misskeyReactionVM.createReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, misskeyEmojiCode);
+            }
+        } else if (status.pleroma != null && status.pleroma.emoji_reactions != null) {
+            for (Reaction reaction : status.pleroma.emoji_reactions) {
+                if (reaction.name.compareTo(shortcode) == 0 && reaction.me) {
+                    alreadyAdded = true;
+                    reaction.count = (reaction.count - 1);
+                    if (reaction.count == 0) {
+                        status.pleroma.emoji_reactions.remove(reaction);
+                    }
+                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    break;
+                }
+            }
+            if (!alreadyAdded) {
+                Reaction reaction = new Reaction();
+                reaction.me = true;
+                reaction.count = 1;
+                reaction.name = shortcode;
+                reaction.url = url;
+                reaction.static_url = staticUrl;
+                status.pleroma.emoji_reactions.add(0, reaction);
+                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+            }
+            ActionsVM actionsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(ActionsVM.class);
+            if (alreadyAdded) {
+                actionsVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, shortcode);
+            } else {
+                actionsVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, shortcode);
+            }
+        } else if (status.reactions != null) {
+            for (Reaction reaction : status.reactions) {
+                if (reaction.name.compareTo(shortcode) == 0 && reaction.me) {
+                    alreadyAdded = true;
+                    reaction.count = (reaction.count - 1);
+                    if (reaction.count == 0) {
+                        status.reactions.remove(reaction);
+                    }
+                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    break;
+                }
+            }
+            if (!alreadyAdded) {
+                Reaction reaction = new Reaction();
+                reaction.me = true;
+                reaction.count = 1;
+                reaction.name = shortcode;
+                reaction.url = url;
+                reaction.static_url = staticUrl;
+                status.reactions.add(0, reaction);
+                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+            }
+            if (alreadyAdded) {
+                statusesVM.removeReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, shortcode);
+            } else {
+                statusesVM.addReaction(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, shortcode);
+            }
+        }
+    }
 
 }

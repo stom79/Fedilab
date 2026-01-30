@@ -74,6 +74,8 @@
     <string name="disclaimer_full">Information below may reflect the user\'s profile incompletely.</string>
     <string name="insert_emoji">Insert emoji</string>
     <string name="no_emoji">The app did not collect custom emojis for the moment.</string>
+    <string name="custom_emoji">Custom</string>
+    <string name="standard_emoji">Standard</string>
     <string name="logout_account_confirmation">Are you sure you want to logout @%1$s@%2$s?</string>
 
     <string name="cd_open_profile">Open profile page</string>
@@ -686,6 +688,7 @@
     <string name="action_announcements">Announcements</string>
     <string name="no_announcements">No announcements!</string>
     <string name="add_reaction">Add a reaction</string>
+    <string name="reactions">Reactions</string>
     <string name="set_video_cache">Video cache in MB, zero means no cache.</string>
     <string name="set_watermark">Watermarks</string>
     <string name="set_watermark_indication">Automatically add a watermark at the bottom of pictures. The text can be customized for each account.</string>

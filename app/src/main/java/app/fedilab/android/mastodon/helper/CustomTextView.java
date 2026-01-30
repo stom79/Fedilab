@@ -29,7 +29,7 @@ import androidx.annotation.Px;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.preference.PreferenceManager;
 
-import com.vanniktech.emoji.EmojiManager;
+import app.fedilab.android.mastodon.helper.EmojiHelper;
 
 import app.fedilab.android.R;
 
@@ -89,7 +89,7 @@ public class CustomTextView extends AppCompatTextView {
             final SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
             final Paint.FontMetrics fontMetrics = getPaint().getFontMetrics();
             final float defaultEmojiSize = fontMetrics.descent - fontMetrics.ascent;
-            EmojiManager.getInstance().replaceWithImages(getContext(), spannableStringBuilder, emojiSize, defaultEmojiSize);
+            EmojiHelper.replaceWithImages(getContext(), spannableStringBuilder, emojiSize != 0f ? emojiSize : defaultEmojiSize);
             super.setText(spannableStringBuilder, type);
         } else {
             super.setText(rawText, type);
