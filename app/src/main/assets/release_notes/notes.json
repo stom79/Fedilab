@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.36.0-beta-4",
+    "code": "544",
+    "note": "Added:\n - Misskey support"
+  },
+  {
     "version": "3.36.0-beta-3",
     "code": "543",
     "note": "Fixed:\n- Crash when app starts on notifications tab\n- Fit preview images setting overwritten by high ratio media\n- Remote instance hashtag filter not applying\n- Timeline filter menu text truncation\n- Notification tabs count and foreground service stop"
