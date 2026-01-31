@@ -208,7 +208,7 @@
     <string name="settings_time_to">終了</string>
     <string name="embedded_browser">アプリ内ブラウザを使用する</string>
     <string name="custom_tabs">アプリ内ブラウザー</string>
-    <string name="expand_cw">CWを自動的に展開する</string>
+    <string name="expand_cw">CWを自動展開</string>
     <string name="set_led_colour">LEDの色:</string>
     <string-array name="led_colours">
         <item>青</item>
@@ -1159,4 +1159,7 @@
     <string name="no_filters_available">利用可能なフィルタがありません。最初に設定で作成して下さい。</string>
     <string name="filtered_statuses">フィルタされたポスト</string>
     <string name="see_discussions">ディスカッションを閲覧</string>
+    <string name="custom_emoji">カスタム</string>
+    <string name="standard_emoji">標準</string>
+    <string name="reactions">リアクション</string>
 </resources>
