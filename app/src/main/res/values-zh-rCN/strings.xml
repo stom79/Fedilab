@@ -1157,4 +1157,7 @@
     <string name="no_filters_available">无过滤器可用。先在设置中创建一个。</string>
     <string name="filtered_statuses">过滤的嘟文</string>
     <string name="see_discussions">查看讨论</string>
+    <string name="custom_emoji">自定义</string>
+    <string name="standard_emoji">标准</string>
+    <string name="reactions">辉映</string>
 </resources>
