@@ -1376,6 +1376,7 @@
     <string name="SET_GROUP_REBLOGS" translatable="false">SET_GROUP_REBLOGS</string>
     <string name="SET_BOOST_ORIGINAL_DATE" translatable="false">SET_BOOST_ORIGINAL_DATE</string>
     <string name="SET_TIMELINE_SCROLLBAR" translatable="false">SET_TIMELINE_SCROLLBAR</string>
+    <string name="SET_HIGHLIGHT_NEW_COMMENTS" translatable="false">SET_HIGHLIGHT_NEW_COMMENTS</string>
     <string name="SET_MARKDOWN_SUPPORT" translatable="false">SET_MARKDOWN_SUPPORT</string>
     <string name="SET_TRUNCATE_LINKS" translatable="false">SET_TRUNCATE_LINKS</string>
     <string name="SET_UNDERLINE_BOTTOM_HASHTAGS" translatable="false">SET_UNDERLINE_BOTTOM_HASHTAGS</string>
@@ -2172,6 +2173,7 @@
     <string name="Directory">Directory</string>
     <string name="boost_original_date">Display original date for boosts</string>
     <string name="timeline_scrollbar">Display a scroll bar for timelines</string>
+    <string name="highlight_new_comments">Highlight new comments in threads</string>
     <string name="markdown_support">Markdown support</string>
     <string name="set_disable_release_notes">Disable release notes</string>
     <string name="set_disable_release_notes_indication">When a new version is published, you will not be alerted inside the app.</string>

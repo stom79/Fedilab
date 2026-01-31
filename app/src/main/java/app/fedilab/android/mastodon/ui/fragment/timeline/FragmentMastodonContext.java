@@ -36,7 +36,9 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
@@ -44,7 +46,9 @@ import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.mastodon.activities.ContextActivity;
 import app.fedilab.android.mastodon.client.entities.api.Context;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
+import app.fedilab.android.mastodon.client.entities.app.SeenComments;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.CommentDecorationHelper;
 import app.fedilab.android.mastodon.helper.DividerDecoration;
@@ -317,6 +321,30 @@ public class FragmentMastodonContext extends Fragment {
         }
         allParentIds.add(focusedStatus.id);
         List<Status> sortedDescendants = CommentDecorationHelper.sortDescendantsAsTree(context.descendants, allParentIds);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        boolean highlightNewComments = sharedpreferences.getBoolean(getString(R.string.SET_HIGHLIGHT_NEW_COMMENTS), true);
+        if (highlightNewComments) try {
+            SeenComments seenCommentsDAO = new SeenComments(requireActivity());
+            BaseAccount currentAccount = Helper.getCurrentAccount(requireActivity());
+            if (currentAccount != null) {
+                List<String> currentDescendantIds = new ArrayList<>();
+                for (Status descendant : sortedDescendants) {
+                    currentDescendantIds.add(descendant.id);
+                }
+                SeenComments previouslySeen = seenCommentsDAO.getSeenComments(currentAccount, focusedStatus.id);
+                if (previouslySeen != null && previouslySeen.descendant_ids != null) {
+                    Set<String> seenSet = new HashSet<>(previouslySeen.descendant_ids);
+                    for (Status descendant : sortedDescendants) {
+                        if (!seenSet.contains(descendant.id)) {
+                            descendant.isNewComment = true;
+                        }
+                    }
+                }
+                seenCommentsDAO.insertOrUpdate(currentAccount, focusedStatus.id, currentDescendantIds);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         statuses.addAll(statusPosition + 1, sortedDescendants);
         statusAdapter.notifyItemRangeInserted(statusPosition + 1, sortedDescendants.size());
         if (binding.recyclerView.getItemDecorationCount() > 0) {

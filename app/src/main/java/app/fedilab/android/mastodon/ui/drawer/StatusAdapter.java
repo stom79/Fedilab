@@ -3845,6 +3845,12 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             statusManagement(context, statusesVM, searchVM, holder, mRecyclerView, this, statusList, status, timelineType, minified, canBeFederated, checkRemotely, fetchMoreCallBack);
             applyColor(context, holder);
+            if (status.isNewComment) {
+                holder.binding.cardviewContainer.setStrokeColor(ThemeHelper.fetchAccentColor(context));
+                holder.binding.cardviewContainer.setStrokeWidth((int) (2 * context.getResources().getDisplayMetrics().density));
+            } else {
+                holder.binding.cardviewContainer.setStrokeWidth(0);
+            }
         } else if (viewHolder.getItemViewType() == STATUS_FILTERED_HIDE) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);

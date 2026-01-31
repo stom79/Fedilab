@@ -187,6 +187,7 @@ public class Status implements Serializable, Cloneable {
     public transient boolean submitted = false;
 
     public transient boolean underlined = false;
+    public transient boolean isNewComment = false;
     public boolean spoilerChecked = false;
     public Filter filteredByApp;
     public transient Spannable contentSpan;

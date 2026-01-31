@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 12;
+    public static final int DB_VERSION = 13;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -109,6 +109,10 @@ public class Sqlite extends SQLiteOpenHelper {
 
     public static final String COL_BUNDLE = "BUNDLE";
     public static final String COL_TARGET_ID = "TARGET_ID";
+
+    public static final String TABLE_SEEN_COMMENTS = "SEEN_COMMENTS";
+    public static final String COL_CONTEXT_STATUS_ID = "CONTEXT_STATUS_ID";
+    public static final String COL_DESCENDANT_IDS = "DESCENDANT_IDS";
 
 
     private static final String CREATE_TABLE_USER_ACCOUNT = "CREATE TABLE " + TABLE_USER_ACCOUNT + " ("
@@ -247,6 +251,13 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_BUNDLE + " TEXT, "
             + COL_CREATED_AT + " TEXT NOT NULL)";
 
+    private static final String CREATE_TABLE_SEEN_COMMENTS = "CREATE TABLE IF NOT EXISTS " + TABLE_SEEN_COMMENTS + " ("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_INSTANCE + " TEXT NOT NULL, "
+            + COL_USER_ID + " TEXT NOT NULL, "
+            + COL_CONTEXT_STATUS_ID + " TEXT NOT NULL, "
+            + COL_DESCENDANT_IDS + " TEXT NOT NULL)";
+
 
     public Sqlite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -278,6 +289,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CACHE_TAGS);
         db.execSQL(CREATE_TABLE_TIMELINE_CACHE_LOGS);
         db.execSQL(CREATE_TABLE_INTENT);
+        db.execSQL(CREATE_TABLE_SEEN_COMMENTS);
     }
 
     @Override
@@ -312,6 +324,8 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL(CREATE_TABLE_TIMELINE_CACHE_LOGS);
             case 11:
                 db.execSQL(CREATE_TABLE_INTENT);
+            case 12:
+                db.execSQL(CREATE_TABLE_SEEN_COMMENTS);
             default:
                 break;
         }
