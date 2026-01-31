@@ -1,0 +1,52 @@
+Added:
+ - Misskey support
+ - Add discussions view for trending links
+ - Add media display for quoted messages
+ - Add "Filter this post" feature
+ - Add Mastodon trending remote as pinnable timeline
+ - Add setting to allow uncompressed media upload (disabled by default)
+ - Add options to hide 'sensitive content' and 'media description' indicators
+ - Add option to change profile image shape in profile page
+ - Add accessibility action to translate status content
+ - New preference with multiple options to change how quote button is displayed
+ - Add option to highlight new comments in conversation threads
+
+Changed:
+ - MathJax text color adapts to actual theme background
+ - Migrate to targetSdk 35
+ - Improve link preview preference
+ - Change boost+quote popup UI
+ - Remove account from "Home muted" when unfollowing
+ - Make instance URI clickable in "About the instance" dialog
+
+Fixed:
+ - Crash when app starts on notifications tab
+ - Fit preview images setting overwritten by high ratio media
+ - Remote instance hashtag filter not applying
+ - Timeline filter menu text truncation
+ - Notification tabs count and foreground service stop
+ - ANR on long text without spaces
+ - NPE in quote handling
+ - Respect user's default quote policy when composing new posts
+ - Hide CW-protected content in quoted posts
+ - Image sharing to other apps
+ - Animated WebP autoplay in timeline
+ - Display placeholder for unfederated emojis
+ - Messages filter not working after loading remote profile
+ - Animated WebP not playing in media viewer
+ - Audio not clickable when fit preview is enabled
+ - Cross-posting: use correct instance for character limit and emojis
+ - Truncation not applied to quoted posts
+ - Content warning lost when editing scheduled posts
+ - DeepL translation by using Authorization header
+ - "Open the original message" can open wrong status
+ - Quote notifications related fixes (type not being excluded properly, Quotes tab showing polls)
+ - Video blinks
+ - Player issue
+ - Filters improvements
+ - Android notifications not being dismissed
+ - Media overlay icons hard to see on bright backgrounds
+ - Compose top bar unreachable after deleting media attachment
+ - Emoji picker keyboard not opening and case-sensitive autocomplete
+ - OutOfMemory crash on very long HTML content
+ - Some crashes

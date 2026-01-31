@@ -1,23 +1,8 @@
 [
   {
-    "version": "3.36.0-beta-4",
-    "code": "544",
-    "note": "Added:\n - Misskey support"
-  },
-  {
-    "version": "3.36.0-beta-3",
-    "code": "543",
-    "note": "Fixed:\n- Crash when app starts on notifications tab\n- Fit preview images setting overwritten by high ratio media\n- Remote instance hashtag filter not applying\n- Timeline filter menu text truncation\n- Notification tabs count and foreground service stop"
-  },
-  {
-    "version": "3.36.0-beta-2",
-    "code": "542",
-    "note": "Added:\n- Add discussions view for trending links\n- Add media display for quoted messages\n- Add \"Filter this post\" feature\n\nChanged:\n- MathJax text color adapts to actual theme background\n\nFixed:\n- ANR on long text without spaces\n- NPE in quote handling\n- Respect user's default quote policy when composing new posts\n- Hide CW-protected content in quoted posts\n- Image sharing to other apps\n- Animated WebP autoplay in timeline\n- Thread reply ordering in conversation view\n- Unfollow button not displayed on profile"
-  },
-  {
-    "version": "3.36.0-beta-1",
-    "code": "541",
-    "note": "Added:\n- Add Mastodon trending remote as pinnable timeline\n- Add setting to allow uncompressed media upload (disabled by default)\n- Add options to hide 'sensitive content' and 'media description' indicators\n- Add option to change profile image shape in profile page\n- Add accessibility action to translate status content\n- New preference with multiple options to change how quote button is displayed\n\nChanged:\n- Migrate to targetSdk 35\n- Improve link preview preference\n- Change boost+quote popup UI\n- Remove account from \"Home muted\" when unfollowing\n- Make instance URI clickable in \"About the instance\" dialog\n\nFixed:\n- Display placeholder for unfederated emojis\n- Messages filter not working after loading remote profile\n- Animated WebP not playing in media viewer\n- Audio not clickable when fit preview is enabled\n- Cross-posting: use correct instance for character limit and emojis\n- Truncation not applied to quoted posts\n- Content warning lost when editing scheduled posts\n- DeepL translation by using Authorization header\n- \"Open the original message\" can open wrong status\n- Quote notifications related fixes (type not being excluded properly, Quotes tab showing polls)\n- Video blinks\n- Player issue\n- Filters improvements\n- Some crashes"
+    "version": "3.36.0",
+    "code": "545",
+    "note": "Added:\n - Misskey support\n - Add discussions view for trending links\n - Add media display for quoted messages\n - Add \"Filter this post\" feature\n - Add Mastodon trending remote as pinnable timeline\n - Add setting to allow uncompressed media upload (disabled by default)\n - Add options to hide 'sensitive content' and 'media description' indicators\n - Add option to change profile image shape in profile page\n - Add accessibility action to translate status content\n - New preference with multiple options to change how quote button is displayed\n - Add option to highlight new comments in conversation threads\n\nChanged:\n - MathJax text color adapts to actual theme background\n - Migrate to targetSdk 35\n - Improve link preview preference\n - Change boost+quote popup UI\n - Remove account from \"Home muted\" when unfollowing\n - Make instance URI clickable in \"About the instance\" dialog\n\nFixed:\n - Crash when app starts on notifications tab\n - Fit preview images setting overwritten by high ratio media\n - Remote instance hashtag filter not applying\n - Timeline filter menu text truncation\n - Notification tabs count and foreground service stop\n - ANR on long text without spaces\n - NPE in quote handling\n - Respect user's default quote policy when composing new posts\n - Hide CW-protected content in quoted posts\n - Image sharing to other apps\n - Animated WebP autoplay in timeline\n - Display placeholder for unfederated emojis\n - Messages filter not working after loading remote profile\n - Animated WebP not playing in media viewer\n - Audio not clickable when fit preview is enabled\n - Cross-posting: use correct instance for character limit and emojis\n - Truncation not applied to quoted posts\n - Content warning lost when editing scheduled posts\n - DeepL translation by using Authorization header\n - \"Open the original message\" can open wrong status\n - Quote notifications related fixes (type not being excluded properly, Quotes tab showing polls)\n - Video blinks\n - Player issue\n - Filters improvements\n - Android notifications not being dismissed\n - Media overlay icons hard to see on bright backgrounds\n - Compose top bar unreachable after deleting media attachment\n - Emoji picker keyboard not opening and case-sensitive autocomplete\n - OutOfMemory crash on very long HTML content\n - Some crashes"
   },
   {
     "version": "3.35.",
