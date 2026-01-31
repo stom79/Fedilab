@@ -1203,7 +1203,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
             //---> REBLOG/UNREBLOG
             holder.binding.actionButtonBoost.setOnLongClickListener(v -> {
-                if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private"))) {
+                if ("direct".equals(statusToDeal.visibility) || "private".equals(statusToDeal.visibility)) {
                     return true;
                 }
                 boolean needToWarnForMissingDescription = false;
@@ -1292,7 +1292,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             //---> FAVOURITE/UNFAVOURITE
             holder.binding.actionButtonFavorite.setOnLongClickListener(v -> {
-                if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private"))) {
+                if ("direct".equals(statusToDeal.visibility) || "private".equals(statusToDeal.visibility)) {
                     return true;
                 }
                 CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, null, statusToDeal);
@@ -2721,7 +2721,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         PopupMenu popup = new PopupMenu(context, holder.binding.actionButtonMore);
         popup.getMenuInflater()
                 .inflate(R.menu.option_toot, popup.getMenu());
-        if (statusToDeal.visibility.equals("private") || statusToDeal.visibility.equals("direct")) {
+        if ("private".equals(statusToDeal.visibility) || "direct".equals(statusToDeal.visibility)) {
             popup.getMenu().findItem(R.id.action_mention).setVisible(false);
         }
         if (!quoteButton.equals(quoteButtonEntryValues[2])){
@@ -2740,7 +2740,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         else
             popup.getMenu().findItem(R.id.action_pin).setTitle(R.string.action_pin);
         final String[] stringArrayConf;
-        if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private") && !isOwner))
+        if ("direct".equals(statusToDeal.visibility) || ("private".equals(statusToDeal.visibility) && !isOwner))
             popup.getMenu().findItem(R.id.action_schedule_boost).setVisible(false);
         app.fedilab.android.mastodon.client.entities.app.Account.API menuApi = BaseMainActivity.api;
         if (menuApi == null && Helper.getCurrentAccount(context) != null) {
@@ -2753,7 +2753,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             popup.getMenu().findItem(R.id.action_report).setVisible(false);
             popup.getMenu().findItem(R.id.action_timed_mute).setVisible(false);
             popup.getMenu().findItem(R.id.action_block_domain).setVisible(false);
-            popup.getMenu().findItem(R.id.action_pin).setVisible(!statusToDeal.visibility.equalsIgnoreCase("direct"));
+            popup.getMenu().findItem(R.id.action_pin).setVisible(!"direct".equalsIgnoreCase(statusToDeal.visibility));
             if (menuApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
                 popup.getMenu().findItem(R.id.action_edit).setVisible(false);
             }
@@ -2774,7 +2774,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         popup.getMenu().findItem(R.id.action_admin).setVisible(Helper.getCurrentAccount(context).admin);
 
         boolean custom_sharing = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOM_SHARING), false);
-        if (custom_sharing && statusToDeal.visibility.equals("public"))
+        if (custom_sharing && "public".equals(statusToDeal.visibility))
             popup.getMenu().findItem(R.id.action_custom_sharing).setVisible(true);
         AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
         popup.setOnMenuItemClickListener(item -> {
@@ -4079,7 +4079,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.bindingPixelfed.actionButtonLike.setImageSize((int) (normalSize * scaleIcon));
 
             holder.bindingPixelfed.actionButtonLike.setOnLongClickListener(v -> {
-                if (statusToDeal.visibility.equals("direct") || (statusToDeal.visibility.equals("private"))) {
+                if ("direct".equals(statusToDeal.visibility) || "private".equals(statusToDeal.visibility)) {
                     return true;
                 }
                 CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.FAVOURITE_ACTION, null, statusToDeal);
