@@ -75,6 +75,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -1293,6 +1294,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         builderInner.setPositiveButton(R.string.delete, (dialog, which) -> {
                             attachmentList.remove(attachment);
                             displayAttachments(holder, position, finalMediaPosition);
+                            notifyItemChanged(position);
+                            AppBarLayout appBar = ((Activity) context).findViewById(R.id.appBar);
+                            if (appBar != null) {
+                                appBar.setExpanded(true, true);
+                            }
                             new Thread(() -> {
                                 if (attachment.local_path != null) {
                                     File fileToDelete = new File(attachment.local_path);
