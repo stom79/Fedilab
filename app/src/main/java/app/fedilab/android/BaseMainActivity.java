@@ -30,6 +30,7 @@ import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeO
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -42,6 +43,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.service.notification.StatusBarNotification;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -735,6 +737,16 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
             }
         }, 1000);
+        NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Helper.getCurrentAccount(activity) != null && Helper.getCurrentAccount(activity).mastodon_account != null) {
+            for (StatusBarNotification statusBarNotification : notificationManager.getActiveNotifications()) {
+                if (statusBarNotification.getGroupKey().contains(Helper.getCurrentAccount(activity).mastodon_account.acct + "@" + Helper.getCurrentAccount(activity).instance)) {
+                    notificationManager.cancel(statusBarNotification.getId());
+                }
+            }
+        } else {
+            notificationManager.cancelAll();
+        }
         intent.removeExtra(Helper.INTENT_ACTION);
     }
 
@@ -1682,6 +1694,16 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         super.onResume();
         if (!sharedpreferences.getBoolean(getString(R.string.SET_AUTO_HIDE_COMPOSE), true) && !getFloatingVisibility())
             manageFloatingButton(true);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Helper.getCurrentAccount(this) != null && Helper.getCurrentAccount(this).mastodon_account != null) {
+            for (StatusBarNotification statusBarNotification : notificationManager.getActiveNotifications()) {
+                if (statusBarNotification.getGroupKey().contains(Helper.getCurrentAccount(this).mastodon_account.acct + "@" + Helper.getCurrentAccount(this).instance)) {
+                    notificationManager.cancel(statusBarNotification.getId());
+                }
+            }
+        } else {
+            notificationManager.cancelAll();
+        }
     }
 
     private void manageTopBarScrolling(Toolbar toolbar) {

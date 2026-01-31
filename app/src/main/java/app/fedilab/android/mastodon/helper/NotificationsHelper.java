@@ -398,7 +398,7 @@ public class NotificationsHelper {
             if (message != null) {
                 //Some others notification
                 final Intent intent = new Intent(context, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Bundle args = new Bundle();
                 intent.putExtra(Helper.INTENT_ACTION, Helper.NOTIFICATION_INTENT);
                 intent.putExtra(Helper.PREF_USER_ID, account.user_id);
