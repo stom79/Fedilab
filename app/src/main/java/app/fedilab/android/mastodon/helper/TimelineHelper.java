@@ -270,27 +270,38 @@ public class TimelineHelper {
     /**
      * Parse HTML content from status (cached per status)
      */
+    private static final int MAX_CONTENT_LENGTH = 100000;
+
     private static String parseStatusContent(Status status) {
+        String rawContent = status.reblog != null ? status.reblog.content : status.content;
+        if (rawContent == null) {
+            return "";
+        }
         try {
+            if (rawContent.length() > MAX_CONTENT_LENGTH) {
+                rawContent = rawContent.substring(0, MAX_CONTENT_LENGTH);
+            }
             String content;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                content = Html.fromHtml(rawContent, Html.FROM_HTML_MODE_LEGACY).toString();
             } else {
-                content = Html.fromHtml(status.reblog != null ? status.reblog.content : status.content).toString();
+                content = Html.fromHtml(rawContent).toString();
             }
-
-            // Append quote content if present
             Status quote = status.reblog == null ? status.getQuote() : (status.reblog != null ? status.reblog.getQuote() : null);
             if (quote != null && quote.content != null) {
+                String quoteContent = quote.content;
+                if (quoteContent.length() > MAX_CONTENT_LENGTH) {
+                    quoteContent = quoteContent.substring(0, MAX_CONTENT_LENGTH);
+                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    content += Html.fromHtml(quote.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                    content += Html.fromHtml(quoteContent, Html.FROM_HTML_MODE_LEGACY).toString();
                 } else {
-                    content += Html.fromHtml(quote.content).toString();
+                    content += Html.fromHtml(quoteContent).toString();
                 }
             }
             return content;
-        } catch (Exception e) {
-            return status.reblog != null ? status.reblog.content : status.content;
+        } catch (Throwable e) {
+            return rawContent.replaceAll("<[^>]*>", " ").replaceAll("\\s+", " ").trim();
         }
     }
 
