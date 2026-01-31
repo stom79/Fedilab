@@ -1009,7 +1009,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 return;
                             }
                             for (Emoji emoji : emojisList) {
-                                if (shortcode != null && emoji.shortcode.contains(shortcode)) {
+                                if (shortcode != null && emoji.shortcode.toLowerCase().contains(shortcode.toLowerCase())) {
                                     emojisToDisplay.add(emoji);
                                     if (emojisToDisplay.size() >= 10) {
                                         break;
