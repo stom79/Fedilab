@@ -1935,6 +1935,25 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             holder.binding.sensitiveMedia.setChecked(statusDraft.sensitive);
             holder.binding.content.addTextChangedListener(initializeTextWatcher(holder));
+            final boolean[] keyboardVisible = {false};
+            holder.binding.content.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+                View rootView = holder.binding.content.getRootView();
+                int heightDiff = rootView.getHeight() - holder.binding.content.getRootView().getHeight();
+                if (heightDiff < 0) heightDiff = -heightDiff;
+                android.graphics.Rect r = new android.graphics.Rect();
+                rootView.getWindowVisibleDisplayFrame(r);
+                int screenHeight = rootView.getHeight();
+                int keypadHeight = screenHeight - r.bottom;
+                boolean isOpen = keypadHeight > screenHeight * 0.15;
+                if (keyboardVisible[0] && !isOpen) {
+                    notifyItemChanged(position);
+                    AppBarLayout appBar = ((Activity) context).findViewById(R.id.appBar);
+                    if (appBar != null) {
+                        appBar.setExpanded(true, true);
+                    }
+                }
+                keyboardVisible[0] = isOpen;
+            });
             holder.binding.buttonPoll.setOnClickListener(v -> displayPollPopup(holder, statusDraft, position));
             if (instanceInfo == null) {
                 return;
