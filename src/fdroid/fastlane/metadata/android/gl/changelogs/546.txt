@@ -1,0 +1,51 @@
+Engadido:
+ - Compatibilidade con Misskey
+ - Vista de debates para as ligazóns en voga
+ - Móstrase o multimedia en publicacións citadas
+ - Función "Filtrar esta publicación"
+ - Posibilidade de fixar cronoloxía de Mastodon coas tendencias
+ - Axuste para permitir a subida de multimedia sen comprimir (desactivada por defecto)
+ - Máis opcións e indicadores para ocultar 'contido sensible' e 'descrición multimedia'
+ - Opción para cambiar a forma da imaxe de perfil na páxina de perfil
+ - Acción de accesibilidade para traducir o contido da publicación
+ - Novo axuste con varias opcións para cambiar como se mostra o botón de citar
+ - Opción para resaltar os novos comentarios nos fíos de conversa
+
+Cambios:
+ - A cor do texto MathJax adáptase ao fondo do decorado actual
+ - Migración a targetSdk 35
+ - Melloras no axuste la vista previa das ligazóns
+ - Melloras na xanela emerxente para citar+promover
+ - Retirada da conta de "Silenciada en Inicio" cando se deixa de seguir
+ - Facer o URI da instancia clicable na sección "Sobre a instancia"
+
+Arranxos:
+ - do fallo cando a app se inicia na pestana de notificacións
+ - vista previa das imaxes axustada cando teñen unhas proporcións de razón moi alta
+ - non se aplicaba o filtro para cancelos de instancia remota
+ - o manú do filtro para a cronoloxía estaba estragado
+ - detíase o servizo de conta de notificación nas pestanas
+ - ANR en textos longos sen espazos
+ - NPE na xestión de citas
+ - respetar a directiva para citas predeterminada da usuaria ao escribir novas mensaxes
+ - ocultar multimedia con CW en publicacións citadas
+ - compartir imaxes con outras aplicacións
+ - reprodución automática de WebP animado nas cronoloxías
+ - mostrar marcador de situación para emojis non federados
+ - o filtro para mensaxes non funcionaba despois de cargar o perfil remoto
+ - non se reproducían os WebP animados
+ - non se podía premer no audio se estaba establecido axustar na vista previa
+ - publicación-cruzada: usar a valores correctos para o límite de caracteres e emoji
+ - non funcionaba o recorte para publicacións citadas
+ - tradución con DeepL usando a cabeceira Authorization
+ - "Abrir mensaxe orixinal" podía abrir a mensaxe incorrecta
+ - de problemas relacionados coas notificacións das citas (non se excluían correctamente, a pestana de citas mostrando enquisas)
+ - pestanexo nos vídeos
+ - problema do reprodutor
+ - melloras nos filtros
+ - non se desbotaban as notificacións en Android
+ - mala visibilidade das iconas multimedia con fondos moi brillantes
+ - ao escribir unha publicación non se accedía á barra superior despois de eliminar o anexo multimedia
+ - non se abría o teclado para seleccionar emojis e detección de autocompletado para maiúsculas/minúsculas
+ - fallo OutOfMemory con contido HTML moi longo
+ - outros fallos
