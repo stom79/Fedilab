@@ -84,6 +84,9 @@ public class CrossActionHelper {
                 boolean confirmFav = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION_FAV), false);
                 boolean confirmBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_NOTIF_VALIDATION), true);
                 List<BaseAccount> accounts = new Account(context).getCrossAccounts();
+                if (actionType == TypeOfCrossAction.QUOTE_ACTION) {
+                    accounts.removeIf(a -> a.api != Account.API.MASTODON && a.api != Account.API.PLEROMA && a.api != Account.API.FRIENDICA);
+                }
                 if (accounts.size() == 1) {
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     Runnable myRunnable = () -> {
@@ -362,6 +365,18 @@ public class CrossActionHelper {
                     bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
+                });
+            }
+            case QUOTE_ACTION -> {
+                Intent intentQuote = new Intent(context, ComposeActivity.class);
+                Bundle argsQuote = new Bundle();
+                argsQuote.putSerializable(Helper.ARG_QUOTED_MESSAGE, targetedStatus);
+                argsQuote.putSerializable(Helper.ARG_ACCOUNT, ownerAccount);
+                new CachedBundle(context).insertBundle(argsQuote, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intentQuote.putExtras(bundle);
+                    context.startActivity(intentQuote);
                 });
             }
             case COMPOSE -> {
@@ -760,6 +775,7 @@ public class CrossActionHelper {
         REBLOG_ACTION,
         UNREBLOG_ACTION,
         REPLY_ACTION,
+        QUOTE_ACTION,
         COMPOSE
     }
 

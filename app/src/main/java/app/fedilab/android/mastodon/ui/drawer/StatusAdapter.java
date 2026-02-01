@@ -1287,6 +1287,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(quoteButton.equals(quoteButtonEntryValues[0])) {
                 holder.binding.actionButtonQuote.setVisibility(View.VISIBLE);
                 holder.binding.actionButtonQuote.setOnClickListener(v -> quote(context, status));
+                holder.binding.actionButtonQuote.setOnLongClickListener(v -> {
+                    if ("direct".equals(statusToDeal.visibility) || "private".equals(statusToDeal.visibility)) {
+                        return true;
+                    }
+                    if (statusToDeal.quote_approval != null && statusToDeal.quote_approval.current_user != null
+                            && statusToDeal.quote_approval.current_user.equalsIgnoreCase("denied")) {
+                        return true;
+                    }
+                    CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.QUOTE_ACTION, null, statusToDeal);
+                    return true;
+                });
             } else {
                 holder.binding.actionButtonQuote.setVisibility(View.GONE);
             }
