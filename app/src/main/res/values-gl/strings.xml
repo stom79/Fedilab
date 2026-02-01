@@ -1159,4 +1159,5 @@
     <string name="custom_emoji">Persoal</string>
     <string name="standard_emoji">Estándar</string>
     <string name="reactions">Reaccións</string>
+    <string name="highlight_new_comments">Destacar os novos comentarios nos fíos</string>
 </resources>
