@@ -1,0 +1,9 @@
+Ditambahkan:
+- Menambahkan dukungan sistem terjemahan mesin MinT
+- Menambahkan dukungan "khusus instance" untuk GoToSocial
+
+Diperbaiki:
+- GIF tidak ditampilkan di linimasa
+- Perbaiki crash saat melepas sematan linimasa
+- Pewarnaan bilah atas saat menggulir untuk percakapan
+- Layar hitam saat kembali dari bagian Peertube

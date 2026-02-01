@@ -1,0 +1,17 @@
+Ditambahkan:
+- Menambahkan tampilan diskusi untuk tautan tren
+- Menambahkan tampilan media untuk pesan kutipan
+- Menambahkan fitur "Filter postingan ini"
+
+Diubah:
+- Warna teks MathJax menyesuaikan dengan latar belakang tema yang aktual
+
+Diperbaiki:
+- ANR pada teks panjang tanpa spasi
+- NPE dalam penanganan kutip
+- Menghormati kebijakan kutip default pengguna saat menulis postingan baru
+- Menyembunyikan konten yang dilindungi CW pada postingan kutipan
+- Berbagi gambar ke aplikasi lain
+- Putar otomatis WebP animasi di linimasa
+- Urutan balasan utas di tampilan percakapan
+- Tombol berhenti mengikuti tidak ditampilkan di profil

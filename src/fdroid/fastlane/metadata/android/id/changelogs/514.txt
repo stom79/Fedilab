@@ -1,0 +1,9 @@
+Ditambahkan:
+- Izinkan menonaktifkan dukungan kata ganti (default: diaktifkan)
+- Menambahkan lebih banyak dukungan untuk kata ganti (pelokalan dalam berbagai bahasa)
+
+Diperbaiki:
+- Perbaiki crash saat melaporkan pesan
+- Perbaiki crash saat mengikuti tag
+- Perbaiki beberapa masalah tampilan
+- Beberapa perbaikan dari rilis terakhir (3.28.0)

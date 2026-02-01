@@ -1,0 +1,10 @@
+Ditambahkan:
+- Dukungan kutip untuk Mastodon
+- Tekan lama pada tag: Ikuti / Bisukan
+
+Diubah:
+- Membatasi jumlah hashtag yang disorot di bagian bawah pesan
+
+Diperbaiki:
+- Perbaiki crash dengan utas
+- Perbaiki Hashtag kosong

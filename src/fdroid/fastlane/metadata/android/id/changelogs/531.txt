@@ -1,0 +1,13 @@
+Ditambahkan:
+- Garis tepi di sekitar media
+
+Diubah:
+- Membuat nama pengguna, nama tampilan di nav drawer dapat diklik
+- Media gif tidak dianimasikan secara default
+- Menonaktifkan secara default penyebutan kepada akun yang melakukan boost saat membalas. Dapat diaktifkan di Pengaturan > Tulis (per akun)
+
+Diperbaiki:
+- Gambar pratinjau salah saat berbagi dari aplikasi lain
+- Crash saat menerjemahkan dengan MinT
+- Refresh dan paginasi rusak untuk linimasa Tren
+- Perbaiki lag / crash

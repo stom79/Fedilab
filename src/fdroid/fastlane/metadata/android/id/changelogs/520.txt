@@ -1,0 +1,11 @@
+Ditambahkan:
+- Izinkan mengikuti linimasa penemuan (discover) dari instance Pixelfed
+- Izinkan masuk dengan token
+
+Perubahan:
+- Gunakan tata letak Pixelfed saat mengikuti instance Pixelfed
+- Izinkan menggulir tombol untuk layar lebih besar di percakapan
+
+Diperbaiki:
+- Nitter untuk mengikuti akun Twitter
+- Beberapa crash minor

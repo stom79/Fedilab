@@ -1,0 +1,6 @@
+Ditambahkan:
+- Bilah atas tetap (default: dinonaktifkan)
+- Frekuensi penggunaan tag saat menulis
+
+Diperbaiki:
+- Beberapa crash

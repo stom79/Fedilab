@@ -1,0 +1,19 @@
+Ditambahkan:
+- Sorot hashtag bawah
+- Mendukung Tautan Tren
+- Tag unggulan ditampilkan di profil
+- Tambah/Hapus tag unggulan dari editor profil
+
+Diubah:
+- Menambahkan dialog konfirmasi saat menekan lama tombol boost
+- Membuka pesan dengan mengetuk Boost Terjadwal
+- Meningkatkan pemilih bahasa saat difilter dengan beberapa bahasa
+
+Diperbaiki:
+- Membatasi jumlah pengambilan untuk filter
+- Instance Pleroma tidak dapat memilih media
+- Pesan yang salah terhapus untuk terjadwal (pesan dan boost)
+- Perbaiki crash dengan utas panjang
+- Perbaiki potensi masalah memori untuk media yang tidak dipotong
+- Perbaiki kutipan tertanam yang tidak ditampilkan
+- Beberapa crash

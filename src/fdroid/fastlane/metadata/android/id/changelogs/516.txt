@@ -1,0 +1,11 @@
+Ditambahkan:
+- Izinkan mengedit pesan terjadwal dari sisi server
+
+Diubah:
+- Mengurutkan nama daftar secara alfabetis di profil
+
+Diperbaiki:
+- Notifikasi push
+- Pemilih instance Peertube
+- Edit utas terjadwal (lokal)
+- Pencarian instan Hashtag mengulang hasil

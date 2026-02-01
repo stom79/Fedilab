@@ -1,0 +1,6 @@
+Diperbaiki:
+- Crash saat aplikasi dimulai pada tab notifikasi
+- Pengaturan fit preview images tertimpa oleh media dengan rasio tinggi
+- Filter hashtag instance jarak jauh tidak diterapkan
+- Pemangkasan teks menu filter linimasa
+- Jumlah tab notifikasi dan penghentian layanan latar depan

@@ -1,0 +1,16 @@
+Ditambahkan:
+- Menambahkan opsi untuk menonaktifkan penyembunyian otomatis tombol tulis
+
+Diubah:
+- Menambahkan lebih banyak deskripsi konten untuk tombol
+- Memperbarui beberapa tombol
+- Memperbarui header navigation drawer
+- Memampatkan tombol aksi saat diperlukan untuk mencegah tumpang tindih
+
+Diperbaiki:
+- Perbaiki crash saat media terlalu berat
+- Beberapa emoji kustom di bio tidak dirender
+- Mengirim pesan tidak berfungsi pada beberapa instance Friendica
+- Perbaiki crash dengan pemecahan otomatis pesan
+- Perbaiki crash saat membuka percakapan
+- Perbaiki masalah warna latar belakang saat menampilkan media

@@ -1,0 +1,11 @@
+Ditambahkan:
+- Bilah atas tetap (default: dinonaktifkan)
+- Frekuensi penggunaan tag saat menulis
+
+Diubah:
+- Dukungan Markdown dinonaktifkan secara default
+
+Diperbaiki:
+- Perbaiki crash saat berinteraksi atau saat membuka layar baru
+- Perbaiki warna dialog di Pengaturan
+- Beberapa crash minor

@@ -1,0 +1,25 @@
+Ditambahkan:
+- Dukungan Android 14
+- Memecah otomatis pesan panjang menjadi utas (default: TANYAKAN)
+- Tautan dan media dapat diklik saat menulis
+- Izinkan menggarisbawahi elemen yang dapat diklik (Pengaturan > Linimasa - default: dinonaktifkan)
+- Izinkan menonaktifkan tanggal relatif di pesan
+- Tambahkan bilah gulir untuk linimasa (default: dinonaktifkan)
+- Tambahkan bilah pencarian untuk emoji kustom
+- Tautan dapat diklik dalam deskripsi media
+
+Diubah:
+- Penghitung dekat tombol aksi
+- Sembunyikan pemilih emoji jika instance tidak memiliki emoji
+- Tag yang diikuti diurutkan
+- Pemilih akun saat membuka dengan akun lain
+
+Diperbaiki:
+- Menghindari error 429 dengan NTFY
+- Perbaiki warna kustom (Android 14)
+- Perbaiki crash saat menulis
+- Masalah tampilan pada tag yang diikuti
+- Crash pada profil
+- Perbaiki masalah pada polling dan Pleroma
+- Emoji tidak ditampilkan di pemilih
+- Beberapa crash diperbaiki

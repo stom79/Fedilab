@@ -1,0 +1,14 @@
+Ditambahkan:
+- Izinkan menggarisbawahi elemen yang dapat diklik (Pengaturan > Linimasa - default: dinonaktifkan)
+- Izinkan menonaktifkan tanggal relatif di pesan
+
+Diubah:
+- Penghitung dekat tombol aksi
+- Sembunyikan pemilih emoji jika instance tidak memiliki emoji
+- Tag yang diikuti diurutkan
+- Pemilih akun saat membuka dengan akun lain
+
+Diperbaiki:
+- Perbaiki crash saat menulis
+- Perbaiki masalah dengan tombol kembali
+- Masalah tampilan pada tag yang diikuti

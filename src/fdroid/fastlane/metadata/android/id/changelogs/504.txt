@@ -1,0 +1,9 @@
+Ditambahkan:
+- Tambahkan bilah gulir untuk linimasa (default: dinonaktifkan)
+- Tambahkan bilah pencarian untuk emoji kustom
+
+Diperbaiki:
+- Perbaiki prompt pemecahan yang ditanyakan berkali-kali saat menolak
+- Crash pada profil
+- Perbaiki masalah pada polling dan Pleroma
+- Emoji tidak ditampilkan di pemilih

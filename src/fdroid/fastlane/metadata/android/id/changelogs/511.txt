@@ -1,0 +1,9 @@
+Ditambahkan:
+- Ketuk banner akun untuk menampilkannya sebagai media
+
+Diperbaiki:
+- Posisi hilang saat berpindah antar akun
+- Profil yang salah saat mengaktifkan percakapan jarak jauh
+- Linimasa lokal Peertube
+- Pencarian instance Peertube
+- Crash pada rilis sebelumnya

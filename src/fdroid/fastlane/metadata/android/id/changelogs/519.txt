@@ -1,0 +1,10 @@
+Ditambahkan:
+- Pertahankan proporsi media di linimasa untuk Pixelfed
+- Tambahkan tombol suka di linimasa untuk Pixelfed
+
+Perubahan:
+- Berikan lebih banyak ruang untuk pesan yang difokuskan di percakapan
+
+Diperbaiki:
+- URL tidak dapat diklik saat Markdown diaktifkan
+- Linimasa Pixelfed tidak ditampilkan secara default

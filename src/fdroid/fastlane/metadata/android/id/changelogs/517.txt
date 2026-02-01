@@ -1,0 +1,16 @@
+Ditambahkan:
+- Izinkan mengedit pesan terjadwal dari sisi server
+
+Diubah:
+- Mengurutkan nama daftar secara alfabetis di profil
+- Menghapus pendaftaran untuk Google
+
+Diperbaiki:
+- Notifikasi push
+- Pemilih instance Peertube
+- Edit utas terjadwal (lokal)
+- Pencarian instan Hashtag mengulang hasil
+- Kutipan rusak dengan Markdown
+- Perbaiki crash laporan setelah mengirim
+- Perbaiki pemilih emoji saat tidak ada hasil
+- Perbaiki crash lainnya

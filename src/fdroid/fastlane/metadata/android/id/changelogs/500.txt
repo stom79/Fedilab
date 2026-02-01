@@ -1,0 +1,14 @@
+Ditambahkan:
+- Tiga ikon aplikasi baru (Pride, Pink, dan Pirate)
+- Pertahankan posisi dengan percakapan jarak jauh
+
+Diperbaiki:
+- Markdown: hentikan pemrosesan tag dan dukung teks coret
+- Kursor lebih terlihat saat menulis
+- Perbaiki panjang karakter maksimum instance kustom yang tidak berfungsi
+- Tab di profil
+- Perbaiki tag yang tidak dapat diklik untuk beberapa bahasa
+- Bug pada akun yang memiliki jumlah pengikut sangat besar
+- Crash dengan beberapa gif dalam pesan yang sama
+- Batas karakter maksimum polling
+- Beberapa crash

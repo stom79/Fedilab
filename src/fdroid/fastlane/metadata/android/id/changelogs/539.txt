@@ -1,0 +1,23 @@
+Ditambahkan:
+- Dukungan kutip Mastodon penuh
+- Tombol kutip dapat disembunyikan di Pengaturan > Linimasa
+- Mengubah kebijakan kutip default di pengaturan
+- Menambahkan warna di penulisan tergantung visibilitas (dapat dinonaktifkan/warna dapat diubah)
+- Menambahkan aksi aksesibilitas untuk memindahkan linimasa naik/turun di halaman Kelola linimasa
+- Menambahkan aksi aksesibilitas untuk menyembunyikan, menghapus linimasa di halaman 'Kelola linimasa'
+
+Diubah:
+- Tombol boost & kutip digabung (dapat dinonaktifkan di pengaturan)
+- Menampilkan tombol emoji hanya pada status yang difokuskan
+- Menambahkan menu popup untuk aksi boost/kutip pada status
+- Meningkatkan UI dan aksesibilitas di halaman login
+- Memindahkan "Maks karakter dalam tautan" di sebelah "Pangkas tautan"
+- Menambahkan lebih banyak dukungan kata ganti terjemahan untuk dukungan tombol (keys)
+- Saat difokuskan, informasi tentang sebuah pesan ditampilkan dalam 2 baris
+
+Diperbaiki:
+- Margin kiri tidak dihapus untuk informasi bagian bawah
+- Membuat teks peringatan konten dapat dipilih
+- Menonaktifkan pemrosesan HTML pada nama tampilan
+- Meningkatkan preferensi tombol terjemahkan
+- Memperbaiki beberapa crash

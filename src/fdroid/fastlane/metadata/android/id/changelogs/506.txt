@@ -1,0 +1,1 @@
+Rilis ini seharusnya memperbaiki crash (TransactionTooLargeException). Jika Anda mengalami crash, kembalikan versi (rollback) melalui FDdroid.

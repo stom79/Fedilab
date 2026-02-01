@@ -1,0 +1,12 @@
+Ditambahkan:
+- Mengikuti tag Twitter
+
+Perubahan:
+- Menghapus pencadangan otomatis (khusus Google)
+
+Diperbaiki:
+- Notifikasi push tidak berfungsi pada beberapa perangkat
+- Filter tidak diterapkan pada deskripsi media
+- Perbaiki crash dengan gambar animasi di linimasa
+- Perbaiki crash untuk utas panjang
+- Perbaiki crash akibat beberapa pesan (terjadi di berbagai linimasa)

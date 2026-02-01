@@ -1,0 +1,8 @@
+Ditambahkan:
+- Dukungan Android 14
+- Memecah otomatis pesan panjang menjadi utas (default: TANYAKAN)
+- Tautan dan media dapat diklik saat menulis
+
+Diperbaiki:
+- Menghindari error 429 dengan NTFY
+- Beberapa crash diperbaiki

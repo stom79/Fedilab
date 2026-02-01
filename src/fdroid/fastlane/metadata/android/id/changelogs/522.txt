@@ -1,0 +1,20 @@
+Ditambahkan:
+- Izinkan mengikuti linimasa penemuan (discover) dari instance Pixelfed
+- Pertahankan proporsi media di linimasa untuk Pixelfed
+- Tambahkan tombol suka di linimasa untuk Pixelfed
+- Izinkan masuk dengan token
+
+Perubahan:
+- Gunakan tata letak Pixelfed saat mengikuti instance Pixelfed
+- Izinkan menggulir tombol untuk layar lebih besar di percakapan
+- Pindahkan kode QR ke header
+
+Diperbaiki:
+- URL tidak dapat diklik saat Markdown diaktifkan
+- Nitter untuk mengikuti akun Twitter
+- Linimasa Pixelfed tidak ditampilkan secara default
+- Perbaiki laporan admin yang tidak dapat diakses
+- Pewarnaan bilah atas saat menggulir
+- Draf tidak tersimpan saat menambahkan/mengedit deskripsi media
+- Saran pencarian pengguna memiliki duplikasi
+- Beberapa crash minor

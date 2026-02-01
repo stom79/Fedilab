@@ -1,0 +1,5 @@
+Diperbaiki:
+- Perbaiki crash pada beberapa perangkat
+- Sembunyikan tombol kutip
+- Perbaiki masalah tata letak dengan gambar dalam orientasi lanskap
+- Perbaiki crash saat membuka pesan asli dari sebuah gambar

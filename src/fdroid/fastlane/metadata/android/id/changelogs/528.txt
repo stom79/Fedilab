@@ -1,0 +1,11 @@
+Ditambahkan:
+- Menambahkan ikon peluncur baru (Pengaturan > Antarmuka)
+
+Diubah:
+- Membuat tombol logout/proxy lebih terlihat di menu utama
+- Menghapus izin FOREGROUND_SERVICE
+- Sedikit meningkatkan lagi tata letak media dengan terjemahan
+
+Diperbaiki:
+- Perbaiki ikon bilah status tidak terlihat pada tema terang dengan warna aksen kustom
+- Tombol reaksi tidak dapat diklik pada beberapa instance

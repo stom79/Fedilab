@@ -1,16 +1,23 @@
-It supports:
-- Mastodon, Pleroma, Pixelfed, Peertube, GNU Social, Friendica.
+Mendukung:
+- Mastodon, Peertube, Pixelfed, Misskey, GNU Social, Pleroma, Friendica
 
-
-The app has advanced features (especially for Pleroma and Mastodon):
-
-- Multi-accounts support
-- Schedule messages from the device
-- Schedule boosts
-- Bookmark messages
-- Follow and interact with remote instances
-- Timed mute accounts
-- Cross-account actions with a long press
-- Translation feature
-- Art timelines
-- Video timelines
+Aplikasi ini memiliki fitur lanjutan:
+- Menulis rangkaian utas
+- Dukungan multi-akun
+- Menjadwalkan pesan dari perangkat
+- Mengikuti dan berinteraksi dengan instance jarak jauh
+- Aksi lintas-akun dengan tekan lama
+- Fitur terjemahan
+- Berbagai opsi pembaruan otomatis
+  - Notifikasi push melalui UnifiedPush (termasuk ntfy di FDroid)
+  - Tetap terhubung untuk Notifikasi Langsung
+  - Notifikasi tertunda (terhubung setiap 30 detik)
+- Mengganti tautan youtube dan twitter dengan tautan ke instance invidious dan nitter
+- Tema kustom, impor ekspor, dan definisi
+- Impor dan ekspor basis data aplikasi
+- Pemilih emoji dengan emoji kustom
+- Berbagai ikon peluncur
+- Penyaringan toot lanjutan
+- Linimasa seni khusus untuk tag mastoart
+- Ekspor toot
+- Kustomisasi berbagi url untuk langsung membagikan url ke layanan lain

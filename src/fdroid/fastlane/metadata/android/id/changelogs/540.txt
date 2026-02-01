@@ -1,0 +1,9 @@
+Ditambahkan:
+- Memperluas filter ke pesan kutipan
+
+Diubah:
+- Mengganti "Tidak ada siapa pun" menjadi "Hanya saya" untuk kebijakan persetujuan kutip
+
+Diperbaiki:
+- Crash saat mengedit pesan
+- Menambahkan domain x.com ke pola URL frontend alternatif

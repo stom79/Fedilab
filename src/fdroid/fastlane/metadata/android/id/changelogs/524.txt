@@ -1,0 +1,17 @@
+Ditambahkan:
+- Linimasa Tren yang disematkan (Pinned Trending Timeline) (dapat disembunyikan di Kelola Linimasa)
+- Tambahkan fallback ke penerjemah default
+- Entri Pixelfed baru di Pengaturan untuk menonaktifkan layar penuh pada media
+- Tambahkan tooltip untuk tab di profil
+
+Diubah:
+- Memperbesar area sentuh tombol balas
+- Menampilkan dialog setelah ekspor pengaturan
+
+Diperbaiki:
+- Perbaiki deskripsi media yang tidak terbarui saat ada beberapa
+- Hanya sebagian terjemahan DeepL yang ditampilkan
+- Perbaiki terjemahan Lingva yang terpotong
+- Perbaiki crash saat mengambil profil jarak jauh
+- Perbaiki crash dengan emoji animasi
+- Perbaiki crash saat menampilkan grafik cache Beranda

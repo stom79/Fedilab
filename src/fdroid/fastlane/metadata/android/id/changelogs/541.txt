@@ -1,0 +1,30 @@
+Ditambahkan:
+- Menambahkan linimasa tren remote Mastodon sebagai linimasa yang dapat disematkan
+- Menambahkan pengaturan untuk mengizinkan unggah media tanpa kompresi (dinonaktifkan secara default)
+- Menambahkan opsi untuk menyembunyikan indikator 'konten sensitif' dan 'deskripsi media'
+- Menambahkan opsi untuk mengubah bentuk gambar profil di halaman profil
+- Menambahkan aksi aksesibilitas untuk menerjemahkan konten status
+- Preferensi baru dengan beberapa opsi untuk mengubah cara tombol kutip ditampilkan
+
+Diubah:
+- Migrasi ke targetSdk 35
+- Meningkatkan preferensi pratinjau tautan
+- Mengubah UI popup boost+kutip
+- Menghapus akun dari "Home dibisukan" saat berhenti mengikuti
+- Membuat URI instance dapat diklik di dialog "Tentang instance"
+
+Diperbaiki:
+- Menampilkan placeholder untuk emoji yang tidak terfederasi
+- Filter pesan tidak berfungsi setelah memuat profil jarak jauh
+- WebP animasi tidak diputar di penampil media
+- Audio tidak dapat diklik saat fit preview diaktifkan
+- Cross-posting: menggunakan instance yang benar untuk batas karakter dan emoji
+- Pemangkasan tidak diterapkan pada postingan kutipan
+- Peringatan konten hilang saat mengedit postingan terjadwal
+- Terjemahan DeepL dengan menggunakan header Authorization
+- "Buka pesan asli" dapat membuka status yang salah
+- Perbaikan terkait notifikasi kutip (tipe tidak dikecualikan dengan benar, tab Kutip menampilkan polling)
+- Video berkedip
+- Masalah pemutar
+- Peningkatan filter
+- Beberapa crash

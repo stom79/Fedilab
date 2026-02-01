@@ -1,0 +1,7 @@
+Diperbaiki:
+- Perbaiki crash saat mengubah jenis notifikasi
+- Perbaiki masalah nama yang tidak tampil penuh
+- Perbaiki crash pada notifikasi dan Sharkey
+- Perbaiki crash saat aplikasi kembali ke latar depan
+- Perbaiki tautan xmpp yang tidak membuka klien xmpp
+- Perbaiki waktu bisu yang salah

@@ -1,0 +1,6 @@
+Ditambahkan:
+- Menampilkan kode QR di profil
+
+Diperbaiki:
+- Perbaiki ketukan pada pesan di percakapan
+- Kata ganti memakan terlalu banyak ruang

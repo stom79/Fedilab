@@ -1,0 +1,10 @@
+Ditambahkan:
+- Dukungan kata ganti (Linimasa/Tulis/Autocomplete)
+
+Diubah:
+- Menggunakan pustaka Media3
+
+Diperbaiki:
+- Durasi bisu terjadwal terlalu lama
+- Membagikan video hanya mengunduhnya
+- Crash dari rilis sebelumnya

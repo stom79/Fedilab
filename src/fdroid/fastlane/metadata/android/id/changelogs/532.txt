@@ -1,0 +1,4 @@
+Diperbaiki:
+- Polling tidak ditampilkan
+- Paginasi pada tren
+- Notifikasi push tidak berfungsi pada beberapa perangkat

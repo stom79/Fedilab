@@ -1,0 +1,26 @@
+Ditambahkan:
+- Menambahkan deskripsi konten ke tab di bilah atas
+- Menambahkan aksi aksesibilitas untuk mengubah sensitivitas media pada postingan di linimasa
+- Menambahkan aksi aksesibilitas untuk menerjemahkan, mengunduh, dan membagikan di penampil media
+- Menambahkan indikator bahasa pada status yang difokuskan
+- Menambahkan bahasa Persia ke preferensi "Ubah bahasa"
+- Menambahkan logo aplikasi baru
+
+Diubah:
+- Menampilkan placeholder saat foto profil sedang dimuat
+- Memperbarui judul tab navigasi bawah
+- Meningkatkan aksesibilitas konten terjemahan
+- Memperbarui daftar parameter pelacakan yang digunakan untuk "Hapus parameter UTM"
+- Menggunakan 'Pelacakan' alih-alih 'UTM'
+- Meningkatkan aksesibilitas di halaman Kelola linimasa
+- Membuat tombol tampilkan/sembunyikan media lebih besar
+- Memperbarui halaman tentang
+
+Diperbaiki:
+- Hashtag bawah pada bio menghilang saat "Sorot hashtag bawah" diaktifkan
+- "Gunakan frontend alternatif" merusak tautan Medium
+- Mengetuk tombol publikasi beberapa kali memublikasikan status beberapa kali
+- Popup teks alt tidak berubah ukuran saat menggeser
+- Kontrol video tidak terlihat pada tema terang
+- Foto profil muncul di sisi kiri judul pada halaman percakapan dalam mode RTL
+- Beberapa crash

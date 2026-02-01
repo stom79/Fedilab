@@ -1,0 +1,16 @@
+Ditambahkan:
+- Menu 3-titik untuk percakapan jarak jauh (Federasi di latar belakang)
+- Dukungan kutip untuk Mastodon
+- Tekan lama pada tag: Ikuti / Bisukan
+
+Diubah:
+- Meningkatkan aksesibilitas pada aktivitas media
+- Meningkatkan deskripsi konten
+- Memperbarui bahasa
+- Memperbarui ikon peluncur, menambahkan lebih banyak ikon monokrom
+- Membatasi jumlah hashtag yang disorot di bagian bawah pesan
+
+Diperbaiki:
+- Perbaiki seleksi teks berhenti berfungsi saat menulis
+- Perbaiki crash dengan utas
+- Perbaiki Hashtag kosong

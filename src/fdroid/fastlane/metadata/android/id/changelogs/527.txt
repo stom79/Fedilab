@@ -1,0 +1,10 @@
+Ditambahkan:
+- Menambahkan dukungan untuk skema URL "web+ap" untuk membuka profil dengan aplikasi
+
+Diubah:
+- Tata letak untuk deskripsi media
+
+Diperbaiki:
+- Perbaiki crash saat menerjemahkan deskripsi media
+- Handle disertakan dua kali saat membalas boost pengguna sendiri
+- Perbaiki masalah warna saat menggunakan tema kustom
