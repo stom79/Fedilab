@@ -1162,4 +1162,5 @@
     <string name="custom_emoji">カスタム</string>
     <string name="standard_emoji">標準</string>
     <string name="reactions">リアクション</string>
+    <string name="highlight_new_comments">スレッドの新たなコメントをハイライト</string>
 </resources>
