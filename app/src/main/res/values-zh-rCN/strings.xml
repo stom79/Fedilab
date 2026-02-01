@@ -1159,5 +1159,6 @@
     <string name="see_discussions">查看讨论</string>
     <string name="custom_emoji">自定义</string>
     <string name="standard_emoji">标准</string>
-    <string name="reactions">辉映</string>
+    <string name="reactions">回应</string>
+    <string name="highlight_new_comments">高亮嘟文串中的新评论</string>
 </resources>
