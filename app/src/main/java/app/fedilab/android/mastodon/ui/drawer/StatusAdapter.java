@@ -1008,7 +1008,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
 
-        boolean display_card = linkPreviews.equals(linkPreviewsEntryValues[0]) || (linkPreviews.equals(linkPreviewsEntryValues[1]) && (statusToDeal.media_attachments.isEmpty() || (hideSingleMediaWithCard && statusToDeal.media_attachments.size() == 1)));
+        boolean display_card = linkPreviews.equals(linkPreviewsEntryValues[0]) || (linkPreviews.equals(linkPreviewsEntryValues[1]) && (statusToDeal.media_attachments == null || statusToDeal.media_attachments.isEmpty() || (hideSingleMediaWithCard && statusToDeal.media_attachments.size() == 1)));
 
         if (statusToDeal.card != null && (display_card || statusToDeal.isFocused) && statusToDeal.quote_id == null) {
             if (statusToDeal.card.width > statusToDeal.card.height) {
