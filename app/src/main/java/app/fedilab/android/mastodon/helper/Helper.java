@@ -2027,7 +2027,7 @@ public class Helper {
 
                     @Override
                     public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
-                        if (account != null && account.username.equalsIgnoreCase("apps")) {
+                        if (account != null && "apps".equalsIgnoreCase(account.username)) {
 
                             MastodonHelper.loadPPMastodon(binding.accountContainer.avatar, account);
                             binding.accountContainer.displayName.setText(account.display_name);

@@ -278,9 +278,6 @@ public class TimelineHelper {
             return "";
         }
         try {
-            if (rawContent.length() > MAX_CONTENT_LENGTH) {
-                rawContent = rawContent.substring(0, MAX_CONTENT_LENGTH);
-            }
             String content;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 content = Html.fromHtml(rawContent, Html.FROM_HTML_MODE_LEGACY).toString();
@@ -301,7 +298,7 @@ public class TimelineHelper {
             }
             return content;
         } catch (Throwable e) {
-            return rawContent.replaceAll("<[^>]*>", " ").replaceAll("\\s+", " ").trim();
+            return rawContent.replaceAll("(?i)<br\\s*/?>", "\n").replaceAll("(?i)</p>", "\n").replaceAll("<[^>]*>", " ").replaceAll(" +", " ").trim();
         }
     }
 

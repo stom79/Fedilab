@@ -85,7 +85,7 @@ public class StatusCache {
         Gson gson = new Gson();
         try {
             return gson.toJson(mastodon_status);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return null;
         }
     }
@@ -100,7 +100,7 @@ public class StatusCache {
         Gson gson = new Gson();
         try {
             return gson.toJson(mastodon_notification);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return null;
         }
     }
@@ -115,7 +115,7 @@ public class StatusCache {
         Gson gson = new Gson();
         try {
             return gson.toJson(mastodon_conversation);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return null;
         }
     }

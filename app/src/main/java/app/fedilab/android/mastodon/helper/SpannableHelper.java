@@ -403,11 +403,12 @@ public class SpannableHelper {
                 Matcher matcher = Pattern.compile(key, Pattern.LITERAL)
                         .matcher(content);
                 while (matcher.find()) {
-                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                    CustomEmoji spanEmoji = new CustomEmoji(new WeakReference<>(view));
+                    content.setSpan(spanEmoji, matcher.start(), matcher.end(), 0);
                     Glide.with(view)
                             .asDrawable()
                             .load(url)
-                            .into(customEmoji.getTarget(animate, null));
+                            .into(spanEmoji.getTarget(animate, null, url));
                 }
             }
 
@@ -1037,10 +1038,11 @@ public class SpannableHelper {
                     CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(viewWeakReference.get()));
                     content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
                     if (Helper.isValidContextForGlide(activity)) {
+                        String emojiUrl = animate ? emoji.url : emoji.static_url;
                         Glide.with(viewWeakReference.get())
                                 .asDrawable()
-                                .load(animate ? emoji.url : emoji.static_url)
-                                .into(customEmoji.getTarget(animate, null));
+                                .load(emojiUrl)
+                                .into(customEmoji.getTarget(animate, null, emojiUrl));
                     }
                 }
             }
