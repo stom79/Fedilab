@@ -32,7 +32,7 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerReactionBinding;
 import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.Reaction;
-import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.helper.EmojiLoader;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AnnouncementsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
@@ -114,7 +114,7 @@ public class ReactionAdapter extends RecyclerView.Adapter<ReactionAdapter.Reacti
             holder.binding.reactionName.setVisibility(View.GONE);
             holder.binding.reactionEmoji.setVisibility(View.VISIBLE);
             holder.binding.reactionEmoji.setContentDescription(reaction.name);
-            Helper.loadImage(holder.binding.reactionEmoji, emojiUrl);
+            EmojiLoader.loadEmoji(holder.binding.reactionEmoji, emojiUrl);
         } else {
             String displayName = reaction.name;
             if (displayName != null && displayName.startsWith(":") && displayName.endsWith(":")) {

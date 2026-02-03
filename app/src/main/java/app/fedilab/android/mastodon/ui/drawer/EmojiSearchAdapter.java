@@ -27,7 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import app.fedilab.android.mastodon.helper.EmojiLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,10 +127,7 @@ public class EmojiSearchAdapter extends ArrayAdapter<Emoji> implements Filterabl
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             boolean disableGif = sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_GIF), false);
             String targetedUrl = disableGif ? emoji.static_url : emoji.url;
-            Glide.with(holder.view.getContext())
-                    .asDrawable()
-                    .load(targetedUrl)
-                    .into(holder.binding.emojiIcon);
+            EmojiLoader.loadEmoji(holder.binding.emojiIcon, targetedUrl);
         }
         return holder.view;
     }

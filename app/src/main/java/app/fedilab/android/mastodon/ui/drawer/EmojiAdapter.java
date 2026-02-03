@@ -24,13 +24,12 @@ import android.widget.BaseAdapter;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.DrawerEmojiPickerBinding;
 import app.fedilab.android.mastodon.client.entities.api.Emoji;
+import app.fedilab.android.mastodon.helper.EmojiLoader;
 
 
 public class EmojiAdapter extends BaseAdapter {
@@ -65,9 +64,7 @@ public class EmojiAdapter extends BaseAdapter {
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(holder.view.getContext());
         boolean disableAnimatedEmoji = sharedpreferences.getBoolean(parent.getContext().getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
-        Glide.with(holder.binding.imgCustomEmoji.getContext())
-                .load(!disableAnimatedEmoji ? emoji.url : emoji.static_url)
-                .into(holder.binding.imgCustomEmoji);
+        EmojiLoader.loadEmoji(holder.binding.imgCustomEmoji, !disableAnimatedEmoji ? emoji.url : emoji.static_url);
 
         return holder.view;
     }
