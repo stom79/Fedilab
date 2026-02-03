@@ -1,0 +1,6 @@
+Reparat:
+- Fallida en obrir l'app a la pestanya de notificacions
+- Paràmetre d'encaixar previsionat d'imatges era sobreescrit amb mèdia molt grans
+- Filtre d'etiquetes d'instàncies remotes que no s'aplicava
+- Truncament del text del menú de filtrat de pissarres
+- Recompte de pestanyes i servei de primer pla que s'aturava

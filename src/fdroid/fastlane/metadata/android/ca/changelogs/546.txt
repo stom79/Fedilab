@@ -1,0 +1,52 @@
+Afegit:
+- Suport perMisskey
+- Vista de debats en enllaços de tendències
+- Visionat de mèdia en missatges citats
+- Funcionalitat "Filtrar aquesta publicació"
+- Pissarra fixable de control de tendències remotes de Mastodon
+- Funcionalitat de càrrega de mèdia no comprimit (desactivada per defecte)
+- Opcions per ocultar els indicadors de "contingut sensible" i "descripció del contingut multimèdia"
+- Opció per canviar la forma de la imatge de perfil a la pàgina de perfil
+- Acció d'accessibilitat per traduir el contingut mostrat
+- Nova preferència amb múltiples opcions de mostra del botó de citar
+- Opció per ressaltar comentaris nous als fils de conversa
+
+Canviat:
+- El color del text de MathJax s'adapta al fons real del tema
+- Migració a targetSdk 35
+- Millora de previsionat d'enllaços
+- Canvi de tarja emergent de difondre/citar a la IU
+- Elimina comptes dels "Silenciats a l'inici" quan es dessegueixen
+- Instància URI clicable al diàleg "Sobre la instància"
+
+Corregit:
+- Fallida en obrir l'app a la pestanya de notificacions
+- Paràmetre d'encaixar previsionat d'imatges era sobreescrit amb mèdia molt grans
+- Filtre d'etiquetes d'instàncies remotes que no s'aplicava
+- Truncament del text del menú de filtrat de pissarres
+- Recompte de pestanyes i servei de primer pla que s'aturava
+- ANR en text llarg sense espais
+- NPE en la gestió de cites
+- Respecta la política de cites predeterminada d'usuària en redactar noves publicacions
+- Amagava el contingut protegit per AC a les publicacions citades
+- Compartir imatges amb altres aplicacions
+- Reproducció automàtica de WebP animada a les pissarres
+- Mostra un lloc-tinent per als emojis no federats
+- Filtre de missatges que no funcionava després de carregar el perfil remot
+- WebP animat no es reproduïa al visor multimèdia
+- No podia clicar l'àudio quan s'habilitava previsionat encaixat
+- Publicacions de pas: utilitza la instància correcta per al límit de caràcters i els emojis
+- El truncament no s'aplicava a les publicacions citades
+- Avís de contingut extraviat en editar publicacions programades
+- Traducció per DeepL mitjançant la capçalera d'autorització
+- "Obrir missatge original" obria un contingut incorrecte
+- Correccions en notificacions de cites (tipus no exclòs correctament, la pestanya Cites mostrava les enquestes)
+- Pampallugueig de vídeo
+- Problema amb el reproductor
+- Millores amb els filtres
+- No es descartaven les notificacions d'Android
+- Icones superposades de mal veure en fons brillants
+- Barra de redacció superior inaccessible després de suprimir mèdia adjunt
+- Teclat selector d'emojis no s'obria i distinció de majúscules amb autocompletar
+- Fallida de Memòria insuficient amb continguts HTML molt llargs
+- Algunes fallides
