@@ -1158,4 +1158,8 @@
     <string name="no_filters_available">No hi ha filtres disponibles. Primer cal crear-ne a la configuració.</string>
     <string name="filtered_statuses">Missatges filtrats</string>
     <string name="see_discussions">Vegeu deliberacions</string>
+    <string name="custom_emoji">A mida</string>
+    <string name="standard_emoji">Estàndard</string>
+    <string name="reactions">Reaccions</string>
+    <string name="highlight_new_comments">Ressaltar els comentaris nous dels fils</string>
 </resources>
