@@ -393,8 +393,21 @@ public class SpannableHelper {
             }
         }
         boolean animate = !sharedpreferences.getBoolean(context.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
-        CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
-        content = customEmoji.makeEmoji(content, emojiList, animate, callback);
+        // Process emojis inline (same as convertEmoji)
+        if (view != null && emojiList != null && !emojiList.isEmpty()) {
+            for (Emoji emoji : emojiList) {
+                Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
+                        .matcher(content);
+                while (matcher.find()) {
+                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
+                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                    if (Helper.isValidContextForGlide(context)) {
+                        String emojiUrl = animate ? emoji.url : emoji.static_url;
+                        customEmoji.loadEmoji(view, emojiUrl, animate, null);
+                    }
+                }
+            }
+        }
 
         if (!imagesToReplace.isEmpty()) {
             for (Map.Entry<String, String> entry : imagesToReplace.entrySet()) {
@@ -405,10 +418,7 @@ public class SpannableHelper {
                 while (matcher.find()) {
                     CustomEmoji spanEmoji = new CustomEmoji(new WeakReference<>(view));
                     content.setSpan(spanEmoji, matcher.start(), matcher.end(), 0);
-                    Glide.with(view)
-                            .asDrawable()
-                            .load(url)
-                            .into(spanEmoji.getTarget(animate, null, url));
+                    spanEmoji.loadEmoji(view, url, animate, null);
                 }
             }
 
@@ -1024,6 +1034,10 @@ public class SpannableHelper {
         if (text == null) {
             return null;
         }
+        View view = viewWeakReference.get();
+        if (view == null) {
+            return new SpannableString(text);
+        }
         SpannableString initialContent = new SpannableString(text);
 
         SpannableStringBuilder content = new SpannableStringBuilder(initialContent);
@@ -1035,14 +1049,11 @@ public class SpannableHelper {
                 Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
                         .matcher(content);
                 while (matcher.find()) {
-                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(viewWeakReference.get()));
+                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
                     content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
                     if (Helper.isValidContextForGlide(activity)) {
                         String emojiUrl = animate ? emoji.url : emoji.static_url;
-                        Glide.with(viewWeakReference.get())
-                                .asDrawable()
-                                .load(emojiUrl)
-                                .into(customEmoji.getTarget(animate, null, emojiUrl));
+                        customEmoji.loadEmoji(view, emojiUrl, animate, null);
                     }
                 }
             }

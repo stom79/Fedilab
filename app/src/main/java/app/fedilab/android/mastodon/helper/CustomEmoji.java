@@ -14,10 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -50,22 +46,22 @@ public class CustomEmoji extends ReplacementSpan {
     }
 
     public SpannableStringBuilder makeEmoji(SpannableStringBuilder content, List<Emoji> emojiList, boolean animate, Status.Callback callback) {
-        if (emojiList != null && !emojiList.isEmpty()) {
-            int count = 1;
-            for (Emoji emoji : emojiList) {
-                Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
-                        .matcher(content);
-                while (matcher.find()) {
-                    CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(viewWeakReference.get()));
-                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
-                    String emojiUrl = animate ? emoji.url : emoji.static_url;
-                    Glide.with(viewWeakReference.get())
-                            .asDrawable()
-                            .load(emojiUrl)
-                            .into(customEmoji.getTarget(animate, count == emojiList.size() && !callbackCalled ? callback : null, emojiUrl));
-                }
-                count++;
+        View view = viewWeakReference.get();
+        if (view == null || emojiList == null || emojiList.isEmpty()) {
+            return content;
+        }
+        int count = 1;
+        for (Emoji emoji : emojiList) {
+            Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
+                    .matcher(content);
+            while (matcher.find()) {
+                CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
+                content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                String emojiUrl = animate ? emoji.url : emoji.static_url;
+                boolean isLastEmoji = count == emojiList.size() && !callbackCalled;
+                customEmoji.loadEmoji(view, emojiUrl, animate, isLastEmoji ? callback : null);
             }
+            count++;
         }
         return content;
     }
@@ -78,7 +74,7 @@ public class CustomEmoji extends ReplacementSpan {
                 @Override
                 public void invalidateDrawable(@NonNull Drawable drawable) {
                     if (view != null) {
-                        view.invalidate();
+                        view.postInvalidate();
                     }
                 }
 
@@ -100,8 +96,17 @@ public class CustomEmoji extends ReplacementSpan {
             ((Animatable) resource).start();
         }
         imageDrawable = resource;
-        if (view != null) {
-            view.invalidate();
+        if (view instanceof android.widget.TextView) {
+            android.widget.TextView tv = (android.widget.TextView) view;
+            tv.post(() -> {
+                CharSequence text = tv.getText();
+                tv.setText(text, android.widget.TextView.BufferType.SPANNABLE);
+            });
+        } else if (view != null) {
+            view.post(() -> {
+                view.invalidate();
+                view.requestLayout();
+            });
         }
         if (callback != null && !callbackCalled) {
             callbackCalled = true;
@@ -113,15 +118,18 @@ public class CustomEmoji extends ReplacementSpan {
         loadFailed = true;
         View view = viewWeakReference.get();
         if (view != null) {
-            view.invalidate();
+            view.post(() -> {
+                view.invalidate();
+                view.requestLayout();
+            });
         }
     }
 
-    public void loadEmoji(View view, String url, boolean animate) {
+    public void loadEmoji(View view, String url, boolean animate, Status.Callback callback) {
         EmojiLoader.loadEmojiSpan(view, url, animate, new EmojiLoader.DrawableCallback() {
             @Override
             public void onLoaded(Drawable drawable, boolean shouldAnimate) {
-                onEmojiLoaded(drawable, shouldAnimate, null);
+                onEmojiLoaded(drawable, shouldAnimate, callback);
             }
 
             @Override
@@ -129,101 +137,6 @@ public class CustomEmoji extends ReplacementSpan {
                 onEmojiLoadFailed();
             }
         });
-    }
-
-    public Target<Drawable> getTarget(boolean animate, Status.Callback callback, String url) {
-        return new CustomTarget<>() {
-
-            @Override
-            public void onStart() {
-                if (imageDrawable instanceof Animatable) {
-                    ((Animatable) imageDrawable).start();
-                }
-            }
-
-            @Override
-            public void onStop() {
-                if (imageDrawable instanceof Animatable) {
-                    ((Animatable) imageDrawable).stop();
-                }
-            }
-
-            @Override
-            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                View view = viewWeakReference.get();
-
-                if (animate && resource instanceof Animatable) {
-                    resource.setCallback(new Drawable.Callback() {
-                        @Override
-                        public void invalidateDrawable(@NonNull Drawable drawable) {
-                            if (view != null) {
-                                view.invalidate();
-                            }
-                        }
-
-                        @Override
-                        public void scheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable, long l) {
-                            if (view != null) {
-                                view.postDelayed(runnable, l);
-                            }
-                        }
-
-                        @Override
-                        public void unscheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable) {
-                            if (view != null) {
-                                view.removeCallbacks(runnable);
-                            }
-                        }
-                    });
-                    ((Animatable) resource).start();
-                } else if (animate && view != null) {
-                    EmojiLoader.loadEmojiSpan(view, url, true, new EmojiLoader.DrawableCallback() {
-                        @Override
-                        public void onLoaded(Drawable drawable, boolean shouldAnimate) {
-                            if (drawable instanceof Animatable) {
-                                onEmojiLoaded(drawable, true, null);
-                            }
-                        }
-
-                        @Override
-                        public void onFailed() {
-                        }
-                    });
-                }
-                imageDrawable = resource;
-                if (view != null) {
-                    view.invalidate();
-                }
-                if (callback != null && !callbackCalled) {
-                    callbackCalled = true;
-                    callback.emojiFetched();
-                }
-            }
-
-            @Override
-            public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                loadFailed = true;
-                View view = viewWeakReference.get();
-                if (view != null) {
-                    view.invalidate();
-                }
-            }
-
-            @Override
-            public void onLoadCleared(@Nullable Drawable placeholder) {
-                View view = viewWeakReference.get();
-                if (imageDrawable != null) {
-                    if (imageDrawable instanceof Animatable) {
-                        ((Animatable) imageDrawable).stop();
-                        imageDrawable.setCallback(null);
-                    }
-                }
-                imageDrawable = null;
-                if (view != null) {
-                    view.invalidate();
-                }
-            }
-        };
     }
 
     @Override
@@ -242,8 +155,6 @@ public class CustomEmoji extends ReplacementSpan {
             canvas.translate(x, (float) transY);
             imageDrawable.draw(canvas);
             canvas.restore();
-        } else if (loadFailed) {
-            canvas.drawText(charSequence, start, end, x, y, paint);
         }
     }
 

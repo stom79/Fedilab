@@ -28,6 +28,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.github.penfeizhou.animation.apng.APNGDrawable;
 import com.github.penfeizhou.animation.gif.GifDrawable;
@@ -36,6 +37,10 @@ import com.github.penfeizhou.animation.webp.WebPDrawable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import app.fedilab.android.R;
 
 public class EmojiLoader {
 
@@ -59,33 +64,46 @@ public class EmojiLoader {
                 });
     }
 
+    @SuppressWarnings("unchecked")
     public static void loadEmojiSpan(View view, String url, boolean animate, DrawableCallback callback) {
         if (!Helper.isValidContextForGlide(view.getContext())) {
             return;
         }
-        Glide.with(view)
+
+        // Store target in view tag to prevent garbage collection
+        List<Target<?>> targets = (List<Target<?>>) view.getTag(R.id.custom_emoji_targets);
+        if (targets == null) {
+            targets = new ArrayList<>();
+            view.setTag(R.id.custom_emoji_targets, targets);
+        }
+
+        CustomTarget<File> target = new CustomTarget<File>() {
+            @Override
+            public void onResourceReady(@NonNull File file, @Nullable Transition<? super File> transition) {
+                Drawable drawable = decodeFile(view.getResources(), file);
+                if (drawable != null) {
+                    callback.onLoaded(drawable, animate);
+                } else {
+                    callback.onFailed();
+                }
+            }
+
+            @Override
+            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                callback.onFailed();
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+            }
+        };
+
+        targets.add(target);
+
+        Glide.with(view.getContext())
                 .asFile()
                 .load(url)
-                .into(new CustomTarget<File>() {
-                    @Override
-                    public void onResourceReady(@NonNull File file, @Nullable Transition<? super File> transition) {
-                        Drawable drawable = decodeFile(view.getResources(), file);
-                        if (drawable != null) {
-                            callback.onLoaded(drawable, animate);
-                        } else {
-                            callback.onFailed();
-                        }
-                    }
-
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        callback.onFailed();
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                    }
-                });
+                .into(target);
     }
 
     private static Drawable decodeFile(Resources resources, File file) {
