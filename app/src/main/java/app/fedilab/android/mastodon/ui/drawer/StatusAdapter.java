@@ -1648,6 +1648,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case "direct" -> holder.binding.actionButtonBoost.setVisibility(View.GONE);
         }
         //--- MAIN CONTENT ---
+        holder.binding.statusContent.scrollTo(0, 0);
         holder.binding.statusContent.setText(
                 statusToDeal.getSpanContent(context, remote,
                         new WeakReference<>(holder.binding.statusContent), () -> {
