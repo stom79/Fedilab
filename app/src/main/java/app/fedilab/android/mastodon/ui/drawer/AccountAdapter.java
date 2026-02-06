@@ -121,7 +121,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 Toasty.info(context, context.getString(R.string.retrieve_remote_account), Toasty.LENGTH_SHORT).show();
                 SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
-                searchVM.search(remoteInstance, null, account.acct, null, "accounts", null, null, null, null, null, null, null)
+                searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.acct, null, "accounts", null, null, null, null, null, null, null)
                         .observe((LifecycleOwner) context, results -> {
                             if (results != null && results.accounts != null && results.accounts.size() > 0) {
                                 Account accountSearch = results.accounts.get(0);
