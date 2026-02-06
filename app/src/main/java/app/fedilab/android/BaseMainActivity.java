@@ -1694,16 +1694,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         super.onResume();
         if (!sharedpreferences.getBoolean(getString(R.string.SET_AUTO_HIDE_COMPOSE), true) && !getFloatingVisibility())
             manageFloatingButton(true);
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Helper.getCurrentAccount(this) != null && Helper.getCurrentAccount(this).mastodon_account != null) {
-            for (StatusBarNotification statusBarNotification : notificationManager.getActiveNotifications()) {
-                if (statusBarNotification.getGroupKey().contains(Helper.getCurrentAccount(this).mastodon_account.acct + "@" + Helper.getCurrentAccount(this).instance)) {
-                    notificationManager.cancel(statusBarNotification.getId());
-                }
-            }
-        } else {
-            notificationManager.cancelAll();
-        }
     }
 
     private void manageTopBarScrolling(Toolbar toolbar) {
