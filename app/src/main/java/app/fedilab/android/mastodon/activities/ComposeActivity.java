@@ -566,13 +566,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     status.text = scheduledStatus.params.text;
                     status.in_reply_to_id = scheduledStatus.params.in_reply_to_id;
                     status.poll = scheduledStatus.params.poll;
-                    if (scheduledStatus.params.media_ids != null && !scheduledStatus.params.media_ids.isEmpty()) {
-                        status.media_attachments = new ArrayList<>();
-                        for (String attachmentId : scheduledStatus.params.media_ids) {
-                            Attachment attachment = new Attachment();
-                            attachment.id = attachmentId;
-                            status.media_attachments.add(attachment);
-                        }
+                    if (scheduledStatus.media_attachments != null && !scheduledStatus.media_attachments.isEmpty()) {
+                        status.media_attachments = scheduledStatus.media_attachments;
                     }
                     status.sensitive = scheduledStatus.params.sensitive;
                     status.spoiler_text = scheduledStatus.params.spoiler_text;
