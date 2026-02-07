@@ -599,6 +599,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 int fromPosition = timelineStatuses.size();
                 timelineStatuses.addAll(fetched_statuses.statuses);
                 statusAdapter.notifyItemRangeInserted(fromPosition, insertedStatus);
+            } else if (timelineType == Timeline.TimeLineEnum.ART) {
+                insertedStatus = fetched_statuses.statuses.size();
+                int fromPosition = timelineStatuses.size();
+                timelineStatuses.addAll(fetched_statuses.statuses);
+                statusAdapter.notifyItemRangeInserted(fromPosition, insertedStatus);
             } else if (timelineType != Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE ) {
                 insertedStatus = updateStatusListWith(fetched_statuses.statuses);
             } else { //Trends cannot be ordered by id
