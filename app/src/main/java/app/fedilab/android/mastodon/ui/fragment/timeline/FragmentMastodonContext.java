@@ -316,10 +316,10 @@ public class FragmentMastodonContext extends Fragment {
         statuses.addAll(0, context.ancestors);
         statusAdapter.notifyItemRangeInserted(0, statusPosition);
         List<String> allParentIds = new ArrayList<>();
-        for (Status ancestor : context.ancestors) {
-            allParentIds.add(ancestor.id);
-        }
         allParentIds.add(focusedStatus.id);
+        for (int i = context.ancestors.size() - 1; i >= 0; i--) {
+            allParentIds.add(context.ancestors.get(i).id);
+        }
         List<Status> sortedDescendants = CommentDecorationHelper.sortDescendantsAsTree(context.descendants, allParentIds);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean highlightNewComments = sharedpreferences.getBoolean(getString(R.string.SET_HIGHLIGHT_NEW_COMMENTS), true);
