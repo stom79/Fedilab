@@ -242,6 +242,26 @@ public class PinnedTimelineHelper {
                     new Pinned(activity).insertPinned(pinned);
                 }
             }
+            //Trend link timeline
+            boolean createDefaultTrendLinkAtTop = true;
+            for (PinnedTimeline pinnedTimeline : pinnedAll.pinnedTimelines) {
+                if (pinnedTimeline.type == Timeline.TimeLineEnum.TREND_LINK) {
+                    createDefaultTrendLinkAtTop = false;
+                    break;
+                }
+            }
+            if (createDefaultTrendLinkAtTop) {
+                PinnedTimeline pinnedTimelineTrendLink = new PinnedTimeline();
+                pinnedTimelineTrendLink.type = Timeline.TimeLineEnum.TREND_LINK;
+                pinnedTimelineTrendLink.position = pinnedAll.pinnedTimelines != null ? pinnedAll.pinnedTimelines.size() : 0;
+                pinned.pinnedTimelines.add(pinnedTimelineTrendLink);
+                boolean exist = new Pinned(activity).pinnedExist(pinned);
+                if (exist) {
+                    new Pinned(activity).updatePinned(pinned);
+                } else {
+                    new Pinned(activity).insertPinned(pinned);
+                }
+            }
         } catch (DBException e) {
             e.printStackTrace();
         }
@@ -416,6 +436,9 @@ public class PinnedTimelineHelper {
                                 case MASTODON_TRENDING:
                                     tabCustomViewBinding.icon.setImageResource(R.drawable.ic_baseline_trending_up_24);
                                     break;
+                                case MASTODON_TRENDING_LINK:
+                                    tabCustomViewBinding.icon.setImageResource(R.drawable.ic_full_link);
+                                    break;
                                 case LEMMY:
                                     tabCustomViewBinding.icon.setImageResource(R.drawable.lemmy);
                                     break;
@@ -468,6 +491,10 @@ public class PinnedTimelineHelper {
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.baseline_moving_24);
                             tab.setContentDescription(R.string.trending);
                             break;
+                        case TREND_LINK:
+                            tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_full_link);
+                            tab.setContentDescription(R.string.links);
+                            break;
                     }
                     tab.setCustomView(tabCustomDefaultViewBinding.getRoot());
                 }
@@ -517,6 +544,9 @@ public class PinnedTimelineHelper {
                                 break;
                             case MASTODON_TRENDING:
                                 item.setIcon(R.drawable.ic_baseline_trending_up_24);
+                                break;
+                            case MASTODON_TRENDING_LINK:
+                                item.setIcon(R.drawable.ic_full_link);
                                 break;
                             case PEERTUBE:
                                 item.setIcon(R.drawable.peertube_icon);
@@ -597,6 +627,7 @@ public class PinnedTimelineHelper {
                     case HOME:
                     case LOCAL:
                     case TREND_MESSAGE:
+                    case TREND_LINK:
                     case PUBLIC:
                         defaultClick(activity, pinnedTimelineVisibleList.get(position).type, v, activityMainBinding, finalI);
                         break;

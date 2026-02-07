@@ -37,6 +37,8 @@ import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.mastodon.activities.SearchResultTabActivity;
 import app.fedilab.android.mastodon.client.entities.api.Link;
+import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
+import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.ui.drawer.LinkAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
@@ -50,6 +52,7 @@ public class FragmentMastodonLink extends Fragment {
     private Integer offset;
     private boolean flagLoading;
     private List<Link> linkList;
+    private String remoteInstance;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +73,13 @@ public class FragmentMastodonLink extends Fragment {
         flagLoading = false;
         binding.swipeContainer.setRefreshing(false);
         binding.swipeContainer.setEnabled(false);
+        Bundle args = getArguments();
+        if (args != null) {
+            PinnedTimeline pinnedTimeline = (PinnedTimeline) args.getSerializable(Helper.ARG_REMOTE_INSTANCE);
+            if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
+                remoteInstance = pinnedTimeline.remoteInstance.host;
+            }
+        }
         router();
     }
 
@@ -78,7 +88,9 @@ public class FragmentMastodonLink extends Fragment {
      */
     private void router() {
         TimelinesVM timelinesVM = new ViewModelProvider(FragmentMastodonLink.this).get(TimelinesVM.class);
-        timelinesVM.getLinksTrends(BaseMainActivity.currentToken, BaseMainActivity.currentInstance, offset, MastodonHelper.SEARCH_PER_CALL)
+        String token = remoteInstance != null ? null : BaseMainActivity.currentToken;
+        String instance = remoteInstance != null ? remoteInstance : BaseMainActivity.currentInstance;
+        timelinesVM.getLinksTrends(token, instance, offset, MastodonHelper.SEARCH_PER_CALL)
                 .observe(getViewLifecycleOwner(), links -> {
                     if (links != null && offset == 0) {
                         initializeLinkCommonView(links);

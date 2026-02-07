@@ -37,6 +37,12 @@
                 android:text="@string/mastodon_trending_instance" />
 
             <RadioButton
+                android:id="@+id/mastodon_trending_link_instance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mastodon_trending_link_instance" />
+
+            <RadioButton
                 android:id="@+id/peertube_instance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

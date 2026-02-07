@@ -42,6 +42,8 @@ public class RemoteInstance implements Serializable {
         MASTODON("MASTODON"),
         @SerializedName("MASTODON_TRENDING")
         MASTODON_TRENDING("MASTODON_TRENDING"),
+        @SerializedName("MASTODON_TRENDING_LINK")
+        MASTODON_TRENDING_LINK("MASTODON_TRENDING_LINK"),
         @SerializedName("PIXELFED")
         PIXELFED("PIXELFED"),
         @SerializedName("PEERTUBE")

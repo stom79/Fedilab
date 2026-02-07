@@ -199,6 +199,8 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                     url = "https://" + instanceName + "/api/v1/timelines/public?local=true";
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.mastodon_trending_instance) {
                     url = "https://" + instanceName + "/api/v1/trends/statuses";
+                } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.mastodon_trending_link_instance) {
+                    url = "https://" + instanceName + "/api/v1/trends/links";
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.peertube_instance) {
                     url = "https://" + instanceName + "/api/v1/videos/";
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.pixelfed_instance) {
@@ -253,6 +255,8 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                                         instanceType = RemoteInstance.InstanceType.MASTODON;
                                     } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.mastodon_trending_instance) {
                                         instanceType = RemoteInstance.InstanceType.MASTODON_TRENDING;
+                                    } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.mastodon_trending_link_instance) {
+                                        instanceType = RemoteInstance.InstanceType.MASTODON_TRENDING_LINK;
                                     } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.peertube_instance) {
                                         instanceType = RemoteInstance.InstanceType.PEERTUBE;
                                     } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.pixelfed_instance) {

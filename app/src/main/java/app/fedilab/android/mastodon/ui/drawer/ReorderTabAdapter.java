@@ -92,6 +92,9 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     case MASTODON_TRENDING:
                         holder.binding.icon.setImageResource(R.drawable.ic_baseline_trending_up_24);
                         break;
+                    case MASTODON_TRENDING_LINK:
+                        holder.binding.icon.setImageResource(R.drawable.ic_full_link);
+                        break;
                     case PIXELFED:
                         holder.binding.icon.setImageResource(R.drawable.pixelfed);
                         break;
@@ -164,6 +167,10 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             case TREND_MESSAGE:
                 holder.binding.icon.setImageResource(R.drawable.baseline_moving_24);
                 holder.binding.text.setText(R.string.trending);
+                break;
+            case TREND_LINK:
+                holder.binding.icon.setImageResource(R.drawable.ic_full_link);
+                holder.binding.text.setText(R.string.links);
                 break;
         }
 

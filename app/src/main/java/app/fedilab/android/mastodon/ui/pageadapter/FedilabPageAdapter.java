@@ -30,10 +30,12 @@ import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.entities.app.BottomMenu;
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
+import app.fedilab.android.mastodon.client.entities.app.RemoteInstance;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.PinnedTimelineHelper;
 import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonConversation;
+import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonLink;
 import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonTimeline;
 import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentNotificationContainer;
 
@@ -136,9 +138,19 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.TAG) {
                 bundle.putSerializable(Helper.ARG_TAG_TIMELINE, pinnedTimeline.tagTimeline);
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.REMOTE) {
+                if (pinnedTimeline.remoteInstance != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.MASTODON_TRENDING_LINK) {
+                    bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinnedTimeline);
+                    FragmentMastodonLink fragmentMastodonLink = new FragmentMastodonLink();
+                    fragmentMastodonLink.setArguments(bundle);
+                    return fragmentMastodonLink;
+                }
                 bundle.putSerializable(Helper.ARG_REMOTE_INSTANCE, pinnedTimeline);
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.BUBBLE) {
                 bundle.putSerializable(Helper.ARG_BUBBLE_TIMELINE, pinnedTimeline.bubbleTimeline);
+            } else if (pinnedTimeline.type == Timeline.TimeLineEnum.TREND_LINK) {
+                FragmentMastodonLink fragmentMastodonLink = new FragmentMastodonLink();
+                fragmentMastodonLink.setArguments(bundle);
+                return fragmentMastodonLink;
             }
 
         }
