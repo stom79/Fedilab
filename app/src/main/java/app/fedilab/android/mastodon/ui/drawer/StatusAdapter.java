@@ -3608,7 +3608,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.actionButtonBoost.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonFavorite.setInActiveImageTintColor(theme_icons_color);
             holder.binding.actionButtonBookmark.setInActiveImageTintColor(theme_icons_color);
+            Helper.changeDrawableColor(context, holder.binding.actionButtonQuote, theme_icons_color);
             holder.binding.replyCount.setTextColor(theme_icons_color);
+            holder.binding.boostCount.setTextColor(theme_icons_color);
+            holder.binding.favoriteCount.setTextColor(theme_icons_color);
         }
         if (theme_statuses_color != -1) {
             holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
