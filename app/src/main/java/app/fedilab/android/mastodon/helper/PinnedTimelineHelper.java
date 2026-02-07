@@ -993,6 +993,9 @@ public class PinnedTimelineHelper {
             anyDialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
                 String[] values = editText.getText().toString().trim().split("\\s+");
                 tagTimeline.any = new ArrayList<>(Arrays.asList(values));
+                if (tagTimeline.any.size() > 4) {
+                    Toasty.warning(activity, activity.getString(R.string.hashtag_limit_warning), Toasty.LENGTH_LONG).show();
+                }
                 pinned.pinnedTimelines.get(finalOffSetPosition).tagTimeline = tagTimeline;
                 try {
                     new Pinned(activity).updatePinned(pinned);

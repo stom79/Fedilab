@@ -442,6 +442,7 @@
     <string name="mastodon_trending_instance">Mastodon trending instance</string>
     <string name="mastodon_trending_link_instance">Mastodon trending link instance</string>
     <string name="any_tags">Any of these</string>
+    <string name="hashtag_limit_warning">Most servers limit hashtag timelines to 4 hashtags. Some may be ignored.</string>
     <string name="all_tags">All of these</string>
     <string name="none_tags">None of these</string>
     <string name="some_words_any">Any of these words (space-separated)</string>
