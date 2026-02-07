@@ -1,0 +1,19 @@
+Added:
+- Add cross-quoting via long press on quote button
+- Add Trending Links to pinnable timelines and remote instances
+- Warn when exceeding 4 hashtags limit in combined timeline
+
+Fixed:
+- Fix alt-text lost when editing scheduled posts
+- Fix sort order when opening intermediate reply in thread
+- Fix quote button and action counts not following theme_icons_color
+- Fix show all images from multi-image posts in ART timeline
+- Fix "No message to display" showing incorrectly on Trending Links pagination
+- Fix text shift in truncated posts by resetting scroll position
+- Fix remote profile follow button by resolving accounts locally
+- Fix notifications dismissed too aggressively
+- Fix custom emoji display in profile bio
+- Fix crashes in status cache and timeline helper
+- Fix APNG custom emoji animation
+- Fix compose top bar unreachable after hiding keyboard
+- Fix NPE when media_attachments is null in card
