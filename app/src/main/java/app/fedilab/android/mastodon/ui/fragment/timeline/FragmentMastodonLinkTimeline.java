@@ -98,8 +98,12 @@ public class FragmentMastodonLinkTimeline extends Fragment {
         binding.loader.setVisibility(View.GONE);
         binding.swipeContainer.setRefreshing(false);
         if (statuses == null || statuses.statuses == null || statuses.statuses.isEmpty()) {
-            binding.noAction.setVisibility(View.VISIBLE);
-            binding.noActionText.setText(R.string.no_status);
+            if (this.statuses == null || this.statuses.isEmpty()) {
+                binding.noAction.setVisibility(View.VISIBLE);
+                binding.noActionText.setText(R.string.no_status);
+            }
+            binding.loadingNextElements.setVisibility(View.GONE);
+            flagLoading = true;
             return;
         }
         binding.recyclerView.setVisibility(View.VISIBLE);
