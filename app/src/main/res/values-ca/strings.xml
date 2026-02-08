@@ -1162,4 +1162,6 @@
     <string name="standard_emoji">Estàndard</string>
     <string name="reactions">Reaccions</string>
     <string name="highlight_new_comments">Ressaltar els comentaris nous dels fils</string>
+    <string name="mastodon_trending_link_instance">Instància d\'enllaç de tendència de Mastodon</string>
+    <string name="hashtag_limit_warning">La majoria dels servidors limiten les pissarres d\'etiquetes a 4 etiquetes. Pot ser que se n\'ignorin algunes.</string>
 </resources>
