@@ -1163,4 +1163,6 @@
     <string name="standard_emoji">標準</string>
     <string name="reactions">リアクション</string>
     <string name="highlight_new_comments">スレッドの新たなコメントをハイライト</string>
+    <string name="mastodon_trending_link_instance">マストドンのトレンド投稿リンク・インスタンス</string>
+    <string name="hashtag_limit_warning">殆どのサーバーではタイムラインのハッシュタグが４つまでに制限されています。一部が無視される事があります。</string>
 </resources>
