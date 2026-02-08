@@ -1161,4 +1161,6 @@
     <string name="standard_emoji">标准</string>
     <string name="reactions">回应</string>
     <string name="highlight_new_comments">高亮嘟文串中的新评论</string>
+    <string name="mastodon_trending_link_instance">Mastodon 热门链接实例</string>
+    <string name="hashtag_limit_warning">多数服务器将话题时间线限制为4个话题。 有些话题可能会被忽略。</string>
 </resources>
