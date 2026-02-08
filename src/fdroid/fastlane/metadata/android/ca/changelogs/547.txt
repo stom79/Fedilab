@@ -1,0 +1,19 @@
+Afegit:
+- Citacions entre comptes amb pitjada llarga al botó de cita.
+- Enllaços a tendències en pissarres fixables i instàncies remotes.
+- Avís quan es passa del límit de 4 etiquetes en pissarra combinada
+
+Corregit:
+- Text que es perdia en editar trameses programades.
+- Ordenar quan s'obren respostes intermedies d'un enfilall
+- Botó de cites i recompte d'accions no seguia el theme_icons_color
+- Mostrar totes les imatges de missatges multiimatge a la pissarra d'ART
+- Avís incorrecte en la paginació d'enllaços de Tendències dient "No hi ha missatges a mostrar"
+- Missatges truncats en reiniciar la posició de ròdol.
+- Botó de seguiment de perfil remot després de resoldre els comptes locals
+- Notificacions que s'ignoraven massa agressivament
+- Emojis fets a mida a la bio del perfil
+- Fallides de la memòria cau d'estat i de l'ajut de pissarres
+- Animacions a mida d'emojis APNG
+- No s'arribava a la barra superior després d'amagar el teclat
+- NPE quan media_attachments tenia un valor nul
