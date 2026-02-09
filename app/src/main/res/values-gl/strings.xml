@@ -1160,4 +1160,6 @@
     <string name="standard_emoji">Estándar</string>
     <string name="reactions">Reaccións</string>
     <string name="highlight_new_comments">Destacar os novos comentarios nos fíos</string>
+    <string name="hashtag_limit_warning">A maioría de servidores limita a 4 cronoloxías de cancelos. Algún poderían ignorarse.</string>
+    <string name="mastodon_trending_link_instance">Instancia da ligazón que é tendencia</string>
 </resources>
