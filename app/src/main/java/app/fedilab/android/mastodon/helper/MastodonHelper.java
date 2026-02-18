@@ -139,17 +139,17 @@ public class MastodonHelper {
         }
         String link = headers.get("Link");
         if (link != null) {
-            Pattern patternMaxId = Pattern.compile("max_id=([0-9a-zA-Z]+).*");
+            Pattern patternMaxId = Pattern.compile("max_id=([^&>]+)");
             Matcher matcherMaxId = patternMaxId.matcher(link);
             if (matcherMaxId.find()) {
                 pagination.max_id = matcherMaxId.group(1);
             }
-            Pattern patternSinceId = Pattern.compile("since_id=([0-9a-zA-Z]+).*");
+            Pattern patternSinceId = Pattern.compile("since_id=([^&>]+)");
             Matcher matcherSinceId = patternSinceId.matcher(link);
             if (matcherSinceId.find()) {
                 pagination.since_id = matcherSinceId.group(1);
             }
-            Pattern patternMinId = Pattern.compile("min_id=([0-9a-zA-Z]+).*");
+            Pattern patternMinId = Pattern.compile("min_id=([^&>]+)");
             Matcher matcherMinId = patternMinId.matcher(link);
             if (matcherMinId.find()) {
                 pagination.min_id = matcherMinId.group(1);
