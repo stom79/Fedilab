@@ -48,4 +48,50 @@
             android:textSize="12sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/extra_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <ImageButton
+            android:id="@+id/exo_volume_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/volume"
+            android:src="@drawable/ic_baseline_volume_up_24"
+            app:tint="?colorPrimary" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/exo_volume_slider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:valueFrom="0"
+            android:valueTo="100"
+            android:value="100"
+            android:contentDescription="@string/volume"
+            app:thumbColor="?colorPrimary"
+            app:trackColorActive="?colorPrimary"
+            app:trackColorInactive="?colorSecondaryContainer" />
+
+        <TextView
+            android:id="@+id/exo_playback_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:text="1x"
+            android:textColor="?colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>

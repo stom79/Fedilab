@@ -26,7 +26,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +40,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
+import androidx.media3.common.PlaybackParameters;
 import androidx.media3.common.Player;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DataSource;
@@ -44,6 +48,8 @@ import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.source.ProgressiveMediaSource;
 import androidx.preference.PreferenceManager;
+
+import com.google.android.material.slider.Slider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -80,6 +86,8 @@ public class FragmentMedia extends Fragment {
     private int mediaVideoTranslateAccessibilityActionId = 0;
 
     private boolean visible = false;
+    private float currentVolume = 1.0f;
+    private float currentSpeed = 1.0f;
 
     public FragmentMedia() {
     }
@@ -348,6 +356,7 @@ public class FragmentMedia extends Fragment {
         }
         binding.mediaVideo.setPlayer(player);
         binding.controls.setPlayer(player);
+        setupExtraControls();
         binding.loader.setVisibility(View.GONE);
         binding.mediaPicture.setVisibility(View.GONE);
         player.setMediaSource(videoSource);
@@ -466,6 +475,99 @@ public class FragmentMedia extends Fragment {
         });
     }
 
+    private void setupExtraControls() {
+        if (binding == null || player == null) {
+            return;
+        }
+        ImageButton volumeIcon = binding.controls.findViewById(R.id.exo_volume_icon);
+        Slider volumeSlider = binding.controls.findViewById(R.id.exo_volume_slider);
+        TextView playbackSpeed = binding.controls.findViewById(R.id.exo_playback_speed);
+
+        if (volumeSlider != null) {
+            volumeSlider.setValue(currentVolume * 100);
+            volumeSlider.addOnChangeListener((slider, value, fromUser) -> {
+                if (fromUser && player != null) {
+                    currentVolume = value / 100f;
+                    player.setVolume(currentVolume);
+                    updateVolumeIcon(volumeIcon);
+                }
+            });
+        }
+
+        if (volumeIcon != null) {
+            volumeIcon.setOnClickListener(v -> {
+                if (player == null || volumeSlider == null) {
+                    return;
+                }
+                if (currentVolume > 0) {
+                    currentVolume = 0f;
+                } else {
+                    currentVolume = 1.0f;
+                }
+                player.setVolume(currentVolume);
+                volumeSlider.setValue(currentVolume * 100);
+                updateVolumeIcon(volumeIcon);
+            });
+        }
+
+        if (playbackSpeed != null) {
+            updateSpeedText(playbackSpeed);
+            playbackSpeed.setOnClickListener(v -> showSpeedMenu(playbackSpeed));
+        }
+    }
+
+    private void updateVolumeIcon(ImageButton volumeIcon) {
+        if (volumeIcon == null) {
+            return;
+        }
+        if (currentVolume == 0) {
+            volumeIcon.setImageResource(R.drawable.ic_baseline_volume_mute_24);
+        } else {
+            volumeIcon.setImageResource(R.drawable.ic_baseline_volume_up_24);
+        }
+    }
+
+    private void updateSpeedText(TextView playbackSpeed) {
+        if (playbackSpeed == null) {
+            return;
+        }
+        if (currentSpeed == 1.0f) {
+            playbackSpeed.setText(getString(R.string.normal));
+        } else if (currentSpeed == (int) currentSpeed) {
+            playbackSpeed.setText(String.format("%dx", (int) currentSpeed));
+        } else {
+            playbackSpeed.setText(String.format("%sx", currentSpeed));
+        }
+    }
+
+    private void showSpeedMenu(TextView playbackSpeed) {
+        if (!isAdded() || getContext() == null) {
+            return;
+        }
+        PopupMenu popup = new PopupMenu(requireContext(), playbackSpeed);
+        float[] speeds = {0.25f, 0.5f, 0.75f, 1.0f, 1.25f, 1.5f, 1.75f, 2.0f};
+        for (int i = 0; i < speeds.length; i++) {
+            String label;
+            if (speeds[i] == 1.0f) {
+                label = getString(R.string.normal);
+            } else if (speeds[i] == (int) speeds[i]) {
+                label = String.format("%dx", (int) speeds[i]);
+            } else {
+                label = String.format("%sx", speeds[i]);
+            }
+            popup.getMenu().add(0, i, i, label);
+        }
+        popup.setOnMenuItemClickListener(item -> {
+            int index = item.getItemId();
+            if (index >= 0 && index < speeds.length && player != null) {
+                currentSpeed = speeds[index];
+                player.setPlaybackParameters(new PlaybackParameters(currentSpeed));
+                updateSpeedText(playbackSpeed);
+            }
+            return true;
+        });
+        popup.show();
+    }
 
     private void enableSliding(boolean enable) {
         if (enable && !swipeEnabled) {
