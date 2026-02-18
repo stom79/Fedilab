@@ -49,6 +49,8 @@
         android:visibility="gone"
         tools:visibility="visible"
         android:textColor="?colorPrimary"
+        android:ellipsize="end"
+        android:singleLine="true"
         tools:text="He/Him" />
 
     <TextView

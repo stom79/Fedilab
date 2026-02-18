@@ -128,7 +128,7 @@ public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filt
         if(pronounsSupport) {
             for (Field field : account.fields) {
                 if (PronounsHelper.pronouns.contains(field.name.toLowerCase().trim())) {
-                    account.pronouns = Helper.parseHtml(field.value);
+                    account.pronouns = PronounsHelper.cleanPronouns(Helper.parseHtml(field.value));
                     break;
                 }
             }

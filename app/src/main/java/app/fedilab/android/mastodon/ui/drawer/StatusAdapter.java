@@ -719,7 +719,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (statusToDeal.pronouns == null && statusToDeal.account != null && statusToDeal.account.fields != null && statusToDeal.account.fields.size() > 0) {
                 for (Field field : statusToDeal.account.fields) {
                     if (PronounsHelper.pronouns.contains(field.name.toLowerCase().trim())) {
-                        statusToDeal.pronouns = Helper.parseHtml(field.value);
+                        statusToDeal.pronouns = PronounsHelper.cleanPronouns(Helper.parseHtml(field.value));
                         break;
                     }
                 }

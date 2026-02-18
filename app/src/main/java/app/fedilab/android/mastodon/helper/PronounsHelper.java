@@ -15,8 +15,20 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class PronounsHelper {
+
+    private static final Pattern EMOJI_SHORTCODE_PATTERN = Pattern.compile(":[a-zA-Z0-9_]+:");
+
+    public static String cleanPronouns(String pronouns) {
+        if (pronouns == null || pronouns.isEmpty()) {
+            return pronouns;
+        }
+        String cleaned = EMOJI_SHORTCODE_PATTERN.matcher(pronouns).replaceAll("");
+        cleaned = cleaned.replaceAll("\\s+", " ").trim();
+        return cleaned.isEmpty() ? null : cleaned;
+    }
 
     public static List<String> pronouns = new ArrayList<>() {
         {
