@@ -70,7 +70,7 @@
     <string name="reblog_remove">Retirar promoción da mensaxe\?</string>
     <string name="more_action_1">Acalar</string>
     <string name="more_action_2">Bloquear</string>
-    <string name="more_action_3">Informar</string>
+    <string name="more_action_3">Denunciar</string>
     <string name="more_action_4">Eliminar</string>
     <string name="more_action_5">Copiar</string>
     <string name="more_action_6">Compartir</string>
@@ -94,7 +94,7 @@
         <item>Eliminar &amp; rescribir este toot?</item>
     </string-array>
     <string name="bookmarks">Marcadores</string>
-    <string name="bookmark_add">Engadir a marcadores</string>
+    <string name="bookmark_add">Aos marcadores</string>
     <string name="bookmark_remove">Eliminar marcador</string>
     <string name="status_bookmarked">O estado foi engadido a marcadores!</string>
     <string name="status_unbookmarked">Eliminouse o estado dos marcadores!</string>
@@ -473,12 +473,12 @@
     <string name="select">Seleccionar</string>
     <string name="add_instances">Engadir unha instancia</string>
     <string name="set_enable_crash_report">Activar informes de fallos</string>
-    <string name="set_enable_crash_report_indication">Se se activa, crearase un informe local sobre o fallo que despois poderá compartir.</string>
+    <string name="set_enable_crash_report_indication">Se se activa, crearase un informe local sobre o fallo que despois poderás compartir.</string>
     <string name="crash_title">Fedilab detívose :(</string>
-    <string name="crash_message">Podes enviarme un correo-e co informe do fallo. Axudarás a arranxalo :)\n\nPodes engadir contido adicional. Grazas!</string>
+    <string name="crash_message">Podes enviarme un correo co informe do fallo. Axudarás a arranxalo :)\n\nPodes engadir contido adicional. Grazas!</string>
     <string name="visibility">Visibilidade</string>
     <string name="set_disable_animated_emoji">Desactivar emojis animados personalizados</string>
-    <string name="report_account">Informar sobre a conta</string>
+    <string name="report_account">Denunciar a conta</string>
     <plurals name="number_of_voters">
         <item quantity="one">%d votante</item>
         <item quantity="other">%d votantes</item>
@@ -605,7 +605,7 @@
     <string name="save_changes">Gardar cambios</string>
     <string name="hide_content"><![CDATA[Hide content <]]></string>
     <string name="stop_recording">Deter gravación</string>
-    <string name="report_title">Denuncia de %1$s</string>
+    <string name="report_title">Denuncia sobre %1$s</string>
     <string name="report_indication_title_status">Cóntanos cal é o problema coa publicación</string>
     <string name="report_indication_title_status_more">Elixe a mellor coincidencia</string>
     <string name="report_val_more2">Ligazóns maliciosas, engano, ou respostas repetitivas</string>
@@ -670,7 +670,7 @@
     <string name="instance_health_indication">version: %s
 \n %s usuarias - %s estados</string>
     <string name="instance_health_checkedat">Comprobado o: %s</string>
-    <string name="report_more_remote">A conta está noutro servidor. Enviamos alí unha copia anónimizada da denuncia\?</string>
+    <string name="report_more_remote">A conta está noutro servidor. Enviamos alí unha copia anónima da denuncia?</string>
     <string name="report_more_forward">Enviar a %1$s</string>
     <string name="report_more">Hai algo máis que debamos saber\?</string>
     <string name="report_more_additional">Comentarios adicionais</string>
@@ -862,9 +862,9 @@
     <string name="order_lists">Ordenar listas</string>
     <string name="severity">Severidade</string>
     <string name="admin_domainblock_severity">Acalar fará que as publicacións da conta sexan invisibles para calquera non a siga. Suspender eliminará todo o contido da conta, multimedia e datos de perfil. Usa Nada se simplemente queres rexeitar ficheiros multimedia.</string>
-    <string name="admin_domainblock_reject_media">Ignorar tódalas denuncias procedentes deste dominio. Irrelevante para suspensións</string>
+    <string name="admin_domainblock_reject_media">Ignorar todas as denuncias procedentes deste dominio. Irrelevante para suspensións</string>
     <string name="admin_reject_reports">Rexeitar denuncias</string>
-    <string name="admin_domainblock_reject_reports">Ignorar tódalas denuncias procedentes deste dominio. Irrelevante para suspensións</string>
+    <string name="admin_domainblock_reject_reports">Ignorar todas as denuncias procedentes deste dominio. Irrelevante para suspensións</string>
     <string name="admin_reject_obfuscate">Ofuscar nome de dominio</string>
     <string name="private_comment">Comentario privado</string>
     <string name="admin_domainblock_private_comment">Comentario sobre esta limitación para o dominio, de uso interno da moderación.</string>
@@ -873,7 +873,7 @@
     <string name="saved_changes">Gardáronse os cambios!</string>
     <string name="create_domain_block">Crear bloqueo de dominio</string>
     <string name="mute_tag">Tes a certeza de acalar o cancelo %1$s\?</string>
-    <string name="notif_reported">enviar unha denuncia</string>
+    <string name="notif_reported">enviou unha denuncia</string>
     <string name="channel_notif_update">Nova actualización</string>
     <string name="channel_notif_report">Nova denuncia</string>
     <string name="notif_update_push">Editouse unha publicación que compartiches</string>
