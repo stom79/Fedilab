@@ -269,7 +269,25 @@ public class FragmentMedia extends Fragment {
                                         binding.loadRemote.setVisibility(View.GONE);
                                         binding.loader.setVisibility(View.GONE);
                                         Glide.with(requireActivity())
-                                                .load(attachment.remote_url).into(binding.mediaPicture);
+                                                .asDrawable()
+                                                .dontTransform()
+                                                .load(attachment.remote_url).into(
+                                                        new CustomTarget<Drawable>() {
+                                                            @Override
+                                                            public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                                                                if (binding == null || !isAdded() || getActivity() == null) {
+                                                                    return;
+                                                                }
+                                                                Drawable scaledResource = MediaHelper.rescaleImageIfNeeded(requireActivity(), resource);
+                                                                binding.mediaPicture.setImageDrawable(scaledResource);
+                                                                binding.mediaPicture.setZoomable(true);
+                                                            }
+
+                                                            @Override
+                                                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                                                            }
+                                                        }
+                                                );
                                     } else if (finalType1.equalsIgnoreCase("image")) {
                                         Toasty.error(requireActivity(), getString(R.string.toast_error_media), Toasty.LENGTH_SHORT).show();
                                         binding.loadRemote.setVisibility(View.VISIBLE);
@@ -277,7 +295,25 @@ public class FragmentMedia extends Fragment {
                                             binding.loadRemote.setVisibility(View.GONE);
                                             binding.loader.setVisibility(View.GONE);
                                             Glide.with(requireActivity())
-                                                    .load(attachment.remote_url).into(binding.mediaPicture);
+                                                    .asDrawable()
+                                                    .dontTransform()
+                                                    .load(attachment.remote_url).into(
+                                                            new CustomTarget<Drawable>() {
+                                                                @Override
+                                                                public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                                                                    if (binding == null || !isAdded() || getActivity() == null) {
+                                                                        return;
+                                                                    }
+                                                                    Drawable scaledResource = MediaHelper.rescaleImageIfNeeded(requireActivity(), resource);
+                                                                    binding.mediaPicture.setImageDrawable(scaledResource);
+                                                                    binding.mediaPicture.setZoomable(true);
+                                                                }
+
+                                                                @Override
+                                                                public void onLoadCleared(@Nullable Drawable placeholder) {
+                                                                }
+                                                            }
+                                                    );
                                         });
                                     }
 
