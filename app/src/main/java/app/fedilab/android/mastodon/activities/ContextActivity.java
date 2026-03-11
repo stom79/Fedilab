@@ -17,7 +17,9 @@ package app.fedilab.android.mastodon.activities;
 
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -26,15 +28,18 @@ import android.os.Looper;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -48,6 +53,7 @@ import app.fedilab.android.databinding.ActivityConversationBinding;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
+import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
@@ -68,6 +74,38 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
     private String focusedStatusURI;
     private boolean checkRemotely;
     private ActivityConversationBinding binding;
+    private final BroadcastReceiver broadcast_error_message = new BroadcastReceiver() {
+        @Override
+        public void onReceive(android.content.Context context, Intent intent) {
+            Bundle args = intent.getExtras();
+            if (args != null) {
+                long bundleId = args.getLong(Helper.ARG_INTENT_ID, -1);
+                new CachedBundle(ContextActivity.this).getBundle(bundleId, Helper.getCurrentAccount(ContextActivity.this), bundle -> {
+                    if (bundle.getBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, false)) {
+                        String errorMessage = bundle.getString(Helper.RECEIVE_ERROR_MESSAGE);
+                        StatusDraft statusDraft = (StatusDraft) bundle.getSerializable(Helper.ARG_STATUS_DRAFT);
+                        Snackbar snackbar = Snackbar.make(binding.getRoot(), errorMessage, 5000);
+                        TextView textView = snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+                        textView.setMaxLines(5);
+                        snackbar
+                                .setAction(getString(R.string.open_draft), view -> {
+                                    Intent intentCompose = new Intent(context, ComposeActivity.class);
+                                    Bundle args2 = new Bundle();
+                                    args2.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraft);
+                                    new CachedBundle(ContextActivity.this).insertBundle(args2, Helper.getCurrentAccount(ContextActivity.this), bundleId2 -> {
+                                        Bundle bundle2 = new Bundle();
+                                        bundle2.putLong(Helper.ARG_INTENT_ID, bundleId2);
+                                        intentCompose.putExtras(bundle2);
+                                        intentCompose.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(intentCompose);
+                                    });
+                                })
+                                .show();
+                    }
+                });
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +129,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         manageTopBarScrolling(binding.toolbar, sharedpreferences);
+        ContextCompat.registerReceiver(ContextActivity.this, broadcast_error_message, new IntentFilter(Helper.INTENT_COMPOSE_ERROR_MESSAGE), ContextCompat.RECEIVER_NOT_EXPORTED);
         displayCW = sharedpreferences.getBoolean(getString(R.string.SET_EXPAND_CW), false);
         focusedStatus = null; // or other values
 
@@ -352,6 +391,12 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
                 Toasty.warning(ContextActivity.this, getString(R.string.toast_error_fetch_message), Toasty.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcast_error_message);
     }
 
     @Override
