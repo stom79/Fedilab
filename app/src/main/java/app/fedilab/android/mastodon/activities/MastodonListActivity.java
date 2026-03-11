@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -391,13 +392,22 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
             PopupAddListBinding popupAddListBinding = PopupAddListBinding.inflate(getLayoutInflater());
             dialogBuilder.setView(popupAddListBinding.getRoot());
             popupAddListBinding.addList.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
+            String[] repliesPolicies = {getString(R.string.list_replies_policy_followed), getString(R.string.list_replies_policy_list), getString(R.string.list_replies_policy_none)};
+            ArrayAdapter<String> policiesAdapter = new ArrayAdapter<>(MastodonListActivity.this, android.R.layout.simple_spinner_dropdown_item, repliesPolicies);
+            popupAddListBinding.repliesPolicySpinner.setAdapter(policiesAdapter);
+            if (isMisskey) {
+                popupAddListBinding.repliesPolicyLabel.setVisibility(View.GONE);
+                popupAddListBinding.repliesPolicySpinner.setVisibility(View.GONE);
+            }
             dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
                 if (popupAddListBinding.addList.getText() != null && popupAddListBinding.addList.getText().toString().trim().length() > 0) {
                     LiveData<MastodonList> createLiveData;
+                    String[] policyValues = {"followed", "list", "none"};
+                    String selectedPolicy = policyValues[popupAddListBinding.repliesPolicySpinner.getSelectedItemPosition()];
                     if (isMisskey) {
                         createLiveData = misskeyTimelinesVM.createList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, popupAddListBinding.addList.getText().toString().trim());
                     } else {
-                        createLiveData = timelinesVM.createList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, popupAddListBinding.addList.getText().toString().trim(), null);
+                        createLiveData = timelinesVM.createList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, popupAddListBinding.addList.getText().toString().trim(), selectedPolicy);
                     }
                     createLiveData.observe(MastodonListActivity.this, newMastodonList -> {
                                 if (mastodonListList == null) {
@@ -443,13 +453,29 @@ public class MastodonListActivity extends BaseBarActivity implements MastodonLis
             popupAddListBinding.addList.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
             popupAddListBinding.addList.setText(mastodonList.title);
             popupAddListBinding.addList.setSelection(Objects.requireNonNull(popupAddListBinding.addList.getText()).length());
+            String[] repliesPolicies = {getString(R.string.list_replies_policy_followed), getString(R.string.list_replies_policy_list), getString(R.string.list_replies_policy_none)};
+            String[] policyValues = {"followed", "list", "none"};
+            ArrayAdapter<String> policiesAdapter = new ArrayAdapter<>(MastodonListActivity.this, android.R.layout.simple_spinner_dropdown_item, repliesPolicies);
+            popupAddListBinding.repliesPolicySpinner.setAdapter(policiesAdapter);
+            if (isMisskey) {
+                popupAddListBinding.repliesPolicyLabel.setVisibility(View.GONE);
+                popupAddListBinding.repliesPolicySpinner.setVisibility(View.GONE);
+            } else if (mastodonList.replies_policy != null) {
+                for (int i = 0; i < policyValues.length; i++) {
+                    if (policyValues[i].equals(mastodonList.replies_policy)) {
+                        popupAddListBinding.repliesPolicySpinner.setSelection(i);
+                        break;
+                    }
+                }
+            }
             dialogBuilder.setPositiveButton(R.string.validate, (dialog, id) -> {
                 if (popupAddListBinding.addList.getText() != null && popupAddListBinding.addList.getText().toString().trim().length() > 0) {
                     LiveData<MastodonList> updateLiveData;
+                    String selectedPolicy = policyValues[popupAddListBinding.repliesPolicySpinner.getSelectedItemPosition()];
                     if (isMisskey) {
                         updateLiveData = misskeyTimelinesVM.updateList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, popupAddListBinding.addList.getText().toString().trim());
                     } else {
-                        updateLiveData = timelinesVM.updateList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, popupAddListBinding.addList.getText().toString().trim(), null);
+                        updateLiveData = timelinesVM.updateList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, mastodonList.id, popupAddListBinding.addList.getText().toString().trim(), selectedPolicy);
                     }
                     updateLiveData.observe(MastodonListActivity.this, newMastodonList -> {
                                 if (mastodonListList != null && newMastodonList != null) {

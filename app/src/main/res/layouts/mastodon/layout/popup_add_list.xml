@@ -2,16 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/fab_margin"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="24dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="8dp">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/add_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="16dp"
         android:hint="@string/action_lists_title_placeholder"
         android:inputType="text"
         android:singleLine="true" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/replies_policy_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/list_replies_policy"
+        android:textSize="14sp" />
+
+    <Spinner
+        android:id="@+id/replies_policy_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp" />
 </LinearLayout>

@@ -328,6 +328,10 @@
     <string name="action_lists_add_to">Add to list</string>
     <string name="action_lists_delete">Delete list</string>
     <string name="action_lists_title_placeholder">New list title</string>
+    <string name="list_replies_policy">Show replies to</string>
+    <string name="list_replies_policy_none">No one</string>
+    <string name="list_replies_policy_list">Members of the list</string>
+    <string name="list_replies_policy_followed">Any followed user</string>
     <string name="action_lists_add_user">The account was added to the list!</string>
     <string name="action_lists_empty">You don\'t have any lists yet!</string>
     <!-- Migration -->
