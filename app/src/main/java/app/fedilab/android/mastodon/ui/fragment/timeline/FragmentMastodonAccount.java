@@ -448,7 +448,7 @@ public class FragmentMastodonAccount extends Fragment {
         }
         binding.loadingNextElements.setVisibility(View.GONE);
         if (accounts != null && fetched_accounts != null && fetched_accounts.accounts != null) {
-            flagLoading = fetched_accounts.pagination.max_id == null;
+            flagLoading = search == null && fetched_accounts.pagination.max_id == null;
             int startId = 0;
             //There are some statuses present in the timeline
             if (accounts.size() > 0) {

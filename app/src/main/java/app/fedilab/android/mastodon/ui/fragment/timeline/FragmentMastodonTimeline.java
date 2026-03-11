@@ -566,7 +566,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.loadingNextElements.setVisibility(View.GONE);
         flagLoading = false;
         if (timelineStatuses != null && fetched_statuses != null && fetched_statuses.statuses != null && !fetched_statuses.statuses.isEmpty()) {
-            flagLoading = fetched_statuses.pagination.max_id == null;
+            flagLoading = search == null && fetched_statuses.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
 
 
@@ -629,20 +629,21 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             }
             if (!fetchingMissing) {
-                if (fetched_statuses.pagination.max_id == null) {
-                    flagLoading = true;
-                } else if (max_id == null || Helper.compareTo(fetched_statuses.pagination.max_id, max_id) < 0 || timelineType.getValue().startsWith("TREND_")) {
-                    max_id = fetched_statuses.pagination.max_id;
+                if (search != null) {
+                    offset += MastodonHelper.SEARCH_PER_CALL;
+                } else {
+                    if (fetched_statuses.pagination.max_id == null) {
+                        flagLoading = true;
+                    } else if (max_id == null || Helper.compareTo(fetched_statuses.pagination.max_id, max_id) < 0 || timelineType.getValue().startsWith("TREND_")) {
+                        max_id = fetched_statuses.pagination.max_id;
+                    }
+                    if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.LEMMY) {
+                        max_id = fetched_statuses.pagination.max_id;
+                    }
+                    if (min_id == null || (fetched_statuses.pagination.min_id != null && Helper.compareTo(fetched_statuses.pagination.min_id, min_id) > 0)) {
+                        min_id = fetched_statuses.pagination.min_id;
+                    }
                 }
-                if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.LEMMY) {
-                    max_id = fetched_statuses.pagination.max_id;
-                }
-                if (min_id == null || (fetched_statuses.pagination.min_id != null && Helper.compareTo(fetched_statuses.pagination.min_id, min_id) > 0)) {
-                    min_id = fetched_statuses.pagination.min_id;
-                }
-            }
-            if (search != null) {
-                offset += MastodonHelper.SEARCH_PER_CALL;
             }
         } else if (direction == DIRECTION.BOTTOM) {
             flagLoading = true;
@@ -704,7 +705,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 statuses.statuses = mediaStatuses;
             }
         }
-        flagLoading = statuses.pagination.max_id == null;
+        flagLoading = search == null && statuses.pagination.max_id == null;
         binding.recyclerView.setVisibility(View.VISIBLE);
         if (statusAdapter != null && timelineStatuses != null) {
             int size = timelineStatuses.size();
@@ -725,18 +726,19 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             statuses.statuses = new ArrayList<>();
         }
         timelineStatuses.addAll(statuses.statuses);
-        if (max_id == null || (statuses.pagination.max_id != null && Helper.compareTo(statuses.pagination.max_id, max_id) < 0) || timelineType.getValue().startsWith("TREND_")) {
-            max_id = statuses.pagination.max_id;
-        }
-        //For Lemmy and Nitter pagination
-        if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null && (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.LEMMY || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG)) {
-            max_id = statuses.pagination.max_id;
-        }
-        if (min_id == null || (statuses.pagination.min_id != null && Helper.compareTo(statuses.pagination.min_id, min_id) > 0)) {
-            min_id = statuses.pagination.min_id;
-        }
         if (search != null) {
             offset += MastodonHelper.SEARCH_PER_CALL;
+        } else {
+            if (max_id == null || (statuses.pagination.max_id != null && Helper.compareTo(statuses.pagination.max_id, max_id) < 0) || timelineType.getValue().startsWith("TREND_")) {
+                max_id = statuses.pagination.max_id;
+            }
+            //For Lemmy and Nitter pagination
+            if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null && (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.LEMMY || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG)) {
+                max_id = statuses.pagination.max_id;
+            }
+            if (min_id == null || (statuses.pagination.min_id != null && Helper.compareTo(statuses.pagination.min_id, min_id) > 0)) {
+                min_id = statuses.pagination.min_id;
+            }
         }
         statusAdapter = new StatusAdapter(timelineStatuses, timelineType, minified, canBeFederated, checkRemotely);
         statusAdapter.fetchMoreCallBack = this;
@@ -1382,7 +1384,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             } else {
                 SearchVM searchVM = new ViewModelProvider(FragmentMastodonTimeline.this).get(viewModelKey, SearchVM.class);
                 if (direction == null) {
-                    searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, null, false, true, false, 0, null, null, MastodonHelper.SEARCH_PER_CALL)
+                    searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "statuses", false, true, false, 0, null, null, MastodonHelper.SEARCH_PER_CALL)
                             .observe(getViewLifecycleOwner(), results -> {
                                 if (results != null) {
                                     Statuses statuses = new Statuses();
@@ -1394,7 +1396,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                 }
                             });
                 } else if (direction == DIRECTION.BOTTOM) {
-                    searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, null, false, true, false, offset, null, null, MastodonHelper.SEARCH_PER_CALL)
+                    searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, search.trim(), null, "statuses", false, true, false, offset, null, null, MastodonHelper.SEARCH_PER_CALL)
                             .observe(getViewLifecycleOwner(), results -> {
                                 if (results != null) {
                                     Statuses statuses = new Statuses();
