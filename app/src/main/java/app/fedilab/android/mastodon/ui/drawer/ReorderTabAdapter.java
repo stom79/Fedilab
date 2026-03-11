@@ -181,7 +181,12 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.binding.hide.setImageResource(R.drawable.ic_baseline_visibility_off_24);
         }
 
-        holder.binding.hide.setOnClickListener(v -> onHidePressed(position));
+        holder.binding.hide.setOnClickListener(v -> {
+            int adapterPosition = holder.getBindingAdapterPosition();
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                onHidePressed(adapterPosition);
+            }
+        });
 
         // Start a drag whenever the handle view it touched
         holder.binding.handle.setOnTouchListener((v, event) -> {
@@ -202,15 +207,26 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return true;
         });
         ViewCompat.addAccessibilityAction(holder.binding.getRoot(), context.getString(R.string.hide_timeline), (view, arguments) -> {
-            onHidePressed(position);
+            int adapterPosition = holder.getBindingAdapterPosition();
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                onHidePressed(adapterPosition);
+            }
             return true;
         });
         PinnedTimeline item = pinned.pinnedTimelines.get(position);
         if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
             holder.binding.delete.setVisibility(View.VISIBLE);
-            holder.binding.delete.setOnClickListener(v -> onDeletePressed(item, position));
+            holder.binding.delete.setOnClickListener(v -> {
+                int adapterPosition = holder.getBindingAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    onDeletePressed(pinned.pinnedTimelines.get(adapterPosition), adapterPosition);
+                }
+            });
             ViewCompat.addAccessibilityAction(holder.binding.getRoot(), context.getString(R.string.delete_timeline), (view, arguments) -> {
-                onDeletePressed(item, position);
+                int adapterPosition = holder.getBindingAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    onDeletePressed(pinned.pinnedTimelines.get(adapterPosition), adapterPosition);
+                }
                 return true;
             });
         } else {
