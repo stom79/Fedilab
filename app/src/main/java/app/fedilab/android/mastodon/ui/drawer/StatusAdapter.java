@@ -1322,18 +1322,22 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             // Quote button
             if(quoteButton.equals(quoteButtonEntryValues[0])) {
                 holder.binding.actionButtonQuote.setVisibility(View.VISIBLE);
-                holder.binding.actionButtonQuote.setOnClickListener(v -> quote(context, status));
-                holder.binding.actionButtonQuote.setOnLongClickListener(v -> {
-                    if ("direct".equals(statusToDeal.visibility) || "private".equals(statusToDeal.visibility)) {
+                boolean quoteDenied = statusToDeal.quote_approval != null && statusToDeal.quote_approval.current_user != null
+                        && statusToDeal.quote_approval.current_user.equalsIgnoreCase("denied");
+                holder.binding.actionButtonQuote.setEnabled(!quoteDenied);
+                if (!quoteDenied) {
+                    holder.binding.actionButtonQuote.setOnClickListener(v -> quote(context, status));
+                    holder.binding.actionButtonQuote.setOnLongClickListener(v -> {
+                        if ("direct".equals(statusToDeal.visibility) || "private".equals(statusToDeal.visibility)) {
+                            return true;
+                        }
+                        CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.QUOTE_ACTION, null, statusToDeal);
                         return true;
-                    }
-                    if (statusToDeal.quote_approval != null && statusToDeal.quote_approval.current_user != null
-                            && statusToDeal.quote_approval.current_user.equalsIgnoreCase("denied")) {
-                        return true;
-                    }
-                    CrossActionHelper.doCrossAction(context, CrossActionHelper.TypeOfCrossAction.QUOTE_ACTION, null, statusToDeal);
-                    return true;
-                });
+                    });
+                } else {
+                    holder.binding.actionButtonQuote.setOnClickListener(null);
+                    holder.binding.actionButtonQuote.setOnLongClickListener(null);
+                }
             } else {
                 holder.binding.actionButtonQuote.setVisibility(View.GONE);
             }
