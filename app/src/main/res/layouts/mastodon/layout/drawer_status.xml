@@ -458,6 +458,46 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             tools:text="https://domain.test" />
 
+                        <View
+                            android:id="@+id/card_author_separator"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="6dp"
+                            android:background="?android:attr/listDivider"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/card_author_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingTop="6dp"
+                            android:paddingBottom="2dp"
+                            android:visibility="gone"
+                            tools:visibility="visible">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/card_author_avatar"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:contentDescription="@string/profile_picture"
+                                tools:src="@tools:sample/avatars" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/card_author_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textColor="?colorPrimary"
+                                android:textSize="13sp"
+                                tools:text="More from Author" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -160,6 +160,7 @@ import app.fedilab.android.mastodon.activities.StatusInfoActivity;
 import app.fedilab.android.mastodon.activities.TimelineActivity;
 import app.fedilab.android.mastodon.activities.admin.AdminAccountActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
+import app.fedilab.android.mastodon.client.entities.api.Card;
 import app.fedilab.android.mastodon.client.entities.api.Field;
 import app.fedilab.android.mastodon.client.entities.api.Filter;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
@@ -1026,6 +1027,41 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.card.setOnClickListener(v -> {
                 SpannableHelper.linkClickAction(context, statusToDeal.card.url);
             });
+            Card.PreviewCardAuthor author = null;
+            if (statusToDeal.card.authors != null && !statusToDeal.card.authors.isEmpty()) {
+                author = statusToDeal.card.authors.get(0);
+            }
+            if (author != null && (author.account != null || author.name != null)) {
+                holder.binding.cardAuthorSeparator.setVisibility(View.VISIBLE);
+                holder.binding.cardAuthorContainer.setVisibility(View.VISIBLE);
+                if (author.account != null) {
+                    String displayName = author.account.display_name != null && !author.account.display_name.isEmpty()
+                            ? author.account.display_name : author.name;
+                    holder.binding.cardAuthorName.setText(context.getString(R.string.more_from, displayName));
+                    holder.binding.cardAuthorAvatar.setVisibility(View.VISIBLE);
+                    MastodonHelper.loadPPMastodon(holder.binding.cardAuthorAvatar, author.account);
+                    app.fedilab.android.mastodon.client.entities.api.Account finalAccount = author.account;
+                    holder.binding.cardAuthorContainer.setOnClickListener(v -> {
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_ACCOUNT, finalAccount);
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        });
+                    });
+                } else {
+                    holder.binding.cardAuthorName.setText(context.getString(R.string.more_from, author.name));
+                    holder.binding.cardAuthorAvatar.setVisibility(View.GONE);
+                    holder.binding.cardAuthorContainer.setOnClickListener(null);
+                    holder.binding.cardAuthorContainer.setClickable(false);
+                }
+            } else {
+                holder.binding.cardAuthorSeparator.setVisibility(View.GONE);
+                holder.binding.cardAuthorContainer.setVisibility(View.GONE);
+            }
             holder.binding.card.setVisibility(View.VISIBLE);
         } else {
             holder.binding.card.setVisibility(View.GONE);

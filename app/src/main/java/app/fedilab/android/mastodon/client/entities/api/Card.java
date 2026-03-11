@@ -14,11 +14,25 @@ package app.fedilab.android.mastodon.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Card implements Serializable {
+
+    public static class PreviewCardAuthor implements Serializable {
+        @SerializedName("name")
+        public String name;
+        @SerializedName("url")
+        public String url;
+        @Nullable
+        @SerializedName("account")
+        public Account account;
+    }
+
     @SerializedName("url")
     public String url;
     @SerializedName("title")
@@ -47,4 +61,7 @@ public class Card implements Serializable {
     public String embed_url;
     @SerializedName("blurhash")
     public String blurhash;
+    @Nullable
+    @SerializedName("authors")
+    public List<PreviewCardAuthor> authors;
 }
