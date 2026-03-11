@@ -154,7 +154,9 @@ public class ComposeWorker extends Worker {
 
             List<Status> statuses = dataPost.statusDraft.statusDraftList;
             String in_reply_to_status = null;
-            if (dataPost.statusDraft.statusReplyList != null && !dataPost.statusDraft.statusReplyList.isEmpty()) {
+            if (startingPosition > 0) {
+                in_reply_to_status = dataPost.statusDraft.state.posts.get(startingPosition - 1).id;
+            } else if (dataPost.statusDraft.statusReplyList != null && !dataPost.statusDraft.statusReplyList.isEmpty()) {
                 in_reply_to_status = dataPost.statusDraft.statusReplyList.get(dataPost.statusDraft.statusReplyList.size() - 1).id;
             }
             totalMediaSize = 0;
@@ -323,9 +325,9 @@ public class ComposeWorker extends Worker {
                             if (statusReply != null) {
                                 in_reply_to_status = statusReply.id;
                                 dataPost.statusDraft.state.posts_successfully_sent = i;
+                                dataPost.statusDraft.state.posts.get(i).id = statusReply.id;
                                 if (dataPost.statusDraft.state.posts.size() > i + 1) {
-                                    dataPost.statusDraft.state.posts.get(i + 1).id = statusReply.id;
-                                    dataPost.statusDraft.state.posts.get(i + 1).in_reply_to_id = statusReply.in_reply_to_id;
+                                    dataPost.statusDraft.state.posts.get(i + 1).in_reply_to_id = statusReply.id;
                                 }
 
                                 try {
