@@ -135,7 +135,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             }
 
 
-                            statusAdapter.notifyItemChanged(position);
+                            statusAdapter.notifyItemChanged(position, StatusAdapter.PAYLOAD_UPDATE_INTERACTIONS);
                         }
                     } else if (delete_statuses_for_user != null && statusAdapter != null) {
                         List<Status> statusesToRemove = new ArrayList<>();

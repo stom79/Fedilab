@@ -239,6 +239,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static boolean displayBookmark;
     private static String translateButton;
     private static String[] translateButtonEntryValues;
+    public static final String PAYLOAD_UPDATE_INTERACTIONS = "UPDATE_INTERACTIONS";
     private static boolean displayCounters;
     private static boolean removeLeftMargin;
     private static boolean extraFeatures;
@@ -368,7 +369,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                      Status statusReturned,
                                      boolean remote) {
         manageSubAction(context, holder, typeOfAction, statusToDeal, statusReturned, remote);
-        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+        adapter.notifyItemChanged(holder.getBindingAdapterPosition(), PAYLOAD_UPDATE_INTERACTIONS);
     }
 
 
@@ -524,7 +525,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if (success) {
                                 statusToDeal.reblogged = false;
                                 statusToDeal.reblogs_count = Math.max(0, statusToDeal.reblogs_count - 1);
-                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                adapter.notifyItemChanged(holder.getBindingAdapterPosition(), PAYLOAD_UPDATE_INTERACTIONS);
                             }
                         });
             } else {
@@ -534,7 +535,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if (_status != null) {
                                 statusToDeal.reblogged = true;
                                 statusToDeal.reblogs_count++;
-                                adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                adapter.notifyItemChanged(holder.getBindingAdapterPosition(), PAYLOAD_UPDATE_INTERACTIONS);
                             }
                         });
             }
@@ -1136,7 +1137,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .observe((LifecycleOwner) context, success -> {
                                     if (success) {
                                         statusToDeal.bookmarked = false;
-                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition(), PAYLOAD_UPDATE_INTERACTIONS);
                                     }
                                 });
                     } else {
@@ -1145,7 +1146,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .observe((LifecycleOwner) context, success -> {
                                     if (success) {
                                         statusToDeal.bookmarked = true;
-                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition(), PAYLOAD_UPDATE_INTERACTIONS);
                                     }
                                 });
                     }
@@ -1362,7 +1363,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     if (success) {
                                         statusToDeal.favourited = false;
                                         statusToDeal.favourites_count = Math.max(0, statusToDeal.favourites_count - 1);
-                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition(), PAYLOAD_UPDATE_INTERACTIONS);
                                     }
                                 });
                     } else {
@@ -1372,7 +1373,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     if (success) {
                                         statusToDeal.favourited = true;
                                         statusToDeal.favourites_count++;
-                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition(), PAYLOAD_UPDATE_INTERACTIONS);
                                     }
                                 });
                     }
@@ -3607,6 +3608,33 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
+    /**
+     * Partial update: only refresh interaction buttons (fav, boost, bookmark) and their counters.
+     * Called via payload to avoid full rebind which restarts GIFs and causes scroll jumps.
+     */
+    private void updateInteractionButtons(StatusViewHolder holder, Status status, Status statusToDeal) {
+        holder.binding.actionButtonFavorite.setChecked(statusToDeal.favourited);
+        holder.binding.actionButtonBoost.setChecked(statusToDeal.reblogged);
+        holder.binding.actionButtonBookmark.setChecked(statusToDeal.bookmarked);
+        if (status.isFocused) {
+            holder.binding.reblogInfo.setText(String.valueOf(status.reblogs_count));
+            holder.binding.favouriteInfo.setText(String.valueOf(status.favourites_count));
+        } else if (displayCounters && canBeFederated) {
+            if (statusToDeal.reblogs_count > 0) {
+                holder.binding.boostCount.setText(String.valueOf(statusToDeal.reblogs_count));
+                holder.binding.boostCount.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.boostCount.setVisibility(View.GONE);
+            }
+            if (statusToDeal.favourites_count > 0) {
+                holder.binding.favoriteCount.setText(String.valueOf(statusToDeal.favourites_count));
+                holder.binding.favoriteCount.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.favoriteCount.setVisibility(View.GONE);
+            }
+        }
+    }
+
     public static void applyColor(Context context, StatusViewHolder holder) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
@@ -3889,6 +3917,20 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public long getItemId(int position) {
         return position;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position, @NonNull List<Object> payloads) {
+        if (!payloads.isEmpty() && payloads.contains(PAYLOAD_UPDATE_INTERACTIONS)) {
+            if (viewHolder.getItemViewType() == STATUS_VISIBLE) {
+                StatusViewHolder holder = (StatusViewHolder) viewHolder;
+                Status status = statusList.get(position);
+                Status statusToDeal = status.reblog != null ? status.reblog : status;
+                updateInteractionButtons(holder, status, statusToDeal);
+            }
+            return;
+        }
+        super.onBindViewHolder(viewHolder, position, payloads);
     }
 
     @Override
