@@ -123,6 +123,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private LinearLayoutManager mLayoutManager;
     private NotificationTypeEnum notificationType;
     private boolean aggregateNotification;
+    private boolean groupedByServer;
 
     private final BroadcastReceiver receive_refresh = new BroadcastReceiver() {
 
@@ -303,7 +304,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
 
         flagLoading = notifications.pagination.max_id == null;
-        if (aggregateNotification) {
+        groupedByServer = notifications.groupedByServer;
+        if (aggregateNotification && !groupedByServer) {
             notifications.notifications = aggregateNotifications(notifications.notifications, false);
         }
         if (notificationAdapter != null && notificationList != null) {
@@ -675,6 +677,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 }
             } catch (Exception ignored) {
             }
+            if (fetched_notifications.groupedByServer) {
+                groupedByServer = true;
+            }
             flagLoading = fetched_notifications.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
             //Update the timeline with new statuses
@@ -685,7 +690,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             if (direction == FragmentMastodonTimeline.DIRECTION.TOP && fetchingMissing) {
                 binding.recyclerView.scrollToPosition(getPosition(fetched_notifications.notifications.get(fetched_notifications.notifications.size() - 1)) + 1);
             }
-            if (aggregateNotification && notificationList != null && !notificationList.isEmpty()) {
+            if (aggregateNotification && !groupedByServer && notificationList != null && !notificationList.isEmpty()) {
                 aggregateNotifications(notificationList, true);
             }
             if (!fetchingMissing) {

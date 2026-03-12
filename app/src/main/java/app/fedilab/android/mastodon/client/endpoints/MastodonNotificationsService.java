@@ -16,6 +16,7 @@ package app.fedilab.android.mastodon.client.endpoints;
 
 import java.util.List;
 
+import app.fedilab.android.mastodon.client.entities.api.GroupedNotificationsResults;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.api.PushSubscription;
 import retrofit2.Call;
@@ -40,6 +41,18 @@ public interface MastodonNotificationsService {
             @Query("since_id") String since_id,
             @Query("min_id") String min_id,
             @Query("limit") int limit
+    );
+
+    @GET("notifications")
+    Call<GroupedNotificationsResults> getGroupedNotifications(
+            @Header("Authorization") String token,
+            @Query("exclude_types[]") List<String> exclude_types,
+            @Query("account_id") String account_id,
+            @Query("max_id") String max_id,
+            @Query("since_id") String since_id,
+            @Query("min_id") String min_id,
+            @Query("limit") int limit,
+            @Query("grouped_types[]") List<String> grouped_types
     );
 
     @GET("notifications/{id}")

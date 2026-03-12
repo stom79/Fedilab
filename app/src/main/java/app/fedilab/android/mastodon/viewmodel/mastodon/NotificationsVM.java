@@ -27,11 +27,16 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.net.IDN;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import app.fedilab.android.mastodon.client.endpoints.MastodonNotificationsService;
+import app.fedilab.android.mastodon.client.entities.api.GroupedNotificationsResults;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
+import app.fedilab.android.mastodon.client.entities.api.NotificationGroup;
 import app.fedilab.android.mastodon.client.entities.api.Notifications;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.PushSubscription;
@@ -50,6 +55,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NotificationsVM extends AndroidViewModel {
 
+    private static final Map<String, Boolean> v2UnsupportedInstances = new HashMap<>();
+    private static final List<String> GROUPED_TYPES = Arrays.asList("favourite", "reblog", "follow");
     final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
 
 
@@ -98,6 +105,15 @@ public class NotificationsVM extends AndroidViewModel {
         return retrofit.create(MastodonNotificationsService.class);
     }
 
+    private MastodonNotificationsService initV2(String instance) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v2/")
+                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                .client(okHttpClient)
+                .build();
+        return retrofit.create(MastodonNotificationsService.class);
+    }
+
     /**
      * Get notifications for the authenticated account
      *
@@ -105,48 +121,87 @@ public class NotificationsVM extends AndroidViewModel {
      */
     public LiveData<Notifications> getNotifications(List<Notification> notificationList, TimelinesVM.TimelineParams timelineParams) {
         notificationsMutableLiveData = new MutableLiveData<>();
-        MastodonNotificationsService mastodonNotificationsService = init(timelineParams.instance);
         new Thread(() -> {
             Notifications notifications = new Notifications();
-            Call<List<Notification>> notificationsCall = mastodonNotificationsService.getNotifications(timelineParams.token, timelineParams.excludeType, null, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
-            if (notificationsCall != null) {
+            boolean v2Success = false;
+
+            // Try grouped notifications API (v2) if the instance supports it
+            if (!Boolean.TRUE.equals(v2UnsupportedInstances.get(timelineParams.instance))) {
                 try {
-                    Response<List<Notification>> notificationsResponse = notificationsCall.execute();
-                    if (notificationsResponse.isSuccessful()) {
-                        List<Notification> notFiltered = notificationsResponse.body();
-                        notifications.notifications = TimelineHelper.filterNotification(getApplication().getApplicationContext(), notFiltered);
-                        notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
-                        if (notifications.notifications != null && notifications.notifications.size() > 0) {
-                            addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
-                            if (notFiltered != null && notFiltered.size() > 0) {
-                                for (Notification notification : notFiltered) {
-                                    StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
-                                    StatusCache statusCache = new StatusCache();
-                                    statusCache.instance = timelineParams.instance;
-                                    statusCache.user_id = timelineParams.userId;
-                                    statusCache.notification = notification;
-                                    statusCache.slug = notification.type;
-                                    statusCache.type = Timeline.TimeLineEnum.NOTIFICATION;
-                                    statusCache.status_id = notification.id;
-                                    try {
-                                        statusCacheDAO.insertOrUpdate(statusCache, notification.type);
-                                    } catch (DBException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
+                    MastodonNotificationsService serviceV2 = initV2(timelineParams.instance);
+                    Call<GroupedNotificationsResults> groupedCall = serviceV2.getGroupedNotifications(
+                            timelineParams.token, timelineParams.excludeType, null,
+                            timelineParams.maxId, timelineParams.sinceId, timelineParams.minId,
+                            timelineParams.limit, GROUPED_TYPES);
+                    if (groupedCall != null) {
+                        Response<GroupedNotificationsResults> groupedResponse = groupedCall.execute();
+                        if (groupedResponse.isSuccessful() && groupedResponse.body() != null) {
+                            List<Notification> converted = NotificationGroup.fromGroupedResults(groupedResponse.body());
+                            notifications.notifications = TimelineHelper.filterNotification(getApplication().getApplicationContext(), converted);
+                            notifications.pagination = MastodonHelper.getPagination(groupedResponse.headers());
+                            notifications.groupedByServer = true;
+                            v2Success = true;
+                            if (notifications.notifications != null && !notifications.notifications.isEmpty()) {
+                                addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
+                                cacheNotifications(converted, timelineParams);
                             }
+                        } else if (groupedResponse.code() == 404 || groupedResponse.code() == 410) {
+                            v2UnsupportedInstances.put(timelineParams.instance, true);
                         }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    v2UnsupportedInstances.put(timelineParams.instance, true);
                 }
             }
+
+            // Fallback to v1
+            if (!v2Success) {
+                MastodonNotificationsService mastodonNotificationsService = init(timelineParams.instance);
+                Call<List<Notification>> notificationsCall = mastodonNotificationsService.getNotifications(timelineParams.token, timelineParams.excludeType, null, timelineParams.maxId, timelineParams.sinceId, timelineParams.minId, timelineParams.limit);
+                if (notificationsCall != null) {
+                    try {
+                        Response<List<Notification>> notificationsResponse = notificationsCall.execute();
+                        if (notificationsResponse.isSuccessful()) {
+                            List<Notification> notFiltered = notificationsResponse.body();
+                            notifications.notifications = TimelineHelper.filterNotification(getApplication().getApplicationContext(), notFiltered);
+                            notifications.pagination = MastodonHelper.getPagination(notificationsResponse.headers());
+                            if (notifications.notifications != null && !notifications.notifications.isEmpty()) {
+                                addFetchMoreNotifications(notifications.notifications, notificationList, timelineParams);
+                                cacheNotifications(notFiltered, timelineParams);
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> notificationsMutableLiveData.setValue(notifications);
             mainHandler.post(myRunnable);
         }).start();
 
         return notificationsMutableLiveData;
+    }
+
+    private void cacheNotifications(List<Notification> notificationsToCache, TimelinesVM.TimelineParams timelineParams) {
+        if (notificationsToCache != null && !notificationsToCache.isEmpty()) {
+            for (Notification notification : notificationsToCache) {
+                StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
+                StatusCache statusCache = new StatusCache();
+                statusCache.instance = timelineParams.instance;
+                statusCache.user_id = timelineParams.userId;
+                statusCache.notification = notification;
+                statusCache.slug = notification.type;
+                statusCache.type = Timeline.TimeLineEnum.NOTIFICATION;
+                statusCache.status_id = notification.id;
+                try {
+                    statusCacheDAO.insertOrUpdate(statusCache, notification.type);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public LiveData<Notifications> getNotificationCache(List<Notification> timelineNotification, TimelinesVM.TimelineParams timelineParams) {

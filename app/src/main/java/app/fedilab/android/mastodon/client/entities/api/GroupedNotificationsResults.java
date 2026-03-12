@@ -1,5 +1,5 @@
 package app.fedilab.android.mastodon.client.entities.api;
-/* Copyright 2021 Thomas Schneider
+/* Copyright 2026 Thomas Schneider
  *
  * This file is a part of Fedilab
  *
@@ -14,10 +14,16 @@ package app.fedilab.android.mastodon.client.entities.api;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
-public class Notifications {
-    public Pagination pagination = new Pagination();
-    public List<Notification> notifications;
-    public boolean groupedByServer = false;
+public class GroupedNotificationsResults {
+
+    @SerializedName("accounts")
+    public List<Account> accounts;
+    @SerializedName("statuses")
+    public List<Status> statuses;
+    @SerializedName("notification_groups")
+    public List<NotificationGroup> notification_groups;
 }
