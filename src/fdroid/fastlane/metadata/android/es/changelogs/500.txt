@@ -1,0 +1,14 @@
+Añadidos:
+- Tres nuevos iconos de la app (Pride, Rosa y Pirata)
+- Mantener la posición con conversaciones remotas
+
+Arreglado:
+- Markdown: parar el parso de etiquetas y dar soporte a texto tachado
+- Cursor más visible cuando se compone
+- Arreglado limite máximo de caracteres de la instancia
+- Pestañas en los perfiles
+- Arregladas etiquetas no clicables para algunos idiomas
+- Bug con cuentas que tienen una gran cantidad de seguidores
+- Crash con multiples gifs en el mismo mensaje
+- Máximo de caracteres de las encuestas
+- Algunos crasheos
