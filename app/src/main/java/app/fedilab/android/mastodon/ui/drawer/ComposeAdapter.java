@@ -1674,7 +1674,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (!unlisted_changed && position == 0 && unlistedReplies && statusDraft.visibility.equalsIgnoreCase("public") && statusList.size() > 1) {
                     statusDraft.visibility = "unlisted";
                 }
-            } else if (!unlisted_changed && position > 0 && position == statusCount && unlistedReplies && statusDraft.visibility.equalsIgnoreCase("public") && statusList.size() > 1) {
+            } else if (!unlisted_changed && position > 0 && position == statusCount && unlistedReplies && statusDraft.visibility.equalsIgnoreCase("public") && statusList.size() > 1 && statusDraft.quote_id == null) {
                 statusDraft.visibility = "unlisted";
             }
             if( statusDraft.quote_approval_policy == null) { //Set a default value
