@@ -1,0 +1,30 @@
+Added:
+- கூட்டு Mastodon trending remote அச் pinnable timeline
+- கூட்டு setting பெறுநர் allow uncompressed ஊடகம் upload (disabled by default)
+- கூட்டு விருப்பங்கள் பெறுநர் மறை 'sensitive content' and 'media description' indicators
+- கூட்டு சூதம் பெறுநர் change சுயவிவரம் படம் வடிவம் in சுயவிவரம் page
+- கூட்டு accessibility செயல் பெறுநர் மொழிபெயர்த்திடு நிலை content
+- புதிய preference with multiple விருப்பங்கள் பெறுநர் change how quote button is displayed
+
+Changed:
+- Migrate பெறுநர் targetSdk 35
+- Improve இணைப்பு preview preference
+- Change boost+quote popup UI
+- அகற்று account இருந்து "Home muted" when unfollowing
+- Make instance URI clickable in "About the instance" dialog
+
+Fixed:
+- காட்சி placeholder க்கு unfederated emojis
+- செய்திகள் வடிப்பி not working after loading remote profile
+- Animated WebP not playing in ஊடகம் viewer
+- Audio not clickable when fit preview is enabled
+- Cross-posting: use சரியான instance க்கு எழுத்து limit and emojis
+- Truncation not applied பெறுநர் quoted posts
+- Content முன்னறிவிப்பு lost when editing scheduled posts
+- ஆழம்எல் மொழிபெயர்ப்பு by using Authorization header
+- "Open the original message" can திற wrong status
+- Quote notifications related fixes (type not being excluded properly, Quotes தாவல் showing polls)
+- ஒளிதோற்றம் blinks
+- Player issue
+- Filters improvements
+- Some crashes
