@@ -600,10 +600,43 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 timelineStatuses.addAll(fetched_statuses.statuses);
                 statusAdapter.notifyItemRangeInserted(fromPosition, insertedStatus);
             } else if (timelineType == Timeline.TimeLineEnum.ART) {
-                insertedStatus = fetched_statuses.statuses.size();
-                int fromPosition = timelineStatuses.size();
-                timelineStatuses.addAll(fetched_statuses.statuses);
-                statusAdapter.notifyItemRangeInserted(fromPosition, insertedStatus);
+                if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP || direction == DIRECTION.FETCH_NEW) {
+                    // Clear and rebuild with fresh content
+                    int previousSize = timelineStatuses.size();
+                    timelineStatuses.clear();
+                    statusAdapter.notifyItemRangeRemoved(0, previousSize);
+                    timelineStatuses.addAll(fetched_statuses.statuses);
+                    insertedStatus = fetched_statuses.statuses.size();
+                    statusAdapter.notifyItemRangeInserted(0, insertedStatus);
+                } else if (direction == DIRECTION.TOP) {
+                    // Prepend new statuses with dedup based on status id + attachment id
+                    List<Status> toAdd = new ArrayList<>();
+                    for (Status newStatus : fetched_statuses.statuses) {
+                        boolean duplicate = false;
+                        for (Status existing : timelineStatuses) {
+                            if (existing.id != null && existing.id.equals(newStatus.id)
+                                    && existing.art_attachment != null && newStatus.art_attachment != null
+                                    && existing.art_attachment.id != null && existing.art_attachment.id.equals(newStatus.art_attachment.id)) {
+                                duplicate = true;
+                                break;
+                            }
+                        }
+                        if (!duplicate) {
+                            toAdd.add(newStatus);
+                        }
+                    }
+                    if (!toAdd.isEmpty()) {
+                        timelineStatuses.addAll(0, toAdd);
+                        statusAdapter.notifyItemRangeInserted(0, toAdd.size());
+                    }
+                    insertedStatus = toAdd.size();
+                } else {
+                    // BOTTOM: append older statuses
+                    insertedStatus = fetched_statuses.statuses.size();
+                    int fromPosition = timelineStatuses.size();
+                    timelineStatuses.addAll(fetched_statuses.statuses);
+                    statusAdapter.notifyItemRangeInserted(fromPosition, insertedStatus);
+                }
             } else if (timelineType != Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE ) {
                 insertedStatus = updateStatusListWith(fetched_statuses.statuses);
             } else { //Trends cannot be ordered by id
