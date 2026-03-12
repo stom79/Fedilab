@@ -398,6 +398,21 @@ public class ComposeWorker extends Worker {
                             e.printStackTrace();
                         }
                     }
+                    // Update media descriptions before re-creating the scheduled status
+                    if (media_attributes != null) {
+                        for (StatusParams.MediaParams mediaParam : media_attributes) {
+                            if (mediaParam.id != null && mediaParam.description != null) {
+                                try {
+                                    Call<Attachment> updateMediaCall = mastodonStatusesService.updateMedia(
+                                            dataPost.token, mediaParam.id, null, null,
+                                            mediaParam.description, mediaParam.focus);
+                                    updateMediaCall.execute();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
                     String scheduledVisibility = statuses.get(i).visibility != null ? statuses.get(i).visibility.toLowerCase() : null;
                     String scheduledQuoteApprovalPolicy = statuses.get(i).quote_approval_policy != null ? statuses.get(i).quote_approval_policy.toLowerCase() : null;
                     Call<ScheduledStatus> scheduledStatusCall = mastodonStatusesService.createScheduledStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
