@@ -155,52 +155,62 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
             unfollowConfirm.setMessage(context.getString(R.string.remove_scheduled));
             unfollowConfirm.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
             unfollowConfirm.setPositiveButton(R.string.delete, (dialog, which) -> {
-                if (scheduledStatuses != null && scheduledStatuses.size() > position) {
+                int adapterPosition = holder.getBindingAdapterPosition();
+                if (adapterPosition == RecyclerView.NO_POSITION) {
+                    return;
+                }
+                if (scheduledStatuses != null && scheduledStatuses.size() > adapterPosition) {
                     Account.API currentApi = BaseMainActivity.api;
                     if (currentApi == Account.API.MISSKEY) {
                         MisskeyStatusesVM misskeyStatusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyStatusesVM.class);
-                        misskeyStatusesVM.cancelScheduledNote(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, scheduledStatuses.get(position).id)
+                        misskeyStatusesVM.cancelScheduledNote(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, scheduledStatuses.get(adapterPosition).id)
                                 .observe((LifecycleOwner) context, success -> {
                                     if (success != null && success) {
-                                        scheduledStatuses.remove(scheduledStatuses.get(position));
-                                        if (scheduledStatuses.isEmpty()) {
-                                            scheduledActions.onAllDeleted();
+                                        int pos = holder.getBindingAdapterPosition();
+                                        if (pos != RecyclerView.NO_POSITION && pos < scheduledStatuses.size()) {
+                                            scheduledStatuses.remove(pos);
+                                            notifyItemRemoved(pos);
+                                            if (scheduledStatuses.isEmpty()) {
+                                                scheduledActions.onAllDeleted();
+                                            }
                                         }
-                                        notifyItemRemoved(position);
                                     }
                                 });
                     } else {
                         StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
-                        statusesVM.deleteScheduledStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, scheduledStatuses.get(position).id)
+                        statusesVM.deleteScheduledStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, scheduledStatuses.get(adapterPosition).id)
                                 .observe((LifecycleOwner) context, unused -> {
-                                    scheduledStatuses.remove(scheduledStatuses.get(position));
-                                    if (scheduledStatuses.isEmpty()) {
-                                        scheduledActions.onAllDeleted();
+                                    int pos = holder.getBindingAdapterPosition();
+                                    if (pos != RecyclerView.NO_POSITION && pos < scheduledStatuses.size()) {
+                                        scheduledStatuses.remove(pos);
+                                        notifyItemRemoved(pos);
+                                        if (scheduledStatuses.isEmpty()) {
+                                            scheduledActions.onAllDeleted();
+                                        }
                                     }
-                                    notifyItemRemoved(position);
                                 });
                     }
-                } else if (statusDraftList != null && statusDraftList.size() > position) {
+                } else if (statusDraftList != null && statusDraftList.size() > adapterPosition) {
                     try {
-                        new StatusDraft(context).removeScheduled(statusDraftList.get(position));
-                        WorkManager.getInstance(context).cancelWorkById(statusDraftList.get(position).workerUuid);
-                        statusDraftList.remove(statusDraftList.get(position));
+                        new StatusDraft(context).removeScheduled(statusDraftList.get(adapterPosition));
+                        WorkManager.getInstance(context).cancelWorkById(statusDraftList.get(adapterPosition).workerUuid);
+                        statusDraftList.remove(adapterPosition);
+                        notifyItemRemoved(adapterPosition);
                         if (statusDraftList.isEmpty()) {
                             scheduledActions.onAllDeleted();
                         }
-                        notifyItemRemoved(position);
                     } catch (DBException e) {
                         e.printStackTrace();
                     }
-                } else if (scheduledBoosts != null && position < scheduledBoosts.size()) {
+                } else if (scheduledBoosts != null && adapterPosition < scheduledBoosts.size()) {
                     try {
-                        new ScheduledBoost(context).removeScheduled(scheduledBoosts.get(position));
-                        WorkManager.getInstance(context).cancelWorkById(scheduledBoosts.get(position).workerUuid);
-                        scheduledBoosts.remove(scheduledBoosts.get(position));
+                        new ScheduledBoost(context).removeScheduled(scheduledBoosts.get(adapterPosition));
+                        WorkManager.getInstance(context).cancelWorkById(scheduledBoosts.get(adapterPosition).workerUuid);
+                        scheduledBoosts.remove(adapterPosition);
+                        notifyItemRemoved(adapterPosition);
                         if (scheduledBoosts.isEmpty()) {
                             scheduledActions.onAllDeleted();
                         }
-                        notifyItemRemoved(position);
                     } catch (DBException e) {
                         e.printStackTrace();
                     }

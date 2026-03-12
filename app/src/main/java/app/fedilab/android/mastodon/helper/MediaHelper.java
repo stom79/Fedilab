@@ -403,7 +403,7 @@ public class MediaHelper {
                     minute);
             final long[] time = {calendar.getTimeInMillis()};
 
-            if ((time[0] - new Date().getTime()) < 60000) {
+            if ((time[0] - new Date().getTime()) < 300000) {
                 Toasty.warning(activity, activity.getString(R.string.toot_scheduled_date), Toast.LENGTH_LONG).show();
             } else {
                 SimpleDateFormat sdf = new SimpleDateFormat(Helper.SCHEDULE_DATE_FORMAT, Locale.getDefault());
