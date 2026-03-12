@@ -1,49 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fetch_more_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="horizontal"
-    android:paddingHorizontal="6dp">
+    android:orientation="vertical"
+    android:paddingVertical="4dp">
 
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/fetch_more_max"
-        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/fetch_more_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/fetch_more_messages"
-        android:padding="0dp"
-        app:icon="@drawable/ic_baseline_keyboard_double_arrow_down_24"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        app:strokeColor="?colorPrimary" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fetch_more_max"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:contentDescription="@string/fetch_more_messages"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            app:icon="@drawable/ic_baseline_keyboard_double_arrow_down_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:strokeColor="?colorPrimary" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="12dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/fetch_more_messages"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?colorPrimary"
+            android:textSize="16sp"
+            app:textAllCaps="false" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fetch_more_min"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:contentDescription="@string/fetch_more_messages"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            app:icon="@drawable/ic_baseline_keyboard_double_arrow_up_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:strokeColor="?colorPrimary" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="0dp"
+        android:id="@+id/unreachable_gap_message"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
         android:gravity="center"
-        android:text="@string/fetch_more_messages"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:text="@string/unreachable_gap"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-        android:textColor="?colorPrimary"
-        android:textSize="18sp"
-        app:textAllCaps="false" />
+        android:textColor="?colorOnSurfaceVariant"
+        android:visibility="gone" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/fetch_more_min"
-        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/fetch_more_messages"
-        android:padding="0dp"
-        app:icon="@drawable/ic_baseline_keyboard_double_arrow_up_24"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        app:strokeColor="?colorPrimary" />
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

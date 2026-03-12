@@ -1127,6 +1127,34 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     private void getLiveStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams, boolean canScroll, Status fetchStatus) {
 
+        // For HOME timeline fetch more: check if the gap can be filled by the server
+        if (fetchingMissing && timelineType == Timeline.TimeLineEnum.HOME
+                && (direction == DIRECTION.TOP || direction == DIRECTION.BOTTOM)
+                && fetchStatus != null && timelineStatuses != null && !timelineStatuses.isEmpty()) {
+            String newestCachedId = timelineStatuses.get(0).id;
+            timelinesVM.getOldestHomeStatus(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
+                    .observe(getViewLifecycleOwner(), oldestStatus -> {
+                        if (oldestStatus != null && Helper.compareTo(oldestStatus.id, newestCachedId) > 0) {
+                            // Server's oldest available status is newer than the most recent cached one - gap cannot be filled
+                            fetchStatus.isUnreachableGap = true;
+                            fetchStatus.isFetching = false;
+                            int position = timelineStatuses.indexOf(fetchStatus);
+                            if (position >= 0 && statusAdapter != null) {
+                                statusAdapter.notifyItemChanged(position);
+                            }
+                        } else {
+                            // Gap is reachable, proceed with fetching
+                            getLiveStatusInternal(direction, fetchingMissing, timelineParams, canScroll, fetchStatus);
+                        }
+                    });
+            return;
+        }
+
+        getLiveStatusInternal(direction, fetchingMissing, timelineParams, canScroll, fetchStatus);
+    }
+
+    private void getLiveStatusInternal(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams, boolean canScroll, Status fetchStatus) {
+
         if (direction == null) {
             timelinesVM.getTimeline(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statuses -> {

@@ -701,6 +701,30 @@ public class TimelinesVM extends AndroidViewModel {
         return peertubeVideoMutableLiveData;
     }
 
+    /**
+     * Get the oldest status available in the home timeline (using min_id=0&limit=1)
+     */
+    public LiveData<Status> getOldestHomeStatus(@NonNull String instance, String token) {
+        statusMutableLiveData = new MutableLiveData<>();
+        MastodonTimelinesService mastodonTimelinesService = init(instance);
+        new Thread(() -> {
+            Status oldest = null;
+            try {
+                Call<List<Status>> homeCall = mastodonTimelinesService.getHome(token, null, null, "0", 1, null);
+                Response<List<Status>> response = homeCall.execute();
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    oldest = response.body().get(0);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Status finalOldest = oldest;
+            mainHandler.post(() -> statusMutableLiveData.setValue(finalOldest));
+        }).start();
+        return statusMutableLiveData;
+    }
+
     public LiveData<Statuses> getTimeline(List<Status> timelineStatuses, TimelineParams timelineParams) {
         statusesMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(timelineParams.instance);

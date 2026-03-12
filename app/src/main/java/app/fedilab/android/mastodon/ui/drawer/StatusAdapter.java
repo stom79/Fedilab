@@ -2637,11 +2637,26 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.bindingReport.checkbox.setOnClickListener(v -> status.isChecked = !status.isChecked);
         }
 
-        if (status.isFetchMore && fetchMoreCallBack != null) {
-            if (!autofetch) {
+        if ((status.isFetchMore || status.isUnreachableGap) && fetchMoreCallBack != null) {
+            if (status.isUnreachableGap) {
+                DrawerFetchMoreBinding drawerFetchMoreBinding = DrawerFetchMoreBinding.inflate(LayoutInflater.from(context));
+                drawerFetchMoreBinding.fetchMoreContainer.setVisibility(View.GONE);
+                drawerFetchMoreBinding.unreachableGapMessage.setVisibility(View.VISIBLE);
+                if (status.positionFetchMore == Status.PositionFetchMore.BOTTOM) {
+                    holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
+                    holder.binding.fetchMoreContainerTop.setVisibility(View.VISIBLE);
+                    holder.binding.fetchMoreContainerTop.removeAllViews();
+                    holder.binding.fetchMoreContainerTop.addView(drawerFetchMoreBinding.getRoot());
+                } else {
+                    holder.binding.fetchMoreContainerBottom.setVisibility(View.VISIBLE);
+                    holder.binding.fetchMoreContainerTop.setVisibility(View.GONE);
+                    holder.binding.fetchMoreContainerBottom.removeAllViews();
+                    holder.binding.fetchMoreContainerBottom.addView(drawerFetchMoreBinding.getRoot());
+                }
+            } else if (!autofetch) {
                 DrawerFetchMoreBinding drawerFetchMoreBinding = DrawerFetchMoreBinding.inflate(LayoutInflater.from(context));
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                drawerFetchMoreBinding.fetchMoreContainer.setLayoutParams(lp);
+                drawerFetchMoreBinding.getRoot().setLayoutParams(lp);
                 if (status.positionFetchMore == Status.PositionFetchMore.BOTTOM) {
                     holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
                     holder.binding.fetchMoreContainerTop.setVisibility(View.VISIBLE);
@@ -3908,11 +3923,77 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.bindingFilteredHide.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
                 holder.bindingFilteredHide.dividerCard.setVisibility(View.GONE);
             }
-            if (status.isFetchMore && fetchMoreCallBack != null) {
-                boolean autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
-                if (!autofetch) {
-                    holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
-                    holder.bindingFilteredHide.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
+            if ((status.isFetchMore || status.isUnreachableGap) && fetchMoreCallBack != null) {
+                if (status.isUnreachableGap) {
+                    holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
+                    holder.bindingFilteredHide.layoutFetchMore.unreachableGapMessage.setVisibility(View.VISIBLE);
+                } else {
+                    boolean autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
+                    if (!autofetch) {
+                        holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
+                        holder.bindingFilteredHide.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
+                            status.isFetchMore = false;
+                            status.isFetching = true;
+                            notifyItemChanged(holder.getBindingAdapterPosition());
+                            if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
+                                String fromId;
+                                if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                                    fromId = statusList.get(holder.getBindingAdapterPosition() + 1).id;
+                                } else {
+                                    fromId = status.id;
+                                }
+                                fetchMoreCallBack.onClickMinId(fromId, status);
+                            }
+                        });
+                        holder.bindingFilteredHide.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
+                            status.isFetchMore = false;
+                            status.isFetching = true;
+                            notifyItemChanged(holder.getBindingAdapterPosition());
+                            String fromId;
+                            if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
+                                fromId = statusList.get(holder.getBindingAdapterPosition()).id;
+                            } else {
+                                fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
+                            }
+                            fetchMoreCallBack.onClickMaxId(fromId, status);
+                        });
+                    } else {
+                        status.isFetchMore = false;
+                        status.isFetching = true;
+                        String minId = null, maxId;
+                        if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
+                            if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                                minId = statusList.get(holder.getBindingAdapterPosition() + 1).id;
+                            } else {
+                                minId = status.id;
+                            }
+                        }
+                        if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
+                            maxId = statusList.get(holder.getBindingAdapterPosition()).id;
+                        } else {
+                            maxId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
+                        }
+                        fetchMoreCallBack.autoFetch(minId, maxId, status);
+                    }
+                }
+            } else {
+                holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
+            }
+        } else if (viewHolder.getItemViewType() == STATUS_FILTERED) {
+            StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, status.filteredByApp.title));
+            holder.bindingFiltered.displayButton.setOnClickListener(v -> {
+                status.filteredByApp = null;
+                notifyItemChanged(position);
+            });
+
+            if ((status.isFetchMore || status.isUnreachableGap) && fetchMoreCallBack != null) {
+                if (status.isUnreachableGap) {
+                    holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
+                    holder.bindingFiltered.layoutFetchMore.unreachableGapMessage.setVisibility(View.VISIBLE);
+                } else {
+                    holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
+                    holder.bindingFiltered.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
                         status.isFetchMore = false;
                         status.isFetching = true;
                         notifyItemChanged(holder.getBindingAdapterPosition());
@@ -3926,11 +4007,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             fetchMoreCallBack.onClickMinId(fromId, status);
                         }
                     });
-                    holder.bindingFilteredHide.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
-                        //We hide the button
+                    holder.bindingFiltered.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
                         status.isFetchMore = false;
                         status.isFetching = true;
-                        notifyItemChanged(holder.getBindingAdapterPosition());
                         String fromId;
                         if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
                             fromId = statusList.get(holder.getBindingAdapterPosition()).id;
@@ -3938,67 +4017,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
                         }
                         fetchMoreCallBack.onClickMaxId(fromId, status);
-
+                        notifyItemChanged(holder.getBindingAdapterPosition());
                     });
-                } else {
-                    status.isFetchMore = false;
-                    status.isFetching = true;
-                    String minId = null, maxId;
-                    if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
-                        if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
-                            minId = statusList.get(holder.getBindingAdapterPosition() + 1).id;
-                        } else {
-                            minId = status.id;
-                        }
-                    }
-                    if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
-                        maxId = statusList.get(holder.getBindingAdapterPosition()).id;
-                    } else {
-                        maxId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
-                    }
-                    fetchMoreCallBack.autoFetch(minId, maxId, status);
                 }
-
-            } else {
-                holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
-            }
-        } else if (viewHolder.getItemViewType() == STATUS_FILTERED) {
-            StatusViewHolder holder = (StatusViewHolder) viewHolder;
-            holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, status.filteredByApp.title));
-            holder.bindingFiltered.displayButton.setOnClickListener(v -> {
-                status.filteredByApp = null;
-                notifyItemChanged(position);
-            });
-
-            if (status.isFetchMore && fetchMoreCallBack != null) {
-                holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
-                holder.bindingFiltered.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
-                    status.isFetchMore = false;
-                    status.isFetching = true;
-                    notifyItemChanged(holder.getBindingAdapterPosition());
-                    if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
-                        String fromId;
-                        if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
-                            fromId = statusList.get(holder.getBindingAdapterPosition() + 1).id;
-                        } else {
-                            fromId = status.id;
-                        }
-                        fetchMoreCallBack.onClickMinId(fromId, status);
-                    }
-                });
-                holder.bindingFiltered.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
-                    //We hide the button
-                    status.isFetchMore = false;
-                    status.isFetching = true;
-                    String fromId;
-                    if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
-                        fromId = statusList.get(holder.getBindingAdapterPosition()).id;
-                    } else {
-                        fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
-                    }
-                    fetchMoreCallBack.onClickMaxId(fromId, status);
-                    notifyItemChanged(holder.getBindingAdapterPosition());
-                });
             } else {
                 holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }

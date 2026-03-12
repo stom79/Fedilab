@@ -332,6 +332,7 @@
     <string name="list_replies_policy_none">No one</string>
     <string name="list_replies_policy_list">Members of the list</string>
     <string name="list_replies_policy_followed">Any followed user</string>
+    <string name="unreachable_gap">Some messages are no longer available from the server</string>
     <string name="action_lists_add_user">The account was added to the list!</string>
     <string name="action_lists_empty">You don\'t have any lists yet!</string>
     <!-- Migration -->
