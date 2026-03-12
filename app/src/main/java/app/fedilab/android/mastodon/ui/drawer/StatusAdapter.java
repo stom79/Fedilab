@@ -3348,10 +3348,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (isArt) {
             fullAttachement = true;
         }
-        float ratio = measuredWidth > 0 ? measuredWidth / mediaW : 1.0f;
-        if(ratio >= 5) {
-            fullAttachement = false;
-        }
         boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
         RequestBuilder<Drawable> requestBuilder;
         GlideRequests glideRequests = GlideApp.with(context);
@@ -3404,11 +3400,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         LinearLayout.LayoutParams lp;
         boolean fullAttachement = sharedpreferences.getBoolean(context.getString(R.string.SET_FULL_PREVIEW), false);
-        if(ratio >= 5) {
-            fullAttachement = false;
-        }
         if (fullAttachement && mediaH > 0 && (!statusToDeal.sensitive || expand_media)) {
-            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
+            int maxHeight = (int) (measuredWidth * 2);
+            int computedHeight = Math.min((int) (mediaH * ratio), maxHeight);
+            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, computedHeight);
             layoutMediaBinding.media.setScaleType(ImageView.ScaleType.FIT_CENTER);
         } else if (fullAttachement && attachment.type != null && attachment.type.equalsIgnoreCase("audio")) {
             // For audio with fullAttachment, set a minimum height so the audio icon is visible and clickable
