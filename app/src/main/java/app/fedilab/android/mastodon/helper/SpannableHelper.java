@@ -324,6 +324,15 @@ public class SpannableHelper {
                                         targetedMention = mention;
                                     } else {
                                         acct = mention.acct;
+                                        if (acct != null && !acct.contains("@") && mention.url != null) {
+                                            try {
+                                                String host = new URL(mention.url).getHost();
+                                                if (host != null) {
+                                                    acct = acct + "@" + host;
+                                                }
+                                            } catch (MalformedURLException ignored) {
+                                            }
+                                        }
                                     }
                                     break;
                                 }
