@@ -456,8 +456,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     holderStatus.bindingNotification.status.mediaContainer.setVisibility(View.GONE);
                 }
                 String title = switch (itemViewType) {
-                    case TYPE_FAVOURITE, TYPE_REBLOG, TYPE_UPDATE -> notification.account.display_name;
-                    case TYPE_POLL -> context.getString(R.string.notif_poll);
+                    case TYPE_FAVOURITE, TYPE_REBLOG, TYPE_UPDATE, TYPE_POLL -> notification.account.display_name;
                     default -> "";
                 };
                 MastodonHelper.loadPPMastodon(holderStatus.binding.avatar, notification.account);
