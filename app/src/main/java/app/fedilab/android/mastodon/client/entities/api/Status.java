@@ -130,7 +130,7 @@ public class Status implements Serializable, Cloneable {
         @SerializedName("current_user")
         public String current_user;
         @SerializedName("manual")
-        public Status[] manual;
+        public Object[] manual;
     }
 
     public Status getQuote() {
