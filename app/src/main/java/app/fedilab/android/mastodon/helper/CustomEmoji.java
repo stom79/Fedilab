@@ -141,6 +141,9 @@ public class CustomEmoji extends ReplacementSpan {
 
     @Override
     public int getSize(@NonNull Paint paint, CharSequence charSequence, int i, int i1, @Nullable Paint.FontMetricsInt fontMetricsInt) {
+        if (imageDrawable == null && loadFailed) {
+            return (int) paint.measureText(charSequence, i, i1);
+        }
         return (int) (paint.getTextSize() * scale);
     }
 
@@ -155,6 +158,8 @@ public class CustomEmoji extends ReplacementSpan {
             canvas.translate(x, (float) transY);
             imageDrawable.draw(canvas);
             canvas.restore();
+        } else if (loadFailed) {
+            canvas.drawText(charSequence, start, end, x, y, paint);
         }
     }
 
