@@ -261,7 +261,7 @@ public class StatusesVM extends AndroidViewModel {
         scheduledStatusMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<ScheduledStatus> scheduledStatusCall = mastodonStatusesService.createScheduledStatus(idempotency_Key, token, text, media_ids, poll_options, poll_expire_in,
-                    poll_multiple, poll_hide_totals, in_reply_to_id, sensitive, spoiler_text, visibility, scheduledAt, language);
+                    poll_multiple, poll_hide_totals, in_reply_to_id, sensitive, spoiler_text, visibility, scheduledAt, language, null, null, null);
             ScheduledStatus scheduledStatus = null;
             if (scheduledStatusCall != null) {
                 try {

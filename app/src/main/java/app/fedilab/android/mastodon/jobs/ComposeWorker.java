@@ -399,8 +399,10 @@ public class ComposeWorker extends Worker {
                         }
                     }
                     String scheduledVisibility = statuses.get(i).visibility != null ? statuses.get(i).visibility.toLowerCase() : null;
+                    String scheduledQuoteApprovalPolicy = statuses.get(i).quote_approval_policy != null ? statuses.get(i).quote_approval_policy.toLowerCase() : null;
                     Call<ScheduledStatus> scheduledStatusCall = mastodonStatusesService.createScheduledStatus(null, dataPost.token, statuses.get(i).text, attachmentIds, poll_options, poll_expire_in,
-                            poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, scheduledVisibility, dataPost.scheduledDate, statuses.get(i).language);
+                            poll_multiple, poll_hide_totals, statuses.get(i).quote_id == null ? in_reply_to_status : null, statuses.get(i).sensitive, statuses.get(i).spoilerChecked ? statuses.get(i).spoiler_text : null, scheduledVisibility, dataPost.scheduledDate, statuses.get(i).language,
+                            scheduledQuoteApprovalPolicy, statuses.get(i).quote_id, statuses.get(i).quote_id);
                     try {
                         Response<ScheduledStatus> statusResponse = scheduledStatusCall.execute();
 

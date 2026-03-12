@@ -574,6 +574,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     status.spoilerChecked = scheduledStatus.params.spoiler_text != null && !scheduledStatus.params.spoiler_text.isEmpty();
                     status.visibility = scheduledStatus.params.visibility;
                     status.quote_approval_policy = scheduledStatus.params.quote_approval_policy;
+                    status.quote_id = scheduledStatus.params.quote_id != null ? scheduledStatus.params.quote_id : scheduledStatus.params.quoted_status_id;
                     statuses.add(status);
                     statusDraft.statusDraftList = statuses;
                 }

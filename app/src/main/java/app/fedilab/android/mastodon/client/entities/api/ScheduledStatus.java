@@ -52,6 +52,10 @@ public class ScheduledStatus implements Serializable {
         public String idempotency;
         @SerializedName("in_reply_to_id")
         public String in_reply_to_id;
+        @SerializedName("quoted_status_id")
+        public String quoted_status_id;
+        @SerializedName("quote_id")
+        public String quote_id;
         @SerializedName("application_id")
         public String application_id;
     }
