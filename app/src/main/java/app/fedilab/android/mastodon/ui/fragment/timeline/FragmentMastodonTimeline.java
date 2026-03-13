@@ -1393,10 +1393,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                                 .observe(getViewLifecycleOwner(), otherStatuses -> {
                                                     if (otherStatuses != null && otherStatuses.statuses != null) {
                                                         if (pinnedStatuses != null && pinnedStatuses.statuses != null) {
-                                                            for (Status status : pinnedStatuses.statuses) {
-                                                                status.pinned = true;
-                                                            }
-                                                            otherStatuses.statuses.addAll(0, pinnedStatuses.statuses);
+                                                            addPinnedCarousel(pinnedStatuses.statuses, otherStatuses);
                                                         }
                                                     }
                                                     initializeStatusesCommonView(otherStatuses);
@@ -1594,10 +1591,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         .observe(getViewLifecycleOwner(), pinnedStatuses -> accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountId, null, null, null, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
                                 .observe(getViewLifecycleOwner(), otherStatuses -> {
                                     if (otherStatuses != null && otherStatuses.statuses != null && pinnedStatuses != null && pinnedStatuses.statuses != null) {
-                                        for (Status status : pinnedStatuses.statuses) {
-                                            status.pinned = true;
-                                        }
-                                        otherStatuses.statuses.addAll(0, pinnedStatuses.statuses);
+                                        addPinnedCarousel(pinnedStatuses.statuses, otherStatuses);
                                         initializeStatusesCommonView(otherStatuses);
                                     }
                                 }));
@@ -1612,10 +1606,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             .observe(getViewLifecycleOwner(), otherStatuses -> {
                                 if (otherStatuses != null && otherStatuses.statuses != null) {
                                     if (pinnedStatuses != null && pinnedStatuses.statuses != null) {
-                                        for (Status status : pinnedStatuses.statuses) {
-                                            status.pinned = true;
-                                        }
-                                        otherStatuses.statuses.addAll(0, pinnedStatuses.statuses);
+                                        addPinnedCarousel(pinnedStatuses.statuses, otherStatuses);
                                     }
                                     initializeStatusesCommonView(otherStatuses);
                                 }
@@ -1635,6 +1626,18 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (statusAdapter != null && timelineStatuses != null) {
             statusAdapter.notifyItemRangeChanged(0, timelineStatuses.size());
         }
+    }
+
+    private void addPinnedCarousel(List<Status> pinnedList, Statuses otherStatuses) {
+        if (pinnedList.isEmpty()) {
+            return;
+        }
+        for (Status status : pinnedList) {
+            status.pinned = true;
+            status.pinnedList = pinnedList;
+        }
+        pinnedList.get(0).pinnedIndex = 0;
+        otherStatuses.statuses.add(0, pinnedList.get(0));
     }
 
     @Override

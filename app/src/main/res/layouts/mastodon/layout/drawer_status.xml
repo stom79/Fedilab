@@ -231,11 +231,11 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="top"
-                tools:visibility="visible"
                 android:scaleType="centerInside"
                 android:contentDescription="@string/pinned"
                 android:src="@drawable/ic_baseline_push_pin_24"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/type_of_notification"
@@ -954,6 +954,49 @@
             android:id="@+id/fetch_more_container_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/pinned_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/pinned_prev"
+                style="@style/Widget.Material3.Button.IconButton.Outlined"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/previous"
+                app:icon="@drawable/ic_navigate_before"
+                app:iconTint="?colorPrimary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/pinned_counter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="?colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="1/3" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/pinned_next"
+                style="@style/Widget.Material3.Button.IconButton.Outlined"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/next"
+                app:icon="@drawable/ic_navigate_next"
+                app:iconTint="?colorPrimary" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

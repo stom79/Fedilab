@@ -976,8 +976,37 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (status.pinned) {
             holder.binding.statusPinned.setVisibility(View.VISIBLE);
+            if (status.pinnedList != null && status.pinnedList.size() > 1) {
+                holder.binding.pinnedNavigation.setVisibility(View.VISIBLE);
+                holder.binding.pinnedCounter.setText(String.format(Locale.getDefault(), "%d/%d", status.pinnedIndex + 1, status.pinnedList.size()));
+                holder.binding.pinnedPrev.setOnClickListener(v -> {
+                    int position = holder.getBindingAdapterPosition();
+                    if (position < 0) return;
+                    int newIndex = status.pinnedIndex - 1;
+                    if (newIndex < 0) newIndex = status.pinnedList.size() - 1;
+                    Status newPinned = status.pinnedList.get(newIndex);
+                    newPinned.pinnedIndex = newIndex;
+                    newPinned.pinnedList = status.pinnedList;
+                    statusList.set(position, newPinned);
+                    adapter.notifyItemChanged(position);
+                });
+                holder.binding.pinnedNext.setOnClickListener(v -> {
+                    int position = holder.getBindingAdapterPosition();
+                    if (position < 0) return;
+                    int newIndex = status.pinnedIndex + 1;
+                    if (newIndex >= status.pinnedList.size()) newIndex = 0;
+                    Status newPinned = status.pinnedList.get(newIndex);
+                    newPinned.pinnedIndex = newIndex;
+                    newPinned.pinnedList = status.pinnedList;
+                    statusList.set(position, newPinned);
+                    adapter.notifyItemChanged(position);
+                });
+            } else {
+                holder.binding.pinnedNavigation.setVisibility(View.GONE);
+            }
         } else {
             holder.binding.statusPinned.setVisibility(View.GONE);
+            holder.binding.pinnedNavigation.setVisibility(View.GONE);
         }
 
         holder.binding.toggleTruncate.setVisibility(View.GONE);
