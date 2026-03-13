@@ -1,0 +1,31 @@
+Added
+- Add reverse timeline reading order option
+- Add grouped notifications API (v2) with fallback to local grouping
+- Add volume slider and playback speed controls to video player
+- Add replies policy option when creating/editing lists
+- Add pinch zoom on remotely loaded media
+- Add fediverse creator support in link preview cards
+- Add unreachable gap detection in home timeline
+- Add pinned statuses carousel in profiles
+
+Changed
+- Show display name instead of generic text in poll notifications
+- Show emoji shortcode as fallback when custom emoji fails to load
+- Keep timeline stable when interacting with posts
+- Improve pronouns and display name handling
+- Improve fit preview by capping height
+
+Fixed
+- Fix picture timelines not loading new art and losing posts on restart
+- Fix alt-text changes lost when editing scheduled posts
+- Fix quotes lost on scheduled posts
+- Fix unexpected quote_approval format from GlitchSocial instances
+- Fix scheduled posts: wrong item removed from list and minimum delay enforced
+- Fix search pagination for statuses and accounts
+- Fix duplicate posts when one post in a series fails
+- Fix crash when hiding/deleting timeline after another deletion
+- Fix compose error message not shown immediately in thread view
+- Fix quote button not disabled when quoting is denied
+- Fix pagination for instances with non-alphanumeric IDs
+- Fix remote mention resolution
+- Fix quote visibility forced to unlisted instead of using default
