@@ -706,7 +706,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
             flagLoading = true;
         }
-        if (direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
+        if (direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
             new Handler().postDelayed(() -> binding.recyclerView.scrollToPosition(0), 200);
         }
     }
@@ -724,18 +724,27 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                     continue;
                 }
                 if (notificationReceived.group_key != null) {
+                    boolean replaced = false;
                     for (int i = 0; i < notificationList.size(); i++) {
                         if (notificationReceived.group_key.equals(notificationList.get(i).group_key)) {
-                            notificationList.remove(i);
-                            notificationAdapter.notifyItemRemoved(i);
+                            if (notificationReceived.id.equals(notificationList.get(i).id)) {
+                                notificationList.set(i, notificationReceived);
+                                notificationAdapter.notifyItemChanged(i);
+                            } else {
+                                notificationList.remove(i);
+                                notificationAdapter.notifyItemRemoved(i);
+                            }
+                            replaced = true;
                             break;
                         }
+                    }
+                    if (replaced && notificationList.contains(notificationReceived)) {
+                        continue;
                     }
                 }
 
                 int position = 0;
                 //We loop through messages already in the timeline
-                notificationAdapter.notifyItemRangeChanged(0, notificationList.size());
                 for (Notification notificationsAlreadyPresent : notificationList) {
                     //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
                     //Pinned messages are ignored because their date can be older
@@ -751,7 +760,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                     }
                     position++;
                 }
-                //Statuses added at the bottom, we flag them by position = -2 for not dealing with them and fetch more
+                //Statuses added at the bottom
                 if (position == notificationList.size() && !notificationList.contains(notificationReceived)) {
                     notificationList.add(position, notificationReceived);
                     notificationAdapter.notifyItemInserted(position);
