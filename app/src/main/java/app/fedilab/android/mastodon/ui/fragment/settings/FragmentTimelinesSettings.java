@@ -119,6 +119,9 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
             if (key.compareToIgnoreCase(getString(R.string.SET_TIMELINE_SCROLLBAR)) == 0) {
                 recreate = true;
             }
+            if (key.compareToIgnoreCase(getString(R.string.SET_REVERSE_TIMELINE)) == 0) {
+                recreate = true;
+            }
             if (key.compareToIgnoreCase(getString(R.string.SET_DISPLAY_BOOKMARK)) == 0) {
                 SwitchPreferenceCompat SET_DISPLAY_BOOKMARK = findPreference(getString(R.string.SET_DISPLAY_BOOKMARK));
                 if (SET_DISPLAY_BOOKMARK != null) {

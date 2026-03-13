@@ -221,6 +221,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final boolean checkRemotely;
     public RemoteInstance.InstanceType type;
     public PinnedTimeline pinnedTimeline;
+    public boolean reverseTimeline;
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
     private boolean visiblePixelfed;
@@ -2668,11 +2669,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         if ((status.isFetchMore || status.isUnreachableGap) && fetchMoreCallBack != null) {
+            boolean showInTopContainer = (status.positionFetchMore == Status.PositionFetchMore.BOTTOM);
+            if (adapter instanceof StatusAdapter && ((StatusAdapter) adapter).reverseTimeline) {
+                showInTopContainer = !showInTopContainer;
+            }
             if (status.isUnreachableGap) {
                 DrawerFetchMoreBinding drawerFetchMoreBinding = DrawerFetchMoreBinding.inflate(LayoutInflater.from(context));
                 drawerFetchMoreBinding.fetchMoreContainer.setVisibility(View.GONE);
                 drawerFetchMoreBinding.unreachableGapMessage.setVisibility(View.VISIBLE);
-                if (status.positionFetchMore == Status.PositionFetchMore.BOTTOM) {
+                if (showInTopContainer) {
                     holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
                     holder.binding.fetchMoreContainerTop.setVisibility(View.VISIBLE);
                     holder.binding.fetchMoreContainerTop.removeAllViews();
@@ -2687,7 +2692,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 DrawerFetchMoreBinding drawerFetchMoreBinding = DrawerFetchMoreBinding.inflate(LayoutInflater.from(context));
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 drawerFetchMoreBinding.getRoot().setLayoutParams(lp);
-                if (status.positionFetchMore == Status.PositionFetchMore.BOTTOM) {
+                if (showInTopContainer) {
                     holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
                     holder.binding.fetchMoreContainerTop.setVisibility(View.VISIBLE);
                     holder.binding.fetchMoreContainerTop.removeAllViews();
@@ -2698,12 +2703,21 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.binding.fetchMoreContainerBottom.removeAllViews();
                     holder.binding.fetchMoreContainerBottom.addView(drawerFetchMoreBinding.getRoot());
                 }
+                boolean reverseMode = adapter instanceof StatusAdapter && ((StatusAdapter) adapter).reverseTimeline;
                 drawerFetchMoreBinding.fetchMoreMin.setOnClickListener(v -> {
                     status.isFetchMore = false;
                     status.isFetching = true;
                     int position = holder.getBindingAdapterPosition();
                     adapter.notifyItemChanged(position);
-                    if (position < statusList.size() - 1) {
+                    if (reverseMode) {
+                        String fromId;
+                        if (status.positionFetchMore == Status.PositionFetchMore.TOP || position == 0) {
+                            fromId = statusList.get(position).id;
+                        } else {
+                            fromId = statusList.get(position - 1).id;
+                        }
+                        fetchMoreCallBack.onClickMaxId(fromId, status);
+                    } else if (position < statusList.size() - 1) {
                         String fromId;
                         if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
                             fromId = statusList.get(position + 1).id;
@@ -2714,17 +2728,30 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 });
                 drawerFetchMoreBinding.fetchMoreMax.setOnClickListener(v -> {
-                    //We hide the button
                     status.isFetchMore = false;
                     status.isFetching = true;
-                    String fromId;
-                    if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
-                        fromId = statusList.get(holder.getBindingAdapterPosition()).id;
+                    if (reverseMode) {
+                        int position = holder.getBindingAdapterPosition();
+                        adapter.notifyItemChanged(position);
+                        if (position < statusList.size() - 1) {
+                            String fromId;
+                            if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                                fromId = statusList.get(position + 1).id;
+                            } else {
+                                fromId = status.id;
+                            }
+                            fetchMoreCallBack.onClickMinId(fromId, status);
+                        }
                     } else {
-                        fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
+                        String fromId;
+                        if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
+                            fromId = statusList.get(holder.getBindingAdapterPosition()).id;
+                        } else {
+                            fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
+                        }
+                        fetchMoreCallBack.onClickMaxId(fromId, status);
+                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                     }
-                    fetchMoreCallBack.onClickMaxId(fromId, status);
-                    adapter.notifyItemChanged(holder.getBindingAdapterPosition());
                 });
             } else {
                 holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
@@ -2753,7 +2780,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             drawerMessageFetchingBinding.fetchingContainer.setLayoutParams(lp);
             drawerMessageFetchingBinding.fetchingProgress.getIndeterminateDrawable().setColorFilter(ThemeHelper.getAttColor(context, R.attr.colorPrimary), PorterDuff.Mode.SRC_IN);
-            if (status.positionFetchMore == Status.PositionFetchMore.BOTTOM) {
+            boolean fetchInTopContainer = (status.positionFetchMore == Status.PositionFetchMore.BOTTOM);
+            if (adapter instanceof StatusAdapter && ((StatusAdapter) adapter).reverseTimeline) {
+                fetchInTopContainer = !fetchInTopContainer;
+            }
+            if (fetchInTopContainer) {
                 holder.binding.fetchMoreContainerBottom.setVisibility(View.GONE);
                 holder.binding.fetchMoreContainerTop.setVisibility(View.VISIBLE);
                 holder.binding.fetchMoreContainerTop.removeAllViews();

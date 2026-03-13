@@ -59,6 +59,13 @@
         app:title="@string/timeline_scrollbar" />
 
     <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_REVERSE_TIMELINE"
+        app:singleLineTitle="false"
+        app:title="@string/reverse_timeline" />
+
+    <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_HIGHLIGHT_NEW_COMMENTS"

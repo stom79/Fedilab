@@ -217,6 +217,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String ident;
     private String slug;
     private boolean canBeFederated;
+    private boolean reverseTimeline;
     private boolean rememberPosition;
     private String publicTrendsDomain;
 
@@ -655,10 +656,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             } else if (update != null && insertedStatus == 0 && direction == DIRECTION.REFRESH) {
                 update.onUpdate(0, timelineType, slug);
             }
-            if (direction == DIRECTION.TOP && fetchingMissing && canScroll) {
-                int position = getAbsolutePosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1));
-                if (position != -1) {
-                    binding.recyclerView.scrollToPosition(position + 1);
+            if (fetchingMissing && canScroll) {
+                if (!reverseTimeline && direction == DIRECTION.TOP) {
+                    int position = getAbsolutePosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1));
+                    if (position != -1) {
+                        binding.recyclerView.scrollToPosition(position + 1);
+                    }
+                } else if (reverseTimeline && direction == DIRECTION.BOTTOM) {
+                    int position = getAbsolutePosition(fetched_statuses.statuses.get(0));
+                    if (position > 0) {
+                        binding.recyclerView.scrollToPosition(position - 1);
+                    }
                 }
             }
             if (!fetchingMissing) {
@@ -773,9 +781,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 min_id = statuses.pagination.min_id;
             }
         }
+        SharedPreferences sharedpref = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        reverseTimeline = sharedpref.getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false);
         statusAdapter = new StatusAdapter(timelineStatuses, timelineType, minified, canBeFederated, checkRemotely);
         statusAdapter.fetchMoreCallBack = this;
         statusAdapter.pinnedTimeline = pinnedTimeline;
+        statusAdapter.reverseTimeline = reverseTimeline;
         //------Specifications for Lemmy timelines
         if (pinnedTimeline != null && pinnedTimeline.remoteInstance != null) {
             statusAdapter.type = pinnedTimeline.remoteInstance.type;
@@ -791,6 +802,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         mLayoutManager = new LinearLayoutManager(requireActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        if (reverseTimeline) {
+            mLayoutManager.setReverseLayout(true);
+            mLayoutManager.setStackFromEnd(true);
+        }
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
 
@@ -813,23 +828,45 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
                     }
                     int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
-                    if (dy > 0) {
-                        int visibleItemCount = mLayoutManager.getChildCount();
-                        int totalItemCount = mLayoutManager.getItemCount();
-                        if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                    if (reverseTimeline) {
+                        if (dy < 0) {
+                            int visibleItemCount = mLayoutManager.getChildCount();
+                            int totalItemCount = mLayoutManager.getItemCount();
+                            if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                                if (!flagLoading) {
+                                    flagLoading = true;
+                                    binding.loadingNextElements.setVisibility(View.VISIBLE);
+                                    router(DIRECTION.BOTTOM);
+                                }
+                            } else {
+                                binding.loadingNextElements.setVisibility(View.GONE);
+                            }
+                        } else if (firstVisibleItem == 0) {
                             if (!flagLoading) {
                                 flagLoading = true;
                                 binding.loadingNextElements.setVisibility(View.VISIBLE);
-                                router(DIRECTION.BOTTOM);
+                                router(DIRECTION.TOP);
                             }
-                        } else {
-                            binding.loadingNextElements.setVisibility(View.GONE);
                         }
-                    } else if (firstVisibleItem == 0) { //Scroll top and item is zero
-                        if (!flagLoading) {
-                            flagLoading = true;
-                            binding.loadingNextElements.setVisibility(View.VISIBLE);
-                            router(DIRECTION.TOP);
+                    } else {
+                        if (dy > 0) {
+                            int visibleItemCount = mLayoutManager.getChildCount();
+                            int totalItemCount = mLayoutManager.getItemCount();
+                            if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                                if (!flagLoading) {
+                                    flagLoading = true;
+                                    binding.loadingNextElements.setVisibility(View.VISIBLE);
+                                    router(DIRECTION.BOTTOM);
+                                }
+                            } else {
+                                binding.loadingNextElements.setVisibility(View.GONE);
+                            }
+                        } else if (firstVisibleItem == 0) {
+                            if (!flagLoading) {
+                                flagLoading = true;
+                                binding.loadingNextElements.setVisibility(View.VISIBLE);
+                                router(DIRECTION.TOP);
+                            }
                         }
                     }
                 }
