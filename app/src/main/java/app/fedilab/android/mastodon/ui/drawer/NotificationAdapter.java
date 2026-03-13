@@ -281,6 +281,33 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         holderFollow.binding.title.setText(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_signed_up)));
                 default -> holderFollow.binding.title.setText(R.string.follow);
             }
+            if (notification.relatedNotifications != null && !notification.relatedNotifications.isEmpty()
+                    && (itemViewType == TYPE_FOLLOW || itemViewType == TYPE_FOLLOW_REQUEST)) {
+                holderFollow.binding.typeOfConcat.setText(R.string.also_followed_by);
+                holderFollow.binding.relatedAccounts.removeAllViews();
+                for (Notification relativeNotif : notification.relatedNotifications) {
+                    if (relativeNotif.account != null) {
+                        NotificationsRelatedAccountsBinding notificationsRelatedAccountsBinding = NotificationsRelatedAccountsBinding.inflate(LayoutInflater.from(context));
+                        MastodonHelper.loadPPMastodon(notificationsRelatedAccountsBinding.profilePicture, relativeNotif.account);
+                        notificationsRelatedAccountsBinding.acc.setText(relativeNotif.account.username);
+                        notificationsRelatedAccountsBinding.relatedAccountContainer.setOnClickListener(v -> {
+                            Intent intent = new Intent(context, ProfileActivity.class);
+                            Bundle args = new Bundle();
+                            args.putSerializable(Helper.ARG_ACCOUNT, relativeNotif.account);
+                            new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                                Bundle bundle = new Bundle();
+                                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                intent.putExtras(bundle);
+                                context.startActivity(intent);
+                            });
+                        });
+                        holderFollow.binding.relatedAccounts.addView(notificationsRelatedAccountsBinding.getRoot());
+                    }
+                }
+                holderFollow.binding.otherAccounts.setVisibility(View.VISIBLE);
+            } else {
+                holderFollow.binding.otherAccounts.setVisibility(View.GONE);
+            }
             app.fedilab.android.mastodon.client.entities.app.Account.API notifApi = BaseMainActivity.api;
             if (notifApi == null && Helper.getCurrentAccount(context) != null) {
                 notifApi = Helper.getCurrentAccount(context).api;

@@ -42,6 +42,7 @@ public class Notification {
     public Filter filteredByApp;
     public PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
     public List<Notification> relatedNotifications;
+    public String group_key;
     public transient boolean isFetchMore;
 
     /**

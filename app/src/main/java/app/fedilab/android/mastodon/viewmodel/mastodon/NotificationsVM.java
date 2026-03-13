@@ -213,6 +213,13 @@ public class NotificationsVM extends AndroidViewModel {
             try {
                 notificationsDb = statusCacheDAO.getNotifications(timelineParams.excludeType, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
                 if (notificationsDb != null && notificationsDb.size() > 0) {
+                    notificationsDb = deduplicateByGroupKey(notificationsDb);
+                    for (Notification notification : notificationsDb) {
+                        if (notification.group_key != null) {
+                            notifications.groupedByServer = true;
+                            break;
+                        }
+                    }
                     if (timelineNotification != null) {
                         List<Notification> notPresentNotifications = new ArrayList<>();
                         for (Notification notification : notificationsDb) {
@@ -240,6 +247,24 @@ public class NotificationsVM extends AndroidViewModel {
             mainHandler.post(myRunnable);
         }).start();
         return notificationsMutableLiveData;
+    }
+
+    private List<Notification> deduplicateByGroupKey(List<Notification> notifications) {
+        Map<String, Notification> groupKeyMap = new HashMap<>();
+        List<Notification> result = new ArrayList<>();
+        for (Notification notification : notifications) {
+            if (notification.group_key != null) {
+                Notification existing = groupKeyMap.get(notification.group_key);
+                if (existing == null || Helper.compareTo(notification.id, existing.id) > 0) {
+                    groupKeyMap.put(notification.group_key, notification);
+                }
+            } else {
+                result.add(notification);
+            }
+        }
+        result.addAll(groupKeyMap.values());
+        sortDesc(result);
+        return result;
     }
 
     /**

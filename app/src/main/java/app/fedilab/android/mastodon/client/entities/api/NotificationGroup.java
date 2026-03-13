@@ -57,6 +57,7 @@ public class NotificationGroup {
             notification.id = group.most_recent_notification_id;
             notification.type = group.type;
             notification.created_at = group.latest_page_notification_at;
+            notification.group_key = group.group_key;
 
             // Resolve status from the deduplicated list
             if (group.status_id != null && results.statuses != null) {

@@ -720,30 +720,41 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         int insertedNotifications = 0;
         if (notificationsReceived != null && !notificationsReceived.isEmpty()) {
             for (Notification notificationReceived : notificationsReceived) {
-                int position = 0;
-                //We loop through messages already in the timeline
-                if (notificationList != null) {
-                    notificationAdapter.notifyItemRangeChanged(0, notificationList.size());
-                    for (Notification notificationsAlreadyPresent : notificationList) {
-                        //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
-                        //Pinned messages are ignored because their date can be older
-                        if (Helper.compareTo(notificationReceived.id, notificationsAlreadyPresent.id) > 0) {
-                            if (!notificationList.contains(notificationReceived)) {
-                                notificationList.add(position, notificationReceived);
-                                notificationAdapter.notifyItemInserted(position);
-                                if (!notificationReceived.cached) {
-                                    insertedNotifications++;
-                                }
-                            }
+                if (notificationList == null) {
+                    continue;
+                }
+                if (notificationReceived.group_key != null) {
+                    for (int i = 0; i < notificationList.size(); i++) {
+                        if (notificationReceived.group_key.equals(notificationList.get(i).group_key)) {
+                            notificationList.remove(i);
+                            notificationAdapter.notifyItemRemoved(i);
                             break;
                         }
-                        position++;
                     }
-                    //Statuses added at the bottom, we flag them by position = -2 for not dealing with them and fetch more
-                    if (position == notificationList.size() && !notificationList.contains(notificationReceived)) {
-                        notificationList.add(position, notificationReceived);
-                        notificationAdapter.notifyItemInserted(position);
+                }
+
+                int position = 0;
+                //We loop through messages already in the timeline
+                notificationAdapter.notifyItemRangeChanged(0, notificationList.size());
+                for (Notification notificationsAlreadyPresent : notificationList) {
+                    //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
+                    //Pinned messages are ignored because their date can be older
+                    if (Helper.compareTo(notificationReceived.id, notificationsAlreadyPresent.id) > 0) {
+                        if (!notificationList.contains(notificationReceived)) {
+                            notificationList.add(position, notificationReceived);
+                            notificationAdapter.notifyItemInserted(position);
+                            if (!notificationReceived.cached) {
+                                insertedNotifications++;
+                            }
+                        }
+                        break;
                     }
+                    position++;
+                }
+                //Statuses added at the bottom, we flag them by position = -2 for not dealing with them and fetch more
+                if (position == notificationList.size() && !notificationList.contains(notificationReceived)) {
+                    notificationList.add(position, notificationReceived);
+                    notificationAdapter.notifyItemInserted(position);
                 }
             }
         }
