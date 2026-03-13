@@ -706,7 +706,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
             flagLoading = true;
         }
-        if (direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
+        if (direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.REFRESH) {
             new Handler().postDelayed(() -> binding.recyclerView.scrollToPosition(0), 200);
         }
     }
