@@ -1165,4 +1165,12 @@
     <string name="highlight_new_comments">スレッドの新たなコメントをハイライト</string>
     <string name="mastodon_trending_link_instance">マストドンのトレンド投稿リンク・インスタンス</string>
     <string name="hashtag_limit_warning">殆どのサーバーではタイムラインのハッシュタグが４つまでに制限されています。一部が無視される事があります。</string>
+    <string name="volume">ボリューム</string>
+    <string name="list_replies_policy">リプライを表示</string>
+    <string name="list_replies_policy_none">誰も</string>
+    <string name="list_replies_policy_list">一覧のメンバー</string>
+    <string name="list_replies_policy_followed">フォロー済ユーザー</string>
+    <string name="unreachable_gap">一部のメッセージがサーバーから除外されました</string>
+    <string name="more_from">%1$s をもっと見る</string>
+    <string name="reverse_timeline">逆順でタイムラインを読む</string>
 </resources>
