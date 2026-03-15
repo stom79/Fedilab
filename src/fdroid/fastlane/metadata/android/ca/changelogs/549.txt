@@ -1,0 +1,31 @@
+Novetats
+- Opció de llegir pissarres en ordre invers
+- API de notificacions agrupades (v2) amb recurs a agrupació local 
+- Lliscador de volum i controls de velocitat per al reproductor de vídeo
+- Opció de política de respostes en crear/editar llistes
+- Pinçar per fer zoom de mèdia en remot
+- Suport a creadors de fedivers en previsionats d'enllaços
+- Detecció d'espai no accessible en pissarra d'inici
+- Sardana d'estats fixats als perfils
+
+Canvis
+- Mostra nom i no text genèric en notificacions d'enquestes
+- Recurs a minicodi d'emoticona quan una de personalitzada no es carrega
+- Manté pissarra estable mentre s'interacciona amb missatges
+- Millores en pronoms i gestió de noms
+- Millor previsionat d'encaixar retallant l'alçada.
+
+Reparacions
+- Pissares d'imatges que no en carregaven de noves i les perdien en reiniciar
+- Pèrdua de canvis d'alt-text en editar missatges programats
+- Cites perdudes en missatges programats
+- Format inesperat de quote_approval des d'instàncies de GlitchSocial
+- Missatges programats: elements erronis eliminats de la llista i es força el retard mínim
+- Paginació de cerques d'estats i comptes
+- Missatges en sèries duplicats quan un fallava
+- Fallida en ocultar/eliminar pissarra després d'una altra supressió
+- Missatge d'error de composició que no sortia immediatament en la vista d'enfilall
+- Botó de citació no es deshabilitava quan no es podia citar
+- Paginació d'instàncies amb IDs no alfanumèrics IDs
+- Resolució de menció remota
+- Forçar visibilitat de citació entre no llistats i no amb el predeterminat
