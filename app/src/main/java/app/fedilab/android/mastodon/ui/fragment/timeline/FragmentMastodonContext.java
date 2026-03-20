@@ -157,10 +157,13 @@ public class FragmentMastodonContext extends Fragment {
      * @return position or -1 if not found
      */
     private int getPosition(Status status) {
+        if (status == null || status.id == null) {
+            return -1;
+        }
         int position = 0;
         boolean found = false;
         for (Status _status : statuses) {
-            if (_status.id.compareTo(status.id) == 0) {
+            if (status.id.equals(_status.id)) {
                 found = true;
                 break;
             }

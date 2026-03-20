@@ -83,6 +83,7 @@ import app.fedilab.android.mastodon.client.entities.api.Context;
 import app.fedilab.android.mastodon.client.entities.api.EmojiInstance;
 import app.fedilab.android.mastodon.client.entities.api.Instance;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
+import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
@@ -565,7 +566,17 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     status.id = Helper.generateIdString();
                     status.text = scheduledStatus.params.text;
                     status.in_reply_to_id = scheduledStatus.params.in_reply_to_id;
-                    status.poll = scheduledStatus.params.poll;
+                    if (scheduledStatus.params.poll != null) {
+                        status.poll = new Poll();
+                        status.poll.multiple = scheduledStatus.params.poll.multiple;
+                        status.poll.expire_in = scheduledStatus.params.poll.expires_in;
+                        status.poll.options = new ArrayList<>();
+                        for (String option : scheduledStatus.params.poll.options) {
+                            Poll.PollItem pollItem = new Poll.PollItem();
+                            pollItem.title = option;
+                            status.poll.options.add(pollItem);
+                        }
+                    }
                     if (scheduledStatus.media_attachments != null && !scheduledStatus.media_attachments.isEmpty()) {
                         status.media_attachments = scheduledStatus.media_attachments;
                     }
