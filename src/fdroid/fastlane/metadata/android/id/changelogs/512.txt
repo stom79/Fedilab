@@ -1,8 +1,0 @@
-Ditambahkan:
-- Dukungan kata ganti (Linimasa/Tulis/Autocomplete)
-
-Diubah:
-- Menggunakan pustaka Media3
-
-Diperbaiki:
-- Crash dari rilis sebelumnya

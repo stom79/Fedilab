@@ -1,1 +1,0 @@
-このリリースでは、クラッシュ（TransactionTooLargeException）が修正されるはずです。クラッシュが起きた場合、FDdroid経由でバージョンをロールバックしてください。

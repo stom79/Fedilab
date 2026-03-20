@@ -1,6 +1,0 @@
-Aggiunto:
-- Fix barra superiore (predefinito: disabilitato)
-- Frequenza d'uso di etichette (tag) durante la composizione
-
-Risolto:
-- Alcuni crash
