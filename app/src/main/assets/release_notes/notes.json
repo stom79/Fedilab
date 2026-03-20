@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.37.1",
+    "code": "550",
+    "note": "Changed\n- Allow filtering posts with links embedded in Markdown\n\nFixed\n- Fix reverse timeline position restore and apply to notifications/conversations\n- Fix duplicate posts when splitting long messages\n- Fix thread sending failure\n- Fix crash when scheduling a toot with a poll\n- Fix crash in thread view"
+  },
+  {
     "version": "3.37.0",
     "code": "549",
     "note": "Added\n- Add reverse timeline reading order option\n- Add grouped notifications API (v2) with fallback to local grouping\n- Add volume slider and playback speed controls to video player\n- Add replies policy option when creating/editing lists\n- Add pinch zoom on remotely loaded media\n- Add fediverse creator support in link preview cards\n- Add unreachable gap detection in home timeline\n- Add pinned statuses carousel in profiles\n\nChanged\n- Show display name instead of generic text in poll notifications\n- Show emoji shortcode as fallback when custom emoji fails to load\n- Keep timeline stable when interacting with posts\n- Improve pronouns and display name handling\n- Improve fit preview by capping height\n\nFixed\n- Fix picture timelines not loading new art and losing posts on restart\n- Fix alt-text changes lost when editing scheduled posts\n- Fix quotes lost on scheduled posts\n- Fix unexpected quote_approval format from GlitchSocial instances\n- Fix scheduled posts: wrong item removed from list and minimum delay enforced\n- Fix search pagination for statuses and accounts\n- Fix duplicate posts when one post in a series fails\n- Fix crash when hiding/deleting timeline after another deletion\n- Fix compose error message not shown immediately in thread view\n- Fix quote button not disabled when quoting is denied\n- Fix pagination for instances with non-alphanumeric IDs\n- Fix remote mention resolution\n- Fix quote visibility forced to unlisted instead of using default\n"
@@ -88,155 +93,5 @@
     "version": "3.30.0",
     "code": "522",
     "note": "Added:\n- Allow to follow the discover timelines of Pixelfed instances\n- Keep media proportions in timeline for Pixelfed\n- Add a like button in timelines for Pixelfed\n- Allow to login with a token\n\nChange:\n- Use Pixelfed layout when following Pixelfed instances\n- Allow to scroll buttons for larger screens in conversations\n- Move QR code into header\n\nFixed:\n- Not clickable URLs when Markdown is enabled\n- Nitter to follow Twitter accounts\n- Pixelfed timeline not displayed by default\n- Fix admin reports not accessible\n- Top bar coloring at scroll\n- Drafts not saved when adding/editing media descriptions\n- User search suggestions have duplicates\n- Some minor crashes"
-  },
-  {
-    "version": "3.29.2",
-    "code": "518",
-    "note": "Fixed:\n- Fix crash when changing the type of notifications\n- Fix issue with names not displayed fully\n- Fix a crash with notifications and Sharkey\n- Fix a crash when app is back to the foreground\n- Fix xmpp links not opening xmpp clients\n- Fix wrong muted time"
-  },
-  {
-    "version": "3.29.1",
-    "code": "517",
-    "note": "Added:\n- Allow to edit scheduled messages from server side\n\nChanged:\n- Order list name alphabetically in profiles\n- Remove registration for Google\n\nFixed:\n- Push notifications\n- Peertube instances picker\n- Edit scheduled threads (local)\n- Instant search of Hashtag repeats results\n- Quotes broken with Markdowns\n- Fix reports crashes after submitting\n- Fix emoji picker when there is no result\n- Fix other crashes"
-  },
-  {
-    "version": "3.28.2",
-    "code": "515",
-    "note": "Added:\n- Display a QR code on profiles\n\nFixed:\n- Fix tap on messages in conversations\n- Pronouns taking too much place"
-  },
-  {
-    "version": "3.28.1",
-    "code": "514",
-    "note": "Added:\n- Allow to disable pronouns support (default: enabled)\n- Add more support for pronouns (localization in different languages)\n\nFixed:\n- Fix a crash when reporting messages\n- Fix a crash when following tags\n- Fix some display issues\n- Several fixes from the last release (3.28.0)"
-  },
-  {
-    "version": "3.28.0",
-    "code": "513",
-    "note": "Added:\n- Pronouns support (Timeline/Compose/Autocomplete)\n\nChanged:\n- Use Media3 library\n\nFixed:\n- Timed mute duration too long\n- Sharing videos only download them\n- Crashes from previous release"
-  },
-  {
-    "version": "3.27.1",
-    "code": "511",
-    "note": "Added:\n- Tap on account banners to display them as media\n\nFixed:\n- Position lost when switching between accounts\n- Wrong profiles when enabling remote conversations\n- Peertube local timeline\n- Peertube instances search\n- Crashes of the previous release"
-  },
-  {
-    "version": "3.27.0",
-    "code": "510",
-    "note": "Added:\n- Fixed top bar (default: disabled)\n- Usage frequency of tags when composing\n\nChanged:\n- Markdown support disabled by default\n\nFixed:\n- Fix crashes during interactions or when opening a new screen\n- Fix color of dialogs in Settings\n- Some minor crashes"
-  },
-  {
-    "version": "3.26.0",
-    "code": "505",
-    "note": "Added:\n- Android 14 support\n- Automatically split long messages in threads (default: ASK)\n- Links and media are clickable when composing\n- Allow to underline clickable elements (Settings > Timelines - default: disabled)\n- Allow to disable relative date in messages\n- Add a scroll bar for timelines (default: disabled)\n- Add a search bar for custom emojis\n- Links clickable in media descriptions\n\nChanged:\n- Counters close to action buttons\n- Hide emoji picker if the instance has no emoji\n- Followed tags are ordered\n- Account picker when opening with another account\n\nFixed:\n- Avoid error 429 with NTFY\n- Fix custom colors (Android 14)\n- Fix a crash when composing\n- Display issue with followed tags\n- Crashes with profiles\n- Fix an issue with poll and Pleroma\n- Emoji not displayed in the picker\n- Several crashes are fixed"
-  },
-  {
-    "version": "3.25.3",
-    "code": "504",
-    "note": "Added:\n- Add a scroll bar for timelines (default: disabled)\n- Add a search bar for custom emojis\n\nFixed:\n- Fix prompt to split asked several times when refusing\n- Crashes with profiles\n- Fix an issue with poll and Pleroma\n- Emoji not displayed in the picker"
-  },
-  {
-    "version": "3.25.2",
-    "code": "503",
-    "note": "Added:\n- Allow to underline clickable elements (Settings > Timelines - default: disabled)\n- Allow to disable relative date in messages\n\nChanged:\n- Counters close to action buttons\n- Hide emoji picker if the instance has no emoji\n- Followed tags are ordered\n- Account picker when opening with another account\n\nFixed:\n- Fix a crash when composing\n- Fix an issue with the back button\n- Display issue with followed tags"
-  },
-  {
-    "version": "3.25.1",
-    "code": "502",
-    "note": "Fix a crash from release 3.25.0"
-  },
-  {
-    "version": "3.25.0",
-    "code": "501",
-    "note": "Added:\n- Android 14 support\n- Automatically split long messages in threads (default: ASK)\n- Links and media are clickable when composing\n\nFixed:\n- Avoid error 429 with NTFY\n- Several crashes are fixed"
-  },
-  {
-    "version": "3.24.1",
-    "code": "500",
-    "note": "Added:\n- Three new app icons (Pride, Pink and Pirate)\n- Keep position with remote conversations\n\nFixed:\n- Markdown: stop parsing tags and support strike text\n- Cursor more visible when composing\n- Fix custom instance max char length not working\n- Tabs in profiles\n- Fix not clickable tags for some languages\n- Bug with account having huge amount of followers\n- Crash with several gif in same message\n- Poll max chars\n- Some crashes"
-  },
-  {
-    "version": "3.24.0",
-    "code": "499",
-    "note": "Added:\n- Markdown support (can be disabled in Settings > Timelines)\n- Hide / Show Self boosts, self replies and your own messages (Long press the Home tab)\n\nChanged:\n- Full screen size when writing media descriptions.\n- Move media descriptions to the top\n\nFixed:\n- Holes in timelines due to a cache bug\n- Spoiler issue when composing threads\n- CamelCase tags when forwarding them in replies\n- Buttons hidden by keyboard when composing\n- Overlay with menu and buttons when playing videos\n- Clicks on card do not open Mastodon posts inside the app\n- Scrollable bio when editing profiles\n- Crash when adding a user into a list\n- Longer fields when editing bio\n- Crash with Pixelfed\n"
-  },
-  {
-    "version": "3.23.5",
-    "code": "498",
-    "note": "Added:\n- Hide / Show Self boosts and self replies (Long press the Home tab)\n\nChanged:\n- Full screen size when writing media descriptions."
-  },
-  {
-    "version": "3.23.4",
-    "code": "497",
-    "note": "Fixed:\n\n- Holes in timelines due to a cache bug\n- Fix tags issue with RTL and the markdown format\n- Scrollable bio when editing profiles\n- Crash when adding a user into a list"
-  },
-  {
-    "version": "3.23.3",
-    "code": "496",
-    "note": "- Longer fields when editing bio\n- Clicks on card do not open Mastodon posts inside the app\n- Crash with Pixelfed\n- Line breaks with Markdown\n- Side effects with Markdown and some links"
-  },
-  {
-    "version": "3.23.2",
-    "code": "495",
-    "note": "Added:\n- Markdown support (can be disabled in Settings > Timelines)"
-  },
-  {
-    "version": "3.23.1",
-    "code": "494",
-    "note": "Added:\n- Scrollable media description\n\nFixed:\n- Crashes with profiles"
-  },
-  {
-    "version": "3.23.0",
-    "code": "493",
-    "note": "Added:\n- Add preview for app icons\n- Two new app icons\n\nFixed:\n- Fix Nitter feeds\n- Crash with Pixelfed accounts\n- Lingva encoding issue\n- Avoid sleep mode for media activity\n- Videos are played simultaneously\n- Voice messages for Android 10+\n- Punycode not supported for domains"
-  },
-  {
-    "version": "3.22.2",
-    "code": "492",
-    "note": "Added:\n- Follow Lemmy instances (from Manage Timelines)\n- View remote conversations (default: disabled - Settings > Interface)\n\nFixed:\n- Add 50 chars max for poll options\n- Too many requests\n- Blank Home page\n- Crashes when visiting profiles\n- Some audio files cannot be uploaded\n- Multiple notifications\n- Fix some other crashes"
-  },
-  {
-    "version": "3.22.1",
-    "code": "491",
-    "note": "Added:\n- Follow Lemmy instance (from Manage Timelines)\nFixed:\n- Add 50 chars max for poll options"
-  },
-  {
-    "version": "3.22.0",
-    "code": "490",
-    "note": "Fixed:\n- Too many requests\n- Blank Home page\n- Crashes when visiting profiles\n- Some audio files cannot be uploaded"
-  },
-  {
-    "version": "3.21.2",
-    "code": "489",
-    "note": "Added:\n- Android 12+ : Customize accent colors for light/dark theme and per account (Settings > Theming > Custom accent color)\n"
-  },
-  {
-    "version": "3.21.1",
-    "code": "488",
-    "note": "Added:\n- Filter messages in profiles (hide/show boosts or replies) via a long press on the tab\n\nChanged:\n- Some layout improvements for Peertube\n- Better management of resolution with Peertube\n- Improve instance picker for Peertube\n\nFixed:\n- URL in upper cases\n- Issues with Peertube player\n- False positive error when listening to audio\n- GIF does not honor nsfw\n- Polls having html\n- Fix crashes when scrolling timeline with animated gif"
-  },
-  {
-    "version": "3.21.0",
-    "code": "487",
-    "note": "Added:\n- Dedicated Peertube entry in main menu (My app)\n- Select instances (Instances picker with Filters)\n- Comment/Boost/Fav Peertube videos with Mastodon accounts\n\nFixed:\n- Fix a crash when searching and with the user directory"
-  },
-  {
-    "version": "3.20.3",
-    "code": "486",
-    "note": "Added:\n- Display all following/followers lists from remote profiles\n- Display all accounts that boosted/fav from a remote message\n\nFixed:\n- Fix a crash with auto-fetch messages"
-  },
-  {
-    "version": "3.20.2",
-    "code": "485",
-    "note": "Added:\n- Visual indicator when fetching missing messages\n- Open media description when it is missing from the warning dialog\n\nChanged:\n- Maths formula aligned to the left\n- Faster access to delete all notifications\n\nFixed:\n- Fix an issue with Nitter and some URLs\n- Fix refresh issue with notifications\n- Fix an issue when entering a Peertube instance\n- Fix jumps with Akkoma/Pleroma when media preview size is not set\n- Some crashes"
-  },
-  {
-    "version": "3.20.1",
-    "code": "484",
-    "note": "Added:\n- Add a button to fetch remote media when it fails\n- Add a settings to automatically fetch remote media when it fails (default: disabled)\n- Display on profiles & list of accounts if users have requested to follow you\n- Warn before boosting a message having no media descriptions (default: enabled)\n\nChanged:\n- Warn when there are missing descriptions enabled by default\n\nFixed:\n- Some settings not properly restored (multiple choices)\n- Cancel a follow request\n- Media with a lot of height in landscape\n- Some crashes"
-  },
-  {
-    "version": "3.20.0",
-    "code": "483",
-    "note": "Added:\n- \"Follows you\" indicator in accounts list\n- Settings compose: display a dialog to warn if there are missing media description (default: disabled)\n- Settings > Cache:  disable battery optimization\n- Settings > Cache - Add charts to check cache logs\n- Settings > Timelines: AutoPlay gif media (default: enabled)\n- Google: Automatic backup of data and settings\n\nChanged:\n- Improve detections of gap in timelines\n- Improve media description\n- Chat view by default\n- Chat view add an indicator for messages when not direct\n\nFixed:\n- Fix an issue with cache and fetch more\n- Cache view with large fonts\n- Bad behaviors with truncated messages"
   }
 ]

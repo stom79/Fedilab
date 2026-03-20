@@ -1,0 +1,9 @@
+Changed
+- Allow filtering posts with links embedded in Markdown
+
+Fixed
+- Fix reverse timeline position restore and apply to notifications/conversations
+- Fix duplicate posts when splitting long messages
+- Fix thread sending failure
+- Fix crash when scheduling a toot with a poll
+- Fix crash in thread view

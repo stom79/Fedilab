@@ -1,6 +1,0 @@
-Added:
-- Display a QR code on profiles
-
-Fixed:
-- Fix tap on messages in conversations
-- Pronouns taking too much place
