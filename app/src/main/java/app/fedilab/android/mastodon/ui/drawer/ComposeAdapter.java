@@ -615,7 +615,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             dialog.dismiss();
                         });
                         threadConfirm.show();
-                    } else if (defaultFormat.compareToIgnoreCase("ENABLE") == 0) { //User wants to automatically thread long messages
+                    } else if (defaultFormat.compareToIgnoreCase("ENABLE") == 0 && !proceedToSplit) { //User wants to automatically thread long messages
                         proceedToSplit = true;
                         ArrayList<String> splitText = ComposeHelper.splitToots(s.toString(), max_car);
                         int statusListSize = statusList.size();
@@ -637,6 +637,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void afterTextChanged(Editable s) {
                 String contentString = s.toString();
                 if (proceedToSplit) {
+                    proceedToSplit = false;
                     int max_car = MastodonHelper.getInstanceMaxChars(context, account.instance);
                     ArrayList<String> splitText = ComposeHelper.splitToots(contentString, max_car);
                     if(!splitText.isEmpty()) {
