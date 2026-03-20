@@ -143,6 +143,14 @@ public class ComposeWorker extends Worker {
                     dataPost.statusDraft.state.posts.add(post);
                 }
             }
+            // Sync state.posts with statusDraftList
+            while (dataPost.statusDraft.state.posts.size() < dataPost.statusDraft.statusDraftList.size()) {
+                PostState.Post post = new PostState.Post();
+                Status status = dataPost.statusDraft.statusDraftList.get(dataPost.statusDraft.state.posts.size());
+                post.number_of_media = status.media_attachments != null ? status.media_attachments.size() : 0;
+                dataPost.statusDraft.state.posts.add(post);
+            }
+            dataPost.statusDraft.state.number_of_posts = dataPost.statusDraft.statusDraftList.size();
             //Check if previous messages in thread have already been published (ie: when resending after a fail)
             int startingPosition = 0;
             for (PostState.Post post : dataPost.statusDraft.state.posts) {
@@ -538,6 +546,14 @@ public class ComposeWorker extends Worker {
                 dataPost.statusDraft.state.posts.add(post);
             }
         }
+        // Sync state.posts with statusDraftList
+        while (dataPost.statusDraft.state.posts.size() < dataPost.statusDraft.statusDraftList.size()) {
+            PostState.Post post = new PostState.Post();
+            Status status = dataPost.statusDraft.statusDraftList.get(dataPost.statusDraft.state.posts.size());
+            post.number_of_media = status.media_attachments != null ? status.media_attachments.size() : 0;
+            dataPost.statusDraft.state.posts.add(post);
+        }
+        dataPost.statusDraft.state.number_of_posts = dataPost.statusDraft.statusDraftList.size();
 
         int startingPosition = 0;
         for (PostState.Post post : dataPost.statusDraft.state.posts) {
