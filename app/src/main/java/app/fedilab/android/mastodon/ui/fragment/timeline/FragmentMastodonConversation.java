@@ -61,6 +61,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     private ConversationAdapter conversationAdapter;
     private LinearLayoutManager mLayoutManager;
     private boolean isViewInitialized;
+    private boolean reverseTimeline;
     private Conversations initialConversations;
 
     //Allow to recreate data when detaching/attaching fragment
@@ -232,7 +233,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
 
     private void storeMarker(BaseAccount connectedAccount) {
         if (mLayoutManager != null) {
-            int position = mLayoutManager.findFirstVisibleItemPosition();
+            int position = reverseTimeline ? mLayoutManager.findLastVisibleItemPosition() : mLayoutManager.findFirstVisibleItemPosition();
             if (conversationList != null && conversationList.size() > position) {
                 try {
                     Conversation conversation = conversationList.get(position);
@@ -312,9 +313,14 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
             min_id = conversations.pagination.min_id;
         }
 
+        SharedPreferences sharedpref = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        reverseTimeline = sharedpref.getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false);
         conversationAdapter = new ConversationAdapter(conversationList);
         conversationAdapter.fetchMoreCallBack = this;
         mLayoutManager = new LinearLayoutManager(requireActivity());
+        if (reverseTimeline) {
+            mLayoutManager.setReverseLayout(true);
+        }
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(conversationAdapter);
 
@@ -322,30 +328,52 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (requireActivity() instanceof BaseMainActivity) {
-                    if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                    int dyDirection = reverseTimeline ? -dy : dy;
+                    if (dyDirection < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
                         ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
-                    if (dy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                    if (dyDirection > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
                         ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
                 }
                 int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
-                if (dy > 0) {
-                    int visibleItemCount = mLayoutManager.getChildCount();
-                    int totalItemCount = mLayoutManager.getItemCount();
-
-                    if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                if (reverseTimeline) {
+                    if (dy < 0) {
+                        int visibleItemCount = mLayoutManager.getChildCount();
+                        int totalItemCount = mLayoutManager.getItemCount();
+                        if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                            if (!flagLoading) {
+                                flagLoading = true;
+                                binding.loadingNextElements.setVisibility(View.VISIBLE);
+                                route(FragmentMastodonTimeline.DIRECTION.BOTTOM, false);
+                            }
+                        } else {
+                            binding.loadingNextElements.setVisibility(View.GONE);
+                        }
+                    } else if (firstVisibleItem == 0) {
                         if (!flagLoading) {
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
-                            route(FragmentMastodonTimeline.DIRECTION.BOTTOM, false);
+                            route(FragmentMastodonTimeline.DIRECTION.TOP, false);
                         }
-                    } else {
-                        binding.loadingNextElements.setVisibility(View.GONE);
                     }
-                } else if (firstVisibleItem == 0) { //Scroll top and item is zero
-                    if (!flagLoading) {
-                        flagLoading = true;
-                        binding.loadingNextElements.setVisibility(View.VISIBLE);
-                        route(FragmentMastodonTimeline.DIRECTION.TOP, false);
+                } else {
+                    if (dy > 0) {
+                        int visibleItemCount = mLayoutManager.getChildCount();
+                        int totalItemCount = mLayoutManager.getItemCount();
+                        if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                            if (!flagLoading) {
+                                flagLoading = true;
+                                binding.loadingNextElements.setVisibility(View.VISIBLE);
+                                route(FragmentMastodonTimeline.DIRECTION.BOTTOM, false);
+                            }
+                        } else {
+                            binding.loadingNextElements.setVisibility(View.GONE);
+                        }
+                    } else if (firstVisibleItem == 0) {
+                        if (!flagLoading) {
+                            flagLoading = true;
+                            binding.loadingNextElements.setVisibility(View.VISIBLE);
+                            route(FragmentMastodonTimeline.DIRECTION.TOP, false);
+                        }
                     }
                 }
             }
