@@ -31,6 +31,17 @@ public class ScheduledStatus implements Serializable {
     public List<Attachment> media_attachments;
 
 
+    public static class ScheduledPoll implements Serializable {
+        @SerializedName("options")
+        public List<String> options;
+        @SerializedName("expires_in")
+        public int expires_in;
+        @SerializedName("multiple")
+        public boolean multiple;
+        @SerializedName("hide_totals")
+        public boolean hide_totals;
+    }
+
     public static class Params implements Serializable {
         @SerializedName("text")
         public String text;
@@ -47,7 +58,7 @@ public class ScheduledStatus implements Serializable {
         @SerializedName("scheduled_at")
         public Date scheduled_at;
         @SerializedName("poll")
-        public Poll poll;
+        public ScheduledPoll poll;
         @SerializedName("idempotency")
         public String idempotency;
         @SerializedName("in_reply_to_id")
