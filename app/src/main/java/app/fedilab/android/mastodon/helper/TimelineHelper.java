@@ -296,6 +296,15 @@ public class TimelineHelper {
                     content += Html.fromHtml(quoteContent).toString();
                 }
             }
+            // Append href URLs so filters can match against link targets
+            Matcher hrefMatcher = Pattern.compile("href=\"([^\"]*)\"").matcher(rawContent);
+            StringBuilder hrefs = new StringBuilder();
+            while (hrefMatcher.find()) {
+                hrefs.append(" ").append(hrefMatcher.group(1));
+            }
+            if (hrefs.length() > 0) {
+                content += hrefs.toString();
+            }
             return content;
         } catch (Throwable e) {
             return rawContent.replaceAll("(?i)<br\\s*/?>", "\n").replaceAll("(?i)</p>", "\n").replaceAll("<[^>]*>", " ").replaceAll(" +", " ").trim();
