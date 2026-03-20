@@ -1,0 +1,8 @@
+Añadido:
+- Soporte para Android 14
+- Separación automática de mensajes largos en hilos (por defecto: PREGUNTAR)
+- Enlaces y medios son clicables mientras se compone
+
+Arreglado:
+- Evitar error 429 con NTFY
+- Arreglados varios crashes

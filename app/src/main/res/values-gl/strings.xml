@@ -1162,4 +1162,12 @@
     <string name="highlight_new_comments">Destacar os novos comentarios nos fíos</string>
     <string name="hashtag_limit_warning">A maioría de servidores limita a 4 cronoloxías de cancelos. Algún poderían ignorarse.</string>
     <string name="mastodon_trending_link_instance">Instancia da ligazón que é tendencia</string>
+    <string name="volume">Volume</string>
+    <string name="list_replies_policy">Mostrar respostas a</string>
+    <string name="list_replies_policy_none">Ninguén</string>
+    <string name="list_replies_policy_list">Membros da lista</string>
+    <string name="list_replies_policy_followed">Calquera conta seguida</string>
+    <string name="unreachable_gap">Algunhas mensaxes xa non están dispoñibles no servidor</string>
+    <string name="more_from">Máis desde %1$s</string>
+    <string name="reverse_timeline">Inverter a orde de lectura da cronoloxía</string>
 </resources>
