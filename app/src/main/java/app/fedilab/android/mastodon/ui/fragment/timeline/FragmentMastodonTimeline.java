@@ -601,7 +601,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 timelineStatuses.addAll(fetched_statuses.statuses);
                 statusAdapter.notifyItemRangeInserted(fromPosition, insertedStatus);
             } else if (timelineType == Timeline.TimeLineEnum.ART) {
-                if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP || direction == DIRECTION.FETCH_NEW) {
+                if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                     // Clear and rebuild with fresh content
                     int previousSize = timelineStatuses.size();
                     timelineStatuses.clear();
@@ -609,7 +609,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     timelineStatuses.addAll(fetched_statuses.statuses);
                     insertedStatus = fetched_statuses.statuses.size();
                     statusAdapter.notifyItemRangeInserted(0, insertedStatus);
-                } else if (direction == DIRECTION.TOP) {
+                } else if (direction == DIRECTION.TOP || direction == DIRECTION.FETCH_NEW) {
                     // Prepend new statuses with dedup based on status id + attachment id
                     List<Status> toAdd = new ArrayList<>();
                     for (Status newStatus : fetched_statuses.statuses) {
@@ -804,7 +804,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         if (reverseTimeline) {
             mLayoutManager.setReverseLayout(true);
-            mLayoutManager.setStackFromEnd(true);
         }
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
@@ -822,9 +821,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     scrollingUp = dy < 0;
                     if (requireActivity() instanceof BaseMainActivity) {
-                        if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                        int dyDirection = reverseTimeline ? -dy : dy;
+                        if (dyDirection < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
-                        if (dy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                        if (dyDirection > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
                     }
                     int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
@@ -1529,6 +1529,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 } else if (direction == DIRECTION.BOTTOM) {
                     misskeyTimelinesVM.getUserReactions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, userId, max_id, null, limit)
                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                } else if (direction == DIRECTION.TOP) {
+                    misskeyTimelinesVM.getUserReactions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, userId, null, min_id, limit)
+                            .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
                 } else {
                     flagLoading = false;
                 }
@@ -1539,6 +1542,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 } else if (direction == DIRECTION.BOTTOM) {
                     accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, max_id)
                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                } else if (direction == DIRECTION.TOP) {
+                    accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), min_id, null)
+                            .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
                 } else {
                     flagLoading = false;
                 }
@@ -1553,6 +1559,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 } else if (direction == DIRECTION.BOTTOM) {
                     misskeyTimelinesVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, limit)
                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                } else if (direction == DIRECTION.TOP) {
+                    misskeyTimelinesVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, min_id, limit)
+                            .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
                 } else {
                     flagLoading = false;
                 }
@@ -1563,6 +1572,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 } else if (direction == DIRECTION.BOTTOM) {
                     accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), max_id, null, null)
                             .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                } else if (direction == DIRECTION.TOP) {
+                    accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, null, min_id)
+                            .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
                 } else {
                     flagLoading = false;
                 }
@@ -1651,6 +1663,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (direction == DIRECTION.BOTTOM) {
             accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, max_id, null, null, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
                     .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+        } else if (direction == DIRECTION.TOP) {
+            accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, null, null, min_id, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
+                    .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
         } else {
             flagLoading = false;
         }

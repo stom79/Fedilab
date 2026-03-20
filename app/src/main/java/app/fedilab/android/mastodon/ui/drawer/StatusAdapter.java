@@ -2758,19 +2758,35 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.fetchMoreContainerTop.setVisibility(View.GONE);
                 status.isFetchMore = false;
                 status.isFetching = true;
+                boolean reverseMode = adapter instanceof StatusAdapter && ((StatusAdapter) adapter).reverseTimeline;
                 int position = holder.getBindingAdapterPosition();
                 String statusIdMin = null, statusIdMax;
-                if (position < statusList.size() - 1) {
-                    if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
-                        statusIdMin = statusList.get(position + 1).id;
+                if (reverseMode) {
+                    if (status.positionFetchMore == Status.PositionFetchMore.TOP || position == 0) {
+                        statusIdMax = statusList.get(position).id;
                     } else {
-                        statusIdMin = status.id;
+                        statusIdMax = statusList.get(position - 1).id;
                     }
-                }
-                if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
-                    statusIdMax = statusList.get(holder.getBindingAdapterPosition()).id;
+                    if (position < statusList.size() - 1) {
+                        if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                            statusIdMin = statusList.get(position + 1).id;
+                        } else {
+                            statusIdMin = status.id;
+                        }
+                    }
                 } else {
-                    statusIdMax = statusList.get(holder.getBindingAdapterPosition() - 1).id;
+                    if (position < statusList.size() - 1) {
+                        if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                            statusIdMin = statusList.get(position + 1).id;
+                        } else {
+                            statusIdMin = status.id;
+                        }
+                    }
+                    if (status.positionFetchMore == Status.PositionFetchMore.TOP || position == 0) {
+                        statusIdMax = statusList.get(position).id;
+                    } else {
+                        statusIdMax = statusList.get(position - 1).id;
+                    }
                 }
                 fetchMoreCallBack.autoFetch(statusIdMin, statusIdMax, status);
                 recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));

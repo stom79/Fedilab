@@ -124,6 +124,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private NotificationTypeEnum notificationType;
     private boolean aggregateNotification;
     private boolean groupedByServer;
+    private boolean reverseTimeline;
 
     private final BroadcastReceiver receive_refresh = new BroadcastReceiver() {
 
@@ -326,39 +327,66 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             min_id = notifications.pagination.min_id;
         }
 
+        SharedPreferences sharedpref = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        reverseTimeline = sharedpref.getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false);
         notificationAdapter = new NotificationAdapter(notificationList);
         notificationAdapter.fetchMoreCallBack = this;
         mLayoutManager = new LinearLayoutManager(requireActivity());
+        if (reverseTimeline) {
+            mLayoutManager.setReverseLayout(true);
+        }
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(notificationAdapter);
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (requireActivity() instanceof BaseMainActivity) {
-                    if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                    int dyDirection = reverseTimeline ? -dy : dy;
+                    if (dyDirection < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
                         ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
-                    if (dy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                    if (dyDirection > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
                         ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
                 }
                 int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
-                if (dy > 0) {
-                    int visibleItemCount = mLayoutManager.getChildCount();
-                    int totalItemCount = mLayoutManager.getItemCount();
-
-                    if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                if (reverseTimeline) {
+                    if (dy < 0) {
+                        int visibleItemCount = mLayoutManager.getChildCount();
+                        int totalItemCount = mLayoutManager.getItemCount();
+                        if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                            if (!flagLoading) {
+                                flagLoading = true;
+                                binding.loadingNextElements.setVisibility(View.VISIBLE);
+                                route(FragmentMastodonTimeline.DIRECTION.BOTTOM, false);
+                            }
+                        } else {
+                            binding.loadingNextElements.setVisibility(View.GONE);
+                        }
+                    } else if (firstVisibleItem == 0) {
                         if (!flagLoading) {
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
-                            route(FragmentMastodonTimeline.DIRECTION.BOTTOM, false);
+                            route(FragmentMastodonTimeline.DIRECTION.TOP, false);
                         }
-                    } else {
-                        binding.loadingNextElements.setVisibility(View.GONE);
                     }
-                } else if (firstVisibleItem == 0) { //Scroll top and item is zero
-                    if (!flagLoading) {
-                        flagLoading = true;
-                        binding.loadingNextElements.setVisibility(View.VISIBLE);
-                        route(FragmentMastodonTimeline.DIRECTION.TOP, false);
+                } else {
+                    if (dy > 0) {
+                        int visibleItemCount = mLayoutManager.getChildCount();
+                        int totalItemCount = mLayoutManager.getItemCount();
+                        if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                            if (!flagLoading) {
+                                flagLoading = true;
+                                binding.loadingNextElements.setVisibility(View.VISIBLE);
+                                route(FragmentMastodonTimeline.DIRECTION.BOTTOM, false);
+                            }
+                        } else {
+                            binding.loadingNextElements.setVisibility(View.GONE);
+                        }
+                    } else if (firstVisibleItem == 0) {
+                        if (!flagLoading) {
+                            flagLoading = true;
+                            binding.loadingNextElements.setVisibility(View.VISIBLE);
+                            route(FragmentMastodonTimeline.DIRECTION.TOP, false);
+                        }
                     }
                 }
             }
@@ -624,7 +652,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
 
     private void storeMarker(BaseAccount connectedAccount) {
         if (mLayoutManager != null) {
-            int position = mLayoutManager.findFirstVisibleItemPosition();
+            int position = reverseTimeline ? mLayoutManager.findLastVisibleItemPosition() : mLayoutManager.findFirstVisibleItemPosition();
             if (notificationList != null && notificationList.size() > position) {
                 try {
                     if (notificationType == NotificationTypeEnum.ALL) {
