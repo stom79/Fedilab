@@ -1,1 +1,0 @@
-This release should fix crashes (TransactionTooLargeException). If you got crashes, rollback the version through FDdroid.
