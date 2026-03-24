@@ -1,0 +1,6 @@
+Fixed
+- Fix profile header stuck after scroll in reverse timeline
+- Fix notifications not loading new items in reverse timeline
+- Respect aggregate notification preference with grouped notifications API
+- Fix "Enabled notifications" label
+- Keep default FAB and toolbar behavior in reverse timeline

@@ -1,6 +1,0 @@
-Aggiunto:
-- Mostra codice QR sul profilo
-
-Risolto:
-- tap suo messaggi nella conversazione
-- pronomi prendono troppo spazio

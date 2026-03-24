@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.37.2",
+    "code": "551",
+    "note": "Fixed\n- Fix profile header stuck after scroll in reverse timeline\n- Fix notifications not loading new items in reverse timeline\n- Respect aggregate notification preference with grouped notifications API\n- Fix \"Enabled notifications\" label\n- Keep default FAB and toolbar behavior in reverse timeline"
+  },
+  {
     "version": "3.37.1",
     "code": "550",
     "note": "Changed\n- Allow filtering posts with links embedded in Markdown\n\nFixed\n- Fix reverse timeline position restore and apply to notifications/conversations\n- Fix duplicate posts when splitting long messages\n- Fix thread sending failure\n- Fix crash when scheduling a toot with a poll\n- Fix crash in thread view"
