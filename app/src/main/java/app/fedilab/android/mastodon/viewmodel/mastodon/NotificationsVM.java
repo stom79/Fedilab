@@ -16,12 +16,14 @@ package app.fedilab.android.mastodon.viewmodel.mastodon;
 
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.preference.PreferenceManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -33,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.endpoints.MastodonNotificationsService;
 import app.fedilab.android.mastodon.client.entities.api.GroupedNotificationsResults;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
@@ -125,8 +128,10 @@ public class NotificationsVM extends AndroidViewModel {
             Notifications notifications = new Notifications();
             boolean v2Success = false;
 
-            // Try grouped notifications API (v2) if the instance supports it
-            if (!Boolean.TRUE.equals(v2UnsupportedInstances.get(timelineParams.instance))) {
+            // Try grouped notifications API (v2) if the instance supports it and aggregation is enabled
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplication().getApplicationContext());
+            boolean aggregateNotification = sharedpreferences.getBoolean(getApplication().getString(R.string.SET_AGGREGATE_NOTIFICATION), true);
+            if (aggregateNotification && !Boolean.TRUE.equals(v2UnsupportedInstances.get(timelineParams.instance))) {
                 try {
                     MastodonNotificationsService serviceV2 = initV2(timelineParams.instance);
                     Call<GroupedNotificationsResults> groupedCall = serviceV2.getGroupedNotifications(
