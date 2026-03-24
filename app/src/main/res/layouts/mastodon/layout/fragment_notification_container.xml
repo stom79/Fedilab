@@ -45,7 +45,7 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.viewpager.widget.ViewPager
+    <app.fedilab.android.mastodon.helper.NonSwipeableViewPager
         android:id="@+id/viewpagerNotificationContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
