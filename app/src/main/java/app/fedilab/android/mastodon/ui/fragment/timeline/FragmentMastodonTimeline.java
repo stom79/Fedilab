@@ -821,10 +821,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     scrollingUp = dy < 0;
                     if (requireActivity() instanceof BaseMainActivity) {
-                        int dyDirection = reverseTimeline ? -dy : dy;
-                        if (dyDirection < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                        if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
-                        if (dyDirection > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                        if (dy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
                     }
                     int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();

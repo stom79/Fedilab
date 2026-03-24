@@ -341,10 +341,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 if (requireActivity() instanceof BaseMainActivity) {
-                    int dyDirection = reverseTimeline ? -dy : dy;
-                    if (dyDirection < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                    if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
                         ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
-                    if (dyDirection > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                    if (dy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
                         ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
                 }
                 int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
