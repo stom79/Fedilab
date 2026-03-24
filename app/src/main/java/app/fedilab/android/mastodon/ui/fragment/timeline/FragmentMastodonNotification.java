@@ -436,7 +436,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
 
         TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(requireActivity(), Timeline.TimeLineEnum.NOTIFICATION, direction, null);
         timelineParams.limit = MastodonHelper.notificationsPerCall(requireActivity());
-        if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP) {
+        if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
             timelineParams.maxId = null;
             timelineParams.minId = null;
         } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
