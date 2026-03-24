@@ -1438,7 +1438,7 @@
     <string name="type_of_notifications">Type of notifications</string>
     <string name="type_of_notifications_title">Choose the type of notifications</string>
     <string name="notification_sounds">Notification sounds</string>
-    <string name="disable_notifications">Disable notifications</string>
+    <string name="disable_notifications">Enabled notifications</string>
     <string name="notifications_are">During this time slot</string>
 
     <string name="visibility_color_public">Color for the public visibility</string>
