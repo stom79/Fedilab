@@ -2015,7 +2015,6 @@ public class Helper {
                     binding.donationsMethods.setVisibility(View.VISIBLE);
                     binding.donateLiberapay.setOnClickListener(v -> Helper.openBrowser(activity, "https://liberapay.com/tom79"));
                     binding.donatePaypal.setOnClickListener(v -> Helper.openBrowser(activity, "https://www.paypal.me/Mastalab"));
-                    binding.donateOpencollective.setOnClickListener(v -> Helper.openBrowser(activity, "https://opencollective.com/fedilab"));
                 } else {
                     binding.donationsMethods.setVisibility(View.GONE);
                 }

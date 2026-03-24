@@ -69,7 +69,6 @@ public class AboutActivity extends BaseBarActivity {
         binding.aboutLicense.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://www.gnu.org/licenses/quick-guide-gplv3.fr.html"));
         binding.donateLiberapay.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://liberapay.com/tom79"));
         binding.donatePaypal.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://www.paypal.me/Mastalab"));
-        binding.donateOpencollective.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://opencollective.com/fedilab"));
 
         binding.aboutVersionCopy.setOnClickListener(v -> {
 
