@@ -58,6 +58,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.app.ActivityOptionsCompat;
@@ -114,6 +115,7 @@ import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.client.entities.app.WellKnownNodeinfo;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
+import app.fedilab.android.mastodon.helper.FixedAppBarLayoutBehavior;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
@@ -339,6 +341,10 @@ public class ProfileActivity extends BaseActivity {
         });
 
         // MastodonHelper.loadPPMastodon(binding.profilePicture, account);
+        if (sharedpreferences.getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false)) {
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.appBar.getLayoutParams();
+            params.setBehavior(new FixedAppBarLayoutBehavior());
+        }
         binding.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
 
             if (Math.abs(verticalOffset) - binding.appBar.getTotalScrollRange() == 0) {
