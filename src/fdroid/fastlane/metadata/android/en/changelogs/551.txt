@@ -4,3 +4,4 @@ Fixed
 - Respect aggregate notification preference with grouped notifications API
 - Fix "Enabled notifications" label
 - Keep default FAB and toolbar behavior in reverse timeline
+- Prevent swiping through notification categories when swiping between timelines

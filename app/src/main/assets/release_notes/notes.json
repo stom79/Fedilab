@@ -2,7 +2,7 @@
   {
     "version": "3.37.2",
     "code": "551",
-    "note": "Fixed\n- Fix profile header stuck after scroll in reverse timeline\n- Fix notifications not loading new items in reverse timeline\n- Respect aggregate notification preference with grouped notifications API\n- Fix \"Enabled notifications\" label\n- Keep default FAB and toolbar behavior in reverse timeline"
+    "note": "Fixed\n- Fix profile header stuck after scroll in reverse timeline\n- Fix notifications not loading new items in reverse timeline\n- Respect aggregate notification preference with grouped notifications API\n- Fix \"Enabled notifications\" label\n- Keep default FAB and toolbar behavior in reverse timeline\n- Prevent swiping through notification categories when swiping between timelines"
   },
   {
     "version": "3.37.1",
