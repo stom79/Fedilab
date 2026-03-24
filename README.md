@@ -9,7 +9,6 @@ A multi-accounts client for Mastodon, Pleroma, Friendica and Pixelfed
 [![Weblate project translated](https://img.shields.io/weblate/progress/fedilab?server=https%3A%2F%2Fhosted.weblate.org&style=for-the-badge)](https://hosted.weblate.org/engage/fedilab/)
 [![F-Droid Version](https://img.shields.io/f-droid/v/fr.gouv.etalab.mastodon?label=F-Droid&style=for-the-badge)](https://f-droid.org/app/fr.gouv.etalab.mastodon)
 [![Liberapay patrons](https://img.shields.io/liberapay/patrons/tom79?label=Liberapay&style=for-the-badge)](https://liberapay.com/tom79/donate)
-[![Open Collective backers and sponsors](https://img.shields.io/opencollective/all/fedilab?label=Open%20Collective&style=for-the-badge)](https://opencollective.com/fedilab)
 
 ## Screenshots
 
@@ -32,7 +31,6 @@ A multi-accounts client for Mastodon, Pleroma, Friendica and Pixelfed
 ## Donate
 
 - [Liberapay](https://liberapay.com/tom79/donate)
-- [Open Collective](https://opencollective.com/fedilab)
 - [More...](https://fedilab.app/page/donations/)
 
 ## Resources

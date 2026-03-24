@@ -63,19 +63,6 @@
             app:iconGravity="top"
             tools:ignore="HardcodedText" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/donate_opencollective"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="OpenCollective"
-            app:cornerRadius="0dp"
-            app:icon="@drawable/ic_opencollective"
-            app:iconGravity="top"
-            tools:ignore="HardcodedText" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/donate_paypal"
