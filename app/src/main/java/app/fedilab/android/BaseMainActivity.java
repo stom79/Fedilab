@@ -54,6 +54,7 @@ import android.text.TextWatcher;
 import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -101,6 +102,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -1450,6 +1453,31 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             CrossActionHelper.doCrossAction(BaseMainActivity.this, CrossActionHelper.TypeOfCrossAction.COMPOSE, null, null);
             return false;
         });
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false)) {
+            AppBarLayout.LayoutParams toolbarParams = (AppBarLayout.LayoutParams) binding.toolbar.getLayoutParams();
+            toolbarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+            CoordinatorLayout.LayoutParams appBarParams = (CoordinatorLayout.LayoutParams) binding.appBar.getLayoutParams();
+            appBarParams.setBehavior(new AppBarLayout.Behavior() {
+                @Override
+                public boolean onStartNestedScroll(@NonNull CoordinatorLayout parent, @NonNull AppBarLayout child, @NonNull View directTargetChild, View target, int nestedScrollAxes, int type) {
+                    return false;
+                }
+            });
+            ViewGroup currentParent = (ViewGroup) binding.compose.getParent();
+            currentParent.removeView(binding.compose);
+            CoordinatorLayout coordinatorLayout = (CoordinatorLayout) currentParent.getParent();
+            CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(
+                    CoordinatorLayout.LayoutParams.WRAP_CONTENT,
+                    CoordinatorLayout.LayoutParams.WRAP_CONTENT);
+            params.gravity = Gravity.TOP | Gravity.END;
+            int fabMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
+            TypedValue tv = new TypedValue();
+            if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+                params.topMargin = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics()) + fabMargin;
+            }
+            params.setMarginEnd(fabMargin);
+            coordinatorLayout.addView(binding.compose, params);
+        }
         headerMenuOpen = false;
 
         PushHelper.startStreaming(BaseMainActivity.this);
@@ -2103,6 +2131,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 binding.compose.show();
             } else {
                 binding.compose.hide();
+            }
+            if (sharedpreferences.getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false)) {
+                binding.appBar.setExpanded(display, true);
             }
         }
     }
