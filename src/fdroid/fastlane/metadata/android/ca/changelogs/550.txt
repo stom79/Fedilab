@@ -1,0 +1,9 @@
+Canvis
+- Permetre filtratge de brams amb enllaços al Markdown
+
+Correccions
+- Restauració de posició de pissarra invertida aplicada també a notificacions/converses
+- Brams que es duplicaven en dividir missatges llargs
+- Enfilall que notificava error
+- Fallides en programar enquestes
+- Fallides en vista d'enfilall
