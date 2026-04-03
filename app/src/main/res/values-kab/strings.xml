@@ -504,7 +504,6 @@
     <string name="unfollow_confirm">Do you want to unfollow this account?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
     <string name="replace_medium">Replace Medium links</string>
-    <string name="replace_medium_description"></string>
     <string name="replace_medium_host">Default: scribe.rip</string>
     <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
     <string name="action_add_notes">Add notes</string>
