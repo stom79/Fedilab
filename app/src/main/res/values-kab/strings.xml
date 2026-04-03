@@ -504,7 +504,7 @@
     <string name="unfollow_confirm">Do you want to unfollow this account?</string>
     <string name="set_unfollow_validation">Show confirmation dialog before unfollowing</string>
     <string name="replace_medium">Replace Medium links</string>
-    <string name="replace_medium_description">Replace medium.com links with an open source alternative front-end focused on privacy.</string>
+    <string name="replace_medium_description"></string>
     <string name="replace_medium_host">Default: scribe.rip</string>
     <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
     <string name="action_add_notes">Add notes</string>
@@ -604,7 +604,7 @@
     <string name="set_translator">Imsuqqel</string>
     <string name="category_music">Aẓawan</string>
     <string name="other">Wayeḍ</string>
-    <string name="auto">Amurman</string>
+    <string name="auto">Awurman</string>
     <string name="label_oval">Aglayan</string>
     <string name="add_filter">Rnu amsizdeg</string>
     <string name="channel_notif_update">Lqem amaynut</string>
@@ -646,4 +646,15 @@
     <string name="Directory">Akaram</string>
     <string name="my_instance">Aqeddac-iw</string>
     <string name="followers_only">Imeḍfaṛen kan</string>
+    <string name="state">Addad</string>
+    <string name="links">Iseɣwan</string>
+    <string name="network">Aẓeṭṭa</string>
+    <string name="custom_emoji">Udmawan</string>
+    <string name="standard_emoji">Aslugan</string>
+    <string name="about_donate">Mudd tawsa:</string>
+    <string name="anyone">Yal yiwen</string>
+    <string name="about_website">Asmel Web:</string>
+    <string name="local_only">Adigan kan</string>
+    <string name="translate_in">Suqel s</string>
+    <string name="translator_domain">Taɣult n wemsuqel</string>
 </resources>
