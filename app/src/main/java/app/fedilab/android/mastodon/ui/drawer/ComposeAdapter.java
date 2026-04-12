@@ -664,8 +664,11 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (holder.getBindingAdapterPosition() < 0) {
                     return;
                 }
+                String previousText = statusList.get(holder.getBindingAdapterPosition()).text;
                 statusList.get(holder.getBindingAdapterPosition()).text = contentString;
-                if (contentString.trim().length() < 2) {
+                boolean wasEmpty = previousText == null || previousText.trim().isEmpty();
+                boolean isEmpty = contentString.trim().isEmpty();
+                if (wasEmpty != isEmpty) {
                     buttonVisibility(holder);
                 }
                 //Update cursor position
