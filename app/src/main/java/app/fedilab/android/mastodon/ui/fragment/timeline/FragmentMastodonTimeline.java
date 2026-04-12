@@ -663,6 +663,31 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     }
                 }
             }
+            //Ensure fetchMore exists at the boundary between new and cached statuses
+            if (direction == DIRECTION.FETCH_NEW || direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
+                boolean hasFetchMore = false;
+                boolean hasOverlap = false;
+                for (Status s : fetched_statuses.statuses) {
+                    if (s.isFetchMore || s.isFetching) {
+                        hasFetchMore = true;
+                    }
+                    if (s.cached) {
+                        hasOverlap = true;
+                    }
+                }
+                if (!hasFetchMore && !hasOverlap && timelineStatuses.size() > fetched_statuses.statuses.size()) {
+                    for (int i = 0; i < timelineStatuses.size() - 1; i++) {
+                        Status current = timelineStatuses.get(i);
+                        Status next = timelineStatuses.get(i + 1);
+                        if (!current.cached && next.cached) {
+                            current.isFetchMore = true;
+                            current.positionFetchMore = Status.PositionFetchMore.TOP;
+                            statusAdapter.notifyItemChanged(i);
+                            break;
+                        }
+                    }
+                }
+            }
             //For these directions, the app will display counters for new messages
             if (insertedStatus >= 0 && update != null && direction != DIRECTION.FETCH_NEW && !fetchingMissing) {
                 update.onUpdate(insertedStatus, timelineType, slug);
