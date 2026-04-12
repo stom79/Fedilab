@@ -92,6 +92,7 @@ public class MediaHelper {
         final DownloadManager.Request request;
         try {
             request = new DownloadManager.Request(Uri.parse(url.trim()));
+            request.addRequestHeader("User-Agent", context.getString(R.string.app_name) + "/" + BuildConfig.VERSION_NAME);
         } catch (Exception e) {
             e.printStackTrace();
             Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
