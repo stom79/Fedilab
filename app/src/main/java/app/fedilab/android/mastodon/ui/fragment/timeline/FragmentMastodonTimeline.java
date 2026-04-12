@@ -593,19 +593,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     fetched_statuses.statuses = mediaStatuses;
                 }
             }
-            //Save visible position before inserting to prevent scroll jumps
-            String anchorStatusId = null;
-            int anchorOffset = 0;
-            if (fetchingMissing && (direction == DIRECTION.TOP || direction == DIRECTION.BOTTOM)) {
-                int firstVisible = mLayoutManager.findFirstVisibleItemPosition();
-                if (firstVisible >= 0 && firstVisible < timelineStatuses.size()) {
-                    anchorStatusId = timelineStatuses.get(firstVisible).id;
-                    View anchorView = mLayoutManager.findViewByPosition(firstVisible);
-                    if (anchorView != null) {
-                        anchorOffset = anchorView.getTop();
-                    }
-                }
-            }
             //Update the timeline with new statuses
             int insertedStatus;
             if(pinnedTimeline!= null && pinnedTimeline.remoteInstance != null && (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG)) {
@@ -694,16 +681,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             } else if (update != null && insertedStatus == 0 && direction == DIRECTION.REFRESH) {
                 update.onUpdate(0, timelineType, slug);
             }
-            if (fetchingMissing && canScroll && anchorStatusId != null && (direction == DIRECTION.TOP || direction == DIRECTION.BOTTOM)) {
-                int anchorPosition = -1;
-                for (int i = 0; i < timelineStatuses.size(); i++) {
-                    if (timelineStatuses.get(i).id != null && timelineStatuses.get(i).id.equals(anchorStatusId)) {
-                        anchorPosition = i;
-                        break;
+            if (fetchingMissing && canScroll) {
+                if (!reverseTimeline && direction == DIRECTION.TOP) {
+                    int position = getAbsolutePosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1));
+                    if (position != -1) {
+                        binding.recyclerView.scrollToPosition(position + 1);
                     }
-                }
-                if (anchorPosition != -1) {
-                    mLayoutManager.scrollToPositionWithOffset(anchorPosition, anchorOffset);
+                } else if (reverseTimeline && direction == DIRECTION.BOTTOM) {
+                    int position = getAbsolutePosition(fetched_statuses.statuses.get(0));
+                    if (position > 0) {
+                        binding.recyclerView.scrollToPosition(position - 1);
+                    }
                 }
             }
             if (!fetchingMissing) {
