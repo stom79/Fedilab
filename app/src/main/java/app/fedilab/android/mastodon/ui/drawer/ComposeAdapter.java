@@ -405,7 +405,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.binding.content.setSelection(statusDraft.text.length()); //Put cursor at the end
             });
         } else {
-            holder.binding.content.requestFocus();
+            if (holder.getLayoutPosition() == currentCursorPosition) {
+                holder.binding.content.requestFocus();
+            }
         }
 
     }
