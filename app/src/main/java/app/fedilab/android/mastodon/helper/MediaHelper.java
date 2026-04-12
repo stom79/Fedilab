@@ -450,6 +450,43 @@ public class MediaHelper {
         return maxHeight;
     }
 
+    public static void reorientImage(Context context, Uri uri, File targetedFile) {
+        try {
+            int orientation = getImageOrientation(uri, context.getContentResolver());
+            if (orientation == ExifInterface.ORIENTATION_NORMAL || orientation == ExifInterface.ORIENTATION_UNDEFINED) {
+                InputStream is = context.getContentResolver().openInputStream(uri);
+                if (is != null) {
+                    FileOutputStream fos = new FileOutputStream(targetedFile);
+                    byte[] buffer = new byte[4096];
+                    int length;
+                    while ((length = is.read(buffer)) > 0) {
+                        fos.write(buffer, 0, length);
+                    }
+                    fos.flush();
+                    fos.close();
+                    is.close();
+                }
+            } else {
+                InputStream is = context.getContentResolver().openInputStream(uri);
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                if (is != null) {
+                    is.close();
+                }
+                Bitmap reoriented = reorientBitmap(bitmap, orientation);
+                if (reoriented != null) {
+                    FileOutputStream fos = new FileOutputStream(targetedFile);
+                    Bitmap.CompressFormat format = reoriented.hasAlpha() ? Bitmap.CompressFormat.PNG : Bitmap.CompressFormat.JPEG;
+                    reoriented.compress(format, 100, fos);
+                    fos.flush();
+                    fos.close();
+                    reoriented.recycle();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void ResizedImageRequestBody(Context context, Uri uri, File targetedFile) {
         InputStream decodeBitmapInputStream = null;
         try {

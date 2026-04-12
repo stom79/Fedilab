@@ -1437,14 +1437,18 @@ public class Helper {
                             if (isCertCacheDirExists) {
                                 String filePath = certCacheDir.getAbsolutePath() + "/" + attachment.filename;
                                 attachment.local_path = filePath;
-                                OutputStream selectedFileOutPutStream = new FileOutputStream(filePath);
-                                byte[] buffer = new byte[1024];
-                                int length;
-                                while ((length = selectedFileInputStream.read(buffer)) > 0) {
-                                    selectedFileOutPutStream.write(buffer, 0, length);
+                                if (imageType.contains(attachment.mimeType)) {
+                                    MediaHelper.reorientImage(context, uri, new File(filePath));
+                                } else {
+                                    OutputStream selectedFileOutPutStream = new FileOutputStream(filePath);
+                                    byte[] buffer = new byte[1024];
+                                    int length;
+                                    while ((length = selectedFileInputStream.read(buffer)) > 0) {
+                                        selectedFileOutPutStream.write(buffer, 0, length);
+                                    }
+                                    selectedFileOutPutStream.flush();
+                                    selectedFileOutPutStream.close();
                                 }
-                                selectedFileOutPutStream.flush();
-                                selectedFileOutPutStream.close();
                             }
                             selectedFileInputStream.close();
                         }
