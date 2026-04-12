@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import app.fedilab.android.mastodon.watermark.androidwm.listener.DetectFinishListener;
 import app.fedilab.android.mastodon.watermark.androidwm.task.FDDetectionTask;
 import app.fedilab.android.mastodon.watermark.androidwm.task.LSBDetectionTask;
-import io.reactivex.annotations.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * This is for detecting the invisible watermark in one picture.

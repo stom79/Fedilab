@@ -48,7 +48,6 @@ import androidx.exifinterface.media.ExifInterface;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.github.piasy.rxandroidaudio.AudioRecorder;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.jetbrains.annotations.NotNull;
@@ -307,10 +306,14 @@ public class MediaHelper {
      * @param listener ActionRecord
      */
     public static void recordAudio(Activity activity, ActionRecord listener) {
-        //String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/fedilab_recorded_audio.ogg";
         String filePath = activity.getCacheDir() + "/fedilab_recorded_audio.ogg";
-        AudioRecorder mAudioRecorder = AudioRecorder.getInstance();
         File mAudioFile = new File(filePath);
+        MediaRecorder mediaRecorder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            mediaRecorder = new MediaRecorder(activity);
+        } else {
+            mediaRecorder = new MediaRecorder();
+        }
         PopupRecordBinding binding = PopupRecordBinding.inflate(activity.getLayoutInflater());
         AlertDialog.Builder audioPopup = new MaterialAlertDialogBuilder(activity);
         audioPopup.setView(binding.getRoot());
@@ -342,17 +345,30 @@ public class MediaHelper {
             }
         }, 0, 1000);
         binding.record.setOnClickListener(v -> {
-            mAudioRecorder.stopRecord();
+            try {
+                mediaRecorder.stop();
+                mediaRecorder.release();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             timer.cancel();
             alert.dismiss();
             listener.onRecorded(filePath);
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            mAudioRecorder.prepareRecord(MediaRecorder.AudioSource.MIC,
-                    MediaRecorder.OutputFormat.OGG, MediaRecorder.AudioEncoder.OPUS, 48000, 384000,
-                    mAudioFile);
+            try {
+                mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.OGG);
+                mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.OPUS);
+                mediaRecorder.setAudioSamplingRate(48000);
+                mediaRecorder.setAudioEncodingBitRate(384000);
+                mediaRecorder.setOutputFile(mAudioFile);
+                mediaRecorder.prepare();
+                mediaRecorder.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        mAudioRecorder.startRecord();
     }
 
     /**
