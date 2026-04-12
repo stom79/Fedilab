@@ -59,6 +59,7 @@
     <string name="show_my_messages">Show my messages</string>
     <string name="show_privates">Show direct messages</string>
     <string name="action_open_in_web">Open in browser</string>
+    <string name="export_following">Export following list</string>
     <string name="translate">Translate</string>
     <string name="more_options">More options</string>
     <!--- Menu -->

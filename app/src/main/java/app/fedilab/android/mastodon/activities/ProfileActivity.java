@@ -55,6 +55,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -97,6 +99,7 @@ import app.fedilab.android.databinding.ActivityProfileBinding;
 import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
 import app.fedilab.android.databinding.PopupQrcodeBinding;
 import app.fedilab.android.databinding.TabProfileCustomViewBinding;
+import app.fedilab.android.mastodon.client.endpoints.MastodonAccountsService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.FamiliarFollowers;
@@ -130,6 +133,7 @@ import app.fedilab.android.mastodon.viewmodel.mastodon.NodeInfoVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.ReorderVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
 import es.dmoral.toasty.Toasty;
+import retrofit2.Retrofit;
 
 
 public class ProfileActivity extends BaseActivity {
@@ -150,6 +154,22 @@ public class ProfileActivity extends BaseActivity {
     private WellKnownNodeinfo.NodeInfo nodeInfo;
 
 
+    private String exportCsvContent;
+    private final ActivityResultLauncher<Intent> saveFollowingLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null && result.getData().getData() != null) {
+                    try {
+                        java.io.OutputStream os = getContentResolver().openOutputStream(result.getData().getData());
+                        if (os != null) {
+                            os.write(exportCsvContent.getBytes());
+                            os.close();
+                            Toasty.success(ProfileActivity.this, getString(R.string.save_over), Toast.LENGTH_LONG).show();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
     private boolean checkRemotely;
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
@@ -1002,7 +1022,9 @@ public class ProfileActivity extends BaseActivity {
                 menu.findItem(R.id.action_add_to_list).setVisible(false);
                 menu.findItem(R.id.action_mute_home).setVisible(false);
                 menu.findItem(R.id.action_subscribed_language).setVisible(false);
+                menu.findItem(R.id.action_export_following).setVisible(true);
             } else {
+                menu.findItem(R.id.action_export_following).setVisible(false);
                 menu.findItem(R.id.action_block).setVisible(true);
                 menu.findItem(R.id.action_mute).setVisible(true);
                 menu.findItem(R.id.action_mute_home).setVisible(true);
@@ -1542,6 +1564,62 @@ public class ProfileActivity extends BaseActivity {
                 dialog.dismiss();
             });
             builderInner.show();
+        } else if (itemId == R.id.action_export_following) {
+            Toasty.info(ProfileActivity.this, getString(R.string.export_following), Toast.LENGTH_SHORT).show();
+            new Thread(() -> {
+                List<Account> allFollowing = new ArrayList<>();
+                String maxId = null;
+                try {
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("https://" + java.net.IDN.toASCII(BaseMainActivity.currentInstance, java.net.IDN.ALLOW_UNASSIGNED) + "/api/v1/")
+                            .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create(Helper.getDateBuilder()))
+                            .client(Helper.myOkHttpClient(ProfileActivity.this))
+                            .build();
+                    MastodonAccountsService service = retrofit.create(app.fedilab.android.mastodon.client.endpoints.MastodonAccountsService.class);
+                    boolean keepFetching = true;
+                    while (keepFetching) {
+                        retrofit2.Response<List<Account>> response = service.getAccountFollowing(BaseMainActivity.currentToken, account.id, maxId, null).execute();
+                        if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                            allFollowing.addAll(response.body());
+                            app.fedilab.android.mastodon.client.entities.api.Pagination pagination = MastodonHelper.getPagination(response.headers());
+                            if (pagination.max_id != null) {
+                                maxId = pagination.max_id;
+                            } else {
+                                keepFetching = false;
+                            }
+                        } else {
+                            keepFetching = false;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (allFollowing.isEmpty()) {
+                    runOnUiThread(() -> Toasty.warning(ProfileActivity.this, getString(R.string.toast_error), Toast.LENGTH_LONG).show());
+                    return;
+                }
+                StringBuilder csv = new StringBuilder();
+                csv.append("Account address\n");
+                for (Account a : allFollowing) {
+                    if (a.acct != null) {
+                        if (a.acct.contains("@")) {
+                            csv.append(a.acct);
+                        } else {
+                            csv.append(a.acct).append("@").append(BaseMainActivity.currentInstance);
+                        }
+                        csv.append("\n");
+                    }
+                }
+                exportCsvContent = csv.toString();
+                runOnUiThread(() -> {
+                    Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("text/csv");
+                    intent.putExtra(Intent.EXTRA_TITLE, "following_export.csv");
+                    saveFollowingLauncher.launch(intent);
+                });
+            }).start();
+            return true;
         } else if (itemId == R.id.action_block_instance) {
             AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(ProfileActivity.this);
             String domain = account.acct.split("@")[1];
