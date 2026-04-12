@@ -1242,6 +1242,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         initialStatuses = statuses;
                         if (!retry_for_home_done && timelineType == Timeline.TimeLineEnum.HOME && timelineParams.maxId != null && (statuses == null || statuses.statuses == null || statuses.statuses.isEmpty())) {
                             retry_for_home_done = true;
+                            //Marker no longer available, use since_id to get oldest posts after that point
+                            timelineParams.sinceId = timelineParams.maxId;
                             timelineParams.maxId = null;
                             max_id = null;
                             getLiveStatus(null, fetchingMissing, timelineParams, true, fetchStatus);
