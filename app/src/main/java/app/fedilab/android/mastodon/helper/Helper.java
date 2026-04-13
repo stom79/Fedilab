@@ -41,6 +41,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -63,6 +64,8 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.text.method.LinkMovementMethod;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -1984,13 +1987,13 @@ public class Helper {
         return null;
     }
 
-    public static void displayReleaseNotesIfNeeded(Activity activity, boolean forced) {
+    public static boolean displayReleaseNotesIfNeeded(Activity activity, boolean forced) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         int lastReleaseNoteRead = sharedpreferences.getInt(activity.getString(R.string.SET_POPUP_RELEASE_NOTES), 0);
         int versionCode = BuildConfig.VERSION_CODE;
         boolean disabled = sharedpreferences.getBoolean(activity.getString(R.string.SET_DISABLE_RELEASE_NOTES_ALERT), false);
         if (disabled && !forced) {
-            return;
+            return false;
         }
         if (lastReleaseNoteRead != versionCode || forced) {
             try {
@@ -2081,6 +2084,47 @@ public class Helper {
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putInt(activity.getString(R.string.SET_POPUP_RELEASE_NOTES), versionCode);
             editor.apply();
+            return true;
+        }
+        return false;
+    }
+
+    public static void displayKeepAndroidOpenIfNeeded(Activity activity) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        boolean alreadyShown = sharedpreferences.getBoolean(activity.getString(R.string.SET_KEEP_ANDROID_OPEN_SHOWN), false);
+        if (alreadyShown) {
+            return;
+        }
+        sharedpreferences.edit().putBoolean(activity.getString(R.string.SET_KEEP_ANDROID_OPEN_SHOWN), true).apply();
+
+        TextView title = new TextView(activity);
+        title.setText("⚠ SUPER IMPORTANT ⚠");
+        title.setTextSize(20);
+        title.setTypeface(null, Typeface.BOLD);
+        title.setTextColor(Color.RED);
+        title.setGravity(Gravity.CENTER);
+        title.setPadding(60, 40, 60, 0);
+
+        TextView message = new TextView(activity);
+        message.setText(Html.fromHtml("Android will become a locked-down platform.<br/><br/>Please visit <a href=\"https://keepandroidopen.org/\">keepandroidopen.org</a> to learn more and take action.", Html.FROM_HTML_MODE_COMPACT));
+        message.setTextSize(16);
+        message.setPadding(60, 30, 60, 20);
+        message.setMovementMethod(LinkMovementMethod.getInstance());
+
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(activity);
+        builder.setCustomTitle(title);
+        builder.setView(message);
+        builder.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
+        builder.setCancelable(false);
+        try {
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                if (!activity.isFinishing()) {
+                    builder.show();
+                }
+            }, 1000);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

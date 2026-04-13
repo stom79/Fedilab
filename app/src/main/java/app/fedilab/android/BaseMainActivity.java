@@ -22,6 +22,7 @@ import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_INSTANCE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_SOFTWARE;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_TOKEN;
+import static app.fedilab.android.mastodon.helper.Helper.displayKeepAndroidOpenIfNeeded;
 import static app.fedilab.android.mastodon.helper.Helper.displayReleaseNotesIfNeeded;
 import static app.fedilab.android.mastodon.helper.ThemeHelper.fetchAccentColor;
 import static app.fedilab.android.mastodon.ui.drawer.StatusAdapter.sendAction;
@@ -1412,7 +1413,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             //Initialize static var
                             if (mastodonAccount != null && Helper.getCurrentAccount(BaseMainActivity.this) != null) {
                                 Helper.setCurrentAccountMastodonAccount(BaseMainActivity.this, mastodonAccount);
-                                displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
+                                boolean releaseNotesShown = displayReleaseNotesIfNeeded(BaseMainActivity.this, false);
+                                if (!releaseNotesShown) {
+                                    displayKeepAndroidOpenIfNeeded(BaseMainActivity.this);
+                                }
                                 new Thread(() -> {
                                     try {
                                         //Update account in db

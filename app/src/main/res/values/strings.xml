@@ -1436,6 +1436,7 @@
     <string name="LAST_NOTIFICATION_ID" translatable="false">LAST_NOTIFICATION_ID</string>
     <string name="SET_MAX_INSTANCE_CHAR" translatable="false">SET_MAX_INSTANCE_CHAR</string>
     <string name="SET_POPUP_RELEASE_NOTES" translatable="false">SET_POPUP_RELEASE_NOTES</string>
+    <string name="SET_KEEP_ANDROID_OPEN_SHOWN" translatable="false">SET_KEEP_ANDROID_OPEN_SHOWN</string>
     <string name="type_of_notifications">Type of notifications</string>
     <string name="type_of_notifications_title">Choose the type of notifications</string>
     <string name="notification_sounds">Notification sounds</string>
