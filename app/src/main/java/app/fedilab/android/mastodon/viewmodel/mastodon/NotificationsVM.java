@@ -221,7 +221,11 @@ public class NotificationsVM extends AndroidViewModel {
             try {
                 notificationsDb = statusCacheDAO.getNotifications(timelineParams.excludeType, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
                 if (notificationsDb != null && notificationsDb.size() > 0) {
-                    notificationsDb = deduplicateByGroupKey(notificationsDb);
+                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getApplication().getApplicationContext());
+                    boolean aggregateNotification = sharedpreferences.getBoolean(getApplication().getString(R.string.SET_AGGREGATE_NOTIFICATION), true);
+                    if (aggregateNotification) {
+                        notificationsDb = deduplicateByGroupKey(notificationsDb);
+                    }
                     for (Notification notification : notificationsDb) {
                         if (notification.group_key != null) {
                             notifications.groupedByServer = true;
