@@ -681,17 +681,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             } else if (update != null && insertedStatus == 0 && direction == DIRECTION.REFRESH) {
                 update.onUpdate(0, timelineType, slug);
             }
-            if (fetchingMissing && canScroll) {
-                if (!reverseTimeline && direction == DIRECTION.TOP) {
-                    int position = getAbsolutePosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1));
-                    if (position != -1) {
-                        binding.recyclerView.scrollToPosition(position + 1);
-                    }
-                } else if (reverseTimeline && direction == DIRECTION.BOTTOM) {
-                    int position = getAbsolutePosition(fetched_statuses.statuses.get(0));
-                    if (position > 0) {
-                        binding.recyclerView.scrollToPosition(position - 1);
-                    }
+            if (fetchingMissing && canScroll && direction == DIRECTION.TOP) {
+                int position = getAbsolutePosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1));
+                if (position != -1) {
+                    binding.recyclerView.scrollToPosition(position + 1);
                 }
             }
             if (!fetchingMissing) {
