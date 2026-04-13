@@ -102,17 +102,69 @@
             tools:maxLines="10"
             tools:text="@tools:sample/lorem/random" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/quoted_media"
+        <FrameLayout
+            android:id="@+id/quoted_media_container"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="6dp"
             android:layout_marginTop="6dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:visibility="gone"
-            tools:src="@tools:sample/backgrounds/scenic"
-            tools:visibility="visible" />
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/quoted_media"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/quoted_media_hide"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top|start"
+                android:layout_margin="5dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="3dp"
+                android:visibility="gone"
+                app:backgroundTint="#80000000"
+                app:cornerRadius="15dp"
+                app:icon="@drawable/ic_baseline_visibility_24"
+                app:iconPadding="0dp"
+                app:iconSize="24dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/quoted_media_alt"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="5dp"
+                android:clickable="false"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="3dp"
+                android:visibility="gone"
+                app:backgroundTint="#80000000"
+                app:cornerRadius="15dp"
+                app:icon="@drawable/ic_outline_note_alt_24"
+                app:iconPadding="0dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/white" />
+
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/quoted_media_more"

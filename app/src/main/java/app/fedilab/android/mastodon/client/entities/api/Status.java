@@ -189,6 +189,7 @@ public class Status implements Serializable, Cloneable {
     public transient int cursorPosition = 0;
     public transient boolean submitted = false;
 
+    public transient Boolean quoteSensitiveOverride = null;
     public transient boolean underlined = false;
     public transient boolean isNewComment = false;
     public boolean spoilerChecked = false;

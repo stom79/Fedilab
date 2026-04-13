@@ -813,12 +813,56 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             // Display media attachments in quoted message
             if (statusToDeal.getQuote().media_attachments != null && !statusToDeal.getQuote().media_attachments.isEmpty()) {
-                List<Attachment> quoteAttachments = statusToDeal.getQuote().media_attachments;
+                Status quoteStatus = statusToDeal.getQuote();
+                List<Attachment> quoteAttachments = quoteStatus.media_attachments;
                 Attachment firstAttachment = quoteAttachments.get(0);
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                boolean expand_media = sharedpreferences.getBoolean(context.getString(R.string.SET_EXPAND_MEDIA), false);
+                boolean isSensitive = statusToDeal.quoteSensitiveOverride != null ? statusToDeal.quoteSensitiveOverride : quoteStatus.sensitive;
+                //Load media with blur if sensitive
                 String url = firstAttachment.preview_url != null ? firstAttachment.preview_url : firstAttachment.url;
-                Glide.with(context).load(url).into(holder.binding.quotedMessage.quotedMedia);
-                holder.binding.quotedMessage.quotedMedia.setVisibility(View.VISIBLE);
+                if (isSensitive && !expand_media) {
+                    RequestBuilder<Drawable> requestBuilder = GlideApp.with(context).asDrawable()
+                            .apply(new RequestOptions().transform(new BlurTransformation(50, 3)));
+                    requestBuilder.load(url).into(holder.binding.quotedMessage.quotedMedia);
+                } else {
+                    Glide.with(context).load(url).into(holder.binding.quotedMessage.quotedMedia);
+                }
+                holder.binding.quotedMessage.quotedMediaContainer.setVisibility(View.VISIBLE);
+                //Sensitive indicator
+                if (sensitiveIndicator) {
+                    holder.binding.quotedMessage.quotedMediaHide.setVisibility(View.VISIBLE);
+                    if (!isSensitive || expand_media) {
+                        holder.binding.quotedMessage.quotedMediaHide.setIconResource(R.drawable.ic_baseline_visibility_24);
+                    } else {
+                        holder.binding.quotedMessage.quotedMediaHide.setIconResource(R.drawable.ic_baseline_visibility_off_24);
+                    }
+                    if (isSensitive) {
+                        Helper.changeDrawableColor(context, holder.binding.quotedMessage.quotedMediaHide, ThemeHelper.getAttColor(context, R.attr.colorError));
+                    } else {
+                        Helper.changeDrawableColor(context, holder.binding.quotedMessage.quotedMediaHide, R.color.white);
+                    }
+                    holder.binding.quotedMessage.quotedMediaHide.setOnClickListener(v -> {
+                        boolean currentSensitive = statusToDeal.quoteSensitiveOverride != null ? statusToDeal.quoteSensitiveOverride : quoteStatus.sensitive;
+                        statusToDeal.quoteSensitiveOverride = !currentSensitive;
+                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    });
+                } else {
+                    holder.binding.quotedMessage.quotedMediaHide.setVisibility(View.GONE);
+                }
+                //Alt-text indicator
+                if (mediaDescriptionIndicator && firstAttachment.description != null && !firstAttachment.description.isEmpty()) {
+                    holder.binding.quotedMessage.quotedMediaAlt.setVisibility(View.VISIBLE);
+                } else {
+                    holder.binding.quotedMessage.quotedMediaAlt.setVisibility(View.GONE);
+                }
                 holder.binding.quotedMessage.quotedMedia.setOnClickListener(v -> {
+                    boolean currentSensitive = statusToDeal.quoteSensitiveOverride != null ? statusToDeal.quoteSensitiveOverride : quoteStatus.sensitive;
+                    if (currentSensitive && !expand_media) {
+                        statusToDeal.quoteSensitiveOverride = false;
+                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                        return;
+                    }
                     Intent mediaIntent = new Intent(context, MediaActivity.class);
                     Bundle args = new Bundle();
                     args.putInt(Helper.ARG_MEDIA_POSITION, 0);
@@ -838,7 +882,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.binding.quotedMessage.quotedMediaMore.setVisibility(View.GONE);
                 }
             } else {
-                holder.binding.quotedMessage.quotedMedia.setVisibility(View.GONE);
+                holder.binding.quotedMessage.quotedMediaContainer.setVisibility(View.GONE);
                 holder.binding.quotedMessage.quotedMediaMore.setVisibility(View.GONE);
             }
             holder.binding.quotedMessage.cardviewContainer.setVisibility(View.VISIBLE);
