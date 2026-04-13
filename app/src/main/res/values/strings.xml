@@ -1469,6 +1469,10 @@
     <string name="policy_accept">Accept</string>
     <string name="policy_filter">Filter</string>
     <string name="policy_drop">Drop</string>
+    <string name="filtered_notifications">Filtered notifications</string>
+    <string name="no_notification_requests">No filtered notifications</string>
+    <string name="notification_requests_count">%s notifications</string>
+    <string name="view_filtered_notifications">View filtered notifications</string>
     <string name="types_of_notifications_to_display">Types of notifications to display</string>
     <string name="set_unfollow_validation_title">Confirm unfollows</string>
     <string name="message_has_been_sent">Message has been sent!</string>

@@ -129,6 +129,9 @@
             android:name=".mastodon.activities.FollowRequestActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
+            android:name=".mastodon.activities.NotificationRequestsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
             android:name=".mastodon.activities.ProfileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/account" />

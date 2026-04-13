@@ -16,6 +16,7 @@ package app.fedilab.android.mastodon.ui.fragment.timeline;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentNotificationContainerBinding;
 import app.fedilab.android.databinding.PopupNotificationSettingsBinding;
+import app.fedilab.android.mastodon.activities.NotificationRequestsActivity;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.pageadapter.FedilabNotificationPageAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.NotificationsVM;
@@ -218,6 +220,16 @@ public class FragmentNotificationContainer extends Fragment {
                             setPolicyButton(dialogView.policyNewAccounts, policyValues, policyLabels, policy.for_new_accounts);
                             setPolicyButton(dialogView.policyPrivateMentions, policyValues, policyLabels, policy.for_private_mentions);
                             setPolicyButton(dialogView.policyLimitedAccounts, policyValues, policyLabels, policy.for_limited_accounts);
+                            if (policy.summary != null && policy.summary.pending_requests_count > 0) {
+                                dialogView.viewFilteredNotifications.setVisibility(View.VISIBLE);
+                                dialogView.viewFilteredNotifications.setText(getString(R.string.view_filtered_notifications) + " (" + policy.summary.pending_requests_count + ")");
+                            } else {
+                                dialogView.viewFilteredNotifications.setVisibility(View.VISIBLE);
+                            }
+                            dialogView.viewFilteredNotifications.setOnClickListener(v1 -> {
+                                Intent intent = new Intent(requireActivity(), NotificationRequestsActivity.class);
+                                startActivity(intent);
+                            });
                         }
                     });
 

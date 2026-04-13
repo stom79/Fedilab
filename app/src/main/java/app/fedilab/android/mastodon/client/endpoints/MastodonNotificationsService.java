@@ -19,6 +19,7 @@ import java.util.List;
 import app.fedilab.android.mastodon.client.entities.api.GroupedNotificationsResults;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.api.NotificationPolicy;
+import app.fedilab.android.mastodon.client.entities.api.NotificationRequest;
 import app.fedilab.android.mastodon.client.entities.api.PushSubscription;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
@@ -134,5 +135,27 @@ public interface MastodonNotificationsService {
             @Field("for_new_accounts") String for_new_accounts,
             @Field("for_private_mentions") String for_private_mentions,
             @Field("for_limited_accounts") String for_limited_accounts
+    );
+
+    // Notification Requests (v1)
+    @GET("notifications/requests")
+    Call<List<NotificationRequest>> getNotificationRequests(
+            @Header("Authorization") String token,
+            @Query("max_id") String max_id,
+            @Query("since_id") String since_id,
+            @Query("min_id") String min_id,
+            @Query("limit") int limit
+    );
+
+    @POST("notifications/requests/{id}/accept")
+    Call<Void> acceptNotificationRequest(
+            @Header("Authorization") String token,
+            @Path("id") String id
+    );
+
+    @POST("notifications/requests/{id}/dismiss")
+    Call<Void> dismissNotificationRequest(
+            @Header("Authorization") String token,
+            @Path("id") String id
     );
 }

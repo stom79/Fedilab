@@ -282,6 +282,17 @@
             </LinearLayout>
         </LinearLayout>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/view_filtered_notifications"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/view_filtered_notifications"
+            android:textAlignment="textStart"
+            android:visibility="gone"
+            app:icon="@drawable/ic_baseline_filter_list_24" />
+
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"

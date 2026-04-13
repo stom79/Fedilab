@@ -41,6 +41,8 @@ import app.fedilab.android.mastodon.client.entities.api.GroupedNotificationsResu
 import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.api.NotificationGroup;
 import app.fedilab.android.mastodon.client.entities.api.NotificationPolicy;
+import app.fedilab.android.mastodon.client.entities.api.NotificationRequest;
+import app.fedilab.android.mastodon.client.entities.api.NotificationRequests;
 import app.fedilab.android.mastodon.client.entities.api.Notifications;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.PushSubscription;
@@ -588,6 +590,81 @@ public class NotificationsVM extends AndroidViewModel {
             mainHandler.post(() -> notificationPolicyMutableLiveData.setValue(finalNotificationPolicy));
         }).start();
         return notificationPolicyMutableLiveData;
+    }
+
+    /**
+     * Get notification requests (filtered notifications)
+     */
+    public LiveData<NotificationRequests> getNotificationRequests(@NonNull String instance, String token, String max_id) {
+        MutableLiveData<NotificationRequests> liveData = new MutableLiveData<>();
+        MastodonNotificationsService mastodonNotificationsService = init(instance);
+        new Thread(() -> {
+            NotificationRequests notificationRequests = new NotificationRequests();
+            Call<List<NotificationRequest>> call = mastodonNotificationsService.getNotificationRequests(token, max_id, null, null, 40);
+            if (call != null) {
+                try {
+                    Response<List<NotificationRequest>> response = call.execute();
+                    if (response.isSuccessful()) {
+                        notificationRequests.notificationRequests = response.body();
+                        notificationRequests.pagination = MastodonHelper.getPagination(response.headers());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            NotificationRequests finalResult = notificationRequests;
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(() -> liveData.setValue(finalResult));
+        }).start();
+        return liveData;
+    }
+
+    /**
+     * Accept a notification request
+     */
+    public LiveData<Boolean> acceptNotificationRequest(@NonNull String instance, String token, String id) {
+        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
+        MastodonNotificationsService mastodonNotificationsService = init(instance);
+        new Thread(() -> {
+            boolean success = false;
+            Call<Void> call = mastodonNotificationsService.acceptNotificationRequest(token, id);
+            if (call != null) {
+                try {
+                    Response<Void> response = call.execute();
+                    success = response.isSuccessful();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            boolean finalSuccess = success;
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(() -> liveData.setValue(finalSuccess));
+        }).start();
+        return liveData;
+    }
+
+    /**
+     * Dismiss a notification request
+     */
+    public LiveData<Boolean> dismissNotificationRequest(@NonNull String instance, String token, String id) {
+        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
+        MastodonNotificationsService mastodonNotificationsService = init(instance);
+        new Thread(() -> {
+            boolean success = false;
+            Call<Void> call = mastodonNotificationsService.dismissNotificationRequest(token, id);
+            if (call != null) {
+                try {
+                    Response<Void> response = call.execute();
+                    success = response.isSuccessful();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            boolean finalSuccess = success;
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(() -> liveData.setValue(finalSuccess));
+        }).start();
+        return liveData;
     }
 
 }
