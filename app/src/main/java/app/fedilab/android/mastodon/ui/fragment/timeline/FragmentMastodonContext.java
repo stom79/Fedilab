@@ -163,7 +163,7 @@ public class FragmentMastodonContext extends Fragment {
         int position = 0;
         boolean found = false;
         for (Status _status : statuses) {
-            if (status.id.equals(_status.id)) {
+            if (_status.id != null && status.id.equals(_status.id)) {
                 found = true;
                 break;
             }

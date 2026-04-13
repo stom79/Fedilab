@@ -846,9 +846,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         status.spoilerChecked = statusList.get(position - 1).spoilerChecked;
         statusList.add(status);
         ComposeAdapter.currentCursorPosition = statusList.size() - 1;
-        composeAdapter.notifyItemInserted(position);
-        composeAdapter.notifyItemChanged(position - 1);
-        binding.recyclerView.smoothScrollToPosition(statusList.size());
+        binding.recyclerView.post(() -> {
+            composeAdapter.notifyItemInserted(position);
+            composeAdapter.notifyItemChanged(position - 1);
+            binding.recyclerView.smoothScrollToPosition(statusList.size());
+        });
 
     }
 

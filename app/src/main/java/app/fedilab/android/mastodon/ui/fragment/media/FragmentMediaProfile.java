@@ -252,7 +252,12 @@ public class FragmentMediaProfile extends Fragment {
                 }
             }
 
-            imageAdapter.notifyItemRangeInserted(this.mediaStatuses.size() - added, this.mediaStatuses.size());
+            int oldSize = mediaAttachmentProfile.size();
+            fillWithMedia();
+            int newSize = mediaAttachmentProfile.size();
+            if (newSize > oldSize) {
+                imageAdapter.notifyItemRangeInserted(oldSize, newSize - oldSize);
+            }
             if (fetched_statuses.pagination.max_id == null) {
                 flagLoading = true;
             } else if (max_id == null || Helper.compareTo(fetched_statuses.pagination.max_id, max_id) < 0) {
@@ -261,7 +266,6 @@ public class FragmentMediaProfile extends Fragment {
         } else {
             flagLoading = true;
         }
-        fillWithMedia();
     }
 
 
