@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.38.0",
+    "code": "553",
+    "note": "Added\n- Export following list as CSV\n- Notification filtering policy support\n- Filtered notifications (notification requests) UI\n- One-time \"Keep Android Open\" alert at startup\n- Handle sensitive media and alt-text icon in quoted posts\n\nFixed\n- Fix timeline scroll jumps when auto-fetching missing posts\n- Fix cursor jumping to first post when composing threads\n- Fix thread +/- button not updating on paste\n- Fix image orientation not applied when compression is disabled\n- Fix GIF and video download/share\n- Fix marker handling when expired\n- Fix fallback gap detection when fetchMore is missing\n- Fix fetch more and scroll position in reverse timeline\n- Fix ungrouped notifications vanishing on reload\n- Fix 16KB page size alignment for Google Play\n- Fix some crashes"
+  },
+  {
     "version": "3.37.2",
     "code": "552",
     "note": "Fixed\n- Fix profile header stuck after scroll in reverse timeline\n- Fix notifications not loading new items in reverse timeline\n- Respect aggregate notification preference with grouped notifications API\n- Fix \"Enabled notifications\" label\n- Keep default FAB and toolbar behavior in reverse timeline\n- Prevent swiping through notification categories when swiping between timelines"

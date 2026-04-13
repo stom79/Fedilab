@@ -754,7 +754,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 if (notificationList == null) {
                     continue;
                 }
-                if (notificationReceived.group_key != null && groupedByServer) {
+                if (notificationReceived.group_key != null && groupedByServer && aggregateNotification) {
                     boolean replaced = false;
                     for (int i = 0; i < notificationList.size(); i++) {
                         if (notificationReceived.group_key.equals(notificationList.get(i).group_key)) {

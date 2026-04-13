@@ -1,0 +1,19 @@
+Added
+- Export following list as CSV
+- Notification filtering policy support
+- Filtered notifications (notification requests) UI
+- One-time "Keep Android Open" alert at startup
+- Handle sensitive media and alt-text icon in quoted posts
+
+Fixed
+- Fix timeline scroll jumps when auto-fetching missing posts
+- Fix cursor jumping to first post when composing threads
+- Fix thread +/- button not updating on paste
+- Fix image orientation not applied when compression is disabled
+- Fix GIF and video download/share
+- Fix marker handling when expired
+- Fix fallback gap detection when fetchMore is missing
+- Fix fetch more and scroll position in reverse timeline
+- Fix ungrouped notifications vanishing on reload
+- Fix 16KB page size alignment for Google Play
+- Fix some crashes
