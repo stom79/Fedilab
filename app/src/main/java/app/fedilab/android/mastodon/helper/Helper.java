@@ -2319,7 +2319,8 @@ public class Helper {
         STATUS,
         BACKUP,
         STORE,
-        TOOT
+        TOOT,
+        QUOTE
     }
 
     public interface OnAttachmentCopied {

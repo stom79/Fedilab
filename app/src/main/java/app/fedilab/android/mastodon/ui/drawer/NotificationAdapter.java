@@ -171,7 +171,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         return TYPE_HIDDEN;
                     }
                 }
-                case "update" -> {
+                case "update", "quoted_update" -> {
                     if (notification.status != null) {
                         return TYPE_UPDATE;
                     } else {

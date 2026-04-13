@@ -40,6 +40,7 @@ import app.fedilab.android.mastodon.client.endpoints.MastodonNotificationsServic
 import app.fedilab.android.mastodon.client.entities.api.GroupedNotificationsResults;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.api.NotificationGroup;
+import app.fedilab.android.mastodon.client.entities.api.NotificationPolicy;
 import app.fedilab.android.mastodon.client.entities.api.Notifications;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.PushSubscription;
@@ -516,6 +517,77 @@ public class NotificationsVM extends AndroidViewModel {
         }).start();
 
         return voidMutableLiveData;
+    }
+
+    /**
+     * Get notification policy
+     *
+     * @param instance String - Instance for the api call
+     * @param token    String - Token of the authenticated account
+     * @return {@link LiveData} containing a {@link NotificationPolicy}
+     */
+    public LiveData<NotificationPolicy> getNotificationPolicy(@NonNull String instance, String token) {
+        MutableLiveData<NotificationPolicy> notificationPolicyMutableLiveData = new MutableLiveData<>();
+        MastodonNotificationsService mastodonNotificationsService = initV2(instance);
+        new Thread(() -> {
+            NotificationPolicy notificationPolicy = null;
+            Call<NotificationPolicy> notificationPolicyCall = mastodonNotificationsService.getNotificationPolicy(token);
+            if (notificationPolicyCall != null) {
+                try {
+                    retrofit2.Response<NotificationPolicy> response = notificationPolicyCall.execute();
+                    if (response.isSuccessful()) {
+                        notificationPolicy = response.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            NotificationPolicy finalNotificationPolicy = notificationPolicy;
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(() -> notificationPolicyMutableLiveData.setValue(finalNotificationPolicy));
+        }).start();
+        return notificationPolicyMutableLiveData;
+    }
+
+    /**
+     * Update notification policy
+     *
+     * @param instance             String - Instance for the api call
+     * @param token                String - Token of the authenticated account
+     * @param for_not_following    String - accept, filter, or drop
+     * @param for_not_followers    String - accept, filter, or drop
+     * @param for_new_accounts     String - accept, filter, or drop
+     * @param for_private_mentions String - accept, filter, or drop
+     * @param for_limited_accounts String - accept, filter, or drop
+     * @return {@link LiveData} containing a {@link NotificationPolicy}
+     */
+    public LiveData<NotificationPolicy> updateNotificationPolicy(@NonNull String instance, String token,
+                                                                  String for_not_following,
+                                                                  String for_not_followers,
+                                                                  String for_new_accounts,
+                                                                  String for_private_mentions,
+                                                                  String for_limited_accounts) {
+        MutableLiveData<NotificationPolicy> notificationPolicyMutableLiveData = new MutableLiveData<>();
+        MastodonNotificationsService mastodonNotificationsService = initV2(instance);
+        new Thread(() -> {
+            NotificationPolicy notificationPolicy = null;
+            Call<NotificationPolicy> notificationPolicyCall = mastodonNotificationsService.updateNotificationPolicy(
+                    token, for_not_following, for_not_followers, for_new_accounts, for_private_mentions, for_limited_accounts);
+            if (notificationPolicyCall != null) {
+                try {
+                    retrofit2.Response<NotificationPolicy> response = notificationPolicyCall.execute();
+                    if (response.isSuccessful()) {
+                        notificationPolicy = response.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            NotificationPolicy finalNotificationPolicy = notificationPolicy;
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(() -> notificationPolicyMutableLiveData.setValue(finalNotificationPolicy));
+        }).start();
+        return notificationPolicyMutableLiveData;
     }
 
 }

@@ -237,6 +237,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         excludeType.add("follow_request");
         excludeType.add("mention");
         excludeType.add("update");
+        excludeType.add("quoted_update");
         excludeType.add("status");
         excludeType.add("admin.sign_up");
         excludeType.add("admin.report");
@@ -254,7 +255,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             }
             case MENTIONS -> excludeType.remove("mention");
             case FAVOURITES -> excludeType.remove("favourite");
-            case UPDATES -> excludeType.remove("update");
+            case UPDATES -> {
+                excludeType.remove("update");
+                excludeType.remove("quoted_update");
+            }
             case REBLOGS -> excludeType.remove("reblog");
             case QUOTES -> excludeType.remove("quote");
             case POLLS -> excludeType.remove("poll");

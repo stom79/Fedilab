@@ -223,6 +223,8 @@
     <string name="notif_status">wrote a new message</string>
     <string name="notif_reblog">boosted your status</string>
     <string name="notif_favourite">favourited your status</string>
+    <string name="notif_quote">quoted your status</string>
+    <string name="notif_quoted_update">A quoted message has been edited</string>
     <string name="notif_follow">followed you</string>
     <string name="notif_follow_request">asked to follow you</string>
     <string name="delete_notification_ask_all">Delete all notifications?</string>
@@ -1458,6 +1460,15 @@
     <string name="lorem_ipsum_text_card" translatable="false">Etiam congue dictum urna, eget dapibus arcu pellentesque sit amet. Ut at nulla placerat, aliquet turpis sit amet, finibus lacus. Aenean eget eros in risus feugiat ornare. Aenean mi massa, ornare nec molestie in, varius ac nisl. Vestibulum molestie, nulla nec elementum rhoncus, sapien nulla suscipit felis, ac auctor est.</string>
     <string name="lorem_ipsum_text" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis odio malesuada enim dignissim consectetur. Nunc nec tincidunt ipsum. Aliquam bibendum id felis at pulvinar. Etiam tincidunt ante elit, eu tristique mauris aliquam id. Nulla eget sapien sit amet augue aliquet porttitor eget quis urna.</string>
     <string name="more_actions">More Actions</string>
+    <string name="notification_filtering_policy">Notification filtering policy</string>
+    <string name="policy_for_not_following">People you don\'t follow</string>
+    <string name="policy_for_not_followers">People not following you</string>
+    <string name="policy_for_new_accounts">New accounts (less than 30 days)</string>
+    <string name="policy_for_private_mentions">Unsolicited private mentions</string>
+    <string name="policy_for_limited_accounts">Moderated accounts</string>
+    <string name="policy_accept">Accept</string>
+    <string name="policy_filter">Filter</string>
+    <string name="policy_drop">Drop</string>
     <string name="types_of_notifications_to_display">Types of notifications to display</string>
     <string name="set_unfollow_validation_title">Confirm unfollows</string>
     <string name="message_has_been_sent">Message has been sent!</string>

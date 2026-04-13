@@ -23,7 +23,6 @@ import android.service.notification.StatusBarNotification;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -193,7 +192,48 @@ public class FragmentNotificationContainer extends Fragment {
                 }
             });
 
-            dialogBuilder.setOnDismissListener(dialogInterface -> doAction(changes.get(), excludedCategoriesList));
+            // Notification filtering policy
+            String[] policyValues = {"accept", "filter", "drop"};
+            String[] policyLabels = {
+                    getString(R.string.policy_accept),
+                    getString(R.string.policy_filter),
+                    getString(R.string.policy_drop)
+            };
+            com.google.android.material.button.MaterialButton[] policyButtons = {
+                    dialogView.policyNotFollowing, dialogView.policyNotFollowers,
+                    dialogView.policyNewAccounts, dialogView.policyPrivateMentions,
+                    dialogView.policyLimitedAccounts
+            };
+            for (com.google.android.material.button.MaterialButton btn : policyButtons) {
+                setupPolicyButton(btn, policyValues, policyLabels);
+            }
+
+            NotificationsVM notificationsVM = new ViewModelProvider(FragmentNotificationContainer.this).get(NotificationsVM.class);
+            notificationsVM.getNotificationPolicy(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
+                    .observe(getViewLifecycleOwner(), policy -> {
+                        if (policy != null) {
+                            dialogView.policyContainer.setVisibility(View.VISIBLE);
+                            setPolicyButton(dialogView.policyNotFollowing, policyValues, policyLabels, policy.for_not_following);
+                            setPolicyButton(dialogView.policyNotFollowers, policyValues, policyLabels, policy.for_not_followers);
+                            setPolicyButton(dialogView.policyNewAccounts, policyValues, policyLabels, policy.for_new_accounts);
+                            setPolicyButton(dialogView.policyPrivateMentions, policyValues, policyLabels, policy.for_private_mentions);
+                            setPolicyButton(dialogView.policyLimitedAccounts, policyValues, policyLabels, policy.for_limited_accounts);
+                        }
+                    });
+
+            dialogBuilder.setOnDismissListener(dialogInterface -> {
+                doAction(changes.get(), excludedCategoriesList);
+                // Save policy changes
+                if (dialogView.policyContainer.getVisibility() == View.VISIBLE) {
+                    String notFollowing = (String) dialogView.policyNotFollowing.getTag();
+                    String notFollowers = (String) dialogView.policyNotFollowers.getTag();
+                    String newAccounts = (String) dialogView.policyNewAccounts.getTag();
+                    String privateMentions = (String) dialogView.policyPrivateMentions.getTag();
+                    String limitedAccounts = (String) dialogView.policyLimitedAccounts.getTag();
+                    notificationsVM.updateNotificationPolicy(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
+                            notFollowing, notFollowers, newAccounts, privateMentions, limitedAccounts);
+                }
+            });
             dialogBuilder.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
             AlertDialog alertDialog = dialogBuilder.create();
             dialogView.clearAllNotif.setOnClickListener(v1 -> {
@@ -202,7 +242,6 @@ public class FragmentNotificationContainer extends Fragment {
                 db.setMessage(R.string.delete_notification_all_warning);
                 db.setPositiveButton(R.string.delete_all, (dialog, id) -> {
                     changes.set(true);
-                    NotificationsVM notificationsVM = new ViewModelProvider(FragmentNotificationContainer.this).get(NotificationsVM.class);
                     notificationsVM.clearNotification(BaseMainActivity.currentUserID, BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
                             .observe(getViewLifecycleOwner(), unused -> {
                                 Toasty.info(requireActivity(), R.string.delete_notification_all, Toasty.LENGTH_LONG).show();
@@ -290,6 +329,36 @@ public class FragmentNotificationContainer extends Fragment {
         }
     }
 
+
+    private void setupPolicyButton(com.google.android.material.button.MaterialButton button, String[] values, String[] labels) {
+        button.setTag(values[0]);
+        button.setText(labels[0]);
+        button.setOnClickListener(v -> {
+            android.widget.PopupMenu popup = new android.widget.PopupMenu(requireActivity(), v);
+            for (int i = 0; i < labels.length; i++) {
+                popup.getMenu().add(0, i, i, labels[i]);
+            }
+            popup.setOnMenuItemClickListener(item -> {
+                int idx = item.getItemId();
+                button.setTag(values[idx]);
+                button.setText(labels[idx]);
+                return true;
+            });
+            popup.show();
+        });
+    }
+
+    private void setPolicyButton(com.google.android.material.button.MaterialButton button, String[] values, String[] labels, String currentValue) {
+        if (currentValue != null) {
+            for (int i = 0; i < values.length; i++) {
+                if (values[i].equals(currentValue)) {
+                    button.setTag(values[i]);
+                    button.setText(labels[i]);
+                    break;
+                }
+            }
+        }
+    }
 
     public interface UpdateCounters {
         void onUpdateNotification(int count);
