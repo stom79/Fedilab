@@ -21,8 +21,8 @@
     <string name="tags">Etiketler</string>
     <string name="save">Kaydet</string>
     <string name="instance">Sunucu</string>
-    <string name="instance_example">Sunucu: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">Şimdi %1$s hesabın aktif</string>
+    <string name="instance_example">Örn: mastodon.social</string>
+    <string name="toast_account_changed" formatted="false">%1$s hesabına geçildi</string>
     <string name="add_account">Hesap ekle</string>
     <string name="clipboard">Mesajın içeriği panoya kopyalandı</string>
     <string name="clipboard_url">Mesajın URL\'si panoya kopyalandı</string>
@@ -1074,4 +1074,6 @@
     <string name="Pronouns">Zamirler</string>
     <string name="qr_code_generator">QR oluşturucu</string>
     <string name="pronouns_support">Zamir desteği</string>
+    <string name="links">Linkler</string>
+    <string name="instance_token">Tokeniniz</string>
 </resources>
