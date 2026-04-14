@@ -668,7 +668,7 @@
     <string name="no_account_in_list">No hi ha comptes per aquesta llista!</string>
     <string name="scheduled">Programat</string>
     <string name="notification_sounds">Sons de notificació</string>
-    <string name="disable_notifications">Deshabilitar les notificacions</string>
+    <string name="disable_notifications">Notificacions habilitades</string>
     <string name="customize_timelines">Personalitzar pissarres</string>
     <string name="pref_contributor">Temes de voluntàries</string>
     <string name="label_shape">Forma</string>
@@ -1172,4 +1172,20 @@
     <string name="unreachable_gap">Algunes imatges ja no estan disponibles al servidor</string>
     <string name="more_from">Més des de %1$s</string>
     <string name="reverse_timeline">Inverteix l\'ordre de lectura de la pissarra</string>
+    <string name="export_following">Exportar la llista següent</string>
+    <string name="notif_quote">ha citat el teu estat</string>
+    <string name="notif_quoted_update">Han editat un missatge citat</string>
+    <string name="notification_filtering_policy">Política de filtre de notificacions</string>
+    <string name="policy_for_not_following">Gent a qui no segueixes</string>
+    <string name="policy_for_not_followers">Gent que et segueix</string>
+    <string name="policy_for_new_accounts">Comptes nous (menys de 30 dies)</string>
+    <string name="policy_for_private_mentions">Mencions privades no demanades</string>
+    <string name="policy_for_limited_accounts">Comptes moderats</string>
+    <string name="policy_accept">Acceptar</string>
+    <string name="policy_filter">Filtre</string>
+    <string name="policy_drop">Deposar</string>
+    <string name="filtered_notifications">Notificacions filtrades</string>
+    <string name="no_notification_requests">No hi ha notificacions filtrades</string>
+    <string name="notification_requests_count">%s notificacions</string>
+    <string name="view_filtered_notifications">Visionar notificacions filtrades</string>
 </resources>
