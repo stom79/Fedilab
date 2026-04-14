@@ -1,0 +1,19 @@
+Afegit
+- Exportar llista que segueix com CSV
+- Suport a política de filtre de notifications
+- IU de notificacions filtrades (peticions de notificacions) 
+- Alerta única de "Mantenir obert Android" en iniciar
+- Gestió de mèdia sensibles i icones d'alt-text en brams citats
+
+Reparat
+- Salts del ròdol de la pissarra amb l'autorescat de brams extraviats
+- Salts del cursor al primer bram en compondre enfilalls
+- enfilall +/- botó no s'actualitzava a l'enganxar
+- Orientació d'imatge que no s'aplicava quan la compressió estava deshabilitada
+- Compartir/descarregar GIF i vídeo
+- Gestió de marcadors expirats
+- Detecció de manca d'espai de seguretat quan no hi ha Captar més
+- La posició de Captar més i del ròdol en la pissarra inversa
+- Desaparició de notificacions no agrupades en recarregar
+- Alineació de mida de pàgina de 16KB per Google Play
+- Altres fallides
