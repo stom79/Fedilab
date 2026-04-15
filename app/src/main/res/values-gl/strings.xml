@@ -636,7 +636,7 @@
     <string name="replace_reddit_host">Dominio da interface para Reddit</string>
     <string name="type_of_notifications">Tipo de notificacións</string>
     <string name="type_of_notifications_title">Elixe o tipo de notificacións</string>
-    <string name="disable_notifications">Desactivar notificacións</string>
+    <string name="disable_notifications">Notificacións activadas</string>
     <string name="bottom_menu">Menú inferior</string>
     <string name="last_active">Última actividade</string>
     <string name="customize_timelines">Personalizar cronoloxías</string>
@@ -1170,4 +1170,20 @@
     <string name="unreachable_gap">Algunhas mensaxes xa non están dispoñibles no servidor</string>
     <string name="more_from">Máis desde %1$s</string>
     <string name="reverse_timeline">Inverter a orde de lectura da cronoloxía</string>
+    <string name="export_following">Exportar lista de seguimentos</string>
+    <string name="notif_quote">citou a túa publicación</string>
+    <string name="notif_quoted_update">Editouse unha mensaxe citada</string>
+    <string name="notification_filtering_policy">Directiva para filtrar notificacións</string>
+    <string name="policy_for_not_following">Persoas que non segues</string>
+    <string name="policy_for_not_followers">Persoas que non te seguen</string>
+    <string name="policy_for_new_accounts">Contas recentes (menos de 30 días)</string>
+    <string name="policy_for_private_mentions">Mencións privadas non solicitadas</string>
+    <string name="policy_for_limited_accounts">Contas moderadas</string>
+    <string name="policy_accept">Aceptar</string>
+    <string name="policy_filter">Filtrar</string>
+    <string name="policy_drop">Desbotar</string>
+    <string name="filtered_notifications">Notificacións filtradas</string>
+    <string name="no_notification_requests">Notificacións sen filtrar</string>
+    <string name="notification_requests_count">%s notificacións</string>
+    <string name="view_filtered_notifications">Ver notificacións filtradas</string>
 </resources>
