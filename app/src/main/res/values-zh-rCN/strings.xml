@@ -582,7 +582,7 @@
     <string name="api_key">翻译器 API 密钥</string>
     <string name="set_extand_extra_features">通过启用该选项，该应用将显示额外的功能。此功能适用于 Pleroma、Akkoma 或 Glitch Social 等社交软件</string>
     <string name="notification_sounds">通知声音</string>
-    <string name="disable_notifications">禁用通知</string>
+    <string name="disable_notifications">启用了通知</string>
     <string name="pref_theme_base_summary">选择主题的底色是深色还是浅色</string>
     <string name="message_has_been_sent">消息已发送！</string>
     <string name="set_display_translate_indication">始终显示翻译按钮</string>
@@ -1171,4 +1171,20 @@
     <string name="unreachable_gap">无法再从服务器获得一些消息</string>
     <string name="more_from">来自 %1$s 的更多内容</string>
     <string name="reverse_timeline">颠倒时间线阅读顺序</string>
+    <string name="export_following">导出关注列表</string>
+    <string name="notif_quote">引用了你的状态</string>
+    <string name="notif_quoted_update">编辑了一则引用的嘟文</string>
+    <string name="notification_filtering_policy">通知筛选策略</string>
+    <string name="policy_for_not_following">不关注你的人</string>
+    <string name="policy_for_not_followers">不关注你的人</string>
+    <string name="policy_for_new_accounts">新账户（不到 30 天）</string>
+    <string name="policy_for_private_mentions">未经请求的私下提及</string>
+    <string name="policy_for_limited_accounts">受限账户</string>
+    <string name="policy_accept">接受</string>
+    <string name="policy_filter">筛选</string>
+    <string name="policy_drop">丢弃</string>
+    <string name="filtered_notifications">已筛选的通知</string>
+    <string name="no_notification_requests">没有筛选掉的通知</string>
+    <string name="notification_requests_count">%s 则通知</string>
+    <string name="view_filtered_notifications">查看筛选掉的通知</string>
 </resources>
