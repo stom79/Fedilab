@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.38.1",
+    "code": "554",
+    "note": "Fixed\n- Fix background home fetch leaving gaps in cached timeline\n- Fix scroll position lost when returning to scheduled/draft lists\n- Fix crash on posts with deeply nested HTML tags from Misskey MFM content\n- Fix scheduled boosts silently failing on network/server errors\n- Fix crash with foreground service timeout on Android 14+\n- Fix crash when translate dialog has unknown language codes\n- Fix media share falling back to Glide when DownloadManager fails\n"
+  },
+  {
     "version": "3.38.0",
     "code": "553",
     "note": "Added\n- Export following list as CSV\n- Notification filtering policy support\n- Filtered notifications (notification requests) UI\n- One-time \"Keep Android Open\" alert at startup\n- Handle sensitive media and alt-text icon in quoted posts\n\nFixed\n- Fix timeline scroll jumps when auto-fetching missing posts\n- Fix cursor jumping to first post when composing threads\n- Fix thread +/- button not updating on paste\n- Fix image orientation not applied when compression is disabled\n- Fix GIF and video download/share\n- Fix marker handling when expired\n- Fix fallback gap detection when fetchMore is missing\n- Fix fetch more and scroll position in reverse timeline\n- Fix ungrouped notifications vanishing on reload\n- Fix 16KB page size alignment for Google Play\n- Fix some crashes"

@@ -1,0 +1,8 @@
+Fixed
+- Fix background home fetch leaving gaps in cached timeline
+- Fix scroll position lost when returning to scheduled/draft lists
+- Fix crash on posts with deeply nested HTML tags from Misskey MFM content
+- Fix scheduled boosts silently failing on network/server errors
+- Fix crash with foreground service timeout on Android 14+
+- Fix crash when translate dialog has unknown language codes
+- Fix media share falling back to Glide when DownloadManager fails
