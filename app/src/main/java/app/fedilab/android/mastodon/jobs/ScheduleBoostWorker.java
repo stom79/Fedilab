@@ -139,26 +139,30 @@ public class ScheduleBoostWorker extends Worker {
         String token = getInputData().getString(Helper.ARG_TOKEN);
         String statusId = getInputData().getString(Helper.ARG_STATUS_ID);
         String userID = getInputData().getString(Helper.ARG_USER_ID);
-        Data outputData = new Data.Builder().putString("WORK_RESULT", getApplicationContext().getString(R.string.toast_error)).build();
-        if (instance != null) {
-            MastodonStatusesService mastodonStatusesService = init(instance);
-            Call<Status> statusCall = mastodonStatusesService.reblog(token, statusId, null);
-            if (statusCall != null) {
+        if (instance == null || token == null || statusId == null) {
+            return Result.failure();
+        }
+        MastodonStatusesService mastodonStatusesService = init(instance);
+        Call<Status> statusCall = mastodonStatusesService.reblog(token, statusId, null);
+        if (statusCall == null) {
+            return Result.retry();
+        }
+        try {
+            Response<Status> statusResponse = statusCall.execute();
+            if (statusResponse.isSuccessful()) {
                 try {
-                    Response<Status> statusResponse = statusCall.execute();
-                    if (statusResponse.isSuccessful()) {
-                        try {
-                            new ScheduledBoost(getApplicationContext()).removeScheduled(instance, userID, statusId);
-                            outputData = new Data.Builder().putString("WORK_RESULT", getApplicationContext().getString(R.string.notif_reblog)).build();
-                        } catch (DBException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } catch (IOException e) {
+                    new ScheduledBoost(getApplicationContext()).removeScheduled(instance, userID, statusId);
+                } catch (DBException e) {
                     e.printStackTrace();
                 }
+                Data outputData = new Data.Builder().putString("WORK_RESULT", getApplicationContext().getString(R.string.notif_reblog)).build();
+                return Result.success(outputData);
+            } else {
+                return Result.retry();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Result.retry();
         }
-        return Result.success(outputData);
     }
 }
