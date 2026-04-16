@@ -1,0 +1,20 @@
+Nuevo:
+- Permite seguir las timelines de descubrimiento de instancias de Pixelfed
+- Mantiene las proporciones de los medios en timelines de Pixelfed
+- Añade un botón de "me gusta" para timelines de Pixelfed
+- Permite iniciar sesión con un token
+
+Cambios:
+- Usa el diseño de Pixelfed cuando se siguen instancias de Pixelfed
+- Permite hacer scroll en botones para pantallas grandes en conversaciones
+- Mover códigos QR al encabezado
+
+Arreglado:
+- URLs no clicables cuando Markdown está activado
+- Nitter para seguir cuentas de Twitter
+- Pixelfed timeline no mostrada por defecto
+- Arreglados reportes de administrador inaccesibles
+- Color de la barra superior al hacer scroll
+- Borradores no guardados cuando se añade/edita descripciones de media
+- Sugerencias de búsqueda de usuarios con duplicados
+- Algunos cambios menores
