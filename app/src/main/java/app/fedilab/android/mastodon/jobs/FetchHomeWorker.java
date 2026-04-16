@@ -180,13 +180,28 @@ public class FetchHomeWorker extends Worker {
             int max_calls = 10;
             int status_per_page = 40;
             int insertValue;
-            //Browse last 400 home messages
             boolean canContinue = true;
             int call = 0;
-            String max_id = null;
             MastodonTimelinesService mastodonTimelinesService = init(account.instance);
+
+            // Paginate upward from last cached post (min_id) so interrupted fetches
+            // only leave a gap at the top. Fall back to max_id if cache is empty.
+            String newestCachedId = null;
+            try {
+                newestCachedId = new StatusCache(getApplicationContext()).getNewestHomeStatusId(account);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            String max_id = null;
+            String min_id = newestCachedId;
+
             while (canContinue && call < max_calls) {
-                Call<List<Status>> homeCall = mastodonTimelinesService.getHome(account.token, max_id, null, null, status_per_page, null);
+                Call<List<Status>> homeCall;
+                if (min_id != null) {
+                    homeCall = mastodonTimelinesService.getHome(account.token, null, null, min_id, status_per_page, null);
+                } else {
+                    homeCall = mastodonTimelinesService.getHome(account.token, max_id, null, null, status_per_page, null);
+                }
                 if (homeCall != null) {
                     Response<List<Status>> homeResponse = homeCall.execute();
                     if (homeResponse.isSuccessful()) {
@@ -213,11 +228,16 @@ public class FetchHomeWorker extends Worker {
                                 }
                             }
 
-                            Pagination pagination = MastodonHelper.getPagination(homeResponse.headers());
-                            if (pagination.max_id != null) {
-                                max_id = pagination.max_id;
+                            if (min_id != null) {
+                                // Forward pagination: newest status in batch becomes next min_id
+                                min_id = statusList.get(0).id;
                             } else {
-                                canContinue = false;
+                                Pagination pagination = MastodonHelper.getPagination(homeResponse.headers());
+                                if (pagination.max_id != null) {
+                                    max_id = pagination.max_id;
+                                } else {
+                                    canContinue = false;
+                                }
                             }
                         } else {
                             canContinue = false;

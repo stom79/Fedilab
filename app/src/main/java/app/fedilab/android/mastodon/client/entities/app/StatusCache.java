@@ -252,6 +252,39 @@ public class StatusCache {
         }
     }
 
+    /**
+     * Get the newest status ID in the home cache for the given account
+     *
+     * @param baseAccount {@link BaseAccount}
+     * @return String - newest status_id or null if cache is empty
+     * @throws DBException Exception
+     */
+    public String getNewestHomeStatusId(BaseAccount baseAccount) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        String selection = Sqlite.COL_INSTANCE + "='" + baseAccount.instance
+                + "' AND " + Sqlite.COL_USER_ID + "= '" + baseAccount.user_id
+                + "' AND " + Sqlite.COL_SLUG + "= '" + Timeline.TimeLineEnum.HOME.getValue() + "' ";
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE,
+                    new String[]{Sqlite.COL_STATUS_ID},
+                    selection, null, null, null,
+                    Sqlite.COL_STATUS_ID + " + 0 DESC", "1");
+            if (c != null && c.moveToFirst()) {
+                String statusId = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUS_ID));
+                c.close();
+                return statusId;
+            }
+            if (c != null) {
+                c.close();
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /**
      * count messages for other timelines
