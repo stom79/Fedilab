@@ -194,10 +194,21 @@ public class SpannableHelper {
         }
         SpannableString initialContent;
         if (convertHtml) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
-            else
-                initialContent = new SpannableString(Html.fromHtml(text));
+            // Strip excessive tag nesting (e.g. MFM content converted to deeply nested HTML)
+            Matcher tagCounter = Pattern.compile("<[^>]+>").matcher(text);
+            int tagCount = 0;
+            while (tagCounter.find()) tagCount++;
+            if (tagCount > 50) {
+                text = text.replaceAll("<(?!/?(a\\b|br\\b|p\\b|span\\b|blockquote\\b))[^>]*>", "");
+            }
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+                else
+                    initialContent = new SpannableString(Html.fromHtml(text));
+            } catch (Throwable e) {
+                initialContent = new SpannableString(text.replaceAll("<[^>]*>", ""));
+            }
         } else {
             initialContent = new SpannableString(text);
         }
