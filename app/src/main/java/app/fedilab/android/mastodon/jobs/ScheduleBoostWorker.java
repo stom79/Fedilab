@@ -133,7 +133,9 @@ public class ScheduleBoostWorker extends Worker {
     @Override
     public Result doWork() {
 
-        setForegroundAsync(createForegroundInfo());
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            setForegroundAsync(createForegroundInfo());
+        }
 
         String instance = getInputData().getString(Helper.ARG_INSTANCE);
         String token = getInputData().getString(Helper.ARG_TOKEN);

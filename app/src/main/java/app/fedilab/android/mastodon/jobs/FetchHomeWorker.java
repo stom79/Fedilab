@@ -144,7 +144,9 @@ public class FetchHomeWorker extends Worker {
     @Override
     public Result doWork() {
 
-        setForegroundAsync(createForegroundInfo());
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            setForegroundAsync(createForegroundInfo());
+        }
 
         String instance = getInputData().getString(Helper.ARG_INSTANCE);
         String userId = getInputData().getString(Helper.ARG_USER_ID);

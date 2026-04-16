@@ -114,7 +114,9 @@ public class NotificationsWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        setForegroundAsync(createForegroundInfo());
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            setForegroundAsync(createForegroundInfo());
+        }
         try {
             List<BaseAccount> accounts = new Account(getApplicationContext()).getCrossAccounts();
             for (BaseAccount account : accounts) {
