@@ -79,6 +79,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
     private ArrayList<Attachment> attachments;
     private int mediaPosition;
     private long downloadID;
+    private String shareUrl;
 
     private final BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
         @Override
@@ -98,6 +99,10 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                } else if (shareUrl != null) {
+                    // DownloadManager failed, fall back to Glide
+                    MediaHelper.manageMove(MediaActivity.this, shareUrl, true);
+                    shareUrl = null;
                 } else {
                     Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
                 }
@@ -409,6 +414,7 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
     public void shareMedia() {
         int position = binding.mediaViewpager.getCurrentItem();
         Attachment attachment = attachments.get(position);
+        shareUrl = attachment.url;
         if (attachment.type.compareTo("image") == 0) {
             MediaHelper.manageMove(MediaActivity.this, attachment.url, true);
         } else if (attachment.type.equalsIgnoreCase("video") || attachment.type.equalsIgnoreCase("audio") || attachment.type.equalsIgnoreCase("gifv")) {
