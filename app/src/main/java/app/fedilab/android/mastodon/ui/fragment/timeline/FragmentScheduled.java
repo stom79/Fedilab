@@ -48,6 +48,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
 
     private FragmentScheduledBinding binding;
     private Timeline.TimeLineEnum type;
+    private boolean initialLoadDone = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +62,10 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
     @Override
     public void onResume() {
         super.onResume();
+        if (!initialLoadDone) {
+            initialLoadDone = true;
+            return;
+        }
         if (type == Timeline.TimeLineEnum.SCHEDULED_TOOT_SERVER) {
             displayScheduledServer();
         } else if (type == Timeline.TimeLineEnum.SCHEDULED_TOOT_CLIENT) {
@@ -79,6 +84,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
             displayScheduledMisskey();
             return;
         }
+        int savedPosition = saveScrollPosition();
         StatusesVM statusesVM = new ViewModelProvider(requireActivity()).get(StatusesVM.class);
         statusesVM.getScheduledStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, null, MastodonHelper.statusesPerCall(requireActivity()))
                 .observe(requireActivity(), scheduledStatuses -> {
@@ -89,7 +95,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
                         binding.recyclerView.setAdapter(statusScheduledAdapter);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
                         binding.recyclerView.setLayoutManager(linearLayoutManager);
-
+                        restoreScrollPosition(linearLayoutManager, savedPosition);
                     } else {
                         binding.noAction.setVisibility(View.VISIBLE);
                         binding.recyclerView.setVisibility(View.GONE);
@@ -98,6 +104,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
     }
 
     private void displayScheduledMisskey() {
+        int savedPosition = saveScrollPosition();
         MisskeyStatusesVM misskeyStatusesVM = new ViewModelProvider(requireActivity()).get(MisskeyStatusesVM.class);
         misskeyStatusesVM.getScheduledNotes(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, MastodonHelper.statusesPerCall(requireActivity()), 0)
                 .observe(requireActivity(), scheduledStatuses -> {
@@ -108,6 +115,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
                         binding.recyclerView.setAdapter(statusScheduledAdapter);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
                         binding.recyclerView.setLayoutManager(linearLayoutManager);
+                        restoreScrollPosition(linearLayoutManager, savedPosition);
                     } else {
                         binding.noAction.setVisibility(View.VISIBLE);
                         binding.recyclerView.setVisibility(View.GONE);
@@ -116,6 +124,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
     }
 
     private void displayScheduledDevice() {
+        int savedPosition = saveScrollPosition();
         new Thread(() -> {
             try {
                 List<StatusDraft> scheduledDrafts = new StatusDraft(requireActivity()).geStatusDraftScheduledList(Helper.getCurrentAccount(requireActivity()));
@@ -128,7 +137,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
                         binding.recyclerView.setAdapter(statusScheduledAdapter);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
                         binding.recyclerView.setLayoutManager(linearLayoutManager);
-
+                        restoreScrollPosition(linearLayoutManager, savedPosition);
                     } else {
                         binding.noAction.setVisibility(View.VISIBLE);
                         binding.recyclerView.setVisibility(View.GONE);
@@ -141,7 +150,8 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
         }).start();
     }
 
-    private void displayScheduledBoost(){
+    private void displayScheduledBoost() {
+        int savedPosition = saveScrollPosition();
         new Thread(() -> {
             try {
                 List<ScheduledBoost> scheduledBoosts = new ScheduledBoost(requireActivity()).getScheduled(Helper.getCurrentAccount(requireActivity()));
@@ -154,7 +164,7 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
                         binding.recyclerView.setAdapter(statusScheduledAdapter);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
                         binding.recyclerView.setLayoutManager(linearLayoutManager);
-
+                        restoreScrollPosition(linearLayoutManager, savedPosition);
                     } else {
                         binding.noAction.setVisibility(View.VISIBLE);
                         binding.noActionText.setText(R.string.no_scheduled_boosts);
@@ -178,6 +188,19 @@ public class FragmentScheduled extends Fragment implements StatusScheduledAdapte
             displayScheduledDevice();
         } else if (type == Timeline.TimeLineEnum.SCHEDULED_BOOST) {
             displayScheduledBoost();
+        }
+    }
+
+    private int saveScrollPosition() {
+        if (binding.recyclerView.getLayoutManager() instanceof LinearLayoutManager lm) {
+            return lm.findFirstVisibleItemPosition();
+        }
+        return 0;
+    }
+
+    private void restoreScrollPosition(LinearLayoutManager layoutManager, int position) {
+        if (position > 0) {
+            layoutManager.scrollToPosition(position);
         }
     }
 
