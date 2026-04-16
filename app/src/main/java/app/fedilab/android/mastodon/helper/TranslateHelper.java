@@ -136,6 +136,7 @@ public class TranslateHelper {
             }
             for (String val : translates) {
                 codesArr[j] = val;
+                languagesArr[j] = val;
                 for (Languages.Language language : languages) {
                     if (language.code.trim().equalsIgnoreCase(val.trim())) {
                         languagesArr[j] = language.language;
