@@ -1154,4 +1154,9 @@
     <string name="set_profile_image_shape">Forma de la imagen de perfil</string>
     <string name="highlight_new_comments">Destacar comentarios nuevos en los hilos</string>
     <string name="set_mention_booster_indication">Respondiendo a un impulso, la persona que lo impulsa será mencionada en la respuesta</string>
+    <string name="reverse_timeline">Orden de lectura inverso de la timeline</string>
+    <string name="set_mention_booster">Mencionar al impulsor</string>
+    <string name="set_colorize_visibility_indication">El botón de visibilidad y el inferior del área de composición tendrán colores diferentes dependiendo de la visibilidad elegida mientras se compone.</string>
+    <string name="more_from">Más desde %1$s</string>
+    <string name="set_audo_hide_compose_summary">Ocultar automáticamente el botón de componer mientras se hace scroll hacia arriba en una timeline</string>
 </resources>
