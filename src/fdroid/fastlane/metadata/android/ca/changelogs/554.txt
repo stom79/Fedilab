@@ -1,0 +1,8 @@
+Reparacions
+- La recuperació en segon pla de l'inici deixava buits a la pissarra guardada en memòria cau
+- Pèrdua de la posició del ròdol en tornar a les llistes d'esborranys/programacions
+- Fallides en publicacions amb etiquetes HTML molt aniuades de contingut de Misskey MFM
+- Les difusions programades fallaven silenciosament per errors de xarxa/servidor
+- Fallida d'extinció de temps d'espera del servei en primer pla a Android 14+
+- Fallida quan el diàleg de traducció tenia codis d'idioma desconeguts
+- Compartició de mèdia que tornava a Glide quan fallava el DownloadManager
