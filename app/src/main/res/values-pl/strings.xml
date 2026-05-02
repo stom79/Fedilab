@@ -1053,7 +1053,7 @@
     <string name="exit">Wyjście</string>
     <string name="set_single_topbar_title">Pojedynczy pasek</string>
     <string name="set_alt_text_mandatory_description">Jeśli brakuje opisu z mediami, wiadomość nie zostanie wysłana</string>
-    <string name="unassign">Cofnij przypisanie</string>
+    <string name="unassign">Odwołaj przydział</string>
     <string name="push_distributors">Dystrybutor Push</string>
     <string name="set_custom_accent_light_value">Jasny kolor akcentu</string>
     <string name="set_custom_accent_indication">Zdefiniuj kolor motywu dla każdego konta</string>
@@ -1062,10 +1062,10 @@
     <string name="set_custom_accent_value_light_description">Kolor, który zostanie zastosowany do jasnego motywu</string>
     <string name="auto">Automatycznie</string>
     <string name="set_custom_accent">Niestandardowy kolor akcentu</string>
-    <string name="notif_signed_up">Zarejestrowany</string>
+    <string name="notif_signed_up">Zalogowany</string>
     <string name="load_media_remotely">Ładuj media zdalnie</string>
     <string name="set_remote_conversation_title">Zdalne konwersacje</string>
-    <string name="self">Własne</string>
+    <string name="self">Samo</string>
     <string name="set_remote_conversation">Aplikacja wyświetli publicznie konwersacje, aby uzyskać wszystkie wiadomości. Interakcje będą wymagały dodatkowego kroku w celu federacji wiadomości.</string>
     <string name="show_self_replies">Pokaż odpowiedzi do własnych postów</string>
     <string name="show_self_boosts">Pokaż podbicia własnych postów</string>
