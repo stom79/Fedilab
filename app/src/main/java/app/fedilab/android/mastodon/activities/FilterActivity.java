@@ -64,6 +64,10 @@ public class FilterActivity extends BaseBarActivity implements FilterAdapter.Del
      * @param listener - {@link FilterAdapter.FilterAction}
      */
     public static void addEditFilter(Context context, Filter filter, FilterAdapter.FilterAction listener) {
+        addEditFilter(context, filter, listener, null);
+    }
+
+    public static void addEditFilter(Context context, Filter filter, FilterAdapter.FilterAction listener, Runnable onDismiss) {
         AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context);
         PopupAddFilterBinding popupAddFilterBinding = PopupAddFilterBinding.inflate(LayoutInflater.from(context));
         FiltersVM filtersVM = new ViewModelProvider((ViewModelStoreOwner) context).get(FiltersVM.class);
@@ -240,12 +244,14 @@ public class FilterActivity extends BaseBarActivity implements FilterAdapter.Del
             //Hide keyboard
             InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(popupAddFilterBinding.addTitle.getWindowToken(), 0);
+            if (onDismiss != null) {
+                onDismiss.run();
+            }
         });
         if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         }
         alertDialog.show();
-
     }
 
     @Override
