@@ -510,6 +510,7 @@
     <string name="set_sensitive_content">Always mark media as sensitive</string>
     <string name="gnu_instance">GNU instance</string>
     <string name="set_forward_tags">Forward tags in replies</string>
+    <string name="set_prefix_cw_reply">Prefix content warning with \"re: \" in replies</string>
     <string name="set_long_press_media">Long press to store media</string>
     <string name="add_tags">Manage tags</string>
     <string name="display_name">Display name</string>
@@ -1090,6 +1091,7 @@
     <string name="SET_PICTURE_COMPRESSED" translatable="false">SET_PICTURE_COMPRESSED</string>
     <string name="SET_VIDEO_COMPRESSED" translatable="false">SET_VIDEO_COMPRESSED</string>
     <string name="SET_FORWARD_TAGS_IN_REPLY" translatable="false">SET_FORWARD_TAGS_IN_REPLY</string>
+    <string name="SET_PREFIX_CW_REPLY" translatable="false">SET_PREFIX_CW_REPLY</string>
     <string name="SET_NOTIF_SOUND" translatable="false">SET_NOTIF_SOUND</string>
     <string name="SET_ENABLE_TIME_SLOT" translatable="false">SET_ENABLE_TIME_SLOT</string>
     <string name="SET_CLEAR_CACHE_EXIT" translatable="false">SET_CLEAR_CACHE_EXIT</string>
@@ -2411,6 +2413,7 @@
     <string name="kw_share_metadata">share, metadata, url, attach</string>
     <string name="kw_custom_sharing">custom, sharing, url</string>
     <string name="kw_forward_tags">forward, tags, hashtags, reply</string>
+    <string name="kw_prefix_cw_reply">content warning, cw, re, reply, prefix, spoiler</string>
     <!-- Notifications -->
     <string name="kw_notification_type">push, pull, notification, real time</string>
     <string name="kw_notification_delay">notification, delay, frequency, polling</string>

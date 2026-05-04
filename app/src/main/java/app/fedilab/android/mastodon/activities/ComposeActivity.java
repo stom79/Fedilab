@@ -704,10 +704,15 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         }
                     }
                     if (statusReply.spoiler_text != null) {
-                        statusDraftList.get(0).spoiler_text = statusReply.spoiler_text;
-                        if (!statusReply.spoiler_text.trim().isEmpty()) {
+                        String spoilerText = statusReply.spoiler_text;
+                        if (!spoilerText.trim().isEmpty()) {
+                            boolean prefixCw = sharedpreferences.getBoolean(getString(R.string.SET_PREFIX_CW_REPLY), true);
+                            if (prefixCw && !spoilerText.trim().matches("(?i)^re:\\s.*")) {
+                                spoilerText = "re: " + spoilerText;
+                            }
                             statusDraftList.get(0).spoilerChecked = true;
                         }
+                        statusDraftList.get(0).spoiler_text = spoilerText;
                     }
                     if (statusReply.language != null && !statusReply.language.isEmpty()) {
                         Set<String> storedLanguages = sharedpreferences.getStringSet(getString(R.string.SET_SELECTED_LANGUAGE), null);
