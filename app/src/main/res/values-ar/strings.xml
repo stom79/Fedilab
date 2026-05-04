@@ -617,7 +617,7 @@
     <string name="data_export_settings_success">تم تصدير الإعدادات بنجاح</string>
     <string name="data_import_settings_success">تم استيراد الإعدادات بنجاح</string>
     <string name="followers_only">المتابِعون فقط</string>
-    <string name="show_content">إظهار المحتوى &gt;</string>
+    <string name="show_content"><![CDATA[إظهار المحتوى &gt;]]></string>
     <string name="stop_recording">إيقاف التسجيل</string>
     <string name="replace_instagram_host">نطاق الواجهة الأمامية لـ Instagram</string>
     <string name="toots_visibility_title">مدى رؤية الرسائل بشكل افتراضي:</string>
