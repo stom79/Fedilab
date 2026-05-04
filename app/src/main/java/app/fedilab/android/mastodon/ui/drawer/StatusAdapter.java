@@ -2279,7 +2279,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         });
         holder.binding.quoteInfo.setOnClickListener(v->{
-            if (statusToDeal.quotes_count > 0 && statusToDeal.account.id.compareTo(BaseMainActivity.currentUserID) == 0) {
+            if (statusToDeal.quotes_count > 0) {
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.QUOTE_TIMELINE);
                 args.putSerializable(Helper.ARG_STATUS_ID, statusToDeal.id);
