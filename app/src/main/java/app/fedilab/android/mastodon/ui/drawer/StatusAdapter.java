@@ -770,7 +770,24 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         context.startActivity(intent);
                     });
                 } else {
-                    Helper.openBrowser(context,statusToDeal.getQuote().url);
+                    Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                    searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.getQuote().url, null, "statuses", false, true, false, 0, null, null, 1)
+                            .observe((LifecycleOwner) context, results -> {
+                                if (results != null && results.statuses != null && !results.statuses.isEmpty()) {
+                                    Status fetchedStatus = results.statuses.get(0);
+                                    Intent intent = new Intent(context, ContextActivity.class);
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(Helper.ARG_STATUS, fetchedStatus);
+                                    new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                        intent.putExtras(bundle);
+                                        context.startActivity(intent);
+                                    });
+                                } else {
+                                    Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                }
+                            });
                 }
             });
             holder.binding.quotedMessage.cardviewContainer.setStrokeColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
@@ -789,6 +806,40 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 new WeakReference<>(holder.binding.quotedMessage.displayName)),
                         TextView.BufferType.SPANNABLE);
                 holder.binding.quotedMessage.username.setText(String.format("@%s", statusToDeal.getQuote().account.acct));
+                View.OnClickListener quoteAccountClickListener = v -> {
+                    if (remote) {
+                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                        searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.getQuote().url, null, "statuses", false, true, false, 0, null, null, 1)
+                                .observe((LifecycleOwner) context, results -> {
+                                    if (results != null && results.statuses != null && !results.statuses.isEmpty()) {
+                                        Status fetchedStatus = results.statuses.get(0);
+                                        Intent intent = new Intent(context, ProfileActivity.class);
+                                        Bundle args = new Bundle();
+                                        args.putSerializable(Helper.ARG_ACCOUNT, fetchedStatus.account);
+                                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                                            Bundle bundle = new Bundle();
+                                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                            intent.putExtras(bundle);
+                                            context.startActivity(intent);
+                                        });
+                                    } else {
+                                        Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        Bundle args = new Bundle();
+                        args.putSerializable(Helper.ARG_ACCOUNT, statusToDeal.getQuote().account);
+                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        });
+                    }
+                };
+                holder.binding.quotedMessage.avatar.setOnClickListener(quoteAccountClickListener);
+                holder.binding.quotedMessage.displayName.setOnClickListener(quoteAccountClickListener);
             }
 
             if (statusToDeal.getQuote().spoiler_text != null && !statusToDeal.getQuote().spoiler_text.trim().isEmpty()) {
