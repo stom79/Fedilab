@@ -214,7 +214,7 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return true;
         });
         PinnedTimeline item = pinned.pinnedTimelines.get(position);
-        if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
+        if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE) {
             holder.binding.delete.setVisibility(View.VISIBLE);
             holder.binding.delete.setOnClickListener(v -> {
                 int adapterPosition = holder.getBindingAdapterPosition();
@@ -248,28 +248,12 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void onDeletePressed(PinnedTimeline item, int position) {
-        if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE || item.type == Timeline.TimeLineEnum.LIST) {
+        if (item.type == Timeline.TimeLineEnum.TAG || item.type == Timeline.TimeLineEnum.REMOTE) {
             AlertDialog.Builder alt_bld = new MaterialAlertDialogBuilder(context);
-            String title = "";
-            String message = "";
-            alt_bld.setTitle(R.string.action_lists_delete);
-            alt_bld.setMessage(R.string.action_lists_confirm_delete);
-            switch (item.type) {
-                case TAG:
-                case REMOTE:
-                    title = context.getString(R.string.action_pinned_delete);
-                    message = context.getString(R.string.unpin_timeline_description);
-                    break;
-                case LIST:
-                    title = context.getString(R.string.action_lists_delete);
-                    message = context.getString(R.string.action_lists_confirm_delete);
-                    break;
-            }
-            alt_bld.setTitle(title);
-            alt_bld.setMessage(message);
+            alt_bld.setTitle(R.string.action_pinned_delete);
+            alt_bld.setMessage(R.string.unpin_timeline_description);
 
             alt_bld.setPositiveButton(R.string.delete, (dialog, id) -> {
-                //change position of pinned that are after the removed item
                 if (position < pinned.pinnedTimelines.size()) {
                     for (int i = item.position + 1; i < pinned.pinnedTimelines.size(); i++) {
                         pinned.pinnedTimelines.get(i).position -= 1;
@@ -283,16 +267,8 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         e.printStackTrace();
                     }
                 }
-
-                if (item.type == Timeline.TimeLineEnum.LIST) {
-                    TimelinesVM timelinesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(TimelinesVM.class);
-                    timelinesVM.deleteList(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, item.mastodonList.id);
-                }
-
-
                 ((ReorderTimelinesActivity) context).setChanges(true);
                 dialog.dismiss();
-
             });
             alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
             AlertDialog alert = alt_bld.create();
