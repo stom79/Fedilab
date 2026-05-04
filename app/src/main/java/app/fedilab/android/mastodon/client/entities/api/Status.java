@@ -186,6 +186,7 @@ public class Status implements Serializable, Cloneable {
     public transient List<Status> pinnedList;
     public transient int pinnedIndex = 0;
     public transient boolean setCursorToEnd = false;
+    public transient boolean mentionNewlineAdded = false;
     public transient int cursorPosition = 0;
     public transient boolean submitted = false;
 

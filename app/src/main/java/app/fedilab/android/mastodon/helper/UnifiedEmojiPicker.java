@@ -54,6 +54,9 @@ public class UnifiedEmojiPicker {
                             @Nullable OnUnicodeEmojiSelected unicodeCallback,
                             @Nullable OnCustomEmojiSelected customCallback) {
 
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
         boolean hasCustomEmojis = customEmojis != null && !customEmojis.isEmpty();
 
         BottomSheetDialog bottomSheet = new BottomSheetDialog(context);
@@ -84,8 +87,8 @@ public class UnifiedEmojiPicker {
                 } else {
                     binding.searchLayout.setVisibility(View.VISIBLE);
                     binding.searchEmoji.requestFocus();
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(binding.searchEmoji, InputMethodManager.SHOW_IMPLICIT);
+                    InputMethodManager imm2 = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm2.showSoftInput(binding.searchEmoji, InputMethodManager.SHOW_IMPLICIT);
                 }
             });
 
@@ -146,9 +149,11 @@ public class UnifiedEmojiPicker {
             binding.emojiPickerView.setVisibility(View.VISIBLE);
         }
 
-        bottomSheet.show();
-        bottomSheet.getBehavior().setState(BottomSheetBehavior.STATE_EXPANDED);
-        bottomSheet.getBehavior().setDraggable(false);
+        rootView.postDelayed(() -> {
+            bottomSheet.show();
+            bottomSheet.getBehavior().setState(BottomSheetBehavior.STATE_EXPANDED);
+            bottomSheet.getBehavior().setDraggable(false);
+        }, 150);
     }
 
     private static void setupCustomEmojiGrid(LayoutUnifiedEmojiPickerBinding binding,

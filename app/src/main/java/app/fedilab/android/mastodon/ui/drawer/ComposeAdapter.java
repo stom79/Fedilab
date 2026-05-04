@@ -382,11 +382,16 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     statusDraft.text = String.format("%s ", (statusDraft.text + tootTemp.trim()));
                 }
             }
+            if (mentionsAtTop && capitalize && !statusDraft.text.endsWith("\n")) {
+                statusDraft.mentionNewlineAdded = true;
+                statusDraft.text += "\n";
+            }
+            statusDraft.cursorPosition = statusDraft.text.length();
             holder.binding.content.setText(statusDraft.text);
             updateCharacterCount(holder);
             holder.binding.content.requestFocus();
             holder.binding.content.post(() -> {
-                holder.binding.content.setSelection(statusDraft.cursorPosition); //Put cursor at the end
+                holder.binding.content.setSelection(statusDraft.cursorPosition);
                 buttonVisibility(holder);
             });
         } else if (mentionedAccount != null && statusDraft.text == null) {
@@ -1847,18 +1852,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     currentCursorPosition = holder.getLayoutPosition();
                 }
             });
-            boolean capitalize = sharedpreferences.getBoolean(context.getString(R.string.SET_CAPITALIZE), true);
-            boolean mentionsAtTop = sharedpreferences.getBoolean(context.getString(R.string.SET_MENTIONS_AT_TOP), false);
             if (statusDraft.cursorPosition <= holder.binding.content.length()) {
-                if (!mentionsAtTop) {
-                    holder.binding.content.setSelection(statusDraft.cursorPosition);
-                } else {
-                    if (capitalize && statusDraft.text != null && !statusDraft.text.endsWith("\n")) {
-                        statusDraft.text += "\n";
-                        holder.binding.content.setText(statusDraft.text);
-                    }
-                    holder.binding.content.setSelection(holder.binding.content.getText().length());
-                }
+                holder.binding.content.setSelection(statusDraft.cursorPosition);
             }
             if (statusDraft.setCursorToEnd) {
                 statusDraft.setCursorToEnd = false;
