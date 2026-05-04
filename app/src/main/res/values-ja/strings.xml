@@ -645,7 +645,7 @@
     <string name="type_of_notifications">通知の種類</string>
     <string name="type_of_notifications_title">通知の種類を選択</string>
     <string name="notification_sounds">通知音</string>
-    <string name="disable_notifications">通知を無効化する</string>
+    <string name="disable_notifications">通知を有効化する</string>
     <string name="notifications_are">この時間帯</string>
     <string name="pref_theme_base_summary">ベースとするテーマをライトかダークから選択してください</string>
     <string name="pref_custom_theme_new_summary">カスタムテーマの作成を許可する</string>
@@ -1173,4 +1173,20 @@
     <string name="unreachable_gap">一部のメッセージがサーバーから除外されました</string>
     <string name="more_from">%1$s をもっと見る</string>
     <string name="reverse_timeline">逆順でタイムラインを読む</string>
+    <string name="export_following">フォロー一覧をエクスポート</string>
+    <string name="notif_quote">ステータスが引用されました</string>
+    <string name="notif_quoted_update">引用された投稿が編集されました</string>
+    <string name="notification_filtering_policy">通知のフィルタリングポリシー</string>
+    <string name="policy_for_not_following">未フォローな方々</string>
+    <string name="policy_for_not_followers">貴方をフォローしていない方々</string>
+    <string name="policy_for_new_accounts">新規アカウント (開設後30日未満)</string>
+    <string name="policy_for_private_mentions">一方的なプライベートメンション</string>
+    <string name="policy_for_limited_accounts">管理されたアカウント</string>
+    <string name="policy_accept">同意する</string>
+    <string name="policy_filter">フィルタ</string>
+    <string name="policy_drop">ドロップ</string>
+    <string name="filtered_notifications">フィルタされた通知</string>
+    <string name="no_notification_requests">フィルタされていない通知</string>
+    <string name="notification_requests_count">%s 件の通知</string>
+    <string name="view_filtered_notifications">フィルタされた通知を表示</string>
 </resources>
