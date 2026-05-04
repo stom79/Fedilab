@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_EXPAND_MEDIA"
+        app:singleLineTitle="false"
+        app:title="@string/expand_image" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_FETCH_REMOTE_MEDIA"
+        app:singleLineTitle="false"
+        app:title="@string/fetch_remote_media" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:summary="@string/set_fit_preview_indication"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_FULL_PREVIEW"
+        app:singleLineTitle="false"
+        app:title="@string/set_fit_preview" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_AUTO_PLAY_GIG_MEDIA"
+        app:singleLineTitle="false"
+        app:title="@string/set_autoplay_gif" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISABLE_GIF"
+        app:singleLineTitle="false"
+        app:title="@string/set_disable_gif" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISABLE_ANIMATED_EMOJI"
+        app:singleLineTitle="false"
+        app:title="@string/set_disable_animated_emoji" />
+
+    <ListPreference
+        android:entries="@array/set_link_previews_entries"
+        android:entryValues="@array/set_link_previews_entry_values"
+        android:title="@string/set_link_previews"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_LINK_PREVIEWS"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        app:defaultValue="ALWAYS"
+        app:dialogTitle="@string/load_media_type_title"
+        app:entries="@array/set_load_media_type_value"
+        app:entryValues="@array/SET_LOAD_MEDIA_TYPE_VALUE"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_LOAD_MEDIA_TYPE"
+        app:title="@string/load_media_type_title"
+        app:useSimpleSummaryProvider="true" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_LONG_PRESS_STORE_MEDIA"
+        app:singleLineTitle="false"
+        app:title="@string/set_long_press_media" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISPLAY_MEDIA_NOTIFICATION"
+        app:singleLineTitle="false"
+        app:summary="@string/display_media_notification_summary"
+        app:title="@string/display_media_notification" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:icon="@drawable/ic_compose_sensitive"
+        app:key="@string/SET_SENSITIVE_INDICATOR"
+        app:singleLineTitle="false"
+        app:summary="@string/set_sensitive_indicator_summary"
+        app:title="@string/set_sensitive_indicator" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:icon="@drawable/ic_outline_note_alt_24"
+        app:key="@string/SET_MEDIA_DESCRIPTION_INDICATOR"
+        app:singleLineTitle="false"
+        app:summary="@string/set_media_description_indicator_summary"
+        app:title="@string/set_media_description_indicator" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_PIXELFED_PRESENTATION"
+        app:singleLineTitle="false"
+        app:title="@string/set_pixelfed_presentation" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_PIXELFED_FULL_MEDIA"
+        app:singleLineTitle="false"
+        app:summary="@string/set_pixelfed_full_media_indication"
+        app:title="@string/set_pixelfed_full_media" />
+
+    <androidx.preference.SeekBarPreference
+        android:defaultValue="100"
+        android:max="1000"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_VIDEO_CACHE"
+        app:showSeekBarValue="true"
+        app:singleLineTitle="false"
+        app:title="@string/set_video_cache" />
+
+    <androidx.preference.SeekBarPreference
+        android:defaultValue="5"
+        android:max="30"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_NSFW_TIMEOUT"
+        app:showSeekBarValue="true"
+        app:singleLineTitle="false"
+        app:title="@string/set_nsfw_timeout" />
+
+    <androidx.preference.SeekBarPreference
+        android:defaultValue="3"
+        android:max="30"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_MED_DESC_TIMEOUT"
+        app:showSeekBarValue="true"
+        app:singleLineTitle="false"
+        app:title="@string/set_med_desc_timeout" />
+
+</androidx.preference.PreferenceScreen>

@@ -17,11 +17,9 @@ package app.fedilab.android.mastodon.ui.fragment.settings;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
-import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreferenceCompat;
 
 import app.fedilab.android.R;
@@ -35,75 +33,18 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.pref_timelines);
-        createPref();
-    }
-
-    private void createPref() {
-
-        getPreferenceScreen().removeAll();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        addPreferencesFromResource(R.xml.pref_timelines);
-        PreferenceScreen preferenceScreen = getPreferenceScreen();
-
-        ListPreference SET_TRANSLATOR = findPreference(getString(R.string.SET_TRANSLATOR));
-
-        ListPreference SET_TRANSLATOR_VERSION = findPreference(getString(R.string.SET_TRANSLATOR_VERSION));
-        //Theme for dialogs
-        if (SET_TRANSLATOR_VERSION != null) {
-            SET_TRANSLATOR_VERSION.getContext().setTheme(Helper.dialogStyle());
-        }
-        if (SET_TRANSLATOR != null) {
-            SET_TRANSLATOR.getContext().setTheme(Helper.dialogStyle());
-        }
-        ListPreference SET_LOAD_MEDIA_TYPE = findPreference(getString(R.string.SET_LOAD_MEDIA_TYPE));
-        if (SET_LOAD_MEDIA_TYPE != null) {
-            SET_LOAD_MEDIA_TYPE.getContext().setTheme(Helper.dialogStyle());
-        }
-        //---------
-        EditTextPreference SET_TRANSLATOR_API_KEY = findPreference(getString(R.string.SET_TRANSLATOR_API_KEY));
-        EditTextPreference SET_TRANSLATOR_DOMAIN = findPreference(getString(R.string.SET_TRANSLATOR_DOMAIN));
-        if (SET_TRANSLATOR != null && !SET_TRANSLATOR.getValue().equals("DEEPL")) {
-            if (SET_TRANSLATOR_API_KEY != null) {
-                preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_API_KEY");
-            }
-            if (SET_TRANSLATOR_VERSION != null) {
-                preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_VERSION");
-            }
-        }
-        if (SET_TRANSLATOR != null && !SET_TRANSLATOR.getValue().equals("LINGVA")) {
-            if (SET_TRANSLATOR_DOMAIN != null) {
-                preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_DOMAIN");
-            }
-        }
-
-        if (SET_TRANSLATOR != null && !SET_TRANSLATOR.getValue().equals("MINT")) {
-            if (SET_TRANSLATOR_DOMAIN != null) {
-                preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_DOMAIN_MINT");
-            }
-        }
-
 
         SwitchPreferenceCompat SET_DISPLAY_BOOKMARK = findPreference(getString(R.string.SET_DISPLAY_BOOKMARK));
         if (SET_DISPLAY_BOOKMARK != null) {
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, true);
             SET_DISPLAY_BOOKMARK.setChecked(checked);
         }
-        ListPreference SET_TRANSLATE_BUTTON = findPreference(getString(R.string.SET_TRANSLATE_BUTTON));
-        if (SET_TRANSLATE_BUTTON != null) {
-            String value = sharedpreferences.getString(getString(R.string.SET_TRANSLATE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, null);
-            SET_TRANSLATE_BUTTON.setValue(value);
-        }
 
         ListPreference SET_QUOTE_BUTTON = findPreference(getString(R.string.SET_QUOTE_BUTTON));
         if (SET_QUOTE_BUTTON != null) {
             String value = sharedpreferences.getString(getString(R.string.SET_QUOTE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, null);
             SET_QUOTE_BUTTON.setValue(value);
-        }
-
-        SwitchPreferenceCompat SET_PIXELFED_PRESENTATION = findPreference(getString(R.string.SET_PIXELFED_PRESENTATION));
-        if (SET_PIXELFED_PRESENTATION != null) {
-            boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, false);
-            SET_PIXELFED_PRESENTATION.setChecked(checked);
         }
         recreate = false;
     }
@@ -113,9 +54,6 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
         if (getActivity() != null) {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
             SharedPreferences.Editor editor = sharedpreferences.edit();
-            if (key.compareToIgnoreCase(getString(R.string.SET_TRANSLATOR)) == 0) {
-                createPref();
-            }
             if (key.compareToIgnoreCase(getString(R.string.SET_TIMELINE_SCROLLBAR)) == 0) {
                 recreate = true;
             }
@@ -128,22 +66,10 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
                     editor.putBoolean(getString(R.string.SET_DISPLAY_BOOKMARK) + MainActivity.currentUserID + MainActivity.currentInstance, SET_DISPLAY_BOOKMARK.isChecked());
                 }
             }
-            if (key.compareToIgnoreCase(getString(R.string.SET_TRANSLATE_BUTTON)) == 0) {
-                ListPreference SET_TRANSLATE_BUTTON = findPreference(getString(R.string.SET_TRANSLATE_BUTTON));
-                if (SET_TRANSLATE_BUTTON != null) {
-                    editor.putString(getString(R.string.SET_TRANSLATE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, SET_TRANSLATE_BUTTON.getValue());
-                }
-            }
             if (key.compareToIgnoreCase(getString(R.string.SET_QUOTE_BUTTON)) == 0) {
                 ListPreference SET_QUOTE_BUTTON = findPreference(getString(R.string.SET_QUOTE_BUTTON));
                 if (SET_QUOTE_BUTTON != null) {
                     editor.putString(getString(R.string.SET_QUOTE_BUTTON) + MainActivity.currentUserID + MainActivity.currentInstance, SET_QUOTE_BUTTON.getValue());
-                }
-            }
-            if (key.compareToIgnoreCase(getString(R.string.SET_PIXELFED_PRESENTATION)) == 0) {
-                SwitchPreferenceCompat SET_PIXELFED_PRESENTATION = findPreference(getString(R.string.SET_PIXELFED_PRESENTATION));
-                if (SET_PIXELFED_PRESENTATION != null) {
-                    editor.putBoolean(getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, SET_PIXELFED_PRESENTATION.isChecked());
                 }
             }
             editor.apply();
@@ -153,7 +79,6 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
     @Override
     public void onResume() {
         super.onResume();
-
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
     }
@@ -169,6 +94,5 @@ public class FragmentTimelinesSettings extends PreferenceFragmentCompat implemen
             Helper.recreateMainActivity(requireActivity());
         }
     }
-
 
 }

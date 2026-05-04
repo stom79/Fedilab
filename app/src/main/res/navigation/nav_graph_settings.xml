@@ -22,6 +22,30 @@
             app:popExitAnim="@anim/pop_exit" />
 
         <action
+            android:id="@+id/categories_to_content"
+            app:destination="@id/FragmentContentSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
+            android:id="@+id/categories_to_media"
+            app:destination="@id/FragmentMediaSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
+            android:id="@+id/categories_to_translation"
+            app:destination="@id/FragmentTranslationSettings"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+
+        <action
             android:id="@+id/categories_to_notifications"
             app:destination="@id/FragmentNotificationsSettings"
             app:enterAnim="@anim/enter"
@@ -52,14 +76,6 @@
             app:exitAnim="@anim/exit"
             app:popEnterAnim="@anim/pop_enter"
             app:popExitAnim="@anim/pop_exit" />
-        <action
-            android:id="@+id/categories_to_pixelfed"
-            app:destination="@id/FragmentPixelfedSettings"
-            app:enterAnim="@anim/enter"
-            app:exitAnim="@anim/exit"
-            app:popEnterAnim="@anim/pop_enter"
-            app:popExitAnim="@anim/pop_exit" />
-
         <action
             android:id="@+id/categories_to_home_cache"
             app:destination="@id/FragmentHomeCacheSettings"
@@ -107,6 +123,21 @@
         android:label="@string/settings_category_label_timelines" />
 
     <fragment
+        android:id="@+id/FragmentContentSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentContentSettings"
+        android:label="@string/settings_category_label_content" />
+
+    <fragment
+        android:id="@+id/FragmentMediaSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentMediaSettings"
+        android:label="@string/settings_category_label_media" />
+
+    <fragment
+        android:id="@+id/FragmentTranslationSettings"
+        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentTranslationSettings"
+        android:label="@string/settings_category_label_translation" />
+
+    <fragment
         android:id="@+id/FragmentNotificationsSettings"
         android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentNotificationsSettings"
         android:label="@string/notifications" />
@@ -125,11 +156,6 @@
         android:id="@+id/FragmentPrivacySettings"
         android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentPrivacySettings"
         android:label="@string/action_privacy" />
-
-    <fragment
-        android:id="@+id/FragmentPixelfedSettings"
-        android:name="app.fedilab.android.mastodon.ui.fragment.settings.FragmentPixelfedSettings"
-        android:label="PixelFed" />
 
     <fragment
         android:id="@+id/FragmentHomeCacheSettings"

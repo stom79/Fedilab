@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
@@ -40,6 +41,29 @@
             app:title="@string/set_remove_battery" />
     </PreferenceCategory>
 
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:key="notification_display"
+        app:title="@string/display">
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_AGGREGATE_NOTIFICATION"
+            app:singleLineTitle="false"
+            app:summary="@string/aggregate_notifications_summary"
+            app:title="@string/aggregate_notifications" />
+
+        <androidx.preference.SeekBarPreference
+            android:defaultValue="30"
+            app:min="10"
+            android:max="30"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIFICATIONS_PER_CALL"
+            app:showSeekBarValue="true"
+            app:title="@string/set_notifications_page" />
+    </PreferenceCategory>
 
     <PreferenceCategory
         app:iconSpaceReserved="false"

@@ -21,6 +21,27 @@
     <Preference
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:title="@string/settings_category_label_content"
+        app:icon="@drawable/ic_baseline_notes_24"
+        app:key="@string/pref_category_key_content" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/settings_category_label_media"
+        app:icon="@drawable/ic_baseline_perm_media_24"
+        app:key="@string/pref_category_key_media" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/settings_category_label_translation"
+        app:icon="@drawable/ic_baseline_translate_24"
+        app:key="@string/pref_category_key_translation" />
+
+    <Preference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:title="@string/notifications"
         app:icon="@drawable/ic_baseline_notifications_24"
         app:key="@string/pref_category_key_notifications" />
@@ -45,13 +66,6 @@
         android:title="@string/action_privacy"
         app:icon="@drawable/ic_shield"
         app:key="@string/pref_category_key_privacy" />
-
-    <Preference
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:title="PixelFed"
-        app:icon="@drawable/pixelfed"
-        app:key="@string/pref_category_key_pixelfed" />
 
     <Preference
         android:layout_width="match_parent"

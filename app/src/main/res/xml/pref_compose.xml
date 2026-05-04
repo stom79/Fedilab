@@ -5,159 +5,175 @@
     android:layout_height="match_parent"
     android:key="app_prefs">
 
-
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
+    <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:key="@string/SET_CAPITALIZE"
-        app:singleLineTitle="false"
-        app:summary="@string/set_capitalize_indication"
-        app:title="@string/set_capitalize" />
+        app:title="@string/text">
 
-    <ListPreference
-        app:defaultValue="ASK"
-        app:dialogTitle="@string/thread_long_message"
-        app:entries="@array/set_thread_message_value"
-        app:entryValues="@array/SET_THREAD_MESSAGE_VALUE"
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_CAPITALIZE"
+            app:singleLineTitle="false"
+            app:summary="@string/set_capitalize_indication"
+            app:title="@string/set_capitalize" />
+
+        <ListPreference
+            app:defaultValue="ASK"
+            app:dialogTitle="@string/thread_long_message"
+            app:entries="@array/set_thread_message_value"
+            app:entryValues="@array/SET_THREAD_MESSAGE_VALUE"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_THREAD_MESSAGE"
+            app:title="@string/thread_long_message"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_MENTIONS_AT_TOP"
+            app:singleLineTitle="false"
+            app:summary="@string/set_mention_at_top_indication"
+            app:title="@string/set_mention_at_top" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_MENTION_BOOSTER"
+            app:singleLineTitle="false"
+            app:summary="@string/set_mention_booster_indication"
+            app:title="@string/set_mention_booster" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_MATHS_COMPOSER"
+            app:singleLineTitle="false"
+            app:title="@string/set_maths_support" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_EMOJI"
+            app:singleLineTitle="false"
+            app:title="@string/set_display_emoji" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:key="@string/SET_THREAD_MESSAGE"
-        app:title="@string/thread_long_message"
-        app:useSimpleSummaryProvider="true" />
+        app:title="@string/media">
 
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_PICTURE_COMPRESSED"
+            app:singleLineTitle="false"
+            app:summary="@string/set_resize_picture_indication"
+            app:title="@string/set_resize_picture" />
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_WATERMARK"
+            app:singleLineTitle="false"
+            app:summary="@string/set_watermark_indication"
+            app:title="@string/set_watermark" />
+
+        <EditTextPreference
+            app:dependency="@string/SET_WATERMARK"
+            app:key="@string/SET_WATERMARK_TEXT"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_MANDATORY_ALT_TEXT"
+            app:singleLineTitle="false"
+            app:summary="@string/set_alt_text_mandatory_description"
+            app:title="@string/set_alt_text_mandatory" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:dependency="@string/SET_MANDATORY_ALT_TEXT"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_MANDATORY_ALT_TEXT_WARN"
+            app:singleLineTitle="false"
+            app:summary="@string/set_alt_text_mandatory_description_warn"
+            app:title="@string/set_alt_text_mandatory_warn" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:key="@string/SET_MENTIONS_AT_TOP"
-        app:singleLineTitle="false"
-        app:summary="@string/set_mention_at_top_indication"
-        app:title="@string/set_mention_at_top" />
+        app:title="@string/visibility">
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_UNLISTED_REPLIES"
+            app:singleLineTitle="false"
+            app:summary="@string/set_unlisted_replies_indication"
+            app:title="@string/set_unlisted_replies" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_COLORIZE_FOR_VISIBILITY"
+            app:singleLineTitle="false"
+            app:summary="@string/set_colorize_visibility_indication"
+            app:title="@string/set_colorize_visibility" />
+
+        <Preference
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:title="@string/set_custom_colors_visibility"
+            app:dependency="@string/SET_COLORIZE_FOR_VISIBILITY"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_CUSTOMIZE_COLORS_VISIBILITY" />
+
+        <MultiSelectListPreference
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_SELECTED_LANGUAGE"
+            app:summary="@string/set_language_picker"
+            app:title="@string/set_language_picker_title"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:key="@string/SET_MENTION_BOOSTER"
-        app:singleLineTitle="false"
-        app:summary="@string/set_mention_booster_indication"
-        app:title="@string/set_mention_booster" />
+        app:title="@string/sharing">
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_PICTURE_COMPRESSED"
-        app:singleLineTitle="false"
-        app:summary="@string/set_resize_picture_indication"
-        app:title="@string/set_resize_picture" />
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_UNLISTED_REPLIES"
-        app:singleLineTitle="false"
-        app:summary="@string/set_unlisted_replies_indication"
-        app:title="@string/set_unlisted_replies" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_SHARE_DETAILS"
+            app:singleLineTitle="false"
+            app:title="@string/set_share_details" />
 
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_COLORIZE_FOR_VISIBILITY"
-        app:singleLineTitle="false"
-        app:summary="@string/set_colorize_visibility_indication"
-        app:title="@string/set_colorize_visibility" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL"
+            app:singleLineTitle="false"
+            app:title="@string/set_retrieve_metadata_share_from_extras" />
 
-    <Preference
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:title="@string/set_custom_colors_visibility"
-        app:dependency="@string/SET_COLORIZE_FOR_VISIBILITY"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_CUSTOMIZE_COLORS_VISIBILITY" />
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_CUSTOM_SHARING"
+            app:singleLineTitle="false"
+            app:summary="@string/settings_title_custom_sharing_indication"
+            app:title="@string/settings_title_custom_sharing" />
 
-    <MultiSelectListPreference
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_SELECTED_LANGUAGE"
-        app:summary="@string/set_language_picker"
-        app:title="@string/set_language_picker_title"
-        app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:dependency="@string/SET_CUSTOM_SHARING"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_CUSTOM_SHARING_URL"
+            app:summary="@string/settings_custom_sharing_url"
+            app:useSimpleSummaryProvider="true" />
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_WATERMARK"
-        app:singleLineTitle="false"
-        app:summary="@string/set_watermark_indication"
-        app:title="@string/set_watermark" />
-
-    <EditTextPreference
-        app:dependency="@string/SET_WATERMARK"
-        app:key="@string/SET_WATERMARK_TEXT"
-        app:useSimpleSummaryProvider="true" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_MANDATORY_ALT_TEXT"
-        app:singleLineTitle="false"
-        app:summary="@string/set_alt_text_mandatory_description"
-        app:title="@string/set_alt_text_mandatory" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:dependency="@string/SET_MANDATORY_ALT_TEXT"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_MANDATORY_ALT_TEXT_WARN"
-        app:singleLineTitle="false"
-        app:summary="@string/set_alt_text_mandatory_description_warn"
-        app:title="@string/set_alt_text_mandatory_warn" />
-
-
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_MATHS_COMPOSER"
-        app:singleLineTitle="false"
-        app:title="@string/set_maths_support" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_DISPLAY_EMOJI"
-        app:singleLineTitle="false"
-        app:title="@string/set_display_emoji" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_SHARE_DETAILS"
-        app:singleLineTitle="false"
-        app:title="@string/set_share_details" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_RETRIEVE_METADATA_IF_URL_FROM_EXTERAL"
-        app:singleLineTitle="false"
-        app:title="@string/set_retrieve_metadata_share_from_extras" />
-
-
-    <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_CUSTOM_SHARING"
-        app:singleLineTitle="false"
-        app:summary="@string/settings_title_custom_sharing_indication"
-        app:title="@string/settings_title_custom_sharing" />
-
-    <EditTextPreference
-        app:dependency="@string/SET_CUSTOM_SHARING"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_CUSTOM_SHARING_URL"
-        app:summary="@string/settings_custom_sharing_url"
-        app:useSimpleSummaryProvider="true" />
-
-    <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_FORWARD_TAGS_IN_REPLY"
-        app:singleLineTitle="false"
-        app:title="@string/set_forward_tags" />
-
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_FORWARD_TAGS_IN_REPLY"
+            app:singleLineTitle="false"
+            app:title="@string/set_forward_tags" />
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

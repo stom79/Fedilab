@@ -31,10 +31,4 @@
         app:iconSpaceReserved="false"
         app:key="@string/pref_category_show_data" />
 
-
-    <Preference
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_KEY_IGNORE_BATTERY_OPTIMIZATIONS"
-        app:title="@string/set_remove_battery" />
-
 </PreferenceScreen>

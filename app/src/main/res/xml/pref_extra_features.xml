@@ -15,12 +15,6 @@
         app:summary="@string/icons_visibility_summary"
         app:title="@string/icons_visibility">
         <SwitchPreferenceCompat
-            android:defaultValue="true"
-            app:iconSpaceReserved="false"
-            app:key="@string/SET_DISPLAY_BOOKMARK"
-            app:singleLineTitle="false"
-            app:title="@string/set_display_bookmark_indication" />
-        <SwitchPreferenceCompat
             android:defaultValue="false"
             app:iconSpaceReserved="false"
             app:key="@string/SET_DISPLAY_TRANSLATE"

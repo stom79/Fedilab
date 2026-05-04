@@ -4,188 +4,184 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
+    <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:key="@string/SET_USE_SINGLE_TOPBAR"
-        app:singleLineTitle="false"
-        app:summary="@string/set_single_topbar"
-        app:title="@string/set_single_topbar_title" />
+        app:title="@string/navigation">
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_USE_SINGLE_TOPBAR"
+            app:singleLineTitle="false"
+            app:summary="@string/set_single_topbar"
+            app:title="@string/set_single_topbar_title" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISABLE_TOPBAR_SCROLLING"
+            app:singleLineTitle="false"
+            app:title="@string/set_disable_topbar_scrolling_title" />
+
+        <SwitchPreferenceCompat
+            android:summary="@string/set_audo_hide_compose_summary"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_AUTO_HIDE_COMPOSE"
+            app:singleLineTitle="false"
+            app:title="@string/set_audo_hide_compose_title" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_TIMELINES_IN_A_LIST"
+            app:singleLineTitle="false"
+            app:summary="@string/set_timelines_in_a_list"
+            app:title="@string/set_timelines_in_a_list_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:key="@string/SET_DISABLE_TOPBAR_SCROLLING"
-        app:singleLineTitle="false"
-        app:title="@string/set_disable_topbar_scrolling_title" />
+        app:title="@string/display">
 
-    <SwitchPreferenceCompat
-        android:summary="@string/set_audo_hide_compose_summary"
-        app:defaultValue="true"
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_REMOVE_LEFT_MARGIN"
+            app:singleLineTitle="false"
+            app:summary="@string/set_remove_left_margin"
+            app:title="@string/set_remove_left_margin_title" />
+
+        <ListPreference
+            android:defaultValue="rounded_square"
+            android:entries="@array/set_profile_image_shape_entries"
+            android:entryValues="@array/set_profile_image_shape_entry_values"
+            android:title="@string/set_profile_image_shape"
+            app:key="@string/SET_PROFILE_IMAGE_SHAPE"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_COUNTERS"
+            app:singleLineTitle="false"
+            app:summary="@string/set_display_counters_description"
+            app:title="@string/set_display_counters" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISPLAY_COMPACT_ACTION_BUTTON"
+            app:singleLineTitle="false"
+            app:summary="@string/set_display_compact_buttons_description"
+            app:title="@string/set_display_compact_buttons" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:key="@string/SET_AUTO_HIDE_COMPOSE"
-        app:singleLineTitle="false"
-        app:title="@string/set_audo_hide_compose_title" />
+        app:title="@string/behavior">
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_CONVERSATION_REMOTELY"
+            app:singleLineTitle="false"
+            app:summary="@string/set_remote_conversation"
+            app:title="@string/set_remote_conversation_title" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_PROFILE_REMOTELY"
+            app:singleLineTitle="false"
+            app:summary="@string/set_remote_profile"
+            app:title="@string/set_remote_profile_title" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_UNFOLLOW_VALIDATION"
+            app:singleLineTitle="false"
+            app:summary="@string/set_unfollow_validation"
+            app:title="@string/set_unfollow_validation_title" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_CUSTOM_TABS"
+            app:singleLineTitle="false"
+            app:title="@string/custom_tabs" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:key="@string/SET_TIMELINES_IN_A_LIST"
-        app:singleLineTitle="false"
-        app:summary="@string/set_timelines_in_a_list"
-        app:title="@string/set_timelines_in_a_list_title" />
+        app:title="@string/action_cache">
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_USE_CACHE"
+            app:singleLineTitle="false"
+            app:summary="@string/set_use_cache_indication"
+            app:title="@string/set_use_cache" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_CLEAR_CACHE_EXIT"
+            app:singleLineTitle="false"
+            app:summary="@string/set_clear_cache_exit_indication"
+            app:title="@string/set_clear_cache_exit" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:key="@string/SET_REMOVE_LEFT_MARGIN"
-        app:singleLineTitle="false"
-        app:summary="@string/set_remove_left_margin"
-        app:title="@string/set_remove_left_margin_title" />
+        app:title="@string/system">
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_CONVERSATION_REMOTELY"
-        app:singleLineTitle="false"
-        app:summary="@string/set_remote_conversation"
-        app:title="@string/set_remote_conversation_title" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_SEND_CRASH_REPORTS"
+            app:singleLineTitle="false"
+            app:summary="@string/set_enable_crash_report_indication"
+            app:title="@string/set_enable_crash_report" />
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_PROFILE_REMOTELY"
-        app:singleLineTitle="false"
-        app:summary="@string/set_remote_profile"
-        app:title="@string/set_remote_profile_title" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_DISABLE_RELEASE_NOTES_ALERT"
+            app:singleLineTitle="false"
+            app:summary="@string/set_disable_release_notes_indication"
+            app:title="@string/set_disable_release_notes" />
 
-    <ListPreference
-        android:entries="@array/set_profile_image_shape_entries"
-        android:entryValues="@array/set_profile_image_shape_entry_values"
-        android:title="@string/set_profile_image_shape"
-        android:defaultValue="rounded_square"
-        app:key="@string/SET_PROFILE_IMAGE_SHAPE"
-        app:useSimpleSummaryProvider="true" />
+        <androidx.preference.SeekBarPreference
+            android:defaultValue="110"
+            android:max="180"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_FONT_SCALE_INT"
+            app:showSeekBarValue="true"
+            app:singleLineTitle="false"
+            app:title="@string/text_size" />
 
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_UNFOLLOW_VALIDATION"
-        app:singleLineTitle="false"
-        app:summary="@string/set_unfollow_validation"
-        app:title="@string/set_unfollow_validation_title" />
+        <androidx.preference.SeekBarPreference
+            android:defaultValue="110"
+            android:max="180"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_FONT_SCALE_ICON_INT"
+            app:showSeekBarValue="true"
+            app:singleLineTitle="false"
+            app:title="@string/icon_size" />
 
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_DISPLAY_COUNTERS"
-        app:singleLineTitle="false"
-        app:summary="@string/set_display_counters_description"
-        app:title="@string/set_display_counters" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_DISPLAY_COMPACT_ACTION_BUTTON"
-        app:singleLineTitle="false"
-        app:summary="@string/set_display_compact_buttons_description"
-        app:title="@string/set_display_compact_buttons" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_USE_CACHE"
-        app:singleLineTitle="false"
-        app:summary="@string/set_use_cache_indication"
-        app:title="@string/set_use_cache" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_CUSTOM_TABS"
-        app:singleLineTitle="false"
-        app:title="@string/custom_tabs" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_CLEAR_CACHE_EXIT"
-        app:singleLineTitle="false"
-        app:summary="@string/set_clear_cache_exit_indication"
-        app:title="@string/set_clear_cache_exit" />
-
-
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_SEND_CRASH_REPORTS"
-        app:singleLineTitle="false"
-        app:summary="@string/set_enable_crash_report_indication"
-        app:title="@string/set_enable_crash_report" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_DISABLE_RELEASE_NOTES_ALERT"
-        app:singleLineTitle="false"
-        app:summary="@string/set_disable_release_notes_indication"
-        app:title="@string/set_disable_release_notes" />
-
-    <androidx.preference.SeekBarPreference
-        android:defaultValue="110"
-        android:max="180"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_FONT_SCALE_INT"
-        app:showSeekBarValue="true"
-        app:singleLineTitle="false"
-        app:title="@string/text_size" />
-
-
-    <androidx.preference.SeekBarPreference
-        android:defaultValue="110"
-        android:max="180"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_FONT_SCALE_ICON_INT"
-        app:showSeekBarValue="true"
-        app:singleLineTitle="false"
-        app:title="@string/icon_size" />
-
-    <androidx.preference.SeekBarPreference
-        android:defaultValue="100"
-        android:max="1000"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_VIDEO_CACHE"
-        app:showSeekBarValue="true"
-        app:singleLineTitle="false"
-        app:title="@string/set_video_cache" />
-
-    <androidx.preference.SeekBarPreference
-        android:defaultValue="5"
-        android:max="30"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_NSFW_TIMEOUT"
-        app:showSeekBarValue="true"
-        app:singleLineTitle="false"
-        app:title="@string/set_nsfw_timeout" />
-
-    <androidx.preference.SeekBarPreference
-        android:defaultValue="3"
-        android:max="30"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_MED_DESC_TIMEOUT"
-        app:showSeekBarValue="true"
-        app:singleLineTitle="false"
-        app:title="@string/set_med_desc_timeout" />
-
-    <app.fedilab.android.mastodon.helper.ImageListPreference
-        app:defaultValue="Bubbles"
-        app:dialogTitle="@string/pickup_logo"
-        app:entries="@array/set_logo_type_value"
-        app:entryValues="@array/SET_LOGO_TYPE_VALUE"
-        app:key="@string/SET_LOGO_LAUNCHER"
-        app:summary="@string/change_logo_description"
-        app:title="@string/change_logo"
-        app:ilp_entryImages="@array/SET_LOGO_DRAWABLE"
-        app:useSimpleSummaryProvider="true" />
+        <app.fedilab.android.mastodon.helper.ImageListPreference
+            app:defaultValue="Bubbles"
+            app:dialogTitle="@string/pickup_logo"
+            app:entries="@array/set_logo_type_value"
+            app:entryValues="@array/SET_LOGO_TYPE_VALUE"
+            app:ilp_entryImages="@array/SET_LOGO_DRAWABLE"
+            app:key="@string/SET_LOGO_LAUNCHER"
+            app:summary="@string/change_logo_description"
+            app:title="@string/change_logo"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

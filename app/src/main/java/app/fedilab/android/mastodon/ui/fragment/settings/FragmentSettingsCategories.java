@@ -67,6 +67,33 @@ public class FragmentSettingsCategories extends PreferenceFragmentCompat {
             });
         }
 
+        Preference pref_category_key_content = findPreference(getString(R.string.pref_category_key_content));
+        if (pref_category_key_content != null) {
+            pref_category_key_content.setOnPreferenceClickListener(preference -> {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
+                navController.navigate(FragmentSettingsCategoriesDirections.Companion.categoriesToContent());
+                return false;
+            });
+        }
+
+        Preference pref_category_key_media = findPreference(getString(R.string.pref_category_key_media));
+        if (pref_category_key_media != null) {
+            pref_category_key_media.setOnPreferenceClickListener(preference -> {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
+                navController.navigate(FragmentSettingsCategoriesDirections.Companion.categoriesToMedia());
+                return false;
+            });
+        }
+
+        Preference pref_category_key_translation = findPreference(getString(R.string.pref_category_key_translation));
+        if (pref_category_key_translation != null) {
+            pref_category_key_translation.setOnPreferenceClickListener(preference -> {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
+                navController.navigate(FragmentSettingsCategoriesDirections.Companion.categoriesToTranslation());
+                return false;
+            });
+        }
+
         Preference pref_category_key_notifications = findPreference(getString(R.string.pref_category_key_notifications));
         if (pref_category_key_notifications != null) {
             pref_category_key_notifications.setOnPreferenceClickListener(preference -> {
@@ -111,15 +138,6 @@ public class FragmentSettingsCategories extends PreferenceFragmentCompat {
                 return false;
             });
         }
-        Preference pref_category_key_pixelfed = findPreference(getString(R.string.pref_category_key_pixelfed));
-        if (pref_category_key_pixelfed != null) {
-            pref_category_key_pixelfed.setOnPreferenceClickListener(preference -> {
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
-                navController.navigate(FragmentSettingsCategoriesDirections.Companion.categoriesToPixelfed());
-                return false;
-            });
-        }
-
         Preference pref_category_key_home_cache = findPreference(getString(R.string.pref_category_key_home_cache));
         if (pref_category_key_home_cache != null) {
             pref_category_key_home_cache.setOnPreferenceClickListener(preference -> {

@@ -468,6 +468,9 @@
     <string name="toots_server">Messages (Server)</string>
     <string name="toots_client">Messages (Device)</string>
     <string name="settings_category_label_timelines">Timelines</string>
+    <string name="settings_category_label_content">Content</string>
+    <string name="settings_category_label_media">Media</string>
+    <string name="settings_category_label_translation">Translation</string>
     <string name="settings_category_label_interface">Interface</string>
     <string name="contact">Contacts</string>
     <string name="toot_select_file_error">An error occurred when selecting the backup file!</string>
@@ -1950,7 +1953,15 @@
     <string name="pref_category_key_network" translatable="false">pref_category_network</string>
     <string name="pref_category_key_administration" translatable="false">pref_category_administration</string>
     <string name="pref_category_key_languages" translatable="false">pref_category_languages</string>
+    <string name="pref_category_key_content" translatable="false">pref_category_content</string>
+    <string name="pref_category_key_media" translatable="false">pref_category_media</string>
+    <string name="pref_category_key_translation" translatable="false">pref_category_translation</string>
     <string name="pref_category_key_extra_features" translatable="false">pref_category_key_extra_features</string>
+
+    <string name="navigation">Navigation</string>
+    <string name="behavior">Behavior</string>
+    <string name="system">System</string>
+    <string name="sharing">Sharing</string>
 
     <string name="pref_key_proxy" translatable="false">pref_key_proxy</string>
 
@@ -2298,4 +2309,148 @@
     <string name="set_custom_accent_value_dark_description">Color that will be applied to the dark theme</string>
 
     <string name="thumbnail">Thumbnail</string>
+
+    <!-- Settings search -->
+    <string name="search_settings">Search settings</string>
+    <string name="no_results">No results</string>
+
+    <!-- Settings search keywords -->
+    <!-- Timelines -->
+    <string name="kw_remember_position">scroll, position, resume, remember</string>
+    <string name="kw_auto_fetch_missing">fetch, missing, gap, load</string>
+    <string name="kw_expand_cw">content warning, spoiler, cw, expand</string>
+    <string name="kw_expand_media">media, image, sensitive, expand, nsfw</string>
+    <string name="kw_fetch_remote_media">remote, media, federated, fetch</string>
+    <string name="kw_group_reblogs">group, reblogs, boosts, combine, merge</string>
+    <string name="kw_chat_direct">chat, direct message, dm, conversation</string>
+    <string name="kw_boost_date">boost, date, original, reblog</string>
+    <string name="kw_scrollbar">scrollbar, scroll</string>
+    <string name="kw_reverse_timeline">reverse, order, reading, bottom</string>
+    <string name="kw_highlight_comments">highlight, comments, thread, unread</string>
+    <string name="kw_markdown">markdown, formatting, bold, italic</string>
+    <string name="kw_truncate_links">truncate, links, url, shorten</string>
+    <string name="kw_truncate_links_max">truncate, links, url, maximum, length</string>
+    <string name="kw_underline_hashtags">underline, hashtags</string>
+    <string name="kw_underline_links">underline, links, clickable</string>
+    <string name="kw_pronouns">pronouns, gender, identity, profile</string>
+    <string name="kw_hide_media_card">hide, media, card, link preview</string>
+    <string name="kw_live_translate">translate, live, automatic, language</string>
+    <string name="kw_confirm_boost">confirm, boost, reblog, validation</string>
+    <string name="kw_warn_boost_alt">warn, boost, alt text, media description, accessibility</string>
+    <string name="kw_bookmark">bookmark, save</string>
+    <string name="kw_pixelfed_presentation">pixelfed, presentation, gallery</string>
+    <string name="kw_translate_button">translate, button</string>
+    <string name="kw_quote_button">quote, button</string>
+    <string name="kw_sensitive_indicator">sensitive, indicator, nsfw, media</string>
+    <string name="kw_media_description_indicator">alt text, media description, indicator, accessibility</string>
+    <string name="kw_translator">translator, engine, deepl, lingva, libretranslate</string>
+    <string name="kw_translator_api_key">translator, api key, deepl</string>
+    <string name="kw_translator_domain">translator, domain, host, lingva, libretranslate</string>
+    <string name="kw_translator_version">translator, version, pro, free</string>
+    <string name="kw_aggregate_notif">aggregate, group, notifications, combine</string>
+    <string name="kw_max_indentation">indentation, thread, depth, nesting, replies</string>
+    <string name="kw_media_notification">media, notifications, thumbnail</string>
+    <string name="kw_load_media_type">media, thumbnails, wifi, mobile</string>
+    <string name="kw_confirm_fav">confirm, favourite, favorite, validation</string>
+    <string name="kw_display_counter">counter, favourites, boosts</string>
+    <string name="kw_relative_date">date, relative, absolute</string>
+    <string name="kw_truncate_toots">truncate, long, messages, shorten</string>
+    <string name="kw_long_press_media">long press, save, media, download</string>
+    <string name="kw_fit_preview">fit, preview, image, crop</string>
+    <string name="kw_autoplay_gif">autoplay, gif, animated, play</string>
+    <string name="kw_disable_gif">disable, gif, avatars, animated</string>
+    <string name="kw_disable_animated_emoji">disable, animated, emoji</string>
+    <string name="kw_link_previews">link preview, card</string>
+    <string name="kw_toots_per_page">messages, page, pagination, statuses</string>
+    <string name="kw_accounts_per_page">accounts, page, pagination</string>
+    <string name="kw_notifications_per_page">notifications, page, pagination</string>
+    <!-- Interface -->
+    <string name="kw_single_topbar">single, topbar, tabs</string>
+    <string name="kw_topbar_scrolling">topbar, scrolling, hide</string>
+    <string name="kw_auto_hide_compose">auto hide, compose, floating, fab</string>
+    <string name="kw_timelines_list">timelines, list, layout</string>
+    <string name="kw_left_margin">margin, left, padding</string>
+    <string name="kw_remote_conversation">remote, conversation, thread, federated</string>
+    <string name="kw_remote_profile">remote, profile, federated</string>
+    <string name="kw_profile_image_shape">profile, avatar, shape, round, square</string>
+    <string name="kw_unfollow_confirm">unfollow, confirm, validation</string>
+    <string name="kw_display_counters">counters, followers, following</string>
+    <string name="kw_compact_buttons">compact, buttons, actions</string>
+    <string name="kw_use_cache">cache, offline</string>
+    <string name="kw_custom_tabs">browser, custom tabs, in-app, links</string>
+    <string name="kw_clear_cache">clear, cache, exit, storage</string>
+    <string name="kw_crash_report">crash, report, bug, error</string>
+    <string name="kw_release_notes">release, notes, changelog, update</string>
+    <string name="kw_text_size">text, size, font, zoom, scale</string>
+    <string name="kw_icon_size">icon, size, zoom, scale</string>
+    <string name="kw_video_cache">video, cache, storage</string>
+    <string name="kw_nsfw_timeout">nsfw, timeout, sensitive</string>
+    <string name="kw_media_desc_timeout">media, description, timeout, alt text</string>
+    <string name="kw_logo">logo, launcher, app icon</string>
+    <!-- Compose -->
+    <string name="kw_capitalize">capitalize, reply</string>
+    <string name="kw_thread_long_message">thread, long, message, split</string>
+    <string name="kw_mention_top">mention, top, reply, order</string>
+    <string name="kw_mention_booster">mention, booster, reply, reblog</string>
+    <string name="kw_resize_picture">resize, picture, compress, image, photo</string>
+    <string name="kw_unlisted_replies">unlisted, replies, visibility</string>
+    <string name="kw_colorize_visibility">color, visibility, public, private</string>
+    <string name="kw_language_picker">language, picker, compose, post</string>
+    <string name="kw_watermark">watermark, image, photo, overlay</string>
+    <string name="kw_alt_text">alt text, media description, mandatory, accessibility</string>
+    <string name="kw_alt_text_warn">alt text, warn, accessibility</string>
+    <string name="kw_maths">maths, formula, latex, equation, mathjax</string>
+    <string name="kw_emoji_one">emoji, emojione, picker, keyboard</string>
+    <string name="kw_share_details">share, details, link</string>
+    <string name="kw_share_metadata">share, metadata, url, attach</string>
+    <string name="kw_custom_sharing">custom, sharing, url</string>
+    <string name="kw_forward_tags">forward, tags, hashtags, reply</string>
+    <!-- Notifications -->
+    <string name="kw_notification_type">push, pull, notification, real time</string>
+    <string name="kw_notification_delay">notification, delay, frequency, polling</string>
+    <string name="kw_push_distributor">push, distributor, unifiedpush, fcm, ntfy</string>
+    <string name="kw_battery">battery, optimization, background, power</string>
+    <string name="kw_notif_follow">follow, follower</string>
+    <string name="kw_notif_mention">mention, reply</string>
+    <string name="kw_notif_fav">favourite, favorite, like</string>
+    <string name="kw_notif_boost">boost, reblog</string>
+    <string name="kw_notif_poll">poll, vote</string>
+    <string name="kw_notif_status">new post, status</string>
+    <string name="kw_notif_update">update, edit</string>
+    <string name="kw_notif_signup">sign up, registration, admin</string>
+    <string name="kw_notif_report">report, admin</string>
+    <string name="kw_silent_notif">silent, notification, sound, mute, vibrate</string>
+    <string name="kw_led_colour">led, colour, color, notification, light</string>
+    <string name="kw_time_slot">time slot, quiet hours, do not disturb, schedule</string>
+    <!-- Theming -->
+    <string name="kw_theme_mode">theme, mode, dark, light, system, amoled, black</string>
+    <string name="kw_dynamic_color">dynamic, color, material you, wallpaper</string>
+    <string name="kw_accent_color">accent, color, custom</string>
+    <string name="kw_theme_light">theme, light, solarized</string>
+    <string name="kw_theme_dark">theme, dark, solarized, dracula, black</string>
+    <string name="kw_cardview">card, shadow, border</string>
+    <string name="kw_customize_light">customize, light, theme, colors</string>
+    <string name="kw_customize_dark">customize, dark, theme, colors</string>
+    <!-- Privacy -->
+    <string name="kw_youtube">youtube, invidious, video, privacy, frontend</string>
+    <string name="kw_twitter">twitter, nitter, privacy, frontend</string>
+    <string name="kw_instagram">instagram, bibliogram, privacy, frontend</string>
+    <string name="kw_reddit">reddit, libreddit, privacy, frontend</string>
+    <string name="kw_medium">medium, scribe, privacy, frontend, blog</string>
+    <string name="kw_tracking">tracking, utm, analytics, remove, filter, privacy</string>
+    <!-- Home cache -->
+    <string name="kw_fetch_home">fetch, home, cache, background, sync</string>
+    <string name="kw_fetch_home_delay">fetch, home, delay, frequency, interval</string>
+    <!-- Language -->
+    <string name="kw_change_locale">language, locale, change</string>
+    <!-- Network -->
+    <string name="kw_proxy">proxy, socks, http, network, tor, vpn</string>
+    <!-- Media -->
+    <string name="kw_pixelfed_full_media">pixelfed, fullscreen, media, image</string>
+    <!-- Extra features -->
+    <string name="kw_extra_features">extra, features, pleroma, akkoma, extensions</string>
+    <string name="kw_display_translate">translate, button, extra</string>
+    <string name="kw_reactions">reactions, emoji, pleroma, akkoma</string>
+    <string name="kw_local_only">local only, federation, pleroma</string>
+    <string name="kw_post_format">post, format, plain text, html, markdown, bbcode</string>
 </resources>

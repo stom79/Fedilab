@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <MultiSelectListPreference
+        app:entries="@array/SET_LIVE_TRANSLATE_VALUES"
+        app:entryValues="@array/SET_LIVE_TRANSLATE_ENTRIES"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_LIVE_TRANSLATE_MULTIPLE"
+        app:summary="@string/set_live_translate"
+        app:title="@string/set_live_translate_title"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        app:defaultValue="FEDILAB"
+        app:dialogTitle="@string/translator"
+        app:entries="@array/set_translator_values"
+        app:entryValues="@array/SET_TRANSLATOR_VALUES"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRANSLATOR"
+        app:title="@string/set_translator"
+        app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference
+        app:dependency="@string/SET_TRANSLATOR"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRANSLATOR_API_KEY"
+        app:title="@string/api_key"
+        app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference
+        app:defaultValue="lingva.ml"
+        app:dependency="@string/SET_TRANSLATOR"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRANSLATOR_DOMAIN"
+        app:title="@string/translator_domain"
+        app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference
+        app:defaultValue="translate.wmcloud.org"
+        app:dependency="@string/SET_TRANSLATOR"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRANSLATOR_DOMAIN_MINT"
+        app:title="@string/translator_domain"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        app:defaultValue="PRO"
+        app:dialogTitle="@string/version"
+        app:entries="@array/set_translator_version_values"
+        app:entryValues="@array/SET_TRANSLATOR_VERSION_VALUES"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRANSLATOR_VERSION"
+        app:title="@string/set_translator_version"
+        app:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        android:entries="@array/set_translate_button_entries"
+        android:entryValues="@array/set_translate_button_entry_values"
+        android:title="@string/set_translate_button"
+        app:key="@string/SET_TRANSLATE_BUTTON"
+        app:icon="@drawable/ic_baseline_translate_24"
+        app:useSimpleSummaryProvider="true" />
+
+</androidx.preference.PreferenceScreen>

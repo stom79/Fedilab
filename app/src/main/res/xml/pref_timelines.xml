@@ -14,24 +14,6 @@
         app:singleLineTitle="false"
         app:title="@string/auto_fetch_missing" />
     <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_EXPAND_CW"
-        app:singleLineTitle="false"
-        app:title="@string/expand_cw" />
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_EXPAND_MEDIA"
-        app:singleLineTitle="false"
-        app:title="@string/expand_image" />
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_FETCH_REMOTE_MEDIA"
-        app:singleLineTitle="false"
-        app:title="@string/fetch_remote_media" />
-    <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_GROUP_REBLOGS"
@@ -49,22 +31,18 @@
         app:key="@string/SET_BOOST_ORIGINAL_DATE"
         app:singleLineTitle="false"
         app:title="@string/boost_original_date" />
-
-
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_TIMELINE_SCROLLBAR"
         app:singleLineTitle="false"
         app:title="@string/timeline_scrollbar" />
-
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_REVERSE_TIMELINE"
         app:singleLineTitle="false"
         app:title="@string/reverse_timeline" />
-
     <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"
@@ -72,66 +50,15 @@
         app:singleLineTitle="false"
         app:title="@string/highlight_new_comments" />
 
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_MARKDOWN_SUPPORT"
-        app:singleLineTitle="false"
-        app:title="@string/markdown_support" />
-
-    <SwitchPreferenceCompat
-        android:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_TRUNCATE_LINKS"
-        app:singleLineTitle="false"
-        app:title="@string/truncate_links" />
-
     <androidx.preference.SeekBarPreference
-        android:defaultValue="30"
-        android:max="150"
-        app:dependency="@string/SET_TRUNCATE_LINKS"
+        android:defaultValue="5"
+        android:max="40"
         app:iconSpaceReserved="false"
-        app:key="@string/SET_TRUNCATE_LINKS_MAX"
-        app:min="20"
+        app:key="@string/SET_MAX_INDENTATION"
         app:showSeekBarValue="true"
         app:singleLineTitle="false"
-        app:title="@string/truncate_links_max" />
+        app:title="@string/max_indentation_thread" />
 
-    <SwitchPreferenceCompat
-        android:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_UNDERLINE_BOTTOM_HASHTAGS"
-        app:singleLineTitle="false"
-        app:title="@string/underline_bottom_hashtags" />
-
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_UNDERLINE_CLICKABLE"
-        app:singleLineTitle="false"
-        app:title="@string/underline_links" />
-
-    <SwitchPreferenceCompat
-        android:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_PRONOUNS_SUPPORT"
-        app:singleLineTitle="false"
-        app:title="@string/pronouns_support" />
-
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_HIDE_SINGLE_MEDIA_WITH_CARD"
-        app:singleLineTitle="false"
-        app:title="@string/hide_single_media_with_card" />
-    <MultiSelectListPreference
-        app:entries="@array/SET_LIVE_TRANSLATE_VALUES"
-        app:entryValues="@array/SET_LIVE_TRANSLATE_ENTRIES"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_LIVE_TRANSLATE_MULTIPLE"
-        app:summary="@string/set_live_translate"
-        app:title="@string/set_live_translate_title"
-        app:useSimpleSummaryProvider="true" />
     <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"
@@ -144,120 +71,6 @@
         app:key="@string/SET_MANDATORY_ALT_TEXT_FOR_BOOSTS"
         app:singleLineTitle="false"
         app:title="@string/warn_boost_no_media_description" />
-    <SwitchPreferenceCompat
-        android:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_DISPLAY_BOOKMARK"
-        app:singleLineTitle="false"
-        app:title="@string/set_display_bookmark_indication" />
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_PIXELFED_PRESENTATION"
-        app:singleLineTitle="false"
-        app:title="@string/set_pixelfed_presentation" />
-    <ListPreference
-        android:entries="@array/set_translate_button_entries"
-        android:entryValues="@array/set_translate_button_entry_values"
-        android:title="@string/set_translate_button"
-        app:key="@string/SET_TRANSLATE_BUTTON"
-        app:icon="@drawable/ic_baseline_translate_24"
-        app:useSimpleSummaryProvider="true" />
-    <ListPreference
-        android:entries="@array/set_quote_button_entries"
-        android:entryValues="@array/set_quote_button_entry_values"
-        android:title="@string/set_display_quote_indication"
-        app:icon="@drawable/ic_baseline_format_quote_24"
-        app:key="@string/SET_QUOTE_BUTTON"
-        app:useSimpleSummaryProvider="true" />
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:icon="@drawable/ic_compose_sensitive"
-        app:key="@string/SET_SENSITIVE_INDICATOR"
-        app:singleLineTitle="false"
-        app:summary="@string/set_sensitive_indicator_summary"
-        app:title="@string/set_sensitive_indicator" />
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:icon="@drawable/ic_outline_note_alt_24"
-        app:key="@string/SET_MEDIA_DESCRIPTION_INDICATOR"
-        app:singleLineTitle="false"
-        app:summary="@string/set_media_description_indicator_summary"
-        app:title="@string/set_media_description_indicator" />
-    <ListPreference
-        app:defaultValue="FEDILAB"
-        app:dialogTitle="@string/translator"
-        app:entries="@array/set_translator_values"
-        app:entryValues="@array/SET_TRANSLATOR_VALUES"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_TRANSLATOR"
-        app:title="@string/set_translator"
-        app:useSimpleSummaryProvider="true" />
-
-    <EditTextPreference
-        app:dependency="@string/SET_TRANSLATOR"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_TRANSLATOR_API_KEY"
-        app:title="@string/api_key"
-        app:useSimpleSummaryProvider="true" />
-    <EditTextPreference
-        app:defaultValue="lingva.ml"
-        app:dependency="@string/SET_TRANSLATOR"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_TRANSLATOR_DOMAIN"
-        app:title="@string/translator_domain"
-        app:useSimpleSummaryProvider="true" />
-    <EditTextPreference
-        app:defaultValue="translate.wmcloud.org"
-        app:dependency="@string/SET_TRANSLATOR"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_TRANSLATOR_DOMAIN_MINT"
-        app:title="@string/translator_domain"
-        app:useSimpleSummaryProvider="true" />
-    <ListPreference
-        app:defaultValue="PRO"
-        app:dialogTitle="@string/version"
-        app:entries="@array/set_translator_version_values"
-        app:entryValues="@array/SET_TRANSLATOR_VERSION_VALUES"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_TRANSLATOR_VERSION"
-        app:title="@string/set_translator_version"
-        app:useSimpleSummaryProvider="true" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_AGGREGATE_NOTIFICATION"
-        app:singleLineTitle="false"
-        app:summary="@string/aggregate_notifications_summary"
-        app:title="@string/aggregate_notifications" />
-
-    <androidx.preference.SeekBarPreference
-        android:defaultValue="5"
-        android:max="40"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_MAX_INDENTATION"
-        app:showSeekBarValue="true"
-        app:singleLineTitle="false"
-        app:title="@string/max_indentation_thread" />
-
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_DISPLAY_MEDIA_NOTIFICATION"
-        app:singleLineTitle="false"
-        app:summary="@string/display_media_notification_summary"
-        app:title="@string/display_media_notification" />
-
-    <ListPreference
-        app:defaultValue="ALWAYS"
-        app:dialogTitle="@string/load_media_type_title"
-        app:entries="@array/set_load_media_type_value"
-        app:entryValues="@array/SET_LOAD_MEDIA_TYPE_VALUE"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_LOAD_MEDIA_TYPE"
-        app:title="@string/load_media_type_title"
-        app:useSimpleSummaryProvider="true" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
@@ -273,58 +86,15 @@
     <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"
-        app:key="@string/SET_DISPLAY_RELATIVE_DATE"
+        app:key="@string/SET_DISPLAY_BOOKMARK"
         app:singleLineTitle="false"
-        app:title="@string/set_display_relative_date" />
-    <SeekBarPreference
-        android:defaultValue="0"
-        android:max="20"
-        android:summary="@string/set_truncate_toot"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_TRUNCATE_TOOTS_SIZE"
-        app:showSeekBarValue="true"
-        app:title="@string/truncate_long_toots" />
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_LONG_PRESS_STORE_MEDIA"
-        app:singleLineTitle="false"
-        app:title="@string/set_long_press_media" />
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:summary="@string/set_fit_preview_indication"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_FULL_PREVIEW"
-        app:singleLineTitle="false"
-        app:title="@string/set_fit_preview" />
-
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_AUTO_PLAY_GIG_MEDIA"
-        app:singleLineTitle="false"
-        app:title="@string/set_autoplay_gif" />
-
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_DISABLE_GIF"
-        app:singleLineTitle="false"
-        app:title="@string/set_disable_gif" />
-
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_DISABLE_ANIMATED_EMOJI"
-        app:singleLineTitle="false"
-        app:title="@string/set_disable_animated_emoji" />
-
+        app:title="@string/set_display_bookmark_indication" />
     <ListPreference
-        android:entries="@array/set_link_previews_entries"
-        android:entryValues="@array/set_link_previews_entry_values"
-        android:title="@string/set_link_previews"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_LINK_PREVIEWS"
+        android:entries="@array/set_quote_button_entries"
+        android:entryValues="@array/set_quote_button_entry_values"
+        android:title="@string/set_display_quote_indication"
+        app:icon="@drawable/ic_baseline_format_quote_24"
+        app:key="@string/SET_QUOTE_BUTTON"
         app:useSimpleSummaryProvider="true" />
 
     <androidx.preference.SeekBarPreference
@@ -344,13 +114,4 @@
         app:key="@string/SET_ACCOUNTS_PER_CALL"
         app:showSeekBarValue="true"
         app:title="@string/set_accounts_page" />
-
-    <androidx.preference.SeekBarPreference
-        android:defaultValue="30"
-        app:min="10"
-        android:max="30"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_NOTIFICATIONS_PER_CALL"
-        app:showSeekBarValue="true"
-        app:title="@string/set_notifications_page" />
 </androidx.preference.PreferenceScreen>

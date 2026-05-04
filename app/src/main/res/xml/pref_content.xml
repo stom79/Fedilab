@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_EXPAND_CW"
+        app:singleLineTitle="false"
+        app:title="@string/expand_cw" />
+
+    <SeekBarPreference
+        android:defaultValue="0"
+        android:max="20"
+        android:summary="@string/set_truncate_toot"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRUNCATE_TOOTS_SIZE"
+        app:showSeekBarValue="true"
+        app:title="@string/truncate_long_toots" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRUNCATE_LINKS"
+        app:singleLineTitle="false"
+        app:title="@string/truncate_links" />
+
+    <androidx.preference.SeekBarPreference
+        android:defaultValue="30"
+        android:max="150"
+        app:dependency="@string/SET_TRUNCATE_LINKS"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRUNCATE_LINKS_MAX"
+        app:min="20"
+        app:showSeekBarValue="true"
+        app:singleLineTitle="false"
+        app:title="@string/truncate_links_max" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_UNDERLINE_CLICKABLE"
+        app:singleLineTitle="false"
+        app:title="@string/underline_links" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_UNDERLINE_BOTTOM_HASHTAGS"
+        app:singleLineTitle="false"
+        app:title="@string/underline_bottom_hashtags" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_MARKDOWN_SUPPORT"
+        app:singleLineTitle="false"
+        app:title="@string/markdown_support" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_PRONOUNS_SUPPORT"
+        app:singleLineTitle="false"
+        app:title="@string/pronouns_support" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_DISPLAY_RELATIVE_DATE"
+        app:singleLineTitle="false"
+        app:title="@string/set_display_relative_date" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_HIDE_SINGLE_MEDIA_WITH_CARD"
+        app:singleLineTitle="false"
+        app:title="@string/hide_single_media_with_card" />
+
+</androidx.preference.PreferenceScreen>
