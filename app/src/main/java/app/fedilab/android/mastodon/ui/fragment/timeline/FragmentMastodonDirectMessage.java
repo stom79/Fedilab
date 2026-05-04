@@ -390,10 +390,28 @@ public class FragmentMastodonDirectMessage extends Fragment {
         });
 
 
-        ArrayAdapter<CharSequence> pollduration = ArrayAdapter.createFromResource(requireActivity(),
-                R.array.poll_duration, android.R.layout.simple_spinner_dropdown_item);
+        int maxExpiration = 604800;
+        if (instanceInfo != null && instanceInfo.configuration != null && instanceInfo.configuration.pollsConf != null && instanceInfo.configuration.pollsConf.max_expiration > 0) {
+            maxExpiration = instanceInfo.configuration.pollsConf.max_expiration;
+        }
+        List<String> pollDurationLabels = new ArrayList<>();
+        List<Integer> pollDurationValues = new ArrayList<>();
+        int[][] durations = {
+                {300, R.string.poll_5_minutes}, {1800, R.string.poll_30_minutes}, {3600, R.string.poll_1_hour},
+                {21600, R.string.poll_6_hours}, {86400, R.string.poll_1_day}, {259200, R.string.poll_3_days},
+                {604800, R.string.poll_7_days}, {1209600, R.string.poll_14_days}, {2592000, R.string.poll_30_days},
+                {5184000, R.string.poll_60_days}, {7776000, R.string.poll_90_days}
+        };
+        for (int[] d : durations) {
+            if (d[0] <= maxExpiration) {
+                pollDurationLabels.add(getString(d[1]));
+                pollDurationValues.add(d[0]);
+            }
+        }
+        ArrayAdapter<String> pollduration = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, pollDurationLabels);
         composePollBinding.pollDuration.setAdapter(pollduration);
-        composePollBinding.pollDuration.setSelection(4);
+        int defaultSelection = pollDurationValues.indexOf(86400);
+        composePollBinding.pollDuration.setSelection(Math.max(defaultSelection, 0));
         if (statusCompose != null && statusCompose.poll != null && statusCompose.poll.options != null) {
             int i = 1;
             for (Poll.PollItem pollItem : statusCompose.poll.options) {
@@ -430,28 +448,9 @@ public class FragmentMastodonDirectMessage extends Fragment {
             if (statusCompose.poll.options.size() >= max_entry) {
                 composePollBinding.buttonAddOption.setVisibility(View.GONE);
             }
-            switch (statusCompose.poll.expire_in) {
-                case 300:
-                    composePollBinding.pollDuration.setSelection(0);
-                    break;
-                case 1800:
-                    composePollBinding.pollDuration.setSelection(1);
-                    break;
-                case 3600:
-                    composePollBinding.pollDuration.setSelection(2);
-                    break;
-                case 21600:
-                    composePollBinding.pollDuration.setSelection(3);
-                    break;
-                case 86400:
-                    composePollBinding.pollDuration.setSelection(4);
-                    break;
-                case 259200:
-                    composePollBinding.pollDuration.setSelection(5);
-                    break;
-                case 604800:
-                    composePollBinding.pollDuration.setSelection(6);
-                    break;
+            int draftIndex = pollDurationValues.indexOf(statusCompose.poll.expire_in);
+            if (draftIndex >= 0) {
+                composePollBinding.pollDuration.setSelection(draftIndex);
             }
             if (statusCompose.poll.multiple)
                 composePollBinding.pollType.check(R.id.poll_type_multiple);
@@ -500,33 +499,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
                 } else if (statusCompose != null) {
                     statusCompose.poll = new Poll();
                     statusCompose.poll.multiple = selected_poll_type_id == R.id.poll_type_multiple;
-                    int expire;
-                    switch (poll_duration_pos) {
-                        case 0:
-                            expire = 300;
-                            break;
-                        case 1:
-                            expire = 1800;
-                            break;
-                        case 2:
-                            expire = 3600;
-                            break;
-                        case 3:
-                            expire = 21600;
-                            break;
-                        case 4:
-                            expire = 86400;
-                            break;
-                        case 5:
-                            expire = 259200;
-                            break;
-                        case 6:
-                            expire = 604800;
-                            break;
-                        default:
-                            expire = 864000;
-                    }
-                    statusCompose.poll.expire_in = expire;
+                    statusCompose.poll.expire_in = poll_duration_pos < pollDurationValues.size() ? pollDurationValues.get(poll_duration_pos) : 86400;
                     List<Poll.PollItem> pollItems = new ArrayList<>();
                     int childCount = composePollBinding.optionsList.getChildCount();
                     for (int i = 0; i < childCount; i++) {

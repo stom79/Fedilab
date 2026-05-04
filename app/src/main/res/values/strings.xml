@@ -607,15 +607,17 @@
         <item>Single choice</item>
         <item>Multiple choices</item>
     </string-array>
-    <string-array name="poll_duration">
-        <item>5 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>6 hours</item>
-        <item>1 day</item>
-        <item>3 days</item>
-        <item>7 days</item>
-    </string-array>
+    <string name="poll_5_minutes">5 minutes</string>
+    <string name="poll_30_minutes">30 minutes</string>
+    <string name="poll_1_hour">1 hour</string>
+    <string name="poll_6_hours">6 hours</string>
+    <string name="poll_1_day">1 day</string>
+    <string name="poll_3_days">3 days</string>
+    <string name="poll_7_days">7 days</string>
+    <string name="poll_14_days">14 days</string>
+    <string name="poll_30_days">30 days</string>
+    <string name="poll_60_days">60 days</string>
+    <string name="poll_90_days">90 days</string>
     <string name="poll_duplicated_entry">Your poll can\'t have duplicated options!</string>
     <string name="set_clear_cache_exit">Clear cache when leaving</string>
     <string name="set_clear_cache_exit_indication">The cache (media, cached messages, data from the built-in browser) will be automatically cleared when leaving the application.</string>

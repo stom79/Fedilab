@@ -2157,10 +2157,28 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
 
 
-        ArrayAdapter<CharSequence> pollduration = ArrayAdapter.createFromResource(context,
-                R.array.poll_duration, android.R.layout.simple_spinner_dropdown_item);
+        int maxExpiration = 604800;
+        if (instanceInfo != null && instanceInfo.configuration != null && instanceInfo.configuration.pollsConf != null && instanceInfo.configuration.pollsConf.max_expiration > 0) {
+            maxExpiration = instanceInfo.configuration.pollsConf.max_expiration;
+        }
+        List<String> pollDurationLabels = new ArrayList<>();
+        List<Integer> pollDurationValues = new ArrayList<>();
+        int[][] durations = {
+                {300, R.string.poll_5_minutes}, {1800, R.string.poll_30_minutes}, {3600, R.string.poll_1_hour},
+                {21600, R.string.poll_6_hours}, {86400, R.string.poll_1_day}, {259200, R.string.poll_3_days},
+                {604800, R.string.poll_7_days}, {1209600, R.string.poll_14_days}, {2592000, R.string.poll_30_days},
+                {5184000, R.string.poll_60_days}, {7776000, R.string.poll_90_days}
+        };
+        for (int[] d : durations) {
+            if (d[0] <= maxExpiration) {
+                pollDurationLabels.add(context.getString(d[1]));
+                pollDurationValues.add(d[0]);
+            }
+        }
+        ArrayAdapter<String> pollduration = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, pollDurationLabels);
         composePollBinding.pollDuration.setAdapter(pollduration);
-        composePollBinding.pollDuration.setSelection(4);
+        int defaultSelection = pollDurationValues.indexOf(86400);
+        composePollBinding.pollDuration.setSelection(Math.max(defaultSelection, 0));
         if (statusDraft != null && statusDraft.poll != null && statusDraft.poll.options != null) {
             int i = 1;
             for (Poll.PollItem pollItem : statusDraft.poll.options) {
@@ -2197,14 +2215,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (statusDraft.poll.options.size() >= max_entry) {
                 composePollBinding.buttonAddOption.setVisibility(View.GONE);
             }
-            switch (statusDraft.poll.expire_in) {
-                case 300 -> composePollBinding.pollDuration.setSelection(0);
-                case 1800 -> composePollBinding.pollDuration.setSelection(1);
-                case 3600 -> composePollBinding.pollDuration.setSelection(2);
-                case 21600 -> composePollBinding.pollDuration.setSelection(3);
-                case 86400 -> composePollBinding.pollDuration.setSelection(4);
-                case 259200 -> composePollBinding.pollDuration.setSelection(5);
-                case 604800 -> composePollBinding.pollDuration.setSelection(6);
+            int draftIndex = pollDurationValues.indexOf(statusDraft.poll.expire_in);
+            if (draftIndex >= 0) {
+                composePollBinding.pollDuration.setSelection(draftIndex);
             }
             if (statusDraft.poll.multiple)
                 composePollBinding.pollType.check(R.id.poll_type_multiple);
@@ -2255,16 +2268,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else if (statusDraft != null) {
                     statusDraft.poll = new Poll();
                     statusDraft.poll.multiple = selected_poll_type_id == R.id.poll_type_multiple;
-                    statusDraft.poll.expire_in = switch (poll_duration_pos) {
-                        case 0 -> 300;
-                        case 1 -> 1800;
-                        case 2 -> 3600;
-                        case 3 -> 21600;
-                        case 4 -> 86400;
-                        case 5 -> 259200;
-                        case 6 -> 604800;
-                        default -> 864000;
-                    };
+                    statusDraft.poll.expire_in = poll_duration_pos < pollDurationValues.size() ? pollDurationValues.get(poll_duration_pos) : 86400;
                     if (promptDraftListener != null) {
                         promptDraftListener.promptDraft();
                     }
