@@ -25,5 +25,5 @@ public class Token {
     @SerializedName("scope")
     public String scope;
     @SerializedName("created_at")
-    public long created_at;
+    public String created_at;
 }
