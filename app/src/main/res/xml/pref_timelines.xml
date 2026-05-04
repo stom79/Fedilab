@@ -44,6 +44,13 @@
         app:singleLineTitle="false"
         app:title="@string/reverse_timeline" />
     <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_REFRESH_ALL_TIMELINES"
+        app:singleLineTitle="false"
+        app:summary="@string/refresh_all_timelines_summary"
+        app:title="@string/refresh_all_timelines" />
+    <SwitchPreferenceCompat
         android:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_HIGHLIGHT_NEW_COMMENTS"

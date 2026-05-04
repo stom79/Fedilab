@@ -1391,6 +1391,7 @@
     <string name="SET_BOOST_ORIGINAL_DATE" translatable="false">SET_BOOST_ORIGINAL_DATE</string>
     <string name="SET_TIMELINE_SCROLLBAR" translatable="false">SET_TIMELINE_SCROLLBAR</string>
     <string name="SET_REVERSE_TIMELINE" translatable="false">SET_REVERSE_TIMELINE</string>
+    <string name="SET_REFRESH_ALL_TIMELINES" translatable="false">SET_REFRESH_ALL_TIMELINES</string>
     <string name="SET_HIGHLIGHT_NEW_COMMENTS" translatable="false">SET_HIGHLIGHT_NEW_COMMENTS</string>
     <string name="SET_MARKDOWN_SUPPORT" translatable="false">SET_MARKDOWN_SUPPORT</string>
     <string name="SET_TRUNCATE_LINKS" translatable="false">SET_TRUNCATE_LINKS</string>
@@ -2212,6 +2213,8 @@
     <string name="boost_original_date">Display original date for boosts</string>
     <string name="timeline_scrollbar">Display a scroll bar for timelines</string>
     <string name="reverse_timeline">Reverse timeline reading order</string>
+    <string name="refresh_all_timelines">Refresh all timelines at once</string>
+    <string name="refresh_all_timelines_summary">When pulling to refresh, also refresh other visible timelines in background</string>
     <string name="highlight_new_comments">Highlight new comments in threads</string>
     <string name="markdown_support">Markdown support</string>
     <string name="set_disable_release_notes">Disable release notes</string>
@@ -2326,6 +2329,7 @@
     <string name="kw_boost_date">boost, date, original, reblog</string>
     <string name="kw_scrollbar">scrollbar, scroll</string>
     <string name="kw_reverse_timeline">reverse, order, reading, bottom</string>
+    <string name="kw_refresh_all_timelines">refresh, reload, all timelines, pull, swipe</string>
     <string name="kw_highlight_comments">highlight, comments, thread, unread</string>
     <string name="kw_markdown">markdown, formatting, bold, italic</string>
     <string name="kw_truncate_links">truncate, links, url, shorten</string>

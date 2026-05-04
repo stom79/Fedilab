@@ -99,6 +99,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String status_id;
     private String tagged;
     private List<Status> timelineStatuses;
+    private boolean isRefreshing;
+    private final BroadcastReceiver receive_refresh_all = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (!isRefreshing && binding != null) {
+                binding.swipeContainer.setRefreshing(true);
+                flagLoading = false;
+                route(DIRECTION.REFRESH, true);
+            }
+        }
+    };
     //Handle actions that can be done in other fragments
     private final BroadcastReceiver receive_action = new BroadcastReceiver() {
         @Override
@@ -543,6 +554,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         try {
             ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
+            ContextCompat.registerReceiver(requireActivity(), receive_refresh_all, new IntentFilter(Helper.RECEIVE_REFRESH_ALL_TIMELINES), ContextCompat.RECEIVER_NOT_EXPORTED);
         }catch (Exception ignored){}
     }
 
@@ -565,6 +577,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         binding.swipeContainer.setRefreshing(false);
         binding.loadingNextElements.setVisibility(View.GONE);
+        isRefreshing = false;
         flagLoading = false;
         if (timelineStatuses != null && fetched_statuses != null && fetched_statuses.statuses != null && !fetched_statuses.statuses.isEmpty()) {
             flagLoading = search == null && fetched_statuses.pagination.max_id == null;
@@ -736,7 +749,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             binding.swipeContainer.setOnRefreshListener(() -> {
                 binding.swipeContainer.setRefreshing(true);
                 flagLoading = false;
+                isRefreshing = true;
                 route(DIRECTION.REFRESH, true);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                if (prefs.getBoolean(getString(R.string.SET_REFRESH_ALL_TIMELINES), false)) {
+                    Intent broadcastIntent = new Intent(Helper.RECEIVE_REFRESH_ALL_TIMELINES);
+                    broadcastIntent.setPackage(requireActivity().getPackageName());
+                    requireActivity().sendBroadcast(broadcastIntent);
+                }
             });
         }
         if (initialStatus == null && (statuses == null || statuses.statuses == null || statuses.statuses.isEmpty())) {
@@ -1120,6 +1140,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         try {
             requireActivity().unregisterReceiver(receive_action);
+        } catch (Exception ignored) {
+        }
+        try {
+            requireActivity().unregisterReceiver(receive_refresh_all);
         } catch (Exception ignored) {
         }
         super.onDestroyView();

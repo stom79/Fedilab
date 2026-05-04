@@ -203,6 +203,7 @@ public class Helper {
     public static final String RECEIVE_REDRAW_BOTTOM = "RECEIVE_REDRAW_BOTTOM";
 
     public static final String RECEIVE_STATUS_ACTION = "RECEIVE_STATUS_ACTION";
+    public static final String RECEIVE_REFRESH_ALL_TIMELINES = "RECEIVE_REFRESH_ALL_TIMELINES";
 
     public static final String RECEIVE_REFRESH_NOTIFICATIONS_ACTION = "RECEIVE_REFRESH_NOTIFICATIONS_ACTION";
     public static final String RECEIVE_ERROR_MESSAGE = "RECEIVE_ERROR_MESSAGE";

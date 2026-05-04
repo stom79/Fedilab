@@ -64,6 +64,7 @@ public class SettingsSearchIndex {
         list.add(new SettingsSearchEntry(R.string.boost_original_date, R.string.kw_boost_date, catTimelines, navTimelines, "SET_BOOST_ORIGINAL_DATE"));
         list.add(new SettingsSearchEntry(R.string.timeline_scrollbar, R.string.kw_scrollbar, catTimelines, navTimelines, "SET_TIMELINE_SCROLLBAR"));
         list.add(new SettingsSearchEntry(R.string.reverse_timeline, R.string.kw_reverse_timeline, catTimelines, navTimelines, "SET_REVERSE_TIMELINE"));
+        list.add(new SettingsSearchEntry(R.string.refresh_all_timelines, R.string.kw_refresh_all_timelines, catTimelines, navTimelines, "SET_REFRESH_ALL_TIMELINES"));
         list.add(new SettingsSearchEntry(R.string.highlight_new_comments, R.string.kw_highlight_comments, catTimelines, navTimelines, "SET_HIGHLIGHT_NEW_COMMENTS"));
         list.add(new SettingsSearchEntry(R.string.max_indentation_thread, R.string.kw_max_indentation, catTimelines, navTimelines, "SET_MAX_INDENTATION"));
         list.add(new SettingsSearchEntry(R.string.set_share_validation, R.string.kw_confirm_boost, catTimelines, navTimelines, "SET_NOTIF_VALIDATION"));
