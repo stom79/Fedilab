@@ -667,7 +667,7 @@
     <string name="favourited_by">Nork du gogoko</string>
     <string name="post_message">Mezua bidaltzen…</string>
     <string name="post_message_text">%d/%d mezua bidaltzen</string>
-    <string name="hide_content">Ezkutatu edukia &lt;</string>
+    <string name="hide_content"><![CDATA[Ezkutatu edukia <]]></string>
     <string name="stop_recording">Utzi grabatzeari</string>
     <string name="is_down">Erorita dago!</string>
     <string name="report_title">%1$s salatzen</string>
@@ -950,7 +950,7 @@
     <string name="category_music">Musika</string>
     <string name="followers_only">Jarraitzaileak bakarrik</string>
     <string name="instance_health_indication">"bertsioa:  %s\n  %s erabiltzaile - %s egoera"</string>
-    <string name="show_content">Erakutsi edukia &gt;</string>
+    <string name="show_content"><![CDATA[Erakutsi edukia &gt;]]></string>
     <string name="set_alt_text_mandatory_description">Mezua ez da bidaliko multimediaren batek deskeibapena falta badu</string>
     <string name="thumbnail">Miniatura</string>
     <string name="tag_already_followed">Etiketa hori jarraitzen duzu dagoeneko!</string>

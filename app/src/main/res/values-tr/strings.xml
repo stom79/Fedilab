@@ -578,7 +578,7 @@
     <string name="no_distributors_explanation">Anlık bildirim alabilmeniz için bir dağıtıcı ayarlamalısınız.\nDaha fazla bilgi için: %1$s.\n\nBu mesajı gözardı etmek için ayarlardan anlık bildirimleri kapatabilirsiniz.</string>
     <string name="select_distributors">Dağıtıcı seçin</string>
     <string name="display">Görüntüle</string>
-    <string name="hide_content">İçeriği gizle &lt;</string>
+    <string name="hide_content"><![CDATA[İçeriği gizle <]]></string>
     <string name="report_val_more3">Belirli kuralları ihlal ettiğinin farkındasınız</string>
     <string name="report_val_more4">Sorun diğer kategorilere uymuyor</string>
     <string name="dont_have_an_account">Hesabınız yok mu\?</string>
@@ -683,7 +683,7 @@
     <string name="delete_field">Alanı sil</string>
     <string name="no_account_in_list">Bu liste için hesap bulunamadı!</string>
     <string name="instance_not_valid">Sunucu geçerli görünmüyor!</string>
-    <string name="show_content">İçeriği göster &gt;</string>
+    <string name="show_content"><![CDATA[İçeriği göster &gt;]]></string>
     <string name="stop_recording">Kaydı durdur</string>
     <string name="report_1_title">Bunu görmek istemiyor musunuz\?</string>
     <string name="report_1_unfollow_title">%1$s takibi bırak</string>

@@ -577,7 +577,7 @@
     <string name="approved">Aprobita</string>
     <string name="notif_display_follows">Abonoj</string>
     <string name="pref_theme_base">Bazo de la etoso</string>
-    <string name="hide_content">Kaŝi enhavon &lt;</string>
+    <string name="hide_content"><![CDATA[Kaŝi enhavon <]]></string>
     <string name="report_1_mute_title">Silentigi %1$s</string>
     <string name="add_filter">Aldoni filtrilon</string>
     <string name="clear_all_notif">Forigi ĉiujn sciigojn</string>
@@ -595,7 +595,7 @@
     <string name="instance_health_indication">versio: %s
 \n %s uzantoj - %s statoj</string>
     <string name="instance_health_checkedat">Kontrolita je: %s</string>
-    <string name="show_content">Montri enhavon &gt;</string>
+    <string name="show_content"><![CDATA[Montri enhavon &gt;]]></string>
     <string name="report_title">Raportante pri %1$s</string>
     <string name="report_1_unfollow_title">Malaboni %1$s</string>
     <string name="report_more_additional">Pliaj komentoj</string>

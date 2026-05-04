@@ -597,7 +597,7 @@
     <string name="replace_instagram">Instagram</string>
     <string name="replace_instagram_description">Alternatív felület használata Instagramhoz</string>
     <string name="lemmy_instance">Lemmy példány</string>
-    <string name="show_content">Tartalom megjelenítése &gt;</string>
-    <string name="hide_content">Tartalom elrejtése &lt;</string>
+    <string name="show_content"><![CDATA[Tartalom megjelenítése &gt;]]></string>
+    <string name="hide_content"><![CDATA[Tartalom elrejtése <]]></string>
     <string name="stop_recording">Felvétel leállítása</string>
 </resources>
