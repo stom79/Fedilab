@@ -216,6 +216,7 @@ public class SettingsSearchIndex {
         list.add(new SettingsSearchEntry(R.string.replace_instagram, R.string.kw_instagram, catPrivacy, navPrivacy, "SET_BIBLIOGRAM"));
         list.add(new SettingsSearchEntry(R.string.replace_reddit, R.string.kw_reddit, catPrivacy, navPrivacy, "SET_LIBREDDIT"));
         list.add(new SettingsSearchEntry(R.string.replace_medium, R.string.kw_medium, catPrivacy, navPrivacy, "REPLACE_MEDIUM"));
+        list.add(new SettingsSearchEntry(R.string.replace_bluesky, R.string.kw_bluesky, catPrivacy, navPrivacy, "SET_SKYVIEW"));
         list.add(new SettingsSearchEntry(R.string.set_tracking_parameters, R.string.kw_tracking, catPrivacy, navPrivacy, "SET_FILTER_TRACKING"));
 
         // Home cache

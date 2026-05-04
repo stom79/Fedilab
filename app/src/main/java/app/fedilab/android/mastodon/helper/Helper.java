@@ -378,6 +378,7 @@ public class Helper {
     public static final Pattern geminiPattern = Pattern.compile("(gemini://.*)\\b");
     public static final Pattern xmppPattern = Pattern.compile("xmpp:[-a-zA-Z0-9+$&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
     public static final Pattern peertubePattern = Pattern.compile("(https?://([\\da-z.-]+\\.[a-z.]{2,10}))/videos/watch/(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})$");
+    public static final Pattern blueskyPattern = Pattern.compile("(www\\.)?bsky\\.app(/profile/[\\w.:%-]+(/post/[\\w]+)?)");
     public static final Pattern mediumPattern = Pattern.compile("([\\w@-]*)?\\.?medium.com/@?([./\\w-]+)");
     public static final Pattern wikipediaPattern = Pattern.compile("([\\w_-]+)\\.wikipedia.org/(((?!([\"'<])).)*)");
     public static final Pattern codePattern = Pattern.compile("code=([\\w-]+)");
@@ -852,6 +853,22 @@ public class Helper {
                     return "https://" + invidiousHost + "/watch?v=" + youtubeId + "&local=true";
                 } else {
                     return "https://" + invidiousHost + "/" + youtubeId + "&local=true";
+                }
+            }
+        }
+
+        boolean skyview = Helper.getSharedValue(context, context.getString(R.string.SET_SKYVIEW));
+        if (skyview) {
+            matcher = Helper.blueskyPattern.matcher(url);
+            if (matcher.find()) {
+                String skyviewHost = sharedpreferences.getString(context.getString(R.string.SET_SKYVIEW_HOST), context.getString(R.string.DEFAULT_SKYVIEW_HOST)).toLowerCase();
+                if (skyviewHost.trim().isEmpty()) {
+                    skyviewHost = context.getString(R.string.DEFAULT_SKYVIEW_HOST);
+                }
+                try {
+                    return "https://" + skyviewHost + "/?url=" + java.net.URLEncoder.encode(url, "UTF-8");
+                } catch (java.io.UnsupportedEncodingException ignored) {
+                    return "https://" + skyviewHost + "/?url=" + url;
                 }
             }
         }

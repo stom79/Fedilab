@@ -83,6 +83,21 @@
             app:title="@string/replace_medium_host"
             app:useSimpleSummaryProvider="true" />
 
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_SKYVIEW"
+            app:singleLineTitle="false"
+            app:summary="@string/replace_bluesky_description"
+            app:title="@string/replace_bluesky" />
+
+        <EditTextPreference
+            app:defaultValue="@string/DEFAULT_SKYVIEW_HOST"
+            app:dependency="@string/SET_SKYVIEW"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_SKYVIEW_HOST"
+            app:title="@string/replace_bluesky_host"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

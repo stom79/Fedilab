@@ -640,6 +640,9 @@
     <string name="replace_medium">Medium</string>
     <string name="replace_medium_description">Use an alternative frontend for Medium</string>
     <string name="replace_medium_host">Medium frontend domain</string>
+    <string name="replace_bluesky">Bluesky</string>
+    <string name="replace_bluesky_description">Use an alternative frontend for Bluesky</string>
+    <string name="replace_bluesky_host">Bluesky frontend domain</string>
     <string name="set_push_notifications">Use a push notifications system for getting notifications in real time.</string>
     <string name="action_add_notes">Add notes</string>
     <string name="note_for_account">Notes for the account</string>
@@ -1440,6 +1443,9 @@
     <string name="REPLACE_MEDIUM" translatable="false">REPLACE_MEDIUM</string>
     <string name="REPLACE_MEDIUM_HOST" translatable="false">REPLACE_MEDIUM_HOST</string>
     <string name="DEFAULT_REPLACE_MEDIUM_HOST" translatable="false">scribe.rip</string>
+    <string name="SET_SKYVIEW" translatable="false">SET_SKYVIEW</string>
+    <string name="SET_SKYVIEW_HOST" translatable="false">SET_SKYVIEW_HOST</string>
+    <string name="DEFAULT_SKYVIEW_HOST" translatable="false">skyview.social</string>
     <string name="REPLACE_WIKIPEDIA" translatable="false">REPLACE_WIKIPEDIA</string>
     <string name="REPLACE_WIKIPEDIA_HOST" translatable="false">REPLACE_WIKIPEDIA_HOST</string>
     <string name="DEFAULT_REPLACE_WIKIPEDIA_HOST" translatable="false">wikiless.org</string>
@@ -2446,6 +2452,7 @@
     <string name="kw_instagram">instagram, bibliogram, privacy, frontend</string>
     <string name="kw_reddit">reddit, libreddit, privacy, frontend</string>
     <string name="kw_medium">medium, scribe, privacy, frontend, blog</string>
+    <string name="kw_bluesky">bluesky, bsky, skyview, privacy, frontend</string>
     <string name="kw_tracking">tracking, utm, analytics, remove, filter, privacy</string>
     <!-- Home cache -->
     <string name="kw_fetch_home">fetch, home, cache, background, sync</string>
