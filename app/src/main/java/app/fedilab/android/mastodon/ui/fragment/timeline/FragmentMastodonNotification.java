@@ -714,7 +714,11 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             flagLoading = fetched_notifications.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
             //Update the timeline with new statuses
+            int existingCount = notificationList.size();
             int insertedStatus = updateNotificationListWith(fetched_notifications.notifications);
+            if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH && notificationAdapter != null && existingCount > 0) {
+                notificationAdapter.notifyItemRangeChanged(0, existingCount);
+            }
             if (insertedStatus >= 0 && FragmentNotificationContainer.update != null && notificationType == NotificationTypeEnum.ALL && (direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.REFRESH)) {
                 FragmentNotificationContainer.update.onUpdateNotification(insertedStatus);
             }
