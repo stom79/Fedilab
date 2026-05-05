@@ -450,6 +450,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (composeAdapter == null) {
+            return;
+        }
         List<Uri> uris = new ArrayList<>();
         if (requestCode >= PICK_MEDIA && resultCode == RESULT_OK) {
             ClipData clipData = data.getClipData();
@@ -682,6 +685,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                     //There are other mentions to
                     if (statusReply.mentions != null && statusReply.mentions.size() > 0) {
                         for (Mention mentionTmp : statusReply.mentions) {
+                            if (mentionTmp.acct == null) {
+                                continue;
+                            }
                             if (statusReply.account.acct != null && !mentionTmp.acct.equalsIgnoreCase(statusReply.account.acct) && account.mastodon_account != null && !mentionTmp.acct.equalsIgnoreCase(account.mastodon_account.acct)) {
                                 statusDraftList.get(0).mentions.add(mentionTmp);
                             }
@@ -694,7 +700,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         mention.username = mentionBooster.username;
                         boolean present = false;
                         for (Mention mentionTmp : statusDraftList.get(0).mentions) {
-                            if (mentionTmp.acct.equalsIgnoreCase("@"+mentionBooster.acct)) {
+                            if (mentionTmp.acct != null && mentionTmp.acct.equalsIgnoreCase("@"+mentionBooster.acct)) {
                                 present = true;
                                 break;
                             }

@@ -755,7 +755,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         int insertedNotifications = 0;
         if (notificationsReceived != null && !notificationsReceived.isEmpty()) {
             for (Notification notificationReceived : notificationsReceived) {
-                if (notificationList == null) {
+                if (notificationList == null || notificationReceived.id == null) {
                     continue;
                 }
                 if (notificationReceived.group_key != null && groupedByServer && aggregateNotification) {
