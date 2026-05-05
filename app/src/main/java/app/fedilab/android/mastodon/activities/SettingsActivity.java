@@ -117,6 +117,7 @@ public class SettingsActivity extends BaseBarActivity {
         binding.noResults.setVisibility(View.GONE);
 
         NavController navController = Navigation.findNavController(this, R.id.fragment_container);
+        navController.popBackStack(R.id.FragmentSettingsCategories, false);
         navController.navigate(entry.getNavigationActionId());
 
         String preferenceKey = entry.getPreferenceKey();
