@@ -117,11 +117,21 @@ public class SpannableHelper {
         if (text == null || text.length() > 10000) {
             return new String[]{};
         }
+        Matcher tagCounter = Pattern.compile("<[^>]+>").matcher(text);
+        int tagCount = 0;
+        while (tagCounter.find()) tagCount++;
+        if (tagCount > 50) {
+            return new String[]{};
+        }
         SpannableString initialContent;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
-        } else {
-            initialContent = new SpannableString(Html.fromHtml(text));
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                initialContent = new SpannableString(Html.fromHtml(text));
+            }
+        } catch (Throwable e) {
+            return new String[]{};
         }
         final Pattern bottomTagsPattern = Pattern.compile(patternBottomTags, Pattern.CASE_INSENSITIVE);
         Matcher matcherBottomTags = bottomTagsPattern.matcher(initialContent);
