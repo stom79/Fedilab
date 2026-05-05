@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.39.0",
+    "code": "555",
+    "note": "Added:\n- Reorganize settings with categories and search\n- Add option to refresh all timelines at once on pull-to-refresh\n- Support custom poll durations based on instance max_expiration\n- Support web+ap:// and web+activitypub:// protocol with account selector\n- Allow viewing quotes on any post\n- Allow installation on ChromeOS devices without touchscreen\n- Add Bluesky to SkyView link rewriting\n\nFixed:\n- Fix Pixelfed login failure\n- Fix cursor jump when hiding keyboard with mentions at top\n- Fix notification timestamps not refreshing on reload\n- Fix prefix CW with \"re: \" when replying to CW'd messages\n- Fix quoted posts not resolving properly on remote timelines\n- Fix accidental list deletion from edit timelines screen\n- Fix opening multiple filter edit dialogs on double tap\n- Fix enlarge sensitive image blur button hit zone\n- Fix crash when clicking search results in settings after navigating\n- Fix crashes in compose reply with null mentions (Sharkey instances)\n- Fix crash in notifications with null IDs\n- Fix freeze on posts with deeply nested HTML tags from Misskey MFM\n- Add network constraint to home cache background worker\n"
+  },
+  {
     "version": "3.38.1",
     "code": "554",
     "note": "Fixed\n- Fix background home fetch leaving gaps in cached timeline\n- Fix scroll position lost when returning to scheduled/draft lists\n- Fix crash on posts with deeply nested HTML tags from Misskey MFM content\n- Fix scheduled boosts silently failing on network/server errors\n- Fix crash with foreground service timeout on Android 14+\n- Fix crash when translate dialog has unknown language codes\n- Fix media share falling back to Glide when DownloadManager fails\n"

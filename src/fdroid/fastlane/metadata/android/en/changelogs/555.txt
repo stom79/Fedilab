@@ -1,0 +1,23 @@
+Added:
+- Reorganize settings with categories and search
+- Add option to refresh all timelines at once on pull-to-refresh
+- Support custom poll durations based on instance max_expiration
+- Support web+ap:// and web+activitypub:// protocol with account selector
+- Allow viewing quotes on any post
+- Allow installation on ChromeOS devices without touchscreen
+- Add Bluesky to SkyView link rewriting
+
+Fixed:
+- Fix Pixelfed login failure
+- Fix cursor jump when hiding keyboard with mentions at top
+- Fix notification timestamps not refreshing on reload
+- Fix prefix CW with "re: " when replying to CW'd messages
+- Fix quoted posts not resolving properly on remote timelines
+- Fix accidental list deletion from edit timelines screen
+- Fix opening multiple filter edit dialogs on double tap
+- Fix enlarge sensitive image blur button hit zone
+- Fix crash when clicking search results in settings after navigating
+- Fix crashes in compose reply with null mentions (Sharkey instances)
+- Fix crash in notifications with null IDs
+- Fix freeze on posts with deeply nested HTML tags from Misskey MFM
+- Add network constraint to home cache background worker
