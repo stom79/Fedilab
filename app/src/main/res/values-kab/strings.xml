@@ -21,7 +21,7 @@
     <string name="tags">Tibzimin</string>
     <string name="save">Aḥrez</string>
     <string name="instance">Aqeddac</string>
-    <string name="instance_example">Aqeddac: mastodon.social</string>
+    <string name="instance_example">Amedya: mastodon.social</string>
     <string name="toast_account_changed" formatted="false">Iteddu tura akked s umiḍan %1$s</string>
     <string name="add_account">Rnu amiḍan</string>
     <string name="clipboard">Agbur n yizen yettwanɣel ɣer tfelwit n ufus</string>
@@ -656,4 +656,16 @@
     <string name="local_only">Adigan kan</string>
     <string name="translate_in">Suqel s</string>
     <string name="translator_domain">Taɣult n wemsuqel</string>
+    <string name="no_results">Ulac igmaḍ</string>
+    <string name="about_fediverse">Fediverse:</string>
+    <string name="settings_category_label_translation">Tasuqilt</string>
+    <string name="navigation">Tunigin</string>
+    <string name="behavior">Tikli</string>
+    <string name="system">Anagraw</string>
+    <string name="sharing">Beṭṭu</string>
+    <string name="replace_bluesky">Bluesky</string>
+    <string name="action_reblog">Zuzer</string>
+    <string name="action_quote">Tanebdurt</string>
+    <string name="action_publish">Suffeɣ-d</string>
+    <string name="settings_category_label_content">Agbur</string>
 </resources>
