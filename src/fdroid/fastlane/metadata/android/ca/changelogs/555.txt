@@ -1,0 +1,23 @@
+Novetats:
+- Reorganització de paràmetres amb categories i cerques
+- Opció de refrescar totes les pissarres alhora en fer l'estirada
+- La duració d'enquestes es pot lligar a la max_expiration de la instància
+- Protocol amb selecció de compte de web+ap:// i web+activitypub://
+- Veure les cites de qualsevol missatge
+- Permet instal·lar en aparells amb ChromeOS sense pantalla tàctil
+- Bluesky a reescriptura d'enllaç SkyView 
+
+Reparat:
+- No obria sessió a Pixelfed
+- Salt de cursor en ocultar el teclat amb mencions al damunt
+- Cronografies de notificació que no refrescaven en recarregar
+- Prefix SH amb "re: " en respondre a missatges en SH
+- Missatges citats que no es resolien bé en pissarres remotes
+- Supressió accidental de llista de la pantalla d'edició de pissarres
+- S'obrien múltiples diàlegs d'edició de filtres amb un doble toc
+- Ampliació de zona de contacte de botó de difuminat d'imatge sensible
+- Fallida en clicar resultats de cerca als paràmetres després de navegar
+- Fallides en compondre respostes amb zero mencions (instàncies Sharkey)
+- Fallida en notificacions d'ID nul
+- Paràlisi en missatges amb etiquetes HTML amb molts aniuaments de Misskey MFM
+- Afegir restricció de xarxa al treballador en segon pla de la memòria cau d'inici
