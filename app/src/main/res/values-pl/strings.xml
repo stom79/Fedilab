@@ -931,7 +931,7 @@
     <string name="admin_reject_media">Odrzucenie plików multimedialnych</string>
     <string name="admin_domainblock_reject_media">Zignoruj wszystkie raporty pochodzące z tej domeny. Nieistotne dla zawieszeń</string>
     <string name="admin_reject_reports">Odrzuć raporty</string>
-    <string name="type_of_theme">Wybierz tryb pracy dla tematu</string>
+    <string name="type_of_theme">Wybierz styl motywu</string>
     <string name="set_dynamic_color">Dynamiczny kolor</string>
     <string name="set_dynamic_color_indication">Wyrównaj tonalnie z kolorystyką osobistej tapety.</string>
     <string name="set_customize_light">Dostosuj jasny motyw</string>
@@ -954,7 +954,7 @@
     <string name="toast_error_peertube_not_supported">Twój Peertube jest zbyt stary i nie może być obsługiwany przez aplikację.</string>
     <string name="type_of_home_delay_title">Czasowe odświeżanie Home</string>
     <string name="set_fetch_home">Automatycznie pobieraj wiadomości lokalne</string>
-    <string name="home_cache">Home pamięć podręczna</string>
+    <string name="home_cache">Pamięć podręczna osi czasu</string>
     <string name="set_mention_at_top">Wzmianki na górze</string>
     <string name="manage_tags">Zarządzaj tagami</string>
     <string name="translator_domain">Domena tłumacza</string>
@@ -1018,7 +1018,7 @@
     <string name="set_alt_text_mandatory_description_warn">W przypadku brakujących mediów zostanie wyświetlone okno dialogowe z możliwością wysłania wiadomości bez opisu mediów</string>
     <string name="messages">%1$d wiadomości buforowane</string>
     <string name="no_cached_messages">Brak wiadomości z pamięci podręcznej Home!</string>
-    <string name="check_home_cache">Sprawdź pamięć podręczną Home</string>
+    <string name="check_home_cache">Sprawdź pamięć podręczną osi czasu</string>
     <string name="chart_home_cache_logs">Logi pamięci podręcznej Home</string>
     <string name="total_fetched">Całkowita liczba pobranych wiadomości</string>
     <string name="fetched_count">%d pobierane wiadomości</string>
@@ -1212,4 +1212,29 @@
     <string name="cd_release_note">Translated release note: %s</string>
     <string name="mastodon_trending_instance">Popularne instancje Mastodona</string>
     <string name="mastodon_trending_link_instance">Linki zyskujące na popularności</string>
+    <string name="settings_category_label_content">Zawartość</string>
+    <string name="settings_category_label_media">Media</string>
+    <string name="settings_category_label_translation">Tłumaczenie</string>
+    <string name="poll_5_minutes">5 minut</string>
+    <string name="poll_30_minutes">30 minut</string>
+    <string name="poll_1_hour">1 godzina</string>
+    <string name="poll_6_hours">6 godzin</string>
+    <string name="poll_1_day">1 dzień</string>
+    <string name="poll_3_days">3 dni</string>
+    <string name="poll_7_days">7 dni</string>
+    <string name="poll_14_days">14 dni</string>
+    <string name="poll_30_days">30 dni</string>
+    <string name="poll_60_days">60 dni</string>
+    <string name="poll_90_days">90 dni</string>
+    <string name="replace_bluesky">Bluesky</string>
+    <string name="replace_bluesky_description">Użyj alternatywnego frontendu dla Bluesky</string>
+    <string name="replace_bluesky_host">Domena frontendu Bluesky</string>
+    <string name="search_settings">Wyszukaj w Ustawieniach</string>
+    <string name="navigation">Nawigacja</string>
+    <string name="behavior">Zachowanie</string>
+    <string name="system">System</string>
+    <string name="sharing">Udostępnianie</string>
+    <string name="refresh_all_timelines">Odśwież wszystkie osie czasu jednocześnie</string>
+    <string name="no_results">Brak wyników</string>
+    <string name="refresh_all_timelines_summary">Podczas przewijania w celu odświeżenia, odśwież w tle również inne widoczne osie czasu</string>
 </resources>
