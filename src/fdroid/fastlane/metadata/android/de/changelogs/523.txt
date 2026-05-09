@@ -1,0 +1,12 @@
+Hinzugefügt:
+- Folgen von Twitter-Tags
+
+Geändert:
+- Entfernung der automatischen Sicherung (nur Google)
+
+Behoben:
+- Push-Benachrichtigungen funktionierten auf einigen Geräten nicht
+- Filter wurden nicht auf Medienbeschreibungen angewendet
+- Absturz bei animierten Bildern in Timelines behoben
+- Absturz bei langen Threads behoben
+- Absturz durch bestimmte Nachrichten behoben (trat in verschiedenen Timelines auf)

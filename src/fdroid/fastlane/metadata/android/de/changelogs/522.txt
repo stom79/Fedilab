@@ -1,0 +1,20 @@
+Hinzugefügt:
+- Möglichkeit, den „Entdecken“-Timelines von Pixelfed-Instanzen zu folgen
+- Beibehaltung der Medienproportionen in der Timeline für Pixelfed
+- Hinzufügen eines „Gefällt mir“-Buttons in den Timelines für Pixelfed
+- Möglichkeit, sich mittels Token anzumelden
+
+Geändert:
+- Verwendung des Pixelfed-Layouts beim Folgen von Pixelfed-Instanzen
+- Scrollbare Buttons für größere Bildschirme in Konversationen
+- Verschiebung des QR-Codes in den Header
+
+Behoben:
+- Nicht anklickbare URLs bei aktiviertem Markdown
+- Nitter-Unterstützung zum Folgen von Twitter-Konten
+- Pixelfed-Timeline wurde standardmäßig nicht angezeigt
+- Fehlerbehebung: Admin-Meldungen waren nicht zugänglich
+- Farbgebung der oberen Leiste beim Scrollen
+- Entwürfe wurden beim Hinzufügen/Bearbeiten von Medienbeschreibungen nicht gespeichert
+- Doppelte Einträge in den Vorschlägen der Benutzersuche
+- Einige kleinere Abstürze

@@ -1,0 +1,27 @@
+Neu:
+
+- Option zum Deaktivieren des automatischen Ausblendens der Schaltfläche zum Verfassen von Nachrichten hinzugefügt
+
+Geändert:
+
+- Weitere Inhaltsbeschreibungen für Schaltflächen hinzugefügt
+
+- Einige Schaltflächen aktualisiert
+
+- Navigationsleisten-Überschrift aktualisiert
+
+- Aktionsschaltflächen bei Bedarf zusammenziehen, um Überlappungen zu vermeiden
+
+Behoben:
+
+- Absturz bei zu großen Mediendateien behoben
+
+- Einige benutzerdefinierte Emojis in der Bio wurden nicht angezeigt
+
+- Das Veröffentlichen von Nachrichten funktionierte auf einigen Friendica-Instanzen nicht
+
+- Absturz bei automatisch geteilten Nachrichten behoben
+
+- Absturz beim Öffnen von Konversationen behoben
+
+- Problem mit der Hintergrundfarbe bei der Medienanzeige behoben

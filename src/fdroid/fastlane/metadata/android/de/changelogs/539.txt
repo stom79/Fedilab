@@ -1,0 +1,23 @@
+Hinzugefügt:
+- Vollständige Unterstützung für Mastodon-Zitate
+- Der Zitat-Button kann unter Einstellungen > Timeline ausgeblendet werden
+- Standard-Richtlinie für Zitate in den Einstellungen änderbar
+- Farbliche Hervorhebung beim Verfassen von Beiträgen je nach Sichtbarkeit (deaktivierbar / Farben anpassbar)
+- Barrierefreiheits-Aktionen zum Verschieben von Timelines nach oben/unten auf der Seite „Timelines verwalten“
+- Barrierefreiheits-Aktionen zum Ausblenden und Löschen von Timelines auf der Seite „Timelines verwalten“
+
+Geändert:
+- Boost- und Zitat-Buttons zusammengelegt (in den Einstellungen deaktivierbar)
+- Emoji-Buttons werden nur bei fokussiertem Status angezeigt
+- Popup-Menü für Boost-/Zitat-Aktionen bei Statusmeldungen hinzugefügt
+- Verbesserung von Benutzeroberfläche und Barrierefreiheit auf der Anmeldeseite
+- Option „Max. Zeichen in Links“ neben „Links kürzen“ verschoben
+- Weitere übersetzte Pronomen für die Unterstützung von Pronomen-Schlüsseln hinzugefügt
+- Bei fokussiertem Status werden Informationen zur Nachricht auf zwei Zeilen dargestellt
+
+Behoben:
+- Linker Rand bei den unteren Informationszeilen wurde nicht entfernt
+- Text der Inhaltswarnung ist nun auswählbar
+- HTML-Parsing in Anzeigenamen deaktiviert
+- Einstellung für den Übersetzungs-Button verbessert
+- Einige Abstürze behoben

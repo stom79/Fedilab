@@ -1,0 +1,9 @@
+Hinzugefügt:
+- Unterstützung für das MinT-Maschinenübersetzungssystem hinzugefügt
+- Unterstützung für die Option „Nur Instanz“ bei GoToSocial hinzugefügt
+
+Behoben:
+- GIFs wurden in den Timelines nicht angezeigt
+- Absturz beim Lösen von Timelines behoben
+- Farbgebung der oberen Leiste beim Scrollen in Konversationen korrigiert
+- Schwarzer Bildschirm beim Zurückkehren aus dem PeerTube-Bereich behoben

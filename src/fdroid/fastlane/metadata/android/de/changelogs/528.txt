@@ -1,0 +1,11 @@
+Hinzugefügt:
+- Neue App-Icons hinzugefügt (Einstellungen > Benutzeroberfläche)
+
+Geändert:
+- Schaltfläche für Abmelden/Proxy im Hauptmenü stärker hervorgehoben
+- Berechtigung 'FOREGROUND_SERVICE' (Vordergrund Service) entfernt
+- Layout des Medienbereichs (inkl. Übersetzungen) weiter optimiert
+
+Behoben:
+- Statusleisten-Symbole im hellen Design bei Verwendung einer benutzerdefinierten Akzentfarbe wieder sichtbar gemacht
+- Reaktionsschaltflächen waren auf einigen Instanzen nicht anklickbar

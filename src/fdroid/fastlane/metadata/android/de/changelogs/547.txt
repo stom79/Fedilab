@@ -1,0 +1,19 @@
+Neu:
+- Querverweise durch langes Drücken der Zitat-Schaltfläche hinzufügen
+- Trending Links zu anheftbaren Timelines und Remote-Instanzen hinzufügen
+- Warnung bei Überschreitung des Limits von 4 Hashtags in der kombinierten Timeline
+
+Behoben:
+- Problem mit dem Alt-Text beim Bearbeiten geplanter Beiträge behoben
+- Sortierreihenfolge beim Öffnen einer Zwischenantwort in einem Thread korrigiert
+- Problem mit der Anzeige von Zitat-Schaltfläche und Aktionszählern entsprechend der Farbe der Theme-Icons behoben
+- Problem mit der Anzeige aller Bilder aus Beiträgen mit mehreren Bildern in der ART-Timeline behoben
+- Problem mit der fehlerhaften Anzeige von „Keine Nachricht vorhanden“ in der Trending-Links-Seitennavigation behoben
+- Problem mit der Textverschiebung in abgeschnittenen Beiträgen durch Zurücksetzen der Scrollposition behoben
+- Problem mit der Schaltfläche zum Folgen von Remote-Profilen durch lokales Auflösen der Konten behoben
+- Problem mit zu schnellem Schließen von Benachrichtigungen behoben
+- Problem mit der Anzeige benutzerdefinierter Emojis in der Profilbeschreibung behoben
+- Abstürze im Status-Cache und im Timeline-Helper behoben
+- Problem mit der Animation benutzerdefinierter APNG-Emojis behoben
+- Problem mit der nicht erreichbaren oberen Leiste zum Verfassen von Texten nach dem Ausblenden der Tastatur behoben
+- NullPointerException behoben, wenn media_attachments in der Karte null ist

@@ -21,8 +21,8 @@
     <string name="tags">Hashtags</string>
     <string name="save">Speichern</string>
     <string name="instance">Instanz</string>
-    <string name="instance_example">Instanz: mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">Konto %1$s wird jetzt verwendet</string>
+    <string name="instance_example">z.B.: mastodon.social</string>
+    <string name="toast_account_changed" formatted="false">Zum Konto %1$s gewechselt</string>
     <string name="add_account">Konto hinzufügen</string>
     <string name="clipboard">Der Inhalt der Nachricht wurde in die Zwischenablage kopiert</string>
     <string name="clipboard_url">Die URL der Nachricht wurde in die Zwischenablage kopiert</string>

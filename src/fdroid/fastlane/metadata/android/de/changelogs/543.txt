@@ -1,0 +1,6 @@
+Behoben:
+- Absturz beim App-Start auf dem Benachrichtigungs-Tab
+- Einstellung für Vorschaubilder wurde durch Medien mit hohem Seitenverhältnis überschrieben
+- Hashtag-Filter für Remote-Instanzen wurde nicht angewendet
+- Textabschneidung im Filtermenü der Timeline
+- Zähler auf den Benachrichtigungs-Tabs und Beendigung des Vordergrunddienstes

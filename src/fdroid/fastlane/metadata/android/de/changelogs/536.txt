@@ -1,0 +1,16 @@
+Hinzugefügt:
+- 3-Punkte-Menü für externe Konversationen (Föderation im Hintergrund)
+- Unterstützung für Zitate bei Mastodon
+- Langes Drücken auf Tags: Folgen / Stummschalten
+
+Geändert:
+- Verbesserung der Barrierefreiheit im Medienbereich
+- Verbesserung der Inhaltsbeschreibungen
+- Aktualisierung der Sprachdateien
+- Aktualisierung der App-Symbole; zusätzliche monochrome Symbole hinzugefügt
+- Begrenzung der Anzahl hervorgehobener Hashtags am Ende von Nachrichten
+
+Behoben:
+- Behebung eines Fehlers, bei dem die Textauswahl beim Verfassen von Nachrichten nicht mehr funktionierte
+- Behebung eines Absturzes im Zusammenhang mit Threads
+- Behebung des Problems leerer Hashtags

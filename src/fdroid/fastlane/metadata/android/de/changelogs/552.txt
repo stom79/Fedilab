@@ -1,0 +1,7 @@
+Behoben
+- Profil-Header bleibt nach dem Scrollen in der umgekehrten Chronik hängen
+- Benachrichtigungen laden in der umgekehrten Chronik keine neuen Einträge nach
+- Einstellung für aggregierte Benachrichtigungen wird nun bei der API für gruppierte Benachrichtigungen berücksichtigt
+- Beschriftung „Benachrichtigungen aktiviert“
+- Standardverhalten von FAB und Toolbar wird in der umgekehrten Chronik beibehalten
+- Verhindert das Durchwischen der Benachrichtigungskategorien beim Wechseln zwischen den Chroniken

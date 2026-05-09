@@ -1,0 +1,17 @@
+Hinzugefügt:
+- Angeheftete „Trending“-Timeline (kann unter „Timelines verwalten“ ausgeblendet werden)
+- Fallback auf den Standard-Übersetzer hinzugefügt
+- Neuer Eintrag für Pixelfed in den Einstellungen, um den Vollbildmodus für Medien zu deaktivieren
+- Tooltips für Tabs in Profilen hinzugefügt
+
+Geändert:
+- Berührungsbereich der Antwort-Schaltflächen vergrößert
+- Anzeige eines Dialogs nach dem Export der Einstellungen
+
+Behoben:
+- Fehler behoben, bei dem Medienbeschreibungen nicht aktualisiert wurden, wenn mehrere vorhanden waren
+- Es wurde nur ein Teil der DeepL-Übersetzungen angezeigt
+- Abgeschnittene Übersetzungen bei Lingva korrigiert
+- Absturz beim Abrufen externer Profile behoben
+- Absturz bei animierten Emojis behoben
+- Absturz bei der Anzeige der Home-Cache-Diagramme behoben

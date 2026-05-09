@@ -1,0 +1,26 @@
+Hinzugefügt:
+- Inhaltsbeschreibungen für die Tabs in der oberen Leiste hinzugefügt
+- Bedienungshilfe zum Umschalten der Medienempfindlichkeit von Beiträgen in den Timelines hinzugefügt
+- Bedienungshilfen zum Übersetzen, Herunterladen und Teilen im Medienbetrachter hinzugefügt
+- Sprachindikator für den fokussierten Status hinzugefügt
+- Persisch zur Option „Sprache ändern“ hinzugefügt
+- Neues App-Logo hinzugefügt
+
+Geändert:
+- Platzhalter anzeigen, während Profilbilder geladen werden
+- Titel der Tabs in der unteren Navigation aktualisiert
+- Barrierefreiheit übersetzter Inhalte verbessert
+- Liste der Tracking-Parameter für die Option „UTM-Parameter entfernen“ aktualisiert
+- „Tracking“ anstelle von „UTM“ verwendet
+- Barrierefreiheit auf der Seite „Timelines verwalten“ verbessert
+- Schaltfläche zum Ein-/Ausblenden von Medien vergrößert
+- „Über“-Seite aktualisiert
+
+Behoben:
+- Hashtags am Ende der Bio verschwinden, wenn „Hashtags am Ende hervorheben“ aktiviert ist
+- „Alternatives Frontend verwenden“ lässt Medium-Links nicht mehr funktionieren
+- Mehrfaches Tippen auf die Veröffentlichen-Schaltfläche führt zu mehrfacher Veröffentlichung des Status
+- Popup für Alt-Texte passt seine Größe beim Wischen nicht an
+- Videosteuerung im hellen Design nicht sichtbar
+- Profilbild erscheint im RTL-Modus auf der Konversationsseite links neben dem Titel
+- Diverse Abstürze behoben

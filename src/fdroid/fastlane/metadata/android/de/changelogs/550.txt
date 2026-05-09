@@ -1,0 +1,9 @@
+Geändert
+- Filterung von Beiträgen mit in Markdown eingebetteten Links ermöglicht
+
+Behoben
+- Wiederherstellung der Position in umgekehrter Chronologie korrigiert und auf Benachrichtigungen/Konversationen angewendet
+- Doppelte Beiträge beim Aufteilen langer Nachrichten behoben
+- Fehler beim Absenden von Threads behoben
+- Absturz beim Planen eines Toots mit Umfrage behoben
+- Absturz in der Thread-Ansicht behoben

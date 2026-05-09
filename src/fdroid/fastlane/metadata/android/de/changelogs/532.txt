@@ -1,0 +1,4 @@
+Behoben:
+- Umfragen wurden nicht angezeigt
+- Paginierung bei Trends
+- Push-Benachrichtigungen funktionierten auf einigen Geräten nicht

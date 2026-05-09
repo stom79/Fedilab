@@ -1,0 +1,17 @@
+Hinzugefügt:
+- Ansicht für Diskussionen zu trendenden Links
+- Medienanzeige für zitierte Nachrichten
+- Funktion „Diesen Beitrag filtern“
+
+Geändert:
+- Die Textfarbe von MathJax passt sich dem aktuellen Hintergrund des Themes an
+
+Behoben:
+- ANR bei langen Texten ohne Leerzeichen
+- NPE bei der Zitatverarbeitung
+- Berücksichtigung der standardmäßigen Zitatrichtlinie des Benutzers beim Verfassen neuer Beiträge
+- Ausblenden von durch CW geschützten Inhalten in zitierten Beiträgen
+- Teilen von Bildern an andere Apps
+- Autoplay für animierte WebP-Bilder in der Timeline
+- Sortierung der Antworten in der Konversationsansicht
+- „Entfolgen“-Schaltfläche wurde im Profil nicht angezeigt

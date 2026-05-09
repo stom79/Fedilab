@@ -1,0 +1,2 @@
+Hinzugefügt:
+- Misskey-Unterstützung

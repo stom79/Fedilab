@@ -1,0 +1,30 @@
+Hinzugefügt:
+- „Mastodon Trending Remote“ als anheftbare Timeline hinzugefügt
+- Einstellung hinzugefügt, um den Upload unkomprimierter Medien zu erlauben (standardmäßig deaktiviert)
+- Optionen hinzugefügt, um Hinweise auf „sensible Inhalte“ und „Medienbeschreibungen“ auszublenden
+- Option hinzugefügt, um die Form des Profilbilds auf der Profilseite zu ändern
+- Bedienungshilfe-Aktion zum Übersetzen von Status-Inhalten hinzugefügt
+- Neue Einstellung mit mehreren Optionen zur Anpassung der Anzeige des Zitier-Buttons
+
+Geändert:
+- Migration auf targetSdk 35
+- Einstellung für Link-Vorschauen verbessert
+- Benutzeroberfläche des Pop-ups für „Boosten & Zitieren“ überarbeitet
+- Konto aus der Liste der „stummgeschalteten Konten“ (Home) entfernt, wenn man ihm nicht mehr folgt
+- Instanz-URI im Dialog „Über diese Instanz“ anklickbar gemacht
+
+Behoben:
+- Platzhalter für nicht-föderierte Emojis wird nun angezeigt
+- Nachrichtenfilter funktionierte nach dem Laden eines externen Profils nicht mehr
+- Animierte WebP-Bilder wurden im Medienbetrachter nicht abgespielt
+- Audio-Elemente waren nicht anklickbar, wenn die Option „Vorschau anpassen“ aktiviert war
+- Cross-Posting: Korrekte Instanz für Zeichenbegrenzung und Emojis wird nun verwendet
+- Textkürzung wurde bei zitierten Beiträgen nicht angewendet
+- Inhaltswarnungen gingen beim Bearbeiten geplanter Beiträge verloren
+- DeepL-Übersetzung nutzt nun den Authorization-Header
+- Option „Originalnachricht öffnen“ öffnete teilweise den falschen Status
+- Fehlerbehebungen bezüglich Zitier-Benachrichtigungen (Typ wurde nicht korrekt ausgeschlossen; Reiter „Zitate“ zeigte Umfragen an)
+- Videoflimmern behoben
+- Probleme mit dem Mediaplayer behoben
+- Verbesserungen an den Filtern
+- Diverse Abstürze behoben

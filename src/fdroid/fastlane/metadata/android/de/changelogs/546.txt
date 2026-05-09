@@ -1,0 +1,52 @@
+Hinzugefügt:
+- Misskey-Unterstützung
+- Diskussionsansicht für Trendlinks hinzugefügt
+- Medienanzeige für zitierte Nachrichten hinzugefügt
+- Funktion „Diesen Beitrag filtern“ hinzugefügt
+- Mastodon-Trend-Remote als anheftbare Timeline hinzugefügt
+- Einstellung zum Hochladen unkomprimierter Medien hinzugefügt (standardmäßig deaktiviert)
+- Optionen zum Ausblenden von Indikatoren für „Sensible Inhalte“ und „Medienbeschreibung“ hinzugefügt
+- Option zum Ändern der Profilbildform auf der Profilseite hinzugefügt
+- Barrierefreiheitsaktion zum Übersetzen von Statusinhalten hinzugefügt
+- Neue Einstellung mit mehreren Optionen zum Ändern der Darstellung der Zitat-Schaltfläche hinzugefügt
+- Option zum Hervorheben neuer Kommentare in Konversationsverläufen hinzugefügt
+
+Geändert:
+- MathJax-Textfarbe passt sich dem aktuellen Theme-Hintergrund an
+- Migration auf TargetSDK 35
+- Link-Vorschau-Einstellungen verbessert
+- Benutzeroberfläche des Boost+Zitat-Popups geändert
+- Konto beim Entfolgen aus „Startseite stummgeschaltet“ entfernt
+- Instanz-URI im Dialogfeld „Über die Instanz“ anklickbar gemacht
+
+Behoben:
+- Absturz beim App-Start im Benachrichtigungs-Tab
+- Einstellung für Vorschaubilder durch Medien mit hohem Seitenverhältnis überschrieben
+- Hashtag der Remote-Instanz  Filter wird nicht angewendet
+- Text im Timeline-Filtermenü abgeschnitten
+- Zählung der Benachrichtigungs-Tabs und Abbruch des Vordergrunddienstes
+- ANR bei langem Text ohne Leerzeichen
+- NPE bei der Zitatverarbeitung
+- Standard-Zitatrichtlinie des Benutzers beim Verfassen neuer Beiträge berücksichtigen
+- CW-geschützte Inhalte in zitierten Beiträgen ausblenden
+- Bildfreigabe an andere Apps
+- Animierte WebP-Videos automatisch in der Timeline abspielen
+- Platzhalter für nicht-verbundene Emojis anzeigen
+- Nachrichtenfilter funktioniert nach dem Laden eines Remote-Profils nicht
+- Animierte WebP-Videos werden im Medien-Viewer nicht abgespielt
+- Audio nicht anklickbar, wenn die Vorschau angepasst ist
+- Cross-Posting: Korrekte Instanz für Zeichenbegrenzung und Emojis verwenden
+- Abschneiden wird bei zitierten Beiträgen nicht angewendet
+- Inhaltswarnung beim Bearbeiten geplanter Beiträge verloren
+- DeepL-Übersetzung mithilfe des Authorization-Headers
+- „Originalnachricht öffnen“ kann falschen Status öffnen
+- Behebungen im Zusammenhang mit Zitatbenachrichtigungen (Typ wird nicht korrekt ausgeschlossen, Zitat-Tab zeigt Umfragen an)
+- Video flackert
+- Player-Problem
+- Filterverbesserungen
+- Android-Benachrichtigungen werden nicht angezeigt  Abgelehnt
+- Medien-Overlay-Symbole auf hellem Hintergrund schwer erkennbar
+- Die obere Leiste zum Verfassen neuer Nachrichten ist nach dem Löschen eines Medienanhangs nicht erreichbar
+- Die Emoji-Tastatur öffnet sich nicht und die Autovervollständigung unterscheidet zwischen Groß- und Kleinschreibung
+- Speicherfehler bei sehr langen HTML-Inhalten
+- Vereinzelte Abstürze

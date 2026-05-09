@@ -1,0 +1,31 @@
+Hinzugefügt
+- Option zum Umkehren der Lesereihenfolge in der Timeline hinzugefügt
+- API für gruppierte Benachrichtigungen (v2) mit Fallback auf lokale Gruppierung hinzugefügt
+- Lautstärkeregler und Wiedergabegeschwindigkeitsregler für den Videoplayer hinzugefügt
+- Option für Antwortrichtlinien beim Erstellen/Bearbeiten von Listen hinzugefügt
+- Pinch-Zoom für remote geladene Medien hinzugefügt
+- Unterstützung für Fediverse-Ersteller in Link-Vorschaukarten hinzugefügt
+- Erkennung unerreichbarer Lücken in der Startseiten-Timeline hinzugefügt
+- Karussell mit angehefteten Statusmeldungen in Profilen hinzugefügt
+
+Geändert
+- Anzeigename anstelle von generischem Text in Umfragebenachrichtigungen anzeigen
+- Emoji-Shortcode als Fallback anzeigen, wenn benutzerdefinierte Emojis nicht geladen werden können
+- Timeline bei Interaktion mit Beiträgen stabil halten
+- Verbesserte Behandlung von Pronomen und Anzeigenamen
+- Verbesserte Vorschau durch Begrenzung der Höhe
+
+Behoben
+- Problem behoben, dass Bild-Timelines neue Bilder nicht laden und Beiträge beim Neustart verloren gehen
+-Problem behoben, dass Änderungen an Alternativtexten beim Bearbeiten geplanter Beiträge verloren gehen
+- Problem behoben, dass Zitate in geplanten Beiträgen verloren gehen
+- Unerwartetes Format für die Zitatgenehmigung von GlitchSocial-Instanzen behoben
+- Geplante Beiträge korrigiert: Falsches Element aus der Liste entfernt und Mindestverzögerung durchgesetzt.
+- Suchseitenaufteilung für Statusmeldungen und Konten korrigiert
+- Doppelte Beiträge behoben, wenn ein Beitrag in einer Serie fehlschlägt
+- Absturz beim Ausblenden/Löschen der Chronik nach einer anderen Löschung behoben
+- Fehlermeldung beim Verfassen eines Beitrags in der Thread-Ansicht nicht sofort angezeigt
+- Zitierbutton deaktiviert, wenn das Zitieren verweigert wird
+- Seitenaufteilung für Instanzen mit nicht-alphanumerischen IDs korrigiert
+- Auflösung von Remote-Erwähnungen korrigiert
+- Sichtbarkeit von Zitaten auf „Nicht gelistet“ anstatt auf „Standard“ erzwungen

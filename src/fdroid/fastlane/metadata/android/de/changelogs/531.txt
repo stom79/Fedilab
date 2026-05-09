@@ -1,0 +1,13 @@
+Hinzugefügt:
+- Ein Rahmen um Medieninhalte
+
+Geändert:
+- Benutzername und Anzeigename im Navigationsmenü anklickbar gemacht
+- GIFs werden standardmäßig nicht animiert dargestellt
+- Erwähnung des Boosters beim Antworten standardmäßig deaktiviert (kann unter Einstellungen > Verfassen pro Konto aktiviert werden)
+
+Behoben:
+- Falsches Vorschaubild beim Teilen aus einer anderen App heraus
+- Absturz beim Übersetzen mit MinT
+- Aktualisierung und Paginierung in der „Trending“-Timeline funktionierten nicht
+- Behebung von Rucklern und Abstürzen

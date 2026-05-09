@@ -1,0 +1,9 @@
+Hinzugefügt:
+- Filter werden nun auch auf zitierte Nachrichten angewendet
+
+Geändert:
+- „Niemand“ wurde bei der Richtlinie zur Zitatgenehmigung durch „Nur ich“ ersetzt
+
+Behoben:
+- Absturz beim Bearbeiten von Nachrichten
+- Die Domain x.com wurde den URL-Mustern für alternative Frontends hinzugefügt

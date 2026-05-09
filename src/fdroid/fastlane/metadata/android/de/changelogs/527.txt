@@ -1,0 +1,10 @@
+Hinzugefügt:
+- Unterstützung für das URL-Schema „web+ap“ zum Öffnen von Profilen in der App
+
+Geändert:
+- Layout für Medienbeschreibungen
+
+Behoben:
+- Absturz beim Übersetzen von Medienbeschreibungen behoben
+- Doppelte Einbindung beim Antworten auf einen eigenen Boost korrigiert
+- Farbfehler bei Verwendung eines benutzerdefinierten Themes behoben

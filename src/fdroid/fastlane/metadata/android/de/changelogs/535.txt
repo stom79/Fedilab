@@ -1,0 +1,10 @@
+Hinzugefügt:
+- Unterstützung für Zitate bei Mastodon
+- Langes Drücken auf Tags: Folgen / Stummschalten
+
+Geändert:
+- Begrenzung der Anzahl hervorgehobener Hashtags am Ende von Nachrichten
+
+Behoben:
+- Absturz bei Threads behoben
+- Leere Hashtags korrigiert

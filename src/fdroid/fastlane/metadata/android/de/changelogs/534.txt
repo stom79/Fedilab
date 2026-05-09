@@ -1,0 +1,19 @@
+Hinzugefügt:
+- Hervorhebung der Hashtags am Beitragsende
+- Unterstützung für „Trending Links“
+- Anzeige hervorgehobener Tags in Profilen
+- Hinzufügen/Entfernen hervorgehobener Tags über den Profil-Editor
+
+Geändert:
+- Bestätigungsdialog beim langen Drücken der Boost-Schaltfläche hinzugefügt
+- Öffnen von Nachrichten durch Tippen auf einen geplanten Boost
+- Verbesserung der Sprachauswahl bei Filterung nach bestimmten Sprachen
+
+Behoben:
+- Begrenzung der Abrufe für Filter
+- Medienauswahl auf Pleroma-Instanzen nicht möglich
+- Falsche Nachrichten bei geplanten Inhalten gelöscht (Nachrichten und Boosts)
+- Absturz bei langen Threads behoben
+- Potenzielles Speicherproblem bei nicht zugeschnittenen Medien behoben
+- Anzeige eingebetteter Zitate korrigiert
+- Diverse Abstürze behoben

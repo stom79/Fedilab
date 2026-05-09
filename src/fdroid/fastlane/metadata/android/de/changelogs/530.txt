@@ -1,0 +1,5 @@
+Behoben:
+- Absturz auf einigen Geräten behoben
+- Zitat-Schaltfläche ausgeblendet
+- Layout-Problem bei Bildern im Querformat behoben
+- Absturz beim Öffnen der Originalnachricht aus einem Bild heraus behoben
