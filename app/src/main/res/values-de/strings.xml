@@ -644,7 +644,7 @@
     <string name="delete_field_confirm">Bist Du sicher, dass Du dieses Feld löschen willst\?</string>
     <string name="delete_field">Feld löschen</string>
     <string name="type_of_notifications">Art der Benachrichtigungen</string>
-    <string name="disable_notifications">Benachrichtigungen deaktivieren</string>
+    <string name="disable_notifications">Aktivierte Benachrichtigungen</string>
     <string name="notification_sounds">Benachrichtigungstöne</string>
     <string name="type_of_notifications_title">Wähle die Art der Benachrichtigungen</string>
     <string name="pref_contributor">Themen der Mitwirkenden</string>
