@@ -36,14 +36,15 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -52,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/number_of_replies"
                 android:layout_weight="2"
-                android:drawablePadding="5dp"
+                android:drawablePadding="8dp"
                 app:drawableStartCompat="@drawable/ic_baseline_message_24" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -61,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/number_of_media"
                 android:layout_weight="2"
-                android:drawablePadding="5dp"
+                android:drawablePadding="8dp"
                 app:drawableStartCompat="@drawable/ic_baseline_perm_media_24" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -70,41 +71,34 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/update_date"
                 android:layout_weight="1"
-                android:drawablePadding="5dp"
+                android:drawablePadding="8dp"
                 app:drawableStartCompat="@drawable/ic_baseline_access_time_24" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <app.fedilab.android.mastodon.helper.CustomTextView
-                android:id="@+id/status_content"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="5"
-                tools:text="@tools:sample/lorem/random" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/delete"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/delete"
+                android:padding="6dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_baseline_delete_24" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <app.fedilab.android.mastodon.helper.CustomTextView
+            android:id="@+id/status_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="5"
+            android:textSize="14sp"
+            tools:text="@tools:sample/lorem/random" />
+
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/media"
