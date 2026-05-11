@@ -343,7 +343,7 @@ public class ComposeWorker extends Worker {
                                 } catch (DBException e) {
                                     e.printStackTrace();
                                 }
-                                if (i >= dataPost.statusDraft.statusDraftList.size()) {
+                                if (i >= dataPost.statusDraft.statusDraftList.size() - 1) {
                                     try {
                                         new StatusDraft(context).removeDraft(dataPost.statusDraft);
                                     } catch (DBException e) {
