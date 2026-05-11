@@ -2469,4 +2469,5 @@
     <string name="kw_reactions">reactions, emoji, pleroma, akkoma</string>
     <string name="kw_local_only">local only, federation, pleroma</string>
     <string name="kw_post_format">post, format, plain text, html, markdown, bbcode</string>
+    <string name="action_sort">Sort</string>
 </resources>

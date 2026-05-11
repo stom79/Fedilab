@@ -18,10 +18,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageButton
+        android:id="@+id/sort_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/action_sort"
+        android:src="@drawable/ic_baseline_filter_asc_24"
+        android:visibility="gone" />
+
     <!-- Listview status -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/sort_button">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
