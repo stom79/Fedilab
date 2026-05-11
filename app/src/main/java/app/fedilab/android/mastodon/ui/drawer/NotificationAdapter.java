@@ -76,6 +76,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_QUOTE = 14;
 
     public FetchMoreCallBack fetchMoreCallBack;
+    public boolean reverseTimeline;
     private Context context;
     private RecyclerView mRecyclerView;
 
@@ -248,6 +249,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        viewHolder.itemView.setRotation(reverseTimeline ? 180 : 0);
         Notification notification = notificationList.get(position);
         if (notification == null || notification.account == null) {
             return;

@@ -63,6 +63,7 @@ import app.fedilab.android.mastodon.helper.MastodonHelper;
 public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Conversation> conversationList;
     public FetchMoreCallBack fetchMoreCallBack;
+    public boolean reverseTimeline;
     private Context context;
     private boolean isExpended = false;
     private RecyclerView mRecyclerView;
@@ -130,6 +131,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        viewHolder.itemView.setRotation(reverseTimeline ? 180 : 0);
         Conversation conversation = conversationList.get(position);
         ConversationHolder holder = (ConversationHolder) viewHolder;
 

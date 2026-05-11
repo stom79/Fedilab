@@ -28,9 +28,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -583,6 +585,26 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             flagLoading = search == null && fetched_statuses.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
 
+            if (fetchingMissing) {
+                String batchMaxId = null, batchMinId = null;
+                for (Status status : fetched_statuses.statuses) {
+                    if (batchMaxId == null || Helper.compareTo(status.id, batchMaxId) > 0)
+                        batchMaxId = status.id;
+                    if (batchMinId == null || Helper.compareTo(status.id, batchMinId) < 0)
+                        batchMinId = status.id;
+                }
+                if (batchMaxId != null && batchMinId != null) {
+                    for (int i = 0; i < timelineStatuses.size(); i++) {
+                        Status timelineStatus = timelineStatuses.get(i);
+                        if (timelineStatus.isFetchMore
+                                && Helper.compareTo(timelineStatus.id, batchMaxId) <= 0
+                                && Helper.compareTo(timelineStatus.id, batchMinId) >= 0) {
+                            timelineStatus.isFetchMore = false;
+                            statusAdapter.notifyItemChanged(i);
+                        }
+                    }
+                }
+            }
 
             if (timelineType == Timeline.TimeLineEnum.ART) {
                 //We have to split media in different statuses
@@ -717,8 +739,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     }
                 }
             }
-        } else if (direction == DIRECTION.BOTTOM) {
-            flagLoading = true;
+        } else {
+            if (direction == DIRECTION.BOTTOM) {
+                flagLoading = true;
+            }
+            if (fetchingMissing && fetchStatus != null) {
+                int position = getDirectPosition(fetchStatus);
+                if (position >= 0 && position < timelineStatuses.size()) {
+                    timelineStatuses.get(position).isFetchMore = true;
+                    statusAdapter.notifyItemChanged(position);
+                }
+            }
         }
         if (direction == DIRECTION.SCROLL_TOP) {
             new Handler().postDelayed(() -> binding.recyclerView.scrollToPosition(0), 200);
@@ -841,7 +872,27 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         mLayoutManager = new LinearLayoutManager(requireActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         if (reverseTimeline) {
-            mLayoutManager.setReverseLayout(true);
+            binding.swipeContainer.setRotation(180);
+            int progressStart = (int) Helper.convertDpToPixel(16, requireActivity());
+            int progressEnd = (int) Helper.convertDpToPixel(100, requireActivity());
+            binding.swipeContainer.setProgressViewOffset(false, progressStart, progressEnd);
+            TypedValue tv = new TypedValue();
+            int actionBarHeight = 0;
+            if (requireActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+            }
+            boolean singleBar = sharedpref.getBoolean(getString(R.string.SET_USE_SINGLE_TOPBAR), false);
+            int visualBottomPadding = singleBar ? 0 : actionBarHeight;
+            binding.recyclerView.setPadding(
+                    binding.recyclerView.getPaddingLeft(),
+                    visualBottomPadding,
+                    binding.recyclerView.getPaddingRight(),
+                    actionBarHeight
+            );
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) binding.loadingNextElements.getLayoutParams();
+            lp.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            binding.loadingNextElements.setLayoutParams(lp);
         }
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
@@ -857,53 +908,33 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    scrollingUp = dy < 0;
+                    int visualDy = reverseTimeline ? -dy : dy;
+                    scrollingUp = visualDy < 0;
                     if (requireActivity() instanceof BaseMainActivity) {
-                        if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                        if (visualDy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
-                        if (dy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                        if (visualDy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
                     }
                     int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
-                    if (reverseTimeline) {
-                        if (dy < 0) {
-                            int visibleItemCount = mLayoutManager.getChildCount();
-                            int totalItemCount = mLayoutManager.getItemCount();
-                            if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                                if (!flagLoading) {
-                                    flagLoading = true;
-                                    binding.loadingNextElements.setVisibility(View.VISIBLE);
-                                    router(DIRECTION.BOTTOM);
-                                }
-                            } else {
-                                binding.loadingNextElements.setVisibility(View.GONE);
-                            }
-                        } else if (firstVisibleItem == 0) {
+                    if (dy > 0) {
+                        int visibleItemCount = mLayoutManager.getChildCount();
+                        int totalItemCount = mLayoutManager.getItemCount();
+                        if (firstVisibleItem + visibleItemCount == totalItemCount
+                                && (!reverseTimeline || firstVisibleItem > 0)) {
                             if (!flagLoading) {
                                 flagLoading = true;
                                 binding.loadingNextElements.setVisibility(View.VISIBLE);
-                                router(DIRECTION.TOP);
+                                router(DIRECTION.BOTTOM);
                             }
+                        } else {
+                            binding.loadingNextElements.setVisibility(View.GONE);
                         }
-                    } else {
-                        if (dy > 0) {
-                            int visibleItemCount = mLayoutManager.getChildCount();
-                            int totalItemCount = mLayoutManager.getItemCount();
-                            if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                                if (!flagLoading) {
-                                    flagLoading = true;
-                                    binding.loadingNextElements.setVisibility(View.VISIBLE);
-                                    router(DIRECTION.BOTTOM);
-                                }
-                            } else {
-                                binding.loadingNextElements.setVisibility(View.GONE);
-                            }
-                        } else if (firstVisibleItem == 0) {
-                            if (!flagLoading) {
-                                flagLoading = true;
-                                binding.loadingNextElements.setVisibility(View.VISIBLE);
-                                router(DIRECTION.TOP);
-                            }
+                    } else if (!reverseTimeline && firstVisibleItem == 0) {
+                        if (!flagLoading) {
+                            flagLoading = true;
+                            binding.loadingNextElements.setVisibility(View.VISIBLE);
+                            router(DIRECTION.TOP);
                         }
                     }
                 }
@@ -1152,7 +1183,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     private void storeMarker(BaseAccount connectedAccount) {
         if (mLayoutManager != null) {
-            int position = mLayoutManager.findFirstVisibleItemPosition();
+            int position = reverseTimeline ? mLayoutManager.findLastVisibleItemPosition() : mLayoutManager.findFirstVisibleItemPosition();
             if (timelineStatuses != null && timelineStatuses.size() > position) {
                 try {
                     Status status = timelineStatuses.get(position);

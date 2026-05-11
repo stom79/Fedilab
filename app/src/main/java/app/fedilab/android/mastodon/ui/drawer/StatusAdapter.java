@@ -4018,7 +4018,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (statusList.get(position).filteredByApp.filter_action.equals("warn")) {
                     return STATUS_FILTERED;
                 } else { //These messages should not be displayed unless they contain a fetch more button
-                    if (!statusList.get(position).isFetchMore) {
+                    if (!statusList.get(position).isFetchMore && !statusList.get(position).isFetching) {
                         return STATUS_HIDDEN;
                     } else {
                         return STATUS_FILTERED_HIDE;
@@ -4106,6 +4106,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        viewHolder.itemView.setRotation(reverseTimeline ? 180 : 0);
         //Nothing to do with hidden statuses
         if (viewHolder.getItemViewType() == STATUS_HIDDEN) {
             return;
