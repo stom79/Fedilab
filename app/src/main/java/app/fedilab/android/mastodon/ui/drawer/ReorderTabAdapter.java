@@ -172,6 +172,10 @@ public class ReorderTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 holder.binding.icon.setImageResource(R.drawable.ic_full_link);
                 holder.binding.text.setText(R.string.links);
                 break;
+            case BOOKMARK_TIMELINE:
+                holder.binding.icon.setImageResource(R.drawable.ic_baseline_bookmark_24);
+                holder.binding.text.setText(R.string.bookmarks);
+                break;
         }
 
 

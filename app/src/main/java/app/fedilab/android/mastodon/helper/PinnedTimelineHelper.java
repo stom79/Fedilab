@@ -262,6 +262,27 @@ public class PinnedTimelineHelper {
                     new Pinned(activity).insertPinned(pinned);
                 }
             }
+            //Bookmark timeline
+            boolean createDefaultBookmarkAtTop = true;
+            for (PinnedTimeline pinnedTimeline : pinnedAll.pinnedTimelines) {
+                if (pinnedTimeline.type == Timeline.TimeLineEnum.BOOKMARK_TIMELINE) {
+                    createDefaultBookmarkAtTop = false;
+                    break;
+                }
+            }
+            if (createDefaultBookmarkAtTop) {
+                PinnedTimeline pinnedTimelineBookmark = new PinnedTimeline();
+                pinnedTimelineBookmark.type = Timeline.TimeLineEnum.BOOKMARK_TIMELINE;
+                pinnedTimelineBookmark.displayed = false;
+                pinnedTimelineBookmark.position = pinnedAll.pinnedTimelines != null ? pinnedAll.pinnedTimelines.size() : 0;
+                pinned.pinnedTimelines.add(pinnedTimelineBookmark);
+                boolean exist = new Pinned(activity).pinnedExist(pinned);
+                if (exist) {
+                    new Pinned(activity).updatePinned(pinned);
+                } else {
+                    new Pinned(activity).insertPinned(pinned);
+                }
+            }
         } catch (DBException e) {
             e.printStackTrace();
         }
@@ -495,6 +516,10 @@ public class PinnedTimelineHelper {
                             tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_full_link);
                             tab.setContentDescription(R.string.links);
                             break;
+                        case BOOKMARK_TIMELINE:
+                            tabCustomDefaultViewBinding.icon.setImageResource(R.drawable.ic_baseline_bookmark_24);
+                            tab.setContentDescription(R.string.bookmarks);
+                            break;
                     }
                     tab.setCustomView(tabCustomDefaultViewBinding.getRoot());
                 }
@@ -629,6 +654,7 @@ public class PinnedTimelineHelper {
                     case TREND_MESSAGE:
                     case TREND_LINK:
                     case PUBLIC:
+                    case BOOKMARK_TIMELINE:
                         defaultClick(activity, pinnedTimelineVisibleList.get(position).type, v, activityMainBinding, finalI);
                         break;
                 }
