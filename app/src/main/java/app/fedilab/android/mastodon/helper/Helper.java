@@ -63,7 +63,7 @@ import android.provider.OpenableColumns;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
+
 import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.Menu;
@@ -1545,6 +1545,14 @@ public class Helper {
         }).start();
     }
 
+    private static int resolveColor(Context context, int colorOrResId) {
+        int packageByte = (colorOrResId >> 24) & 0xFF;
+        if (packageByte == 0x7f || packageByte == 0x01) {
+            return ContextCompat.getColor(context, colorOrResId);
+        }
+        return colorOrResId;
+    }
+
     /**
      * change color of a drawable
      *
@@ -1554,13 +1562,7 @@ public class Helper {
     public static void changeDrawableColor(Context context, ImageView imageView, int hexaColor) {
         if (imageView == null)
             return;
-        int color;
-        try {
-            color = context.getResources().getColor(hexaColor);
-        } catch (Resources.NotFoundException e) {
-            color = hexaColor;
-        }
-        imageView.setColorFilter(color);
+        imageView.setColorFilter(resolveColor(context, hexaColor));
     }
 
     /**
@@ -1572,13 +1574,7 @@ public class Helper {
     public static void changeDrawableColor(Context context, MaterialButton materialButton, int hexaColor) {
         if (materialButton == null)
             return;
-        int color;
-        try {
-            color = context.getResources().getColor(hexaColor);
-        } catch (Resources.NotFoundException e) {
-            color = hexaColor;
-        }
-        materialButton.setIconTint(ColorStateList.valueOf(color));
+        materialButton.setIconTint(ColorStateList.valueOf(resolveColor(context, hexaColor)));
     }
 
     /**
@@ -1589,19 +1585,7 @@ public class Helper {
      */
     public static Drawable changeDrawableColor(Context context, int drawable, int hexaColor) {
         Drawable mDrawable = ContextCompat.getDrawable(context, drawable);
-        int color;
-        try {
-            color = Color.parseColor(context.getString(hexaColor));
-        } catch (Resources.NotFoundException e) {
-            try {
-                TypedValue typedValue = new TypedValue();
-                Resources.Theme theme = context.getTheme();
-                theme.resolveAttribute(hexaColor, typedValue, true);
-                color = typedValue.data;
-            } catch (Resources.NotFoundException ed) {
-                color = hexaColor;
-            }
-        }
+        int color = resolveColor(context, hexaColor);
         assert mDrawable != null;
         mDrawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         DrawableCompat.setTint(mDrawable, color);
