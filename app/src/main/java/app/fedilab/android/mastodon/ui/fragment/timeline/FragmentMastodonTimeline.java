@@ -49,6 +49,7 @@ import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
 import com.bumptech.glide.util.ViewPreloadSizeProvider;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import app.fedilab.android.BaseMainActivity;
@@ -231,6 +232,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String slug;
     private boolean canBeFederated;
     private boolean reverseTimeline;
+    private boolean reverseOrder;
+    private String reverseOrderMinId;
     private boolean rememberPosition;
     private String publicTrendsDomain;
 
@@ -550,6 +553,13 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //AND Only the first fragment will initialize its view
         flagLoading = false;
         bundleParamsRetrieved = true;
+        reverseOrder = false;
+        reverseOrderMinId = null;
+        if (timelineType == Timeline.TimeLineEnum.BOOKMARK_TIMELINE || timelineType == Timeline.TimeLineEnum.FAVOURITE_TIMELINE) {
+            binding.addAction.setVisibility(View.VISIBLE);
+            binding.addAction.setImageResource(R.drawable.ic_baseline_filter_desc_24);
+            binding.addAction.setOnClickListener(v -> toggleReverseOrder());
+        }
         if (needToCallResume) {
             initializeView();
             needToCallResume = false;
@@ -582,7 +592,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         isRefreshing = false;
         flagLoading = false;
         if (timelineStatuses != null && fetched_statuses != null && fetched_statuses.statuses != null && !fetched_statuses.statuses.isEmpty()) {
-            flagLoading = search == null && fetched_statuses.pagination.max_id == null;
+            if (reverseOrder) {
+                flagLoading = fetched_statuses.pagination.min_id == null;
+                Collections.reverse(fetched_statuses.statuses);
+            } else {
+                flagLoading = search == null && fetched_statuses.pagination.max_id == null;
+            }
             binding.noAction.setVisibility(View.GONE);
 
             if (fetchingMissing) {
@@ -725,6 +740,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (!fetchingMissing) {
                 if (search != null) {
                     offset += MastodonHelper.SEARCH_PER_CALL;
+                } else if (reverseOrder) {
+                    reverseOrderMinId = fetched_statuses.pagination.min_id;
+                    if (fetched_statuses.pagination.min_id == null) {
+                        flagLoading = true;
+                    }
                 } else {
                     if (fetched_statuses.pagination.max_id == null) {
                         flagLoading = true;
@@ -815,7 +835,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 statuses.statuses = mediaStatuses;
             }
         }
-        flagLoading = search == null && statuses.pagination.max_id == null;
+        if (reverseOrder) {
+            flagLoading = statuses.pagination.min_id == null;
+        } else {
+            flagLoading = search == null && statuses.pagination.max_id == null;
+        }
         binding.recyclerView.setVisibility(View.VISIBLE);
         if (statusAdapter != null && timelineStatuses != null) {
             int size = timelineStatuses.size();
@@ -835,9 +859,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if(statuses.statuses == null) {
             statuses.statuses = new ArrayList<>();
         }
+        if (reverseOrder) {
+            Collections.reverse(statuses.statuses);
+        }
         timelineStatuses.addAll(statuses.statuses);
         if (search != null) {
             offset += MastodonHelper.SEARCH_PER_CALL;
+        } else if (reverseOrder) {
+            reverseOrderMinId = statuses.pagination.min_id;
         } else {
             if (max_id == null || (statuses.pagination.max_id != null && Helper.compareTo(statuses.pagination.max_id, max_id) < 0) || timelineType.getValue().startsWith("TREND_")) {
                 max_id = statuses.pagination.max_id;
@@ -1198,6 +1227,25 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             }
         }
+    }
+
+    private void toggleReverseOrder() {
+        reverseOrder = !reverseOrder;
+        binding.addAction.setImageResource(reverseOrder
+                ? R.drawable.ic_baseline_filter_asc_24
+                : R.drawable.ic_baseline_filter_desc_24);
+        reverseOrderMinId = null;
+        max_id = null;
+        min_id = null;
+        flagLoading = false;
+        if (statusAdapter != null && timelineStatuses != null) {
+            int size = timelineStatuses.size();
+            timelineStatuses.clear();
+            statusAdapter.notifyItemRangeRemoved(0, size);
+        }
+        binding.loader.setVisibility(View.VISIBLE);
+        binding.noAction.setVisibility(View.GONE);
+        router(null);
     }
 
     private void router(DIRECTION direction) {
@@ -1597,60 +1645,110 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (isMisskey) {
                 int limit = MastodonHelper.statusesPerCall(requireActivity());
                 String userId = BaseMainActivity.currentUserID;
-                if (direction == null) {
-                    misskeyTimelinesVM.getUserReactions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, userId, null, null, limit)
-                            .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
-                } else if (direction == DIRECTION.BOTTOM) {
-                    misskeyTimelinesVM.getUserReactions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, userId, max_id, null, limit)
-                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
-                } else if (direction == DIRECTION.TOP) {
-                    misskeyTimelinesVM.getUserReactions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, userId, null, min_id, limit)
-                            .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
+                if (reverseOrder) {
+                    if (direction == null) {
+                        misskeyTimelinesVM.getUserReactions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, userId, null, "0", limit)
+                                .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                    } else if (direction == DIRECTION.BOTTOM) {
+                        misskeyTimelinesVM.getUserReactions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, userId, null, reverseOrderMinId, limit)
+                                .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                    } else {
+                        flagLoading = false;
+                    }
                 } else {
-                    flagLoading = false;
+                    if (direction == null) {
+                        misskeyTimelinesVM.getUserReactions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, userId, null, null, limit)
+                                .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                    } else if (direction == DIRECTION.BOTTOM) {
+                        misskeyTimelinesVM.getUserReactions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, userId, max_id, null, limit)
+                                .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                    } else if (direction == DIRECTION.TOP) {
+                        misskeyTimelinesVM.getUserReactions(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, userId, null, min_id, limit)
+                                .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
+                    } else {
+                        flagLoading = false;
+                    }
                 }
             } else {
-                if (direction == null) {
-                    accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, null)
-                            .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
-                } else if (direction == DIRECTION.BOTTOM) {
-                    accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, max_id)
-                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
-                } else if (direction == DIRECTION.TOP) {
-                    accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), min_id, null)
-                            .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
+                String limit = String.valueOf(MastodonHelper.statusesPerCall(requireActivity()));
+                if (reverseOrder) {
+                    if (direction == null) {
+                        accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, limit, "0", null)
+                                .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                    } else if (direction == DIRECTION.BOTTOM) {
+                        accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, limit, reverseOrderMinId, null)
+                                .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                    } else {
+                        flagLoading = false;
+                    }
                 } else {
-                    flagLoading = false;
+                    if (direction == null) {
+                        accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, limit, null, null)
+                                .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                    } else if (direction == DIRECTION.BOTTOM) {
+                        accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, limit, null, max_id)
+                                .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                    } else if (direction == DIRECTION.TOP) {
+                        accountsVM.getFavourites(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, limit, min_id, null)
+                                .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
+                    } else {
+                        flagLoading = false;
+                    }
                 }
             }
         }
         else if (timelineType == Timeline.TimeLineEnum.BOOKMARK_TIMELINE) {
             if (isMisskey) {
                 int limit = MastodonHelper.statusesPerCall(requireActivity());
-                if (direction == null) {
-                    misskeyTimelinesVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, limit)
-                            .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
-                } else if (direction == DIRECTION.BOTTOM) {
-                    misskeyTimelinesVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, limit)
-                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
-                } else if (direction == DIRECTION.TOP) {
-                    misskeyTimelinesVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, min_id, limit)
-                            .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
+                if (reverseOrder) {
+                    if (direction == null) {
+                        misskeyTimelinesVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, "0", limit)
+                                .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                    } else if (direction == DIRECTION.BOTTOM) {
+                        misskeyTimelinesVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, reverseOrderMinId, limit)
+                                .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                    } else {
+                        flagLoading = false;
+                    }
                 } else {
-                    flagLoading = false;
+                    if (direction == null) {
+                        misskeyTimelinesVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, null, limit)
+                                .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                    } else if (direction == DIRECTION.BOTTOM) {
+                        misskeyTimelinesVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, max_id, null, limit)
+                                .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                    } else if (direction == DIRECTION.TOP) {
+                        misskeyTimelinesVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, null, min_id, limit)
+                                .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
+                    } else {
+                        flagLoading = false;
+                    }
                 }
             } else {
-                if (direction == null) {
-                    accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, null, null)
-                            .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
-                } else if (direction == DIRECTION.BOTTOM) {
-                    accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), max_id, null, null)
-                            .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
-                } else if (direction == DIRECTION.TOP) {
-                    accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, String.valueOf(MastodonHelper.statusesPerCall(requireActivity())), null, null, min_id)
-                            .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
+                String limit = String.valueOf(MastodonHelper.statusesPerCall(requireActivity()));
+                if (reverseOrder) {
+                    if (direction == null) {
+                        accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, limit, null, null, "0")
+                                .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                    } else if (direction == DIRECTION.BOTTOM) {
+                        accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, limit, null, null, reverseOrderMinId)
+                                .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                    } else {
+                        flagLoading = false;
+                    }
                 } else {
-                    flagLoading = false;
+                    if (direction == null) {
+                        accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, limit, null, null, null)
+                                .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
+                    } else if (direction == DIRECTION.BOTTOM) {
+                        accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, limit, max_id, null, null)
+                                .observe(getViewLifecycleOwner(), statusesBottom -> dealWithPagination(statusesBottom, DIRECTION.BOTTOM, false, true, fetchStatus));
+                    } else if (direction == DIRECTION.TOP) {
+                        accountsVM.getBookmarks(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, limit, null, null, min_id)
+                                .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
+                    } else {
+                        flagLoading = false;
+                    }
                 }
             }
         }else if (timelineType == Timeline.TimeLineEnum.QUOTE_TIMELINE) {
