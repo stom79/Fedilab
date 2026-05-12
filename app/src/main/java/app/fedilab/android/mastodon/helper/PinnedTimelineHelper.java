@@ -374,11 +374,9 @@ public class PinnedTimelineHelper {
         if (!needRedraw) { //if there were no changes with list, no need to update tabs
             return;
         }
+        activityMainBinding.viewPager.setAdapter(null);
         //Pinned tab position will start after BOTTOM_TIMELINE_COUNT (ie 5)
         activityMainBinding.tabLayout.removeAllTabs();
-        if(activityMainBinding.viewPager.getAdapter() != null) {
-           activityMainBinding.viewPager.getAdapter().notifyDataSetChanged();
-        }
         int toRemove = FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
         if (!singleBar) {
             //Small hack to hide first tabs (they represent the item of the bottom menu)

@@ -123,13 +123,17 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
         }
 
         holder.binding.cardviewContainer.setOnClickListener(v -> {
+            int adapterPosition = holder.getBindingAdapterPosition();
+            if (adapterPosition == RecyclerView.NO_POSITION) {
+                return;
+            }
             if (statusDraftList != null || scheduledStatuses != null) {
                 Intent intent = new Intent(context, ComposeActivity.class);
                 Bundle args = new Bundle();
                 if(statusDraftList != null) {
-                    args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraftList.get(position));
+                    args.putSerializable(Helper.ARG_STATUS_DRAFT, statusDraftList.get(adapterPosition));
                 } else {
-                    args.putSerializable(Helper.ARG_STATUS_SCHEDULED, scheduledStatuses.get(position));
+                    args.putSerializable(Helper.ARG_STATUS_SCHEDULED, scheduledStatuses.get(adapterPosition));
                 }
                 new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                     Bundle bundle = new Bundle();
@@ -140,7 +144,7 @@ public class StatusScheduledAdapter extends RecyclerView.Adapter<StatusScheduled
             } else if(scheduledBoosts != null) {
                 Intent intentContext = new Intent(context, ContextActivity.class);
                 Bundle args2 = new Bundle();
-                args2.putSerializable(Helper.ARG_STATUS, scheduledBoosts.get(position).status);
+                args2.putSerializable(Helper.ARG_STATUS, scheduledBoosts.get(adapterPosition).status);
                 new CachedBundle(context).insertBundle(args2, Helper.getCurrentAccount(context), bundleId2 -> {
                     Bundle bundleCached = new Bundle();
                     bundleCached.putLong(Helper.ARG_INTENT_ID, bundleId2);

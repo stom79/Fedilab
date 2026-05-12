@@ -347,7 +347,7 @@ public class Translate {
             String content;
             try {
                 content = URLDecoder.decode(translationJson.getString("translation"), "utf-8");
-            } catch (UnsupportedEncodingException e) {
+            } catch (UnsupportedEncodingException | IllegalArgumentException e) {
                 content = translationJson.getString("translation");
             }
             translate.setTranslatedContent(content);
