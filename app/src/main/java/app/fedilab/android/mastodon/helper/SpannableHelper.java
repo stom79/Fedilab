@@ -114,16 +114,52 @@ public class SpannableHelper {
 
     private static final String patternBottomTags = "\\n{2,}((#[\\w_À-ú-]+)(\\s*| *))+$";
 
+    private static final int MAX_HTML_NESTING_DEPTH = 6;
+
+    // Returns the maximum HTML tag nesting depth
+    private static int getMaxNestingDepth(String html) {
+        int depth = 0;
+        int maxDepth = 0;
+        int i = 0;
+        while (i < html.length()) {
+            if (html.charAt(i) == '<') {
+                int end = html.indexOf('>', i);
+                if (end == -1) break;
+                String tag = html.substring(i + 1, end).trim();
+                if (tag.startsWith("/")) {
+                    depth--;
+                } else if (!tag.endsWith("/") && !tag.startsWith("br") && !tag.startsWith("!")) {
+                    depth++;
+                    if (depth > maxDepth) {
+                        maxDepth = depth;
+                    }
+                }
+                i = end + 1;
+            } else {
+                i++;
+            }
+        }
+        return maxDepth;
+    }
+
+    private static String stripNonStandardHtmlTags(String html) {
+        return html.replaceAll("<(?!/?(a\\b|br\\b|p\\b|span\\b|blockquote\\b))[^>]*>", "");
+    }
+
     public static String[] hasBottomTags(String text) {
         if (text == null || text.length() > 10000) {
             return new String[]{};
         }
+        String sanitizedText = text;
+        if (getMaxNestingDepth(text) > MAX_HTML_NESTING_DEPTH) {
+            sanitizedText = stripNonStandardHtmlTags(text);
+        }
         SpannableString initialContent;
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                initialContent = new SpannableString(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+                initialContent = new SpannableString(Html.fromHtml(sanitizedText, Html.FROM_HTML_MODE_LEGACY));
             } else {
-                initialContent = new SpannableString(Html.fromHtml(text));
+                initialContent = new SpannableString(Html.fromHtml(sanitizedText));
             }
         } catch (Throwable e) {
             return new String[]{};
@@ -199,12 +235,8 @@ public class SpannableHelper {
         }
         SpannableString initialContent;
         if (convertHtml) {
-            // Strip excessive tag nesting (e.g. MFM content converted to deeply nested HTML)
-            Matcher tagCounter = Pattern.compile("<[^>]+>").matcher(text);
-            int tagCount = 0;
-            while (tagCounter.find()) tagCount++;
-            if (tagCount > 50) {
-                text = text.replaceAll("<(?!/?(a\\b|br\\b|p\\b|span\\b|blockquote\\b))[^>]*>", "");
+            if (getMaxNestingDepth(text) > MAX_HTML_NESTING_DEPTH) {
+                text = stripNonStandardHtmlTags(text);
             }
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
