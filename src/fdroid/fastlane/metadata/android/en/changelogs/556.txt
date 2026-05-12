@@ -1,0 +1,22 @@
+Added:
+- Allow bookmarks to be pinned as timeline tab
+- Add custom emoji independent size setting with tap to preview
+- Add emoji autocomplete in CW and poll fields
+- Add reverse sort order for bookmarks and favourites
+- Auto-hide compose button when scrolling hashtag timeline
+- Auto-hide bubble timeline when instance doesn't support it
+
+Improved:
+- Improve scheduled and draft drawer card styling
+- Sort scheduled posts by scheduled date
+
+Fixed:
+- Fix cursor position after first mention on reply
+- Fix crash when spamming pick instance button
+- Fix home-muted accounts still showing filter warnings
+- Fix bottom hashtags vanishing with many tags
+- Fix freeze on posts with deeply nested MFM HTML
+- Fix compose button and toolbar desync in reverse scroll mode
+- Fix delete original post on redraft
+- Fix pull-to-refresh in reverse timeline mode
+- Fix some crashes
