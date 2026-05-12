@@ -36,6 +36,7 @@
     <string name="schedule">Schedule</string>
     <string name="text_size">Text sizes</string>
     <string name="icon_size">Icon sizes</string>
+    <string name="emoji_size">Custom emoji sizes</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="open_with">Open with</string>
@@ -1341,6 +1342,8 @@
     <string name="SET_FONT_SCALE_INT" translatable="false">SET_FONT_SCALE_INT</string>
     <string name="SET_FONT_SCALE_ICON" translatable="false">SET_FONT_SCALE_ICON</string>
     <string name="SET_FONT_SCALE_ICON_INT" translatable="false">SET_FONT_SCALE_ICON_INT</string>
+    <string name="SET_EMOJI_SCALE" translatable="false">SET_EMOJI_SCALE</string>
+    <string name="SET_EMOJI_SCALE_INT" translatable="false">SET_EMOJI_SCALE_INT</string>
     <string name="SET_FILTER_REGEX_HOME" translatable="false">SET_FILTER_REGEX_HOME</string>
     <string name="SET_FILTER_REGEX_LOCAL" translatable="false">SET_FILTER_REGEX_LOCAL</string>
     <string name="SET_FILTER_REGEX_PUBLIC" translatable="false">SET_FILTER_REGEX_PUBLIC</string>
@@ -2397,6 +2400,7 @@
     <string name="kw_release_notes">release, notes, changelog, update</string>
     <string name="kw_text_size">text, size, font, zoom, scale</string>
     <string name="kw_icon_size">icon, size, zoom, scale</string>
+    <string name="kw_emoji_size">emoji, size, zoom, scale, custom</string>
     <string name="kw_video_cache">video, cache, storage</string>
     <string name="kw_nsfw_timeout">nsfw, timeout, sensitive</string>
     <string name="kw_media_desc_timeout">media, description, timeout, alt text</string>

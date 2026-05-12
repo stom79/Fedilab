@@ -41,6 +41,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.URLUtil;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -431,10 +432,28 @@ public class SpannableHelper {
                 while (matcher.find()) {
                     CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
                     content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                    String emojiUrl = animate ? emoji.url : emoji.static_url;
                     if (Helper.isValidContextForGlide(context)) {
-                        String emojiUrl = animate ? emoji.url : emoji.static_url;
                         customEmoji.loadEmoji(view, emojiUrl, animate, null);
                     }
+                    final String previewUrl = emoji.url;
+                    content.setSpan(new LongClickableSpan() {
+                        @Override
+                        public void onClick(@NonNull View textView) {
+                            textView.setTag(CLICKABLE_SPAN);
+                            showEmojiPreview(textView.getContext(), previewUrl);
+                        }
+
+                        @Override
+                        public void onLongClick(View textView) {
+                            textView.setTag(CLICKABLE_SPAN);
+                            showEmojiPreview(textView.getContext(), previewUrl);
+                        }
+
+                        @Override
+                        public void updateDrawState(@NonNull TextPaint ds) {
+                        }
+                    }, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
         }
@@ -1081,10 +1100,28 @@ public class SpannableHelper {
                 while (matcher.find()) {
                     CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
                     content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                    String emojiUrl = animate ? emoji.url : emoji.static_url;
                     if (Helper.isValidContextForGlide(activity)) {
-                        String emojiUrl = animate ? emoji.url : emoji.static_url;
                         customEmoji.loadEmoji(view, emojiUrl, animate, null);
                     }
+                    final String previewUrl = emoji.url;
+                    content.setSpan(new LongClickableSpan() {
+                        @Override
+                        public void onClick(@NonNull View textView) {
+                            textView.setTag(CLICKABLE_SPAN);
+                            showEmojiPreview(textView.getContext(), previewUrl);
+                        }
+
+                        @Override
+                        public void onLongClick(View textView) {
+                            textView.setTag(CLICKABLE_SPAN);
+                            showEmojiPreview(textView.getContext(), previewUrl);
+                        }
+
+                        @Override
+                        public void updateDrawState(@NonNull TextPaint ds) {
+                        }
+                    }, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
         }
@@ -1142,5 +1179,20 @@ public class SpannableHelper {
             alertDialog.dismiss();
         });
 
+    }
+
+    private static void showEmojiPreview(Context context, String url) {
+        ImageView imageView = new ImageView(context);
+        int size = (int) Helper.convertDpToPixel(200, context);
+        imageView.setMinimumWidth(size);
+        imageView.setMinimumHeight(size);
+        int padding = (int) Helper.convertDpToPixel(16, context);
+        imageView.setPadding(padding, padding, padding, padding);
+        if (Helper.isValidContextForGlide(context)) {
+            Glide.with(context).load(url).into(imageView);
+        }
+        new MaterialAlertDialogBuilder(context)
+                .setView(imageView)
+                .show();
     }
 }

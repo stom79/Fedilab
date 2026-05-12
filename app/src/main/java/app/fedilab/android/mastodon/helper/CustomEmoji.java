@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ReplacementSpan;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,10 +38,7 @@ public class CustomEmoji extends ReplacementSpan {
         Context mContext = viewWeakReference.get().getContext();
         this.viewWeakReference = viewWeakReference;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        scale = sharedpreferences.getFloat(mContext.getString(R.string.SET_FONT_SCALE), 1.1f);
-        if (scale > 1.3f) {
-            scale = 1.3f;
-        }
+        scale = sharedpreferences.getFloat(mContext.getString(R.string.SET_EMOJI_SCALE), 1.1f);
         callbackCalled = false;
         loadFailed = false;
     }
@@ -96,11 +94,11 @@ public class CustomEmoji extends ReplacementSpan {
             ((Animatable) resource).start();
         }
         imageDrawable = resource;
-        if (view instanceof android.widget.TextView) {
-            android.widget.TextView tv = (android.widget.TextView) view;
+        if (view instanceof TextView) {
+            TextView tv = (TextView) view;
             tv.post(() -> {
                 CharSequence text = tv.getText();
-                tv.setText(text, android.widget.TextView.BufferType.SPANNABLE);
+                tv.setText(text, TextView.BufferType.SPANNABLE);
             });
         } else if (view != null) {
             view.post(() -> {
@@ -144,7 +142,15 @@ public class CustomEmoji extends ReplacementSpan {
         if (imageDrawable == null && loadFailed) {
             return (int) paint.measureText(charSequence, i, i1);
         }
-        return (int) (paint.getTextSize() * scale);
+        int emojiSize = (int) (paint.getTextSize() * scale);
+        if (fontMetricsInt != null) {
+            int defaultHeight = fontMetricsInt.descent - fontMetricsInt.ascent;
+            if (emojiSize > defaultHeight) {
+                fontMetricsInt.ascent = fontMetricsInt.descent - emojiSize;
+                fontMetricsInt.top = fontMetricsInt.ascent;
+            }
+        }
+        return emojiSize;
     }
 
     @Override

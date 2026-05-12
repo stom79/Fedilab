@@ -172,6 +172,15 @@
             app:singleLineTitle="false"
             app:title="@string/icon_size" />
 
+        <androidx.preference.SeekBarPreference
+            android:defaultValue="110"
+            android:max="250"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_EMOJI_SCALE_INT"
+            app:showSeekBarValue="true"
+            app:singleLineTitle="false"
+            app:title="@string/emoji_size" />
+
         <app.fedilab.android.mastodon.helper.ImageListPreference
             app:defaultValue="Bubbles"
             app:dialogTitle="@string/pickup_logo"
