@@ -55,6 +55,7 @@ import java.util.List;
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.mastodon.activities.HashTagActivity;
 import app.fedilab.android.databinding.FragmentPaginationBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
@@ -948,6 +949,11 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
                         if (visualDy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
                             ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
+                    } else if (requireActivity() instanceof HashTagActivity) {
+                        if (visualDy < 0 && !((HashTagActivity) requireActivity()).getFloatingVisibility())
+                            ((HashTagActivity) requireActivity()).manageFloatingButton(true);
+                        if (visualDy > 0 && ((HashTagActivity) requireActivity()).getFloatingVisibility())
+                            ((HashTagActivity) requireActivity()).manageFloatingButton(false);
                     }
                     int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
                     if (dy > 0) {

@@ -16,16 +16,19 @@ package app.fedilab.android.mastodon.activities;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -366,6 +369,21 @@ public class HashTagActivity extends BaseActivity {
                     mutedTag = true;
                     invalidateOptionsMenu();
                 });
+    }
+
+    public boolean getFloatingVisibility() {
+        return binding.compose.getVisibility() == View.VISIBLE;
+    }
+
+    public void manageFloatingButton(boolean display) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedpreferences.getBoolean(getString(R.string.SET_AUTO_HIDE_COMPOSE), true)) {
+            if (display) {
+                binding.compose.show();
+            } else {
+                binding.compose.hide();
+            }
+        }
     }
 
     @Override
