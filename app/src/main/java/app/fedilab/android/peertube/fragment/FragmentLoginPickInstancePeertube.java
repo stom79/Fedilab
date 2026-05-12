@@ -21,6 +21,7 @@ import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeO
 import static app.fedilab.android.peertube.helper.Helper.peertubeInformation;
 import static app.fedilab.android.peertube.helper.Helper.recreatePeertubeActivity;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -305,17 +306,21 @@ public class FragmentLoginPickInstancePeertube extends Fragment implements Insta
     @Override
     public void instance(final String instance) {
         if (typeOfConnection == PeertubeMainActivity.TypeOfConnection.REMOTE_ACCOUNT) {
+            if (!isAdded() || getActivity() == null) {
+                return;
+            }
+            Activity activity = requireActivity();
             new Thread(() -> {
-                final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+                final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(PREF_USER_INSTANCE_PEERTUBE_BROWSING, instance);
                 editor.commit();
-                InstanceData.AboutInstance aboutInstance = new RetrofitPeertubeAPI(requireActivity(), instance, null).getAboutInstance();
-                SQLiteDatabase db = Sqlite.getInstance(requireActivity(), Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
-                new StoredInstanceDAO(requireActivity(), db).insertInstance(aboutInstance, instance);
-                requireActivity().runOnUiThread(() -> {
-                    recreatePeertubeActivity(requireActivity());
-                    requireActivity().recreate();
+                InstanceData.AboutInstance aboutInstance = new RetrofitPeertubeAPI(activity, instance, null).getAboutInstance();
+                SQLiteDatabase db = Sqlite.getInstance(activity, Sqlite.DB_NAME, null, Sqlite.DB_VERSION).open();
+                new StoredInstanceDAO(activity, db).insertInstance(aboutInstance, instance);
+                activity.runOnUiThread(() -> {
+                    recreatePeertubeActivity(activity);
+                    activity.recreate();
                 });
             }).start();
         } else {
