@@ -678,12 +678,23 @@ public class PinnedTimelineHelper {
                 public void onPageSelected(int position) {
                     if (position < FedilabPageAdapter.BOTTOM_TIMELINE_COUNT - finalToRemove) {
                         activityMainBinding.bottomNavView.getMenu().getItem(position).setChecked(true);
+                        activityMainBinding.compose.show();
                     } else {
                         activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, false);
                         for (int i = 0; i < activityMainBinding.bottomNavView.getMenu().size(); i++) {
                             activityMainBinding.bottomNavView.getMenu().getItem(i).setChecked(false);
                         }
                         activityMainBinding.bottomNavView.getMenu().setGroupCheckable(0, true, true);
+                        TabLayout.Tab tab = activityMainBinding.tabLayout.getTabAt(position);
+                        if (tab != null && tab.getTag() != null) {
+                            String tagValue = tab.getTag().toString();
+                            if (tagValue.startsWith(Timeline.TimeLineEnum.BOOKMARK_TIMELINE.getValue())
+                                    || tagValue.startsWith(Timeline.TimeLineEnum.FAVOURITE_TIMELINE.getValue())) {
+                                activityMainBinding.compose.hide();
+                            } else {
+                                activityMainBinding.compose.show();
+                            }
+                        }
                     }
                 }
 
@@ -698,6 +709,15 @@ public class PinnedTimelineHelper {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 activityMainBinding.viewPager.setCurrentItem(tab.getPosition());
+                if (tab.getTag() != null) {
+                    String tag = tab.getTag().toString();
+                    if (tag.startsWith(Timeline.TimeLineEnum.BOOKMARK_TIMELINE.getValue())
+                            || tag.startsWith(Timeline.TimeLineEnum.FAVOURITE_TIMELINE.getValue())) {
+                        activityMainBinding.compose.hide();
+                    } else {
+                        activityMainBinding.compose.show();
+                    }
+                }
             }
 
             @Override
