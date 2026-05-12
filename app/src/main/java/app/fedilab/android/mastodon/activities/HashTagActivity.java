@@ -22,11 +22,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
@@ -163,6 +163,12 @@ public class HashTagActivity extends BaseActivity {
         bundleFragment.putSerializable(Helper.ARG_TIMELINE_TYPE, Timeline.TimeLineEnum.TAG);
         bundleFragment.putString(Helper.ARG_SEARCH_KEYWORD, tag);
         Helper.addFragment(getSupportFragmentManager(), R.id.nav_host_fragment_tags, new FragmentMastodonTimeline(), bundleFragment, null, null);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedpreferences.getBoolean(getString(R.string.SET_AUTO_HIDE_COMPOSE), true)) {
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.compose.getLayoutParams();
+            params.setBehavior(new com.google.android.material.behavior.HideBottomViewOnScrollBehavior<>());
+            binding.compose.setLayoutParams(params);
+        }
         binding.compose.setOnClickListener(v -> {
             Intent intentToot = new Intent(HashTagActivity.this, ComposeActivity.class);
             StatusDraft statusDraft = new StatusDraft();
@@ -369,21 +375,6 @@ public class HashTagActivity extends BaseActivity {
                     mutedTag = true;
                     invalidateOptionsMenu();
                 });
-    }
-
-    public boolean getFloatingVisibility() {
-        return binding.compose.getVisibility() == View.VISIBLE;
-    }
-
-    public void manageFloatingButton(boolean display) {
-        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedpreferences.getBoolean(getString(R.string.SET_AUTO_HIDE_COMPOSE), true)) {
-            if (display) {
-                binding.compose.show();
-            } else {
-                binding.compose.hide();
-            }
-        }
     }
 
     @Override

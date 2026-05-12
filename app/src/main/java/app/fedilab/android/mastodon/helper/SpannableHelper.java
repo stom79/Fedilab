@@ -118,12 +118,6 @@ public class SpannableHelper {
         if (text == null || text.length() > 10000) {
             return new String[]{};
         }
-        Matcher tagCounter = Pattern.compile("<[^>]+>").matcher(text);
-        int tagCount = 0;
-        while (tagCounter.find()) tagCount++;
-        if (tagCount > 50) {
-            return new String[]{};
-        }
         SpannableString initialContent;
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
