@@ -64,6 +64,7 @@ import app.fedilab.android.mastodon.client.entities.api.Statuses;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.BubbleTimeline;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
+import app.fedilab.android.mastodon.client.entities.app.Pinned;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.RemoteInstance;
 import app.fedilab.android.mastodon.client.entities.app.TagTimeline;
@@ -811,6 +812,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             });
         }
         if (initialStatus == null && (statuses == null || statuses.statuses == null || statuses.statuses.isEmpty())) {
+            if (statuses != null && statuses.errorCode != 0 && timelineType == Timeline.TimeLineEnum.BUBBLE) {
+                hideBubbleTimeline();
+            }
             binding.noAction.setVisibility(View.VISIBLE);
             return;
         } else if (timelineType == Timeline.TimeLineEnum.ART) {
@@ -1246,6 +1250,29 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         binding.loader.setVisibility(View.VISIBLE);
         binding.noAction.setVisibility(View.GONE);
         router(null);
+    }
+
+    private void hideBubbleTimeline() {
+        new Thread(() -> {
+            try {
+                Pinned pinned = new Pinned(requireActivity()).getAllPinned(Helper.getCurrentAccount(requireActivity()));
+                if (pinned != null && pinned.pinnedTimelines != null) {
+                    for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                        if (pinnedTimeline.type == Timeline.TimeLineEnum.BUBBLE) {
+                            pinnedTimeline.displayed = false;
+                            break;
+                        }
+                    }
+                    new Pinned(requireActivity()).updatePinned(pinned);
+                    if (isAdded() && getActivity() instanceof BaseMainActivity) {
+                        requireActivity().runOnUiThread(() ->
+                                ((BaseMainActivity) requireActivity()).redrawPinned(null));
+                    }
+                }
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void router(DIRECTION direction) {

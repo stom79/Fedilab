@@ -20,4 +20,5 @@ import java.util.List;
 public class Statuses implements Serializable {
     public Pagination pagination = new Pagination();
     public List<Status> statuses;
+    public int errorCode = 0;
 }

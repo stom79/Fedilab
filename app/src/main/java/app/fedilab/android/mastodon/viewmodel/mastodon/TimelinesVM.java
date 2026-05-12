@@ -791,6 +791,8 @@ public class TimelinesVM extends AndroidViewModel {
                             }
                         }
 
+                    } else {
+                        statuses.errorCode = timelineResponse.code();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
