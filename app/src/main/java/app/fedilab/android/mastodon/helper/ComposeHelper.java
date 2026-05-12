@@ -17,13 +17,106 @@ package app.fedilab.android.mastodon.helper;
 
 import static app.fedilab.android.mastodon.helper.Helper.mentionPatternALL;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
+import android.widget.AutoCompleteTextView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import app.fedilab.android.mastodon.client.entities.api.Emoji;
+import app.fedilab.android.mastodon.ui.drawer.EmojiSearchAdapter;
 
 
 public class ComposeHelper {
+
+    private static final int SEARCH_DEEP = 15;
+    private static final Pattern EMOJI_PATTERN = Pattern.compile("^(.|\\s)*(:([\\w_]+))$");
+
+    public static void setupEmojiAutocomplete(AutoCompleteTextView field, List<Emoji> emojisList, Context context) {
+        field.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (emojisList == null || emojisList.isEmpty()) {
+                    return;
+                }
+                int cursor = field.getSelectionStart();
+                if (cursor <= 0) {
+                    return;
+                }
+                String textBeforeCursor = s.toString().substring(0, cursor);
+                Matcher matcherEmoji = EMOJI_PATTERN.matcher(textBeforeCursor);
+                if (matcherEmoji.matches()) {
+                    String shortcode = matcherEmoji.group(3);
+                    if (shortcode == null || shortcode.isEmpty()) {
+                        return;
+                    }
+                    new Thread(() -> {
+                        List<Emoji> emojisToDisplay = new ArrayList<>();
+                        for (Emoji emoji : emojisList) {
+                            if (emoji.shortcode.toLowerCase().contains(shortcode.toLowerCase())) {
+                                emojisToDisplay.add(emoji);
+                                if (emojisToDisplay.size() >= 10) {
+                                    break;
+                                }
+                            }
+                        }
+                        Handler mainHandler = new Handler(Looper.getMainLooper());
+                        mainHandler.post(() -> {
+                            int currentCursorPosition = field.getSelectionStart();
+                            EmojiSearchAdapter emojisSearchAdapter = new EmojiSearchAdapter(context, emojisToDisplay);
+                            field.setThreshold(1);
+                            field.setAdapter(emojisSearchAdapter);
+                            String oldContent = field.getText().toString();
+                            String[] searchA = oldContent.substring(0, currentCursorPosition).split(":");
+                            if (searchA.length > 0) {
+                                String search = searchA[searchA.length - 1];
+                                field.setOnItemClickListener((parent, view, position, id) -> {
+                                    String shortcodeSelected = emojisToDisplay.get(position).shortcode;
+                                    String deltaSearch = "";
+                                    int searchLength = Math.min(currentCursorPosition, SEARCH_DEEP);
+                                    if (currentCursorPosition - searchLength > 0 && currentCursorPosition < oldContent.length()) {
+                                        deltaSearch = oldContent.substring(currentCursorPosition - searchLength, currentCursorPosition);
+                                    } else if (currentCursorPosition >= oldContent.length()) {
+                                        deltaSearch = oldContent.substring(currentCursorPosition - searchLength);
+                                    }
+                                    if (!search.isEmpty()) {
+                                        deltaSearch = deltaSearch.replace(":" + search, "");
+                                    }
+                                    String newContent = oldContent.substring(0, currentCursorPosition - searchLength);
+                                    newContent += deltaSearch;
+                                    newContent += ":" + shortcodeSelected + ": ";
+                                    int newPosition = newContent.length();
+                                    if (currentCursorPosition < oldContent.length()) {
+                                        newContent += oldContent.substring(currentCursorPosition);
+                                    }
+                                    field.setText(newContent);
+                                    field.setSelection(newPosition);
+                                    field.setAdapter(new EmojiSearchAdapter(context, new ArrayList<>()));
+                                });
+                            }
+                        });
+                    }).start();
+                } else {
+                    field.dismissDropDown();
+                }
+            }
+        });
+    }
 
 
     /**

@@ -1814,17 +1814,29 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             buttonVisibility(holder);
             applyColor(context, holder, statusDraft.visibility);
             holder.binding.buttonEmoji.setVisibility(View.VISIBLE);
+            final android.widget.EditText[] activeEmojiField = {holder.binding.content};
+            holder.binding.content.setOnFocusChangeListener((view, focused) -> {
+                if (focused) {
+                    currentCursorPosition = holder.getLayoutPosition();
+                    activeEmojiField[0] = holder.binding.content;
+                }
+            });
+            holder.binding.contentSpoiler.setOnFocusChangeListener((view, focused) -> {
+                if (focused) {
+                    activeEmojiField[0] = holder.binding.contentSpoiler;
+                }
+            });
             holder.binding.buttonEmoji.setOnClickListener(v -> {
-                List<app.fedilab.android.mastodon.client.entities.api.Emoji> customEmojis =
+                List<app.fedilab.android.mastodon.client.entities.api.Emoji> emojiCustomList =
                         emojis != null ? emojis.get(account.instance) : null;
                 UnifiedEmojiPicker.show(context,
                         holder.binding.buttonEmoji,
                         holder.binding.content,
-                        customEmojis,
+                        emojiCustomList,
                         null,
                         (shortcode, url, staticUrl) -> {
-                            holder.binding.content.getText().insert(
-                                    holder.binding.content.getSelectionStart(),
+                            activeEmojiField[0].getText().insert(
+                                    activeEmojiField[0].getSelectionStart(),
                                     " :" + shortcode + ": ");
                         });
             });
@@ -1847,11 +1859,6 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     List<Uri> uris = new ArrayList<>();
                     uris.add(uri);
                     addAttachment(position, uris);
-                }
-            });
-            holder.binding.content.setOnFocusChangeListener((view, focused) -> {
-                if (focused) {
-                    currentCursorPosition = holder.getLayoutPosition();
                 }
             });
             if (statusDraft.cursorPosition <= holder.binding.content.length()) {
@@ -1936,6 +1943,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.binding.contentSpoiler.setText("");
             }
+            List<Emoji> customEmojis = emojis != null ? emojis.get(account.instance) : null;
+            ComposeHelper.setupEmojiAutocomplete(holder.binding.contentSpoiler, customEmojis, context);
             holder.binding.sensitiveMedia.setChecked(statusDraft.sensitive);
             holder.binding.content.addTextChangedListener(initializeTextWatcher(holder));
             final boolean[] keyboardVisible = {false};
@@ -2111,11 +2120,13 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(max_length);
+        List<Emoji> pollEmojis = emojis != null ? emojis.get(account.instance) : null;
         composePollBinding.option1.text.setFilters(fArray);
         composePollBinding.option1.textLayout.setHint(context.getString(R.string.poll_choice_s, 1));
+        ComposeHelper.setupEmojiAutocomplete(composePollBinding.option1.text, pollEmojis, context);
         composePollBinding.option2.text.setFilters(fArray);
         composePollBinding.option2.textLayout.setHint(context.getString(R.string.poll_choice_s, 2));
-        composePollBinding.option2.textLayout.setHint(context.getString(R.string.poll_choice_s, 2));
+        ComposeHelper.setupEmojiAutocomplete(composePollBinding.option2.text, pollEmojis, context);
         composePollBinding.option1.buttonRemove.setVisibility(View.GONE);
         composePollBinding.option2.buttonRemove.setVisibility(View.GONE);
         int finalMax_entry = max_entry;
@@ -2126,6 +2137,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     composePollItemBinding.typeIndicator.setImageResource(R.drawable.ic_compose_poll_option_mark_multiple);
                 composePollItemBinding.text.setFilters(fArray);
                 composePollItemBinding.textLayout.setHint(context.getString(R.string.poll_choice_s, (pollCountItem[0] + 1)));
+                ComposeHelper.setupEmojiAutocomplete(composePollItemBinding.text, pollEmojis, context);
                 LinearLayoutCompat viewItem = composePollItemBinding.getRoot();
                 composePollBinding.optionsList.addView(composePollItemBinding.getRoot());
                 composePollItemBinding.buttonRemove.setOnClickListener(view -> {
@@ -2199,6 +2211,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     composePollItemBinding.text.setFilters(fArray);
                     composePollItemBinding.textLayout.setHint(context.getString(R.string.poll_choice_s, (pollCountItem[0] + 1)));
+                    ComposeHelper.setupEmojiAutocomplete(composePollItemBinding.text, pollEmojis, context);
                     composePollItemBinding.text.setText(pollItem.title);
                     composePollBinding.optionsList.addView(composePollItemBinding.getRoot());
                     composePollItemBinding.buttonRemove.setOnClickListener(view -> {
