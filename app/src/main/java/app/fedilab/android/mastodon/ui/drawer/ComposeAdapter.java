@@ -386,7 +386,9 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 statusDraft.mentionNewlineAdded = true;
                 statusDraft.text += "\n";
             }
-            statusDraft.cursorPosition = statusDraft.text.length();
+            if (mentionsAtTop) {
+                statusDraft.cursorPosition = statusDraft.text.length();
+            }
             holder.binding.content.setText(statusDraft.text);
             updateCharacterCount(holder);
             holder.binding.content.requestFocus();
