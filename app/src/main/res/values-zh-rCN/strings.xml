@@ -1278,8 +1278,8 @@
     <string name="kw_clear_cache">清除、缓存、退出、存储</string>
     <string name="kw_crash_report">崩溃、报告、bug、错误</string>
     <string name="kw_release_notes">版本、记录、更新日志、更新</string>
-    <string name="kw_text_size">文本、大小、字体、缩放、缩放</string>
-    <string name="kw_icon_size">图标、尺寸、缩放、缩放</string>
+    <string name="kw_text_size">文本、大小、字体、缩放、比例</string>
+    <string name="kw_icon_size">图标、尺寸、缩放、比例</string>
     <string name="kw_video_cache">视频、缓存、存储</string>
     <string name="kw_nsfw_timeout">nsfw、超时、敏感</string>
     <string name="kw_media_desc_timeout">媒体、描述、超时、替换文本</string>
@@ -1343,4 +1343,7 @@
     <string name="kw_reactions">回应、表情符号、pleroma、akkoma</string>
     <string name="kw_local_only">仅本地、联邦、pleroma</string>
     <string name="kw_post_format">嘟文、格式、纯文本、html、markdown、bbcode</string>
+    <string name="emoji_size">自定义表情符号大小</string>
+    <string name="kw_emoji_size">表情符号、大小、缩放、比例、自定义</string>
+    <string name="action_sort">排序</string>
 </resources>
