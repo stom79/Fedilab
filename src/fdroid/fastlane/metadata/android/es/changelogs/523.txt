@@ -1,0 +1,12 @@
+Añadido:
+- Seguir etiquetas de Twitter
+
+Cambia:
+- Eliminado copia de seguridad automática (Solo Google)
+
+Arreglado:
+- Notificaciones push no funcionando para algunos dispositivos
+- Filtros no aplicados a las descripciones de medios
+- Arreglado un crash con imágenes animadas en la timeline
+- Arreglado un crash para hilos largos
+- Arreglado un crash debido a algunos mensajes (pasaba en diferentes timelines)
