@@ -118,8 +118,6 @@ public class PinnedTimelineHelper {
         if (pinned.pinnedTimelines == null) {
             pinned.pinnedTimelines = new ArrayList<>();
         }
-        // Detach adapter before modifying pinned list
-        activityMainBinding.viewPager.setAdapter(null);
         //Set the slug of first visible fragment
         /*String slugOfFirstFragment = PinnedTimelineHelper.firstTimelineSlug(activity, pinned, bottomMenu);
         Helper.setSlugOfFirstFragment(activity, slugOfFirstFragment, currentUserID, currentInstance);*/
@@ -295,9 +293,9 @@ public class PinnedTimelineHelper {
         sortPositionAsc(pinnedTimelines);
         //Check if changes occurred, if mastodonLists is null it does need, because it is the first call to draw pinned
         boolean needRedraw = mastodonLists == null;
+        List<PinnedTimeline> pinnedToRemove = new ArrayList<>();
         //Lists have been fetched from remote account
         if (mastodonLists != null) { //Currently, needRedraw is set to false
-            List<PinnedTimeline> pinnedToRemove = new ArrayList<>();
             for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
                 if (pinnedTimeline.type == Timeline.TimeLineEnum.LIST) {
                     boolean present = false;
@@ -325,15 +323,6 @@ public class PinnedTimelineHelper {
                     }
                 }
             }
-            if (pinnedToRemove.size() > 0) {
-                pinned.pinnedTimelines.removeAll(pinnedToRemove);
-                try {
-                    new Pinned(activity).updatePinned(pinned);
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
-            }
-
             for (MastodonList mastodonList : mastodonLists) {
                 boolean present = false;
                 try {
@@ -376,6 +365,15 @@ public class PinnedTimelineHelper {
         if (!needRedraw) { //if there were no changes with list, no need to update tabs
             return;
         }
+        activityMainBinding.viewPager.setAdapter(null);
+        if (!pinnedToRemove.isEmpty()) {
+            pinned.pinnedTimelines.removeAll(pinnedToRemove);
+            try {
+                new Pinned(activity).updatePinned(pinned);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }
         //Pinned tab position will start after BOTTOM_TIMELINE_COUNT (ie 5)
         activityMainBinding.tabLayout.removeAllTabs();
         int toRemove = FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
@@ -391,7 +389,7 @@ public class PinnedTimelineHelper {
             }
         }
         List<PinnedTimeline> pinnedTimelineVisibleList = new ArrayList<>();
-        List<PinnedTimeline> pinnedToRemove = new ArrayList<>();
+        List<PinnedTimeline> pinnedDefaultToRemove = new ArrayList<>();
         for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
             //Default timelines are not added if we are not in the single bar mode
             String ident = null;
@@ -402,7 +400,7 @@ public class PinnedTimelineHelper {
                     case PUBLIC:
                     case NOTIFICATION:
                     case DIRECT:
-                        pinnedToRemove.add(pinnedTimeline);
+                        pinnedDefaultToRemove.add(pinnedTimeline);
                         continue;
                 }
             }
@@ -532,7 +530,7 @@ public class PinnedTimelineHelper {
                 pinnedTimelineVisibleList.add(pinnedTimeline);
             }
         }
-        pinned.pinnedTimelines.removeAll(pinnedToRemove);
+        pinned.pinnedTimelines.removeAll(pinnedDefaultToRemove);
 
         Pinned finalPinned = pinned;
         int finalToRemove1 = toRemove;
