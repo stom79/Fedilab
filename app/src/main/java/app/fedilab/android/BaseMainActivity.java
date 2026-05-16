@@ -60,6 +60,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -76,6 +77,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.TooltipCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -1450,6 +1452,24 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         manageTopBarScrolling(binding.toolbar);
         rateThisApp();
 
+        if (sharedpreferences.getBoolean(getString(R.string.SET_COMPOSE_TOP_REVERSE), false)
+                && sharedpreferences.getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false)) {
+            ViewGroup parent = (ViewGroup) binding.compose.getParent();
+            parent.removeView(binding.compose);
+            CoordinatorLayout coordinatorLayout = (CoordinatorLayout) parent.getParent();
+            CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(
+                    CoordinatorLayout.LayoutParams.WRAP_CONTENT,
+                    CoordinatorLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.gravity = Gravity.TOP | Gravity.END;
+            int margin = (int) getResources().getDimension(R.dimen.fab_margin);
+            params.setMargins(0, 0, margin, 0);
+            params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+            coordinatorLayout.addView(binding.compose, params);
+            binding.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+                binding.compose.setTranslationY(verticalOffset);
+            });
+        }
         binding.compose.setOnClickListener(v -> startActivity(new Intent(this, ComposeActivity.class)));
         binding.compose.setOnLongClickListener(view -> {
             CrossActionHelper.doCrossAction(BaseMainActivity.this, CrossActionHelper.TypeOfCrossAction.COMPOSE, null, null);

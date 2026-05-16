@@ -45,6 +45,13 @@
         app:title="@string/reverse_timeline" />
     <SwitchPreferenceCompat
         android:defaultValue="false"
+        android:dependency="@string/SET_REVERSE_TIMELINE"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_COMPOSE_TOP_REVERSE"
+        app:singleLineTitle="false"
+        app:title="@string/compose_top_reverse" />
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_REFRESH_ALL_TIMELINES"
         app:singleLineTitle="false"

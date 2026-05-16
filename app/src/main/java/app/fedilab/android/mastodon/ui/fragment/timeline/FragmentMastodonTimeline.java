@@ -958,10 +958,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     if (requireActivity() instanceof BaseMainActivity
                             && timelineType != Timeline.TimeLineEnum.BOOKMARK_TIMELINE
                             && timelineType != Timeline.TimeLineEnum.FAVOURITE_TIMELINE) {
-                        if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
-                            ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
-                        if (dy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
-                            ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
+                        boolean composeTop = reverseTimeline && PreferenceManager.getDefaultSharedPreferences(requireActivity())
+                                .getBoolean(getString(R.string.SET_COMPOSE_TOP_REVERSE), false);
+                        if (!composeTop) {
+                            if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                                ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
+                            if (dy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                                ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
+                        }
                     }
                     if (timelineType == Timeline.TimeLineEnum.BOOKMARK_TIMELINE
                             || timelineType == Timeline.TimeLineEnum.FAVOURITE_TIMELINE) {
