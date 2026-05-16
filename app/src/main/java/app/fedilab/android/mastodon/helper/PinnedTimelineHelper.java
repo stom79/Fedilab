@@ -118,6 +118,8 @@ public class PinnedTimelineHelper {
         if (pinned.pinnedTimelines == null) {
             pinned.pinnedTimelines = new ArrayList<>();
         }
+        // Detach adapter before modifying pinned list
+        activityMainBinding.viewPager.setAdapter(null);
         //Set the slug of first visible fragment
         /*String slugOfFirstFragment = PinnedTimelineHelper.firstTimelineSlug(activity, pinned, bottomMenu);
         Helper.setSlugOfFirstFragment(activity, slugOfFirstFragment, currentUserID, currentInstance);*/
@@ -374,7 +376,6 @@ public class PinnedTimelineHelper {
         if (!needRedraw) { //if there were no changes with list, no need to update tabs
             return;
         }
-        activityMainBinding.viewPager.setAdapter(null);
         //Pinned tab position will start after BOTTOM_TIMELINE_COUNT (ie 5)
         activityMainBinding.tabLayout.removeAllTabs();
         int toRemove = FedilabPageAdapter.BOTTOM_TIMELINE_COUNT;
