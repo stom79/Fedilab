@@ -60,9 +60,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.AppCompatEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
@@ -2150,7 +2149,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                     int childCount = composePollBinding.optionsList.getChildCount();
                     for (int i = 0; i < childCount; i++) {
-                        AppCompatEditText title = (composePollBinding.optionsList.getChildAt(i)).findViewById(R.id.text);
+                        MaterialAutoCompleteTextView title = (composePollBinding.optionsList.getChildAt(i)).findViewById(R.id.text);
                         title.setHint(context.getString(R.string.poll_choice_s, i + 1));
                     }
 
@@ -2286,7 +2285,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     int childCount = composePollBinding.optionsList.getChildCount();
                     for (int i = 0; i < childCount; i++) {
                         Poll.PollItem pollItem = new Poll.PollItem();
-                        AppCompatEditText title = (composePollBinding.optionsList.getChildAt(i)).findViewById(R.id.text);
+                        MaterialAutoCompleteTextView title = (composePollBinding.optionsList.getChildAt(i)).findViewById(R.id.text);
                         pollItem.title = Objects.requireNonNull(title.getText()).toString();
                         pollItems.add(pollItem);
                     }
