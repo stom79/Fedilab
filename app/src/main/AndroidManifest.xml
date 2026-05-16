@@ -24,6 +24,7 @@
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
+        <package android:name="dev.davidv.translator" />
     </queries>
     <application
         android:name="app.fedilab.android.MainApplication"

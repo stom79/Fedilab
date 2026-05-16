@@ -1029,6 +1029,7 @@
         <item>DeepL</item>
         <item>Mint</item>
         <item>Apertium</item>
+        <item>Offline Translator</item>
     </string-array>
     <string-array name="set_translator_version_values">
         <item>Free</item>
@@ -1041,6 +1042,7 @@
         <item>DEEPL</item>
         <item>MINT</item>
         <item>APERTIUM</item>
+        <item>OFFLINE_TRANSLATOR</item>
     </string-array>
 
     <string-array name="SET_TRANSLATOR_VERSION_VALUES" translatable="false">

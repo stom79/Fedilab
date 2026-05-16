@@ -15,7 +15,9 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.Html;
 import android.widget.Toast;
@@ -38,7 +40,13 @@ import es.dmoral.toasty.Toasty;
 
 public class TranslateHelper {
 
+    private static final String OFFLINE_TRANSLATOR_PACKAGE = "dev.davidv.translator";
+
     public static void translate(Context context, String toTranslate, String languageSource, Translate callback) {
+        translate(context, toTranslate, null, languageSource, callback);
+    }
+
+    public static void translate(Context context, String toTranslate, String spoilerText, String languageSource, Translate callback) {
         String statusToTranslate;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             statusToTranslate = Html.fromHtml(toTranslate, Html.FROM_HTML_MODE_LEGACY).toString();
@@ -46,6 +54,25 @@ public class TranslateHelper {
             statusToTranslate = Html.fromHtml(toTranslate).toString();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String translator = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR), "FEDILAB");
+
+        if (translator.compareToIgnoreCase("OFFLINE_TRANSLATOR") == 0) {
+            String textToSend = statusToTranslate;
+            if (spoilerText != null && !spoilerText.trim().isEmpty()) {
+                textToSend = spoilerText + "\n\n" + statusToTranslate;
+            }
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, textToSend);
+            intent.setPackage(OFFLINE_TRANSLATOR_PACKAGE);
+            try {
+                context.getPackageManager().getPackageInfo(OFFLINE_TRANSLATOR_PACKAGE, 0);
+                context.startActivity(intent);
+            } catch (PackageManager.NameNotFoundException e) {
+                Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+            }
+            return;
+        }
+
         MyTransL.translatorEngine et;
         if (translator.compareToIgnoreCase("FEDILAB") == 0) {
             et = MyTransL.translatorEngine.LIBRETRANSLATE;
