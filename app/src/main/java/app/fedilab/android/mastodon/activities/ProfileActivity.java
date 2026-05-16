@@ -364,6 +364,7 @@ public class ProfileActivity extends BaseActivity {
         if (sharedpreferences.getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false)) {
             CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.appBar.getLayoutParams();
             params.setBehavior(new FixedAppBarLayoutBehavior());
+            binding.accountViewpager.setNestedScrollingEnabled(false);
         }
         binding.appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
 

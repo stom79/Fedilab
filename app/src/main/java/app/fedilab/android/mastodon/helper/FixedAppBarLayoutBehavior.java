@@ -36,9 +36,6 @@ public class FixedAppBarLayoutBehavior extends AppBarLayout.Behavior {
     @Override
     public boolean onStartNestedScroll(@NonNull CoordinatorLayout parent, @NonNull AppBarLayout child,
                                        @NonNull View directTargetChild, View target, int nestedScrollAxes, int type) {
-        if (type == ViewCompat.TYPE_NON_TOUCH) {
-            return false;
-        }
-        return super.onStartNestedScroll(parent, child, directTargetChild, target, nestedScrollAxes, type);
+        return false;
     }
 }

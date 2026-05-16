@@ -1884,6 +1884,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         } else if (direction == DIRECTION.TOP) {
             accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, null, null, min_id, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
                     .observe(getViewLifecycleOwner(), statusesTop -> dealWithPagination(statusesTop, DIRECTION.TOP, false, true, fetchStatus));
+        } else if (direction == DIRECTION.REFRESH) {
+            accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, null, null, null, exclude_replies, exclude_reblogs, media_only, false, tagged, MastodonHelper.statusesPerCall(requireActivity()))
+                    .observe(getViewLifecycleOwner(), statusesRefresh -> dealWithPagination(statusesRefresh, DIRECTION.REFRESH, false, true, fetchStatus));
         } else {
             flagLoading = false;
         }
