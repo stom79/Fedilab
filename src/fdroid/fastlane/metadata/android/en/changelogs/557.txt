@@ -1,0 +1,11 @@
+Added:
+- Add Apertium translation engine
+- Add Offline Translator external app integration
+- Add option to place compose button at top in reverse mode
+
+Fixed:
+- Fix poll validation crash
+- Fix crash on pinned timelines update
+- Fix reverse timeline pull-to-refresh on profile page
+- Fix art timeline position lost on refresh in reverse mode
+- Fix sticky timeline scroll after returning from a post

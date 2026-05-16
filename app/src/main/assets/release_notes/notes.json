@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.40.1",
+    "code": "557",
+    "note": "Added:\n- Add Apertium translation engine\n- Add Offline Translator external app integration\n- Add option to place compose button at top in reverse mode\n\nFixed:\n- Fix poll validation crash\n- Fix crash on pinned timelines update\n- Fix reverse timeline pull-to-refresh on profile page\n- Fix art timeline position lost on refresh in reverse mode\n- Fix sticky timeline scroll after returning from a post"
+  },
+  {
     "version": "3.40.0",
     "code": "556",
     "note": "Added:\n- Allow bookmarks to be pinned as timeline tab\n- Add custom emoji independent size setting with tap to preview\n- Add emoji autocomplete in CW and poll fields\n- Add reverse sort order for bookmarks and favourites\n- Auto-hide compose button when scrolling hashtag timeline\n- Auto-hide bubble timeline when instance doesn't support it\n\nImproved:\n- Improve scheduled and draft drawer card styling\n- Sort scheduled posts by scheduled date\n\nFixed:\n- Fix cursor position after first mention on reply\n- Fix crash when spamming pick instance button\n- Fix home-muted accounts still showing filter warnings\n- Fix bottom hashtags vanishing with many tags\n- Fix freeze on posts with deeply nested MFM HTML\n- Fix compose button and toolbar desync in reverse scroll mode\n- Fix delete original post on redraft\n- Fix pull-to-refresh in reverse timeline mode\n- Fix some crashes\n"
