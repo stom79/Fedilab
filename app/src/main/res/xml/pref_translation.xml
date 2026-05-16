@@ -44,6 +44,14 @@
         app:title="@string/translator_domain"
         app:useSimpleSummaryProvider="true" />
 
+    <EditTextPreference
+        app:defaultValue="apertium.org"
+        app:dependency="@string/SET_TRANSLATOR"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_TRANSLATOR_DOMAIN_APERTIUM"
+        app:title="@string/translator_domain"
+        app:useSimpleSummaryProvider="true" />
+
     <ListPreference
         app:defaultValue="PRO"
         app:dialogTitle="@string/version"

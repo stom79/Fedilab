@@ -17,6 +17,8 @@ package com.github.stom79.mytransl.translate;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by Thomas on 28/11/2017.
@@ -26,6 +28,30 @@ import java.util.Arrays;
 
 public class Helper {
 
+    private static final HashMap<String, String> apertiumOverrides = new HashMap<>();
+
+    static {
+        apertiumOverrides.put("sh", "hbs");
+        apertiumOverrides.put("hr", "hbs");
+        apertiumOverrides.put("bs", "hbs");
+        apertiumOverrides.put("sr", "hbs");
+        apertiumOverrides.put("ms", "zlm");
+    }
+
+    public static String toApertiumLangCode(String code) {
+        if (code == null) return "eng";
+        code = code.toLowerCase();
+        String override = apertiumOverrides.get(code);
+        if (override != null) return override;
+        if (code.length() == 2) {
+            try {
+                return new Locale(code).getISO3Language();
+            } catch (Exception e) {
+                return code;
+            }
+        }
+        return code;
+    }
 
     private static final String YANDEX_BASE_URL = "https://translate.yandex.net/api/v1.5/tr.json/translate?";
     private static final String DEEPL_BASE_URL = "https://api.deepl.com/v2/translate?";

@@ -68,6 +68,9 @@ public class FragmentTranslationSettings extends PreferenceFragmentCompat implem
         if (SET_TRANSLATOR != null && !SET_TRANSLATOR.getValue().equals("MINT")) {
             preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_DOMAIN_MINT");
         }
+        if (SET_TRANSLATOR != null && !SET_TRANSLATOR.getValue().equals("APERTIUM")) {
+            preferenceScreen.removePreferenceRecursively("SET_TRANSLATOR_DOMAIN_APERTIUM");
+        }
 
         ListPreference SET_TRANSLATE_BUTTON = findPreference(getString(R.string.SET_TRANSLATE_BUTTON));
         if (SET_TRANSLATE_BUTTON != null) {

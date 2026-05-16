@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Iterator;
 
 
 /**
@@ -166,6 +167,35 @@ public class TransAsync {
                     e.printStackTrace();
                 }
                 str_response = new Client().post(MyTransL.getMintUrl(), this.timeout, params);
+            } else if (te == MyTransL.translatorEngine.APERTIUM) {
+                String targetLang = Helper.toApertiumLangCode(toLanguage);
+                String detectURL = MyTransL.getApertiumUrl().replace("/translate", "/identifyLang")
+                        + "?q=" + URLEncoder.encode(contentToSend, "utf-8");
+                String detectResponse = new Client().get(detectURL, this.timeout);
+                String sourceLang = Helper.toApertiumLangCode(this.params.getSource_lang());
+                if (detectResponse != null) {
+                    try {
+                        JSONObject langs = new JSONObject(detectResponse);
+                        String bestLang = null;
+                        double bestScore = -1;
+                        Iterator<String> keys = langs.keys();
+                        while (keys.hasNext()) {
+                            String lang = keys.next();
+                            double score = langs.getDouble(lang);
+                            if (score > bestScore && !lang.equals(targetLang)) {
+                                bestScore = score;
+                                bestLang = lang;
+                            }
+                        }
+                        if (bestLang != null) {
+                            sourceLang = bestLang;
+                        }
+                    } catch (JSONException ignored) {}
+                }
+                String apertiumURL = MyTransL.getApertiumUrl()
+                        + "?langpair=" + URLEncoder.encode(sourceLang + "|" + targetLang, "utf-8")
+                        + "&q=" + URLEncoder.encode(contentToSend, "utf-8");
+                str_response = new Client().get(apertiumURL, this.timeout);
             }
         } catch (IOException | NoSuchAlgorithmException | KeyManagementException err) {
             this.e = new HttpsConnectionException(-1, err.getMessage());
@@ -191,6 +221,8 @@ public class TransAsync {
                 translate.parseLingvaResult(result, listener);
             } else if (this.te == MyTransL.translatorEngine.MINT) {
                 translate.parseMintResult(result, listener);
+            } else if (this.te == MyTransL.translatorEngine.APERTIUM) {
+                translate.parseApertiumResult(result, listener);
             }
             //Obfuscation if asked
             if (obfuscation) {

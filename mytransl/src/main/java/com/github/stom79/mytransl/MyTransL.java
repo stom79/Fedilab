@@ -30,6 +30,7 @@ public class MyTransL {
     private static String libretranslateDomain;
     private static String lingvaDomain;
     private static String mintDomain;
+    private static String apertiumDomain;
     private translatorEngine te;
     private String yandexAPIKey, deeplAPIKey, systranAPIKey, libreTranslateAPIKey, lingvaAPIKey;
     private int timeout = 30;
@@ -74,6 +75,15 @@ public class MyTransL {
      */
     public static String getMintUrl() {
         return "https://" + mintDomain + "/api/translate";
+    }
+
+    /**
+     * Allows to get the current domain for Apertium
+     *
+     * @return locale String
+     */
+    public static String getApertiumUrl() {
+        return "https://" + apertiumDomain + "/apy/translate";
     }
 
 
@@ -154,6 +164,14 @@ public class MyTransL {
         MyTransL.mintDomain = mintDomain;
     }
 
+    public String getApertiumDomain() {
+        return apertiumDomain;
+    }
+
+    public void setApertiumDomain(String apertiumDomain) {
+        MyTransL.apertiumDomain = apertiumDomain;
+    }
+
     public String getLibreTranslateAPIKey() {
         return libreTranslateAPIKey;
     }
@@ -198,7 +216,8 @@ public class MyTransL {
         SYSTRAN,
         LIBRETRANSLATE,
         LINGVA,
-        MINT
+        MINT,
+        APERTIUM
     }
 
 }

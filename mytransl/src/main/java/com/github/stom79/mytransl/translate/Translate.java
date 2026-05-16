@@ -415,6 +415,40 @@ public class Translate {
 
 
     /***
+     * Method to parse result coming from Apertium
+     * @param response String - Response of the engine translator
+     * @param listener - Results Listener
+     */
+    public void parseApertiumResult(String response, Results listener) {
+        translate.setTranslatorEngine(MyTransL.translatorEngine.APERTIUM);
+        try {
+            JSONObject translationJson = new JSONObject(response);
+            if (translationJson.has("responseData")) {
+                JSONObject responseData = translationJson.getJSONObject("responseData");
+                String content;
+                try {
+                    String data = responseData.getString("translatedText");
+                    data = data.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+                    data = data.replaceAll("\\+", "%2B");
+                    content = URLDecoder.decode(data, "utf-8");
+                } catch (Exception e) {
+                    content = responseData.getString("translatedText");
+                }
+                translate.setTranslatedContent(content);
+                translate.setInitialLanguage(initialLanguage);
+            } else {
+                String explanation = translationJson.optString("explanation", "Translation pair not available");
+                HttpsConnectionException httpsConnectionException = new HttpsConnectionException(400, explanation);
+                listener.onFail(httpsConnectionException);
+            }
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+            HttpsConnectionException httpsConnectionException = new HttpsConnectionException(-1, e1.getMessage());
+            listener.onFail(httpsConnectionException);
+        }
+    }
+
+    /***
      * Method to parse result coming from the Systrans translator
      * More about Systran translate API - https://platform.systran.net/reference/translation
      * @param response String - Response of the engine translator

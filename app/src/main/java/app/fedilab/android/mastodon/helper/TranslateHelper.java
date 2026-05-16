@@ -53,6 +53,8 @@ public class TranslateHelper {
             et = MyTransL.translatorEngine.LINGVA;
         } else if (translator.compareToIgnoreCase("MINT") == 0) {
             et = MyTransL.translatorEngine.MINT;
+        } else if (translator.compareToIgnoreCase("APERTIUM") == 0) {
+            et = MyTransL.translatorEngine.APERTIUM;
         } else {
             et = MyTransL.translatorEngine.DEEPL;
         }
@@ -61,7 +63,7 @@ public class TranslateHelper {
         Params params = new Params();
         params.setSplit_sentences(false);
         params.setFormat(Params.fType.TEXT);
-        if(et != MyTransL.translatorEngine.MINT) {
+        if(et != MyTransL.translatorEngine.MINT && et != MyTransL.translatorEngine.APERTIUM) {
             params.setSource_lang("auto");
         } else {
             if(languageSource != null && !languageSource.isEmpty()) {
@@ -84,7 +86,13 @@ public class TranslateHelper {
                 host = context.getString(R.string.SET_TRANSLATOR_HOST_MINT);
             }
             myTransL.setMintDomain(host);
-        }else {
+        } else if (translator.compareToIgnoreCase("APERTIUM") == 0) {
+            String host = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_DOMAIN_APERTIUM), context.getString(R.string.SET_TRANSLATOR_HOST_APERTIUM));
+            if (host == null || host.trim().isEmpty()) {
+                host = context.getString(R.string.SET_TRANSLATOR_HOST_APERTIUM);
+            }
+            myTransL.setApertiumDomain(host);
+        } else {
             String translatorVersion = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_VERSION), "PRO");
             params.setPro(translatorVersion.equals("PRO"));
             String apikey = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_API_KEY), null);

@@ -1028,6 +1028,7 @@
         <item>Lingva</item>
         <item>DeepL</item>
         <item>Mint</item>
+        <item>Apertium</item>
     </string-array>
     <string-array name="set_translator_version_values">
         <item>Free</item>
@@ -1039,6 +1040,7 @@
         <item>LINGVA</item>
         <item>DEEPL</item>
         <item>MINT</item>
+        <item>APERTIUM</item>
     </string-array>
 
     <string-array name="SET_TRANSLATOR_VERSION_VALUES" translatable="false">
@@ -1368,8 +1370,10 @@
 
     <string name="SET_TRANSLATOR_HOST_MINT" translatable="false">translate.wmcloud.org</string>
     <string name="SET_TRANSLATOR_HOST_LINGVA" translatable="false">lingva.ml</string>
+    <string name="SET_TRANSLATOR_HOST_APERTIUM" translatable="false">apertium.org</string>
     <string name="SET_TRANSLATOR_DOMAIN" translatable="false">SET_TRANSLATOR_DOMAIN</string>
     <string name="SET_TRANSLATOR_DOMAIN_MINT" translatable="false">SET_TRANSLATOR_DOMAIN_MINT</string>
+    <string name="SET_TRANSLATOR_DOMAIN_APERTIUM" translatable="false">SET_TRANSLATOR_DOMAIN_APERTIUM</string>
 
     <string name="SET_TRANSLATOR" translatable="false">SET_TRANSLATOR</string>
     <string name="SET_TRANSLATOR_VERSION" translatable="false">SET_TRANSLATOR_VERSION</string>
