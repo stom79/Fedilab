@@ -669,6 +669,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     timelineStatuses.addAll(fetched_statuses.statuses);
                     insertedStatus = fetched_statuses.statuses.size();
                     statusAdapter.notifyItemRangeInserted(0, insertedStatus);
+                    if (reverseTimeline && insertedStatus > 0) {
+                        binding.recyclerView.scrollToPosition(insertedStatus - 1);
+                    }
                 } else if (direction == DIRECTION.TOP || direction == DIRECTION.FETCH_NEW) {
                     // Prepend new statuses with dedup based on status id + attachment id
                     List<Status> toAdd = new ArrayList<>();
