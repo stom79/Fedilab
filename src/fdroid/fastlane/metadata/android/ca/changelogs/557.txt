@@ -1,0 +1,11 @@
+Novetats:
+- Motor de traducció d'Apertium
+- Integració d'ap. externa del traducció en local
+- Opció de col·locar el botó de redacció a dalt en mode invers
+
+Correccions:
+- Fallida en validar enquesta
+- Error d'actualització de pissarres fixades
+- Error en refrescar estirant de la pàgina de perfil en pissarra invertidal
+- Pèrdua de posició de pissarra artística en refrescar en mode invers
+- Ròdol de pissarra que es refrenava en tornar d'una publicació

@@ -1,0 +1,22 @@
+Novetats:
+- Els elements marcats es poden fixar com a pestanya-pissarra
+- Mida personalitzada independent dels emojis personalitzats amb toc de previsionat
+- Autocompleció d'emojis en camps AH i d'enquestes
+- Capgirar ordenació de marcats i preferits
+- Autoocultar botó de redacció en rodolar per pissarres de hashtags
+- Autoamagar pissarra bombolla en instàncies que no l'admeten
+
+Millores:
+- Estil de tarja d'esborrany i programació
+- Ordre de publicacions programades per data de programació
+
+Correccions:
+- Posició del cursor després de la primera menció d'una resposta
+- Fallida en sobrecarregar el botó de selecció d'instància
+- Comptes silenciats a l'inici que encara mostraven avisos de filtrat
+- Desaparició de hashtags inferiors quan hi havia moltes etiquetes
+- Congelació quan es publicava HTML MFM amb molts aniuaments
+- Desincronització del botó de redacció i barra d'eines en mode de rodolat invertit
+- Eliminació de publicacions originals en reescriure
+- Estirar per refrescar en mode invers
+- Algunes fallides

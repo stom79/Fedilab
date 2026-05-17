@@ -1344,4 +1344,9 @@
     <string name="kw_reactions">reaccions, emoticona, pleroma, akkoma</string>
     <string name="kw_local_only">sols local, federació, pleroma</string>
     <string name="kw_post_format">missatge, format, text senzill, html, marcatge, codi bb</string>
+    <string name="emoji_size">Mides d\'emojis personalitzades</string>
+    <string name="kw_emoji_size">emoji, mida, zoom, escala, personalitzat</string>
+    <string name="action_sort">Ordenar</string>
+    <string name="compose_top_reverse">Col·locar botó de redacció al capdamunt</string>
+    <string name="kw_compose_top_reverse">redactar, botó, capdamunt, invertit</string>
 </resources>
