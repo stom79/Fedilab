@@ -1218,7 +1218,7 @@
     <string name="kw_chat_direct">聊天、私信、dm、对话</string>
     <string name="kw_boost_date">转嘟、日期、原文、reblog</string>
     <string name="kw_scrollbar">滚动条、滚动</string>
-    <string name="kw_reverse_timeline">反向、顺序、阅读、底部</string>
+    <string name="kw_reverse_timeline">颠倒、顺序、阅读、底部</string>
     <string name="kw_refresh_all_timelines">刷新、重新加载、所有时间线、下拉、滑动</string>
     <string name="kw_highlight_comments">高亮、评论、嘟文串、未读</string>
     <string name="kw_markdown">markdown、格式、粗体、斜体</string>
@@ -1346,4 +1346,6 @@
     <string name="emoji_size">自定义表情符号大小</string>
     <string name="kw_emoji_size">表情符号、大小、缩放、比例、自定义</string>
     <string name="action_sort">排序</string>
+    <string name="compose_top_reverse">将撰写按钮放在顶部</string>
+    <string name="kw_compose_top_reverse">撰写、按钮、顶部、颠倒</string>
 </resources>
