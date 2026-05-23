@@ -2106,7 +2106,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
                         if (autoplaygif && attachment.type.equalsIgnoreCase("gifv") && mediaPosition == 1) {
-
+                            if (mediaDescriptionIndicator && attachment.description != null && !attachment.description.isEmpty()) {
+                                layoutMediaBinding.viewDescription.setVisibility(View.VISIBLE);
+                                ConstraintLayout.LayoutParams descParams = (ConstraintLayout.LayoutParams) layoutMediaBinding.viewDescription.getLayoutParams();
+                                descParams.bottomToBottom = layoutMediaBinding.mediaVideo.getId();
+                                layoutMediaBinding.viewDescription.setLayoutParams(descParams);
+                            } else {
+                                layoutMediaBinding.viewDescription.setVisibility(View.GONE);
+                            }
                             layoutMediaBinding.media.setVisibility(View.GONE);
                             layoutMediaBinding.mediaVideo.setVisibility(View.VISIBLE);
                             LinearLayout.LayoutParams lp;
@@ -2212,6 +2219,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else {
                         layoutMediaBinding.mediaRoot.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
                         if (autoplaygif && attachment.type.equalsIgnoreCase("gifv") && !statusToDeal.sensitive && mediaPosition == 1) {
+                            if (mediaDescriptionIndicator && attachment.description != null && !attachment.description.isEmpty()) {
+                                layoutMediaBinding.viewDescription.setVisibility(View.VISIBLE);
+                                ConstraintLayout.LayoutParams descParams = (ConstraintLayout.LayoutParams) layoutMediaBinding.viewDescription.getLayoutParams();
+                                descParams.bottomToBottom = layoutMediaBinding.mediaVideo.getId();
+                                layoutMediaBinding.viewDescription.setLayoutParams(descParams);
+                            } else {
+                                layoutMediaBinding.viewDescription.setVisibility(View.GONE);
+                            }
                             layoutMediaBinding.media.setVisibility(View.GONE);
                             layoutMediaBinding.mediaVideo.setVisibility(View.VISIBLE);
                             layoutMediaBinding.mediaVideo.onResume();
