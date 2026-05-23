@@ -650,6 +650,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     ArrayList<String> splitText = ComposeHelper.splitToots(contentString, max_car);
                     if(!splitText.isEmpty()) {
                         contentString = splitText.get(0);
+                        holder.binding.content.removeTextChangedListener(this);
+                        s.clear();
+                        s.append(contentString);
+                        holder.binding.content.addTextChangedListener(this);
                     }
                 }
                 int currentLength = MastodonHelper.countLength(holder);
