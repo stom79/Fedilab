@@ -661,7 +661,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 timelineStatuses.addAll(fetched_statuses.statuses);
                 statusAdapter.notifyItemRangeInserted(fromPosition, insertedStatus);
             } else if (timelineType == Timeline.TimeLineEnum.ART) {
-                if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
+                if (direction == DIRECTION.SCROLL_TOP || (direction == DIRECTION.REFRESH && !reverseTimeline)) {
                     // Clear and rebuild with fresh content
                     int previousSize = timelineStatuses.size();
                     timelineStatuses.clear();
@@ -669,10 +669,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     timelineStatuses.addAll(fetched_statuses.statuses);
                     insertedStatus = fetched_statuses.statuses.size();
                     statusAdapter.notifyItemRangeInserted(0, insertedStatus);
-                    if (reverseTimeline && insertedStatus > 0) {
-                        binding.recyclerView.scrollToPosition(insertedStatus - 1);
-                    }
-                } else if (direction == DIRECTION.TOP || direction == DIRECTION.FETCH_NEW) {
+                } else if (direction == DIRECTION.TOP || direction == DIRECTION.FETCH_NEW || direction == DIRECTION.REFRESH) {
                     // Prepend new statuses with dedup based on status id + attachment id
                     List<Status> toAdd = new ArrayList<>();
                     for (Status newStatus : fetched_statuses.statuses) {
