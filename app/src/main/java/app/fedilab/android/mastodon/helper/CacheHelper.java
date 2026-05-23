@@ -23,11 +23,16 @@ import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import app.fedilab.android.R;
+import app.fedilab.android.mastodon.client.entities.api.Attachment;
+import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.CacheAccount;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
@@ -109,6 +114,55 @@ public class CacheHelper {
         }
     }
 
+    private static Set<String> getReferencedMediaPaths(Context context) {
+        Set<String> referencedPaths = new HashSet<>();
+        try {
+            List<BaseAccount> accounts = new Account(context).getAll();
+            if (accounts != null) {
+                for (BaseAccount account : accounts) {
+                    collectMediaPaths(new StatusDraft(context).geStatusDraftList(account), referencedPaths);
+                    collectMediaPaths(new StatusDraft(context).geStatusDraftScheduledList(account), referencedPaths);
+                }
+            }
+        } catch (DBException ignored) {
+        }
+        return referencedPaths;
+    }
+
+    private static void collectMediaPaths(List<StatusDraft> drafts, Set<String> paths) {
+        if (drafts == null) return;
+        for (StatusDraft draft : drafts) {
+            collectMediaPathsFromStatuses(draft.statusDraftList, paths);
+            collectMediaPathsFromStatuses(draft.statusReplyList, paths);
+        }
+    }
+
+    private static void collectMediaPathsFromStatuses(List<Status> statuses, Set<String> paths) {
+        if (statuses == null) return;
+        for (Status status : statuses) {
+            if (status.media_attachments != null) {
+                for (Attachment attachment : status.media_attachments) {
+                    if (attachment.local_path != null) {
+                        paths.add(attachment.local_path);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void cleanTempMediaDirectory(Context context) {
+        File tempDir = new File(context.getCacheDir(), Helper.TEMP_MEDIA_DIRECTORY);
+        if (!tempDir.exists() || !tempDir.isDirectory()) return;
+        Set<String> referencedPaths = getReferencedMediaPaths(context);
+        File[] files = tempDir.listFiles();
+        if (files == null) return;
+        for (File file : files) {
+            if (file.isFile() && !referencedPaths.contains(file.getAbsolutePath())) {
+                file.delete();
+            }
+        }
+    }
+
     public static void clearCache(Context context, boolean clearFiles, List<CacheAccount> cacheAccounts, CallbackClear callbackClear) {
         new Thread(() -> {
             if (clearFiles) {
@@ -117,6 +171,7 @@ public class CacheHelper {
                 if (dir.isDirectory()) {
                     deleteDir(dir);
                 }
+                cleanTempMediaDirectory(context);
             }
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences.Editor editor = sharedpreferences.edit();
