@@ -1723,9 +1723,15 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         super.onResume();
         if (!sharedpreferences.getBoolean(getString(R.string.SET_AUTO_HIDE_COMPOSE), true) && !getFloatingVisibility())
             manageFloatingButton(true);
-        if (sharedpreferences.getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false)) {
-            binding.appBar.setExpanded(true, false);
-        }
+        binding.appBar.post(() -> {
+            binding.appBar.setVisibility(View.INVISIBLE);
+            binding.toolbarSearch.setIconified(false);
+            binding.toolbarSearch.post(() -> {
+                binding.toolbarSearch.setIconified(true);
+                binding.toolbarSearch.clearFocus();
+                binding.appBar.setVisibility(View.VISIBLE);
+            });
+        });
         if (!expiredBoostChecked) {
             expiredBoostChecked = true;
             new Thread(() -> {
