@@ -958,9 +958,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         boolean composeTop = reverseTimeline && PreferenceManager.getDefaultSharedPreferences(requireActivity())
                                 .getBoolean(getString(R.string.SET_COMPOSE_TOP_REVERSE), false);
                         if (!composeTop) {
-                            if (dy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                            if (visualDy < 0 && !((BaseMainActivity) requireActivity()).getFloatingVisibility())
                                 ((BaseMainActivity) requireActivity()).manageFloatingButton(true);
-                            if (dy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
+                            if (visualDy > 0 && ((BaseMainActivity) requireActivity()).getFloatingVisibility())
                                 ((BaseMainActivity) requireActivity()).manageFloatingButton(false);
                         }
                     }

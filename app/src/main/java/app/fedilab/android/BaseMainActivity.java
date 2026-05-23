@@ -1719,7 +1719,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         super.onResume();
         if (!sharedpreferences.getBoolean(getString(R.string.SET_AUTO_HIDE_COMPOSE), true) && !getFloatingVisibility())
             manageFloatingButton(true);
-        binding.appBar.requestLayout();
+        if (sharedpreferences.getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false)) {
+            binding.appBar.setExpanded(true, false);
+        }
     }
 
     private void manageTopBarScrolling(Toolbar toolbar) {
