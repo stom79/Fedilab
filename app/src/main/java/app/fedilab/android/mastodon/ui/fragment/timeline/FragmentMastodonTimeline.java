@@ -698,6 +698,16 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     timelineStatuses.addAll(fetched_statuses.statuses);
                     statusAdapter.notifyItemRangeInserted(fromPosition, insertedStatus);
                 }
+            } else if (reverseOrder && direction == DIRECTION.BOTTOM) {
+                insertedStatus = 0;
+                int fromPosition = timelineStatuses.size();
+                for (Status status : fetched_statuses.statuses) {
+                    if (!timelineStatuses.contains(status)) {
+                        timelineStatuses.add(status);
+                        insertedStatus++;
+                    }
+                }
+                statusAdapter.notifyItemRangeInserted(fromPosition, insertedStatus);
             } else if (timelineType != Timeline.TimeLineEnum.TREND_MESSAGE_PUBLIC && timelineType != Timeline.TimeLineEnum.TREND_MESSAGE ) {
                 insertedStatus = updateStatusListWith(fetched_statuses.statuses);
             } else { //Trends cannot be ordered by id
@@ -985,6 +995,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             }
                         } else {
                             binding.loadingNextElements.setVisibility(View.GONE);
+                        }
+                    } else if (reverseTimeline && reverseOrder && firstVisibleItem == 0) {
+                        if (!flagLoading) {
+                            flagLoading = true;
+                            binding.loadingNextElements.setVisibility(View.VISIBLE);
+                            router(DIRECTION.BOTTOM);
                         }
                     } else if (!reverseTimeline && firstVisibleItem == 0) {
                         if (!flagLoading) {
