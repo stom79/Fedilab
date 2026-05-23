@@ -266,6 +266,7 @@ public class FragmentMedia extends Fragment {
                                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                                     boolean autofetch = sharedpreferences.getBoolean(getString(R.string.SET_FETCH_REMOTE_MEDIA), false);
                                     if (autofetch) {
+                                        attachment.url = attachment.remote_url;
                                         binding.loadRemote.setVisibility(View.GONE);
                                         binding.loader.setVisibility(View.GONE);
                                         Glide.with(requireActivity())
@@ -292,6 +293,7 @@ public class FragmentMedia extends Fragment {
                                         Toasty.error(requireActivity(), getString(R.string.toast_error_media), Toasty.LENGTH_SHORT).show();
                                         binding.loadRemote.setVisibility(View.VISIBLE);
                                         binding.loadRemote.setOnClickListener(v -> {
+                                            attachment.url = attachment.remote_url;
                                             binding.loadRemote.setVisibility(View.GONE);
                                             binding.loader.setVisibility(View.GONE);
                                             Glide.with(requireActivity())
@@ -405,6 +407,7 @@ public class FragmentMedia extends Fragment {
                 SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                 boolean autofetch = sharedpreferences.getBoolean(getString(R.string.SET_FETCH_REMOTE_MEDIA), false);
                 if (autofetch) {
+                    attachment.url = attachment.remote_url;
                     binding.loadRemote.setVisibility(View.GONE);
                     binding.loader.setVisibility(View.GONE);
                     loadVideo(attachment.remote_url, type);
@@ -412,6 +415,7 @@ public class FragmentMedia extends Fragment {
                     Toasty.error(requireActivity(), getString(R.string.toast_error_media), Toasty.LENGTH_SHORT).show();
                     binding.loadRemote.setVisibility(View.VISIBLE);
                     binding.loadRemote.setOnClickListener(v -> {
+                        attachment.url = attachment.remote_url;
                         binding.loadRemote.setVisibility(View.GONE);
                         binding.loader.setVisibility(View.GONE);
                         loadVideo(attachment.remote_url, type);
