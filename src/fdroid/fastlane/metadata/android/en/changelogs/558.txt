@@ -1,0 +1,12 @@
+Added:
+- Add warning for expired scheduled boosts on startup
+
+Fixed:
+- Fix compose button direction and toolbar state in reverse mode
+- Fix bookmark pagination in reverse order mode
+- Fix use remote URL for download when media is fetched remotely
+- Fix media description badge missing on autoplay GIFs
+- Fix hashtag timeline pagination
+- Fix duplicate parts when auto-splitting long messages
+- Fix unused temp media not cleaned on cache clear
+- Fix push distributor not saved in settings

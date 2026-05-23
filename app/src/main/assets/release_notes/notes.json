@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.40.2",
+    "code": "558",
+    "note": "Added:\n- Add warning for expired scheduled boosts on startup\n\nFixed:\n- Fix compose button direction and toolbar state in reverse mode\n- Fix bookmark pagination in reverse order mode\n- Fix use remote URL for download when media is fetched remotely\n- Fix media description badge missing on autoplay GIFs\n- Fix hashtag timeline pagination\n- Fix duplicate parts when auto-splitting long messages\n- Fix unused temp media not cleaned on cache clear\n- Fix push distributor not saved in settings"
+  },
+  {
     "version": "3.40.1",
     "code": "557",
     "note": "Added:\n- Add Apertium translation engine\n- Add Offline Translator external app integration\n- Add option to place compose button at top in reverse mode\n\nFixed:\n- Fix poll validation crash\n- Fix crash on pinned timelines update\n- Fix reverse timeline pull-to-refresh on profile page\n- Fix art timeline position lost on refresh in reverse mode\n- Fix sticky timeline scroll after returning from a post"
