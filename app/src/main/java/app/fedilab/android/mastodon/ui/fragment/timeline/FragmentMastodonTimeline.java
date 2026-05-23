@@ -758,7 +758,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             }
             if (!fetchingMissing) {
-                if (search != null) {
+                boolean useOffsetPagination = search != null && timelineType != Timeline.TimeLineEnum.TAG && timelineType != Timeline.TimeLineEnum.ART;
+                if (useOffsetPagination) {
                     offset += MastodonHelper.SEARCH_PER_CALL;
                 } else if (reverseOrder) {
                     reverseOrderMinId = fetched_statuses.pagination.min_id;
@@ -861,7 +862,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (reverseOrder) {
             flagLoading = statuses.pagination.min_id == null;
         } else {
-            flagLoading = search == null && statuses.pagination.max_id == null;
+            boolean useOffsetPagination = search != null && timelineType != Timeline.TimeLineEnum.TAG && timelineType != Timeline.TimeLineEnum.ART;
+            flagLoading = !useOffsetPagination && statuses.pagination.max_id == null;
         }
         binding.recyclerView.setVisibility(View.VISIBLE);
         if (statusAdapter != null && timelineStatuses != null) {
@@ -886,7 +888,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             Collections.reverse(statuses.statuses);
         }
         timelineStatuses.addAll(statuses.statuses);
-        if (search != null) {
+        boolean useOffsetPagination = search != null && timelineType != Timeline.TimeLineEnum.TAG && timelineType != Timeline.TimeLineEnum.ART;
+        if (useOffsetPagination) {
             offset += MastodonHelper.SEARCH_PER_CALL;
         } else if (reverseOrder) {
             reverseOrderMinId = statuses.pagination.min_id;
