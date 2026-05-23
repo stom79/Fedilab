@@ -122,6 +122,7 @@ import java.lang.ref.WeakReference;
 import java.net.IDN;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -174,6 +175,7 @@ import app.fedilab.android.mastodon.client.entities.app.BottomMenu;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.MutedAccounts;
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
+import app.fedilab.android.mastodon.client.entities.app.ScheduledBoost;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
@@ -1714,6 +1716,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         fetchRecentAccounts(BaseMainActivity.this, headerMainBinding);
     }
 
+    private static boolean expiredBoostChecked = false;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -1721,6 +1725,33 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             manageFloatingButton(true);
         if (sharedpreferences.getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false)) {
             binding.appBar.setExpanded(true, false);
+        }
+        if (!expiredBoostChecked) {
+            expiredBoostChecked = true;
+            new Thread(() -> {
+                try {
+                    BaseAccount account = Helper.getCurrentAccount(BaseMainActivity.this);
+                    if (account == null) return;
+                    List<ScheduledBoost> scheduled = new ScheduledBoost(BaseMainActivity.this).getScheduled(account);
+                    if (scheduled == null) return;
+                    int expired = 0;
+                    Date now = new Date();
+                    for (ScheduledBoost scheduledBoost : scheduled) {
+                        if (scheduledBoost.scheduledAt != null && scheduledBoost.scheduledAt.before(now)) {
+                            expired++;
+                        }
+                    }
+                    if (expired > 0) {
+                        int count = expired;
+                        new Handler(Looper.getMainLooper()).post(() -> {
+                            Snackbar snackbar = Snackbar.make(binding.getRoot(), getString(R.string.expired_scheduled_boosts, count), Snackbar.LENGTH_LONG);
+                            snackbar.setAction(R.string.scheduled, v -> startActivity(new Intent(BaseMainActivity.this, ScheduledActivity.class)));
+                            snackbar.show();
+                        });
+                    }
+                } catch (Exception ignored) {
+                }
+            }).start();
         }
     }
 
