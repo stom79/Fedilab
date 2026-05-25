@@ -1348,4 +1348,5 @@
     <string name="action_sort">排序</string>
     <string name="compose_top_reverse">将撰写按钮放在顶部</string>
     <string name="kw_compose_top_reverse">撰写、按钮、顶部、颠倒</string>
+    <string name="expired_scheduled_boosts">%d 则定时嘟文可能未能发送</string>
 </resources>
