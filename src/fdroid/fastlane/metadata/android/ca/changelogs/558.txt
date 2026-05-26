@@ -1,0 +1,12 @@
+Novetats:
+- Avís d'impulsos programats caducats en iniciari
+
+Correccions:
+- Direcció del botó de redacció i estat de la barra d'eines en mode invers
+- Paginació d'adreces d'interès en mode invers
+- URL remot en descarregar quan el mèdia s'obté remotament
+- Desaparició d'insígnia de descripció de mèdia en auto-reproduir GIFs
+- Paginació de pissarra de hashtag
+- Duplicacions en auto-despartir missatges llargs
+- Mèdies temporals que, en retirar-los, es mantenien a la memòria cau
+- Distribuïdor de polsada que no es desava a la configuració

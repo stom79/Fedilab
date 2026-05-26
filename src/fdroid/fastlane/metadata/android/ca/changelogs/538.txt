@@ -1,4 +1,4 @@
-Afegit:
+Novetats:
 - Descripcions en pestanyes i barres superiors
 - Acció per permutar sensibilitat dels mèdia de brams i pissarres
 - Accions d’accessibilitat per traduir, descarregar i compartir amb el visor de mèdia
@@ -6,7 +6,7 @@ Afegit:
 - Idioma persa a pref. de “Canviar d’idioma”
 - Nou logo d’App
 
-Canviat:
+Canvis:
 - Mostra llocs-tinents en carregar imatges de perfil
 - Actual. títols de pestanyes de navegació
 - Mill. accessibilitat de contingut traduït
@@ -16,7 +16,7 @@ Canviat:
 - Engrandit el botó de grandària de mèdia
 - Actual. de pàg. de crèdits
 
-Corregit:
+Correccions:
 - Hashtags inferiors desapareixien a bios en act. “Ressaltar hashtags inferiors”
 - “Ús de frontal alternatiu” tallava enllaç al media
 - Tocar botó múltiples cops generava múltiples publicacions d’un bram

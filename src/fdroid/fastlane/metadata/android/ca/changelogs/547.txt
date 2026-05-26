@@ -1,9 +1,9 @@
-Afegit:
+Novetats:
 - Citacions entre comptes amb pitjada llarga al botó de cita.
 - Enllaços a tendències en pissarres fixables i instàncies remotes.
 - Avís quan es passa del límit de 4 etiquetes en pissarra combinada
 
-Corregit:
+Correccions:
 - Text que es perdia en editar trameses programades.
 - Ordenar quan s'obren respostes intermedies d'un enfilall
 - Botó de cites i recompte d'accions no seguia el theme_icons_color

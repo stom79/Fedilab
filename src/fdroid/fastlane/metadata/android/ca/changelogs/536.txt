@@ -1,4 +1,4 @@
-Afegits:
+Novetats:
 - Menú de 3 punts per a converses remotes (Federació en segon pla)
 - Suport per cites a Mastodon
 - Aguantar sobre etiqueta: Seguir / Silenciar

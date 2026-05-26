@@ -1,4 +1,4 @@
-S'ha afegit:
+Novetats:
 - Un contorn al voltant dels mèdia
 
 Canvis:
@@ -6,7 +6,7 @@ Canvis:
 - Els gifs no estan animats per defecte
 - Queden deshabilitats per defecte la menció a l'impulsor en respondre. Es pot activar a Configuració > Redactar (per compte)
 
-Reparacions:
+Correccions:
 - Imatge de previsionat incorrecta en compartir des d'una altra aplicació
 - Fallides en traduir amb MinT
 - Refrescar i paginar espatllats en la pissarra de Tendències

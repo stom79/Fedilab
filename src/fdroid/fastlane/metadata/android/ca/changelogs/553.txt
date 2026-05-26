@@ -1,11 +1,11 @@
-Afegit
+Novetats
 - Exportar llista que segueix com CSV
 - Suport a política de filtre de notifications
 - IU de notificacions filtrades (peticions de notificacions) 
 - Alerta única de "Mantenir obert Android" en iniciar
 - Gestió de mèdia sensibles i icones d'alt-text en brams citats
 
-Reparat
+Correccions
 - Salts del ròdol de la pissarra amb l'autorescat de brams extraviats
 - Salts del cursor al primer bram en compondre enfilalls
 - enfilall +/- botó no s'actualitzava a l'enganxar

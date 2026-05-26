@@ -1,4 +1,4 @@
-Reparacions:
+Correccions:
 - Correcció d'una fallada d'alguns dispositius
 - Amagar botó de cita
 - Correcció d'un problema de disposició de les imatges en vista apaïsada

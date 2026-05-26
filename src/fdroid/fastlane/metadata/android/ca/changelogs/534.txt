@@ -1,4 +1,4 @@
-Afegits:
+Novetats:
 - Ressaltat de hashtags inferiors
 - Enllaços en les tendències
 - Etiquetes destacades als perfils

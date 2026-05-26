@@ -7,7 +7,7 @@ Novetats:
 - Permet instal·lar en aparells amb ChromeOS sense pantalla tàctil
 - Bluesky a reescriptura d'enllaç SkyView 
 
-Reparat:
+Correccions:
 - No obria sessió a Pixelfed
 - Salt de cursor en ocultar el teclat amb mencions al damunt
 - Cronografies de notificació que no refrescaven en recarregar

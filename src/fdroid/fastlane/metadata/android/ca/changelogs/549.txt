@@ -15,7 +15,7 @@ Canvis
 - Millores en pronoms i gestió de noms
 - Millor previsionat d'encaixar retallant l'alçada.
 
-Reparacions
+Correccions
 - Pissares d'imatges que no en carregaven de noves i les perdien en reiniciar
 - Pèrdua de canvis d'alt-text en editar missatges programats
 - Cites perdudes en missatges programats

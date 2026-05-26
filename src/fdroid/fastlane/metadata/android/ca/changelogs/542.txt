@@ -1,12 +1,12 @@
-Afegit:
+Novetats:
 - Vista de debats als enllaços de tendència
 - Visionat de mèdia de missatges citats
 - Funció de "Filtrar la publicació"
 
-Canviat:
+Canvis:
 - El color del text de MathJax s'adapta al fons del tema
 
-Corregit:
+Correccions:
 - ANR en text llarg sense espais
 - NPE en la gestió de cites
 - Respecta la política de cites predeterminada de la usuària en redactar noves publicacions

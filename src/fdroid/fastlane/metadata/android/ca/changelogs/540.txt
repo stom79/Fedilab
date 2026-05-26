@@ -1,18 +1,10 @@
-Nou:
+Novetats:
 
 - Els filtres ara inclouen els missatges citats 
 
-
-
 Canvis:
-
 - Substitució de "Ningú" per "Jo sola" a la política d'aprovació de citacions 
 
-
-
-Resolt:
-
+Correccions:
 - Fallides en editar missatges
-
-
 - Nou domini x.com als patrons alternats d'URL de frontal

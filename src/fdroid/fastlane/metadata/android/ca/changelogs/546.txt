@@ -11,7 +11,7 @@ Afegit:
 - Nova preferència amb múltiples opcions de mostra del botó de citar
 - Opció per ressaltar comentaris nous als fils de conversa
 
-Canviat:
+Canvis:
 - El color del text de MathJax s'adapta al fons real del tema
 - Migració a targetSdk 35
 - Millora de previsionat d'enllaços
@@ -19,7 +19,7 @@ Canviat:
 - Elimina comptes dels "Silenciats a l'inici" quan es dessegueixen
 - Instància URI clicable al diàleg "Sobre la instància"
 
-Corregit:
+Correccions:
 - Fallida en obrir l'app a la pestanya de notificacions
 - Paràmetre d'encaixar previsionat d'imatges era sobreescrit amb mèdia molt grans
 - Filtre d'etiquetes d'instàncies remotes que no s'aplicava

@@ -1,4 +1,4 @@
-S'ha afegit:
+Novetats:
 - Opció per a deshabilitar el botó d'autoocultació de redacció
 
 Canvis:
@@ -7,7 +7,7 @@ Canvis:
 - Actualització de capçalera de calaix de navegació
 - Encabir els botons d'acció quan sigui necessari per evitar superposicions
 
-Reparacions:
+Correccions:
 - Reparada la fallida de quan els mèdia eren massa pesats
 - Algunes emoticones a mida de la bio no es revelaven
 - La publicació de brams no funcionava en algunes instàncies de Friendica

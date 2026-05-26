@@ -1,8 +1,8 @@
-S'ha afegit:
+Novetats:
 - La implementació del sistema de traducció automàtica MinT
 - La implementació "només d'instància" de GoToSocial
 
-Reparacions:
+Correccions:
 - GIFs no es visualitzaven a les pissarres
 - Reparada una fallida en desfixar les pissarres
 - Acoloriment de la barra superior en rodolar a les converses

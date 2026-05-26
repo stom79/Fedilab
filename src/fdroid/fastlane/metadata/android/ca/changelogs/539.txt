@@ -1,7 +1,5 @@
-Nou:
-
+Novetats:
 - Suport integral a citacions Mastodon
-
 - Botó de citació ocultable a configuració > Cronograma
 - Canviar règim de citacions a configuració
 - Colors a redacció que depenen de la visibilitat (és pot deshabilitar/canviar els colors)
@@ -18,14 +16,9 @@ Canvis:
 - Més traduccions de pronoms per a les tecles 
 - 2 línies d'info quan es focalitza sobre un missatge 
 
-Reparacions:
-
+Correccions:
 - Marge esquerre persistent al capdavall de la Informació
-
 - Text d'avís de contingut seleccionable
-
 - Deshabilitat el processament d'HTML en noms visibles
-
 - Millora de preferència de botó de traducció
-
 - Fallides diverses

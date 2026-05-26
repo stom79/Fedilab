@@ -1,4 +1,4 @@
-Reparacions
+Correccions
 - Capçalera de perfil que es congelava en pissarra inversa
 - Notificacions que no carregaven nous elements en pissarra inversa
 - Respectar preferència de notificacions agregades amb l'API de notificacions agrupades

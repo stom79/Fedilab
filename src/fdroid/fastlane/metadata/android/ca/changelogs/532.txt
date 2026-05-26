@@ -1,4 +1,4 @@
-Reparacions:
+Correccions:
 - Enquestes que no es mostraven
 - Paginació amb tendències
 - Notificacions Push que no funcionaven en alguns dispositius

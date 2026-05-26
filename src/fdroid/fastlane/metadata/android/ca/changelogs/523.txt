@@ -1,10 +1,10 @@
-S'ha afegit:
+Novetats:
 - Seguir etiquetes de Twitter
 
 Canvis
 - Eliminar còpia de seguretat automàtica (només Google)
 
-Reparacions:
+Correccions:
 - Notificacions fugaces que no funcionaven en alguns dispositius
 - Filtres no aplicats a la descripció de mèdia
 - Reparada fallida amb imatges animades en pissarres

@@ -1,4 +1,4 @@
-Afegits:
+Novetats:
 - Suport per a cites a Mastodon
 - Aguantar sobre etiqueta: Seguir / Silenciar
 
