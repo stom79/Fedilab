@@ -1144,4 +1144,5 @@
     <string name="featured_hashtags_title">Hinzufügen oder entfernen vorgestellter Hashtags</string>
     <string name="delete_featured_hashtag">Vorgestelltes Hashtag entfernen</string>
     <string name="delete_featured_hashtag_confirm">Bist Du sicher das vorgestellte Hashtag entfernen zu wollen?</string>
+    <string name="action_sort">Sortieren</string>
 </resources>
