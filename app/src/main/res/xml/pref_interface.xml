@@ -75,6 +75,15 @@
             app:singleLineTitle="false"
             app:summary="@string/set_display_compact_buttons_description"
             app:title="@string/set_display_compact_buttons" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_SHOW_FEATURED_TAB"
+            app:singleLineTitle="false"
+            app:summary="@string/set_show_featured_tab_description"
+            app:title="@string/set_show_featured_tab" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

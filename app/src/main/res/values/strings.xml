@@ -2484,4 +2484,34 @@
     <string name="kw_local_only">local only, federation, pleroma</string>
     <string name="kw_post_format">post, format, plain text, html, markdown, bbcode</string>
     <string name="action_sort">Sort</string>
+    <string name="action_collections">Collections</string>
+    <string name="no_collections">No collections yet!</string>
+    <string name="collection_name_hint">Collection name</string>
+    <string name="collection_description_hint">Description (optional)</string>
+    <string name="collection_tag_hint">Hashtag (optional)</string>
+    <string name="collection_discoverable">Discoverable</string>
+    <string name="action_collection_add">New collection</string>
+    <string name="action_collection_delete">Delete collection</string>
+    <string name="action_collection_confirm_delete">Are you sure you want to permanently delete this collection?</string>
+    <string name="action_collection_edit">Edit collection</string>
+    <string name="not_valid_collection_name">Collection name is not valid!</string>
+    <string name="action_add_account_to_collection">Add account</string>
+    <string name="action_remove_account_from_collection">Remove account</string>
+    <string name="account_added_to_collection">The account was added to the collection!</string>
+    <string name="account_removed_from_collection">The account was removed from the collection!</string>
+    <string name="collection_sensitive">Sensitive</string>
+    <string name="collection_tab_created">Created by you</string>
+    <string name="collection_tab_featuring">Featuring you</string>
+    <string name="collection_feature_denied">This account does not allow being featured in collections</string>
+    <string name="collection_account_count">%d accounts</string>
+    <string name="collection_sort_alphabetical">Alphabetical</string>
+    <string name="collection_sort_last_active">Last active</string>
+    <string name="collection_sort_most_followers">Most followers</string>
+    <string name="collection_sort_date_added">Date added</string>
+    <string name="collection_sort_by">Sort by</string>
+    <string name="featured">Featured</string>
+    <string name="SET_SHOW_FEATURED_TAB" translatable="false">SET_SHOW_FEATURED_TAB</string>
+    <string name="set_show_featured_tab">Show featured tab on profiles</string>
+    <string name="set_show_featured_tab_description">Display the featured tab on profile pages</string>
+    <string name="kw_featured_tab" translatable="false">featured_tab_collections_profile</string>
 </resources>

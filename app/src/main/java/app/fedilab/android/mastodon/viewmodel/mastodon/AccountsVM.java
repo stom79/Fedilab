@@ -1478,6 +1478,37 @@ public class AccountsVM extends AndroidViewModel {
     }
 
     /**
+     * View accounts that a given account is currently featuring on their profile.
+     *
+     * @param accountId The account ID to look up endorsements for.
+     * @param limit     Maximum number of results to return. Defaults to 40.
+     * @return {@link LiveData} containing a {@link List} of {@link Account}s
+     */
+    public LiveData<List<Account>> getAccountEndorsements(@NonNull String instance, String token, @NonNull String accountId, String limit, String maxId, String sinceId) {
+        accountListMutableLiveData = new MutableLiveData<>();
+        MastodonAccountsService mastodonAccountsService = init(instance);
+        new Thread(() -> {
+            List<Account> accountList = null;
+            Call<List<Account>> endorsementsCall = mastodonAccountsService.getAccountEndorsements(token, accountId, limit, maxId, sinceId);
+            if (endorsementsCall != null) {
+                try {
+                    Response<List<Account>> endorsementsResponse = endorsementsCall.execute();
+                    if (endorsementsResponse.isSuccessful()) {
+                        accountList = endorsementsResponse.body();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            List<Account> finalAccountList = accountList;
+            Runnable myRunnable = () -> accountListMutableLiveData.setValue(finalAccountList);
+            mainHandler.post(myRunnable);
+        }).start();
+        return accountListMutableLiveData;
+    }
+
+    /**
      * View accounts that the user is currently featuring on their profile.
      *
      * @param limit Maximum number of results to return. Defaults to 40.

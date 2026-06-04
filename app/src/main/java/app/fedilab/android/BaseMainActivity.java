@@ -143,6 +143,7 @@ import app.fedilab.android.mastodon.activities.CacheActivity;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
 import app.fedilab.android.mastodon.activities.ContextActivity;
 import app.fedilab.android.mastodon.activities.DirectoryActivity;
+import app.fedilab.android.mastodon.activities.CollectionsActivity;
 import app.fedilab.android.mastodon.activities.DraftActivity;
 import app.fedilab.android.mastodon.activities.FilterActivity;
 import app.fedilab.android.mastodon.activities.FollowRequestActivity;
@@ -1293,6 +1294,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 if (api == Account.API.MISSKEY) {
                     binding.navView.getMenu().findItem(R.id.nav_filter).setVisible(false);
                     binding.navView.getMenu().findItem(R.id.nav_followed_tags).setVisible(false);
+                    binding.navView.getMenu().findItem(R.id.nav_collections).setVisible(false);
                     binding.navView.getMenu().findItem(R.id.nav_announcements).setVisible(false);
                     binding.navView.getMenu().findItem(R.id.nav_trends).setVisible(false);
                     binding.navView.getMenu().findItem(R.id.nav_suggestions).setVisible(false);
@@ -1508,6 +1510,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 startActivity(intent);
             } else if (id == R.id.nav_followed_tags) {
                 Intent intent = new Intent(this, FollowedTagActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_collections) {
+                Intent intent = new Intent(this, CollectionsActivity.class);
                 startActivity(intent);
             } else if (id == R.id.nav_settings) {
                 Intent intent = new Intent(this, SettingsActivity.class);

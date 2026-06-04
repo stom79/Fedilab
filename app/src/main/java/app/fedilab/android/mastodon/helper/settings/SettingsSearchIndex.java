@@ -140,6 +140,7 @@ public class SettingsSearchIndex {
         list.add(new SettingsSearchEntry(R.string.set_unfollow_validation_title, R.string.kw_unfollow_confirm, catInterface, navInterface, "SET_UNFOLLOW_VALIDATION"));
         list.add(new SettingsSearchEntry(R.string.set_display_counters, R.string.kw_display_counters, catInterface, navInterface, "SET_DISPLAY_COUNTERS"));
         list.add(new SettingsSearchEntry(R.string.set_display_compact_buttons, R.string.kw_compact_buttons, catInterface, navInterface, "SET_DISPLAY_COMPACT_ACTION_BUTTON"));
+        list.add(new SettingsSearchEntry(R.string.set_show_featured_tab, R.string.kw_featured_tab, catInterface, navInterface, "SET_SHOW_FEATURED_TAB"));
         list.add(new SettingsSearchEntry(R.string.set_use_cache, R.string.kw_use_cache, catInterface, navInterface, "SET_USE_CACHE"));
         list.add(new SettingsSearchEntry(R.string.custom_tabs, R.string.kw_custom_tabs, catInterface, navInterface, "SET_CUSTOM_TABS"));
         list.add(new SettingsSearchEntry(R.string.set_clear_cache_exit, R.string.kw_clear_cache, catInterface, navInterface, "SET_CLEAR_CACHE_EXIT"));

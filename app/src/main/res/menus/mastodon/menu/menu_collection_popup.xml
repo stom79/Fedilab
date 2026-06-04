@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_view_collection"
+        android:title="@string/action_collections" />
+    <item
+        android:id="@+id/action_share_collection"
+        android:title="@string/share_link" />
+    <item
+        android:id="@+id/action_copy_link_collection"
+        android:title="@string/copy_link" />
+    <item
+        android:id="@+id/action_manage_accounts_collection"
+        android:title="@string/manage_accounts" />
+    <item
+        android:id="@+id/action_edit_collection"
+        android:title="@string/action_collection_edit" />
+    <item
+        android:id="@+id/action_delete_collection"
+        android:title="@string/action_collection_delete" />
+</menu>

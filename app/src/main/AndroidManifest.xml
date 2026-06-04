@@ -232,6 +232,11 @@
             android:label="@string/followed_tags"
             android:theme="@style/AppThemeBar" />
         <activity
+            android:name=".mastodon.activities.CollectionsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/action_collections"
+            android:theme="@style/AppThemeBar" />
+        <activity
             android:name=".mastodon.activities.SettingsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/settings"

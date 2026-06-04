@@ -26,17 +26,20 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonAccount;
 import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentMastodonTimeline;
+import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentProfileFeatured;
 import app.fedilab.android.mastodon.ui.fragment.timeline.FragmentProfileTimeline;
 
 public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
     private final Account account;
     private final boolean checkRemotely;
+    private final boolean showFeaturedTab;
     private Fragment mCurrentFragment;
 
-    public FedilabProfileTLPageAdapter(FragmentManager fm, Account account, boolean remotely) {
+    public FedilabProfileTLPageAdapter(FragmentManager fm, Account account, boolean remotely, boolean showFeaturedTab) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.account = account;
         this.checkRemotely = remotely;
+        this.showFeaturedTab = showFeaturedTab;
     }
 
     public Fragment getCurrentFragment() {
@@ -74,6 +77,13 @@ public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
                 fragmentMastodonAccount.setArguments(bundle);
                 return fragmentMastodonAccount;
             }
+            case 3 -> {
+                FragmentProfileFeatured fragmentProfileFeatured = new FragmentProfileFeatured();
+                bundle = new Bundle();
+                bundle.putString(Helper.ARG_CACHED_ACCOUNT_ID, account.id);
+                fragmentProfileFeatured.setArguments(bundle);
+                return fragmentProfileFeatured;
+            }
             default -> {
                 return new FragmentMastodonTimeline();
             }
@@ -82,7 +92,7 @@ public class FedilabProfileTLPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return showFeaturedTab ? 4 : 3;
     }
 
     public enum follow_type {
