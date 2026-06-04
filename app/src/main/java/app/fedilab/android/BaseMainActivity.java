@@ -364,6 +364,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }
     };
     private NetworkStateReceiver networkStateReceiver;
+    private int savedViewPagerPosition = -1;
 
     SharedPreferences sharedpreferences;
 
@@ -1139,6 +1140,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            savedViewPagerPosition = savedInstanceState.getInt(Helper.ARG_SAVED_SCROLL_POSITION, -1);
+        }
         sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
         if (!Helper.isLoggedIn(BaseMainActivity.this)) {
             //It is not, the user is redirected to the login page
@@ -1392,11 +1396,20 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             //Initialize the slug of the first fragment
                             //First it's taken from db (last stored values)
                             PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, null);
+                            if (savedViewPagerPosition >= 0 && binding.viewPager.getAdapter() != null
+                                    && savedViewPagerPosition < binding.viewPager.getAdapter().getCount()) {
+                                binding.viewPager.setCurrentItem(savedViewPagerPosition, false);
+                            }
                             //Fetch remote lists for the authenticated account and update them
                             new ViewModelProvider(BaseMainActivity.this).get(TimelinesVM.class).getLists(currentInstance, currentToken)
-                                    .observe(this, mastodonLists ->
-                                            PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, mastodonLists)
-                                    );
+                                    .observe(this, mastodonLists -> {
+                                        PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, mastodonLists);
+                                        if (savedViewPagerPosition >= 0 && binding.viewPager.getAdapter() != null
+                                                && savedViewPagerPosition < binding.viewPager.getAdapter().getCount()) {
+                                            binding.viewPager.setCurrentItem(savedViewPagerPosition, false);
+                                        }
+                                        savedViewPagerPosition = -1;
+                                    });
                         });
 
                 //Update emoji in db for the current instance
@@ -2129,6 +2142,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     PinnedTimelineHelper.redrawTopBarPinned(BaseMainActivity.this, binding, pinned, bottomMenu, mastodonLists);
                     binding.viewPager.setCurrentItem(currentItem);
                 });
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (binding != null && binding.viewPager.getAdapter() != null) {
+            outState.putInt(Helper.ARG_SAVED_SCROLL_POSITION, binding.viewPager.getCurrentItem());
+        }
     }
 
     @Override

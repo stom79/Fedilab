@@ -237,6 +237,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String reverseOrderMinId;
     private boolean rememberPosition;
     private String publicTrendsDomain;
+    private boolean restoredFromSavedState;
+    private int savedScrollPosition = -1;
+    private int savedScrollOffset;
 
 
     //Allow to update pinnedTimeline for remote instance filter
@@ -292,7 +295,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private void initializeView() {
         if (!isViewInitialized) {
             isViewInitialized = true;
-            if (initialStatuses != null) {
+            if (restoredFromSavedState) {
+                restoreFromCache();
+            } else if (initialStatuses != null) {
                 initializeStatusesCommonView(initialStatuses);
             } else {
                 router(null);
@@ -308,6 +313,24 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (timelineStatuses != null && !timelineStatuses.isEmpty()) {
             route(DIRECTION.FETCH_NEW, true);
         }
+    }
+
+    private void restoreFromCache() {
+        restoredFromSavedState = false;
+        if (binding == null || !isAdded() || getActivity() == null) {
+            router(null);
+            return;
+        }
+        TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(requireActivity(), timelineType, null, ident);
+        timelineParams.maxId = max_id;
+        timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
+                .observe(getViewLifecycleOwner(), statusesCached -> {
+                    if (statusesCached == null || statusesCached.statuses == null || statusesCached.statuses.isEmpty()) {
+                        router(null);
+                    } else {
+                        initializeStatusesCommonView(statusesCached);
+                    }
+                });
     }
 
 
@@ -419,6 +442,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         timelineType = Timeline.TimeLineEnum.HOME;
         bundleParamsRetrieved = false;
         needToCallResume = false;
+        restoredFromSavedState = false;
+        if (savedInstanceState != null) {
+            restoredFromSavedState = true;
+            max_id = savedInstanceState.getString(Helper.ARG_SAVED_MAX_ID, null);
+            min_id = savedInstanceState.getString(Helper.ARG_SAVED_MIN_ID, null);
+            savedScrollPosition = savedInstanceState.getInt(Helper.ARG_SAVED_SCROLL_POSITION, -1);
+            savedScrollOffset = savedInstanceState.getInt(Helper.ARG_SAVED_SCROLL_OFFSET, 0);
+        }
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         arguments = getArguments();
         return binding.getRoot();
@@ -543,7 +574,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
         binding.recyclerView.setVerticalScrollBarEnabled(displayScrollBar);
-        max_id = statusReport != null ? statusReport.id : null;
+        if (!restoredFromSavedState) {
+            max_id = statusReport != null ? statusReport.id : null;
+        }
         offset = 0;
         rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
         //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
@@ -951,6 +984,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(statusAdapter);
+        if (savedScrollPosition >= 0) {
+            mLayoutManager.scrollToPositionWithOffset(savedScrollPosition, savedScrollOffset);
+            savedScrollPosition = -1;
+        }
 
         ViewPreloadSizeProvider<Attachment> preloadSizeProvider = new ViewPreloadSizeProvider<>();
         RecyclerViewPreloader<Attachment> preloader =
@@ -1236,6 +1273,25 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     public void onPause() {
         storeMarker(Helper.getCurrentAccount(requireActivity()));
         super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (max_id != null) {
+            outState.putString(Helper.ARG_SAVED_MAX_ID, max_id);
+        }
+        if (min_id != null) {
+            outState.putString(Helper.ARG_SAVED_MIN_ID, min_id);
+        }
+        if (mLayoutManager != null) {
+            int position = reverseTimeline ? mLayoutManager.findLastVisibleItemPosition() : mLayoutManager.findFirstVisibleItemPosition();
+            outState.putInt(Helper.ARG_SAVED_SCROLL_POSITION, position);
+            View firstVisibleView = mLayoutManager.findViewByPosition(position);
+            if (firstVisibleView != null) {
+                outState.putInt(Helper.ARG_SAVED_SCROLL_OFFSET, firstVisibleView.getTop());
+            }
+        }
     }
 
     @Override
