@@ -70,6 +70,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.ActionMode;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -1736,15 +1737,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         super.onResume();
         if (!sharedpreferences.getBoolean(getString(R.string.SET_AUTO_HIDE_COMPOSE), true) && !getFloatingVisibility())
             manageFloatingButton(true);
-        binding.appBar.post(() -> {
-            binding.appBar.setVisibility(View.INVISIBLE);
-            binding.toolbarSearch.setIconified(false);
-            binding.toolbarSearch.post(() -> {
-                binding.toolbarSearch.setIconified(true);
-                binding.toolbarSearch.clearFocus();
-                binding.appBar.setVisibility(View.VISIBLE);
-            });
-        });
         if (!expiredBoostChecked) {
             expiredBoostChecked = true;
             new Thread(() -> {
@@ -1772,6 +1764,32 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
             }).start();
         }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            resetAppBarBehavior();
+        }
+    }
+
+    @Override
+    public void onSupportActionModeFinished(@NonNull ActionMode mode) {
+        super.onSupportActionModeFinished(mode);
+        resetAppBarBehavior();
+    }
+
+    private void resetAppBarBehavior() {
+        binding.appBar.post(() -> {
+            binding.appBar.setVisibility(View.INVISIBLE);
+            binding.toolbarSearch.setIconified(false);
+            binding.toolbarSearch.post(() -> {
+                binding.toolbarSearch.setIconified(true);
+                binding.toolbarSearch.clearFocus();
+                binding.appBar.setVisibility(View.VISIBLE);
+            });
+        });
     }
 
     private void manageTopBarScrolling(Toolbar toolbar) {
