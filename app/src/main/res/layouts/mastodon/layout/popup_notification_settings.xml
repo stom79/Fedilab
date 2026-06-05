@@ -92,6 +92,14 @@
                 app:icon="@drawable/ic_baseline_format_quote_24" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/display_collections"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_collections"
+                app:icon="@drawable/ic_baseline_people_alt_24" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/display_poll_results"
                 style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="match_parent"

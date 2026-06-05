@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="24dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="8dp">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/collection_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/collection_name_hint"
+        android:inputType="text"
+        android:maxLength="40"
+        android:singleLine="true" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/collection_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/collection_description_hint"
+        android:inputType="textMultiLine"
+        android:maxLength="100"
+        android:maxLines="3" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/collection_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/collection_tag_hint"
+        android:inputType="text"
+        android:singleLine="true" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/collection_sensitive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/collection_sensitive" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/collection_discoverable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/collection_discoverable" />
+
+</LinearLayout>

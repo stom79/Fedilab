@@ -71,16 +71,18 @@ public class FedilabNotificationPageAdapter extends FragmentStatePagerAdapter {
                 case 4 ->
                         bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.QUOTES);
                 case 5 ->
-                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.POLLS);
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.COLLECTIONS);
                 case 6 ->
-                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.TOOTS);
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.POLLS);
                 case 7 ->
-                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.FOLLOWS);
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.TOOTS);
                 case 8 ->
-                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.UPDATES);
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.FOLLOWS);
                 case 9 ->
-                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.ADMIN_SIGNUP);
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.UPDATES);
                 case 10 ->
+                        bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.ADMIN_SIGNUP);
+                case 11 ->
                         bundle.putSerializable(Helper.ARG_NOTIFICATION_TYPE, FragmentMastodonNotification.NotificationTypeEnum.ADMIN_REPORT);
             }
         }
@@ -90,6 +92,6 @@ public class FedilabNotificationPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return extended ? 11 : 2;
+        return extended ? 12 : 2;
     }
 }

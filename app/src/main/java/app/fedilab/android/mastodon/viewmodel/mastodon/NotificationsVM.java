@@ -361,6 +361,11 @@ public class NotificationsVM extends AndroidViewModel {
                     e.printStackTrace();
                 }
             }
+            try {
+                new StatusCache(getApplication().getApplicationContext()).deleteStatus(instance, notification_id);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             Runnable myRunnable = () -> voidMutableLiveData.setValue(null);
             mainHandler.post(myRunnable);

@@ -455,8 +455,11 @@ public class ProfileActivity extends BaseActivity {
 
         binding.accountTabLayout.clearOnTabSelectedListeners();
         binding.accountTabLayout.removeAllTabs();
-        //Tablayout for timelines/following/followers
-        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(getSupportFragmentManager(), account, checkRemotely);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean showFeaturedSetting = prefs.getBoolean(getString(R.string.SET_SHOW_FEATURED_TAB), true);
+        boolean showFeaturedTab = showFeaturedSetting && (account.show_featured || (account.id != null && account.id.equals(BaseMainActivity.currentUserID)));
+        FedilabProfileTLPageAdapter fedilabProfileTLPageAdapter = new FedilabProfileTLPageAdapter(getSupportFragmentManager(), account, checkRemotely, showFeaturedTab);
         TabProfileCustomViewBinding tabMessagesView = TabProfileCustomViewBinding.inflate(getLayoutInflater());
         TabProfileCustomViewBinding tabFollowingView = TabProfileCustomViewBinding.inflate(getLayoutInflater());
         TabProfileCustomViewBinding tabFollowersView = TabProfileCustomViewBinding.inflate(getLayoutInflater());
@@ -478,8 +481,18 @@ public class ProfileActivity extends BaseActivity {
         binding.accountTabLayout.addTab(tabMessages);
         binding.accountTabLayout.addTab(tabFollowing);
         binding.accountTabLayout.addTab(tabFollowers);
+
+        if (showFeaturedTab) {
+            TabProfileCustomViewBinding tabFeaturedView = TabProfileCustomViewBinding.inflate(getLayoutInflater());
+            tabFeaturedView.title.setText(getString(R.string.featured));
+            tabFeaturedView.count.setVisibility(View.GONE);
+            TabLayout.Tab tabFeatured = binding.accountTabLayout.newTab();
+            tabFeatured.setCustomView(tabFeaturedView.getRoot());
+            binding.accountTabLayout.addTab(tabFeatured);
+        }
+
         binding.accountViewpager.setAdapter(fedilabProfileTLPageAdapter);
-        binding.accountViewpager.setOffscreenPageLimit(3);
+        binding.accountViewpager.setOffscreenPageLimit(showFeaturedTab ? 4 : 3);
         binding.accountViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.accountTabLayout));
 
 

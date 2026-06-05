@@ -305,6 +305,9 @@ public class Helper {
     public static final String ARG_VISIBILITY = "ARG_VISIBILITY";
     public static final String ARG_SCHEDULED_DATE = "ARG_SCHEDULED_DATE";
     public static final String ARG_SCHEDULED_ID = "ARG_SCHEDULED_ID";
+    public static final String ARG_COLLECTION_ACCOUNT_ID = "ARG_COLLECTION_ACCOUNT_ID";
+    public static final String ARG_OWN_COLLECTIONS = "ARG_OWN_COLLECTIONS";
+    public static final String ARG_COLLECTION_ID = "ARG_COLLECTION_ID";
 
     public static final String WORKER_REFRESH_NOTIFICATION = "WORKER_REFRESH_NOTIFICATION";
     public static final String WORKER_REFRESH_HOME = "WORKER_REFRESH_HOME";
@@ -1728,6 +1731,10 @@ public class Helper {
                 channelId = "channel_report";
                 channelTitle = context.getString(R.string.channel_notif_report);
             }
+            case COLLECTION -> {
+                channelId = "channel_collection";
+                channelTitle = context.getString(R.string.action_collections);
+            }
             default -> {
                 channelId = "channel_boost";
                 channelTitle = context.getString(R.string.channel_notif_boost);
@@ -2322,7 +2329,8 @@ public class Helper {
         BACKUP,
         STORE,
         TOOT,
-        QUOTE
+        QUOTE,
+        COLLECTION
     }
 
     public interface OnAttachmentCopied {

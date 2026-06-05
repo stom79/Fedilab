@@ -124,6 +124,12 @@
             app:key="@string/SET_NOTIF_ADMIN_REPORT"
             app:singleLineTitle="false"
             app:title="@string/set_notif_admin_report" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_NOTIF_COLLECTION"
+            app:singleLineTitle="false"
+            app:title="@string/set_notif_collection" />
     </PreferenceCategory>
 
     <PreferenceCategory

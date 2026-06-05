@@ -78,6 +78,7 @@ public class FragmentNotificationContainer extends Fragment {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_star_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_repeat));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_format_quote_24));
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_people_alt_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_poll_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_home_24));
             binding.tabLayout.addTab(binding.tabLayout.newTab().setIcon(R.drawable.ic_baseline_person_add_alt_1_24));
@@ -112,6 +113,7 @@ public class FragmentNotificationContainer extends Fragment {
             dialogView.displayUpdates.setChecked(true);
             dialogView.displaySignups.setChecked(true);
             dialogView.displayReports.setChecked(true);
+            dialogView.displayCollections.setChecked(true);
             String excludedCategories = sharedpreferences.getString(getString(R.string.SET_EXCLUDED_NOTIFICATIONS_TYPE) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance, null);
             List<String> excludedCategoriesList = new ArrayList<>();
             if (excludedCategories != null) {
@@ -158,6 +160,10 @@ public class FragmentNotificationContainer extends Fragment {
                             excludedCategoriesList.add("admin.report");
                             dialogView.displayReports.setChecked(false);
                         }
+                        case "added_to_collection" -> {
+                            excludedCategoriesList.add("added_to_collection");
+                            dialogView.displayCollections.setChecked(false);
+                        }
                     }
                 }
             }
@@ -184,6 +190,8 @@ public class FragmentNotificationContainer extends Fragment {
                     notificationType = "admin.sign_up";
                 } else if (checkedId == R.id.display_reports) {
                     notificationType = "admin.report";
+                } else if (checkedId == R.id.display_collections) {
+                    notificationType = "added_to_collection";
                 }
                 if (isChecked) {
                     excludedCategoriesList.remove(notificationType);

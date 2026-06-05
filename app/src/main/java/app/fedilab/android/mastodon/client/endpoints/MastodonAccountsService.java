@@ -373,6 +373,15 @@ public interface MastodonAccountsService {
             @Query("since_id") String since_id
     );
 
+    @GET("accounts/{id}/endorsements")
+    Call<List<Account>> getAccountEndorsements(
+            @Header("Authorization") String token,
+            @Path("id") String id,
+            @Query("limit") String limit,
+            @Query("max_id") String max_id,
+            @Query("since_id") String since_id
+    );
+
     //Feature tags
     @GET("featured_tags")
     Call<List<FeaturedTag>> getFeaturedTags(

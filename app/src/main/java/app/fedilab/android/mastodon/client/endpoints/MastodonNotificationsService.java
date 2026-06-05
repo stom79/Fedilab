@@ -69,7 +69,6 @@ public interface MastodonNotificationsService {
             @Header("Authorization") String token
     );
 
-    @FormUrlEncoded
     @POST("notifications/{id}/dismiss")
     Call<Void> dismissNotification(
             @Header("Authorization") String token,
