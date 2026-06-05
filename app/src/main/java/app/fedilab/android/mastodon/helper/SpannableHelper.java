@@ -391,7 +391,8 @@ public class SpannableHelper {
                             } else if (acct != null) {
                                 args.putString(Helper.ARG_MENTION, acct);
                             } else {
-                                args.putString(Helper.ARG_MENTION, word);
+                                linkClickAction(context, url);
+                                return;
                             }
                             new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
                                 Bundle bundle = new Bundle();
@@ -765,135 +766,98 @@ public class SpannableHelper {
         Matcher matcherLinkLong = linkLong.matcher(finalUrl);
         Pattern userWithoutAt = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(users/([\\w._-]*[0-9]*))/statuses/([0-9]+)");
         Matcher matcherUserWithoutAt = userWithoutAt.matcher(finalUrl);
-        if (matcherLink.find() && !finalUrl.contains("medium.com")) {
-            if (matcherLink.group(3) != null && !Objects.requireNonNull(matcherLink.group(3)).isEmpty()) { //It's a toot
-                CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), finalUrl, new CrossActionHelper.Callback() {
-                    @Override
-                    public void federatedStatus(Status status) {
-                        Intent intent = new Intent(context, ContextActivity.class);
-                        Bundle args = new Bundle();
-                        args.putSerializable(Helper.ARG_STATUS, status);
-                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                            Bundle bundle = new Bundle();
-                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                            intent.putExtras(bundle);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        });
-                    }
-
-                    @Override
-                    public void federatedAccount(Account account) {
-                    }
-                });
-            } else {//It's an account
-                CrossActionHelper.fetchRemoteAccount(context, Helper.getCurrentAccount(context), matcherLink.group(2) + "@" + matcherLink.group(1), new CrossActionHelper.Callback() {
-                    @Override
-                    public void federatedStatus(Status status) {
-                    }
-
-                    @Override
-                    public void federatedAccount(Account account) {
-                        Intent intent = new Intent(context, ProfileActivity.class);
-                        Bundle args = new Bundle();
-                        args.putSerializable(Helper.ARG_ACCOUNT, account);
-                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                            Bundle bundle = new Bundle();
-                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                            intent.putExtras(bundle);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        });
-                    }
-                });
-            }
-        } else if (matcherLinkLong.find() && !finalUrl.contains("medium.com")) {
-            if (matcherLinkLong.group(3) != null && !Objects.requireNonNull(matcherLinkLong.group(3)).isEmpty()) { //It's a toot
-                CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), finalUrl, new CrossActionHelper.Callback() {
-                    @Override
-                    public void federatedStatus(Status status) {
-                        Intent intent = new Intent(context, ContextActivity.class);
-                        Bundle args = new Bundle();
-                        args.putSerializable(Helper.ARG_STATUS, status);
-                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                            Bundle bundle = new Bundle();
-                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                            intent.putExtras(bundle);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        });
-                    }
-
-                    @Override
-                    public void federatedAccount(Account account) {
-                    }
-                });
-            } else if (matcherLinkLong.group(2) != null) {//It's an account
-                CrossActionHelper.fetchRemoteAccount(context, Helper.getCurrentAccount(context), matcherLinkLong.group(2), new CrossActionHelper.Callback() {
-                    @Override
-                    public void federatedStatus(Status status) {
-                    }
-
-                    @Override
-                    public void federatedAccount(Account account) {
-                        Intent intent = new Intent(context, ProfileActivity.class);
-                        Bundle args = new Bundle();
-                        args.putSerializable(Helper.ARG_ACCOUNT, account);
-                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                            Bundle bundle = new Bundle();
-                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                            intent.putExtras(bundle);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        });
-                    }
-                });
-            }
-        } else if (matcherUserWithoutAt.find() && !finalUrl.contains("medium.com")) {
-            if (matcherUserWithoutAt.group(4) != null && !Objects.requireNonNull(matcherUserWithoutAt.group(4)).isEmpty()) { //It's a toot
-                CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), finalUrl, new CrossActionHelper.Callback() {
-                    @Override
-                    public void federatedStatus(Status status) {
-                        Intent intent = new Intent(context, ContextActivity.class);
-                        Bundle args = new Bundle();
-                        args.putSerializable(Helper.ARG_STATUS, status);
-                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                            Bundle bundle = new Bundle();
-                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                            intent.putExtras(bundle);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        });
-                    }
-
-                    @Override
-                    public void federatedAccount(Account account) {
-                    }
-                });
-            } else {//It's an account
-                CrossActionHelper.fetchRemoteAccount(context, Helper.getCurrentAccount(context), matcherUserWithoutAt.group(3) + "@" + matcherUserWithoutAt.group(1), new CrossActionHelper.Callback() {
-                    @Override
-                    public void federatedStatus(Status status) {
-                    }
-
-                    @Override
-                    public void federatedAccount(Account account) {
-                        Intent intent = new Intent(context, ProfileActivity.class);
-                        Bundle args = new Bundle();
-                        args.putSerializable(Helper.ARG_ACCOUNT, account);
-                        new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
-                            Bundle bundle = new Bundle();
-                            bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                            intent.putExtras(bundle);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        });
-                    }
-                });
-            }
+        if (matcherLink.find()) {
+            String domain = matcherLink.group(1);
+            String account = matcherLink.group(2);
+            String statusPath = matcherLink.group(3);
+            Helper.checkFediverse(context, domain, isFediverse -> {
+                if (!isFediverse) {
+                    Helper.openBrowser(context, finalUrl);
+                    return;
+                }
+                if (statusPath != null && !statusPath.isEmpty()) {
+                    fetchRemoteStatus(context, finalUrl);
+                } else {
+                    fetchRemoteAccount(context, account + "@" + domain);
+                }
+            });
+        } else if (matcherLinkLong.find()) {
+            String domain = matcherLinkLong.group(1);
+            String account = matcherLinkLong.group(2);
+            String statusPath = matcherLinkLong.group(3);
+            Helper.checkFediverse(context, domain, isFediverse -> {
+                if (!isFediverse) {
+                    Helper.openBrowser(context, finalUrl);
+                    return;
+                }
+                if (statusPath != null && !statusPath.isEmpty()) {
+                    fetchRemoteStatus(context, finalUrl);
+                } else if (account != null) {
+                    fetchRemoteAccount(context, account);
+                }
+            });
+        } else if (matcherUserWithoutAt.find()) {
+            String domain = matcherUserWithoutAt.group(1);
+            String user = matcherUserWithoutAt.group(3);
+            String statusId = matcherUserWithoutAt.group(4);
+            Helper.checkFediverse(context, domain, isFediverse -> {
+                if (!isFediverse) {
+                    Helper.openBrowser(context, finalUrl);
+                    return;
+                }
+                if (statusId != null && !statusId.isEmpty()) {
+                    fetchRemoteStatus(context, finalUrl);
+                } else {
+                    fetchRemoteAccount(context, user + "@" + domain);
+                }
+            });
         } else {
             Helper.openBrowser(context, finalUrl);
         }
+    }
+
+    private static void fetchRemoteStatus(Context context, String url) {
+        CrossActionHelper.fetchRemoteStatus(context, Helper.getCurrentAccount(context), url, new CrossActionHelper.Callback() {
+            @Override
+            public void federatedStatus(Status status) {
+                Intent intent = new Intent(context, ContextActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, status);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                });
+            }
+
+            @Override
+            public void federatedAccount(Account account) {
+            }
+        });
+    }
+
+    private static void fetchRemoteAccount(Context context, String acct) {
+        CrossActionHelper.fetchRemoteAccount(context, Helper.getCurrentAccount(context), acct, new CrossActionHelper.Callback() {
+            @Override
+            public void federatedStatus(Status status) {
+            }
+
+            @Override
+            public void federatedAccount(Account account) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, account);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                });
+            }
+        });
     }
 
     private static void emails(Context context, Spannable content, Status status) {

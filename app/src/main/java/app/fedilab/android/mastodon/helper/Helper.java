@@ -178,6 +178,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class Helper {
 
@@ -401,6 +402,44 @@ public class Helper {
             "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)",
 
             Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);*/
+
+    private static final LinkedHashMap<String, Boolean> fediverseInstanceCache = new LinkedHashMap<String, Boolean>(100, 0.75f, true) {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) {
+            return size() > 200;
+        }
+    };
+
+    public static void checkFediverse(Context context, String domain, java.util.function.Consumer<Boolean> callback) {
+        if (domain == null) {
+            callback.accept(false);
+            return;
+        }
+        Boolean cached = fediverseInstanceCache.get(domain);
+        if (cached != null) {
+            callback.accept(cached);
+            return;
+        }
+        new Thread(() -> {
+            boolean isFediverse = false;
+            try {
+                OkHttpClient client = myOkHttpClient(context);
+                Request request = new Request.Builder()
+                        .url("https://" + domain + "/.well-known/nodeinfo")
+                        .head()
+                        .build();
+                Response response = client.newCall(request).execute();
+                isFediverse = response.isSuccessful();
+                response.close();
+            } catch (Exception ignored) {
+            }
+            boolean finalResult = isFediverse;
+            new Handler(Looper.getMainLooper()).post(() -> {
+                fediverseInstanceCache.put(domain, finalResult);
+                callback.accept(finalResult);
+            });
+        }).start();
+    }
 
     public static final Pattern aLink = Pattern.compile("<a((?!href).)*href=\"([^\"]*)\"[^>]*(((?!</a).)*)</a>");
     public static final Pattern imgPattern = Pattern.compile("<img [^>]*src=\"([^\"]+)\"[^>]*>");
