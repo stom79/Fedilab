@@ -88,6 +88,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private static final int PRELOAD_AHEAD_ITEMS = 10;
     public UpdateCounters update;
     private boolean scrollingUp;
+    private boolean isUserDragging;
     private FragmentPaginationBinding binding;
     private TimelinesVM timelinesVM;
     private MisskeyTimelinesVM misskeyTimelinesVM;
@@ -643,19 +644,28 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
             binding.noAction.setVisibility(View.GONE);
 
+            boolean gapBridged = false;
+            String fetchBatchMaxId = null;
             if (fetchingMissing) {
-                String batchMaxId = null, batchMinId = null;
+                boolean alreadyProcessed = fetchStatus != null && !fetchStatus.isFetchMore;
                 for (Status status : fetched_statuses.statuses) {
-                    if (batchMaxId == null || Helper.compareTo(status.id, batchMaxId) > 0)
-                        batchMaxId = status.id;
+                    if (timelineStatuses.contains(status)) {
+                        gapBridged = true;
+                        break;
+                    }
+                }
+                String batchMinId = null;
+                for (Status status : fetched_statuses.statuses) {
+                    if (fetchBatchMaxId == null || Helper.compareTo(status.id, fetchBatchMaxId) > 0)
+                        fetchBatchMaxId = status.id;
                     if (batchMinId == null || Helper.compareTo(status.id, batchMinId) < 0)
                         batchMinId = status.id;
                 }
-                if (batchMaxId != null && batchMinId != null) {
+                if (!alreadyProcessed && fetchBatchMaxId != null && batchMinId != null) {
                     for (int i = 0; i < timelineStatuses.size(); i++) {
                         Status timelineStatus = timelineStatuses.get(i);
                         if (timelineStatus.isFetchMore
-                                && Helper.compareTo(timelineStatus.id, batchMaxId) <= 0
+                                && Helper.compareTo(timelineStatus.id, fetchBatchMaxId) <= 0
                                 && Helper.compareTo(timelineStatus.id, batchMinId) >= 0) {
                             timelineStatus.isFetchMore = false;
                             statusAdapter.notifyItemChanged(i);
@@ -775,6 +785,17 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             statusAdapter.notifyItemChanged(i);
                             break;
                         }
+                    }
+                }
+            }
+            if (fetchingMissing && !gapBridged && fetchBatchMaxId != null
+                    && direction != DIRECTION.FETCH_NEW && direction != DIRECTION.REFRESH && direction != DIRECTION.SCROLL_TOP) {
+                for (int i = 0; i < timelineStatuses.size(); i++) {
+                    if (timelineStatuses.get(i).id.equals(fetchBatchMaxId)) {
+                        Status status = timelineStatuses.get(i);
+                        status.isFetchMore = true;
+                        status.positionFetchMore = Status.PositionFetchMore.BOTTOM;
+                        break;
                     }
                 }
             }
@@ -999,9 +1020,16 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
             binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    isUserDragging = newState == RecyclerView.SCROLL_STATE_DRAGGING;
+                }
+
+                @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     int visualDy = reverseTimeline ? -dy : dy;
-                    scrollingUp = visualDy < 0;
+                    if (isUserDragging) {
+                        scrollingUp = visualDy < 0;
+                    }
                     if (requireActivity() instanceof BaseMainActivity
                             && timelineType != Timeline.TimeLineEnum.BOOKMARK_TIMELINE
                             && timelineType != Timeline.TimeLineEnum.FAVOURITE_TIMELINE) {
@@ -2007,7 +2035,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     @Override
     public void autoFetch(String min_id, String max_id, Status fetchStatus) {
-        if (scrollingUp) {
+        boolean userScrollingUp = reverseTimeline ? !scrollingUp : scrollingUp;
+        boolean fetchNewer = isUserDragging ? userScrollingUp : reverseTimeline;
+        if (fetchNewer) {
             min_id_fetch_more = min_id;
             route(DIRECTION.TOP, true, fetchStatus);
         } else {
