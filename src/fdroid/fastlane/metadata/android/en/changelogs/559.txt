@@ -1,0 +1,17 @@
+Added:
+- Add Collections support (Mastodon 4.6+)
+    - Create, edit, delete and browse collections
+    - Manage collection members
+    - Notifications when added to a collection, with option to remove yourself
+    - Dedicated entry in the main menu with "Created by you" and "Featuring you" tabs
+    - Collections visible on user profiles
+- Add pressable ALT badge to read media description without opening
+
+Fixed:
+- Fix animated emoji battery drain and crashes
+- Fix app refreshes every open after GC
+- Fix sticky scroll after text selection or emoji shower
+- Fix custom emojis overflowing in display names
+- Fix timeline gaps and auto-fetch missing messages
+- Fix @user links only opening Fediverse accounts
+- Fix restore notification position from marker

@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.41.0",
+    "code": "559",
+    "note": "Added:\n- Add Collections support (Mastodon 4.6+)\n    - Create, edit, delete and browse collections\n    - Manage collection members\n    - Notifications when added to a collection, with option to remove yourself\n    - Dedicated entry in the main menu with \"Created by you\" and \"Featuring you\" tabs\n    - Collections visible on user profiles\n- Add pressable ALT badge to read media description without opening\n\nFixed:\n- Fix animated emoji battery drain and crashes\n- Fix app refreshes every open after GC\n- Fix sticky scroll after text selection or emoji shower\n- Fix custom emojis overflowing in display names\n- Fix timeline gaps and auto-fetch missing messages\n- Fix @user links only opening Fediverse accounts\n- Fix restore notification position from marker"
+  },
+  {
     "version": "3.40.2",
     "code": "558",
     "note": "Added:\n- Add warning for expired scheduled boosts on startup\n\nFixed:\n- Fix compose button direction and toolbar state in reverse mode\n- Fix bookmark pagination in reverse order mode\n- Fix use remote URL for download when media is fetched remotely\n- Fix media description badge missing on autoplay GIFs\n- Fix hashtag timeline pagination\n- Fix duplicate parts when auto-splitting long messages\n- Fix unused temp media not cleaned on cache clear\n- Fix push distributor not saved in settings"
@@ -18,115 +23,5 @@
     "version": "3.39.0",
     "code": "555",
     "note": "Added:\n- Reorganize settings with categories and search\n- Add option to refresh all timelines at once on pull-to-refresh\n- Support custom poll durations based on instance max_expiration\n- Support web+ap:// and web+activitypub:// protocol with account selector\n- Allow viewing quotes on any post\n- Allow installation on ChromeOS devices without touchscreen\n- Add Bluesky to SkyView link rewriting\n\nFixed:\n- Fix Pixelfed login failure\n- Fix cursor jump when hiding keyboard with mentions at top\n- Fix notification timestamps not refreshing on reload\n- Fix prefix CW with \"re: \" when replying to CW'd messages\n- Fix quoted posts not resolving properly on remote timelines\n- Fix accidental list deletion from edit timelines screen\n- Fix opening multiple filter edit dialogs on double tap\n- Fix enlarge sensitive image blur button hit zone\n- Fix crash when clicking search results in settings after navigating\n- Fix crashes in compose reply with null mentions (Sharkey instances)\n- Fix crash in notifications with null IDs\n- Fix freeze on posts with deeply nested HTML tags from Misskey MFM\n- Add network constraint to home cache background worker\n"
-  },
-  {
-    "version": "3.38.1",
-    "code": "554",
-    "note": "Fixed\n- Fix background home fetch leaving gaps in cached timeline\n- Fix scroll position lost when returning to scheduled/draft lists\n- Fix crash on posts with deeply nested HTML tags from Misskey MFM content\n- Fix scheduled boosts silently failing on network/server errors\n- Fix crash with foreground service timeout on Android 14+\n- Fix crash when translate dialog has unknown language codes\n- Fix media share falling back to Glide when DownloadManager fails\n"
-  },
-  {
-    "version": "3.38.0",
-    "code": "553",
-    "note": "Added\n- Export following list as CSV\n- Notification filtering policy support\n- Filtered notifications (notification requests) UI\n- One-time \"Keep Android Open\" alert at startup\n- Handle sensitive media and alt-text icon in quoted posts\n\nFixed\n- Fix timeline scroll jumps when auto-fetching missing posts\n- Fix cursor jumping to first post when composing threads\n- Fix thread +/- button not updating on paste\n- Fix image orientation not applied when compression is disabled\n- Fix GIF and video download/share\n- Fix marker handling when expired\n- Fix fallback gap detection when fetchMore is missing\n- Fix fetch more and scroll position in reverse timeline\n- Fix ungrouped notifications vanishing on reload\n- Fix 16KB page size alignment for Google Play\n- Fix some crashes"
-  },
-  {
-    "version": "3.37.2",
-    "code": "552",
-    "note": "Fixed\n- Fix profile header stuck after scroll in reverse timeline\n- Fix notifications not loading new items in reverse timeline\n- Respect aggregate notification preference with grouped notifications API\n- Fix \"Enabled notifications\" label\n- Keep default FAB and toolbar behavior in reverse timeline\n- Prevent swiping through notification categories when swiping between timelines"
-  },
-  {
-    "version": "3.37.1",
-    "code": "550",
-    "note": "Changed\n- Allow filtering posts with links embedded in Markdown\n\nFixed\n- Fix reverse timeline position restore and apply to notifications/conversations\n- Fix duplicate posts when splitting long messages\n- Fix thread sending failure\n- Fix crash when scheduling a toot with a poll\n- Fix crash in thread view"
-  },
-  {
-    "version": "3.37.0",
-    "code": "549",
-    "note": "Added\n- Add reverse timeline reading order option\n- Add grouped notifications API (v2) with fallback to local grouping\n- Add volume slider and playback speed controls to video player\n- Add replies policy option when creating/editing lists\n- Add pinch zoom on remotely loaded media\n- Add fediverse creator support in link preview cards\n- Add unreachable gap detection in home timeline\n- Add pinned statuses carousel in profiles\n\nChanged\n- Show display name instead of generic text in poll notifications\n- Show emoji shortcode as fallback when custom emoji fails to load\n- Keep timeline stable when interacting with posts\n- Improve pronouns and display name handling\n- Improve fit preview by capping height\n\nFixed\n- Fix picture timelines not loading new art and losing posts on restart\n- Fix alt-text changes lost when editing scheduled posts\n- Fix quotes lost on scheduled posts\n- Fix unexpected quote_approval format from GlitchSocial instances\n- Fix scheduled posts: wrong item removed from list and minimum delay enforced\n- Fix search pagination for statuses and accounts\n- Fix duplicate posts when one post in a series fails\n- Fix crash when hiding/deleting timeline after another deletion\n- Fix compose error message not shown immediately in thread view\n- Fix quote button not disabled when quoting is denied\n- Fix pagination for instances with non-alphanumeric IDs\n- Fix remote mention resolution\n- Fix quote visibility forced to unlisted instead of using default\n"
-  },
-  {
-    "version": "3.36.1",
-    "code": "547",
-    "note": "Added:\n- Add cross-quoting via long press on quote button\n- Add Trending Links to pinnable timelines and remote instances\n- Warn when exceeding 4 hashtags limit in combined timeline\n\nFixed:\n- Fix alt-text lost when editing scheduled posts\n- Fix sort order when opening intermediate reply in thread\n- Fix quote button and action counts not following theme_icons_color\n- Fix show all images from multi-image posts in ART timeline\n- Fix \"No message to display\" showing incorrectly on Trending Links pagination\n- Fix text shift in truncated posts by resetting scroll position\n- Fix remote profile follow button by resolving accounts locally\n- Fix notifications dismissed too aggressively\n- Fix custom emoji display in profile bio\n- Fix crashes in status cache and timeline helper\n- Fix APNG custom emoji animation\n- Fix compose top bar unreachable after hiding keyboard\n- Fix NPE when media_attachments is null in card\n"
-  },
-  {
-    "version": "3.36.0",
-    "code": "546",
-    "note": "Added:\n - Misskey support\n - Add discussions view for trending links\n - Add media display for quoted messages\n - Add \"Filter this post\" feature\n - Add Mastodon trending remote as pinnable timeline\n - Add setting to allow uncompressed media upload (disabled by default)\n - Add options to hide 'sensitive content' and 'media description' indicators\n - Add option to change profile image shape in profile page\n - Add accessibility action to translate status content\n - New preference with multiple options to change how quote button is displayed\n - Add option to highlight new comments in conversation threads\n\nChanged:\n - MathJax text color adapts to actual theme background\n - Migrate to targetSdk 35\n - Improve link preview preference\n - Change boost+quote popup UI\n - Remove account from \"Home muted\" when unfollowing\n - Make instance URI clickable in \"About the instance\" dialog\n\nFixed:\n - Crash when app starts on notifications tab\n - Fit preview images setting overwritten by high ratio media\n - Remote instance hashtag filter not applying\n - Timeline filter menu text truncation\n - Notification tabs count and foreground service stop\n - ANR on long text without spaces\n - NPE in quote handling\n - Respect user's default quote policy when composing new posts\n - Hide CW-protected content in quoted posts\n - Image sharing to other apps\n - Animated WebP autoplay in timeline\n - Display placeholder for unfederated emojis\n - Messages filter not working after loading remote profile\n - Animated WebP not playing in media viewer\n - Audio not clickable when fit preview is enabled\n - Cross-posting: use correct instance for character limit and emojis\n - Truncation not applied to quoted posts\n - Content warning lost when editing scheduled posts\n - DeepL translation by using Authorization header\n - \"Open the original message\" can open wrong status\n - Quote notifications related fixes (type not being excluded properly, Quotes tab showing polls)\n - Video blinks\n - Player issue\n - Filters improvements\n - Android notifications not being dismissed\n - Media overlay icons hard to see on bright backgrounds\n - Compose top bar unreachable after deleting media attachment\n - Emoji picker keyboard not opening and case-sensitive autocomplete\n - OutOfMemory crash on very long HTML content\n - Some crashes"
-  },
-  {
-    "version": "3.35.",
-    "code": "540",
-    "note": "Added:\n- Extends filters to quoted messages\n\nChanged:\n- Replace \"No one\" by \"Just me\" for quote approval policy\n\nFixed:\n- Crash when editing messages\n- Add x.com domain to the alternate frontend URL patterns"
-  },
-  {
-    "version": "3.35.0",
-    "code": "539",
-    "note": "Added:\n- Full Mastodon quotes support\n- Quote button can be hidden in Settings > Timeline\n- Change default quote policy in settings\n- Add colors in compose depending of the visibility (can be disabled/colors can be changed)\n- Add accessibility actions to move timelines up/down in Manage timelines page\n- Add accessibility actions to hide, delete timelines in 'Manage timelines' page\n\nChanged:\n- Boost & quote buttons are merged (can be disabled in settings)\n- Show emoji buttons only in focused status\n- Add popup menu for boost/quote actions in status\n- Improve UI and accessibility in login page\n- Move \"Max chars in links\" next to \"Truncate links\"\n- Add more translated pronouns for keys support\n- When focused, information about a message are displayed on 2 lines\n\nFixed:\n- Left margin not removed for bottom information\n- Make content warning text selectable\n- Disable HTML parsing in display names\n- Improve translate button preference\n- Fix some crashes"
-  },
-  {
-    "version": "3.34.1",
-    "code": "538",
-    "note": "Added:\n- Add content descriptions to tabs in top bar\n- Add accessibility action to toggle media sensitivity of posts in timelines\n- Add accessibility actions to translate, download, share in media viewer\n- Add a language indicator to focused status\n- Add Persian language to \"Change the language\" preference\n- Add new app logo\n\nChanged:\n- Show placeholders while profile pictures are loading\n- Update bottom navigation tab titles\n- Improve accessibility of translated content\n- Update list of tracking parameters used for \"Remove UTM parameters\"\n- Use 'Tracking' instead of 'UTM'\n- Improve accessibility in Manage timelines page\n- Make the show/hide media button larger\n- Update about page\n\nFixed:\n- Bottom hashtags in bios disappear when \"Highlight bottom hashtags\" enabled\n- \"Use an alternative frontend\" breaks Medium link\n- Tapping publish button multiple times publishes status multiple times\n- Alt text popup does not resize when swiping\n- Video controls not visible in light theme\n- Profile picture appears on left side of title in conversation page in RTL mode\n- Some crashes\n"
-  },
-  {
-    "version": "3.34.0",
-    "code": "537",
-    "note": "Added:\n- 3-Dots menu for remote conversations (Federation in background)\n- Quote support for Mastodon\n- Long press on tags: Follow / Mute\n\nChanged:\n- Improve accessibility in media activity\n- Improve content descriptions\n- Update languages\n- Update launcher icons, add more monochrome icons\n- Limit the number of highlighted hashtags at the bottom of messages\n\nFixed:\n- Fix text selection stop working when composing\n- Fix a crash with threads\n- Fix empty Hashtags\n- Fix automatically expand media does not work with the Pixelfed presentation\n- Fix a crash with fit preview images feature"
-  },
-  {
-    "version": "3.33.1",
-    "code": "534",
-    "note": "Added:\n- Highlight bottom hashtags\n- Support Trending Links\n- Featured tags displayed in profiles\n- Add/Remove featured tags from the profile editor\n\nChanged:\n- Add confirmation dialog when long pressing the boost button\n- Open messages by tapping on Scheduled Boost\n- Improve language picker when filtered with some languages\n\nFixed:\n- Limits number of fetch for filters\n- Pleroma instances cannot select media\n- Wrong messages deleted for scheduled (messages and boosts)\n- Fix a crash with long threads\n- Fix a potential memory issue for not cropped media\n- Fix embedded quotes not displayed\n- Some crashes"
-  },
-  {
-    "version": "3.32.3",
-    "code": "532",
-    "note": "Fixed:\n- Polls not displayed\n- Pagination with trends\n- Push notifications not working on some devices"
-  },
-  {
-    "version": "3.32.2",
-    "code": "531",
-    "note": "Added:\n- An outline around media\n\nChanged:\n- Make username, display name in nav drawer clickable\n- Gif media not animated by default\n- Disable by default the mention to the booster when replying. Can be enabled in Settings > Compose (per account)\n\nFixed:\n- Wrong preview picture on share from another app\n- Crash when translating with MinT\n- Refresh and pagination broken for the Trending timeline\n- Fix lags / Crashes"
-  },
-  {
-  "version": "3.32.1",
-  "code": "530",
-  "note": "Fixed:\n- Fix a crash on some devices\n- Hide quote button\n- Fix a layout issue with pictures in landscape\n- Fix a crash when opening the original message from a picture"
-},
-  {
-    "version": "3.32.0",
-    "code": "529",
-    "note": "Added:\n- Add option to disable auto hiding compose button\n\nChanged:\n- Add more content descriptions for buttons\n- Update some buttons\n- Update navigation drawer header\n- Squeeze action buttons when needed to prevent overlapping\n\nFixed:\n- Fix crash when media are too heavy\n- Some custom emojis in bio do not render\n- Posting messages does not work on some Friendica instances\n- Fix a crash with auto-split messages\n- Fix a crash when opening conversations\n- Fix a background color issue when displaying media"
-  },
-  {
-    "version": "3.31.3",
-    "code": "528",
-    "note": "Added:\n- Add new icon launchers (Settings > Interface)\n\nChanged:\n- Make logout/proxy button more visible in main menu\n- Remove permission FOREGROUND_SERVICE\n- Improve a little more media layout with translations\n\nFixed:\n- Fix status bar icons not visible in light theme with custom accent color\n- Reaction buttons not clickable for some instances"
-  },
-  {
-    "version": "3.31.2",
-    "code": "527",
-    "note": "Added:\n- Add support to URL scheme \"web+ap\" for opening profiles with the app\n\nChanged:\n- Layout for media descriptions\n\nFixed:\n- Fix a crash when translating media descriptions\n- Handle included twice when replying to a self user's boost\n- Fix color issues when using a custom theme"
-  },
-  {
-    "version": "3.31.1",
-    "code": "526",
-    "note": "Added:\n- Add MinT machine translation system support\n- Add support \"instance only\" for GoToSocial\n\nFixed:\n- GIF not displayed in timelines\n- Fix a crash when unpinning timelines\n- Top bar coloring at scroll for conversations\n- Black screen when going back from the Peertube section"
-  },
-  {
-    "version": "3.31.0",
-    "code": "524",
-    "note": "Added:\n- Pinned Trending Timeline (can be hidden in Manage Timelines)\n- Add a fallback to the default translator\n- New Pixelfed entry in Settings to disable fullscreen for media\n- Add tooltips for tabs in profiles\n\nChanged:\n- Increase touch area of reply buttons\n- Show a dialog after settings export\n\nFixed:\n- Fix media description not updated when there are several\n- Only a part of DeepL translations are shown\n- Fix Lingva truncated translations\n- Fix a crash when fetching remote profiles\n- Fix a crash with animated emoji\n- Fix a crash when displaying Home cache charts"
-  },
-  {
-    "version": "3.30.1",
-    "code": "523",
-    "note": "Added:\n- Follow Twitter tags\n\nChange:\n- Remove automatic backup (Google only)\n\nFixed:\n- Push notifications not working for some devices\n- Filters not applied to media description\n- Fix a crash with animated images in timelines\n- Fix a crash for long threads\n- Fix a crash due to some messages (happened in different timelines)"
-  },
-  {
-    "version": "3.30.0",
-    "code": "522",
-    "note": "Added:\n- Allow to follow the discover timelines of Pixelfed instances\n- Keep media proportions in timeline for Pixelfed\n- Add a like button in timelines for Pixelfed\n- Allow to login with a token\n\nChange:\n- Use Pixelfed layout when following Pixelfed instances\n- Allow to scroll buttons for larger screens in conversations\n- Move QR code into header\n\nFixed:\n- Not clickable URLs when Markdown is enabled\n- Nitter to follow Twitter accounts\n- Pixelfed timeline not displayed by default\n- Fix admin reports not accessible\n- Top bar coloring at scroll\n- Drafts not saved when adding/editing media descriptions\n- User search suggestions have duplicates\n- Some minor crashes"
   }
 ]
