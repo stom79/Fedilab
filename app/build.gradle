@@ -143,10 +143,10 @@ dependencies {
     implementation("com.vanniktech:android-image-cropper:4.3.3")
     annotationProcessor "com.github.bumptech.glide:compiler:4.16.0"
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
-    implementation 'com.github.penfeizhou.android.animation:apng:3.0.5'
-    implementation 'com.github.penfeizhou.android.animation:gif:3.0.5'
-    implementation 'com.github.penfeizhou.android.animation:awebp:3.0.5'
-    implementation 'com.github.penfeizhou.android.animation:avif:3.0.5'
+    implementation project(':APNG4Android:apng')
+    implementation project(':APNG4Android:gif')
+    implementation project(':APNG4Android:awebp')
+    implementation project(':APNG4Android:avif')
     implementation 'androidx.media3:media3-exoplayer-hls:1.2.1'
     implementation "androidx.media3:media3-exoplayer:1.2.1"
     implementation "androidx.media3:media3-exoplayer-dash:1.2.1"

@@ -71,7 +71,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="?actionBarSize">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <app.fedilab.android.mastodon.helper.EmojiRecyclerView
                 android:id="@+id/lv_accounts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

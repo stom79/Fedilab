@@ -1,0 +1,19 @@
+plugins {
+    id 'com.android.library'
+}
+android {
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 35
+        compileSdk 35
+    }
+
+    namespace = "com.github.penfeizhou.animation.avif"
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.9.1'
+    implementation 'androidx.vectordrawable:vectordrawable-animated:1.2.0'
+    api project(':APNG4Android:frameanimation')
+    implementation "org.aomedia.avif.android:avif:1.1.1.14d8e3c4"
+}

@@ -6,7 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.text.Spanned;
 import android.text.SpannableStringBuilder;
+
+import com.github.penfeizhou.animation.FrameAnimationDrawable;
 import android.text.style.ReplacementSpan;
 import android.view.View;
 import android.widget.TextView;
@@ -135,6 +138,44 @@ public class CustomEmoji extends ReplacementSpan {
                 onEmojiLoadFailed();
             }
         });
+    }
+
+    public static void stopAnimations(TextView textView) {
+        if (textView == null) {
+            return;
+        }
+        CharSequence text = textView.getText();
+        if (text instanceof Spanned) {
+            CustomEmoji[] spans = ((Spanned) text).getSpans(0, text.length(), CustomEmoji.class);
+            for (CustomEmoji span : spans) {
+                if (span.imageDrawable instanceof FrameAnimationDrawable) {
+                    ((FrameAnimationDrawable<?>) span.imageDrawable).pause();
+                } else if (span.imageDrawable instanceof Animatable && ((Animatable) span.imageDrawable).isRunning()) {
+                    ((Animatable) span.imageDrawable).stop();
+                }
+            }
+        }
+    }
+
+    public static void startAnimations(TextView textView) {
+        if (textView == null) {
+            return;
+        }
+        CharSequence text = textView.getText();
+        if (text instanceof Spanned) {
+            CustomEmoji[] spans = ((Spanned) text).getSpans(0, text.length(), CustomEmoji.class);
+            for (CustomEmoji span : spans) {
+                if (span.imageDrawable instanceof FrameAnimationDrawable) {
+                    FrameAnimationDrawable<?> drawable = (FrameAnimationDrawable<?>) span.imageDrawable;
+                    if (drawable.isPaused()) {
+                        drawable.resume();
+                    }
+                } else if (span.imageDrawable instanceof Animatable && !((Animatable) span.imageDrawable).isRunning()) {
+                    span.imageDrawable.setCallback(span.drawableCallback);
+                    ((Animatable) span.imageDrawable).start();
+                }
+            }
+        }
     }
 
     @Override
