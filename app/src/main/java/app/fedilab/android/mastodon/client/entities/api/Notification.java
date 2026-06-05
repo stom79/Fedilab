@@ -37,6 +37,8 @@ public class Notification {
     public Account account;
     @SerializedName("status")
     public Status status;
+    @SerializedName("collection")
+    public Collection collection;
     @SerializedName("cached")
     public boolean cached;
     public Filter filteredByApp;

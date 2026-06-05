@@ -163,11 +163,20 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
         }
     }
 
+    private int getAdapterMode() {
+        if (isOwnCollections && currentTab == 0) {
+            return CollectionAdapter.MODE_OWN;
+        } else if (isOwnCollections && currentTab == 1) {
+            return CollectionAdapter.MODE_FEATURING;
+        }
+        return CollectionAdapter.MODE_OTHER;
+    }
+
     private void displayCollections(List<Collection> collections) {
         binding.loader.setVisibility(View.GONE);
         if (collections != null && collections.size() > 0) {
             collectionList = new ArrayList<>(collections);
-            collectionAdapter = new CollectionAdapter(collectionList, isOwnCollections);
+            collectionAdapter = new CollectionAdapter(collectionList, getAdapterMode());
             collectionAdapter.actionOnCollection = this;
             binding.recyclerView.setAdapter(collectionAdapter);
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(CollectionsActivity.this));
@@ -224,6 +233,29 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
     public void edit(Collection collection) {
         currentCollection = collection;
         showCreateEditDialog(collection);
+    }
+
+    @Override
+    public void removeMyself(Collection collection) {
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(CollectionsActivity.this);
+        builder.setMessage(R.string.action_remove_myself_from_collection);
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+            collectionsVM.revokeCurrentUserFromCollection(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
+                            collection.id, BaseMainActivity.currentUserID)
+                    .observe(CollectionsActivity.this, success -> {
+                        if (collectionList != null) {
+                            int position = collectionList.indexOf(collection);
+                            if (position >= 0) {
+                                collectionList.remove(position);
+                                collectionAdapter.notifyItemRemoved(position);
+                            }
+                        }
+                        binding.recyclerView.setVisibility(collectionList != null && !collectionList.isEmpty() ? View.VISIBLE : View.GONE);
+                        binding.noContent.setVisibility(collectionList != null && !collectionList.isEmpty() ? View.GONE : View.VISIBLE);
+                    });
+        });
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 
     @Override
@@ -385,7 +417,7 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
                                     collectionList = new ArrayList<>();
                                 }
                                 if (collectionAdapter == null) {
-                                    collectionAdapter = new CollectionAdapter(collectionList, isOwnCollections);
+                                    collectionAdapter = new CollectionAdapter(collectionList, getAdapterMode());
                                     collectionAdapter.actionOnCollection = this;
                                     binding.recyclerView.setAdapter(collectionAdapter);
                                     binding.recyclerView.setLayoutManager(new LinearLayoutManager(CollectionsActivity.this));

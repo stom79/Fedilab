@@ -247,6 +247,41 @@ public class CollectionsVM extends AndroidViewModel {
         }).start();
     }
 
+
+    public LiveData<Boolean> revokeCurrentUserFromCollection(@NonNull String instance, String token,
+                                                              @NonNull String collectionId, @NonNull String currentAccountId) {
+        MutableLiveData<Boolean> resultLiveData = new MutableLiveData<>();
+        MastodonCollectionsService service = init(instance);
+        new Thread(() -> {
+            boolean success = false;
+            try {
+                Call<Collection.CollectionWithAccounts> call = service.getCollection(token, collectionId);
+                if (call != null) {
+                    Response<Collection.CollectionWithAccounts> response = call.execute();
+                    if (response.isSuccessful() && response.body() != null && response.body().collection != null
+                            && response.body().collection.items != null) {
+                        for (Collection.CollectionItem item : response.body().collection.items) {
+                            if (currentAccountId.equals(item.account_id)) {
+                                Call<Void> revokeCall = service.revokeCollectionItem(token, collectionId, item.id);
+                                if (revokeCall != null) {
+                                    Response<Void> revokeResponse = revokeCall.execute();
+                                    success = revokeResponse.isSuccessful();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            boolean finalSuccess = success;
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(() -> resultLiveData.setValue(finalSuccess));
+        }).start();
+        return resultLiveData;
+    }
+
     public LiveData<List<Collection>> getAccountInCollections(@NonNull String instance, String token, @NonNull String accountId) {
         collectionListMutableLiveData = new MutableLiveData<>();
         MastodonCollectionsService service = init(instance);
@@ -261,6 +296,29 @@ public class CollectionsVM extends AndroidViewModel {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+            }
+            if (collections != null) {
+                for (Collection collection : collections) {
+                    try {
+                        Call<Collection.CollectionWithAccounts> detailCall = service.getCollection(token, collection.id);
+                        if (detailCall != null) {
+                            Response<Collection.CollectionWithAccounts> detailResponse = detailCall.execute();
+                            if (detailResponse.isSuccessful() && detailResponse.body() != null && detailResponse.body().accounts != null) {
+                                List<Account> previewAccounts = new ArrayList<>();
+                                for (Account account : detailResponse.body().accounts) {
+                                    if (account.id != null && account.id.equals(collection.account_id)) {
+                                        collection.ownerAccount = account;
+                                    } else {
+                                        previewAccounts.add(account);
+                                    }
+                                }
+                                collection.previewAccounts = previewAccounts.size() > 4 ? previewAccounts.subList(0, 4) : previewAccounts;
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             List<Collection> finalCollections = collections;

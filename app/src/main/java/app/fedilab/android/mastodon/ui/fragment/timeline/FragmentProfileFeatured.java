@@ -131,7 +131,7 @@ public class FragmentProfileFeatured extends Fragment implements CollectionAdapt
             binding.collectionsLabel.setVisibility(View.VISIBLE);
             binding.collectionsList.setVisibility(View.VISIBLE);
             collectionList = new ArrayList<>(collections);
-            collectionAdapter = new CollectionAdapter(collectionList, isOwnAccount);
+            collectionAdapter = new CollectionAdapter(collectionList, isOwnAccount ? CollectionAdapter.MODE_OWN : CollectionAdapter.MODE_OTHER);
             collectionAdapter.actionOnCollection = this;
             binding.collectionsList.setAdapter(collectionAdapter);
             binding.collectionsList.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -198,6 +198,34 @@ public class FragmentProfileFeatured extends Fragment implements CollectionAdapt
         intent.putExtra(Helper.ARG_COLLECTION_ACCOUNT_ID, accountId);
         intent.putExtra(Helper.ARG_OWN_COLLECTIONS, isOwnAccount);
         startActivity(intent);
+    }
+
+    @Override
+    public void removeMyself(Collection collection) {
+        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(requireContext());
+        builder.setTitle(R.string.action_remove_myself_from_collection);
+        builder.setMessage(R.string.action_collection_confirm_delete);
+        builder.setPositiveButton(R.string.action_remove_myself_from_collection, (dialog, which) -> {
+            collectionsVM.revokeCurrentUserFromCollection(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, collection.id, BaseMainActivity.currentUserID)
+                    .observe(getViewLifecycleOwner(), success -> {
+                        if (success != null && success && collectionList != null && collectionAdapter != null) {
+                            int position = collectionList.indexOf(collection);
+                            if (position >= 0) {
+                                collectionList.remove(position);
+                                collectionAdapter.notifyItemRemoved(position);
+                            }
+                            if (collectionList.isEmpty()) {
+                                binding.collectionsLabel.setVisibility(View.GONE);
+                                binding.collectionsList.setVisibility(View.GONE);
+                                if (binding.profilesLabel.getVisibility() == View.GONE) {
+                                    binding.noContent.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+                    });
+        });
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 
     @Override

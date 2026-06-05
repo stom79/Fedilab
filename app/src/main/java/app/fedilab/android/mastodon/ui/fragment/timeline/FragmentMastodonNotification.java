@@ -244,6 +244,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         excludeType.add("admin.sign_up");
         excludeType.add("admin.report");
         excludeType.add("pleroma:emoji_reaction");
+        excludeType.add("added_to_collection");
+        excludeType.add("collection_update");
         switch (notificationType) {
             case ALL -> {
                 aggregateNotification = sharedpreferences.getBoolean(getString(R.string.SET_AGGREGATE_NOTIFICATION), true);
@@ -270,6 +272,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             case FOLLOWS -> {
                 excludeType.remove("follow");
                 excludeType.remove("follow_request");
+            }
+            case COLLECTIONS -> {
+                excludeType.remove("added_to_collection");
+                excludeType.remove("collection_update");
             }
         }
         return excludeType;
@@ -867,7 +873,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         @SerializedName("TOOTS")
         TOOTS("TOOTS"),
         @SerializedName("FOLLOWS")
-        FOLLOWS("FOLLOWS");
+        FOLLOWS("FOLLOWS"),
+        @SerializedName("COLLECTIONS")
+        COLLECTIONS("COLLECTIONS");
 
         private final String value;
 

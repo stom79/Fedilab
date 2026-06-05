@@ -34,13 +34,17 @@ import app.fedilab.android.mastodon.client.entities.api.Collection;
 
 public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public static final int MODE_OWN = 0;
+    public static final int MODE_FEATURING = 1;
+    public static final int MODE_OTHER = 2;
+
     private final List<Collection> collectionList;
     public ActionOnCollection actionOnCollection;
-    private boolean isOwnCollections;
+    private final int mode;
 
-    public CollectionAdapter(List<Collection> collectionList, boolean isOwnCollections) {
+    public CollectionAdapter(List<Collection> collectionList, int mode) {
         this.collectionList = collectionList;
-        this.isOwnCollections = isOwnCollections;
+        this.mode = mode;
     }
 
     @NonNull
@@ -56,6 +60,12 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         CollectionViewHolder holder = (CollectionViewHolder) viewHolder;
         holder.binding.collectionName.setText(collection.name);
         holder.binding.itemCount.setText(holder.itemView.getContext().getString(R.string.collection_account_count, collection.item_count));
+        if (mode == MODE_FEATURING && collection.ownerAccount != null) {
+            holder.binding.collectionOwner.setVisibility(View.VISIBLE);
+            holder.binding.collectionOwner.setText(String.format("by @%s", collection.ownerAccount.acct));
+        } else {
+            holder.binding.collectionOwner.setVisibility(View.GONE);
+        }
         if (collection.description != null && !collection.description.isEmpty()) {
             holder.binding.collectionDescription.setText(collection.description);
             holder.binding.collectionDescription.setVisibility(View.VISIBLE);
@@ -89,7 +99,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         });
 
-        if (isOwnCollections) {
+        if (mode == MODE_OWN) {
             holder.binding.moreActions.setVisibility(View.VISIBLE);
             holder.binding.moreActions.setOnClickListener(v -> {
                 PopupMenu popup = new PopupMenu(v.getContext(), v);
@@ -114,6 +124,27 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 });
                 popup.show();
             });
+        } else if (mode == MODE_FEATURING) {
+            holder.binding.moreActions.setVisibility(View.VISIBLE);
+            holder.binding.moreActions.setOnClickListener(v -> {
+                PopupMenu popup = new PopupMenu(v.getContext(), v);
+                popup.inflate(R.menu.menu_collection_featuring_popup);
+                popup.setOnMenuItemClickListener(item -> {
+                    if (actionOnCollection == null) return false;
+                    int id = item.getItemId();
+                    if (id == R.id.action_view_collection) {
+                        actionOnCollection.click(collection);
+                    } else if (id == R.id.action_share_collection) {
+                        actionOnCollection.share(collection);
+                    } else if (id == R.id.action_copy_link_collection) {
+                        actionOnCollection.copyLink(collection);
+                    } else if (id == R.id.action_remove_myself_collection) {
+                        actionOnCollection.removeMyself(collection);
+                    }
+                    return true;
+                });
+                popup.show();
+            });
         } else {
             holder.binding.moreActions.setVisibility(View.GONE);
         }
@@ -131,6 +162,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         void manageAccounts(Collection collection);
         void edit(Collection collection);
         void delete(Collection collection);
+        void removeMyself(Collection collection);
     }
 
     public static class CollectionViewHolder extends RecyclerView.ViewHolder {

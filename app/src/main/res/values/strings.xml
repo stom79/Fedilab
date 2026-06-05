@@ -1342,6 +1342,7 @@
     <string name="SET_NOTIF_UPDATE" translatable="false">SET_NOTIF_UPDATE</string>
     <string name="SET_NOTIF_ADMIN_SIGNUP" translatable="false">SET_NOTIF_ADMIN_SIGNUP</string>
     <string name="SET_NOTIF_ADMIN_REPORT" translatable="false">SET_NOTIF_ADMIN_REPORT</string>
+    <string name="SET_NOTIF_COLLECTION" translatable="false">SET_NOTIF_COLLECTION</string>
     <string name="SET_FONT_SCALE" translatable="false">SET_FONT_SCALE</string>
     <string name="SET_MAX_INDENTATION" translatable="false">SET_MAX_INDENTATION</string>
     <string name="SET_FONT_SCALE_INT" translatable="false">SET_FONT_SCALE_INT</string>
@@ -2514,4 +2515,9 @@
     <string name="set_show_featured_tab">Show featured tab on profiles</string>
     <string name="set_show_featured_tab_description">Display the featured tab on profile pages</string>
     <string name="kw_featured_tab" translatable="false">featured_tab_collections_profile</string>
+    <string name="notif_added_to_collection">added you to a collection</string>
+    <string name="notif_collection_update">updated a collection featuring you</string>
+    <string name="set_notif_collection">Notify for collection changes</string>
+    <string name="action_remove_myself_from_collection">Remove myself from this collection</string>
+    <string name="action_remove_me">Remove me</string>
 </resources>

@@ -56,6 +56,7 @@ public class Collection implements Serializable {
     public Date updated_at;
 
     public transient List<Account> previewAccounts;
+    public transient Account ownerAccount;
 
     public static class CollectionItem implements Serializable {
         @SerializedName("id")

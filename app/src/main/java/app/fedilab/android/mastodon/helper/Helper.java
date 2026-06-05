@@ -1731,6 +1731,10 @@ public class Helper {
                 channelId = "channel_report";
                 channelTitle = context.getString(R.string.channel_notif_report);
             }
+            case COLLECTION -> {
+                channelId = "channel_collection";
+                channelTitle = context.getString(R.string.action_collections);
+            }
             default -> {
                 channelId = "channel_boost";
                 channelTitle = context.getString(R.string.channel_notif_boost);
@@ -2325,7 +2329,8 @@ public class Helper {
         BACKUP,
         STORE,
         TOOT,
-        QUOTE
+        QUOTE,
+        COLLECTION
     }
 
     public interface OnAttachmentCopied {

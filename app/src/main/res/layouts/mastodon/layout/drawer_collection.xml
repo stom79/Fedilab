@@ -96,6 +96,20 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/collection_owner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/more_actions"
+            app:layout_constraintStart_toEndOf="@id/avatars_container"
+            app:layout_constraintTop_toBottomOf="@id/collection_name"
+            tools:text="by \@user@instance"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,7 +117,7 @@
             android:layout_marginTop="2dp"
             android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
             app:layout_constraintStart_toEndOf="@id/avatars_container"
-            app:layout_constraintTop_toBottomOf="@id/collection_name"
+            app:layout_constraintTop_toBottomOf="@id/collection_owner"
             tools:text="3 accounts" />
 
         <androidx.appcompat.widget.AppCompatTextView

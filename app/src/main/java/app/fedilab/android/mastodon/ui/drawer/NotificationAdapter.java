@@ -28,6 +28,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.LinearLayoutCompat;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -46,14 +49,20 @@ import app.fedilab.android.databinding.DrawerStatusFilteredBinding;
 import app.fedilab.android.databinding.DrawerStatusFilteredHideBinding;
 import app.fedilab.android.databinding.DrawerStatusNotificationBinding;
 import app.fedilab.android.databinding.NotificationsRelatedAccountsBinding;
+import app.fedilab.android.mastodon.activities.CollectionsActivity;
 import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.client.entities.api.Notification;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
+import app.fedilab.android.mastodon.helper.SpannableHelper;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.CollectionsVM;
+import app.fedilab.android.mastodon.viewmodel.mastodon.NotificationsVM;
 import app.fedilab.android.misskey.viewmodel.MisskeyAccountsVM;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import app.fedilab.android.mastodon.viewmodel.mastodon.SearchVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
 
@@ -74,6 +83,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int TYPE_ADMIN_REPORT = 12;
     private final int TYPE_HIDDEN = 13;
     private final int TYPE_QUOTE = 14;
+    private final int TYPE_ADDED_TO_COLLECTION = 15;
+    private final int TYPE_COLLECTION_UPDATE = 16;
 
     public FetchMoreCallBack fetchMoreCallBack;
     public boolean reverseTimeline;
@@ -206,6 +217,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 case "admin.report" -> {
                     return TYPE_ADMIN_REPORT;
                 }
+                case "added_to_collection" -> {
+                    return TYPE_ADDED_TO_COLLECTION;
+                }
+                case "collection_update" -> {
+                    return TYPE_COLLECTION_UPDATE;
+                }
                 case "pleroma:emoji_reaction" -> {
                     if (notification.status != null) {
                         return TYPE_REACTION;
@@ -232,7 +249,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        if (viewType == TYPE_FOLLOW || viewType == TYPE_FOLLOW_REQUEST || viewType == TYPE_ADMIN_REPORT || viewType == TYPE_ADMIN_SIGNUP) {
+        if (viewType == TYPE_FOLLOW || viewType == TYPE_FOLLOW_REQUEST || viewType == TYPE_ADMIN_REPORT || viewType == TYPE_ADMIN_SIGNUP || viewType == TYPE_ADDED_TO_COLLECTION || viewType == TYPE_COLLECTION_UPDATE) {
             DrawerFollowBinding itemBinding = DrawerFollowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new ViewHolderFollow(itemBinding);
         } else if (viewType == TYPE_FILERED) {
@@ -255,7 +272,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return;
         }
         int itemViewType = getItemViewType(position);
-        if (itemViewType == TYPE_FOLLOW || itemViewType == TYPE_FOLLOW_REQUEST || itemViewType == TYPE_ADMIN_REPORT || itemViewType == TYPE_ADMIN_SIGNUP) {
+        if (itemViewType == TYPE_FOLLOW || itemViewType == TYPE_FOLLOW_REQUEST || itemViewType == TYPE_ADMIN_REPORT || itemViewType == TYPE_ADMIN_SIGNUP || itemViewType == TYPE_ADDED_TO_COLLECTION || itemViewType == TYPE_COLLECTION_UPDATE) {
             ViewHolderFollow holderFollow = (ViewHolderFollow) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             if (sharedpreferences.getBoolean(context.getString(R.string.SET_CARDVIEW), false)) {
@@ -281,6 +298,31 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         holderFollow.binding.title.setText(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_submitted_report)));
                 case TYPE_ADMIN_SIGNUP ->
                         holderFollow.binding.title.setText(String.format(Locale.getDefault(), "%s %s", notification.account.display_name, context.getString(R.string.notif_signed_up)));
+                case TYPE_ADDED_TO_COLLECTION -> {
+                    holderFollow.binding.rejectButton.setVisibility(View.VISIBLE);
+                    holderFollow.binding.rejectButton.setText(R.string.action_remove_me);
+                    holderFollow.binding.rejectButton.setIconSize(0);
+                    holderFollow.binding.rejectButton.setLayoutParams(new LinearLayoutCompat.LayoutParams(
+                            LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+                    String addedTitle = context.getString(R.string.notif_added_to_collection);
+                    if (notification.collection != null && notification.collection.name != null) {
+                        addedTitle += " " + notification.collection.name;
+                    }
+                    holderFollow.binding.title.setText(
+                            SpannableHelper.convert(context, addedTitle, null, notification.account, null,
+                                    new WeakReference<>(holderFollow.binding.title), null, false, false),
+                            TextView.BufferType.SPANNABLE);
+                }
+                case TYPE_COLLECTION_UPDATE -> {
+                    String updateTitle = context.getString(R.string.notif_collection_update);
+                    if (notification.collection != null && notification.collection.name != null) {
+                        updateTitle += " " + notification.collection.name;
+                    }
+                    holderFollow.binding.title.setText(
+                            SpannableHelper.convert(context, updateTitle, null, notification.account, null,
+                                    new WeakReference<>(holderFollow.binding.title), null, false, false),
+                            TextView.BufferType.SPANNABLE);
+                }
                 default -> holderFollow.binding.title.setText(R.string.follow);
             }
             if (notification.relatedNotifications != null && !notification.relatedNotifications.isEmpty()
@@ -310,42 +352,74 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else {
                 holderFollow.binding.otherAccounts.setVisibility(View.GONE);
             }
-            app.fedilab.android.mastodon.client.entities.app.Account.API notifApi = BaseMainActivity.api;
-            if (notifApi == null && Helper.getCurrentAccount(context) != null) {
-                notifApi = Helper.getCurrentAccount(context).api;
-            }
-            if (notifApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
-                MisskeyAccountsVM misskeyAccountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyAccountsVM.class);
-                holderFollow.binding.rejectButton.setOnClickListener(v -> misskeyAccountsVM.rejectFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
-                        .observe((LifecycleOwner) context, success -> {
-                            if (notificationList.size() > holderFollow.getBindingAdapterPosition() && holderFollow.getBindingAdapterPosition() >= 0) {
-                                notificationList.remove(holderFollow.getBindingAdapterPosition());
-                                notifyItemRemoved(holderFollow.getBindingAdapterPosition());
-                            }
-                        }));
-                holderFollow.binding.acceptButton.setOnClickListener(v -> misskeyAccountsVM.acceptFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
-                        .observe((LifecycleOwner) context, success -> {
-                            if (notificationList.size() > holderFollow.getBindingAdapterPosition() && holderFollow.getBindingAdapterPosition() >= 0) {
-                                notificationList.remove(holderFollow.getBindingAdapterPosition());
-                                notifyItemRemoved(holderFollow.getBindingAdapterPosition());
-                            }
-                        }));
+            if (itemViewType == TYPE_ADDED_TO_COLLECTION || itemViewType == TYPE_COLLECTION_UPDATE) {
+                CollectionsVM collectionsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(CollectionsVM.class);
+                NotificationsVM notificationsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(NotificationsVM.class);
+                if (itemViewType == TYPE_ADDED_TO_COLLECTION && notification.collection != null) {
+                    holderFollow.binding.rejectButton.setOnClickListener(v -> {
+                        AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
+                        builder.setMessage(R.string.action_remove_myself_from_collection);
+                        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+                                collectionsVM.revokeCurrentUserFromCollection(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
+                                        notification.collection.id, BaseMainActivity.currentUserID);
+                                notificationsVM.dismissNotification(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.id);
+                                int pos = holderFollow.getBindingAdapterPosition();
+                                if (pos >= 0 && pos < notificationList.size()) {
+                                    notificationList.remove(pos);
+                                    notifyItemRemoved(pos);
+                                }
+                        });
+                        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+                        builder.show();
+                    });
+                }
+                View.OnClickListener openCollection = v -> {
+                    if (notification.collection != null) {
+                        Intent intent = new Intent(context, CollectionsActivity.class);
+                        intent.putExtra(Helper.ARG_COLLECTION_ACCOUNT_ID, notification.account.id);
+                        intent.putExtra(Helper.ARG_COLLECTION_ID, notification.collection.id);
+                        context.startActivity(intent);
+                    }
+                };
+                holderFollow.binding.cardviewContainer.setOnClickListener(openCollection);
             } else {
-                AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
-                holderFollow.binding.rejectButton.setOnClickListener(v -> accountsVM.rejectFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
-                        .observe((LifecycleOwner) context, relationShip -> {
-                            if (notificationList.size() > holderFollow.getBindingAdapterPosition() && holderFollow.getBindingAdapterPosition() >= 0) {
-                                notificationList.remove(holderFollow.getBindingAdapterPosition());
-                                notifyItemRemoved(holderFollow.getBindingAdapterPosition());
-                            }
-                        }));
-                holderFollow.binding.acceptButton.setOnClickListener(v -> accountsVM.acceptFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
-                        .observe((LifecycleOwner) context, relationShip -> {
-                            if (notificationList.size() > holderFollow.getBindingAdapterPosition() && holderFollow.getBindingAdapterPosition() >= 0) {
-                                notificationList.remove(holderFollow.getBindingAdapterPosition());
-                                notifyItemRemoved(holderFollow.getBindingAdapterPosition());
-                            }
-                        }));
+                app.fedilab.android.mastodon.client.entities.app.Account.API notifApi = BaseMainActivity.api;
+                if (notifApi == null && Helper.getCurrentAccount(context) != null) {
+                    notifApi = Helper.getCurrentAccount(context).api;
+                }
+                if (notifApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY) {
+                    MisskeyAccountsVM misskeyAccountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(MisskeyAccountsVM.class);
+                    holderFollow.binding.rejectButton.setOnClickListener(v -> misskeyAccountsVM.rejectFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
+                            .observe((LifecycleOwner) context, success -> {
+                                if (notificationList.size() > holderFollow.getBindingAdapterPosition() && holderFollow.getBindingAdapterPosition() >= 0) {
+                                    notificationList.remove(holderFollow.getBindingAdapterPosition());
+                                    notifyItemRemoved(holderFollow.getBindingAdapterPosition());
+                                }
+                            }));
+                    holderFollow.binding.acceptButton.setOnClickListener(v -> misskeyAccountsVM.acceptFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
+                            .observe((LifecycleOwner) context, success -> {
+                                if (notificationList.size() > holderFollow.getBindingAdapterPosition() && holderFollow.getBindingAdapterPosition() >= 0) {
+                                    notificationList.remove(holderFollow.getBindingAdapterPosition());
+                                    notifyItemRemoved(holderFollow.getBindingAdapterPosition());
+                                }
+                            }));
+                } else {
+                    AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(AccountsVM.class);
+                    holderFollow.binding.rejectButton.setOnClickListener(v -> accountsVM.rejectFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
+                            .observe((LifecycleOwner) context, relationShip -> {
+                                if (notificationList.size() > holderFollow.getBindingAdapterPosition() && holderFollow.getBindingAdapterPosition() >= 0) {
+                                    notificationList.remove(holderFollow.getBindingAdapterPosition());
+                                    notifyItemRemoved(holderFollow.getBindingAdapterPosition());
+                                }
+                            }));
+                    holderFollow.binding.acceptButton.setOnClickListener(v -> accountsVM.acceptFollow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.account.id)
+                            .observe((LifecycleOwner) context, relationShip -> {
+                                if (notificationList.size() > holderFollow.getBindingAdapterPosition() && holderFollow.getBindingAdapterPosition() >= 0) {
+                                    notificationList.remove(holderFollow.getBindingAdapterPosition());
+                                    notifyItemRemoved(holderFollow.getBindingAdapterPosition());
+                                }
+                            }));
+                }
             }
             holderFollow.binding.avatar.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ProfileActivity.class);

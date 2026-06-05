@@ -100,9 +100,10 @@ public class NotificationsHelper {
         boolean notif_updates = prefs.getBoolean(context.getString(R.string.SET_NOTIF_UPDATE), true);
         boolean notif_signup = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_SIGNUP), true);
         boolean notif_report = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_REPORT), true);
+        boolean notif_collection = prefs.getBoolean(context.getString(R.string.SET_NOTIF_COLLECTION), true);
 
         //User disagree with all notifications
-        if (!notif_follow && !notif_fav && !notif_mention && !notif_share && !notif_poll && !notif_status && !notif_updates && !notif_signup && !notif_report) {
+        if (!notif_follow && !notif_fav && !notif_mention && !notif_share && !notif_poll && !notif_status && !notif_updates && !notif_signup && !notif_report && !notif_collection) {
             return; //Nothing is done
         }
 
@@ -182,6 +183,7 @@ public class NotificationsHelper {
         boolean notif_update = prefs.getBoolean(context.getString(R.string.SET_NOTIF_UPDATE), true);
         boolean notif_signup = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_SIGNUP), true);
         boolean notif_report = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_REPORT), true);
+        boolean notif_collection = prefs.getBoolean(context.getString(R.string.SET_NOTIF_COLLECTION), true);
 
         final List<Notification> notifications = new ArrayList<>();
         int pos = 0;
@@ -433,6 +435,28 @@ public class NotificationsHelper {
                             message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_reported));
                         else
                             message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_reported));
+                        targeted_account = notification.account;
+                    }
+                    break;
+                case "added_to_collection":
+                    notifType = Helper.NotifType.COLLECTION;
+                    if (notif_collection) {
+                        title = context.getString(R.string.action_collections);
+                        if (notification.account.display_name != null && notification.account.display_name.length() > 0)
+                            message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_added_to_collection));
+                        else
+                            message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_added_to_collection));
+                        targeted_account = notification.account;
+                    }
+                    break;
+                case "collection_update":
+                    notifType = Helper.NotifType.COLLECTION;
+                    if (notif_collection) {
+                        title = context.getString(R.string.action_collections);
+                        if (notification.account.display_name != null && notification.account.display_name.length() > 0)
+                            message = String.format("%s %s", notification.account.display_name, context.getString(R.string.notif_collection_update));
+                        else
+                            message = String.format("@%s %s", notification.account.acct, context.getString(R.string.notif_collection_update));
                         targeted_account = notification.account;
                     }
                     break;
