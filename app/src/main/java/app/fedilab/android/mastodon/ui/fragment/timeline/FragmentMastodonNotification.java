@@ -208,6 +208,13 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         if (!restoredFromSavedState) {
             max_id = null;
         }
+        if (max_id == null && notificationType == NotificationTypeEnum.ALL) {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+            boolean rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
+            if (rememberPosition) {
+                max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + Timeline.TimeLineEnum.NOTIFICATION, null);
+            }
+        }
         initialNotifications = null;
 
     }
