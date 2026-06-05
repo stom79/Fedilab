@@ -161,8 +161,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
+                        android:singleLine="true"
                         tools:text="@tools:sample/lorem/random" />
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/pronouns"
@@ -171,7 +170,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/date_short_container"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constrainedWidth="true"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="3dp"
                         android:visibility="invisible"
