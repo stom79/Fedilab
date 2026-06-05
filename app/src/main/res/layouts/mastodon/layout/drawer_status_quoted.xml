@@ -66,8 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
+                    android:singleLine="true"
                     tools:text="Display Name" />
 
                 <androidx.appcompat.widget.AppCompatTextView

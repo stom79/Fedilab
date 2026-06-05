@@ -356,7 +356,7 @@
 
                 </HorizontalScrollView>
                 <!-- Fields container -->
-                <androidx.recyclerview.widget.RecyclerView
+                <app.fedilab.android.mastodon.helper.EmojiRecyclerView
                     android:id="@+id/fields_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

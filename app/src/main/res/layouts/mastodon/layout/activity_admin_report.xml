@@ -345,7 +345,7 @@
             android:text="@string/list_reported_statuses"
             app:layout_constraintTop_toBottomOf="@id/comment" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <app.fedilab.android.mastodon.helper.EmojiRecyclerView
             android:id="@+id/lv_statuses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

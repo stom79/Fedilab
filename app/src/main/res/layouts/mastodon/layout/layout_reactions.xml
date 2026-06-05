@@ -10,7 +10,7 @@
     android:layout_marginBottom="5dp"
     android:orientation="horizontal">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <app.fedilab.android.mastodon.helper.EmojiRecyclerView
         android:id="@+id/reactions_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

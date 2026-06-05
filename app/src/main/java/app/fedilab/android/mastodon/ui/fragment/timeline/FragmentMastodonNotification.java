@@ -127,6 +127,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private boolean aggregateNotification;
     private boolean groupedByServer;
     private boolean reverseTimeline;
+    private boolean restoredFromSavedState;
+    private int savedScrollPosition = -1;
+    private int savedScrollOffset;
 
     private final BroadcastReceiver receive_refresh = new BroadcastReceiver() {
 
@@ -202,7 +205,16 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         misskeyNotificationsVM = new ViewModelProvider(FragmentMastodonNotification.this).get(MisskeyNotificationsVM.class);
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
-        max_id = null;
+        if (!restoredFromSavedState) {
+            max_id = null;
+        }
+        if (max_id == null && notificationType == NotificationTypeEnum.ALL) {
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+            boolean rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
+            if (rememberPosition) {
+                max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + Timeline.TimeLineEnum.NOTIFICATION, null);
+            }
+        }
         initialNotifications = null;
 
     }
@@ -212,6 +224,14 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                              ViewGroup container, Bundle savedInstanceState) {
         flagLoading = false;
         isViewInitialized = false;
+        restoredFromSavedState = false;
+        if (savedInstanceState != null) {
+            restoredFromSavedState = true;
+            max_id = savedInstanceState.getString(Helper.ARG_SAVED_MAX_ID, null);
+            min_id = savedInstanceState.getString(Helper.ARG_SAVED_MIN_ID, null);
+            savedScrollPosition = savedInstanceState.getInt(Helper.ARG_SAVED_SCROLL_POSITION, -1);
+            savedScrollOffset = savedInstanceState.getInt(Helper.ARG_SAVED_SCROLL_OFFSET, 0);
+        }
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
@@ -370,6 +390,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(notificationAdapter);
+        if (savedScrollPosition >= 0) {
+            mLayoutManager.scrollToPositionWithOffset(savedScrollPosition, savedScrollOffset);
+            savedScrollPosition = -1;
+        }
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -411,7 +435,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         super.onResume();
         if (!isViewInitialized) {
             isViewInitialized = true;
-            if (initialNotifications != null) {
+            if (restoredFromSavedState) {
+                restoreFromCache();
+            } else if (initialNotifications != null) {
                 initializeNotificationView(initialNotifications);
             } else {
                 route(null, false);
@@ -420,6 +446,25 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         if (notificationList != null && !notificationList.isEmpty()) {
             route(FragmentMastodonTimeline.DIRECTION.FETCH_NEW, true);
         }
+    }
+
+    private void restoreFromCache() {
+        restoredFromSavedState = false;
+        if (binding == null || !isAdded() || getActivity() == null) {
+            route(null, false);
+            return;
+        }
+        TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(requireActivity(), Timeline.TimeLineEnum.NOTIFICATION, null, null);
+        timelineParams.maxId = max_id;
+        timelineParams.excludeType = getExcludeType();
+        notificationsVM.getNotificationCache(notificationList, timelineParams)
+                .observe(getViewLifecycleOwner(), notificationsCached -> {
+                    if (notificationsCached == null || notificationsCached.notifications == null || notificationsCached.notifications.isEmpty()) {
+                        route(null, false);
+                    } else {
+                        initializeNotificationView(notificationsCached);
+                    }
+                });
     }
 
     /**
@@ -836,6 +881,24 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         super.onPause();
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (max_id != null) {
+            outState.putString(Helper.ARG_SAVED_MAX_ID, max_id);
+        }
+        if (min_id != null) {
+            outState.putString(Helper.ARG_SAVED_MIN_ID, min_id);
+        }
+        if (mLayoutManager != null) {
+            int position = reverseTimeline ? mLayoutManager.findLastVisibleItemPosition() : mLayoutManager.findFirstVisibleItemPosition();
+            outState.putInt(Helper.ARG_SAVED_SCROLL_POSITION, position);
+            View firstVisibleView = mLayoutManager.findViewByPosition(position);
+            if (firstVisibleView != null) {
+                outState.putInt(Helper.ARG_SAVED_SCROLL_OFFSET, firstVisibleView.getTop());
+            }
+        }
+    }
 
     @Override
     public void onClickMinId(String min_id, Notification notificationToUpdate) {

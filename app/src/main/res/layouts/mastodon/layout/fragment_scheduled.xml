@@ -36,7 +36,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/sort_button">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <app.fedilab.android.mastodon.helper.EmojiRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

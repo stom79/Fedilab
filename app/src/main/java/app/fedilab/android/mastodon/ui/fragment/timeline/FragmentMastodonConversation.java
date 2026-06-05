@@ -65,6 +65,9 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     private boolean isViewInitialized;
     private boolean reverseTimeline;
     private Conversations initialConversations;
+    private boolean restoredFromSavedState;
+    private int savedScrollPosition = -1;
+    private int savedScrollOffset;
 
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
@@ -85,6 +88,14 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         flagLoading = false;
+        restoredFromSavedState = false;
+        if (savedInstanceState != null) {
+            restoredFromSavedState = true;
+            max_id = savedInstanceState.getString(Helper.ARG_SAVED_MAX_ID, null);
+            min_id = savedInstanceState.getString(Helper.ARG_SAVED_MIN_ID, null);
+            savedScrollPosition = savedInstanceState.getInt(Helper.ARG_SAVED_SCROLL_POSITION, -1);
+            savedScrollOffset = savedInstanceState.getInt(Helper.ARG_SAVED_SCROLL_OFFSET, 0);
+        }
         binding = FragmentPaginationBinding.inflate(inflater, container, false);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         boolean displayScrollBar = sharedpreferences.getBoolean(getString(R.string.SET_TIMELINE_SCROLLBAR), false);
@@ -108,7 +119,9 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         super.onResume();
         if (!isViewInitialized) {
             isViewInitialized = true;
-            if (initialConversations != null) {
+            if (restoredFromSavedState) {
+                restoreFromCache();
+            } else if (initialConversations != null) {
                 initializeConversationCommonView(initialConversations);
             } else {
                 route(null, false);
@@ -117,6 +130,24 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         if (conversationList != null && conversationList.size() > 0) {
             route(FragmentMastodonTimeline.DIRECTION.FETCH_NEW, true);
         }
+    }
+
+    private void restoreFromCache() {
+        restoredFromSavedState = false;
+        if (binding == null || !isAdded() || getActivity() == null) {
+            route(null, false);
+            return;
+        }
+        TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(requireActivity(), Timeline.TimeLineEnum.NOTIFICATION, null, null);
+        timelineParams.maxId = max_id;
+        timelinesVM.getConversationsCache(conversationList, timelineParams)
+                .observe(getViewLifecycleOwner(), conversationsCached -> {
+                    if (conversationsCached == null || conversationsCached.conversations == null || conversationsCached.conversations.isEmpty()) {
+                        route(null, false);
+                    } else {
+                        initializeConversationCommonView(conversationsCached);
+                    }
+                });
     }
 
     /**
@@ -257,7 +288,9 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         binding.loader.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         timelinesVM = new ViewModelProvider(FragmentMastodonConversation.this).get(TimelinesVM.class);
-        max_id = null;
+        if (!restoredFromSavedState) {
+            max_id = null;
+        }
 
     }
 
@@ -346,6 +379,10 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         }
         binding.recyclerView.setLayoutManager(mLayoutManager);
         binding.recyclerView.setAdapter(conversationAdapter);
+        if (savedScrollPosition >= 0) {
+            mLayoutManager.scrollToPositionWithOffset(savedScrollPosition, savedScrollOffset);
+            savedScrollPosition = -1;
+        }
 
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -395,6 +432,25 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     public void onPause() {
         storeMarker(Helper.getCurrentAccount(requireActivity()));
         super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (max_id != null) {
+            outState.putString(Helper.ARG_SAVED_MAX_ID, max_id);
+        }
+        if (min_id != null) {
+            outState.putString(Helper.ARG_SAVED_MIN_ID, min_id);
+        }
+        if (mLayoutManager != null) {
+            int position = reverseTimeline ? mLayoutManager.findLastVisibleItemPosition() : mLayoutManager.findFirstVisibleItemPosition();
+            outState.putInt(Helper.ARG_SAVED_SCROLL_POSITION, position);
+            View firstVisibleView = mLayoutManager.findViewByPosition(position);
+            if (firstVisibleView != null) {
+                outState.putInt(Helper.ARG_SAVED_SCROLL_OFFSET, firstVisibleView.getTop());
+            }
+        }
     }
 
     /**

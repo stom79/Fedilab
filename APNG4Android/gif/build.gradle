@@ -1,0 +1,38 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 35
+        compileSdk 35
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-fPIC"
+                arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+        }
+    }
+    namespace = "com.github.penfeizhou.animation.gif"
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.9.1'
+    implementation 'androidx.vectordrawable:vectordrawable-animated:1.2.0'
+    api project(':APNG4Android:frameanimation')
+}
