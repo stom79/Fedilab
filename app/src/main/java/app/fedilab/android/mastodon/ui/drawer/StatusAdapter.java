@@ -2337,6 +2337,30 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.mediaContainer.setVisibility(View.GONE);
             holder.binding.media.mediaContainer.setVisibility(View.GONE);
         }
+        if (statusToDeal.media_attachments != null && !statusToDeal.media_attachments.isEmpty()) {
+            StringBuilder altTexts = new StringBuilder();
+            for (Attachment attachment : statusToDeal.media_attachments) {
+                if (attachment.description != null && !attachment.description.isEmpty()) {
+                    if (altTexts.length() > 0) {
+                        altTexts.append("\n\n");
+                    }
+                    altTexts.append(attachment.description);
+                }
+            }
+            if (altTexts.length() > 0) {
+                holder.binding.altTextIndicator.setVisibility(View.VISIBLE);
+                String descriptions = altTexts.toString();
+                holder.binding.altTextIndicator.setOnClickListener(v -> new MaterialAlertDialogBuilder(context)
+                        .setTitle(context.getString(R.string.description))
+                        .setMessage(descriptions)
+                        .setPositiveButton(R.string.close, null)
+                        .show());
+            } else {
+                holder.binding.altTextIndicator.setVisibility(View.GONE);
+            }
+        } else {
+            holder.binding.altTextIndicator.setVisibility(View.GONE);
+        }
         holder.binding.statusContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
         holder.binding.reblogInfo.setOnClickListener(v -> {
             if (statusToDeal.reblogs_count > 0) {
@@ -3669,6 +3693,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         if (mediaDescriptionIndicator && (attachment.description != null && !attachment.description.isEmpty())) {
             layoutMediaBinding.viewDescription.setVisibility(View.VISIBLE);
+            layoutMediaBinding.viewDescription.setOnClickListener(v -> new MaterialAlertDialogBuilder(context)
+                    .setTitle(context.getString(R.string.description))
+                    .setMessage(attachment.description)
+                    .setPositiveButton(R.string.close, null)
+                    .show());
         } else {
             layoutMediaBinding.viewDescription.setVisibility(View.GONE);
         }
