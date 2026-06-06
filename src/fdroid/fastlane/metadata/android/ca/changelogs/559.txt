@@ -1,0 +1,17 @@
+Novetats:
+- Ja es poden afegir col·leccions (Mastodon 4.6+)
+    - Crear, editar, eliminar i explorar col·leccions
+    - Gestionar membres de col·leccions
+    - Notificacions en ser afegit a col·leccions, amb opció de sortir-se'n
+    - Entrada dedicada al menú principal amb pestanyes "Creats per tu" i "Hi figures"
+    - Col·leccions visibles als perfils d'usuàries
+- Distintiu pitjable ALT per llegir les descripcions de mèdia sense obrir-los
+
+Correccions:
+- Emojis animats que buidaven la bateria i provocaven fallides
+- App refrescant-se cada obrir després de GC
+- Ròdol enganxós després de selecció de text o mostrador d'emojis
+- Emojis personalitzats amb noms que sobreeixien
+- Buits a les pissarres i autocaptació de missatges extraviats
+- Enllaços d'@user que només obrien comptes de Fediverse 
+- Recobrar posició de notificació des del marcador
