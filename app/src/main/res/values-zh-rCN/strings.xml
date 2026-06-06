@@ -22,7 +22,7 @@
     <string name="save">保存</string>
     <string name="instance">实例</string>
     <string name="instance_example">如：mastodon.social</string>
-    <string name="toast_account_changed" formatted="false">已切换到账户 %1$s</string>
+    <string name="toast_account_changed" formatted="false">已切换到账号 %1$s</string>
     <string name="add_account">添加账号</string>
     <string name="clipboard">消息内容已复制到剪贴板</string>
     <string name="clipboard_url">消息的 URL 已复制到剪贴板</string>
@@ -123,7 +123,7 @@
     <string name="toot_sensitive">敏感内容？</string>
     <string name="no_draft">没有草稿！</string>
     <string name="choose_accounts">选择一个账号</string>
-    <string name="select_accounts">搜索你关注的账户</string>
+    <string name="select_accounts">搜索您关注的账号</string>
     <string name="remove_draft">删除草稿？</string>
     <string name="upload_form_description">为视觉障碍人士添加文字说明</string>
     <!-- Instance -->
@@ -1137,7 +1137,7 @@
     <string name="visibility_color_unlisted">“半公开（unlisted）可见性”颜色</string>
     <string name="visibility_color_private">“私密可见性”颜色</string>
     <string name="visibility_color_direct">“直接可见性（私下提及）”颜色</string>
-    <string name="action_quote_policy">更改谁可以引用你</string>
+    <string name="action_quote_policy">更改谁可以引用您</string>
     <string name="set_colorize_visibility">突出可见性</string>
     <string name="set_colorize_visibility_indication">根据编辑时所选的可见性不同，可见性按钮和编辑区域底部会有不同颜色。</string>
     <string name="set_custom_colors_visibility">自定义可见性颜色</string>
@@ -1172,14 +1172,14 @@
     <string name="more_from">来自 %1$s 的更多内容</string>
     <string name="reverse_timeline">颠倒时间线阅读顺序</string>
     <string name="export_following">导出关注列表</string>
-    <string name="notif_quote">引用了你的状态</string>
+    <string name="notif_quote">引用了您的状态</string>
     <string name="notif_quoted_update">编辑了一则引用的嘟文</string>
     <string name="notification_filtering_policy">通知筛选策略</string>
-    <string name="policy_for_not_following">不关注你的人</string>
-    <string name="policy_for_not_followers">不关注你的人</string>
-    <string name="policy_for_new_accounts">新账户（不到 30 天）</string>
+    <string name="policy_for_not_following">不关注您的人</string>
+    <string name="policy_for_not_followers">不关注您的人</string>
+    <string name="policy_for_new_accounts">新账号（不到 30 天）</string>
     <string name="policy_for_private_mentions">未经请求的私下提及</string>
-    <string name="policy_for_limited_accounts">受限账户</string>
+    <string name="policy_for_limited_accounts">受限账号</string>
     <string name="policy_accept">接受</string>
     <string name="policy_filter">筛选</string>
     <string name="policy_drop">丢弃</string>
@@ -1260,7 +1260,7 @@
     <string name="kw_disable_animated_emoji">禁用、动画、表情符号</string>
     <string name="kw_link_previews">链接预览、卡片</string>
     <string name="kw_toots_per_page">消息、页面、分页、状态</string>
-    <string name="kw_accounts_per_page">账户、页面、分页</string>
+    <string name="kw_accounts_per_page">账号、页面、分页</string>
     <string name="kw_notifications_per_page">通知、页面、分页</string>
     <string name="kw_single_topbar">单、顶部栏、标签页</string>
     <string name="kw_topbar_scrolling">顶部栏、滚动、隐藏</string>
@@ -1349,4 +1349,37 @@
     <string name="compose_top_reverse">将撰写按钮放在顶部</string>
     <string name="kw_compose_top_reverse">撰写、按钮、顶部、颠倒</string>
     <string name="expired_scheduled_boosts">%d 则定时嘟文可能未能发送</string>
+    <string name="action_collections">合集</string>
+    <string name="no_collections">暂无合集！</string>
+    <string name="collection_name_hint">合集名称</string>
+    <string name="collection_description_hint">描述（可选）</string>
+    <string name="collection_tag_hint">话题标签（可选）</string>
+    <string name="collection_discoverable">可被发现</string>
+    <string name="action_collection_add">新建合集</string>
+    <string name="action_collection_delete">删除合集</string>
+    <string name="action_collection_confirm_delete">确定要永久删除此合集吗？</string>
+    <string name="action_collection_edit">编辑合集</string>
+    <string name="not_valid_collection_name">合集名称无效！</string>
+    <string name="action_add_account_to_collection">添加账号</string>
+    <string name="action_remove_account_from_collection">移除账号</string>
+    <string name="account_added_to_collection">账号已添加到合集中！</string>
+    <string name="account_removed_from_collection">账号已从合集中移除！</string>
+    <string name="collection_sensitive">敏感内容</string>
+    <string name="collection_tab_created">由您创建</string>
+    <string name="collection_tab_featuring">包含您的</string>
+    <string name="collection_feature_denied">此账号不允许被收录到合集中</string>
+    <string name="collection_account_count">%d 个账号</string>
+    <string name="collection_sort_alphabetical">按字母顺序</string>
+    <string name="collection_sort_last_active">最近活跃</string>
+    <string name="collection_sort_most_followers">最多关注者</string>
+    <string name="collection_sort_date_added">添加日期</string>
+    <string name="collection_sort_by">排序方式</string>
+    <string name="featured">精选</string>
+    <string name="set_show_featured_tab">在个人资料中显示精选标签页</string>
+    <string name="set_show_featured_tab_description">在个人资料页面显示精选标签页</string>
+    <string name="notif_added_to_collection">将您添加到了一个合集中</string>
+    <string name="notif_collection_update">更新了一个包含您的合集</string>
+    <string name="set_notif_collection">通知合集变更</string>
+    <string name="action_remove_myself_from_collection">从此合集中移除我自己</string>
+    <string name="action_remove_me">移除我</string>
 </resources>
