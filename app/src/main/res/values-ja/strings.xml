@@ -1229,4 +1229,14 @@
     <string name="kw_scrollbar">スクロールバー, スクロール</string>
     <string name="kw_reverse_timeline">逆, 順番, 読む, 下</string>
     <string name="kw_compose_top_reverse">投稿の作成, ボタン, 上, 逆</string>
+    <string name="kw_refresh_all_timelines">更新、再読込、全てのタイムライン、プル、スワイプ</string>
+    <string name="kw_highlight_comments">ハイライト、コメント、スレッド、未読</string>
+    <string name="kw_markdown">マークダウン、書式の設定、太字、斜体</string>
+    <string name="kw_truncate_links">切り詰め、リンク、url、短縮</string>
+    <string name="kw_truncate_links_max">切り詰め、リンク、url、最大、長さ</string>
+    <string name="kw_underline_hashtags">下線、ハッシュタグ</string>
+    <string name="kw_underline_links">下線、リンク、クリック可能</string>
+    <string name="kw_pronouns">代名詞、性別、自己認識、プロフィール</string>
+    <string name="kw_hide_media_card">非表示、メディア、カード、リンクのプレビュー</string>
+    <string name="kw_live_translate">翻訳、ライブ、自動処理、言語</string>
 </resources>
