@@ -178,6 +178,17 @@ public class CustomEmoji extends ReplacementSpan {
         }
     }
 
+    private int getEmojiWidth(Paint paint) {
+        int emojiHeight = (int) (paint.getTextSize() * scale);
+        if (imageDrawable != null && imageDrawable.getIntrinsicWidth() > 0 && imageDrawable.getIntrinsicHeight() > 0) {
+            float ratio = (float) imageDrawable.getIntrinsicWidth() / imageDrawable.getIntrinsicHeight();
+            float maxRatio = 5f;
+            ratio = Math.min(ratio, maxRatio);
+            return (int) (emojiHeight * ratio);
+        }
+        return emojiHeight;
+    }
+
     @Override
     public int getSize(@NonNull Paint paint, CharSequence charSequence, int i, int i1, @Nullable Paint.FontMetricsInt fontMetricsInt) {
         if (imageDrawable == null && loadFailed) {
@@ -191,15 +202,16 @@ public class CustomEmoji extends ReplacementSpan {
                 fontMetricsInt.top = fontMetricsInt.ascent;
             }
         }
-        return emojiSize;
+        return getEmojiWidth(paint);
     }
 
     @Override
     public void draw(@NonNull Canvas canvas, CharSequence charSequence, int start, int end, float x, int top, int y, int bottom, @NonNull Paint paint) {
         if (imageDrawable != null) {
             canvas.save();
-            int emojiSize = (int) (paint.getTextSize() * scale);
-            imageDrawable.setBounds(0, 0, emojiSize, emojiSize);
+            int emojiHeight = (int) (paint.getTextSize() * scale);
+            int emojiWidth = getEmojiWidth(paint);
+            imageDrawable.setBounds(0, 0, emojiWidth, emojiHeight);
             int transY = bottom - imageDrawable.getBounds().bottom;
             transY -= (int) (paint.getFontMetrics().descent / 2);
             canvas.translate(x, (float) transY);
