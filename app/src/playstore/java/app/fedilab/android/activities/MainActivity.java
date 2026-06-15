@@ -24,6 +24,9 @@ public class MainActivity extends BaseMainActivity {
 
     @Override
     protected void rateThisApp() {
+        if (currentUserID == null) {
+            return;
+        }
         RateThisApp.onCreate(this);
         RateThisApp.Config config = new RateThisApp.Config(3, 10);
         RateThisApp.init(config);
