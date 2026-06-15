@@ -66,6 +66,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
     private boolean reverseTimeline;
     private Conversations initialConversations;
     private boolean restoredFromSavedState;
+    private boolean markedAllRead;
     private int savedScrollPosition = -1;
     private int savedScrollOffset;
 
@@ -183,7 +184,7 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
 
         timelineParams.fetchingMissing = fetchingMissing;
 
-        if (useCache && direction != FragmentMastodonTimeline.DIRECTION.SCROLL_TOP && direction != FragmentMastodonTimeline.DIRECTION.FETCH_NEW) {
+        if (useCache && direction != FragmentMastodonTimeline.DIRECTION.SCROLL_TOP && direction != FragmentMastodonTimeline.DIRECTION.FETCH_NEW && direction != FragmentMastodonTimeline.DIRECTION.REFRESH) {
             getCachedConversations(direction, fetchingMissing, timelineParams);
         } else {
             getLiveConversations(direction, fetchingMissing, timelineParams, conversationToUpdate);
@@ -316,6 +317,20 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
         binding.noAction.setVisibility(View.GONE);
         binding.swipeContainer.setRefreshing(false);
         binding.swipeContainer.setOnRefreshListener(() -> {
+            TimelinesVM markReadVM = new ViewModelProvider(FragmentMastodonConversation.this).get(TimelinesVM.class);
+            markReadVM.markAllConversationsRead(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
+                    .observe(getViewLifecycleOwner(), count -> {
+                        if (update != null) {
+                            update.onUpdateConversation(0);
+                        }
+                    });
+            markedAllRead = true;
+            if (conversationList != null) {
+                for (Conversation conversation : conversationList) {
+                    conversation.unread = false;
+                }
+                conversationAdapter.notifyDataSetChanged();
+            }
             binding.swipeContainer.setRefreshing(true);
             flagLoading = false;
             route(FragmentMastodonTimeline.DIRECTION.REFRESH, true);
@@ -488,10 +503,23 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
             flagLoading = fetched_conversations.pagination.max_id == null;
             binding.noAction.setVisibility(View.GONE);
             //Update the timeline with new statuses
-            int insertedConversations = updateConversationListWith(fetched_conversations.conversations);
-            //For these directions, the app will display counters for new messages
-            if (insertedConversations >= 0 && update != null && (direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.REFRESH)) {
-                update.onUpdateConversation(insertedConversations);
+            updateConversationListWith(fetched_conversations.conversations);
+            if (markedAllRead) {
+                if (conversationList != null) {
+                    for (Conversation conversation : conversationList) {
+                        conversation.unread = false;
+                    }
+                }
+                markedAllRead = false;
+            }
+            if (update != null && conversationList != null) {
+                int unreadCount = 0;
+                for (Conversation conversation : conversationList) {
+                    if (conversation.unread) {
+                        unreadCount++;
+                    }
+                }
+                update.onUpdateConversation(unreadCount);
             }
             if (direction == FragmentMastodonTimeline.DIRECTION.TOP && fetchingMissing) {
                 binding.recyclerView.scrollToPosition(getPosition(fetched_conversations.conversations.get(fetched_conversations.conversations.size() - 1)) + 1);
@@ -548,6 +576,12 @@ public class FragmentMastodonConversation extends Fragment implements Conversati
                 if (conversationList != null) {
                     conversationAdapter.notifyItemRangeChanged(0, conversationList.size());
                     for (Conversation conversationsAlreadyPresent : conversationList) {
+                        if (conversationsAlreadyPresent.id.equals(conversationReceived.id)) {
+                            conversationsAlreadyPresent.unread = conversationReceived.unread;
+                            conversationsAlreadyPresent.last_status = conversationReceived.last_status;
+                            conversationAdapter.notifyItemChanged(position);
+                            break;
+                        }
                         //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
                         //Pinned messages are ignored because their date can be older
                         if (Helper.compareTo(conversationReceived.id, conversationsAlreadyPresent.id) > 0) {

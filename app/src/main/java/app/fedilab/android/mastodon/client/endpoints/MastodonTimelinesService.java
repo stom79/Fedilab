@@ -153,7 +153,6 @@ public interface MastodonTimelinesService {
     );
 
     //Mark a conversation as read
-    @FormUrlEncoded
     @POST("conversations/{id}/read")
     Call<Status> markReadConversation(
             @Header("Authorization") String token,

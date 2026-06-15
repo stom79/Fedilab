@@ -1742,6 +1742,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         super.onResume();
         if (!sharedpreferences.getBoolean(getString(R.string.SET_AUTO_HIDE_COMPOSE), true) && !getFloatingVisibility())
             manageFloatingButton(true);
+        if (binding.bottomNavView.getSelectedItemId() != R.id.nav_privates) {
+            fetchUnreadConversations();
+        }
         if (!expiredBoostChecked) {
             expiredBoostChecked = true;
             new Thread(() -> {
@@ -2102,6 +2105,12 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
         }
         setCounterToTab(slug, count);
+    }
+
+    private void fetchUnreadConversations() {
+        TimelinesVM timelinesVM = new ViewModelProvider(BaseMainActivity.this).get(TimelinesVM.class);
+        timelinesVM.getUnreadConversationsCount(currentInstance, currentToken)
+                .observe(BaseMainActivity.this, this::onUpdateConversation);
     }
 
     @Override

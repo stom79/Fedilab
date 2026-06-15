@@ -34,6 +34,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,8 +58,10 @@ import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Conversation;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
+import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
+import app.fedilab.android.mastodon.viewmodel.mastodon.TimelinesVM;
 
 
 public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -215,9 +219,17 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 TextView.BufferType.SPANNABLE);
         //--- DATE ---
         holder.binding.lastMessageDate.setText(Helper.dateDiff(context, conversation.last_status.created_at));
+        if (conversation.unread) {
+            holder.binding.statusContent.setTypeface(holder.binding.statusContent.getTypeface(), android.graphics.Typeface.BOLD);
+            holder.binding.lastMessageDate.setTypeface(holder.binding.lastMessageDate.getTypeface(), android.graphics.Typeface.BOLD);
+        } else {
+            holder.binding.statusContent.setTypeface(null, android.graphics.Typeface.NORMAL);
+            holder.binding.lastMessageDate.setTypeface(null, android.graphics.Typeface.NORMAL);
+        }
 
         boolean chatMode = sharedpreferences.getBoolean(context.getString(R.string.SET_CHAT_FOR_CONVERSATION), true);
         holder.binding.statusContent.setOnClickListener(v -> {
+            markConversationRead(conversation);
             Intent intent;
             if (chatMode) {
                 intent = new Intent(context, DirectMessageActivity.class);
@@ -236,6 +248,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         holder.binding.attachmentsListContainer.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
+                markConversationRead(conversation);
                 Intent intent;
                 if (chatMode) {
                     intent = new Intent(context, DirectMessageActivity.class);
@@ -338,6 +351,23 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         super.onViewRecycled(holder);
         if (holder instanceof ConversationHolder && ((ConversationHolder) holder).timer != null) {
             ((ConversationHolder) holder).timer.cancel();
+        }
+    }
+
+    private void markConversationRead(Conversation conversation) {
+        if (conversation.unread && context instanceof ViewModelStoreOwner) {
+            conversation.unread = false;
+            TimelinesVM timelinesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(TimelinesVM.class);
+            timelinesVM.markReadConversation(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, conversation.id);
+            if (context instanceof BaseMainActivity) {
+                int unreadCount = 0;
+                for (Conversation conversationItem : conversationList) {
+                    if (conversationItem.unread) {
+                        unreadCount++;
+                    }
+                }
+                ((BaseMainActivity) context).onUpdateConversation(unreadCount);
+            }
         }
     }
 

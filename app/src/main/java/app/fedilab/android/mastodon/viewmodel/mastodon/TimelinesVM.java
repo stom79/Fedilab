@@ -1002,6 +1002,71 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
     /**
+     * Fetch conversations and mark all unread ones as read
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing 0 when all conversations have been marked as read
+     */
+    public LiveData<Integer> markAllConversationsRead(@NonNull String instance, String token) {
+        MutableLiveData<Integer> countLiveData = new MutableLiveData<>();
+        MastodonTimelinesService mastodonTimelinesService = init(instance);
+        new Thread(() -> {
+            try {
+                Call<List<Conversation>> conversationsCall = mastodonTimelinesService.getConversations(token, null, null, null, 40);
+                if (conversationsCall != null) {
+                    Response<List<Conversation>> response = conversationsCall.execute();
+                    if (response.isSuccessful() && response.body() != null) {
+                        for (Conversation conversation : response.body()) {
+                            if (conversation.unread) {
+                                Call<Status> markCall = mastodonTimelinesService.markReadConversation(token, conversation.id);
+                                if (markCall != null) {
+                                    markCall.execute();
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ignored) {
+            }
+            new Handler(Looper.getMainLooper()).post(() -> countLiveData.setValue(0));
+        }).start();
+        return countLiveData;
+    }
+
+    /**
+     * Get the number of unread conversations
+     *
+     * @param instance Instance domain of the active account
+     * @param token    Access token of the active account
+     * @return {@link LiveData} containing the unread conversation count
+     */
+    public LiveData<Integer> getUnreadConversationsCount(@NonNull String instance, String token) {
+        MutableLiveData<Integer> countLiveData = new MutableLiveData<>();
+        MastodonTimelinesService mastodonTimelinesService = init(instance);
+        new Thread(() -> {
+            int unreadCount = 0;
+            try {
+                Call<List<Conversation>> conversationsCall = mastodonTimelinesService.getConversations(token, null, null, null, 40);
+                if (conversationsCall != null) {
+                    Response<List<Conversation>> response = conversationsCall.execute();
+                    if (response.isSuccessful() && response.body() != null) {
+                        for (Conversation conversation : response.body()) {
+                            if (conversation.unread) {
+                                unreadCount++;
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ignored) {
+            }
+            int finalCount = unreadCount;
+            new Handler(Looper.getMainLooper()).post(() -> countLiveData.setValue(finalCount));
+        }).start();
+        return countLiveData;
+    }
+
+    /**
      * Fetch all lists that the user owns.
      *
      * @return {@link LiveData} containing a {@link List} of {@link MastodonList}s
