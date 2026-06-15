@@ -471,6 +471,9 @@ public class ComposeWorker extends Worker {
             }
         }
 
+        if (dataPost.scheduledDate != null && !error) {
+            Helper.sendToastMessage(context, Helper.RECEIVE_TOAST_TYPE_SUCCESS, context.getString(R.string.toot_scheduled));
+        }
         if (dataPost.scheduledDate == null && dataPost.token != null && firstSendMessage != null) {
             Bundle args = new Bundle();
             args.putBoolean(Helper.RECEIVE_NEW_MESSAGE, true);
