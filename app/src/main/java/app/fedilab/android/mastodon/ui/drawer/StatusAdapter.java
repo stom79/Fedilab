@@ -1657,6 +1657,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.reblogInfo.setText(String.valueOf(status.reblogs_count));
             holder.binding.quoteInfo.setText(String.valueOf(status.quotes_count));
             holder.binding.favouriteInfo.setText(String.valueOf(status.favourites_count));
+            holder.binding.boostCount.setVisibility(View.GONE);
+            holder.binding.favoriteCount.setVisibility(View.GONE);
+            holder.binding.replyCount.setVisibility(View.GONE);
 
             if (statusToDeal.edited_at != null) {
                 holder.binding.editTime.setText(context.getString(R.string.edited_message_at, Helper.longDateToString(status.edited_at)));
@@ -3843,6 +3846,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (status.isFocused) {
             holder.binding.reblogInfo.setText(String.valueOf(status.reblogs_count));
             holder.binding.favouriteInfo.setText(String.valueOf(status.favourites_count));
+            holder.binding.boostCount.setVisibility(View.GONE);
+            holder.binding.favoriteCount.setVisibility(View.GONE);
+            holder.binding.replyCount.setVisibility(View.GONE);
         } else if (displayCounters && canBeFederated) {
             if (statusToDeal.reblogs_count > 0) {
                 holder.binding.boostCount.setText(String.valueOf(statusToDeal.reblogs_count));
