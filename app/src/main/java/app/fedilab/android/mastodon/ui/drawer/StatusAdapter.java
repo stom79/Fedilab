@@ -3031,7 +3031,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if ("private".equals(statusToDeal.visibility) || "direct".equals(statusToDeal.visibility)) {
             popup.getMenu().findItem(R.id.action_mention).setVisible(false);
         }
-        if (!quoteButton.equals(quoteButtonEntryValues[2])){
+        boolean quoteDeniedInMenu = statusToDeal.quote_approval != null && statusToDeal.quote_approval.current_user != null
+                && statusToDeal.quote_approval.current_user.equalsIgnoreCase("denied");
+        if (!quoteButton.equals(quoteButtonEntryValues[2]) || quoteDeniedInMenu) {
             popup.getMenu().findItem(R.id.action_quote).setVisible(false);
         }
         if (statusToDeal.bookmarked)
