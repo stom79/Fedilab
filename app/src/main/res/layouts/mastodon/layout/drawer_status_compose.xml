@@ -93,6 +93,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/laTexView_container" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/remove_status"
+            style="@style/Fedilab.SmallIconButton"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@string/remove_status"
+            android:visibility="gone"
+            app:icon="@drawable/ic_compose_thread_remove_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_remove_status"
+            tools:visibility="visible" />
+
         <LinearLayout
             android:id="@+id/content_container"
             android:layout_width="0dp"
@@ -125,7 +136,7 @@
             android:contentDescription="@string/emoji_picker"
             app:icon="@drawable/ic_compose_emoji"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_remove_status" />
+            app:layout_constraintTop_toBottomOf="@id/remove_status" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_text_format"

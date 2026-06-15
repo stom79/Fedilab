@@ -513,34 +513,38 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         //Manage last compose drawer button visibility
         if (holder.getLayoutPosition() == (getItemCount() - 1)) {
-            if (statusList.size() > statusCount + 1) {
-                if (canBeRemoved(statusList.get(statusList.size() - 1))) {
-                    holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_remove_status);
-                    holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.remove_status));
-                    holder.binding.addRemoveStatus.setOnClickListener(v -> {
-                        manageDrafts.onItemDraftDeleted(statusList.get(holder.getLayoutPosition()), holder.getLayoutPosition());
-                        notifyItemChanged((getItemCount() - 1));
-                    });
-                } else {
-                    holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_add_status);
-                    holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.add_status));
-                    holder.binding.addRemoveStatus.setOnClickListener(v -> {
-                        manageDrafts.onItemDraftAdded(statusList.size(), null);
-                        buttonVisibility(holder);
-                    });
-                }
-            } else {
-                holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_add_status);
-                holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.add_status));
-                holder.binding.addRemoveStatus.setOnClickListener(v -> {
-                    manageDrafts.onItemDraftAdded(statusList.size(), null);
-                    buttonVisibility(holder);
-                });
-            }
+            holder.binding.addRemoveStatus.setIconResource(R.drawable.ic_compose_thread_add_status);
+            holder.binding.addRemoveStatus.setContentDescription(context.getString(R.string.add_status));
+            holder.binding.addRemoveStatus.setOnClickListener(v -> {
+                manageDrafts.onItemDraftAdded(statusList.size(), null);
+                buttonVisibility(holder);
+            });
             holder.binding.addRemoveStatus.setVisibility(View.VISIBLE);
             holder.binding.buttonPost.setVisibility(View.VISIBLE);
+            if (statusList.size() > statusCount + 1) {
+                holder.binding.removeStatus.setOnClickListener(v -> {
+                    if (canBeRemoved(statusList.get(holder.getLayoutPosition()))) {
+                        manageDrafts.onItemDraftDeleted(statusList.get(holder.getLayoutPosition()), holder.getLayoutPosition());
+                        notifyItemChanged((getItemCount() - 1));
+                    } else {
+                        new MaterialAlertDialogBuilder(context)
+                                .setMessage(context.getString(R.string.remove_status) + "?")
+                                .setPositiveButton(R.string.yes, (dialog, id) -> {
+                                    manageDrafts.onItemDraftDeleted(statusList.get(holder.getLayoutPosition()), holder.getLayoutPosition());
+                                    notifyItemChanged((getItemCount() - 1));
+                                    dialog.dismiss();
+                                })
+                                .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss())
+                                .show();
+                    }
+                });
+                holder.binding.removeStatus.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.removeStatus.setVisibility(View.GONE);
+            }
         } else {
             holder.binding.addRemoveStatus.setVisibility(View.GONE);
+            holder.binding.removeStatus.setVisibility(View.GONE);
             holder.binding.buttonPost.setVisibility(View.GONE);
         }
 
@@ -2021,7 +2025,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 statusDraft.language = currentCode;
             }
-            holder.binding.buttonLanguage.setText(Languages.getLanguageName(context, statusDraft.language));
+            holder.binding.buttonLanguage.setText(statusDraft.language);
 
 
             holder.binding.buttonLanguage.setOnClickListener(v -> {
