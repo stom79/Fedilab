@@ -22,6 +22,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.widget.TextView;
+
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import app.fedilab.android.databinding.DrawerCacheBinding;
@@ -66,11 +69,23 @@ public class CacheAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (cacheAccount.account.mastodon_account != null) {
             MastodonHelper.loadPPMastodon(holder.binding.pp, cacheAccount.account.mastodon_account);
             holder.binding.acct.setText(String.format("@%s@%s", cacheAccount.account.mastodon_account.username, cacheAccount.account.instance));
-            holder.binding.displayName.setText(cacheAccount.account.mastodon_account.display_name);
+            if (cacheAccount.account.mastodon_account.display_name != null && !cacheAccount.account.mastodon_account.display_name.trim().isEmpty()) {
+                holder.binding.displayName.setText(
+                        cacheAccount.account.mastodon_account.getSpanDisplayName(context,
+                                new WeakReference<>(holder.binding.displayName)),
+                        TextView.BufferType.SPANNABLE);
+            } else {
+                holder.binding.displayName.setText(cacheAccount.account.mastodon_account.username);
+            }
         } else if (cacheAccount.account.peertube_account != null) {
             Helper.loadAvatar(context, cacheAccount.account.peertube_account, holder.binding.pp);
             holder.binding.acct.setText(String.format("@%s@%s", cacheAccount.account.peertube_account.getUsername(), cacheAccount.account.instance));
-            holder.binding.displayName.setText(cacheAccount.account.peertube_account.getDisplayName());
+            String ptDisplayName = cacheAccount.account.peertube_account.getDisplayName();
+            if (ptDisplayName != null && !ptDisplayName.trim().isEmpty()) {
+                holder.binding.displayName.setText(ptDisplayName);
+            } else {
+                holder.binding.displayName.setText(cacheAccount.account.peertube_account.getUsername());
+            }
         }
 
         CacheHelper.getTimelineValues(context, cacheAccount.account, countStatuses -> {
