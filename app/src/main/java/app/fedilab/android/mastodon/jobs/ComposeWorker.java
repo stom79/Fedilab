@@ -413,9 +413,11 @@ public class ComposeWorker extends Worker {
                         for (StatusParams.MediaParams mediaParam : media_attributes) {
                             if (mediaParam.id != null && mediaParam.description != null) {
                                 try {
+                                    RequestBody descBody = RequestBody.create(MediaType.parse("text/plain"), mediaParam.description);
+                                    RequestBody focBody = mediaParam.focus != null ? RequestBody.create(MediaType.parse("text/plain"), mediaParam.focus) : null;
                                     Call<Attachment> updateMediaCall = mastodonStatusesService.updateMedia(
                                             dataPost.token, mediaParam.id, null, null,
-                                            mediaParam.description, mediaParam.focus);
+                                            descBody, focBody);
                                     updateMediaCall.execute();
                                 } catch (Exception e) {
                                     e.printStackTrace();

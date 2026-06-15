@@ -299,8 +299,8 @@ public interface MastodonStatusesService {
             @Path("id") String id,
             @Part MultipartBody.Part file,
             @Part MultipartBody.Part thumbnail,
-            @Part("description") String description,
-            @Part("focus") String focus
+            @Part("description") RequestBody description,
+            @Part("focus") RequestBody focus
     );
 
     //Get a Poll
