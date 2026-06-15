@@ -153,7 +153,14 @@ public class SearchResultTabActivity extends BaseBarActivity {
                 searchView.setIconified(true);
                 searchView.setQuery(search, false);
                 searchView.clearFocus();
-                binding.searchTabLayout.selectTab(initial);
+                if (search.matches(".*\\b(from|in|has|before|after|during|language):.*")) {
+                    TabLayout.Tab messagesTab = binding.searchTabLayout.getTabAt(2);
+                    if (messagesTab != null) {
+                        binding.searchTabLayout.selectTab(messagesTab);
+                    }
+                } else {
+                    binding.searchTabLayout.selectTab(initial);
+                }
                 return false;
             }
 
@@ -243,6 +250,13 @@ public class SearchResultTabActivity extends BaseBarActivity {
 
         PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         binding.searchViewpager.setAdapter(mPagerAdapter);
+        if (search != null && search.matches(".*\\b(from|in|has|before|after|during|language):.*")) {
+            binding.searchViewpager.setCurrentItem(2);
+            TabLayout.Tab messagesTab = binding.searchTabLayout.getTabAt(2);
+            if (messagesTab != null) {
+                messagesTab.select();
+            }
+        }
         binding.searchViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
