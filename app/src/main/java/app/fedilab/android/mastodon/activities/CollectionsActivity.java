@@ -404,8 +404,6 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
                                 }
                                 currentCollection = updatedCollection;
                                 setTitle(updatedCollection.name);
-                            } else {
-                                Toasty.error(CollectionsActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
                             }
                         });
             } else {
@@ -426,8 +424,6 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
                                 collectionAdapter.notifyItemInserted(0);
                                 binding.noContent.setVisibility(View.GONE);
                                 binding.recyclerView.setVisibility(View.VISIBLE);
-                            } else {
-                                Toasty.error(CollectionsActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
                             }
                         });
             }
@@ -586,8 +582,6 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
                                         holder.binding.followAction.setIconResource(R.drawable.ic_baseline_check_24);
                                         holder.binding.followAction.setEnabled(false);
                                         Toasty.success(CollectionsActivity.this, getString(R.string.account_added_to_collection), Toasty.LENGTH_LONG).show();
-                                    } else {
-                                        Toasty.error(CollectionsActivity.this, getString(R.string.toast_error), Toasty.LENGTH_LONG).show();
                                     }
                                 });
                     }

@@ -38,6 +38,7 @@ import app.fedilab.android.mastodon.client.entities.api.Accounts;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Card;
 import app.fedilab.android.mastodon.client.entities.api.Context;
+import app.fedilab.android.mastodon.client.entities.api.Error;
 import app.fedilab.android.mastodon.client.entities.api.Pagination;
 import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
@@ -623,9 +624,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     } else {
-                        if (statusResponse.errorBody() != null) {
-                            errorMessage = statusResponse.errorBody().string();
-                        }
+                        errorMessage = Error.getErrorMessage(getApplication(), statusResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -667,9 +666,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     } else {
-                        if (statusResponse.errorBody() != null) {
-                            errorMessage = statusResponse.errorBody().string();
-                        }
+                        errorMessage = Error.getErrorMessage(getApplication(), statusResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -713,9 +710,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     } else {
-                        if (statusResponse.errorBody() != null) {
-                            errorMessage = statusResponse.errorBody().string();
-                        }
+                        errorMessage = Error.getErrorMessage(getApplication(), statusResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -757,9 +752,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     } else {
-                        if (statusResponse.errorBody() != null) {
-                            errorMessage = statusResponse.errorBody().string();
-                        }
+                        errorMessage = Error.getErrorMessage(getApplication(), statusResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -801,9 +794,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     } else {
-                        if (statusResponse.errorBody() != null) {
-                            errorMessage = statusResponse.errorBody().string();
-                        }
+                        errorMessage = Error.getErrorMessage(getApplication(), statusResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -845,9 +836,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     } else {
-                        if (statusResponse.errorBody() != null) {
-                            errorMessage = statusResponse.errorBody().string();
-                        }
+                        errorMessage = Error.getErrorMessage(getApplication(), statusResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -889,9 +878,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     } else {
-                        if (statusResponse.errorBody() != null) {
-                            errorMessage = statusResponse.errorBody().string();
-                        }
+                        errorMessage = Error.getErrorMessage(getApplication(), statusResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -933,9 +920,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     } else {
-                        if (statusResponse.errorBody() != null) {
-                            errorMessage = statusResponse.errorBody().string();
-                        }
+                        errorMessage = Error.getErrorMessage(getApplication(), statusResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -977,9 +962,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     } else {
-                        if (statusResponse.errorBody() != null) {
-                            errorMessage = statusResponse.errorBody().string();
-                        }
+                        errorMessage = Error.getErrorMessage(getApplication(), statusResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1021,9 +1004,7 @@ public class StatusesVM extends AndroidViewModel {
                     if (statusResponse.isSuccessful()) {
                         status = statusResponse.body();
                     } else {
-                        if (statusResponse.errorBody() != null) {
-                            errorMessage = statusResponse.errorBody().string();
-                        }
+                        errorMessage = Error.getErrorMessage(getApplication(), statusResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -37,6 +37,7 @@ import app.fedilab.android.mastodon.client.endpoints.MastodonAccountsService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Accounts;
 import app.fedilab.android.mastodon.client.entities.api.Domains;
+import app.fedilab.android.mastodon.client.entities.api.Error;
 import app.fedilab.android.mastodon.client.entities.api.FamiliarFollowers;
 import app.fedilab.android.mastodon.client.entities.api.FeaturedTag;
 import app.fedilab.android.mastodon.client.entities.api.Field;
@@ -179,9 +180,7 @@ public class AccountsVM extends AndroidViewModel {
                     if (stringResponse.isSuccessful()) {
                         returnedToken = stringResponse.body();
                     } else {
-                        if (stringResponse.errorBody() != null) {
-                            errorMessage = stringResponse.errorBody().string();
-                        }
+                        errorMessage = Error.getErrorMessage(getApplication(), stringResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

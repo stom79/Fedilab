@@ -292,6 +292,13 @@ public class CachedBundle {
     /**
      * Remove a bundle from db
      */
+    public void deleteIntent(long id) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        db.delete(Sqlite.TABLE_INTENT, Sqlite.COL_ID + " = ?", new String[]{String.valueOf(id)});
+    }
+
     public void deleteOldIntent() throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");

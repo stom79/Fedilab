@@ -1554,6 +1554,12 @@
     <string name="toast_token">The app failed to get a token</string>
     <string name="toast_fail_authenticate">The app failed to authenticate the account!</string>
     <string name="media_cannot_be_uploaded">Media cannot be uploaded!</string>
+    <string name="error_feature_not_supported">This feature is not yet supported by your instance</string>
+    <string name="error_file_too_large">The file is too large for your instance</string>
+    <string name="error_file_rejected">The file was rejected by your instance</string>
+    <string name="error_too_many_requests">Too many requests, please try again later</string>
+    <string name="error_instance_unavailable">Your instance is temporarily unavailable</string>
+    <string name="error_generic">An error occurred (%1$d), please try again later</string>
     <string name="open_draft">Open draft</string>
     <string name="set_push_notifications_delay">Set the delay between each new fetch</string>
     <string name="refresh_every">Fetch notifications every:</string>

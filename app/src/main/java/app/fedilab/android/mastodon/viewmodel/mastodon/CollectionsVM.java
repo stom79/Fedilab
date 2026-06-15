@@ -30,6 +30,7 @@ import java.util.List;
 import app.fedilab.android.mastodon.client.endpoints.MastodonCollectionsService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Collection;
+import app.fedilab.android.mastodon.client.entities.api.Error;
 import app.fedilab.android.mastodon.helper.Helper;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -59,17 +60,27 @@ public class CollectionsVM extends AndroidViewModel {
         return retrofit.create(MastodonCollectionsService.class);
     }
 
+    private void sendErrorOnMainThread(String errorMessage) {
+        if (errorMessage != null) {
+            new Handler(Looper.getMainLooper()).post(() ->
+                    Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, errorMessage));
+        }
+    }
+
     public LiveData<List<Collection>> getAccountCollections(@NonNull String instance, String token, @NonNull String accountId) {
         collectionListMutableLiveData = new MutableLiveData<>();
         MastodonCollectionsService service = init(instance);
         new Thread(() -> {
             List<Collection> collections = null;
+            String errorMessage = null;
             Call<Collection.CollectionList> call = service.getAccountCollections(token, accountId, null, null);
             if (call != null) {
                 try {
                     Response<Collection.CollectionList> response = call.execute();
                     if (response.isSuccessful() && response.body() != null) {
                         collections = response.body().collections;
+                    } else {
+                        errorMessage = Error.getErrorMessage(getApplication(), response);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -97,8 +108,14 @@ public class CollectionsVM extends AndroidViewModel {
                 }
             }
             List<Collection> finalCollections = collections;
+            String finalErrorMessage = errorMessage;
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(() -> collectionListMutableLiveData.setValue(finalCollections));
+            mainHandler.post(() -> {
+                collectionListMutableLiveData.setValue(finalCollections);
+                if (finalErrorMessage != null) {
+                    Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, finalErrorMessage);
+                }
+            });
         }).start();
         return collectionListMutableLiveData;
     }
@@ -108,20 +125,29 @@ public class CollectionsVM extends AndroidViewModel {
         MastodonCollectionsService service = init(instance);
         new Thread(() -> {
             Collection.CollectionWithAccounts result = null;
+            String errorMessage = null;
             Call<Collection.CollectionWithAccounts> call = service.getCollection(token, collectionId);
             if (call != null) {
                 try {
                     Response<Collection.CollectionWithAccounts> response = call.execute();
                     if (response.isSuccessful()) {
                         result = response.body();
+                    } else {
+                        errorMessage = Error.getErrorMessage(getApplication(), response);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             Collection.CollectionWithAccounts finalResult = result;
+            String finalErrorMessage = errorMessage;
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(() -> collectionWithAccountsMutableLiveData.setValue(finalResult));
+            mainHandler.post(() -> {
+                collectionWithAccountsMutableLiveData.setValue(finalResult);
+                if (finalErrorMessage != null) {
+                    Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, finalErrorMessage);
+                }
+            });
         }).start();
         return collectionWithAccountsMutableLiveData;
     }
@@ -134,20 +160,29 @@ public class CollectionsVM extends AndroidViewModel {
         MastodonCollectionsService service = init(instance);
         new Thread(() -> {
             Collection collection = null;
+            String errorMessage = null;
             Call<Collection.WrappedCollection> call = service.createCollection(token, name, description, language, tagName, sensitive, discoverable);
             if (call != null) {
                 try {
                     Response<Collection.WrappedCollection> response = call.execute();
                     if (response.isSuccessful() && response.body() != null) {
                         collection = response.body().collection;
+                    } else {
+                        errorMessage = Error.getErrorMessage(getApplication(), response);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             Collection finalCollection = collection;
+            String finalErrorMessage = errorMessage;
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(() -> collectionMutableLiveData.setValue(finalCollection));
+            mainHandler.post(() -> {
+                collectionMutableLiveData.setValue(finalCollection);
+                if (finalErrorMessage != null) {
+                    Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, finalErrorMessage);
+                }
+            });
         }).start();
         return collectionMutableLiveData;
     }
@@ -161,20 +196,29 @@ public class CollectionsVM extends AndroidViewModel {
         MastodonCollectionsService service = init(instance);
         new Thread(() -> {
             Collection collection = null;
+            String errorMessage = null;
             Call<Collection.WrappedCollection> call = service.updateCollection(token, collectionId, name, description, language, tagName, sensitive, discoverable);
             if (call != null) {
                 try {
                     Response<Collection.WrappedCollection> response = call.execute();
                     if (response.isSuccessful() && response.body() != null) {
                         collection = response.body().collection;
+                    } else {
+                        errorMessage = Error.getErrorMessage(getApplication(), response);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             Collection finalCollection = collection;
+            String finalErrorMessage = errorMessage;
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(() -> collectionMutableLiveData.setValue(finalCollection));
+            mainHandler.post(() -> {
+                collectionMutableLiveData.setValue(finalCollection);
+                if (finalErrorMessage != null) {
+                    Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, finalErrorMessage);
+                }
+            });
         }).start();
         return collectionMutableLiveData;
     }
@@ -182,14 +226,19 @@ public class CollectionsVM extends AndroidViewModel {
     public void deleteCollection(@NonNull String instance, String token, @NonNull String collectionId) {
         MastodonCollectionsService service = init(instance);
         new Thread(() -> {
+            String errorMessage = null;
             Call<Void> call = service.deleteCollection(token, collectionId);
             if (call != null) {
                 try {
-                    call.execute();
+                    Response<Void> response = call.execute();
+                    if (!response.isSuccessful()) {
+                        errorMessage = Error.getErrorMessage(getApplication(), response);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+            sendErrorOnMainThread(errorMessage);
         }).start();
     }
 
@@ -199,20 +248,29 @@ public class CollectionsVM extends AndroidViewModel {
         MastodonCollectionsService service = init(instance);
         new Thread(() -> {
             Collection.CollectionItem item = null;
+            String errorMessage = null;
             Call<Collection.WrappedCollectionItem> call = service.addAccountToCollection(token, collectionId, accountId);
             if (call != null) {
                 try {
                     Response<Collection.WrappedCollectionItem> response = call.execute();
                     if (response.isSuccessful() && response.body() != null) {
                         item = response.body().collection_item;
+                    } else {
+                        errorMessage = Error.getErrorMessage(getApplication(), response);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             Collection.CollectionItem finalItem = item;
+            String finalErrorMessage = errorMessage;
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(() -> collectionItemMutableLiveData.setValue(finalItem));
+            mainHandler.post(() -> {
+                collectionItemMutableLiveData.setValue(finalItem);
+                if (finalErrorMessage != null) {
+                    Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, finalErrorMessage);
+                }
+            });
         }).start();
         return collectionItemMutableLiveData;
     }
@@ -221,14 +279,19 @@ public class CollectionsVM extends AndroidViewModel {
                                              @NonNull String collectionId, @NonNull String itemId) {
         MastodonCollectionsService service = init(instance);
         new Thread(() -> {
+            String errorMessage = null;
             Call<Void> call = service.removeAccountFromCollection(token, collectionId, itemId);
             if (call != null) {
                 try {
-                    call.execute();
+                    Response<Void> response = call.execute();
+                    if (!response.isSuccessful()) {
+                        errorMessage = Error.getErrorMessage(getApplication(), response);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+            sendErrorOnMainThread(errorMessage);
         }).start();
     }
 
@@ -236,14 +299,19 @@ public class CollectionsVM extends AndroidViewModel {
                                       @NonNull String collectionId, @NonNull String itemId) {
         MastodonCollectionsService service = init(instance);
         new Thread(() -> {
+            String errorMessage = null;
             Call<Void> call = service.revokeCollectionItem(token, collectionId, itemId);
             if (call != null) {
                 try {
-                    call.execute();
+                    Response<Void> response = call.execute();
+                    if (!response.isSuccessful()) {
+                        errorMessage = Error.getErrorMessage(getApplication(), response);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+            sendErrorOnMainThread(errorMessage);
         }).start();
     }
 
@@ -254,6 +322,7 @@ public class CollectionsVM extends AndroidViewModel {
         MastodonCollectionsService service = init(instance);
         new Thread(() -> {
             boolean success = false;
+            String errorMessage = null;
             try {
                 Call<Collection.CollectionWithAccounts> call = service.getCollection(token, collectionId);
                 if (call != null) {
@@ -266,18 +335,29 @@ public class CollectionsVM extends AndroidViewModel {
                                 if (revokeCall != null) {
                                     Response<Void> revokeResponse = revokeCall.execute();
                                     success = revokeResponse.isSuccessful();
+                                    if (!success) {
+                                        errorMessage = Error.getErrorMessage(getApplication(), revokeResponse);
+                                    }
                                 }
                                 break;
                             }
                         }
+                    } else {
+                        errorMessage = Error.getErrorMessage(getApplication(), response);
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
             boolean finalSuccess = success;
+            String finalErrorMessage = errorMessage;
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(() -> resultLiveData.setValue(finalSuccess));
+            mainHandler.post(() -> {
+                resultLiveData.setValue(finalSuccess);
+                if (finalErrorMessage != null) {
+                    Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, finalErrorMessage);
+                }
+            });
         }).start();
         return resultLiveData;
     }
@@ -287,12 +367,15 @@ public class CollectionsVM extends AndroidViewModel {
         MastodonCollectionsService service = init(instance);
         new Thread(() -> {
             List<Collection> collections = null;
+            String errorMessage = null;
             Call<Collection.CollectionList> call = service.getAccountInCollections(token, accountId, null, null);
             if (call != null) {
                 try {
                     Response<Collection.CollectionList> response = call.execute();
                     if (response.isSuccessful() && response.body() != null) {
                         collections = response.body().collections;
+                    } else {
+                        errorMessage = Error.getErrorMessage(getApplication(), response);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -322,8 +405,14 @@ public class CollectionsVM extends AndroidViewModel {
                 }
             }
             List<Collection> finalCollections = collections;
+            String finalErrorMessage = errorMessage;
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(() -> collectionListMutableLiveData.setValue(finalCollections));
+            mainHandler.post(() -> {
+                collectionListMutableLiveData.setValue(finalCollections);
+                if (finalErrorMessage != null) {
+                    Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, finalErrorMessage);
+                }
+            });
         }).start();
         return collectionListMutableLiveData;
     }

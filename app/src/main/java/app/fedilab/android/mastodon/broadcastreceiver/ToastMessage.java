@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.helper.Helper;
 import es.dmoral.toasty.Toasty;
 
@@ -27,19 +28,38 @@ public class ToastMessage extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle b = intent.getExtras();
         if (b != null) {
-            String type = b.getString(Helper.RECEIVE_TOAST_TYPE, null);
-            String content = b.getString(Helper.RECEIVE_TOAST_CONTENT, null);
-            if (type != null && content != null) {
-                switch (type) {
-                    case Helper.RECEIVE_TOAST_TYPE_ERROR ->
-                            Toasty.error(context, content, Toasty.LENGTH_SHORT).show();
-                    case Helper.RECEIVE_TOAST_TYPE_WARNING ->
-                            Toasty.warning(context, content, Toasty.LENGTH_SHORT).show();
-                    case Helper.RECEIVE_TOAST_TYPE_INFO ->
-                            Toasty.info(context, content, Toasty.LENGTH_SHORT).show();
-                    case Helper.RECEIVE_TOAST_TYPE_SUCCESS ->
-                            Toasty.success(context, content, Toasty.LENGTH_SHORT).show();
-                }
+            long bundleId = b.getLong(Helper.ARG_INTENT_ID, -1);
+            if (bundleId != -1) {
+                new CachedBundle(context).getBundle(bundleId, Helper.getCurrentAccount(context), cachedBundle -> {
+                    if (cachedBundle != null) {
+                        showToast(context, cachedBundle);
+                    }
+                    new Thread(() -> {
+                        try {
+                            new CachedBundle(context).deleteIntent(bundleId);
+                        } catch (Exception ignored) {
+                        }
+                    }).start();
+                });
+            } else {
+                showToast(context, b);
+            }
+        }
+    }
+
+    private void showToast(Context context, Bundle b) {
+        String type = b.getString(Helper.RECEIVE_TOAST_TYPE, null);
+        String content = b.getString(Helper.RECEIVE_TOAST_CONTENT, null);
+        if (type != null && content != null) {
+            switch (type) {
+                case Helper.RECEIVE_TOAST_TYPE_ERROR ->
+                        Toasty.error(context, content, Toasty.LENGTH_SHORT).show();
+                case Helper.RECEIVE_TOAST_TYPE_WARNING ->
+                        Toasty.warning(context, content, Toasty.LENGTH_SHORT).show();
+                case Helper.RECEIVE_TOAST_TYPE_INFO ->
+                        Toasty.info(context, content, Toasty.LENGTH_SHORT).show();
+                case Helper.RECEIVE_TOAST_TYPE_SUCCESS ->
+                        Toasty.success(context, content, Toasty.LENGTH_SHORT).show();
             }
         }
     }

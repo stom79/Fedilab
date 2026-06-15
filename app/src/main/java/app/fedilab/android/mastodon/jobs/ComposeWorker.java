@@ -55,6 +55,7 @@ import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.endpoints.MastodonStatusesService;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
+import app.fedilab.android.mastodon.client.entities.api.Error;
 import app.fedilab.android.mastodon.client.entities.api.Poll;
 import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
 import app.fedilab.android.mastodon.client.entities.api.Status;
@@ -130,6 +131,7 @@ public class ComposeWorker extends Worker {
         long totalBitRead;
         MastodonStatusesService mastodonStatusesService = init(context, dataPost.instance);
         boolean error = false;
+        String errorMessage = null;
         Status firstSendMessage = null;
         if (dataPost.statusDraft != null && dataPost.statusDraft.statusDraftList != null && !dataPost.statusDraft.statusDraftList.isEmpty()) {
             //If state is null, it is created (typically when submitting the status the first time)
@@ -217,13 +219,17 @@ public class ComposeWorker extends Worker {
                                 fileMultipartBody = Helper.getMultipartBody("file", attachment);
                             }
                             String replyId = null;
+                            String attachmentError = null;
                             int retry = 0;
                             while (replyId == null && retry < 3) {
-                                replyId = postAttachment(mastodonStatusesService, dataPost, fileMultipartBody, attachment);
+                                String[] result = postAttachment(context, mastodonStatusesService, dataPost, fileMultipartBody, attachment);
+                                replyId = result[0];
+                                attachmentError = result[1];
                                 retry++;
                             }
                             if (replyId == null) {
                                 error = true;
+                                errorMessage = attachmentError;
                             } else {
                                 attachmentIds.add(replyId);
                             }
@@ -248,7 +254,7 @@ public class ComposeWorker extends Worker {
                     Bundle args = new Bundle();
                     args.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
                     Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
-                    args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, context.getString(R.string.media_cannot_be_uploaded));
+                    args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, errorMessage != null ? errorMessage : context.getString(R.string.media_cannot_be_uploaded));
                     args.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
                     new CachedBundle(context).insertBundle(args, account, bundleId -> {
                         Bundle bundle = new Bundle();
@@ -362,16 +368,12 @@ public class ComposeWorker extends Worker {
                                     }
                                 }
                             }
-                        } else if (statusResponse.errorBody() != null) {
+                        } else {
                             Bundle args = new Bundle();
                             args.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
                             Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
                             args.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
-                            String err = statusResponse.errorBody().string();
-                            if (err.contains("{\"error\":\"")) {
-                                err = err.replaceAll("\\{\"error\":\"(.*)\"\\}", "$1");
-                            }
-                            args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, err);
+                            args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, Error.getErrorMessage(context, statusResponse));
                             new CachedBundle(context).insertBundle(args, account, bundleId -> {
                                 Bundle bundle = new Bundle();
                                 bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
@@ -483,7 +485,7 @@ public class ComposeWorker extends Worker {
         }
     }
 
-    private static String postAttachment(MastodonStatusesService mastodonStatusesService, DataPost dataPost, MultipartBody.Part fileMultipartBody, Attachment attachment) {
+    private static String[] postAttachment(Context context, MastodonStatusesService mastodonStatusesService, DataPost dataPost, MultipartBody.Part fileMultipartBody, Attachment attachment) {
 
         RequestBody descriptionBody = null;
         RequestBody focusBody = null;
@@ -501,14 +503,16 @@ public class ComposeWorker extends Worker {
                 if (attachmentResponse.isSuccessful()) {
                     Attachment attachmentReply = attachmentResponse.body();
                     if (attachmentReply != null) {
-                        return attachmentReply.id;
+                        return new String[]{attachmentReply.id, null};
                     }
+                } else {
+                    return new String[]{null, Error.getErrorMessage(context, attachmentResponse)};
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return null;
+        return new String[]{null, null};
     }
 
     public static String serialize(StatusDraft statusDraft) {
@@ -694,8 +698,7 @@ public class ComposeWorker extends Worker {
                     args.putBoolean(Helper.RECEIVE_COMPOSE_ERROR_MESSAGE, true);
                     Intent intentBD = new Intent(Helper.INTENT_COMPOSE_ERROR_MESSAGE);
                     args.putSerializable(Helper.ARG_STATUS_DRAFT, dataPost.statusDraft);
-                    String err = response.errorBody() != null ? response.errorBody().string() : context.getString(R.string.toast_error);
-                    args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, err);
+                    args.putSerializable(Helper.RECEIVE_ERROR_MESSAGE, Error.getErrorMessage(context, response));
                     new CachedBundle(context).insertBundle(args, account, bundleId -> {
                         Bundle bundle = new Bundle();
                         bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
