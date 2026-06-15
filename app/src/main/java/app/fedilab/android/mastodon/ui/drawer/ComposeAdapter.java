@@ -2021,7 +2021,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 statusDraft.language = currentCode;
             }
-            holder.binding.buttonLanguage.setText(statusDraft.language);
+            holder.binding.buttonLanguage.setText(Languages.getLanguageName(context, statusDraft.language));
 
 
             holder.binding.buttonLanguage.setOnClickListener(v -> {
@@ -2035,10 +2035,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     int i = 0;
                     codesArr = new String[storedLanguages.size()];
                     languagesArr = new String[storedLanguages.size()];
-                    for (String language : storedLanguages) {
-                        codesArr[i] = language;
-                        languagesArr[i] = language;
-                        if (statusDraft.language.equalsIgnoreCase(language)) {
+                    for (String code : storedLanguages) {
+                        codesArr[i] = code;
+                        languagesArr[i] = Languages.getLanguageName(context, code);
+                        if (statusDraft.language.equalsIgnoreCase(code)) {
                             selection = i;
                         }
                         i++;

@@ -53,6 +53,21 @@ public class Languages implements Serializable {
         }
     }
 
+    public static String getLanguageName(Context context, String code) {
+        if (code == null) {
+            return null;
+        }
+        List<Language> languages = get(context);
+        if (languages != null) {
+            for (Language language : languages) {
+                if (language.code.equalsIgnoreCase(code)) {
+                    return language.language;
+                }
+            }
+        }
+        return code;
+    }
+
     public static class Language implements Serializable {
         @SerializedName("code")
         public String code;
