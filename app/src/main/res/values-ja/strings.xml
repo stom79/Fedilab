@@ -1239,4 +1239,9 @@
     <string name="kw_pronouns">代名詞、性別、自己認識、プロフィール</string>
     <string name="kw_hide_media_card">非表示、メディア、カード、リンクのプレビュー</string>
     <string name="kw_live_translate">翻訳、ライブ、自動処理、言語</string>
+    <string name="kw_confirm_boost">確認、いいね、リブログ、承認</string>
+    <string name="kw_warn_boost_alt">警告、強調表示、代替テキスト、メディアの説明、アクセシビリティ</string>
+    <string name="kw_bookmark">ブックマーク、保存</string>
+    <string name="kw_pixelfed_presentation">pixelfed、プレゼン、ギャラリー</string>
+    <string name="kw_translate_button">翻訳、ボタン</string>
 </resources>
