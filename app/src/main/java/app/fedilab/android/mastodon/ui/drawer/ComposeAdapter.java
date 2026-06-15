@@ -1993,18 +1993,19 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (promptDraftListener != null) {
                         promptDraftListener.promptDraft();
                     }
+                    statusList.get(holder.getBindingAdapterPosition()).spoiler_text = s.toString();
+                    if (s.toString().trim().length() < 2) {
+                        buttonVisibility(holder);
+                    }
                     int currentLength = MastodonHelper.countLength(holder);
+                    holder.binding.characterCount.setText(String.valueOf(currentLength));
+                    holder.binding.characterProgress.setProgress(currentLength);
                     int max_car = MastodonHelper.getInstanceMaxChars(context, account.instance);
                     if (currentLength > max_car) {
                         holder.binding.characterCount.setTextColor(Color.RED);
                     } else {
                         holder.binding.characterCount.setTextColor(holder.binding.content.getTextColors());
                     }
-                    statusList.get(holder.getBindingAdapterPosition()).spoiler_text = s.toString();
-                    if (s.toString().trim().length() < 2) {
-                        buttonVisibility(holder);
-                    }
-                    updateCharacterCount(holder);
                 }
             });
 
