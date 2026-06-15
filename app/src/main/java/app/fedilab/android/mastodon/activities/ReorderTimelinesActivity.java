@@ -213,13 +213,9 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.gnu_instance) {
                     url = "https://" + instanceName + "/api/statuses/public_timeline.json";
                 } else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.twitter_accounts) {
-                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ReorderTimelinesActivity.this);
-                    String nitterHost = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
-                    url = "https://" + nitterHost + "/" + instanceName.replaceAll("[ ]+", ",").replaceAll("\\s", "") + "/with_replies/rss";
+                    url = "https://nitter.fedilab.app/" + instanceName.replaceAll("[ ]+", ",").replaceAll("\\s", "") + "/with_replies/rss";
                 }else if (popupSearchInstanceBinding.setAttachmentGroup.getCheckedRadioButtonId() == R.id.twitter_tags) {
-                    SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ReorderTimelinesActivity.this);
-                    String nitterHost = sharedpreferences.getString(getString(R.string.SET_NITTER_HOST), getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
-                    url = "https://" + nitterHost + "/search?f=tweets&q=" + instanceName.replaceAll("[ ]+", "+or+").replaceAll("\\s", "") + "&e-nativeretweets=on";
+                    url = "https://nitter.fedilab.app/search?f=tweets&q=" + instanceName.replaceAll("[ ]+", "+or+").replaceAll("\\s", "") + "&e-nativeretweets=on";
                 }
                 OkHttpClient client = new OkHttpClient.Builder()
                         .connectTimeout(10, TimeUnit.SECONDS)
@@ -230,10 +226,12 @@ public class ReorderTimelinesActivity extends BaseBarActivity implements OnStart
                 if (url != null) {
                     if (getCall) {
                         request = new Request.Builder()
+                                .header("User-Agent", getString(R.string.app_name) + "/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE)
                                 .url(url)
                                 .build();
                     } else {
                         request = new Request.Builder()
+                                .header("User-Agent", getString(R.string.app_name) + "/" + BuildConfig.VERSION_NAME + "/" + BuildConfig.VERSION_CODE)
                                 .url(url)
                                 .post(formBody)
                                 .build();
