@@ -565,38 +565,55 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             if (statusToDeal.reblogged) {
                 alt_bld.setMessage(context.getString(R.string.reblog_remove));
-            } else {
-                if (!needToWarnForMissingDescription) {
-                    alt_bld.setMessage(context.getString(R.string.reblog_add));
-                } else {
-                    alt_bld.setMessage(context.getString(R.string.reblog_missing_description));
-                }
-            }
-            alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
-                if (remote) {
-                    Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
-                    searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
-                            .observe((LifecycleOwner) context, results -> {
-                                if (results != null && results.statuses != null && results.statuses.size() > 0) {
-                                    Status fetchedStatus = results.statuses.get(0);
-                                    statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id, null)
-                                            .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, true));
-                                } else {
-                                    Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
-                                }
-                            });
-                } else {
-                    if (statusToDeal.reblogged) {
+                alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
+                    if (remote) {
+                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                    } else {
                         statusesVM.unReblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
                                 .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.UNREBLOG_ACTION, statusToDeal, _status, false));
+                    }
+                    dialog.dismiss();
+                });
+            } else {
+                if (!needToWarnForMissingDescription) {
+                    alt_bld.setTitle(context.getString(R.string.reblog_add));
+                } else {
+                    alt_bld.setTitle(context.getString(R.string.reblog_missing_description));
+                }
+                String[] visibilityLabels = {
+                        context.getString(R.string.v_public),
+                        context.getString(R.string.v_unlisted),
+                        context.getString(R.string.v_private)
+                };
+                MastodonHelper.visibility[] visibilityValues = {
+                        MastodonHelper.visibility.PUBLIC,
+                        MastodonHelper.visibility.UNLISTED,
+                        MastodonHelper.visibility.PRIVATE
+                };
+                final int[] selectedIndex = {0};
+                alt_bld.setSingleChoiceItems(visibilityLabels, 0, (dialog, which) -> selectedIndex[0] = which);
+                alt_bld.setPositiveButton(R.string.yes, (dialog, id) -> {
+                    MastodonHelper.visibility selectedVisibility = visibilityValues[selectedIndex[0]];
+                    if (remote) {
+                        Toasty.info(context, context.getString(R.string.retrieve_remote_status), Toasty.LENGTH_SHORT).show();
+                        searchVM.search(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.uri, null, "statuses", false, true, false, 0, null, null, 1)
+                                .observe((LifecycleOwner) context, results -> {
+                                    if (results != null && results.statuses != null && results.statuses.size() > 0) {
+                                        Status fetchedStatus = results.statuses.get(0);
+                                        statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fetchedStatus.id, selectedVisibility)
+                                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, true));
+                                    } else {
+                                        Toasty.info(context, context.getString(R.string.toast_error_search), Toasty.LENGTH_SHORT).show();
+                                    }
+                                });
                     } else {
                         ((SparkButton) v).playAnimation();
-                        statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, null)
+                        statusesVM.reblog(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id, selectedVisibility)
                                 .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.REBLOG_ACTION, statusToDeal, _status, false));
                     }
-                }
-                dialog.dismiss();
-            });
+                    dialog.dismiss();
+                });
+            }
             alt_bld.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
             AlertDialog alert = alt_bld.create();
             alert.show();
