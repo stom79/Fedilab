@@ -2224,6 +2224,7 @@
     <string name="set_remote_conversation_title">Remote conversations</string>
     <string name="set_remote_profile">The app will display publicly profiles to get all messages. Interactions will need an extra step to federate messages.</string>
     <string name="set_remote_conversation">The app will display publicly conversations to get all messages. Interactions will need an extra step to federate messages.</string>
+    <string name="set_remote_conversation_warning">Remote conversations use unauthenticated API requests on remote servers. Due to Mastodon API limits, only the first 60 posts and a maximum reply depth of 20 can be retrieved. Long conversations may appear incomplete.</string>
     <string name="set_profile_image_shape">Profile image shape</string>
     <string name="local_only">Local only</string>
     <string name="set_display_local_only">Display \"Local only\" button</string>

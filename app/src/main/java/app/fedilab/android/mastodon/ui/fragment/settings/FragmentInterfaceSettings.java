@@ -29,6 +29,8 @@ import androidx.preference.PreferenceScreen;
 import androidx.preference.SeekBarPreference;
 import androidx.preference.SwitchPreferenceCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
@@ -89,6 +91,24 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
         if (SET_EXTAND_EXTRA_FEATURES != null) {
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
             SET_EXTAND_EXTRA_FEATURES.setChecked(checked);
+        }
+        SwitchPreferenceCompat SET_CONVERSATION_REMOTELY = findPreference(getString(R.string.SET_CONVERSATION_REMOTELY));
+        if (SET_CONVERSATION_REMOTELY != null) {
+            SET_CONVERSATION_REMOTELY.setOnPreferenceChangeListener((preference, newValue) -> {
+                if (Boolean.TRUE.equals(newValue)) {
+                    new MaterialAlertDialogBuilder(requireActivity())
+                            .setTitle(getString(R.string.set_remote_conversation_title))
+                            .setMessage(getString(R.string.set_remote_conversation_warning))
+                            .setPositiveButton(R.string.yes, (dialog, id) -> {
+                                SET_CONVERSATION_REMOTELY.setChecked(true);
+                                dialog.dismiss();
+                            })
+                            .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss())
+                            .show();
+                    return false;
+                }
+                return true;
+            });
         }
         recreate = false;
     }
