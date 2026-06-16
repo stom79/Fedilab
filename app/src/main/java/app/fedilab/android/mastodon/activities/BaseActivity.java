@@ -70,7 +70,7 @@ public class BaseActivity extends AppCompatActivity {
         if (patch_provider) {
             try {
                 Security.insertProviderAt(Conscrypt.newProvider(), 1);
-            } catch (Exception ignored) {
+            } catch (Throwable ignored) {
             }
         }
 

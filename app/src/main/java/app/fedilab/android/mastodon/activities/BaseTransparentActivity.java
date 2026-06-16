@@ -62,7 +62,7 @@ public class BaseTransparentActivity extends AppCompatActivity {
         if (patch_provider) {
             try {
                 Security.insertProviderAt(Conscrypt.newProvider(), 1);
-            } catch (Exception ignored) {
+            } catch (Throwable ignored) {
             }
         }
         String currentTheme = sharedpreferences.getString(getString(R.string.SET_THEME_BASE), getString(R.string.SET_DEFAULT_THEME));
