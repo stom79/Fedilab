@@ -1117,6 +1117,13 @@
     <string name="SET_NOTIF_SOUND" translatable="false">SET_NOTIF_SOUND</string>
     <string name="SET_ENABLE_TIME_SLOT" translatable="false">SET_ENABLE_TIME_SLOT</string>
     <string name="SET_CLEAR_CACHE_EXIT" translatable="false">SET_CLEAR_CACHE_EXIT</string>
+    <string name="SET_ANNOUNCEMENT_POPUP" translatable="false">SET_ANNOUNCEMENT_POPUP</string>
+    <string name="SET_LAST_ANNOUNCEMENT_ID" translatable="false">SET_LAST_ANNOUNCEMENT_ID</string>
+    <string name="set_announcement_popup_title">Announcement popup</string>
+    <string name="set_announcement_popup_summary">Show a popup when a new server announcement is detected</string>
+    <string name="new_announcement">New announcement</string>
+    <string name="open">Open</string>
+    <string name="kw_announcement_popup" translatable="false">announcement popup alert server instance news</string>
     <string name="SET_DISPLAY_EMOJI" translatable="false">SET_DISPLAY_EMOJI</string>
     <string name="SET_AGGREGATE_NOTIFICATION" translatable="false">SET_AGGREGATE_NOTIFICATION</string>
     <string name="SET_DISPLAY_MEDIA_NOTIFICATION" translatable="false">SET_DISPLAY_MEDIA_NOTIFICATION</string>

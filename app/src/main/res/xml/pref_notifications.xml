@@ -222,4 +222,15 @@
             app:title="@string/notifications_are"
             app:useSimpleSummaryProvider="true" />
     </app.fedilab.android.mastodon.helper.settings.LongSummaryPreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/action_announcements">
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_ANNOUNCEMENT_POPUP"
+            app:summary="@string/set_announcement_popup_summary"
+            app:title="@string/set_announcement_popup_title" />
+    </PreferenceCategory>
 </PreferenceScreen>

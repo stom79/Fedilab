@@ -196,6 +196,7 @@ public class SettingsSearchIndex {
         list.add(new SettingsSearchEntry(R.string.set_notif_silent, R.string.kw_silent_notif, catNotifications, navNotifications, "SET_NOTIF_SILENT"));
         list.add(new SettingsSearchEntry(R.string.set_led_colour, R.string.kw_led_colour, catNotifications, navNotifications, "SET_LED_COLOUR_VAL_N"));
         list.add(new SettingsSearchEntry(R.string.set_enable_time_slot, R.string.kw_time_slot, catNotifications, navNotifications, "SET_ENABLE_TIME_SLOT"));
+        list.add(new SettingsSearchEntry(R.string.set_announcement_popup_title, R.string.kw_announcement_popup, catNotifications, navNotifications, "SET_ANNOUNCEMENT_POPUP"));
 
         // Theming
         int catTheming = R.string.theming;

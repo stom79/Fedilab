@@ -50,6 +50,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.BaseColumns;
 import android.text.Editable;
+import android.graphics.Typeface;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -140,6 +141,8 @@ import app.fedilab.android.databinding.PopupFilterTimelineBinding;
 import app.fedilab.android.mastodon.activities.ActionActivity;
 import app.fedilab.android.mastodon.activities.AnnouncementActivity;
 import app.fedilab.android.mastodon.activities.BaseActivity;
+import app.fedilab.android.mastodon.client.entities.api.Announcement;
+import app.fedilab.android.mastodon.viewmodel.mastodon.AnnouncementsVM;
 import app.fedilab.android.mastodon.activities.CacheActivity;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
 import app.fedilab.android.mastodon.activities.ContextActivity;
@@ -1745,6 +1748,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         if (binding.bottomNavView.getSelectedItemId() != R.id.nav_privates) {
             fetchUnreadConversations();
         }
+        fetchAnnouncements();
         if (!expiredBoostChecked) {
             expiredBoostChecked = true;
             new Thread(() -> {
@@ -2105,6 +2109,69 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
         }
         setCounterToTab(slug, count);
+    }
+
+    private void fetchAnnouncements() {
+        if (api == Account.API.MISSKEY) {
+            return;
+        }
+        AnnouncementsVM announcementsVM = new ViewModelProvider(BaseMainActivity.this).get(AnnouncementsVM.class);
+        announcementsVM.getAnnouncements(currentInstance, currentToken, false)
+                .observe(BaseMainActivity.this, announcements -> {
+                    if (announcements == null) {
+                        return;
+                    }
+                    int unreadCount = 0;
+                    for (Announcement announcement : announcements) {
+                        if (!announcement.read) {
+                            unreadCount++;
+                        }
+                    }
+                    MenuItem announcementItem = binding.navView.getMenu().findItem(R.id.nav_announcements);
+                    if (announcementItem != null) {
+                        if (unreadCount > 0) {
+                            TextView badge = new TextView(BaseMainActivity.this);
+                            badge.setText(String.valueOf(unreadCount));
+                            badge.setTextSize(12);
+                            badge.setGravity(Gravity.CENTER);
+                            badge.setTypeface(null, Typeface.BOLD);
+                            badge.setTextColor(ThemeHelper.getAttColor(BaseMainActivity.this, com.google.android.material.R.attr.colorPrimary));
+                            announcementItem.setActionView(badge);
+                        } else {
+                            announcementItem.setActionView(null);
+                        }
+                    }
+                    boolean popupEnabled = sharedpreferences.getBoolean(getString(R.string.SET_ANNOUNCEMENT_POPUP), false);
+                    if (popupEnabled && !announcements.isEmpty()) {
+                        Announcement latest = announcements.get(0);
+                        String lastSeenId = sharedpreferences.getString(getString(R.string.SET_LAST_ANNOUNCEMENT_ID) + currentUserID + currentInstance, null);
+                        boolean isNew;
+                        if (lastSeenId == null) {
+                            long twoDays = 2 * 24 * 60 * 60 * 1000L;
+                            isNew = latest.published_at != null && (new Date().getTime() - latest.published_at.getTime()) < twoDays;
+                        } else {
+                            isNew = !latest.id.equals(lastSeenId);
+                        }
+                        if (isNew && !latest.read) {
+                            sharedpreferences.edit().putString(getString(R.string.SET_LAST_ANNOUNCEMENT_ID) + currentUserID + currentInstance, latest.id).apply();
+                            String content;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                content = Html.fromHtml(latest.content, Html.FROM_HTML_MODE_LEGACY).toString();
+                            } else {
+                                content = Html.fromHtml(latest.content).toString();
+                            }
+                            new MaterialAlertDialogBuilder(BaseMainActivity.this)
+                                    .setTitle(getString(R.string.new_announcement))
+                                    .setMessage(content)
+                                    .setPositiveButton(R.string.open, (dialog, which) -> {
+                                        Intent intent = new Intent(BaseMainActivity.this, AnnouncementActivity.class);
+                                        startActivity(intent);
+                                    })
+                                    .setNegativeButton(R.string.close, null)
+                                    .show();
+                        }
+                    }
+                });
     }
 
     private void fetchUnreadConversations() {
