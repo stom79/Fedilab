@@ -37,6 +37,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -304,8 +305,16 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             promptDraftListener.promptDraft();
         }
         int finalPosition = position;
+        int maxMediaCount = 4;
+        if (instanceInfo != null && instanceInfo.configuration != null && instanceInfo.configuration.statusesConf != null) {
+            maxMediaCount = instanceInfo.configuration.statusesConf.max_media_attachments;
+        }
+        int finalMaxMediaCount = maxMediaCount;
         Helper.createAttachmentFromUri(context, uris, attachments -> {
             for (Attachment attachment : attachments) {
+                if (statusList.get(finalPosition).media_attachments.size() >= finalMaxMediaCount) {
+                    break;
+                }
                 statusList.get(finalPosition).media_attachments.add(attachment);
             }
             notifyItemChanged(finalPosition);
@@ -464,11 +473,23 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return;
             }
         }
+        int maxMediaCount = 4;
+        if (instanceInfo != null && instanceInfo.configuration != null && instanceInfo.configuration.statusesConf != null) {
+            maxMediaCount = instanceInfo.configuration.statusesConf.max_media_attachments;
+        }
+        int currentCount = statusList.get(position).media_attachments != null ? statusList.get(position).media_attachments.size() : 0;
+        int remaining = maxMediaCount - currentCount;
         Intent intent;
-        intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        if (remaining > 1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+            intent.setType("*/*");
+            intent.putExtra(MediaStore.EXTRA_PICK_IMAGES_MAX, remaining);
+        } else {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, remaining > 1);
+        }
         String[] mimetypes = new String[0];
         if (type == ComposeActivity.mediaType.PHOTO) {
             if (instanceInfo != null && instanceInfo.getMimeTypeImage() != null && !instanceInfo.getMimeTypeImage().isEmpty()) {
@@ -1409,12 +1430,17 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (BaseMainActivity.software == null || BaseMainActivity.software.toUpperCase().compareTo("MASTODON") == 0) {
             if (holder.getBindingAdapterPosition() > 0) {
                 Status statusDraft = statusList.get(holder.getBindingAdapterPosition());
-                if (statusDraft.poll == null) {
+                int maxMediaCount = 4;
+                if (instanceInfo != null && instanceInfo.configuration != null && instanceInfo.configuration.statusesConf != null) {
+                    maxMediaCount = instanceInfo.configuration.statusesConf.max_media_attachments;
+                }
+                boolean maxReached = statusDraft.media_attachments != null && statusDraft.media_attachments.size() >= maxMediaCount;
+                if (statusDraft.poll == null && !maxReached) {
                     holder.binding.buttonAttachImage.setEnabled(true);
                     holder.binding.buttonAttachVideo.setEnabled(true);
                     holder.binding.buttonAttachAudio.setEnabled(true);
                     holder.binding.buttonAttachManual.setEnabled(true);
-                } else {
+                } else if (statusDraft.poll != null || maxReached) {
                     holder.binding.buttonAttachImage.setEnabled(false);
                     holder.binding.buttonAttachVideo.setEnabled(false);
                     holder.binding.buttonAttachAudio.setEnabled(false);
