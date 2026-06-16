@@ -1412,7 +1412,9 @@ public class Helper {
     public static MultipartBody.Part getMultipartBodyWithWM(Context context, String waterMark, @NonNull String paramName, @NonNull Attachment attachment) {
         File files = new File(attachment.local_path);
         float textSize = 15;
+        float textSizePx = Helper.convertDpToPixel(textSize, context);
         Paint paint = new Paint();
+        paint.setTextSize(textSizePx);
         float width = paint.measureText(waterMark, 0, waterMark.length());
         try {
 
@@ -1420,10 +1422,10 @@ public class Helper {
             Bitmap backgroundBitmap = BitmapFactory.decodeFile(files.getAbsolutePath(), options);
             int w = backgroundBitmap.getWidth();
             int h = backgroundBitmap.getHeight();
-            float valx = (float) 1.0 - ((Helper.convertDpToPixel(width, context) + 10)) / (float) w;
+            float valx = (float) 1.0 - ((width + 10)) / (float) w;
             if (valx < 0)
                 valx = 0;
-            float valy = (h - Helper.convertDpToPixel(textSize, context) - 0) / (float) h;
+            float valy = (h - textSizePx) / (float) h;
             WatermarkText watermarkText = new WatermarkText(waterMark)
                     .setPositionX(valx)
                     .setPositionY(valy)
