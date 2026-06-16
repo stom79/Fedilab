@@ -2040,7 +2040,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                     }
                     boolean currentFullAttachment = fullAttachement;
-                    if(ratio >= 5) {
+                    if(mediaW > 0 && mediaH / mediaW >= 5) {
                         currentFullAttachment = false;
                         forceGridView = true;
                     }
@@ -3342,7 +3342,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .observe((LifecycleOwner) context, success -> {
                                     if (success) {
                                         statusToDeal.bookmarked = false;
-                                        Toasty.info(context, context.getString(R.string.status_unbookmarked)).show();
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition(), PAYLOAD_UPDATE_INTERACTIONS);
                                     }
                                 });
                     } else {
@@ -3350,15 +3350,17 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 .observe((LifecycleOwner) context, success -> {
                                     if (success) {
                                         statusToDeal.bookmarked = true;
-                                        Toasty.info(context, context.getString(R.string.status_bookmarked)).show();
+                                        adapter.notifyItemChanged(holder.getBindingAdapterPosition(), PAYLOAD_UPDATE_INTERACTIONS);
                                     }
                                 });
                     }
                 } else {
                     if (statusToDeal.bookmarked) {
-                        statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_unbookmarked)).show());
+                        statusesVM.unBookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.UNBOOKMARK_ACTION, statusToDeal, _status, false));
                     } else {
-                        statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.status_bookmarked)).show());
+                        statusesVM.bookmark(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
+                                .observe((LifecycleOwner) context, _status -> manageAction(context, adapter, holder, CrossActionHelper.TypeOfCrossAction.BOOKMARK_ACTION, statusToDeal, _status, false));
                     }
                 }
             } else if (itemId == R.id.action_timed_mute) {
