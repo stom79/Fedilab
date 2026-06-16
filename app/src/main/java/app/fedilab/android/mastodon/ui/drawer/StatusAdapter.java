@@ -927,9 +927,26 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     holder.binding.quotedMessage.quotedMediaHide.setVisibility(View.GONE);
                 }
-                //Alt-text indicator
                 if (mediaDescriptionIndicator && firstAttachment.description != null && !firstAttachment.description.isEmpty()) {
                     holder.binding.quotedMessage.quotedMediaAlt.setVisibility(View.VISIBLE);
+                    holder.binding.quotedMessage.quotedMediaAlt.setOnClickListener(v -> {
+                        AlertDialog dialog = new MaterialAlertDialogBuilder(context)
+                                .setTitle(context.getString(R.string.description))
+                                .setMessage(firstAttachment.description)
+                                .setPositiveButton(R.string.close, null)
+                                .setNeutralButton(R.string.translate, null)
+                                .show();
+                        dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(b ->
+                                TranslateHelper.translate(context, firstAttachment.description, quoteStatus.language, translated -> {
+                                    if (translated != null) {
+                                        dialog.setMessage(translated);
+                                        b.setEnabled(false);
+                                    } else {
+                                        Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                        );
+                    });
                 } else {
                     holder.binding.quotedMessage.quotedMediaAlt.setVisibility(View.GONE);
                 }
@@ -2131,6 +2148,24 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 ConstraintLayout.LayoutParams descParams = (ConstraintLayout.LayoutParams) layoutMediaBinding.viewDescription.getLayoutParams();
                                 descParams.bottomToBottom = layoutMediaBinding.mediaVideo.getId();
                                 layoutMediaBinding.viewDescription.setLayoutParams(descParams);
+                                layoutMediaBinding.viewDescription.setOnClickListener(v -> {
+                                    AlertDialog dialog = new MaterialAlertDialogBuilder(context)
+                                            .setTitle(context.getString(R.string.description))
+                                            .setMessage(attachment.description)
+                                            .setPositiveButton(R.string.close, null)
+                                            .setNeutralButton(R.string.translate, null)
+                                            .show();
+                                    dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(b ->
+                                            TranslateHelper.translate(context, attachment.description, statusToDeal.language, translated -> {
+                                                if (translated != null) {
+                                                    dialog.setMessage(translated);
+                                                    b.setEnabled(false);
+                                                } else {
+                                                    Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                                                }
+                                            })
+                                    );
+                                });
                             } else {
                                 layoutMediaBinding.viewDescription.setVisibility(View.GONE);
                             }
@@ -2244,6 +2279,24 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 ConstraintLayout.LayoutParams descParams = (ConstraintLayout.LayoutParams) layoutMediaBinding.viewDescription.getLayoutParams();
                                 descParams.bottomToBottom = layoutMediaBinding.mediaVideo.getId();
                                 layoutMediaBinding.viewDescription.setLayoutParams(descParams);
+                                layoutMediaBinding.viewDescription.setOnClickListener(v -> {
+                                    AlertDialog dialog = new MaterialAlertDialogBuilder(context)
+                                            .setTitle(context.getString(R.string.description))
+                                            .setMessage(attachment.description)
+                                            .setPositiveButton(R.string.close, null)
+                                            .setNeutralButton(R.string.translate, null)
+                                            .show();
+                                    dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(b ->
+                                            TranslateHelper.translate(context, attachment.description, statusToDeal.language, translated -> {
+                                                if (translated != null) {
+                                                    dialog.setMessage(translated);
+                                                    b.setEnabled(false);
+                                                } else {
+                                                    Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                                                }
+                                            })
+                                    );
+                                });
                             } else {
                                 layoutMediaBinding.viewDescription.setVisibility(View.GONE);
                             }
@@ -2356,30 +2409,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.displayMedia.setVisibility(View.GONE);
             holder.binding.mediaContainer.setVisibility(View.GONE);
             holder.binding.media.mediaContainer.setVisibility(View.GONE);
-        }
-        if (statusToDeal.media_attachments != null && !statusToDeal.media_attachments.isEmpty()) {
-            StringBuilder altTexts = new StringBuilder();
-            for (Attachment attachment : statusToDeal.media_attachments) {
-                if (attachment.description != null && !attachment.description.isEmpty()) {
-                    if (altTexts.length() > 0) {
-                        altTexts.append("\n\n");
-                    }
-                    altTexts.append(attachment.description);
-                }
-            }
-            if (altTexts.length() > 0) {
-                holder.binding.altTextIndicator.setVisibility(View.VISIBLE);
-                String descriptions = altTexts.toString();
-                holder.binding.altTextIndicator.setOnClickListener(v -> new MaterialAlertDialogBuilder(context)
-                        .setTitle(context.getString(R.string.description))
-                        .setMessage(descriptions)
-                        .setPositiveButton(R.string.close, null)
-                        .show());
-            } else {
-                holder.binding.altTextIndicator.setVisibility(View.GONE);
-            }
-        } else {
-            holder.binding.altTextIndicator.setVisibility(View.GONE);
         }
         holder.binding.statusContent.setMovementMethod(LongClickLinkMovementMethod.getInstance());
         holder.binding.reblogInfo.setOnClickListener(v -> {
@@ -3717,11 +3746,24 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         if (mediaDescriptionIndicator && (attachment.description != null && !attachment.description.isEmpty())) {
             layoutMediaBinding.viewDescription.setVisibility(View.VISIBLE);
-            layoutMediaBinding.viewDescription.setOnClickListener(v -> new MaterialAlertDialogBuilder(context)
-                    .setTitle(context.getString(R.string.description))
-                    .setMessage(attachment.description)
-                    .setPositiveButton(R.string.close, null)
-                    .show());
+            layoutMediaBinding.viewDescription.setOnClickListener(v -> {
+                AlertDialog dialog = new MaterialAlertDialogBuilder(context)
+                        .setTitle(context.getString(R.string.description))
+                        .setMessage(attachment.description)
+                        .setPositiveButton(R.string.close, null)
+                        .setNeutralButton(R.string.translate, null)
+                        .show();
+                dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(b ->
+                        TranslateHelper.translate(context, attachment.description, statusToDeal.language, translated -> {
+                            if (translated != null) {
+                                dialog.setMessage(translated);
+                                b.setEnabled(false);
+                            } else {
+                                Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                            }
+                        })
+                );
+            });
         } else {
             layoutMediaBinding.viewDescription.setVisibility(View.GONE);
         }

@@ -85,6 +85,13 @@ import app.fedilab.android.mastodon.helper.LongClickLinkMovementMethod;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.MediaHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
+import app.fedilab.android.mastodon.helper.TranslateHelper;
+
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import android.widget.Toast;
+
+import es.dmoral.toasty.Toasty;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
 
 public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -156,6 +163,24 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         }
         if (attachment.description != null && !attachment.description.isEmpty()) {
             layoutMediaBinding.viewDescription.setVisibility(View.VISIBLE);
+            layoutMediaBinding.viewDescription.setOnClickListener(v -> {
+                AlertDialog dialog = new MaterialAlertDialogBuilder(context)
+                        .setTitle(context.getString(R.string.description))
+                        .setMessage(attachment.description)
+                        .setPositiveButton(R.string.close, null)
+                        .setNeutralButton(R.string.translate, null)
+                        .show();
+                dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(b ->
+                        TranslateHelper.translate(context, attachment.description, status.language, translated -> {
+                            if (translated != null) {
+                                dialog.setMessage(translated);
+                                b.setEnabled(false);
+                            } else {
+                                Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                            }
+                        })
+                );
+            });
         } else {
             layoutMediaBinding.viewDescription.setVisibility(View.GONE);
         }

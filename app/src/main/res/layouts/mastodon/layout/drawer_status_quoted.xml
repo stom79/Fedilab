@@ -142,26 +142,25 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/quoted_media_alt"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="30dp"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="5dp"
-                android:clickable="false"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:insetLeft="0dp"
                 android:insetRight="0dp"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:padding="3dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:text="ALT"
+                android:textColor="@color/white"
+                android:textSize="10sp"
                 android:visibility="gone"
                 app:backgroundTint="#80000000"
-                app:cornerRadius="15dp"
-                app:icon="@drawable/ic_outline_note_alt_24"
-                app:iconPadding="0dp"
-                app:iconSize="24dp"
-                app:iconTint="@color/white" />
+                app:cornerRadius="15dp" />
 
         </FrameLayout>
 

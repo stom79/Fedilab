@@ -533,19 +533,6 @@
             android:orientation="vertical"
             android:visibility="gone" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/alt_text_indicator"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="6dp"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="4dp"
-            android:text="ALT"
-            android:textSize="11sp"
-            android:visibility="gone" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
