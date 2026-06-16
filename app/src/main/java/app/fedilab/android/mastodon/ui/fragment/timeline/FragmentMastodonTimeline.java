@@ -1710,7 +1710,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                                                     }
                                                     initializeStatusesCommonView(otherStatuses);
                                                 }));
-                            } else if (accountTimeline != null) {
+                            } else if (accountTimeline != null && isAdded()) {
                                 tempToken[0] = MainActivity.currentToken;
                                 tempInstance[0] = currentInstance;
                                 accountId[0] = accountTimeline.id;

@@ -30,6 +30,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -109,8 +110,9 @@ public class ZipHelper {
             String message = context.getString(R.string.data_export_settings_success);
             Intent intentOpen = new Intent();
             intentOpen.setAction(android.content.Intent.ACTION_VIEW);
-            Uri uri = Uri.parse("file://" + zipFile);
+            Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider", new File(zipFile));
             intentOpen.setDataAndType(uri, "application/zip");
+            intentOpen.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             String title = context.getString(R.string.data_export_settings);
             new MaterialAlertDialogBuilder(context)
                     .setTitle(R.string.export_settings)

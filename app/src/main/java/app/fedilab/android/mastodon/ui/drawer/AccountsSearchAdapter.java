@@ -125,7 +125,7 @@ public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filt
         account.pronouns = null;
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         boolean pronounsSupport = sharedpreferences.getBoolean(getContext().getString(R.string.SET_PRONOUNS_SUPPORT), true);
-        if(pronounsSupport) {
+        if(pronounsSupport && account.fields != null) {
             for (Field field : account.fields) {
                 if (PronounsHelper.pronouns.contains(field.name.toLowerCase().trim())) {
                     account.pronouns = PronounsHelper.cleanPronouns(Helper.parseHtml(field.value));

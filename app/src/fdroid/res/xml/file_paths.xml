@@ -8,4 +8,8 @@
         name="*"
         path="." />
 
+    <external-path
+        name="downloads"
+        path="Download/" />
+
 </paths>
