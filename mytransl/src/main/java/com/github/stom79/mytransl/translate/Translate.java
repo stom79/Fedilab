@@ -50,6 +50,7 @@ public class Translate {
     private static final Pattern hashtagPattern = Pattern.compile("(#[\\w_À-ú-]+)");
     private static final Pattern mentionPattern = Pattern.compile("(@[\\w]+)");
     private static final Pattern mentionOtherInstancePattern = Pattern.compile("(@[\\w]*@[\\w.-]+)");
+    private static final Pattern emojiShortcodePattern = Pattern.compile("(:[\\w_+-]+:)");
     private final Translate translate;
     private String targetedLanguage;
     private String initialLanguage;
@@ -58,7 +59,7 @@ public class Translate {
     private String obfuscateContent;
     private String translatedContent;
     private Params.fType format;
-    private HashMap<String, String> tagConversion, mentionConversion, urlConversion, mailConversion;
+    private HashMap<String, String> tagConversion, mentionConversion, urlConversion, mailConversion, emojiConversion;
 
     public Translate() {
         this.translate = this;
@@ -146,6 +147,7 @@ public class Translate {
         this.mentionConversion = new HashMap<>();
         this.urlConversion = new HashMap<>();
         this.mailConversion = new HashMap<>();
+        this.emojiConversion = new HashMap<>();
         SpannableString spannableString;
         String content = this.translate.getInitialContent();
         content = content.replaceAll("\n", "<br/>");
@@ -221,6 +223,16 @@ public class Translate {
             }
             i++;
         }
+        matcher = emojiShortcodePattern.matcher(text);
+        while (matcher.find()) {
+            String key = "§" + i;
+            String value = matcher.group(0);
+            if (value != null) {
+                this.emojiConversion.put(key, value);
+                text = text.replace(value, key);
+            }
+            i++;
+        }
         this.obfuscateContent = text;
     }
 
@@ -262,6 +274,14 @@ public class Translate {
                         Map.Entry<String, String> pair = itE.next();
                         aJsonString = aJsonString.replace(pair.getKey(), pair.getValue());
                         itE.remove();
+                    }
+                }
+                if (this.emojiConversion != null) {
+                    Iterator<Map.Entry<String, String>> itEm = this.emojiConversion.entrySet().iterator();
+                    while (itEm.hasNext()) {
+                        Map.Entry<String, String> pair = itEm.next();
+                        aJsonString = aJsonString.replace(pair.getKey(), pair.getValue());
+                        itEm.remove();
                     }
                 }
             }
