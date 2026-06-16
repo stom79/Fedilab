@@ -4337,7 +4337,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
                     holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     holder.bindingArt.artMedia.setLayoutParams(lp);
-                    boolean allowAnimationArt = autoplaygif && status.art_attachment.url != null && status.art_attachment.url.toLowerCase().endsWith(".webp") && !status.sensitive;
+                    String artUrl = status.art_attachment.url != null ? status.art_attachment.url.toLowerCase() : "";
+                    boolean allowAnimationArt = autoplaygif && status.art_attachment.url != null && (artUrl.endsWith(".webp") || artUrl.endsWith(".gif") || "gifv".equalsIgnoreCase(status.art_attachment.type)) && !status.sensitive;
                     RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, status.art_attachment, mediaW * ratio, mediaH * ratio, 1.0f, 1.0f, status.sensitive, true, allowAnimationArt);
                     String artMediaUrl = allowAnimationArt ? status.art_attachment.url : status.art_attachment.preview_url;
                     requestBuilder.load(artMediaUrl).into(holder.bindingArt.artMedia);
