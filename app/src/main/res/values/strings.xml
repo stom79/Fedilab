@@ -546,7 +546,10 @@
     <string name="instance_logo">Logo of the instance</string>
     <string name="join_mastodon">Join Mastodon</string>
     <string name="pickup_instance_category">Select a category to get a list of instances, then tap on the instance you like.</string>
-    <string name="users">%1$s users</string>
+    <plurals name="users">
+        <item quantity="one">%1$s user</item>
+        <item quantity="other">%1$s users</item>
+    </plurals>
     <string name="password_confirm">Confirm password</string>
     <string name="agreement_check">I agree to %1$s and %2$s</string>
     <string name="server_rules">server rules</string>

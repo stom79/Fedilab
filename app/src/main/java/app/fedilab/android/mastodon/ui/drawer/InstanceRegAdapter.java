@@ -57,7 +57,7 @@ public class InstanceRegAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             holder.binding.cardviewContainer.setCardElevation(Helper.convertDpToPixel(5, context));
             holder.binding.dividerCard.setVisibility(View.GONE);
         }
-        holder.binding.instanceCountUser.setText(context.getString(R.string.users, Helper.withSuffix(joinMastodonInstance.total_users)));
+        holder.binding.instanceCountUser.setText(context.getResources().getQuantityString(R.plurals.users, joinMastodonInstance.total_users, Helper.withSuffix(joinMastodonInstance.total_users)));
         holder.binding.instanceDescription.setText(joinMastodonInstance.description);
         holder.binding.instanceHost.setText(joinMastodonInstance.domain);
         holder.binding.instanceVersion.setText(String.format("%s - %s", joinMastodonInstance.categories, joinMastodonInstance.version));
