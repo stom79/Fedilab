@@ -37,7 +37,7 @@ import app.fedilab.android.mastodon.ui.drawer.EmojiSearchAdapter;
 public class ComposeHelper {
 
     private static final int SEARCH_DEEP = 15;
-    private static final Pattern EMOJI_PATTERN = Pattern.compile("^(.|\\s)*(:([\\w_]+))$");
+    private static final Pattern EMOJI_PATTERN = Pattern.compile(":([\\w_]+)$");
 
     public static void setupEmojiAutocomplete(AutoCompleteTextView field, List<Emoji> emojisList, Context context) {
         field.addTextChangedListener(new TextWatcher() {
@@ -60,8 +60,8 @@ public class ComposeHelper {
                 }
                 String textBeforeCursor = s.toString().substring(0, cursor);
                 Matcher matcherEmoji = EMOJI_PATTERN.matcher(textBeforeCursor);
-                if (matcherEmoji.matches()) {
-                    String shortcode = matcherEmoji.group(3);
+                if (matcherEmoji.find()) {
+                    String shortcode = matcherEmoji.group(1);
                     if (shortcode == null || shortcode.isEmpty()) {
                         return;
                     }

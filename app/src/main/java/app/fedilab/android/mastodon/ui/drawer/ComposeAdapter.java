@@ -2004,7 +2004,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return;
             }
             holder.binding.characterProgress.setMax(max_car);
-            holder.binding.contentSpoiler.addTextChangedListener(new TextWatcher() {
+            if (holder.spoilerTextWatcher != null) {
+                holder.binding.contentSpoiler.removeTextChangedListener(holder.spoilerTextWatcher);
+            }
+            holder.spoilerTextWatcher = new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
@@ -2033,7 +2036,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         holder.binding.characterCount.setTextColor(holder.binding.content.getTextColors());
                     }
                 }
-            });
+            };
+            holder.binding.contentSpoiler.addTextChangedListener(holder.spoilerTextWatcher);
 
             holder.binding.buttonPost.setEnabled(!statusDraft.submitted);
 
@@ -2378,6 +2382,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public static class ComposeViewHolder extends RecyclerView.ViewHolder {
         public DrawerStatusComposeBinding binding;
+        TextWatcher spoilerTextWatcher;
 
         ComposeViewHolder(DrawerStatusComposeBinding itemView) {
             super(itemView.getRoot());
