@@ -15,6 +15,8 @@ package app.fedilab.android.mastodon.helper;
  * see <http://www.gnu.org/licenses>. */
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -92,6 +94,8 @@ public class UnifiedEmojiPicker {
                 }
             });
 
+            Handler searchHandler = new Handler(Looper.getMainLooper());
+            Runnable[] searchRunnable = new Runnable[1];
             binding.searchEmoji.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -99,22 +103,28 @@ public class UnifiedEmojiPicker {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String query = s.toString().trim().toLowerCase();
-                    if (query.isEmpty()) {
-                        setupCustomEmojiGrid(binding, customEmojis, customCallback, bottomSheet);
-                    } else {
-                        List<Emoji> filtered = new ArrayList<>();
-                        for (Emoji emoji : customEmojis) {
-                            if (emoji.shortcode != null && emoji.shortcode.toLowerCase().contains(query)) {
-                                filtered.add(emoji);
-                            }
-                        }
-                        setupCustomEmojiGrid(binding, filtered, customCallback, bottomSheet);
-                    }
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
+                    if (searchRunnable[0] != null) {
+                        searchHandler.removeCallbacks(searchRunnable[0]);
+                    }
+                    searchRunnable[0] = () -> {
+                        String query = s.toString().trim().toLowerCase();
+                        if (query.isEmpty()) {
+                            setupCustomEmojiGrid(binding, customEmojis, customCallback, bottomSheet);
+                        } else {
+                            List<Emoji> filtered = new ArrayList<>();
+                            for (Emoji emoji : customEmojis) {
+                                if (emoji.shortcode != null && emoji.shortcode.toLowerCase().contains(query)) {
+                                    filtered.add(emoji);
+                                }
+                            }
+                            setupCustomEmojiGrid(binding, filtered, customCallback, bottomSheet);
+                        }
+                    };
+                    searchHandler.postDelayed(searchRunnable[0], 300);
                 }
             });
 

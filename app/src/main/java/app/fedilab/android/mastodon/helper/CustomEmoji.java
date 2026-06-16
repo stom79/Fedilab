@@ -53,14 +53,16 @@ public class CustomEmoji extends ReplacementSpan {
         }
         int count = 1;
         for (Emoji emoji : emojiList) {
-            Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
-                    .matcher(content);
-            while (matcher.find()) {
+            String target = ":" + emoji.shortcode + ":";
+            int start = 0;
+            while ((start = content.toString().indexOf(target, start)) >= 0) {
+                int end = start + target.length();
                 CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
-                content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                content.setSpan(customEmoji, start, end, 0);
                 String emojiUrl = animate ? emoji.url : emoji.static_url;
                 boolean isLastEmoji = count == emojiList.size() && !callbackCalled;
                 customEmoji.loadEmoji(view, emojiUrl, animate, isLastEmoji ? callback : null);
+                start = end;
             }
             count++;
         }

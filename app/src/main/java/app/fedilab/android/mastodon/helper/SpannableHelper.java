@@ -454,11 +454,13 @@ public class SpannableHelper {
         // Process emojis inline (same as convertEmoji)
         if (view != null && emojiList != null && !emojiList.isEmpty()) {
             for (Emoji emoji : emojiList) {
-                Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
-                        .matcher(content);
-                while (matcher.find()) {
+                String target = ":" + emoji.shortcode + ":";
+                int searchStart = 0;
+                String contentStr = content.toString();
+                while ((searchStart = contentStr.indexOf(target, searchStart)) >= 0) {
+                    int searchEnd = searchStart + target.length();
                     CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
-                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                    content.setSpan(customEmoji, searchStart, searchEnd, 0);
                     String emojiUrl = animate ? emoji.url : emoji.static_url;
                     if (Helper.isValidContextForGlide(context)) {
                         customEmoji.loadEmoji(view, emojiUrl, animate, null);
@@ -480,7 +482,8 @@ public class SpannableHelper {
                         @Override
                         public void updateDrawState(@NonNull TextPaint ds) {
                         }
-                    }, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }, searchStart, searchEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    searchStart = searchEnd;
                 }
             }
         }
@@ -1085,11 +1088,13 @@ public class SpannableHelper {
         boolean animate = !sharedpreferences.getBoolean(activity.getString(R.string.SET_DISABLE_ANIMATED_EMOJI), false);
         if (emojiList != null && emojiList.size() > 0) {
             for (Emoji emoji : emojiList) {
-                Matcher matcher = Pattern.compile(":" + emoji.shortcode + ":", Pattern.LITERAL)
-                        .matcher(content);
-                while (matcher.find()) {
+                String target = ":" + emoji.shortcode + ":";
+                int searchStart = 0;
+                String contentStr = content.toString();
+                while ((searchStart = contentStr.indexOf(target, searchStart)) >= 0) {
+                    int searchEnd = searchStart + target.length();
                     CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
-                    content.setSpan(customEmoji, matcher.start(), matcher.end(), 0);
+                    content.setSpan(customEmoji, searchStart, searchEnd, 0);
                     String emojiUrl = animate ? emoji.url : emoji.static_url;
                     if (Helper.isValidContextForGlide(activity)) {
                         customEmoji.loadEmoji(view, emojiUrl, animate, null);
@@ -1111,7 +1116,8 @@ public class SpannableHelper {
                         @Override
                         public void updateDrawState(@NonNull TextPaint ds) {
                         }
-                    }, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }, searchStart, searchEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    searchStart = searchEnd;
                 }
             }
         }
