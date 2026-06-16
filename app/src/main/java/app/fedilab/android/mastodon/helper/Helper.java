@@ -357,6 +357,9 @@ public class Helper {
     public static final String INTENT_COMPOSE_ERROR_MESSAGE = "INTENT_COMPOSE_ERROR_MESSAGE";
     public static final String TEMP_MEDIA_DIRECTORY = "TEMP_MEDIA_DIRECTORY";
     public static final String TEMP_EXPORT_DATA = "TEMP_EXPORT_DATA";
+    public static final String CONVERSATION_MODE_LOCAL = "local";
+    public static final String CONVERSATION_MODE_MIXED = "mixed";
+    public static final String CONVERSATION_MODE_REMOTE = "remote";
 
     public static final int EXTERNAL_STORAGE_REQUEST_CODE = 84;
     public static final int EXTERNAL_STORAGE_REQUEST_CODE_MEDIA_SAVE = 85;

@@ -72,7 +72,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
     private String remote_instance;
     private Status focusedStatus;
     private String focusedStatusURI;
-    private boolean checkRemotely;
+    private String conversationMode;
     private ActivityConversationBinding binding;
     private final BroadcastReceiver broadcast_error_message = new BroadcastReceiver() {
         @Override
@@ -158,11 +158,19 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
         }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        checkRemotely = sharedpreferences.getBoolean(getString(R.string.SET_CONVERSATION_REMOTELY), false);
-        if (!checkRemotely) {
-            loadLocalConversation();
-        } else {
+        try {
+            conversationMode = sharedpreferences.getString(getString(R.string.SET_CONVERSATION_REMOTELY), Helper.CONVERSATION_MODE_LOCAL);
+        } catch (ClassCastException e) {
+            boolean legacy = sharedpreferences.getBoolean(getString(R.string.SET_CONVERSATION_REMOTELY), false);
+            conversationMode = legacy ? Helper.CONVERSATION_MODE_REMOTE : Helper.CONVERSATION_MODE_LOCAL;
+            sharedpreferences.edit().putString(getString(R.string.SET_CONVERSATION_REMOTELY), conversationMode).apply();
+        }
+        if (Helper.CONVERSATION_MODE_REMOTE.equals(conversationMode)) {
             loadRemotelyConversation(true);
+        } else {
+            loadLocalConversation();
+        }
+        if (!Helper.CONVERSATION_MODE_LOCAL.equals(conversationMode)) {
             invalidateOptionsMenu();
         }
         if (Helper.getCurrentAccount(ContextActivity.this) != null) {
@@ -242,7 +250,7 @@ public class ContextActivity extends BaseActivity implements FragmentMastodonCon
             itemDisplayCW.setIcon(R.drawable.ic_outline_remove_red_eye_24);
         }
         MenuItem action_remote = menu.findItem(R.id.action_remote);
-        if (remote_instance != null || checkRemotely) {
+        if (remote_instance != null || !Helper.CONVERSATION_MODE_LOCAL.equals(conversationMode)) {
             action_remote.setVisible(false);
         } else {
             if (firstMessage != null && firstMessage.uri != null && !"direct".equalsIgnoreCase(firstMessage.visibility) && !"private".equalsIgnoreCase(firstMessage.visibility)) {

@@ -90,12 +90,13 @@
         app:iconSpaceReserved="false"
         app:title="@string/behavior">
 
-        <SwitchPreferenceCompat
-            app:defaultValue="false"
+        <ListPreference
+            app:defaultValue="local"
+            app:entries="@array/conversation_mode_entries"
+            app:entryValues="@array/conversation_mode_values"
             app:iconSpaceReserved="false"
             app:key="@string/SET_CONVERSATION_REMOTELY"
             app:singleLineTitle="false"
-            app:summary="@string/set_remote_conversation"
             app:title="@string/set_remote_conversation_title" />
 
         <SwitchPreferenceCompat

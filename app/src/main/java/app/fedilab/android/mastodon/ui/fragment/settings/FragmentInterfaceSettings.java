@@ -45,8 +45,22 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        migrateConversationPref();
         addPreferencesFromResource(R.xml.pref_interface);
         createPref();
+    }
+
+    private void migrateConversationPref() {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        try {
+            sharedpreferences.getString(getString(R.string.SET_CONVERSATION_REMOTELY), Helper.CONVERSATION_MODE_LOCAL);
+        } catch (ClassCastException e) {
+            boolean legacy = sharedpreferences.getBoolean(getString(R.string.SET_CONVERSATION_REMOTELY), false);
+            sharedpreferences.edit()
+                    .remove(getString(R.string.SET_CONVERSATION_REMOTELY))
+                    .putString(getString(R.string.SET_CONVERSATION_REMOTELY), legacy ? Helper.CONVERSATION_MODE_REMOTE : Helper.CONVERSATION_MODE_LOCAL)
+                    .apply();
+        }
     }
 
     private void createPref() {
@@ -92,25 +106,45 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
             boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
             SET_EXTAND_EXTRA_FEATURES.setChecked(checked);
         }
-        SwitchPreferenceCompat SET_CONVERSATION_REMOTELY = findPreference(getString(R.string.SET_CONVERSATION_REMOTELY));
+        ListPreference SET_CONVERSATION_REMOTELY = findPreference(getString(R.string.SET_CONVERSATION_REMOTELY));
         if (SET_CONVERSATION_REMOTELY != null) {
+            updateConversationSummary(SET_CONVERSATION_REMOTELY, SET_CONVERSATION_REMOTELY.getValue());
             SET_CONVERSATION_REMOTELY.setOnPreferenceChangeListener((preference, newValue) -> {
-                if (Boolean.TRUE.equals(newValue)) {
+                if (Helper.CONVERSATION_MODE_REMOTE.equals(newValue)) {
                     new MaterialAlertDialogBuilder(requireActivity())
                             .setTitle(getString(R.string.set_remote_conversation_title))
                             .setMessage(getString(R.string.set_remote_conversation_warning))
                             .setPositiveButton(R.string.yes, (dialog, id) -> {
-                                SET_CONVERSATION_REMOTELY.setChecked(true);
+                                SET_CONVERSATION_REMOTELY.setValue(Helper.CONVERSATION_MODE_REMOTE);
+                                updateConversationSummary(SET_CONVERSATION_REMOTELY, Helper.CONVERSATION_MODE_REMOTE);
                                 dialog.dismiss();
                             })
                             .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss())
                             .show();
                     return false;
                 }
+                updateConversationSummary(SET_CONVERSATION_REMOTELY, (String) newValue);
                 return true;
             });
         }
         recreate = false;
+    }
+
+    private void updateConversationSummary(ListPreference pref, String value) {
+        if (value == null) value = Helper.CONVERSATION_MODE_LOCAL;
+        String label;
+        String description;
+        if (Helper.CONVERSATION_MODE_MIXED.equals(value)) {
+            label = getString(R.string.conversation_mode_mixed);
+            description = getString(R.string.conversation_mode_mixed_summary);
+        } else if (Helper.CONVERSATION_MODE_REMOTE.equals(value)) {
+            label = getString(R.string.conversation_mode_remote);
+            description = getString(R.string.conversation_mode_remote_summary);
+        } else {
+            label = getString(R.string.conversation_mode_local);
+            description = getString(R.string.conversation_mode_local_summary);
+        }
+        pref.setSummary(label + "\n" + description);
     }
 
     private int getProfileImageShapeDrawable(String profileImageShapePrefValue) {

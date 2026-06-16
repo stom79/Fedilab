@@ -684,7 +684,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             quoteButtonEntryValues = context.getResources().getStringArray(R.array.set_quote_button_entry_values);
         }
 
-        boolean remote = timelineType == Timeline.TimeLineEnum.REMOTE || checkRemotely;
+        boolean remote = timelineType == Timeline.TimeLineEnum.REMOTE || checkRemotely || status.isRemote;
 
         Status statusToDeal = status.reblog != null ? status.reblog : status;
 
@@ -1787,6 +1787,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             holder.binding.time.setVisibility(View.GONE);
             Helper.absoluteDateTimeReveal(context, holder.binding.dateShort, statusToDeal.created_at, statusToDeal.edited_at);
+            holder.binding.remoteLabel.setVisibility(status.isRemote ? View.VISIBLE : View.GONE);
         }
 
         //---- SPOILER TEXT -----
@@ -4464,7 +4465,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.bindingPixelfed.artReblogPp.setVisibility(View.GONE);
             }
-            boolean remote = timelineType == Timeline.TimeLineEnum.REMOTE || checkRemotely;
+            boolean remote = timelineType == Timeline.TimeLineEnum.REMOTE || checkRemotely || statusToDeal.isRemote;
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);

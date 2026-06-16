@@ -35,10 +35,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
@@ -377,6 +381,98 @@ public class FragmentMastodonContext extends Fragment {
                 statusAdapter.notifyItemChanged(position);
             }
         }
+        if (remote_instance == null && !isMisskey) {
+            SharedPreferences sprefs = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+            String conversationMode;
+            try {
+                conversationMode = sprefs.getString(getString(R.string.SET_CONVERSATION_REMOTELY), Helper.CONVERSATION_MODE_LOCAL);
+            } catch (ClassCastException e) {
+                conversationMode = Helper.CONVERSATION_MODE_LOCAL;
+            }
+            if (Helper.CONVERSATION_MODE_MIXED.equals(conversationMode)) {
+                fetchAndMergeRemoteContext();
+            }
+        }
+    }
+
+    private void fetchAndMergeRemoteContext() {
+        if (!isAdded() || firstStatus == null) {
+            return;
+        }
+        String uri = firstStatus.uri;
+        if (uri == null) {
+            uri = focusedStatus.uri;
+        }
+        if (uri == null) {
+            return;
+        }
+        String remoteInstance;
+        try {
+            URL url = new URL(uri);
+            remoteInstance = url.getHost();
+        } catch (MalformedURLException e) {
+            return;
+        }
+        if (remoteInstance == null || remoteInstance.equalsIgnoreCase(MainActivity.currentInstance)) {
+            return;
+        }
+        Pattern pattern = Helper.statusIdInUrl;
+        Matcher matcher = pattern.matcher(uri);
+        String remoteId = null;
+        if (matcher.find()) {
+            remoteId = matcher.group(1);
+        }
+        if (remoteId == null) {
+            return;
+        }
+        statusesVM.getContext(remoteInstance, null, remoteId)
+                .observe(getViewLifecycleOwner(), this::mergeRemoteContext);
+    }
+
+    private void mergeRemoteContext(Context remoteContext) {
+        if (remoteContext == null || !isAdded() || binding == null) {
+            return;
+        }
+        Set<String> localUris = new HashSet<>();
+        for (Status status : statuses) {
+            if (status.uri != null) {
+                localUris.add(status.uri.toLowerCase());
+            }
+        }
+        List<Status> newDescendants = new ArrayList<>();
+        if (remoteContext.descendants != null) {
+            for (Status remote : remoteContext.descendants) {
+                if (remote.uri != null && !localUris.contains(remote.uri.toLowerCase())) {
+                    remote.isRemote = true;
+                    newDescendants.add(remote);
+                }
+            }
+        }
+        List<Status> newAncestors = new ArrayList<>();
+        if (remoteContext.ancestors != null) {
+            for (Status remote : remoteContext.ancestors) {
+                if (remote.uri != null && !localUris.contains(remote.uri.toLowerCase())) {
+                    remote.isRemote = true;
+                    newAncestors.add(remote);
+                }
+            }
+        }
+        if (newDescendants.isEmpty() && newAncestors.isEmpty()) {
+            return;
+        }
+        if (!newDescendants.isEmpty()) {
+            int insertPos = statuses.size();
+            statuses.addAll(newDescendants);
+            statusAdapter.notifyItemRangeInserted(insertPos, newDescendants.size());
+        }
+        if (!newAncestors.isEmpty()) {
+            statuses.addAll(0, newAncestors);
+            statusAdapter.notifyItemRangeInserted(0, newAncestors.size());
+        }
+        for (int i = 0; i < binding.recyclerView.getItemDecorationCount(); i++) {
+            binding.recyclerView.removeItemDecorationAt(i);
+        }
+        binding.recyclerView.addItemDecoration(new DividerDecoration(requireActivity(), statuses));
     }
 
     @Override

@@ -220,6 +220,18 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         tools:text="\@username\@instance.test" />
+                    <TextView
+                        android:id="@+id/remote_label"
+                        app:layout_constraintTop_toBottomOf="@+id/display_name"
+                        app:layout_constraintStart_toEndOf="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:alpha="0.5"
+                        android:text="@string/remote"
+                        android:textSize="10sp"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
