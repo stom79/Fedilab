@@ -60,7 +60,9 @@
     <string name="mute_conversation">முடக்கு உரையாடல்</string>
     <string name="unmute_conversation">மாறாத உரையாடல்</string>
     <string name="toast_mute_conversation">உரையாடல் முடக்கப்பட்டுள்ளது</string>
-    <string name="users">%1$s பயனர்கள்</string>
+    <plurals name="users">
+        <item quantity="one">%1$s பயனர்கள்</item>
+    </plurals>
     <string name="password_confirm">கடவுச்சொல்லை உறுதிப்படுத்தவும்</string>
     <string name="agreement_check">நான் %1$s மற்றும் %2$s ஒப்புக்கொள்கிறேன்</string>
     <string name="server_rules">சேவையக விதிகள்</string>
