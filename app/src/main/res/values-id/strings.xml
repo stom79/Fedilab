@@ -425,7 +425,9 @@
     <string name="instance_logo">Logo instance</string>
     <string name="join_mastodon">Bergabung dengan Mastodon</string>
     <string name="pickup_instance_category">Choose an instance by picking up a category, then tap on a check button.</string>
-    <string name="users">%1$s pengguna</string>
+    <plurals name="users">
+        <item quantity="other">%1$s pengguna</item>
+    </plurals>
     <string name="password_confirm">Konfirmasi kata sandi</string>
     <string name="agreement_check">Saya menyetujui %1$s dan %2$s</string>
     <string name="server_rules">aturan server</string>
