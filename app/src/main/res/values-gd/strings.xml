@@ -414,7 +414,9 @@
     <string name="sign_up">Clàradh</string>
     <string name="sign_ups">Clàraidhean</string>
     <string name="notif_follow">– tha iad ’gad leantainn a-nis</string>
-    <string name="users">Cleachdaichean: %1$s</string>
+    <plurals name="users">
+        <item quantity="one">Cleachdaichean: %1$s</item>
+    </plurals>
     <string name="notif_mention">– thug iad iomradh ort</string>
     <string name="notif_status">– tha teachdaireachd ùr aca</string>
     <string name="notif_reblog">– brosnaich iad an staid agad</string>
