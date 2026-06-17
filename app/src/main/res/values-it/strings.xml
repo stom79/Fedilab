@@ -431,7 +431,9 @@
     <string name="instance_logo">Icona dell\'istanza</string>
     <string name="join_mastodon">Unisciti a Mastodon</string>
     <string name="pickup_instance_category">Scegli un\'istanza selezionando una categoria, poi premi il pulsante con la spunta.</string>
-    <string name="users">%1$s utenti</string>
+    <plurals name="users">
+        <item quantity="one">%1$s utenti</item>
+    </plurals>
     <string name="password_confirm">Conferma password</string>
     <string name="agreement_check">Sono d\'accordo con %1$s e %2$s</string>
     <string name="server_rules">regole del server</string>

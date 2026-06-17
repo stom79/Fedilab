@@ -436,7 +436,9 @@
     <string name="instance_logo">Logo ôd instancyje</string>
     <string name="join_mastodon">Przistōmp do Mastodona</string>
     <string name="pickup_instance_category">Wybier instancyjo bez wybranie kategoryje i tyknij knefla zaznaczanio.</string>
-    <string name="users">%1$s używoczōw</string>
+    <plurals name="users">
+        <item quantity="one">%1$s używoczōw</item>
+    </plurals>
     <string name="password_confirm">Potwiyrdź hasło</string>
     <string name="agreement_check">Zgodzōm sie na %1$s i %2$s</string>
     <string name="server_rules">prawidła serwera</string>

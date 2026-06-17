@@ -431,7 +431,9 @@
     <string name="instance_logo">Logotipu de s\'istàntzia</string>
     <string name="join_mastodon">Iscrie·ti a Mastodon</string>
     <string name="pickup_instance_category">Issèbera un\'istàntzia pighende una categoria e, a pustis, tochende unu butone de verìfica.</string>
-    <string name="users">%1$s utentes</string>
+    <plurals name="users">
+        <item quantity="one">%1$s utentes</item>
+    </plurals>
     <string name="password_confirm">Cunfirma sa crae de intrada</string>
     <string name="agreement_check">Atzeto is %1$s e is %2$s</string>
     <string name="server_rules">règulas de su serbidore</string>

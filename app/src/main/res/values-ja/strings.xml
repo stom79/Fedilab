@@ -425,7 +425,9 @@
     <string name="instance_logo">サーバーのロゴ</string>
     <string name="join_mastodon">Mastodonに参加</string>
     <string name="pickup_instance_category">カテゴリーを選択するとサーバーの一覧が表示されるので、気に入ったサーバーをタップしてください。</string>
-    <string name="users">%1$s人のユーザー</string>
+    <plurals name="users">
+        <item quantity="other">%1$s人のユーザー</item>
+    </plurals>
     <string name="password_confirm">パスワードの確認</string>
     <string name="agreement_check">%1$sと%2$sに同意する</string>
     <string name="server_rules">サーバーのルール</string>

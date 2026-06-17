@@ -431,7 +431,9 @@
     <string name="instance_logo">Instansens logo</string>
     <string name="join_mastodon">Opprett Mastodon-konto</string>
     <string name="pickup_instance_category">Velg en instans fra en av kategoriene.</string>
-    <string name="users">%1$s brukere</string>
+    <plurals name="users">
+        <item quantity="one">%1$s brukere</item>
+    </plurals>
     <string name="password_confirm">Bekreft passord</string>
     <string name="agreement_check">Jeg er enig i %1$s og %2$s</string>
     <string name="server_rules">regler for instansen</string>

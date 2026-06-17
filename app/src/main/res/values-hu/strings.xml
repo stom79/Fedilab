@@ -428,7 +428,9 @@
     <string name="instance_logo">A példány logója</string>
     <string name="join_mastodon">Csatlakozás a Mastodonhoz</string>
     <string name="pickup_instance_category">Válasszon egy példányt egy kategória választásával, majd kattintson egy pipa gombra.</string>
-    <string name="users">%1$s felhasználó</string>
+    <plurals name="users">
+        <item quantity="one">%1$s felhasználó</item>
+    </plurals>
     <string name="password_confirm">Jelszó megerősítése</string>
     <string name="agreement_check">Elfogadom a %1$s és a %2$s</string>
     <string name="server_rules">kiszolgáló szabályait</string>

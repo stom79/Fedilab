@@ -431,7 +431,9 @@
     <string name="instance_logo">Sunucunun logosu</string>
     <string name="join_mastodon">Mastodon\'a katıl</string>
     <string name="pickup_instance_category">Sunucu seçmek için önce bir kategori seçin, ardından onay düğmesine dokunun.</string>
-    <string name="users">%1$s kullanıcı</string>
+    <plurals name="users">
+        <item quantity="one">%1$s kullanıcı</item>
+    </plurals>
     <string name="password_confirm">Parolayı doğrula</string>
     <string name="agreement_check">%1$s ve %2$s\'i kabul ediyorum</string>
     <string name="server_rules">sunucu kuralları</string>

@@ -428,7 +428,9 @@
     <string name="instance_logo">Instantziaren logoa</string>
     <string name="join_mastodon">Elkartu Mastodon-era</string>
     <string name="pickup_instance_category">Aukeratu instantzia bat kategoria bat hautatuz, gero sakatu egiaztatu botoia.</string>
-    <string name="users">%1$s erabiltzaile</string>
+    <plurals name="users">
+        <item quantity="one">%1$s erabiltzaile</item>
+    </plurals>
     <string name="password_confirm">Berretsi pasahitza</string>
     <string name="agreement_check">%1$s eta %2$s onartzen ditut</string>
     <string name="server_rules">zerbitzariaren arauak</string>

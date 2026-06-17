@@ -428,7 +428,9 @@
     <string name="instance_logo">Logo of the instance</string>
     <string name="join_mastodon">Join Mastodon</string>
     <string name="pickup_instance_category">Choose an instance by picking up a category, then tap on a check button.</string>
-    <string name="users">%1$s users</string>
+    <plurals name="users">
+        <item quantity="one">%1$s users</item>
+    </plurals>
     <string name="password_confirm">Confirm password</string>
     <string name="agreement_check">I agree to %1$s and %2$s</string>
     <string name="server_rules">server rules</string>

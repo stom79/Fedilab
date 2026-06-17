@@ -445,7 +445,9 @@
     <string name="instance_logo">شعار مثيل الخادم</string>
     <string name="join_mastodon">انضم إلى ماستدون</string>
     <string name="pickup_instance_category">اختر مثيل خادم من بين الفئات ، ثم اضغط على زر الاختيار.</string>
-    <string name="users">%1$s مستخدم</string>
+    <plurals name="users">
+        <item quantity="zero">%1$s مستخدم</item>
+    </plurals>
     <string name="password_confirm">تأكيد الكلمة السرية</string>
     <string name="agreement_check">أوافق على %1$s وعلى %2$s</string>
     <string name="server_rules">قواعد الخادم</string>
