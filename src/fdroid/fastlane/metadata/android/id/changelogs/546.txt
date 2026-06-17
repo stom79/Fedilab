@@ -1,0 +1,26 @@
+*Ditambahkan:*
+- Dukungan buat Misskey + tampilan diskusi untuk link trending 
+- Bisa lihat media di postingan kutipan 
+- Fitur baru "Filter this post" 
+- Mastodon trending remote bisa disematin jadi timeline 
+- Opsi upload media tanpa kompresi, tapi defaultnya mati 
+- Opsi hide indikator 'sensitive content' & 'media description' 
+- Bisa ganti bentuk foto profil + atur tampilan tombol quote 
+- Aksi aksesibilitas buat translate status 
+- Opsi sorot komentar baru di thread percakapan 
+
+*Diubah:*
+- Warna teks MathJax sekarang ngikutin tema 
+- Upgrade targetSdk ke 35 
+- Pratinjau link & UI popup boost+quote diperbaiki 
+- Akun otomatis kehapus dari "Home muted" kalau unfollow 
+- URI instance sekarang bisa diklik di dialog "About the instance" 
+
+*Diperbaiki:*
+- Crash pas buka app di tab notifikasi + ANR teks panjang tanpa spasi + OutOfMemory HTML panjang 
+- Bug pratinjau gambar, filter hashtag remote, filter pesan, dan truncation timeline 
+- Masalah notifikasi: jumlah tab, service, dismiss, dan notif kutipan 
+- Bug kutipan: NPE, CW hilang, policy nggak kepakai, "Open the original message" salah 
+- Media: WebP animasi, audio, video kedip, sharing gambar 
+- UI/UX: emoji picker, keyboard, compose bar, ikon overlay di background terang 
+- Cross-posting sekarang pakai limit karakter & emoji dari instance yang bener

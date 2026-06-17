@@ -1,0 +1,13 @@
+*Ditambahkan:*
+- Bisa cross-quote pakai long press tombol quote 
+- Trending Links sekarang bisa disematin ke timeline & remote instance 
+- Ada warning kalau pakai hashtag lebih dari 4 di combined timeline 
+
+*Diperbaiki:*
+- Bug alt-text hilang pas edit postingan terjadwal 
+- Urutan reply di thread + text shift postingan terpotong udah dibenerin 
+- Tombol quote, jumlah aksi, sama emoji custom di bio sekarang ngikutin tema 
+- Semua gambar dari post multi-gambar bisa muncul di ART timeline 
+- Error "No message to display" di Trending Links pagination udah hilang 
+- Tombol follow profil remote, notifikasi yang ketutup agresif, dan NPE card udah diperbaiki 
+- Crash di cache status, timeline helper, animasi APNG emoji, sama compose bar setelah hide keyboard juga udah fix
