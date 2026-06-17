@@ -428,7 +428,9 @@
     <string name="instance_logo">نماد نمونه</string>
     <string name="join_mastodon">پیوستن به ماستادون</string>
     <string name="pickup_instance_category">یک نمونه را با انتخاب دسته و سپس زدن دکمه پذیرش انتخاب کنید.</string>
-    <string name="users">%1$s کاربر</string>
+    <plurals name="users">
+        <item quantity="one">%1$s کاربر</item>
+    </plurals>
     <string name="password_confirm">تکرار گذرواژه</string>
     <string name="agreement_check">من با %1$s و %2$s موافقم</string>
     <string name="server_rules">قوانین کارساز</string>
