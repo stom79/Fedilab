@@ -445,7 +445,9 @@
     <string name="instance_logo">Logo enghraifft</string>
     <string name="join_mastodon">Ymuno â Mastodon</string>
     <string name="pickup_instance_category">Choose an instance by picking up a category, then tap on a check button.</string>
-    <string name="users">%1$s defnyddwyr</string>
+    <plurals name="users">
+        <item quantity="zero">%1$s defnyddwyr</item>
+    </plurals>
     <string name="password_confirm">Confirm password</string>
     <string name="agreement_check">Dw i\'n cytuno â %1$s a %2$s</string>
     <string name="server_rules">rheolau gweinydd</string>
