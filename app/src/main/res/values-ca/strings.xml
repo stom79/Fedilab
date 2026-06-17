@@ -432,7 +432,9 @@
     <string name="instance_logo">Logo de la instància</string>
     <string name="join_mastodon">Uneix-te a Mastodont</string>
     <string name="pickup_instance_category">Tria una categoria per obtenir una llista d\'instàncies i després clica la instància que prefereixis.</string>
-    <string name="users">%1$s usuàries</string>
+    <plurals name="users">
+        <item quantity="one">%1$s usuàries</item>
+    </plurals>
     <string name="password_confirm">Confirma la contrasenya</string>
     <string name="agreement_check">Estic d\'acord amb %1$s i %2$s</string>
     <string name="server_rules">normes del servidor</string>
