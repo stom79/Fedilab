@@ -433,7 +433,9 @@
     <string name="instance_logo">Emblemo de la servilo</string>
     <string name="join_mastodon">Aliĝi al Mastodon</string>
     <string name="pickup_instance_category">Choose an instance by picking up a category, then tap on a check button.</string>
-    <string name="users">%1$s uzantoj</string>
+    <plurals name="users">
+        <item quantity="one">%1$s uzantoj</item>
+    </plurals>
     <string name="password_confirm">Konfirmi la pasvorton</string>
     <string name="agreement_check">Mi konsentas %1$s kaj %2$s</string>
     <string name="server_rules">servilaj reguloj</string>
