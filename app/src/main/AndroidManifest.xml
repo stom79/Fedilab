@@ -45,6 +45,7 @@
         <activity
             android:name=".activities.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|smallestScreenSize"
+            android:documentLaunchMode="never"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

@@ -1448,6 +1448,7 @@
     <string name="SET_UNLISTED_REPLIES" translatable="false">SET_UNLISTED_REPLIES</string>
     <string name="SET_COLORIZE_FOR_VISIBILITY" translatable="false">SET_COLORIZE_FOR_VISIBILITY</string>
     <string name="SET_SELECTED_LANGUAGE" translatable="false">SET_SELECTED_LANGUAGE</string>
+    <string name="SET_LANGUAGE_CHECK" translatable="false">SET_LANGUAGE_CHECK</string>
     <string name="SET_WATERMARK_TEXT" translatable="false">SET_WATERMARK_TEXT</string>
     <string name="SET_MATHS_COMPOSER" translatable="false">SET_MATHS_COMPOSER</string>
     <string name="SET_PROXY_PASSWORD" translatable="false">SET_PROXY_PASSWORD</string>
@@ -2327,6 +2328,12 @@
     <string name="set_alt_text_mandatory_warn">Warn only</string>
     <string name="set_alt_text_mandatory_description_warn">If there are missing media a dialog will be displayed with the ability to send the message without media description</string>
     <string name="send_anyway">Send anyway</string>
+    <string name="set_language_check">Check language when posting</string>
+    <string name="set_language_check_description">Detect text language and warn if it doesn\'t match the selected language</string>
+    <string name="language_mismatch">Language mismatch: detected %1$s but you selected %2$s</string>
+    <string name="language_detection_uncertain">Language detection is uncertain (%1$s%% confidence). Detected: %2$s</string>
+    <string name="language_detection_failed">Could not verify the post language</string>
+    <string name="keep_posting">Keep posting</string>
     <string name="set_remove_battery">Ignore battery optimizations</string>
     <string name="set_autoplay_gif">Autoplay animated media</string>
     <string name="no_cached_messages">No Home cached messages!</string>
@@ -2468,6 +2475,7 @@
     <string name="kw_custom_sharing">custom, sharing, url</string>
     <string name="kw_forward_tags">forward, tags, hashtags, reply</string>
     <string name="kw_prefix_cw_reply">content warning, cw, re, reply, prefix, spoiler</string>
+    <string name="kw_language_check">language, check, detect, verify, posting, mismatch</string>
     <!-- Notifications -->
     <string name="kw_notification_type">push, pull, notification, real time</string>
     <string name="kw_notification_delay">notification, delay, frequency, polling</string>

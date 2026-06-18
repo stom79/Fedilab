@@ -431,7 +431,9 @@
     <string name="instance_logo">Logo da instancia</string>
     <string name="join_mastodon">Únirse a Mastodon</string>
     <string name="pickup_instance_category">Elixe unha categoría para ter unha lista de instancias, despois preme na instancia que queiras.</string>
-    <string name="users">%1$s usuarias</string>
+    <plurals name="users">
+        <item quantity="one">%1$s usuarias</item>
+    </plurals>
     <string name="password_confirm">Confirmar contrasinal</string>
     <string name="agreement_check">Acepto as %1$s e os %2$s</string>
     <string name="server_rules">regras do servidor</string>

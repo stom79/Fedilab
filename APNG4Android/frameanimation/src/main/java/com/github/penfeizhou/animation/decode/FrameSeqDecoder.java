@@ -244,7 +244,7 @@ public abstract class FrameSeqDecoder<R extends Reader, W extends Writer> {
                     }
                 }
             });
-            LockSupport.park(thread);
+            LockSupport.parkNanos(thread, 1_000_000_000L);
         }
         return fullRect == null ? RECT_EMPTY : fullRect;
     }

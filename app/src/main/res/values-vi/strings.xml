@@ -451,7 +451,9 @@
     <string name="instance_logo">Logo máy chủ</string>
     <string name="join_mastodon">Tham gia Mastodon</string>
     <string name="pickup_instance_category">Chọn một máy chủ bằng cách chọn phân loại, sau khi nhấn nút kiểm tra.</string>
-    <string name="users">%1$s người dùng</string>
+    <plurals name="users">
+        <item quantity="other">%1$s người dùng</item>
+    </plurals>
     <string name="password_confirm">Xác nhận mật khẩu</string>
     <string name="agreement_check">Tôi đồng ý %1$s và %2$s</string>
     <string name="server_rules">quy tắc máy chủ</string>

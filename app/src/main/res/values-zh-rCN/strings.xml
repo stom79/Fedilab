@@ -429,7 +429,9 @@
     <string name="instance_logo">实例图标</string>
     <string name="join_mastodon">加入 Mastodon</string>
     <string name="pickup_instance_category">选择一个类别以获取实例列表，然后点击您喜欢的实例。</string>
-    <string name="users">%1$s 用户</string>
+    <plurals name="users">
+        <item quantity="other">%1$s 用户</item>
+    </plurals>
     <string name="password_confirm">确认密码</string>
     <string name="agreement_check">我同意 %1$s 和 %2$s</string>
     <string name="server_rules">服务器规则</string>

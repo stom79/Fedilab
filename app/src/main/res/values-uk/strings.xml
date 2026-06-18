@@ -439,7 +439,9 @@
     <string name="instance_logo">Логотип інстанції</string>
     <string name="join_mastodon">Приєднуйтесь до Mastodon</string>
     <string name="pickup_instance_category">Choose an instance by picking up a category, then tap on a check button.</string>
-    <string name="users">%1$s користувачів</string>
+    <plurals name="users">
+        <item quantity="one">%1$s користувачів</item>
+    </plurals>
     <string name="password_confirm">Підтвердьте пароль</string>
     <string name="agreement_check">Я приймаю %1$s і %2$s</string>
     <string name="server_rules">правила сервера</string>

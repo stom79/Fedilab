@@ -424,7 +424,9 @@
     <string name="instance_logo">站台圖示</string>
     <string name="join_mastodon">加入 Mastodon</string>
     <string name="pickup_instance_category">透過挑選分類，然後按下按鈕來選擇站台。</string>
-    <string name="users">%1$s 位使用者</string>
+    <plurals name="users">
+        <item quantity="other">%1$s 位使用者</item>
+    </plurals>
     <string name="password_confirm">確認密碼</string>
     <string name="agreement_check">我同意 %1$s 和 %2$s</string>
     <string name="server_rules">伺服器規則</string>

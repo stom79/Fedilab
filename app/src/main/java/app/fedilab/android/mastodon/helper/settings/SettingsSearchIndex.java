@@ -173,6 +173,7 @@ public class SettingsSearchIndex {
         list.add(new SettingsSearchEntry(R.string.settings_title_custom_sharing, R.string.kw_custom_sharing, catCompose, navCompose, "SET_CUSTOM_SHARING"));
         list.add(new SettingsSearchEntry(R.string.set_forward_tags, R.string.kw_forward_tags, catCompose, navCompose, "SET_FORWARD_TAGS_IN_REPLY"));
         list.add(new SettingsSearchEntry(R.string.set_prefix_cw_reply, R.string.kw_prefix_cw_reply, catCompose, navCompose, "SET_PREFIX_CW_REPLY"));
+        list.add(new SettingsSearchEntry(R.string.set_language_check, R.string.kw_language_check, catCompose, navCompose, "SET_LANGUAGE_CHECK"));
 
         // Notifications
         int catNotifications = R.string.notifications;

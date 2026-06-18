@@ -435,7 +435,9 @@
     <string name="instance_logo">Logo de l’instance</string>
     <string name="join_mastodon">Rejoindre Mastodon</string>
     <string name="pickup_instance_category">Choisissez une instance dans l\'une des catégories puis cliquez sur un bouton de vérification.</string>
-    <string name="users">%1$s utilisateur·rice·s</string>
+    <plurals name="users">
+        <item quantity="one">%1$s utilisateur·rice·s</item>
+    </plurals>
     <string name="password_confirm">Confirmer le mot de passe</string>
     <string name="agreement_check">J\'accepte les %1$s et les %2$s</string>
     <string name="server_rules">règles du serveur</string>

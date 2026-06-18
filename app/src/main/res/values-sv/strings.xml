@@ -428,7 +428,9 @@
     <string name="instance_logo">Logo för instansen</string>
     <string name="join_mastodon">Gå med i Mastodon</string>
     <string name="pickup_instance_category">Välj en instans genom att välja en kategori, klicka sedan på välj-knappen.</string>
-    <string name="users">%1$s användare</string>
+    <plurals name="users">
+        <item quantity="one">%1$s användare</item>
+    </plurals>
     <string name="password_confirm">Bekräfta lösenord</string>
     <string name="agreement_check">Jag godkänner %1$s och %2$s</string>
     <string name="server_rules">serverregler</string>

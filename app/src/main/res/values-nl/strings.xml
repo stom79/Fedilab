@@ -431,7 +431,9 @@
     <string name="instance_logo">Logo van de server</string>
     <string name="join_mastodon">Meld je aan op Mastodon</string>
     <string name="pickup_instance_category">Kies eerst een categorie voor een lijst met servers, klik daarna op de gewenste server.</string>
-    <string name="users">%1$s gebruikers</string>
+    <plurals name="users">
+        <item quantity="one">%1$s gebruikers</item>
+    </plurals>
     <string name="password_confirm">Bevestig wachtwoord</string>
     <string name="agreement_check">Ik stem in met %1$s en %2$s</string>
     <string name="server_rules">serverregels</string>

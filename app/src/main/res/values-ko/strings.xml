@@ -424,7 +424,9 @@
     <string name="instance_logo">인스턴스 로고</string>
     <string name="join_mastodon">마스토돈에 참여</string>
     <string name="pickup_instance_category">Choose an instance by picking up a category, then tap on a check button.</string>
-    <string name="users">%1$s명의 유저</string>
+    <plurals name="users">
+        <item quantity="other">%1$s명의 유저</item>
+    </plurals>
     <string name="password_confirm">비밀번호 확인</string>
     <string name="agreement_check">%1$s 및 %2$s에 동의</string>
     <string name="server_rules">서버 규칙</string>

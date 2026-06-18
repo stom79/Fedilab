@@ -135,6 +135,14 @@
             app:summary="@string/set_language_picker"
             app:title="@string/set_language_picker_title"
             app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_LANGUAGE_CHECK"
+            app:singleLineTitle="false"
+            app:summary="@string/set_language_check_description"
+            app:title="@string/set_language_check" />
     </PreferenceCategory>
 
     <PreferenceCategory

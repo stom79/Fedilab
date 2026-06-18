@@ -293,7 +293,9 @@
     <string name="category_activism">Активизъм</string>
     <string name="category_tech">Технологии</string>
     <string name="category_games">Гейминг</string>
-    <string name="users">%1$s потребители</string>
+    <plurals name="users">
+        <item quantity="one">%1$s потребители</item>
+    </plurals>
     <string name="password_error">Паролите не съвпадат!</string>
     <string name="account_created">Акаунтът е създаден!</string>
     <string name="save_draft">Запазване на съобщението в чернови?</string>

@@ -1,0 +1,11 @@
+Added:
+- Add language check when posting (detect language mismatch, default off)
+
+Fixed:
+- Fix collection error message on profile
+- Fix adding accounts to collections
+- Fix collection add/remove button for existing members
+- Fix notification timeline empty on app restart
+- Fix "Remove me" button on collection notifications
+- Fix animated emoji causing freeze
+- Fix multiple app windows when sharing
