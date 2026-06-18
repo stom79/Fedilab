@@ -161,6 +161,7 @@ public class FragmentMediaProfile extends Fragment {
         binding.loader.setVisibility(View.GONE);
         binding.noAction.setVisibility(View.GONE);
         binding.swipeContainer.setRefreshing(false);
+        binding.swipeContainer.setEnabled(false);
         if (statuses == null || statuses.statuses == null || statuses.statuses.size() == 0) {
             binding.noAction.setVisibility(View.VISIBLE);
             return;
