@@ -4228,6 +4228,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
+    @androidx.annotation.OptIn(markerClass = androidx.media3.common.util.UnstableApi.class)
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         viewHolder.itemView.setRotation(reverseTimeline ? 180 : 0);
         //Nothing to do with hidden statuses
@@ -4364,31 +4365,67 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);
             if (measuredWidthArt <= 0) {
-                holder.bindingArt.artMedia.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                holder.bindingArt.artContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        holder.bindingArt.artMedia.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        measuredWidthArt = holder.bindingArt.artMedia.getWidth();
+                        holder.bindingArt.artContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        measuredWidthArt = holder.bindingArt.artContainer.getWidth();
                         notifyItemChanged(0, statusList.size());
                     }
                 });
             }
             if (status.art_attachment != null) {
                 if (status.art_attachment.meta != null && status.art_attachment.meta.getSmall() != null) {
-                    ConstraintLayout.LayoutParams lp;
                     float mediaH = status.art_attachment.meta.getSmall().height;
                     float mediaW = status.art_attachment.meta.getSmall().width;
                     float ratio = measuredWidthArt > 0 ? measuredWidthArt / mediaW : 1.0f;
-                    lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, (int) (mediaH * ratio));
-                    holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                    holder.bindingArt.artMedia.setLayoutParams(lp);
-                    String artUrl = status.art_attachment.url != null ? status.art_attachment.url.toLowerCase() : "";
-                    boolean allowAnimationArt = autoplaygif && status.art_attachment.url != null && (artUrl.endsWith(".webp") || artUrl.endsWith(".gif") || "gifv".equalsIgnoreCase(status.art_attachment.type)) && !status.sensitive;
-                    RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, status.art_attachment, mediaW * ratio, mediaH * ratio, 1.0f, 1.0f, status.sensitive, true, allowAnimationArt);
-                    String artMediaUrl = allowAnimationArt ? status.art_attachment.url : status.art_attachment.preview_url;
-                    requestBuilder.load(artMediaUrl).into(holder.bindingArt.artMedia);
+                    boolean isGifv = autoplaygif && "gifv".equalsIgnoreCase(status.art_attachment.type) && status.art_attachment.url != null && !status.sensitive;
+                    if (isGifv) {
+                        holder.bindingArt.artMedia.setVisibility(View.GONE);
+                        holder.bindingArt.artVideo.setVisibility(View.VISIBLE);
+                        ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams) holder.bindingArt.artVideo.getLayoutParams();
+                        lp.height = (int) (mediaH * ratio);
+                        holder.bindingArt.artVideo.setLayoutParams(lp);
+                        ConstraintLayout.LayoutParams bannerLp = (ConstraintLayout.LayoutParams) holder.bindingArt.bottomBanner.getLayoutParams();
+                        bannerLp.bottomToBottom = holder.bindingArt.artVideo.getId();
+                        holder.bindingArt.bottomBanner.setLayoutParams(bannerLp);
+                        Uri uri = Uri.parse(status.art_attachment.url);
+                        MediaItem mediaItem = new MediaItem.Builder().setUri(uri).build();
+                        ProgressiveMediaSource videoSource;
+                        if (video_cache == 0) {
+                            DataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context);
+                            videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem);
+                        } else {
+                            CacheDataSourceFactory cacheDataSourceFactory = new CacheDataSourceFactory(context);
+                            videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(mediaItem);
+                        }
+                        try {
+                            ExoPlayer player = new ExoPlayer.Builder(context).build();
+                            player.setRepeatMode(Player.REPEAT_MODE_ONE);
+                            holder.bindingArt.artVideo.setPlayer(player);
+                            player.setMediaSource(videoSource);
+                            player.prepare();
+                            player.setPlayWhenReady(true);
+                            holder.activePlayers.add(player);
+                        } catch (Exception ignored) {
+                        }
+                    } else {
+                        holder.bindingArt.artMedia.setVisibility(View.VISIBLE);
+                        holder.bindingArt.artVideo.setVisibility(View.GONE);
+                        ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams) holder.bindingArt.artMedia.getLayoutParams();
+                        lp.height = (int) (mediaH * ratio);
+                        holder.bindingArt.artMedia.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        holder.bindingArt.artMedia.setLayoutParams(lp);
+                        ConstraintLayout.LayoutParams bannerLp = (ConstraintLayout.LayoutParams) holder.bindingArt.bottomBanner.getLayoutParams();
+                        bannerLp.bottomToBottom = holder.bindingArt.artMedia.getId();
+                        holder.bindingArt.bottomBanner.setLayoutParams(bannerLp);
+                        String artUrl = status.art_attachment.url != null ? status.art_attachment.url.toLowerCase() : "";
+                        boolean allowAnimationArt = autoplaygif && status.art_attachment.url != null && (artUrl.endsWith(".webp") || artUrl.endsWith(".gif")) && !status.sensitive;
+                        RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, status.art_attachment, mediaW * ratio, mediaH * ratio, 1.0f, 1.0f, status.sensitive, true, allowAnimationArt);
+                        String artMediaUrl = allowAnimationArt ? status.art_attachment.url : status.art_attachment.preview_url;
+                        requestBuilder.load(artMediaUrl).into(holder.bindingArt.artMedia);
+                    }
                 }
-
             }
             holder.bindingArt.artUsername.setText(
                     status.account.getSpanDisplayName(context,
@@ -4406,7 +4443,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     context.startActivity(intent);
                 });
             });
-            holder.bindingArt.artMedia.setOnClickListener(v -> {
+            View.OnClickListener artMediaClickListener = v -> {
                 if (status.art_attachment != null) {
                     Intent mediaIntent = new Intent(context, MediaActivity.class);
                     Bundle args = new Bundle();
@@ -4425,7 +4462,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     Toasty.error(context, context.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
                 }
-            });
+            };
+            holder.bindingArt.artMedia.setOnClickListener(artMediaClickListener);
+            holder.bindingArt.artVideo.setOnClickListener(artMediaClickListener);
             holder.bindingArt.bottomBanner.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ContextActivity.class);
                 Bundle args = new Bundle();
