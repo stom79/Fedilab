@@ -124,6 +124,12 @@ public class GifDecoder extends FrameSeqDecoder<GifReader, GifWriter> {
             throw e;
         }
 
+        for (Frame<GifReader, GifWriter> frame : frames) {
+            if (frame.frameDuration < 50) {
+                frame.frameDuration = 50;
+            }
+        }
+
         if (globalColorTable != null && bgColorIndex >= 0 && bgColorIndex < globalColorTable.getColorTable().length) {
             int abgr = globalColorTable.getColorTable()[bgColorIndex];
             this.bgColor = Color.rgb(abgr & 0xff, (abgr >> 8) & 0xff, (abgr >> 16) & 0xff);
