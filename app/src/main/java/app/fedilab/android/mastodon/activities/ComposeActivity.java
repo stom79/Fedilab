@@ -59,6 +59,9 @@ import androidx.work.WorkManager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -88,6 +91,7 @@ import app.fedilab.android.mastodon.client.entities.api.ScheduledStatus;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
+import app.fedilab.android.mastodon.client.entities.app.Languages;
 import app.fedilab.android.mastodon.client.entities.app.StatusDraft;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.DividerDecorationSimple;
@@ -102,6 +106,12 @@ import app.fedilab.android.mastodon.ui.drawer.AccountsReplyAdapter;
 import app.fedilab.android.mastodon.ui.drawer.ComposeAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.StatusesVM;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 import es.dmoral.toasty.Toasty;
 
 public class ComposeActivity extends BaseActivity implements ComposeAdapter.ManageDrafts, AccountsReplyAdapter.ActionDone, ComposeAdapter.promptDraftListener, ComposeAdapter.MediaDescriptionCallBack {
@@ -966,8 +976,95 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 mainHandler.post(myRunnable);
                 return;
             }
+            if (sendMessage) {
+                SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(ComposeActivity.this);
+                boolean checkLanguage = sharedpreferences.getBoolean(getString(R.string.SET_LANGUAGE_CHECK), false);
+                if (checkLanguage && statusDraft.statusDraftList != null && !statusDraft.statusDraftList.isEmpty()) {
+                    Status firstStatus = statusDraft.statusDraftList.get(0);
+                    String textToCheck = firstStatus.text;
+                    String selectedLanguage = firstStatus.language;
+                    if (textToCheck != null && textToCheck.trim().length() > 0) {
+                        String[] detection = detectLanguage(textToCheck);
+                        if (detection == null) {
+                            Handler mainHandler = new Handler(Looper.getMainLooper());
+                            mainHandler.post(() -> showLanguageWarning(
+                                    getString(R.string.language_detection_failed),
+                                    scheduledDate, statusDrafts));
+                            return;
+                        }
+                        String detectedLang = detection[0];
+                        double confidence = Double.parseDouble(detection[1]);
+                        String detectedName = Languages.getLanguageName(ComposeActivity.this, detectedLang);
+                        if (confidence < 30) {
+                            Handler mainHandler = new Handler(Looper.getMainLooper());
+                            mainHandler.post(() -> showLanguageWarning(
+                                    getString(R.string.language_detection_uncertain,
+                                            String.valueOf((int) confidence), detectedName),
+                                    scheduledDate, statusDrafts));
+                            return;
+                        }
+                        String selectedName = Languages.getLanguageName(ComposeActivity.this, selectedLanguage);
+                        if (!detectedLang.equalsIgnoreCase(selectedLanguage)) {
+                            Handler mainHandler = new Handler(Looper.getMainLooper());
+                            mainHandler.post(() -> showLanguageWarning(
+                                    getString(R.string.language_mismatch, detectedName, selectedName),
+                                    scheduledDate, statusDrafts));
+                            return;
+                        }
+                    }
+                }
+            }
             sendMessage(sendMessage, scheduledDate);
         }).start();
+    }
+
+    private void showLanguageWarning(String message, String scheduledDate, List<Status> statusDrafts) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+        builder.setMessage(message);
+        builder.setPositiveButton(R.string.keep_posting, (dialog, id) -> {
+            sendMessage(true, scheduledDate);
+            dialog.dismiss();
+        });
+        builder.setNegativeButton(android.R.string.cancel, (dialog, id) -> {
+            if (!statusDrafts.isEmpty()) {
+                statusDrafts.get(statusDrafts.size() - 1).submitted = false;
+                composeAdapter.notifyItemChanged(statusList.size() - 1);
+            }
+            dialog.cancel();
+        });
+        builder.show();
+    }
+
+    private String[] detectLanguage(String text) {
+        try {
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(10, TimeUnit.SECONDS)
+                    .build();
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("q", text);
+            RequestBody body = RequestBody.create(
+                    jsonBody.toString(),
+                    MediaType.parse("application/json"));
+            Request request = new Request.Builder()
+                    .url("https://translate.fedilab.app/detect")
+                    .post(body)
+                    .build();
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful() && response.body() != null) {
+                JSONArray array = new JSONArray(response.body().string());
+                if (array.length() > 0) {
+                    JSONObject result = array.getJSONObject(0);
+                    return new String[]{
+                            result.getString("language"),
+                            String.valueOf(result.getDouble("confidence"))
+                    };
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void sendMessage(boolean sendMessage, String scheduledDate) {
