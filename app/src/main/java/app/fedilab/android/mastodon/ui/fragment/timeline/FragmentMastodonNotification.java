@@ -427,6 +427,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
                 }
             }
         });
+        route(FragmentMastodonTimeline.DIRECTION.FETCH_NEW, true);
     }
 
 
@@ -576,8 +577,15 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         if (direction == null) {
             notificationsVM.getNotifications(notificationList, timelineParams)
                     .observe(getViewLifecycleOwner(), notifications -> {
-                        initialNotifications = notifications;
-                        initializeNotificationView(notifications);
+                        if (timelineParams.maxId != null && (notifications == null || notifications.notifications == null || notifications.notifications.isEmpty())) {
+                            timelineParams.sinceId = timelineParams.maxId;
+                            timelineParams.maxId = null;
+                            max_id = null;
+                            getLiveNotifications(null, fetchingMissing, timelineParams, notificationToUpdate);
+                        } else {
+                            initialNotifications = notifications;
+                            initializeNotificationView(notifications);
+                        }
                     });
         } else if (direction == FragmentMastodonTimeline.DIRECTION.BOTTOM) {
             notificationsVM.getNotifications(notificationList, timelineParams)
