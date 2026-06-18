@@ -14,8 +14,11 @@ package app.fedilab.android.mastodon.client.endpoints;
  * You should have received a copy of the GNU General Public License along with Fedilab; if not,
  * see <http://www.gnu.org/licenses>. */
 
+import java.util.Map;
+
 import app.fedilab.android.mastodon.client.entities.api.Collection;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -81,12 +84,11 @@ public interface MastodonCollectionsService {
             @Path("id") String id
     );
 
-    @FormUrlEncoded
     @POST("collections/{collection_id}/items")
     Call<Collection.WrappedCollectionItem> addAccountToCollection(
             @Header("Authorization") String token,
             @Path("collection_id") String collection_id,
-            @Field("account_id") String account_id
+            @Body Map<String, String> body
     );
 
     @DELETE("collections/{collection_id}/items/{id}")

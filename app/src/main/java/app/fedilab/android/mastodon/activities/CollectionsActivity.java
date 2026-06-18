@@ -40,7 +40,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
@@ -52,6 +54,7 @@ import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Collection;
 import app.fedilab.android.mastodon.client.entities.api.RelationShip;
 import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.ui.drawer.AccountAdapter;
 import app.fedilab.android.mastodon.ui.drawer.CollectionAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
@@ -435,6 +438,25 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
 
     @SuppressLint("ClickableViewAccessibility")
     private void showAddAccountDialog() {
+        if (currentCollection == null) {
+            return;
+        }
+        collectionsVM.getCollection(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, currentCollection.id)
+                .observe(this, result -> {
+                    Map<String, String> existingAccountItems = new HashMap<>();
+                    if (result != null && result.collection != null && result.collection.items != null) {
+                        for (Collection.CollectionItem item : result.collection.items) {
+                            if (item.account_id != null) {
+                                existingAccountItems.put(item.account_id, item.id);
+                            }
+                        }
+                    }
+                    showAddAccountDialogWithExisting(existingAccountItems);
+                });
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void showAddAccountDialogWithExisting(Map<String, String> existingAccountItems) {
         AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(CollectionsActivity.this);
         PopupManageAccountsListBinding popupBinding = PopupManageAccountsListBinding.inflate(getLayoutInflater());
         dialogBuilder.setView(popupBinding.getRoot());
@@ -474,7 +496,7 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
                                     accounts.removeIf(a -> a.id != null && a.id.equals(BaseMainActivity.currentUserID));
                                     popupBinding.lvAccountsSearch.setVisibility(View.VISIBLE);
                                     popupBinding.lvAccountsCurrent.setVisibility(View.GONE);
-                                    SearchAccountAdapter adapter = new SearchAccountAdapter(accounts);
+                                    SearchAccountAdapter adapter = new SearchAccountAdapter(accounts, existingAccountItems);
                                     popupBinding.lvAccountsSearch.setAdapter(adapter);
                                     popupBinding.lvAccountsSearch.setLayoutManager(new LinearLayoutManager(CollectionsActivity.this));
                                 }
@@ -538,9 +560,43 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
     private class SearchAccountAdapter extends RecyclerView.Adapter<SearchAccountAdapter.SearchViewHolder> {
 
         private final List<Account> accounts;
+        private final Map<String, String> existingAccountItems;
 
-        SearchAccountAdapter(List<Account> accounts) {
+        SearchAccountAdapter(List<Account> accounts, Map<String, String> existingAccountItems) {
             this.accounts = accounts;
+            this.existingAccountItems = existingAccountItems;
+        }
+
+        private void bindAsRemove(SearchViewHolder holder, Account account, String itemId) {
+            holder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_remove_24);
+            holder.binding.followAction.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                    ThemeHelper.getAttColor(CollectionsActivity.this, R.attr.colorError)));
+            holder.binding.followAction.setOnClickListener(v -> {
+                if (currentCollection != null) {
+                    collectionsVM.removeAccountFromCollection(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, currentCollection.id, itemId);
+                    existingAccountItems.remove(account.id);
+                    bindAsAdd(holder, account);
+                    Toasty.success(CollectionsActivity.this, getString(R.string.account_removed_from_collection), Toasty.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        private void bindAsAdd(SearchViewHolder holder, Account account) {
+            holder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
+            holder.binding.followAction.setBackgroundTintList(null);
+            holder.binding.followAction.setEnabled(true);
+            holder.binding.followAction.setOnClickListener(v -> {
+                if (currentCollection != null) {
+                    collectionsVM.addAccountToCollection(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, currentCollection.id, account.id)
+                            .observe(CollectionsActivity.this, item -> {
+                                if (item != null) {
+                                    existingAccountItems.put(account.id, item.id);
+                                    bindAsRemove(holder, account, item.id);
+                                    Toasty.success(CollectionsActivity.this, getString(R.string.account_added_to_collection), Toasty.LENGTH_LONG).show();
+                                }
+                            });
+                }
+            });
         }
 
         @NonNull
@@ -559,7 +615,7 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
             holder.binding.muteGroup.setVisibility(View.GONE);
             holder.binding.block.setVisibility(View.GONE);
             holder.binding.followAction.setVisibility(View.VISIBLE);
-            holder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
+            holder.binding.followAction.setAlpha(1.0f);
 
             if (account.avatar != null) {
                 Glide.with(holder.binding.avatar.getContext())
@@ -569,23 +625,14 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
             }
 
             if (account.feature_approval != null && "denied".equals(account.feature_approval.current_user)) {
+                holder.binding.followAction.setIconResource(R.drawable.ic_baseline_person_add_24);
                 holder.binding.followAction.setAlpha(0.5f);
                 holder.binding.followAction.setOnClickListener(v ->
                         Toasty.warning(CollectionsActivity.this, getString(R.string.collection_feature_denied), Toasty.LENGTH_LONG).show());
+            } else if (existingAccountItems.containsKey(account.id)) {
+                bindAsRemove(holder, account, existingAccountItems.get(account.id));
             } else {
-                holder.binding.followAction.setAlpha(1.0f);
-                holder.binding.followAction.setOnClickListener(v -> {
-                    if (currentCollection != null) {
-                        collectionsVM.addAccountToCollection(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, currentCollection.id, account.id)
-                                .observe(CollectionsActivity.this, item -> {
-                                    if (item != null) {
-                                        holder.binding.followAction.setIconResource(R.drawable.ic_baseline_check_24);
-                                        holder.binding.followAction.setEnabled(false);
-                                        Toasty.success(CollectionsActivity.this, getString(R.string.account_added_to_collection), Toasty.LENGTH_LONG).show();
-                                    }
-                                });
-                    }
-                });
+                bindAsAdd(holder, account);
             }
         }
 
