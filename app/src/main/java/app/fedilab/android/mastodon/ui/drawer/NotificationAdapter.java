@@ -355,13 +355,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (itemViewType == TYPE_ADDED_TO_COLLECTION || itemViewType == TYPE_COLLECTION_UPDATE) {
                 CollectionsVM collectionsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(CollectionsVM.class);
                 NotificationsVM notificationsVM = new ViewModelProvider((ViewModelStoreOwner) context).get(NotificationsVM.class);
-                if (itemViewType == TYPE_ADDED_TO_COLLECTION && notification.collection != null) {
+                if (itemViewType == TYPE_ADDED_TO_COLLECTION) {
                     holderFollow.binding.rejectButton.setOnClickListener(v -> {
                         AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
                         builder.setMessage(R.string.action_remove_myself_from_collection);
                         builder.setPositiveButton(R.string.yes, (dialog, which) -> {
-                                collectionsVM.revokeCurrentUserFromCollection(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
-                                        notification.collection.id, BaseMainActivity.currentUserID);
+                                if (notification.collection != null) {
+                                    collectionsVM.revokeCurrentUserFromCollection(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
+                                            notification.collection.id, BaseMainActivity.currentUserID);
+                                }
                                 notificationsVM.dismissNotification(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, notification.id);
                                 int pos = holderFollow.getBindingAdapterPosition();
                                 if (pos >= 0 && pos < notificationList.size()) {
