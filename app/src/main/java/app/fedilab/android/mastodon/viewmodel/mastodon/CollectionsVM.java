@@ -25,7 +25,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.net.IDN;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import app.fedilab.android.mastodon.client.endpoints.MastodonCollectionsService;
 import app.fedilab.android.mastodon.client.entities.api.Account;
@@ -240,7 +242,9 @@ public class CollectionsVM extends AndroidViewModel {
         new Thread(() -> {
             Collection.CollectionItem item = null;
             String errorMessage = null;
-            Call<Collection.WrappedCollectionItem> call = service.addAccountToCollection(token, collectionId, accountId);
+            Map<String, String> body = new HashMap<>();
+            body.put("account_id", accountId);
+            Call<Collection.WrappedCollectionItem> call = service.addAccountToCollection(token, collectionId, body);
             if (call != null) {
                 try {
                     Response<Collection.WrappedCollectionItem> response = call.execute();
