@@ -1,0 +1,38 @@
+Novetats:
+- Opció de visibilitat per cada impulsió
+- Botó d'eliminació a part per compondre enfilalls
+- Diàleg de confirmació per a converses remotes
+- Insígnia de MD al capdavall del menú
+- Mode de conversa mixta: primer les respostes locals i les només remotes després
+- Insígnia d'avisos i finestra emergent opcional per als nous avisos
+
+Millores:
+- Autoobertura de pestanya Missatges per cercar operadors
+- Millora dels missatges d'error de l'API
+- Respecta la relació d'aspecte dels emojis personalitzats grans
+- Insígnia ALT: corregeix l'etiqueta truncada, afegeix el botó de traducció, harmonitza les cometes i els GIF
+- Modes locals / mixtes / remots en la configuració de conversa 
+
+Correccions:
+- El codi d'idioma es mostrava en lloc del de localització
+- La resposta heretava les estadístiques pare després de la interacció
+- Mèdia animats que no es reproduïen automàticament a la pissarra d'il·lustracions
+- Imatges no clicables en el previsionat encaixat en pantalles grans
+- Icona d'adreça d'interès que no s'actualitzava al menú de desbordament
+- Mèdia adjuntats agrisats després de suprimir
+- Plural que faltava en el nombre d'usuàries
+- Minicodis d'emojis que es traduïen
+- Límit de posició de la marca d'aigua
+- Retard del camp AH en textos llargs
+- Regex en l'autocompleció d'emojis
+- Brindis de confirmació després de programació
+- Cometes en text "alt" en missatges programats
+- Cometa que sortia al menú en denegar
+- Diàleg de valoració sense el compte
+- Emojis personalitzats que no es mostraven a la pàgina del cache
+- Fallida en navegar per llista d'emojis personalitzats
+- Pissarres ocultes que es perdien en mode de barra única
+- Icona d'enllaç invisible en mode clar
+- Fallida de Conscrypt als dispositius de mida de pàgina de 16KB
+- Informes de fallides
+- Ús d'instància Fedilab Nitter amb capçalera d'usuària-agent
