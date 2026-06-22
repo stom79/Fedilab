@@ -432,7 +432,9 @@
     <string name="join_mastodon">Unisciti a Mastodon</string>
     <string name="pickup_instance_category">Scegli un\'istanza selezionando una categoria, poi premi il pulsante con la spunta.</string>
     <plurals name="users">
-        <item quantity="one">%1$s utenti</item>
+        <item quantity="one">%1$s utente</item>
+        <item quantity="many">%1$s utenti</item>
+        <item quantity="other">%1$s utenti</item>
     </plurals>
     <string name="password_confirm">Conferma password</string>
     <string name="agreement_check">Sono d\'accordo con %1$s e %2$s</string>
@@ -678,7 +680,7 @@
     <string name="type_default_theme_dark">Tema scuro default</string>
     <string name="poll_duration">Durata del sondaggio:</string>
     <string name="domain">Dominio</string>
-    <string name="disable_notifications">Disabilita notifiche</string>
+    <string name="disable_notifications">Notifiche attivate</string>
     <string name="pref_contributor">Temi dai contribuenti</string>
     <string name="label_eraser_mode">Modalità gomma</string>
     <string name="refresh_every">Controlla notifiche ogni:</string>
@@ -926,7 +928,7 @@
     <string name="admin_domainblock_reject_obfuscate">Offusca parzialmente il nome di dominio nella lista se mostra le limitazioni di dominio é abilitato</string>
     <string name="fetch_remote_media">Scarica automaticamente media remoti se non disponibili</string>
     <string name="lemmy_instance">Instanza Lemmy</string>
-    <string name="also_followed_by">Seguagi:</string>
+    <string name="also_followed_by">Seguaci:</string>
     <string name="_new">Nuovi</string>
     <string name="toast_error_media">Il media non può essere caricato!</string>
     <string name="chat_timeline_for_direct">Linea temporale per messaggi diretti</string>
@@ -964,7 +966,7 @@
     <string name="set_display_compact_buttons_description">I pulsanti in basso ai messaggi non ne occuperanno l\'intera larghezza</string>
     <string name="bubble">Bolla</string>
     <string name="set_custom_accent_value_light_description">Colore che sarà applicato al tema chiaro</string>
-    <string name="set_remote_conversation_title">Conversazioni remote</string>
+    <string name="set_remote_conversation_title">Conversazioni</string>
     <string name="chart_home_cache">Frequenza orari per messaggi nel registro della cache per la schermata iniziale</string>
     <string name="formula">Formula</string>
     <string name="fetch_home_every">Aggiorna schermata iniziale ogni</string>
