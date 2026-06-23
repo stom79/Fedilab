@@ -59,6 +59,10 @@ public class Account implements Serializable {
     public String header;
     @SerializedName("header_static")
     public String header_static;
+    @SerializedName("avatar_description")
+    public String avatar_description;
+    @SerializedName("header_description")
+    public String header_description;
     @SerializedName("followers_count")
     public long followers_count;
     @SerializedName("following_count")
@@ -164,5 +168,12 @@ public class Account implements Serializable {
         @SerializedName("fields_attributes")
         public LinkedHashMap<Integer, Field.FieldParams> fields;
 
+    }
+
+    public static class ProfileParams implements Serializable {
+        @SerializedName("avatar_description")
+        public String avatar_description;
+        @SerializedName("header_description")
+        public String header_description;
     }
 }

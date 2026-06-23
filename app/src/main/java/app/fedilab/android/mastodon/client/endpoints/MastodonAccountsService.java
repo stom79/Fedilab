@@ -77,6 +77,12 @@ public interface MastodonAccountsService {
 
     );
 
+    @Headers({"Accept: application/json"})
+    @PATCH("profile")
+    Call<Account> updateProfile(
+            @Header("Authorization") String token, @Body Account.ProfileParams profileParams
+    );
+
 
     @Headers({"Accept: application/json"})
     @PATCH("accounts/update_credentials")
