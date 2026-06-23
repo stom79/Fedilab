@@ -1022,7 +1022,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
         builder.setMessage(message);
         builder.setPositiveButton(R.string.keep_posting, (dialog, id) -> {
-            sendMessage(true, scheduledDate);
+            new Thread(() -> sendMessage(true, scheduledDate)).start();
             dialog.dismiss();
         });
         builder.setNegativeButton(android.R.string.cancel, (dialog, id) -> {
