@@ -215,6 +215,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public static final int STATUS_PIXELFED = 5;
     private static float measuredWidth = -1;
     private static float measuredWidthArt = -1;
+
+    static String stripChevron(String label) {
+        return label.replaceAll("&gt;|&lt;|>|<", "").replaceAll("\\s{2,}", " ").trim();
+    }
     private final List<Status> statusList;
     private final boolean minified;
     private final Timeline.TimeLineEnum timelineType;
@@ -1814,9 +1818,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         TextView.BufferType.SPANNABLE);
             }
             if (statusToDeal.isExpended) {
-                holder.binding.spoilerExpand.setText(context.getString(R.string.hide_content));
+                holder.binding.spoilerExpand.setText(stripChevron(context.getString(R.string.hide_content)));
+                holder.binding.spoilerExpand.setIconResource(R.drawable.ic_baseline_visibility_off_24);
             } else {
-                holder.binding.spoilerExpand.setText(context.getString(R.string.show_content));
+                holder.binding.spoilerExpand.setText(stripChevron(context.getString(R.string.show_content)));
+                holder.binding.spoilerExpand.setIconResource(R.drawable.ic_baseline_visibility_24);
             }
         } else {
             holder.binding.spoiler.setVisibility(View.GONE);
