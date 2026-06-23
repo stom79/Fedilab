@@ -148,6 +148,32 @@
                 tools:text="\@username\@instance.test" />
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/header_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/header_description"
+                android:inputType="textMultiLine|textCapSentences"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/acct" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/avatar_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/avatar_description"
+                android:inputType="textMultiLine|textCapSentences"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header_description" />
+
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/bio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,7 +184,7 @@
                 android:scrollbars="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/acct"
+                app:layout_constraintTop_toBottomOf="@id/avatar_description"
                 tools:text="@tools:sample/lorem/random" />
 
 

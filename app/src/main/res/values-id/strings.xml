@@ -1381,4 +1381,27 @@
     <string name="account_removed_from_collection">Akun tersebut dihapus dari koleksinya!</string>
     <string name="collection_sensitive">Sensitif</string>
     <string name="collection_tab_created">Dibuat oleh kamu</string>
+    <string name="set_language_check">Periksa bahasa saat memposting</string>
+    <string name="set_language_check_description">Deteksi bahasa teks dan beri peringatan jika tidak sesuai dengan bahasa yang dipilih</string>
+    <string name="language_mismatch">Bahasa tidak cocok: terdeteksi %1$s tetapi Anda memilih %2$s</string>
+    <string name="language_detection_uncertain">Deteksi bahasa tidak pasti (tingkat keyakinan %1$s%%). Terdeteksi: %2$s</string>
+    <string name="language_detection_failed">Tidak dapat memverifikasi bahasa postingan</string>
+    <string name="keep_posting">Tetap posting</string>
+    <string name="kw_language_check">bahasa, periksa, deteksi, verifikasi, posting, tidak cocok</string>
+    <string name="collection_tab_featuring">Menampilkan Anda</string>
+    <string name="collection_feature_denied">Akun ini tidak mengizinkan untuk ditampilkan dalam koleksi</string>
+    <string name="collection_account_count">%d akun</string>
+    <string name="collection_sort_alphabetical">Alfabetis</string>
+    <string name="collection_sort_last_active">Terakhir aktif</string>
+    <string name="collection_sort_most_followers">Pengikut terbanyak</string>
+    <string name="collection_sort_date_added">Tanggal ditambahkan</string>
+    <string name="collection_sort_by">Urutkan berdasarkan</string>
+    <string name="featured">Ditampilkan</string>
+    <string name="set_show_featured_tab">Tampilkan tab unggulan di profil</string>
+    <string name="set_show_featured_tab_description">Tampilkan tab unggulan di halaman profil</string>
+    <string name="notif_added_to_collection">menambahkan Anda ke koleksi</string>
+    <string name="notif_collection_update">memperbarui koleksi yang menampilkan Anda</string>
+    <string name="set_notif_collection">Beri tahu untuk perubahan koleksi</string>
+    <string name="action_remove_myself_from_collection">Hapus saya dari koleksi ini</string>
+    <string name="action_remove_me">Hapus saya</string>
 </resources>

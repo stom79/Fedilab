@@ -682,7 +682,7 @@ public class ProfileActivity extends BaseActivity {
             Intent intent = new Intent(ProfileActivity.this, MediaActivity.class);
             Bundle args = new Bundle();
             Attachment attachment = new Attachment();
-            attachment.description = account.acct;
+            attachment.description = account.header_description;
             attachment.preview_url = account.header;
             attachment.url = account.header;
             attachment.remote_url = account.header;
@@ -706,7 +706,7 @@ public class ProfileActivity extends BaseActivity {
             Intent intent = new Intent(ProfileActivity.this, MediaActivity.class);
             Bundle args = new Bundle();
             Attachment attachment = new Attachment();
-            attachment.description = account.acct;
+            attachment.description = account.avatar_description;
             attachment.preview_url = account.avatar;
             attachment.url = account.avatar;
             attachment.remote_url = account.avatar;

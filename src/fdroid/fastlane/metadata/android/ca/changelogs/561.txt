@@ -1,0 +1,11 @@
+Novetat:
+- Comprovació d'idioma en publicar (detecta si la llengua no quadre, desactivat per defecte)
+
+Correccions:
+- Missatge d'error de col·lecció al perfil
+- Afegit de comptes a les col·leccions
+- Botó d'afegir/eliminar col·leccions per a membres ja existents
+- Pissarra de notificació buida en reiniciar l'aplicació
+- Botó «Suprimeix-me» a les notificacions de la col·lecció
+- Emojis animats que provocaven paralitzacions
+- Multiplicitat de finestres d'aplicació en compartir

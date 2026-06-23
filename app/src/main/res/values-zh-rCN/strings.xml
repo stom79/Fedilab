@@ -430,7 +430,7 @@
     <string name="join_mastodon">加入 Mastodon</string>
     <string name="pickup_instance_category">选择一个类别以获取实例列表，然后点击您喜欢的实例。</string>
     <plurals name="users">
-        <item quantity="other">%1$s 用户</item>
+        <item quantity="other">%1$s 名用户</item>
     </plurals>
     <string name="password_confirm">确认密码</string>
     <string name="agreement_check">我同意 %1$s 和 %2$s</string>
@@ -1045,7 +1045,7 @@
     <string name="auto">自动</string>
     <string name="set_custom_accent_value_light_description">将应用于浅色主题的颜色</string>
     <string name="set_custom_accent_dark_value">深色强调色</string>
-    <string name="set_remote_conversation_title">远程对话</string>
+    <string name="set_remote_conversation_title">对话</string>
     <string name="set_remote_conversation">应用将公开显示对话，以获取所有消息。互动需要额外的步骤来联合消息。</string>
     <string name="markdown_support">Markdown 支持</string>
     <string name="lemmy_instance">Lemmy 实例</string>
@@ -1384,4 +1384,30 @@
     <string name="set_notif_collection">通知合集变更</string>
     <string name="action_remove_myself_from_collection">从此合集中移除我自己</string>
     <string name="action_remove_me">移除我</string>
+    <string name="set_announcement_popup_title">公告弹窗</string>
+    <string name="set_announcement_popup_summary">检测到新的服务器公告时显示弹窗</string>
+    <string name="new_announcement">新公告</string>
+    <string name="open">打开</string>
+    <string name="error_feature_not_supported">你的实例尚不支持此功能</string>
+    <string name="error_file_too_large">该文件对你的实例太大</string>
+    <string name="error_file_rejected">文件被你的实例拒绝</string>
+    <string name="error_too_many_requests">请求太多，请稍后再试</string>
+    <string name="error_instance_unavailable">你的实例暂不可用</string>
+    <string name="error_generic">发生了错误（%1$d），请稍候再试</string>
+    <string name="conversation_mode_local">本地</string>
+    <string name="conversation_mode_mixed">混和</string>
+    <string name="conversation_mode_remote">远程</string>
+    <string name="conversation_mode_local_summary">只显示你的实例知道的回复</string>
+    <string name="conversation_mode_mixed_summary">先显示本地回复，然后添加来自远程实例的公开回复</string>
+    <string name="conversation_mode_remote_summary">仅显示来自远程实例的公开回复。交互需要额外的步骤进行联邦。</string>
+    <string name="set_remote_conversation_warning">远程对话使用远程服务器未经身份认证的 API 请求器。由于 Mastodon API 的限制，只获取索前 60 条嘟文，且回复深度最多为 20 ，较长的对话可能显示不完整。</string>
+    <string name="set_language_check">发嘟文时检查语言</string>
+    <string name="set_language_check_description">检测文本语言，如果与所选语言不匹配则发出警告</string>
+    <string name="language_mismatch">语言不匹配：检测到 %1$s 但你选了 %2$s</string>
+    <string name="tab_home_timeline">\@string/context_home</string>
+    <string name="tab_local_timeline">\@string/local_menu</string>
+    <string name="language_detection_uncertain">语言检测结果不确定（置信度为 %1$s%%）。检测到：%2$s</string>
+    <string name="language_detection_failed">无法验证嘟文语言</string>
+    <string name="keep_posting">继续发嘟文</string>
+    <string name="kw_language_check">语言、检查、检测、验证、发布、不匹配</string>
 </resources>

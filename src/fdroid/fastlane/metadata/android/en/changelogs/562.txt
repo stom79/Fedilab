@@ -1,0 +1,50 @@
+Added:
+- Add per-boost visibility option
+- Add separate remove button in thread composition
+- Add confirmation dialog for remote conversations
+- Add unread DM badge on bottom menu
+- Add mixed conversation mode: local replies first, then remote-only replies
+- Add announcement badge in drawer and optional popup for new announcements
+- Add language check when posting (detect language mismatch, default off)
+- Add editing of profile picture and banner descriptions
+
+Improved:
+- Auto open Messages tab for operator search
+- Improve API error messages
+- Respect aspect ratio of wide custom emojis
+- ALT badge: fix truncated label, add translate button, harmonize on quotes and GIF
+- Conversation setting now offers Local / Mixed / Remote modes
+
+Fixed:
+- Fix collection error message on profile
+- Fix adding accounts to collections
+- Fix collection add/remove button for existing members
+- Fix notification timeline empty on app restart
+- Fix "Remove me" button on collection notifications
+- Fix multiple app windows when sharing
+- Fix language code shown instead of locale name
+- Fix reply inherits parent statistics after interaction
+- Fix animated media not autoplaying in art timeline
+- Fix pictures unclickable with fit preview on large screens
+- Fix bookmark icon not updating from overflow menu
+- Fix attach media grayed out after deleting
+- Fix missing plural form for user count
+- Fix emoji shortcodes getting translated
+- Fix watermark position cutoff
+- Fix CW field lag on long text
+- Fix regex in emoji autocomplete
+- Fix confirmation toast after scheduling
+- Fix quotation marks in alt text on scheduled posts
+- Fix quote shown in menu when denied
+- Fix rating dialog without account
+- Fix custom emojis not rendered on cache page
+- Fix crash when browsing custom emojis list
+- Fix hidden timelines lost in single bar mode
+- Fix link icon invisible in light mode
+- Fix Conscrypt crash on 16KB page size devices
+- Fix animated emoji causing freeze and ANR
+- Fix animated emojis not animating after opening a post
+- Fix raw HTML entity shown in content warning button
+- Fix crash when posting with language check enabled
+- Fix crash reports
+- Use Fedilab Nitter instance and add User-Agent header

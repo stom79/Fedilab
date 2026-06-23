@@ -240,6 +240,39 @@ public class AccountsVM extends AndroidViewModel {
         return accountMutableLiveData;
     }
 
+    public LiveData<Account> updateProfileMediaDescription(@NonNull String instance, String token, String avatarDescription, String headerDescription) {
+        MastodonAccountsService mastodonAccountsService = init(instance);
+        accountMutableLiveData = new MutableLiveData<>();
+        new Thread(() -> {
+            Account account = null;
+            try {
+                if (avatarDescription != null) {
+                    Account.ProfileParams profileParams = new Account.ProfileParams();
+                    profileParams.avatar_description = avatarDescription;
+                    Response<Account> response = mastodonAccountsService.updateProfile(token, profileParams).execute();
+                    if (response.isSuccessful()) {
+                        account = response.body();
+                    }
+                }
+                if (headerDescription != null) {
+                    Account.ProfileParams profileParams = new Account.ProfileParams();
+                    profileParams.header_description = headerDescription;
+                    Response<Account> response = mastodonAccountsService.updateProfile(token, profileParams).execute();
+                    if (response.isSuccessful()) {
+                        account = response.body();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Account finalAccount = account;
+            Runnable myRunnable = () -> accountMutableLiveData.setValue(finalAccount);
+            mainHandler.post(myRunnable);
+        }).start();
+        return accountMutableLiveData;
+    }
+
     /**
      * Update account credentials
      *

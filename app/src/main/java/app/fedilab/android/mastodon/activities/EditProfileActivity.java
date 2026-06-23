@@ -69,6 +69,8 @@ public class EditProfileActivity extends BaseBarActivity {
     public static final int PICK_MEDIA_HEADER = 5706;
     private ActivityEditProfileBinding binding;
     private AccountsVM accountsVM;
+    private String originalAvatarDescription;
+    private String originalHeaderDescription;
     private MisskeyAccountsVM misskeyAccountsVM;
     private boolean isMisskey;
     private static final int MAX_FIELDS = 4;
@@ -145,6 +147,12 @@ public class EditProfileActivity extends BaseBarActivity {
         else
             bio = Html.fromHtml(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.note).toString();
         binding.bio.setText(bio);
+        originalAvatarDescription = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.avatar_description;
+        originalAvatarDescription = originalAvatarDescription != null ? originalAvatarDescription.trim() : "";
+        originalHeaderDescription = Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.header_description;
+        originalHeaderDescription = originalHeaderDescription != null ? originalHeaderDescription.trim() : "";
+        binding.avatarDescription.setText(originalAvatarDescription);
+        binding.headerDescription.setText(originalHeaderDescription);
 
         if (isMisskey) {
             binding.fieldsMainContainer.setVisibility(View.GONE);
@@ -155,6 +163,8 @@ public class EditProfileActivity extends BaseBarActivity {
             binding.quoteApprovalPolicyGroup.setVisibility(View.GONE);
             binding.sensitive.setVisibility(View.GONE);
             binding.discoverable.setVisibility(View.GONE);
+            binding.avatarDescription.setVisibility(View.GONE);
+            binding.headerDescription.setVisibility(View.GONE);
         }
 
         if (!isMisskey) {
@@ -426,6 +436,20 @@ public class EditProfileActivity extends BaseBarActivity {
         }
     }
 
+    private void onProfileSaved(Account account) {
+        Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
+        new Thread(() -> {
+            try {
+                new app.fedilab.android.mastodon.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
+                sendBroadCast(account);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        Toasty.success(EditProfileActivity.this, getString(R.string.profiled_updated), Toasty.LENGTH_LONG).show();
+        finish();
+    }
+
     private void sendBroadCast(Account account) {
         Bundle args = new Bundle();
         args.putBoolean(Helper.RECEIVE_REDRAW_PROFILE, true);
@@ -541,6 +565,10 @@ public class EditProfileActivity extends BaseBarActivity {
                             }
                         });
             } else {
+                String avatarDesc = Objects.requireNonNull(binding.avatarDescription.getText()).toString().trim();
+                String headerDesc = Objects.requireNonNull(binding.headerDescription.getText()).toString().trim();
+                String avatarDescToSend = avatarDesc.equals(originalAvatarDescription) ? null : avatarDesc;
+                String headerDescToSend = headerDesc.equals(originalHeaderDescription) ? null : headerDesc;
                 accountsVM.updateCredentials(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
                                 binding.discoverable.isChecked(),
                                 binding.bot.isChecked(),
@@ -556,17 +584,21 @@ public class EditProfileActivity extends BaseBarActivity {
                         )
                         .observe(EditProfileActivity.this, account -> {
                             if (account != null) {
-                                Helper.setCurrentAccountMastodonAccount(EditProfileActivity.this, account);
-                                new Thread(() -> {
-                                    try {
-                                        new app.fedilab.android.mastodon.client.entities.app.Account(EditProfileActivity.this).insertOrUpdate(Helper.getCurrentAccount(EditProfileActivity.this));
-                                        sendBroadCast(account);
-                                    } catch (DBException e) {
-                                        e.printStackTrace();
-                                    }
-                                }).start();
-                                Toasty.success(EditProfileActivity.this, getString(R.string.profiled_updated), Toasty.LENGTH_LONG).show();
-                                finish();
+                                if (avatarDescToSend != null || headerDescToSend != null) {
+                                    accountsVM.updateProfileMediaDescription(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
+                                                    avatarDescToSend, headerDescToSend)
+                                            .observe(EditProfileActivity.this, ignored -> {
+                                                if (avatarDescToSend != null) {
+                                                    account.avatar_description = avatarDescToSend;
+                                                }
+                                                if (headerDescToSend != null) {
+                                                    account.header_description = headerDescToSend;
+                                                }
+                                                onProfileSaved(account);
+                                            });
+                                } else {
+                                    onProfileSaved(account);
+                                }
                             } else {
                                 Helper.sendToastMessage(getApplication(), Helper.RECEIVE_TOAST_TYPE_ERROR, getString(R.string.toast_error));
                             }

@@ -202,6 +202,13 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 isExpended = !isExpended;
                 notifyItemChanged(position);
             });
+            if (isExpended) {
+                holder.binding.spoilerExpand.setText(StatusAdapter.stripChevron(context.getString(R.string.hide_content)));
+                holder.binding.spoilerExpand.setIconResource(R.drawable.ic_baseline_visibility_off_24);
+            } else {
+                holder.binding.spoilerExpand.setText(StatusAdapter.stripChevron(context.getString(R.string.show_content)));
+                holder.binding.spoilerExpand.setIconResource(R.drawable.ic_baseline_visibility_24);
+            }
             holder.binding.spoiler.setVisibility(View.VISIBLE);
             holder.binding.spoiler.setText(
                     conversation.last_status.getSpanSpoiler(context,

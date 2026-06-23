@@ -433,7 +433,9 @@
     <string name="join_mastodon">Uneix-te a Mastodont</string>
     <string name="pickup_instance_category">Tria una categoria per obtenir una llista d\'instàncies i després clica la instància que prefereixis.</string>
     <plurals name="users">
-        <item quantity="one">%1$s usuàries</item>
+        <item quantity="one">%1$s usuària</item>
+        <item quantity="many">%1$s usuàries</item>
+        <item quantity="other">%1$s usuàries</item>
     </plurals>
     <string name="password_confirm">Confirma la contrasenya</string>
     <string name="agreement_check">Estic d\'acord amb %1$s i %2$s</string>
@@ -902,7 +904,7 @@
     <string name="warn">Avisar</string>
     <string name="admin_reject_reports">Rebutjar els informes</string>
     <string name="v_list">Llista</string>
-    <string name="set_remote_conversation_title">Converses remotes</string>
+    <string name="set_remote_conversation_title">Converses</string>
     <string name="set_display_local_only">Mostrar el botó «només local»</string>
     <string name="timeline_scrollbar">Mostra una barra-ròdol en les pissarres</string>
     <string name="markdown_support">Suport per a Markdown</string>
@@ -963,7 +965,7 @@
     <string name="thread_long_message_message">El bram es dividirà en diverses respostes per a ajustar-se al nombre màxim de caràcters de la vostra instància.</string>
     <string name="follows_you">Et segueix</string>
     <string name="toast_error_media">Els mèdia no s\'han pogut carregar!</string>
-    <string name="set_autoplay_gif">Autoreproduir els mèdia</string>
+    <string name="set_autoplay_gif">Autoreproduir els mèdia animats</string>
     <string name="lemmy_instance">Instància Lemmy</string>
     <string name="toast_fetch_error">L\'aplicació no troba les dades remotes!</string>
     <string name="toast_error_add_to_list">L\'aplicació no ha pogut afegir el compte a la llista!</string>
@@ -1095,7 +1097,7 @@
     <string name="set_audo_hide_compose_title">Autoocultar botó de redactar</string>
     <string name="set_audo_hide_compose_summary">Amaga automàticament el botó de redactar quan es rodola pissarra amunt</string>
     <string name="set_mention_booster_indication">En respondre a un impuls, s\'esmenta en la resposta la persona impulsora</string>
-    <string name="no_cached_messages">No hi fa brams d\'inici guardats a la cau!</string>
+    <string name="no_cached_messages">No hi fa brams d\'inici a la memòria cau!</string>
     <string name="icons_visibility_summary">Podeu ocultar amb tranquil·litat aquestes icones a baix de tot per tenir més espai. També estan en el submenú.</string>
     <string name="links">Enllaços</string>
     <string name="cd_open_profile">Obrir pàgina del perfil</string>
@@ -1385,4 +1387,28 @@
     <string name="set_notif_collection">Notificar els canvis en col·leccions</string>
     <string name="action_remove_myself_from_collection">Dona\'m de baixa d\'aquesta col·lecció</string>
     <string name="action_remove_me">Treu-me\'n</string>
+    <string name="language_mismatch">Idioma diferent: s\'ha detectat %1$s per bé que havies seleccionat %2$s</string>
+    <string name="language_detection_uncertain">La detecció d\'idioma genera dubtes (confiança de %1$s%% ). Detectat: %2$s</string>
+    <string name="language_detection_failed">No s\'ha pogut verificar l\'idioma del missatge</string>
+    <string name="keep_posting">Segueix enviant</string>
+    <string name="set_announcement_popup_title">Nota emergent d\'avís</string>
+    <string name="set_announcement_popup_summary">Mostra una nota emergent quan es detecta un nou avís del servidor</string>
+    <string name="new_announcement">Nou avís</string>
+    <string name="open">Obrir</string>
+    <string name="error_feature_not_supported">Aquesta funcionalitat la vostra instància encara no l\'admet</string>
+    <string name="error_file_too_large">El document és massa gran per la teva instància</string>
+    <string name="error_file_rejected">La teva instància a rebutjat el document</string>
+    <string name="error_too_many_requests">Hi ha massa demandes, sisplau proveu més tard</string>
+    <string name="error_instance_unavailable">La vostra instància està temporalment no disponible</string>
+    <string name="error_generic">Hi ha hagut un error (%1$d), sisplau proveu més tard</string>
+    <string name="conversation_mode_local">Local</string>
+    <string name="conversation_mode_mixed">Mixt</string>
+    <string name="conversation_mode_remote">Remot</string>
+    <string name="conversation_mode_local_summary">Només mostra respostes que li consten a la teva instància</string>
+    <string name="conversation_mode_mixed_summary">Mostra primer les respostes locals i després hi afegeix les públiques des de la instància remota</string>
+    <string name="conversation_mode_remote_summary">Mostra només les respostes públiques des de la instància remota. Les interaccions exigeixen un pas més per federar-se.</string>
+    <string name="set_remote_conversation_warning">Les converses remotes utilitzen sol·licituds d\'API no autenticades en servidors remots. A causa dels límits de l\'API de Mastodon, només es poden recuperar els primers 60 missatges i una profunditat de resposta màxima de 20. Les converses llargues poden aparèixer de manera incompleta.</string>
+    <string name="set_language_check">Comprovar idioma en enviar</string>
+    <string name="set_language_check_description">Detecta l\'idioma del text i avisa si no quadra amb l\'idioma seleccionat</string>
+    <string name="kw_language_check">idioma, comprovar, detectar, verificar, enviar, desquadrar</string>
 </resources>
