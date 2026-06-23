@@ -30,7 +30,7 @@ import app.fedilab.android.mastodon.client.entities.api.Status;
 
 
 public class CustomEmoji extends ReplacementSpan {
-    private final WeakReference<View> viewWeakReference;
+    private WeakReference<View> viewWeakReference;
     private float scale;
     private Drawable imageDrawable;
     private Drawable.Callback drawableCallback;
@@ -85,22 +85,25 @@ public class CustomEmoji extends ReplacementSpan {
             drawableCallback = new Drawable.Callback() {
                 @Override
                 public void invalidateDrawable(@NonNull Drawable drawable) {
-                    if (view != null) {
-                        view.postInvalidate();
+                    View host = viewWeakReference.get();
+                    if (host != null) {
+                        host.postInvalidate();
                     }
                 }
 
                 @Override
                 public void scheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable, long l) {
-                    if (view != null) {
-                        view.postDelayed(runnable, l);
+                    View host = viewWeakReference.get();
+                    if (host != null) {
+                        host.postDelayed(runnable, l);
                     }
                 }
 
                 @Override
                 public void unscheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable) {
-                    if (view != null) {
-                        view.removeCallbacks(runnable);
+                    View host = viewWeakReference.get();
+                    if (host != null) {
+                        host.removeCallbacks(runnable);
                     }
                 }
             };
@@ -160,6 +163,7 @@ public class CustomEmoji extends ReplacementSpan {
         if (text instanceof Spanned) {
             CustomEmoji[] spans = ((Spanned) text).getSpans(0, text.length(), CustomEmoji.class);
             for (CustomEmoji span : spans) {
+                span.viewWeakReference = new WeakReference<>(textView);
                 if (span.imageDrawable instanceof FrameAnimationDrawable) {
                     ((FrameAnimationDrawable<?>) span.imageDrawable).pause();
                 } else if (span.imageDrawable instanceof Animatable && ((Animatable) span.imageDrawable).isRunning()) {
@@ -177,6 +181,7 @@ public class CustomEmoji extends ReplacementSpan {
         if (text instanceof Spanned) {
             CustomEmoji[] spans = ((Spanned) text).getSpans(0, text.length(), CustomEmoji.class);
             for (CustomEmoji span : spans) {
+                span.viewWeakReference = new WeakReference<>(textView);
                 if (span.imageDrawable instanceof FrameAnimationDrawable) {
                     FrameAnimationDrawable<?> drawable = (FrameAnimationDrawable<?>) span.imageDrawable;
                     if (drawable.isPaused()) {
