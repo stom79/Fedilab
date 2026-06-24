@@ -800,7 +800,7 @@
     <string name="instance_health_indication">版本：%s
 \n %s 用户 - %s 状态</string>
     <string name="instance_health_checkedat">检查于：%s</string>
-    <string name="show_content"><![CDATA[显示内容 &gt;]]></string>
+    <string name="show_content">显示内容</string>
     <string name="stop_recording">停止录音</string>
     <string name="report_title">举报 %1$s</string>
     <string name="report_1_block_title">屏蔽 %1$s</string>
@@ -884,7 +884,7 @@
     <string name="other">其他</string>
     <string name="add_status">添加状态</string>
     <string name="remove_status">删除状态</string>
-    <string name="hide_content"><![CDATA[隐藏内容 <]]></string>
+    <string name="hide_content">隐藏内容</string>
     <string name="report_indication_title_status_more">选择最佳匹配</string>
     <string name="report_val_more2">恶意链接、虚假参与或重复回复</string>
     <string name="report_val3">这违反了服务器规则</string>
@@ -1410,4 +1410,6 @@
     <string name="language_detection_failed">无法验证嘟文语言</string>
     <string name="keep_posting">继续发嘟文</string>
     <string name="kw_language_check">语言、检查、检测、验证、发布、不匹配</string>
+    <string name="avatar_description">头像描述</string>
+    <string name="header_description">横幅描述</string>
 </resources>
