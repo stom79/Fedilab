@@ -597,7 +597,7 @@
 \n
 \nMożesz również wyłączyć powiadomienia push w ustawieniach, aby zignorować tę wiadomość.</string>
     <string name="select_distributors">Wybierz dystrybutora</string>
-    <string name="hide_content"><![CDATA[Ukryj zawartość <]]></string>
+    <string name="hide_content">Ukryj zawartość &lt;</string>
     <string name="report_val1">Nie podoba mi się to</string>
     <string name="report_val3">To narusza zasady serwera</string>
     <string name="report_val4">To jest coś innego</string>
