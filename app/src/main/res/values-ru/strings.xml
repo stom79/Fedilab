@@ -682,7 +682,7 @@
     <string name="followed_tags">Отслеживаемые теги</string>
     <string name="follow_tag">Подписаться на тег</string>
     <string name="report_val4">Другое</string>
-    <string name="show_content"><![CDATA[Показать содержимое>]]></string>
+    <string name="show_content">Показать содержимое&gt;</string>
     <string name="join_the_fediverse">Присоединяйтесь к fediverse</string>
     <string name="invite_join_the_fediverse">Привет! Приглашаем Вас присоединиться к Fediverse.</string>
     <string name="report_val_more4">Проблема не подпадает под другие категории</string>
@@ -693,7 +693,7 @@
     <string name="remember_position">Запоминать позицию на ленте</string>
     <string name="display_media_notification_summary">Будут отображаться медиа в уведомлениях для репостов и избранного</string>
     <string name="version">Версия</string>
-    <string name="hide_content"><![CDATA[Скрыть содержимое<]]></string>
+    <string name="hide_content">Скрыть содержимое&lt;</string>
     <string name="report_title">Пожаловаться на %1$s</string>
     <string name="report_val_more1">Это НЕ то что вы бы хотели видеть</string>
     <string name="set_use_cache">Использовать кэш</string>
