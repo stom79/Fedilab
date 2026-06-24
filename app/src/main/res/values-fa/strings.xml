@@ -780,8 +780,8 @@
     <string name="other">دیگر</string>
     <string name="post_message">در حال ارسال بوق…</string>
     <string name="instance_health_uptime">زمان فعال: %,.2f %%</string>
-    <string name="hide_content"><![CDATA[پنهان‌سازی <]]></string>
-    <string name="show_content"><![CDATA[نمایش محتوا >]]></string>
+    <string name="hide_content">پنهان‌سازی &lt;</string>
+    <string name="show_content">نمایش محتوا &gt;</string>
     <string name="report_indication_title_status_more">بهترین گزینه را انتخاب کنید</string>
     <string name="report_val1">خوشم نمی‌آید</string>
     <string name="report_val_more1">چیزی نیست که بخواهید ببینید</string>
