@@ -588,7 +588,7 @@
     <string name="replace_reddit_host">Domene for Reddit-grenseflate</string>
     <string name="remove_status">Fjern status</string>
     <string name="post_message">Legger inn melding …</string>
-    <string name="show_content"><![CDATA[Vis innhold &gt;]]></string>
+    <string name="show_content">Vis innhold &gt;</string>
     <string name="stop_recording">Stopp opptak</string>
     <string name="set_accounts_page">Antall kontoer per innlasting</string>
     <string name="category_music">Musikk</string>
@@ -687,7 +687,7 @@
     <string name="unpin_tag">Løsne emneknagg</string>
     <string name="keep_notifications">Behold varsler</string>
     <string name="icon_size">Ikonstørrelser</string>
-    <string name="hide_content"><![CDATA[Skjul innhold <]]></string>
+    <string name="hide_content">Skjul innhold &lt;</string>
     <string name="admin_scope">Jeg er en moderator</string>
     <string name="tags_stored">Emneknaggen er lagret!</string>
     <string name="set_mention_at_top_indication">Når du svarer vil alle omtaler legges til i begynnelsen av meldingen</string>

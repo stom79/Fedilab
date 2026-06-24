@@ -619,7 +619,7 @@
     <string name="replace_youtube_description">Usar um frontend alternativo para o YouTube</string>
     <string name="stop_recording">Parar de gravar</string>
     <string name="report_title">Relatório %1$s</string>
-    <string name="hide_content"><![CDATA[Esconder conteúdo <]]></string>
+    <string name="hide_content">Esconder conteúdo &lt;</string>
     <string name="toots_visibility_title">Visibilidade padrão das postagens:</string>
     <string name="set_accounts_page">Número de contas por vez</string>
     <string name="cannot_be_empty">Esse campo não pode ser vazio!</string>
@@ -638,7 +638,7 @@
     <string name="replace_reddit">Reddit</string>
     <string name="data_import_settings_success">As configurações foram importadas com sucesso</string>
     <string name="instance_health_checkedat">Verificado em: %s</string>
-    <string name="show_content"><![CDATA[Mostrar conteúdo &gt;]]></string>
+    <string name="show_content">Mostrar conteúdo &gt;</string>
     <string name="category_music">Música</string>
     <string name="data_export_settings">As configurações foram exportadas</string>
     <string name="data_export_settings_success">Configurações foram exportadas com sucesso</string>
