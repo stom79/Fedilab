@@ -664,7 +664,7 @@
 \n %s utilisateur·ice·s - %s statuts</string>
     <string name="instance_health_checkedat">Vérifié à : %s</string>
     <string name="instance_health_uptime">Temps en ligne : %,.2f %%</string>
-    <string name="show_content"><![CDATA[Afficher le contenu >]]></string>
+    <string name="show_content">Afficher le contenu &gt;</string>
     <string name="stop_recording">Arrêter l\'enregistrement</string>
     <string name="report_title">Signalement de %1$s</string>
     <string name="report_indication_title_status">Dites-nous ce qui ne va pas avec cette publication</string>
@@ -696,7 +696,7 @@
     <string name="set_display_bookmark_indication">Toujours afficher le bouton marque-page</string>
     <string name="report_val3">Elle viole les règles du serveur</string>
     <string name="display">Afficher</string>
-    <string name="hide_content"><![CDATA[Masquer le contenu <]]></string>
+    <string name="hide_content">Masquer le contenu &lt;</string>
     <string name="also_favourite_by">"Également préféré par : "</string>
     <string name="also_boosted_by">Également partagé par :</string>
     <string name="top_menu">Menu de la barre supérieure</string>
