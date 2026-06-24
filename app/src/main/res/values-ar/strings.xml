@@ -605,7 +605,7 @@
     <string name="replace_instagram">انستغرام</string>
     <string name="replace_twitter_description">استخدام واجهة أمامية بديلة لتويتر</string>
     <string name="replace_instagram_description">استخدام واجهة أمامية بديلة لـ Instagram</string>
-    <string name="hide_content"><![CDATA[إخفاء المحتوى <]]></string>
+    <string name="hide_content">إخفاء المحتوى &lt;</string>
     <string name="set_accounts_page">عدد الحسابات لكل تحميل</string>
     <string name="replace_youtube_host">نطاق الواجهة الأمامية لـ YouTube</string>
     <string name="replace_reddit">ريديت</string>
