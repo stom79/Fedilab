@@ -632,7 +632,7 @@
     <string name="report_title">Zgłaszanie %1$s</string>
     <string name="report_indication_title_status">Powiedz nam, o co chodzi z tym postem</string>
     <string name="instance_health_uptime">Czas pracy: %,.2f %%</string>
-    <string name="show_content"><![CDATA[Pokaż zawartość &gt;]]></string>
+    <string name="show_content">Pokaż zawartość &gt;</string>
     <string name="stop_recording">Zatrzymaj nagrywanie</string>
     <string name="report_indication_title_status_more">Wybierz najlepsze dopasowanie</string>
     <string name="report_1_block_title">Zablokuj %1$s</string>
