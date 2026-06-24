@@ -602,7 +602,7 @@
     <string name="channel_notif_signup">Nuova iscrizione</string>
     <string name="channel_notif_report">Nuova segnalazione</string>
     <string name="notif_update_push">Un messaggio che hai condiviso è stato modificato</string>
-    <string name="show_content"><![CDATA[Mostra contenuto]]></string>
+    <string name="show_content">Mostra contenuto</string>
     <string name="stop_recording">Ferma registrazione</string>
     <string name="report_val4">Si tratta di altro</string>
     <string name="report_1_unfollow">Stai seguendo questo account. Per non vedere più i suoi post sul tuo home feed, smetti di seguirlo.</string>
@@ -660,7 +660,7 @@
     <string name="post_message_text">Inviando messaggio %d/%d</string>
     <string name="is_up">É online!</string>
     <string name="notif_display_favourites">Preferiti</string>
-    <string name="hide_content"><![CDATA[Nascondi contenuto]]></string>
+    <string name="hide_content">Nascondi contenuto</string>
     <string name="report_1_mute_title">Muta %1$s</string>
     <string name="report_more_additional">Commenti aggiuntivi</string>
     <string name="dont_have_an_account">Non hai un account\?</string>
