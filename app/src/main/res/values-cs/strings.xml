@@ -610,7 +610,7 @@
     <string name="toots_visibility_title">Výchozí viditelnost zpráv:</string>
     <string name="set_notifications_page">Počet upozornění na jedno načtení</string>
     <string name="replace_reddit_host">Doména frontendu Redditu</string>
-    <string name="hide_content"><![CDATA[Skrýt obsah <]]></string>
+    <string name="hide_content">Skrýt obsah &lt;</string>
     <string name="report_val2">Je to spam</string>
     <string name="report_val_more2">Škodlivé odkazy, falešné zapojení nebo opakující se odpovědi</string>
     <string name="report_val_more4">Problém nespadá do žádné jiné kategorie</string>
@@ -713,7 +713,7 @@
     <string name="data_import_settings_success">Nastavení byla úspěšně importována</string>
     <string name="save_changes">Uložit změny</string>
     <string name="set_bot_content">Účet bota</string>
-    <string name="show_content"><![CDATA[Ukázat obsah >]]></string>
+    <string name="show_content">Ukázat obsah &gt;</string>
     <string name="report_1_mute">Neuvidíte jejich příspěvky. Mohou vás stále sledovat a vidět vaše příspěvky a nedozví se, že jste je ztlumili.</string>
     <string name="report_more">Je ještě něco jiného, co si myslíte, že bychom měli vědět\?</string>
     <string name="profiled_updated">Profil byl aktualizován!</string>
@@ -1279,4 +1279,14 @@
     <string name="collection_sort_date_added">Datum přidání</string>
     <string name="collection_sort_by">Řadit podle</string>
     <string name="featured">Zmíněn</string>
+    <string name="plus_media">+%d médií</string>
+    <string name="avatar_description">Popis avatara</string>
+    <string name="header_description">Popis hlavičky</string>
+    <string name="collection_name_hint">Název sbírky</string>
+    <string name="collection_description_hint">Popis (nepovinný)</string>
+    <string name="collection_tag_hint">Hashtag (nepovinný)</string>
+    <string name="collection_discoverable">Objevitelná</string>
+    <string name="action_sort">Třídit</string>
+    <string name="action_collections">Sbírky</string>
+    <string name="no_collections">Zatím žádné sbírky!</string>
 </resources>
