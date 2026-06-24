@@ -1014,7 +1014,7 @@
     <string name="card_picture">Imagen de tarjeta</string>
     <string name="notif_display_reblogs">Impulsos</string>
     <string name="set_mention_at_top_indication">Cuando respondas las menciones serán añadidas al principio del mensaje</string>
-    <string name="show_content"><![CDATA[Mostrar contenido >]]></string>
+    <string name="show_content">Mostrar contenido &gt;</string>
     <string name="show_self_replies">Mostrar auto respuestas</string>
     <string name="show_self_boosts">Mostrar auto impulsos</string>
     <string name="show_my_messages">Mostrar mis mensajes</string>
@@ -1058,7 +1058,7 @@
     <string name="data_import_settings_success">Los ajustes se importaron con éxito</string>
     <string name="messages_stored_in_drafts">Mensajes guardados en borradores</string>
     <string name="watch_trends_for_instance">Mira los temas relevantes en esta instancia</string>
-    <string name="hide_content"><![CDATA[Ocultar contenido <]]></string>
+    <string name="hide_content">Ocultar contenido &lt;</string>
     <string name="set_fetch_home">Obtener automáticamente los mensajes de inicio</string>
     <string name="home_cache">Caché de Inicio</string>
     <string name="type_of_home_delay_title">Intervalo de actualización de la página de inicio</string>
