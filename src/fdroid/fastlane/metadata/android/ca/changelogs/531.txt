@@ -2,7 +2,7 @@ Novetats:
 - Un contorn al voltant dels mèdia
 
 Canvis:
-- Són clicables el nom d'usuària i els nom del calaix de nav
+- Són clicables el nom d'usuària i els noms a l'aflorable de nav
 - Els gifs no estan animats per defecte
 - Queden deshabilitats per defecte la menció a l'impulsor en respondre. Es pot activar a Configuració > Redactar (per compte)
 

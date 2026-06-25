@@ -4,7 +4,7 @@ Novetats:
 - Diàleg de confirmació per a converses remotes
 - Insígnia de MD al capdavall del menú
 - Mode de conversa mixta: primer les respostes locals i les només remotes després
-- Insígnia d'avisos i finestra emergent opcional per als nous avisos
+- Insígnia d'avisos a l'aflorable i finestra emergent opcional per als nous comunicats
 
 Millores:
 - Autoobertura de pestanya Missatges per cercar operadors
