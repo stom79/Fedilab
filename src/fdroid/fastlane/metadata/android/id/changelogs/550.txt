@@ -1,0 +1,9 @@
+Berubah
+- Memungkinkan posting penyaringan dengan link tertanam di Markdown
+
+Diperbaiki
+- Memperbaiki posisi garis waktu terbalik memulihkan dan menerapkan untuk pemberitahuan / percakapan oo
+- Perbaiki posting duplikat saat membagi pesan panjang
+- Perbaiki kegagalan pengiriman benang
+- Memperbaiki kecelakaan saat menjadwalkan toot dengan jajak pendapat
+- Memperbaiki kecelakaan dalam tampilan benang
