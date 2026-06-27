@@ -91,6 +91,7 @@ public class ReactionAdapter extends RecyclerView.Adapter<ReactionAdapter.Reacti
             holder.binding.reactionCount.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorOnPrimary));
         } else {
             holder.binding.reactionContainer.setBackgroundResource(R.drawable.reaction_border);
+            holder.binding.reactionCount.setTextColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
         }
         String emojiUrl = reaction.url;
         if (emojiUrl == null && reaction.name != null && reaction.name.startsWith(":")) {

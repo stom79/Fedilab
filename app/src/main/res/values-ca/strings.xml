@@ -652,8 +652,8 @@
     <string name="instance_health_checkedat">Comprovat: %s</string>
     <string name="report_val_more3">Ets conscient de què incompleix normes concretes</string>
     <string name="report_val_more2">Enllaços maliciosos, contacte fals o respostes repetitives</string>
-    <string name="show_content"><![CDATA[Mostrar contingut &gt;]]></string>
-    <string name="hide_content"><![CDATA[Ocultar contingut &lt;]]></string>
+    <string name="show_content">Mostrar contingut</string>
+    <string name="hide_content">Ocultar contingut</string>
     <string name="report_val2">És espam</string>
     <string name="report_val3">Viola les normes del servidor</string>
     <string name="stop_recording">Aturar la gravació</string>
@@ -1411,4 +1411,6 @@
     <string name="set_language_check">Comprovar idioma en enviar</string>
     <string name="set_language_check_description">Detecta l\'idioma del text i avisa si no quadra amb l\'idioma seleccionat</string>
     <string name="kw_language_check">idioma, comprovar, detectar, verificar, enviar, desquadrar</string>
+    <string name="avatar_description">Descripció d\'avatar</string>
+    <string name="header_description">Descripció de banderola</string>
 </resources>

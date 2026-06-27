@@ -571,7 +571,7 @@
 \n
 \nまた、そのメッセージを無視するように設定からプッシュ通知を無効にすることもできます。</string>
     <string name="select_distributors">ディストリビューターを選択</string>
-    <string name="hide_content"><![CDATA[内容を非表示 <]]></string>
+    <string name="hide_content">内容を非表示 &lt;</string>
     <string name="stop_recording">レコーディングを停止</string>
     <string name="report_title">%1$sを通報しています</string>
     <string name="report_indication_title_status">この投稿で何が起こっているのか教えてください</string>
@@ -629,7 +629,7 @@
     <string name="post_message_text">投稿を送信中 %d/%d</string>
     <string name="instance_health_checkedat">%sでチェック</string>
     <string name="instance_health_uptime">稼働時間: %,.2f</string>
-    <string name="show_content"><![CDATA[内容を表示 >]]></string>
+    <string name="show_content">内容を表示 &gt;</string>
     <string name="is_up">稼働しています！</string>
     <string name="report_val1">この投稿が嫌いです</string>
     <string name="report_1_block_title">%1$sをブロックする</string>

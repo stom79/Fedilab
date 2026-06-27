@@ -713,8 +713,8 @@
     <string name="post_message_text">메시지 보내는 중 %d/%d</string>
     <string name="instance_health_indication">버전: %s \n %s 유저 - %s 상태</string>
     <string name="instance_health_uptime">가동시간: %,.2f %%</string>
-    <string name="show_content"><![CDATA[내용 보이기 >]]></string>
-    <string name="hide_content"><![CDATA[내용 숨기기 <]]></string>
+    <string name="show_content">내용 보이기 &gt;</string>
+    <string name="hide_content">내용 숨기기 &lt;</string>
     <string name="stop_recording">녹음 완료</string>
     <string name="report_title">%1$s 신고 중</string>
     <string name="report_indication_title_status_more">가장 일치하는 것을 골라주세요</string>

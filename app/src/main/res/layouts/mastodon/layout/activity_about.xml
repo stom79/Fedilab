@@ -240,6 +240,21 @@
             android:text="@string/about_thekinrar_action"
             app:icon="@drawable/ic_open_external" />
 
+        <TextView
+            android:id="@+id/release_notes_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/release_notes"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/releasenotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:nestedScrollingEnabled="false" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </ScrollView>

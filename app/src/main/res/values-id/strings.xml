@@ -692,8 +692,8 @@
     <string name="instance_health_indication">versi: %s \\\n %s pengguna - %s status</string>
     <string name="instance_health_checkedat">Diperiksa pada: %s</string>
     <string name="instance_health_uptime">Waktu aktif: %,.2f %%</string>
-    <string name="show_content"><![CDATA[Tampilkan konten >]]></string>
-    <string name="hide_content"><![CDATA[Sembunyikan konten <]]></string>
+    <string name="show_content">Tampilkan konten &gt;</string>
+    <string name="hide_content">Sembunyikan konten &lt;</string>
     <string name="stop_recording">Hentikan perekaman</string>
     <string name="report_title">Melaporkan %1$s</string>
     <string name="report_indication_title_status">Beri tahu kami apa yang terjadi dengan postingan ini</string>

@@ -627,7 +627,7 @@
     <string name="display">Hiển thị</string>
     <string name="top_menu">Menu trên</string>
     <string name="report_val_more4">Vấn đề không phù hợp với các danh mục khác</string>
-    <string name="hide_content"><![CDATA[Ẩn nội dung <]]></string>
+    <string name="hide_content">Ẩn nội dung &lt;</string>
     <string name="report_1_unfollow_title">Ngưng theo dõi %1$s</string>
     <string name="join_the_fediverse">Tham gia Fediverse</string>
     <string name="invite_join_the_fediverse">Xin chào! Chúng tôi mời bạn tham gia Fediverse.</string>
@@ -681,7 +681,7 @@
 \n %s người dùng - %s tút</string>
     <string name="instance_health_checkedat">Kiểm tra lúc: %s</string>
     <string name="instance_health_uptime">Uptime: %,.2f %%</string>
-    <string name="show_content"><![CDATA[Hiện nội dung &gt;]]></string>
+    <string name="show_content">Hiện nội dung &gt;</string>
     <string name="stop_recording">Ngừng ghi âm</string>
     <string name="report_title">Đang báo cáo %1$s</string>
     <string name="report_indication_title_status">Có vấn đề gì với tút này</string>

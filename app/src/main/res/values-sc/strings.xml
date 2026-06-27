@@ -592,7 +592,7 @@
 \n %s utentes - %s istados</string>
     <string name="replace_instagram_description">Imprea un\'interfache alternativa pro Instagram</string>
     <string name="replace_instagram_host">Domìniu de s\'interfache pro Instagram</string>
-    <string name="hide_content"><![CDATA[Cua su cuntenutu <]]></string>
+    <string name="hide_content">Cua su cuntenutu &lt;</string>
     <string name="report_indication_title_status">Nara·nos ite no andat bene cun custa publicatzione</string>
     <string name="report_indication_title_status_more">Issèbera sa mègius currispondèntzia</string>
     <string name="report_val_more2">Ligàmenes malos, interatzione farsa o rispostas ripetitivas</string>
@@ -626,7 +626,7 @@
     <string name="is_down">No est in lìnia!</string>
     <string name="instance_health_checkedat">Verificadu: %s</string>
     <string name="instance_health_uptime">Tempus in lìnia: %,.2f %%</string>
-    <string name="show_content"><![CDATA[Ammustra su cuntenutu >]]></string>
+    <string name="show_content">Ammustra su cuntenutu &gt;</string>
     <string name="stop_recording">Firma sa registratzione</string>
     <string name="report_title">Sinnalende %1$s</string>
     <string name="report_val_more1">No est una cosa chi boles bìdere</string>

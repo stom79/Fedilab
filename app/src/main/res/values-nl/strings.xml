@@ -727,7 +727,7 @@
     <string name="approve">Goedkeuren</string>
     <string name="status">Status</string>
     <string name="notification_remove_from_cache">Meldingen zijn verwijderd uit de cache.</string>
-    <string name="hide_content"><![CDATA[Verberg inhoud <]]></string>
+    <string name="hide_content">Verberg inhoud &lt;</string>
     <string name="report_title">Rapporteren %1$s</string>
     <string name="invite_join_the_fediverse">Hi! We nodigen je uit om je aan te sluiten bij de Fediverse.</string>
     <string name="display_all_categories">Toon alle categorieën</string>
@@ -824,7 +824,7 @@
     <string name="instance_health_indication">versie: %s
 \n %s gebruikers - %s statussen</string>
     <string name="instance_health_checkedat">Gecontroleerd op: %s</string>
-    <string name="show_content"><![CDATA[Laat inhoud zien &gt;]]></string>
+    <string name="show_content">Laat inhoud zien &gt;</string>
     <string name="report_val3">Het overtreedt serverregels</string>
     <string name="report_val_more3">Je weet dat het bepaalde regels overtreedt</string>
     <string name="report_val4">Het is iets anders</string>

@@ -253,6 +253,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static String[] quoteButtonEntryValues;
     private static boolean displayReactions;
     private static boolean compactButtons;
+    private static boolean showPollResultsButton;
     private static boolean originalDateForBoost;
     private static boolean relativeDate;
     private static boolean hideSingleMediaWithCard;
@@ -995,34 +996,28 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean isMisskeyReaction = reactionApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY;
         boolean showReactions = (extraFeatures && displayReactions) || isMisskeyReaction;
         if (showReactions) {
-            if (isMisskeyReaction) {
-                holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
-            } else {
-                holder.binding.statusAddCustomEmoji.setVisibility(status.isFocused ? View.VISIBLE : View.GONE);
-            }
+            holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
+            holder.binding.layoutReactions.addReaction.setVisibility(View.VISIBLE);
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && !status.pleroma.emoji_reactions.isEmpty()) {
-                holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions, true);
                 holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
                 LinearLayoutManager layoutManager
                         = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                 holder.binding.layoutReactions.reactionsView.setLayoutManager(layoutManager);
             } else if (status.reactions != null && !status.reactions.isEmpty()) {
-                holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.reactions, true, false);
                 holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
                 LinearLayoutManager layoutManager
                         = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                 holder.binding.layoutReactions.reactionsView.setLayoutManager(layoutManager);
             } else {
-                holder.binding.layoutReactions.getRoot().setVisibility(View.GONE);
                 holder.binding.layoutReactions.reactionsView.setAdapter(null);
             }
-            holder.binding.statusAddCustomEmoji.setOnClickListener(v -> {
+            holder.binding.layoutReactions.addReaction.setOnClickListener(v -> {
                 List<app.fedilab.android.mastodon.client.entities.api.Emoji> customEmojis =
                         emojis != null ? emojis.get(BaseMainActivity.currentInstance) : null;
                 UnifiedEmojiPicker.show(context,
-                        holder.binding.statusAddCustomEmoji,
+                        holder.binding.layoutReactions.addReaction,
                         holder.binding.layoutReactions.fakeEdittext,
                         customEmojis,
                         unicode -> {
@@ -1033,7 +1028,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         });
             });
         } else {
-            holder.binding.statusAddCustomEmoji.setVisibility(View.GONE);
+            holder.binding.layoutReactions.getRoot().setVisibility(View.GONE);
         }
 
         if (status.isMaths == null) {
@@ -1115,7 +1110,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         holder.binding.actionButtonBoost.setActiveImageTint(R.color.boost_icon);
         holder.binding.actionButtonBookmark.setActiveImageTint(R.color.marked_icon);
-        applyColor(context, holder);
+        applyColor(context, holder, status.visibility);
 
         if (status.pinned) {
             holder.binding.statusPinned.setVisibility(View.VISIBLE);
@@ -1642,9 +1637,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonBoost.setImageSize(iconSize);
         holder.binding.actionButtonFavorite.setImageSize(iconSize);
         holder.binding.actionButtonBookmark.setImageSize(iconSize);
-
-        holder.binding.statusAddCustomEmoji.setIconSize(iconSize);
-        holder.binding.statusAddCustomEmoji.requestLayout();
 
         holder.binding.actionButtonMore.setIconSize(iconSize);
         holder.binding.actionButtonMore.requestLayout();
@@ -2473,11 +2465,21 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 normalize = statusToDeal.poll.votes_count;
             }
-            if (statusToDeal.poll.voted || statusToDeal.poll.expired) {
+            if (statusToDeal.poll.voted || statusToDeal.poll.expired || statusToDeal.poll.resultsShown) {
                 holder.binding.poll.submitVote.setVisibility(View.GONE);
                 holder.binding.poll.rated.setVisibility(View.VISIBLE);
                 holder.binding.poll.multipleChoice.setVisibility(View.GONE);
                 holder.binding.poll.singleChoiceRadioGroup.setVisibility(View.GONE);
+                if (statusToDeal.poll.resultsShown && !statusToDeal.poll.voted && !statusToDeal.poll.expired) {
+                    holder.binding.poll.showResults.setVisibility(View.VISIBLE);
+                    holder.binding.poll.showResults.setText(R.string.vote);
+                    holder.binding.poll.showResults.setOnClickListener(v -> {
+                        statusToDeal.poll.resultsShown = false;
+                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    });
+                } else {
+                    holder.binding.poll.showResults.setVisibility(View.GONE);
+                }
                 int greaterValue = 0;
                 for (Poll.PollItem pollItem : statusToDeal.poll.options) {
                     if (pollItem.votes_count > greaterValue)
@@ -2517,6 +2519,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 holder.binding.poll.rated.setVisibility(View.GONE);
                 holder.binding.poll.submitVote.setVisibility(View.VISIBLE);
+                if (showPollResultsButton) {
+                    holder.binding.poll.showResults.setVisibility(View.VISIBLE);
+                    holder.binding.poll.showResults.setText(R.string.show_results);
+                    holder.binding.poll.showResults.setOnClickListener(v -> {
+                        statusToDeal.poll.resultsShown = true;
+                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    });
+                } else {
+                    holder.binding.poll.showResults.setVisibility(View.GONE);
+                }
                 if (statusToDeal.poll.multiple) {
                     if ((holder.binding.poll.multipleChoice).getChildCount() > 0)
                         (holder.binding.poll.multipleChoice).removeAllViews();
@@ -3020,7 +3032,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static void quote(Context context, Status status) {
         Intent intent = new Intent(context, ComposeActivity.class);
         Bundle args = new Bundle();
-        args.putSerializable(Helper.ARG_QUOTED_MESSAGE, status);
+        args.putSerializable(Helper.ARG_QUOTED_MESSAGE, status.reblog != null ? status.reblog : status);
         new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
@@ -3935,7 +3947,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public static void applyColor(Context context, StatusViewHolder holder) {
+    public static void applyColor(Context context, StatusViewHolder holder, String visibility) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
         boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
@@ -3970,7 +3982,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (theme_icons_color != -1) {
             Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_star_24, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_heart_24, theme_icons_color);
@@ -3991,9 +4002,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.boostCount.setTextColor(theme_icons_color);
             holder.binding.favoriteCount.setTextColor(theme_icons_color);
         }
-        if (theme_statuses_color != -1) {
+        boolean highlightDM = sharedpreferences.getBoolean(context.getString(R.string.SET_HIGHLIGHT_DM), false);
+        if (highlightDM && "direct".equals(visibility)) {
+            int dmColor = sharedpreferences.getInt(context.getString(R.string.SET_HIGHLIGHT_DM_COLOR), 0x44E64A19);
+            holder.binding.cardviewContainer.setBackgroundColor(dmColor);
+            holder.binding.translationLabel.setBackgroundColor(dmColor);
+        } else if (theme_statuses_color != -1) {
             holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
             holder.binding.translationLabel.setBackgroundColor(theme_statuses_color);
+        } else if (highlightDM) {
+            int defaultColor = holder.binding.cardviewContainer.getCardBackgroundColor().getDefaultColor();
+            holder.binding.cardviewContainer.setBackgroundColor(defaultColor);
+            holder.binding.translationLabel.setBackgroundColor(defaultColor);
         }
         if (theme_boost_header_color != -1) {
             holder.binding.statusBoosterInfo.setBackgroundColor(theme_boost_header_color);
@@ -4109,6 +4129,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
         displayReactions = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_REACTIONS) + MainActivity.currentUserID + MainActivity.currentInstance, true);
         compactButtons = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COMPACT_ACTION_BUTTON), false);
+        showPollResultsButton = sharedpreferences.getBoolean(context.getString(R.string.SET_SHOW_POLL_RESULTS_BUTTON), true);
         originalDateForBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_BOOST_ORIGINAL_DATE), true);
         relativeDate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_RELATIVE_DATE), true);
         hideSingleMediaWithCard = sharedpreferences.getBoolean(context.getString(R.string.SET_HIDE_SINGLE_MEDIA_WITH_CARD), false);
@@ -4253,7 +4274,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             statusManagement(context, statusesVM, searchVM, holder, mRecyclerView, this, statusList, status, timelineType, minified, canBeFederated, checkRemotely, fetchMoreCallBack);
-            applyColor(context, holder);
+            applyColor(context, holder, status.visibility);
             if (status.isNewComment) {
                 holder.binding.cardviewContainer.setStrokeColor(ThemeHelper.fetchAccentColor(context));
                 holder.binding.cardviewContainer.setStrokeWidth((int) (2 * context.getResources().getDisplayMetrics().density));

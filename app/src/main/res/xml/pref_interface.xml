@@ -84,6 +84,31 @@
             app:summary="@string/set_show_featured_tab_description"
             app:title="@string/set_show_featured_tab" />
 
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_HIGHLIGHT_DM"
+            app:singleLineTitle="false"
+            app:summary="@string/set_highlight_dm_summary"
+            app:title="@string/set_highlight_dm_title" />
+
+        <com.jaredrummler.android.colorpicker.ColorPreferenceCompat
+            android:defaultValue="0x44E64A19"
+            android:dependency="@string/SET_HIGHLIGHT_DM"
+            app:cpv_showAlphaSlider="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_HIGHLIGHT_DM_COLOR"
+            app:summary="@string/set_highlight_dm_color_summary"
+            app:title="@string/set_highlight_dm_color_title" />
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_SHOW_POLL_RESULTS_BUTTON"
+            app:singleLineTitle="false"
+            app:summary="@string/set_show_poll_results_button_summary"
+            app:title="@string/set_show_poll_results_button_title" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

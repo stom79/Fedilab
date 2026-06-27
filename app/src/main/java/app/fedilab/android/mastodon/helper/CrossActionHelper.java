@@ -754,6 +754,8 @@ public class CrossActionHelper {
             Runnable myRunnable = () -> {
                 if (finalResults != null && finalResults.accounts != null && finalResults.accounts.size() > 0) {
                     callback.federatedAccount(finalResults.accounts.get(0));
+                } else {
+                    callback.federatedAccount(null);
                 }
             };
             mainHandler.post(myRunnable);

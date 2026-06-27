@@ -7,7 +7,7 @@ Novetats:
 - Autoamagar pissarra bombolla en instàncies que no l'admeten
 
 Millores:
-- Estil de tarja d'esborrany i programació
+- Estil de tarja aflorable d'esborrany i programació
 - Ordre de publicacions programades per data de programació
 
 Correccions:

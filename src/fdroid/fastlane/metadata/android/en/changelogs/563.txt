@@ -1,0 +1,15 @@
+Added:
+- Add translate button for the profile bio
+- Add customizable background color for direct messages
+- Add option to show poll results without voting
+
+Improved:
+- Limit space taken by long pronouns
+- Move add reaction to a chip, available on all posts
+- Improve language detection: strip mentions, URLs and emojis
+- Simplify the side menu and load release notes async
+
+Fixed:
+- Fix timelines not matching the buttons after reordering the bottom menu
+- Fix "No message to display" staying on a remote profile that has posts
+- Fix quoting a boosted post showing the booster instead of the original post

@@ -704,6 +704,7 @@
     <string name="instance_count">Instance count</string>
     <string name="poll_finish_in">End in %s</string>
     <string name="no_instance_reccord">This instance is not available on https://instances.social</string>
+    <string name="via_instances_social" translatable="false">via instances.social</string>
     <string name="display_full_link">Display full link</string>
     <string name="share_link">Share link</string>
     <string name="open_other_app">Open with another app</string>
@@ -2336,6 +2337,9 @@
     <string name="language_detection_uncertain">Language detection is uncertain (%1$s%% confidence). Detected: %2$s</string>
     <string name="language_detection_failed">Could not verify the post language</string>
     <string name="keep_posting">Keep posting</string>
+    <string name="selected_language_info">Selected language: %1$s</string>
+    <string name="keep_in_language">Keep in %1$s</string>
+    <string name="post_in_language">Post in %1$s</string>
     <string name="set_remove_battery">Ignore battery optimizations</string>
     <string name="set_autoplay_gif">Autoplay animated media</string>
     <string name="no_cached_messages">No Home cached messages!</string>
@@ -2558,6 +2562,18 @@
     <string name="set_show_featured_tab">Show featured tab on profiles</string>
     <string name="set_show_featured_tab_description">Display the featured tab on profile pages</string>
     <string name="kw_featured_tab" translatable="false">featured_tab_collections_profile</string>
+    <string name="SET_HIGHLIGHT_DM" translatable="false">SET_HIGHLIGHT_DM</string>
+    <string name="SET_HIGHLIGHT_DM_COLOR" translatable="false">SET_HIGHLIGHT_DM_COLOR</string>
+    <string name="set_highlight_dm_title">Highlight direct messages</string>
+    <string name="set_highlight_dm_summary">Show direct messages with a distinct background color</string>
+    <string name="set_highlight_dm_color_title">Direct message color</string>
+    <string name="set_highlight_dm_color_summary">Background color for direct messages</string>
+    <string name="kw_highlight_dm">direct message, dm, background, color, highlight</string>
+    <string name="SET_SHOW_POLL_RESULTS_BUTTON" translatable="false">SET_SHOW_POLL_RESULTS_BUTTON</string>
+    <string name="show_results">Show results</string>
+    <string name="set_show_poll_results_button_title">Show poll results button</string>
+    <string name="set_show_poll_results_button_summary">Display a button to view poll results without voting</string>
+    <string name="kw_poll_results">poll, results, vote, show, preview</string>
     <string name="notif_added_to_collection">added you to a collection</string>
     <string name="notif_collection_update">updated a collection featuring you</string>
     <string name="set_notif_collection">Notify for collection changes</string>

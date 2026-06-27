@@ -1,0 +1,50 @@
+Novetats:
+- Opció de visibilitat per-cada impuls
+- Botó específic de suprimir en la redacció d'enfilalls
+- Diàleg de confirmació per a converses remotes
+- Senyal de MDs no llegits al menú inferior
+- Mode de conversa mixt: repostes locals primer, sols remotes després
+- Senyal de comunicat a l'aflorable i menú emergent opcional per a nous comunicats
+- Comprovació d'idioma en enviar (detecció d'idioma no coincident, desactivat per defecte)
+- Edició de foto de perfil i descripcions de banderoles
+
+Millores:
+- Autoobrir pestanya de missatges per a cerca d'operador
+- Missatges d'error de l'API
+- Respecta la ràtio d'aspecte dels emojis personalitzats amplis
+- ALT-Senyal: reparació d'etiqueta truncada, afegir botó de traducció, harmonitzar cometes i GIF
+- Paràmetre de conversa ofereix modes Local / Mixt / Remot
+
+Correccions:
+- Missatge d'error de col·lecció al perfil
+- Afegir comptes a col·leccions
+- Botó afegir/suprimir a col·lecció per a membres ja existents
+- Pissarra de notificacions buida en reiniciar l'app
+- Botó "Suprimeix-me" en notificacions de col·leccions
+- Múltiples finestres de l'app windows en compartir
+- Mostrava codi d'idioma enlloc del de regió
+- Reposta que hereta estadístiques del pare després d'una interacció
+- Mèdia animats que no s'autoreproduïen en la pissarra d'art
+- Imatges no clicables en previsionat d'encaix en pantalles grans
+- Icona de preferits que no s'actualitzava en el menú de sobrecàrrega
+- Adjunció de mèdies agrisats després d'eliminar
+- Plural que faltava en comptador d'usuàries
+- Minicodis d'emojis que es traduïen
+- Posició de límit de marca d'aigua
+- Retard del camp de SH en textos llargs
+- regex en l'autocompletar d'emojis
+- Brindis de confirmació després de programar
+- Cometes en el text de missatges programats
+- Cometa que sortia al menú en denegacions
+- Diàleg de puntuació sense compte
+- Emojis personalitzats que no es revelaven a la pàgina de la memòria cau
+- Fallides en explorar la llista d'emojis personalitzats
+- Pèrdua de pissarres ocultes en mode de barra única
+- Icona d'enllaç invisible en mode clar
+- Fallida de Conscrypt en dispositius de mida de pàgina de 16KB
+- Emojis animats que congelaven i causaven ANR
+- Emojis animats que no s'animaven després d'obrir un missatge
+- Entitat d'HTML en brut que apareixia en un botó d'avís de contingut
+- Fallides en enviar amb la comprovació d'idioma habilitada
+- Informes de fallides
+- Ús de la instància Fedilab Nitter i afegit de capçalera d'Agent-Usuària

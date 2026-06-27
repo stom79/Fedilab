@@ -263,6 +263,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/names_container" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/account_note_translate"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/translate"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_baseline_translate_24"
+                    app:iconGravity="textStart"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/account_note" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/personal_note"
                     android:layout_width="wrap_content"
@@ -276,7 +289,7 @@
                     app:drawableStartCompat="@drawable/ic_baseline_note_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/account_note" />
+                    app:layout_constraintTop_toBottomOf="@+id/account_note_translate" />
 
                 <HorizontalScrollView
                     android:id="@+id/info"

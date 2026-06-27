@@ -645,14 +645,14 @@
     <string name="lemmy_instance">екземпляр Lemmy</string>
     <string name="replace_instagram_description">Використовувати альтернативну клієнську частину для Instagram</string>
     <string name="report_indication_title_status_more">Виберіть найкращий варіант</string>
-    <string name="hide_content"><![CDATA[Hide content <]]></string>
+    <string name="hide_content">Hide content &lt;</string>
     <string name="report_val1">Мені це не подобається</string>
     <string name="report_val4">Це щось інше</string>
     <string name="stop_recording">Зупинити запис</string>
     <string name="report_1_title">Не хочеш це бачити?</string>
     <string name="report_1_unfollow_title">Відписатись від %1$s</string>
     <string name="instance_health_uptime">Час роботи: %,.2f %%</string>
-    <string name="show_content"><![CDATA[Show content >]]></string>
+    <string name="show_content">Show content &gt;</string>
     <string name="report_val_more2">Шкідливі посилання, фальшиві контакти або повторювані відповіді</string>
     <string name="report_val_more3">Ви знаєте, що це порушує певні правила</string>
     <string name="report_1_title_more">Ось ваші можливості контролювати те, що ви бачите в Mastodon:</string>

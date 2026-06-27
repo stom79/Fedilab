@@ -561,8 +561,8 @@
 \n cleachdaichean: %s – staidean: %s</string>
     <string name="instance_health_checkedat">Chaidh sùil a thoirt air: %s</string>
     <string name="instance_health_uptime">Beò fad: %,.2f %%</string>
-    <string name="show_content"><![CDATA[Seall an t-susbaint &gt;]]></string>
-    <string name="hide_content"><![CDATA[Falaich an t-susbaint <]]></string>
+    <string name="show_content">Seall an t-susbaint &gt;</string>
+    <string name="hide_content">Falaich an t-susbaint &lt;</string>
     <string name="stop_recording">Cuir stad air a’ chlàradh</string>
     <string name="report_val_more2">Ceanglaichean droch-rùnach, conaltradh fuadain no an dearbh fhreagairt a-rithist ’s a-rithist</string>
     <string name="report_val_more3">Mhothaich thu gu bheil e a’ briseadh riaghailtean sònraichte</string>

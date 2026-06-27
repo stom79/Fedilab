@@ -981,15 +981,17 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 boolean checkLanguage = sharedpreferences.getBoolean(getString(R.string.SET_LANGUAGE_CHECK), false);
                 if (checkLanguage && statusDraft.statusDraftList != null && !statusDraft.statusDraftList.isEmpty()) {
                     Status firstStatus = statusDraft.statusDraftList.get(0);
-                    String textToCheck = firstStatus.text;
                     String selectedLanguage = firstStatus.language;
-                    if (textToCheck != null && textToCheck.trim().length() > 0) {
+                    String selectedName = Languages.getLanguageName(ComposeActivity.this, selectedLanguage);
+                    String textToCheck = cleanTextForLanguageDetection(firstStatus.text);
+                    int wordCount = textToCheck.isEmpty() ? 0 : textToCheck.split("\\s+").length;
+                    if (wordCount >= LANGUAGE_CHECK_MIN_WORDS) {
                         String[] detection = detectLanguage(textToCheck);
                         if (detection == null) {
                             Handler mainHandler = new Handler(Looper.getMainLooper());
                             mainHandler.post(() -> showLanguageWarning(
-                                    getString(R.string.language_detection_failed),
-                                    scheduledDate, statusDrafts));
+                                    getString(R.string.language_detection_failed) + "\n" + getString(R.string.selected_language_info, selectedName),
+                                    scheduledDate, statusDrafts, selectedName, null, null));
                             return;
                         }
                         String detectedLang = detection[0];
@@ -998,17 +1000,15 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                         if (confidence < 30) {
                             Handler mainHandler = new Handler(Looper.getMainLooper());
                             mainHandler.post(() -> showLanguageWarning(
-                                    getString(R.string.language_detection_uncertain,
-                                            String.valueOf((int) confidence), detectedName),
-                                    scheduledDate, statusDrafts));
+                                    getString(R.string.language_detection_uncertain, String.valueOf((int) confidence), detectedName) + "\n" + getString(R.string.selected_language_info, selectedName),
+                                    scheduledDate, statusDrafts, selectedName, null, null));
                             return;
                         }
-                        String selectedName = Languages.getLanguageName(ComposeActivity.this, selectedLanguage);
                         if (!detectedLang.equalsIgnoreCase(selectedLanguage)) {
                             Handler mainHandler = new Handler(Looper.getMainLooper());
                             mainHandler.post(() -> showLanguageWarning(
                                     getString(R.string.language_mismatch, detectedName, selectedName),
-                                    scheduledDate, statusDrafts));
+                                    scheduledDate, statusDrafts, selectedName, detectedLang, detectedName));
                             return;
                         }
                     }
@@ -1018,20 +1018,46 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         }).start();
     }
 
-    private void showLanguageWarning(String message, String scheduledDate, List<Status> statusDrafts) {
+    private static final int LANGUAGE_CHECK_MIN_WORDS = 3;
+
+    private String cleanTextForLanguageDetection(String text) {
+        if (text == null) {
+            return "";
+        }
+        String cleaned = text;
+        cleaned = cleaned.replaceAll("https?://\\S+", " ");
+        cleaned = cleaned.replaceAll("@[\\w.-]+(@[\\w.-]+)?", " ");
+        cleaned = cleaned.replaceAll(":[\\w_]+:", " ");
+        cleaned = cleaned.replaceAll("[\\p{So}\\p{Sk}\\uFE0F\\u200D]", " ");
+        return cleaned.replaceAll("\\s+", " ").trim();
+    }
+
+    private void showLanguageWarning(String message, String scheduledDate, List<Status> statusDrafts, String selectedName, String detectedLang, String detectedName) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
         builder.setMessage(message);
-        builder.setPositiveButton(R.string.keep_posting, (dialog, id) -> {
+        String keepText = selectedName != null && !selectedName.isEmpty()
+                ? getString(R.string.keep_in_language, selectedName)
+                : getString(R.string.keep_posting);
+        builder.setPositiveButton(keepText, (dialog, id) -> {
             new Thread(() -> sendMessage(true, scheduledDate)).start();
             dialog.dismiss();
         });
-        builder.setNegativeButton(android.R.string.cancel, (dialog, id) -> {
+        builder.setNegativeButton(android.R.string.cancel, (dialog, id) -> dialog.cancel());
+        builder.setOnCancelListener(dialog -> {
             if (!statusDrafts.isEmpty()) {
                 statusDrafts.get(statusDrafts.size() - 1).submitted = false;
                 composeAdapter.notifyItemChanged(statusList.size() - 1);
             }
-            dialog.cancel();
         });
+        if (detectedLang != null) {
+            builder.setNeutralButton(getString(R.string.post_in_language, detectedName), (dialog, id) -> {
+                if (statusDraft.statusDraftList != null && !statusDraft.statusDraftList.isEmpty()) {
+                    statusDraft.statusDraftList.get(0).language = detectedLang;
+                }
+                new Thread(() -> sendMessage(true, scheduledDate)).start();
+                dialog.dismiss();
+            });
+        }
         builder.show();
     }
 

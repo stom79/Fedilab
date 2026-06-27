@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 public class PronounsHelper {
 
     private static final Pattern EMOJI_SHORTCODE_PATTERN = Pattern.compile(":[a-zA-Z0-9_]+:");
+    private static final int MAX_PRONOUNS_LENGTH = 25;
 
     public static String cleanPronouns(String pronouns) {
         if (pronouns == null || pronouns.isEmpty()) {
@@ -27,7 +28,13 @@ public class PronounsHelper {
         }
         String cleaned = EMOJI_SHORTCODE_PATTERN.matcher(pronouns).replaceAll("");
         cleaned = cleaned.replaceAll("\\s+", " ").trim();
-        return cleaned.isEmpty() ? null : cleaned;
+        if (cleaned.isEmpty()) {
+            return null;
+        }
+        if (cleaned.length() > MAX_PRONOUNS_LENGTH) {
+            cleaned = cleaned.substring(0, MAX_PRONOUNS_LENGTH).trim() + "…";
+        }
+        return cleaned;
     }
 
     public static List<String> pronouns = new ArrayList<>() {

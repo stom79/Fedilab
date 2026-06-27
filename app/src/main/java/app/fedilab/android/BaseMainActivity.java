@@ -153,7 +153,6 @@ import app.fedilab.android.mastodon.activities.FilterActivity;
 import app.fedilab.android.mastodon.activities.FollowRequestActivity;
 import app.fedilab.android.mastodon.activities.FollowedTagActivity;
 import app.fedilab.android.mastodon.activities.InstanceActivity;
-import app.fedilab.android.mastodon.activities.InstanceHealthActivity;
 import app.fedilab.android.mastodon.activities.MastodonListActivity;
 import app.fedilab.android.mastodon.activities.PartnerShipActivity;
 import app.fedilab.android.mastodon.activities.ProfileActivity;
@@ -325,6 +324,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 }
                                 return true;
                             });
+                            redrawPinned(null);
                         }
                     } else if (bundle.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
                         recreate();
@@ -1308,7 +1308,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     binding.navView.getMenu().findItem(R.id.nav_suggestions).setVisible(false);
                     binding.navView.getMenu().findItem(R.id.nav_directory).setVisible(false);
                     binding.navView.getMenu().findItem(R.id.nav_about_instance).setVisible(false);
-                    binding.navView.getMenu().findItem(R.id.nav_instance_info).setVisible(false);
                 }
                 if (bottomMenu != null) {
                     //ManageClick on bottom menu items
@@ -1546,8 +1545,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (id == R.id.nav_about) {
                 Intent intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
-            } else if (id == R.id.nav_release_notes) {
-                displayReleaseNotesIfNeeded(BaseMainActivity.this, true);
             } else if (id == R.id.nav_partnership) {
                 Intent intent = new Intent(this, PartnerShipActivity.class);
                 startActivity(intent);
@@ -1574,8 +1571,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 startActivity(intent);
             } else if (id == R.id.nav_about_instance) {
                 (new InstanceActivity()).show(getSupportFragmentManager(), null);
-            } else if (id == R.id.nav_instance_info) {
-                (new InstanceHealthActivity()).show(getSupportFragmentManager(), null);
             }
             binding.drawerLayout.close();
             return false;

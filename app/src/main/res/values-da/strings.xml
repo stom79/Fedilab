@@ -615,7 +615,7 @@
     <string name="toast_unbookmark">Beskeden er fjernet fra dine bogmærker!</string>
     <string name="copy_version">Kopiér information</string>
     <string name="qr_code_generator">QR-generator</string>
-    <string name="hide_content"><![CDATA[Gem indhold <]]></string>
+    <string name="hide_content">Gem indhold &lt;</string>
     <string name="notifications_are">I løbet af denne periode</string>
     <string name="about_mastodon">\"Mastodon er ikke en enkelt hjemmeside ligesom Twitter eller Facebook. Det er et netværk af tusindvis af fællesskaber styret af forskellige organisationer og individer der tilbyder en sømløs social medie oplevelse.\"</string>
     <string name="display_all_categories">Vis alle kategorier</string>
@@ -688,7 +688,7 @@
     <string name="add_status">Tilføj status</string>
     <string name="post_message_text">Sender besked %d/%d</string>
     <string name="instance_health_indication">Version: %s\n%s brugere - %s statusser</string>
-    <string name="show_content"><![CDATA[Vis indhold &gt;]]></string>
+    <string name="show_content">Vis indhold &gt;</string>
     <string name="report_val_more1">Det er ikke noget, som du har lyst til at se</string>
     <string name="report_val_more2">Ondsindede links, falske fremhævninger eller gentagede svar</string>
     <string name="report_val3">Det bryder med reglerne for serveren</string>

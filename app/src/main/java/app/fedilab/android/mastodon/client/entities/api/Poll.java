@@ -52,6 +52,8 @@ public class Poll implements Serializable {
     @SerializedName("emojis")
     public List<Emoji> emojis;
 
+    public transient boolean resultsShown;
+
     public static class PollItem implements Serializable {
         @SerializedName("title")
         public String title;

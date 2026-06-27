@@ -597,7 +597,7 @@
 \n
 \nMożesz również wyłączyć powiadomienia push w ustawieniach, aby zignorować tę wiadomość.</string>
     <string name="select_distributors">Wybierz dystrybutora</string>
-    <string name="hide_content"><![CDATA[Ukryj zawartość <]]></string>
+    <string name="hide_content">Ukryj zawartość &lt;</string>
     <string name="report_val1">Nie podoba mi się to</string>
     <string name="report_val3">To narusza zasady serwera</string>
     <string name="report_val4">To jest coś innego</string>
@@ -632,7 +632,7 @@
     <string name="report_title">Zgłaszanie %1$s</string>
     <string name="report_indication_title_status">Powiedz nam, o co chodzi z tym postem</string>
     <string name="instance_health_uptime">Czas pracy: %,.2f %%</string>
-    <string name="show_content"><![CDATA[Pokaż zawartość &gt;]]></string>
+    <string name="show_content">Pokaż zawartość &gt;</string>
     <string name="stop_recording">Zatrzymaj nagrywanie</string>
     <string name="report_indication_title_status_more">Wybierz najlepsze dopasowanie</string>
     <string name="report_1_block_title">Zablokuj %1$s</string>

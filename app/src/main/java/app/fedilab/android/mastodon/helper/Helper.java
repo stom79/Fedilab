@@ -2053,90 +2053,94 @@ public class Helper {
             return false;
         }
         if (lastReleaseNoteRead != versionCode || forced) {
-            try {
-                InputStream is = activity.getAssets().open("release_notes/notes.json");
-                int size;
-                size = is.available();
-                byte[] buffer = new byte[size];
-                is.read(buffer);
-                is.close();
-                String json = new String(buffer, StandardCharsets.UTF_8);
-                Gson gson = new Gson();
-                AlertDialog.Builder dialogBuilderOptin = new MaterialAlertDialogBuilder(activity);
-                PopupReleaseNotesBinding binding = PopupReleaseNotesBinding.inflate(activity.getLayoutInflater());
-                dialogBuilderOptin.setView(binding.getRoot());
+            new Thread(() -> {
+                List<ReleaseNote.Note> releaseNotes = null;
                 try {
-                    List<ReleaseNote.Note> releaseNotes = gson.fromJson(json, new TypeToken<List<ReleaseNote.Note>>() {
+                    InputStream is = activity.getAssets().open("release_notes/notes.json");
+                    int size = is.available();
+                    byte[] buffer = new byte[size];
+                    is.read(buffer);
+                    is.close();
+                    String json = new String(buffer, StandardCharsets.UTF_8);
+                    releaseNotes = new Gson().fromJson(json, new TypeToken<List<ReleaseNote.Note>>() {
                     }.getType());
-                    if (releaseNotes != null && releaseNotes.size() > 0) {
-                        ReleaseNoteAdapter adapter = new ReleaseNoteAdapter(releaseNotes);
-                        binding.releasenotes.setAdapter(adapter);
-                        binding.releasenotes.setLayoutManager(new LinearLayoutManager(activity));
-                    }
-                } catch (Exception ignored) {
-                }
-                if (BuildConfig.DONATIONS) {
-                    binding.donationsMethods.setVisibility(View.VISIBLE);
-                    binding.donateLiberapay.setOnClickListener(v -> Helper.openBrowser(activity, "https://liberapay.com/tom79"));
-                    binding.donatePaypal.setOnClickListener(v -> Helper.openBrowser(activity, "https://www.paypal.me/Mastalab"));
-                } else {
-                    binding.donationsMethods.setVisibility(View.GONE);
-                }
-                CrossActionHelper.fetchRemoteAccount(activity, "@apps@toot.fedilab.app", new CrossActionHelper.Callback() {
-                    @Override
-                    public void federatedStatus(Status status) {
-
-                    }
-
-                    @Override
-                    public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
-                        if (account != null && "apps".equalsIgnoreCase(account.username)) {
-
-                            MastodonHelper.loadPPMastodon(binding.accountContainer.avatar, account);
-                            binding.accountContainer.displayName.setText(account.display_name);
-                            binding.accountContainer.username.setText(account.acct);
-                            binding.accountContainer.avatar.setOnClickListener(v -> {
-                                Intent intent = new Intent(activity, ProfileActivity.class);
-                                Bundle args = new Bundle();
-                                args.putSerializable(Helper.ARG_ACCOUNT, account);
-                                new CachedBundle(activity).insertBundle(args, Helper.getCurrentAccount(activity), bundleId -> {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                                    intent.putExtras(bundle);
-                                    activity.startActivity(intent);
-                                });
-                            });
-
-                            AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(AccountsVM.class);
-                            List<String> ids = new ArrayList<>();
-                            ids.add(account.id);
-                            accountsVM.getRelationships(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, ids)
-                                    .observe((LifecycleOwner) activity, relationShips -> {
-                                        if (relationShips != null && relationShips.size() > 0) {
-                                            if (!relationShips.get(0).following) {
-                                                binding.accountContainer.getRoot().setVisibility(View.VISIBLE);
-                                                binding.accountContainer.listAction.setOnClickListener(v -> accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null)
-                                                        .observe((LifecycleOwner) activity, relationShip -> binding.accountContainer.listAction.setVisibility(View.GONE)));
-                                            }
-                                        }
-                                    });
-                        }
-                    }
-                });
-                dialogBuilderOptin.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
-                try {
-                    Handler handler = new Handler();
-                    handler.postDelayed(() -> {
-                        if (!activity.isFinishing()) {
-                            dialogBuilderOptin.show();
-                        }
-                    }, 1000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                List<ReleaseNote.Note> finalReleaseNotes = releaseNotes;
+                activity.runOnUiThread(() -> {
+                    if (activity.isFinishing()) {
+                        return;
+                    }
+                    AlertDialog.Builder dialogBuilderOptin = new MaterialAlertDialogBuilder(activity);
+                    PopupReleaseNotesBinding binding = PopupReleaseNotesBinding.inflate(activity.getLayoutInflater());
+                    dialogBuilderOptin.setView(binding.getRoot());
+                    if (finalReleaseNotes != null && finalReleaseNotes.size() > 0) {
+                        ReleaseNoteAdapter adapter = new ReleaseNoteAdapter(finalReleaseNotes);
+                        binding.releasenotes.setAdapter(adapter);
+                        binding.releasenotes.setLayoutManager(new LinearLayoutManager(activity));
+                    }
+                    if (BuildConfig.DONATIONS) {
+                        binding.donationsMethods.setVisibility(View.VISIBLE);
+                        binding.donateLiberapay.setOnClickListener(v -> Helper.openBrowser(activity, "https://liberapay.com/tom79"));
+                        binding.donatePaypal.setOnClickListener(v -> Helper.openBrowser(activity, "https://www.paypal.me/Mastalab"));
+                    } else {
+                        binding.donationsMethods.setVisibility(View.GONE);
+                    }
+                    CrossActionHelper.fetchRemoteAccount(activity, "@apps@toot.fedilab.app", new CrossActionHelper.Callback() {
+                        @Override
+                        public void federatedStatus(Status status) {
+
+                        }
+
+                        @Override
+                        public void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account) {
+                            if (account != null && "apps".equalsIgnoreCase(account.username)) {
+
+                                MastodonHelper.loadPPMastodon(binding.accountContainer.avatar, account);
+                                binding.accountContainer.displayName.setText(account.display_name);
+                                binding.accountContainer.username.setText(account.acct);
+                                binding.accountContainer.avatar.setOnClickListener(v -> {
+                                    Intent intent = new Intent(activity, ProfileActivity.class);
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(Helper.ARG_ACCOUNT, account);
+                                    new CachedBundle(activity).insertBundle(args, Helper.getCurrentAccount(activity), bundleId -> {
+                                        Bundle bundle = new Bundle();
+                                        bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                                        intent.putExtras(bundle);
+                                        activity.startActivity(intent);
+                                    });
+                                });
+
+                                AccountsVM accountsVM = new ViewModelProvider((ViewModelStoreOwner) activity).get(AccountsVM.class);
+                                List<String> ids = new ArrayList<>();
+                                ids.add(account.id);
+                                accountsVM.getRelationships(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, ids)
+                                        .observe((LifecycleOwner) activity, relationShips -> {
+                                            if (relationShips != null && relationShips.size() > 0) {
+                                                if (!relationShips.get(0).following) {
+                                                    binding.accountContainer.getRoot().setVisibility(View.VISIBLE);
+                                                    binding.accountContainer.listAction.setOnClickListener(v -> accountsVM.follow(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, account.id, true, false, null)
+                                                            .observe((LifecycleOwner) activity, relationShip -> binding.accountContainer.listAction.setVisibility(View.GONE)));
+                                                }
+                                            }
+                                        });
+                            }
+                        }
+                    });
+                    dialogBuilderOptin.setPositiveButton(R.string.close, (dialog, id) -> dialog.dismiss());
+                    try {
+                        Handler handler = new Handler();
+                        handler.postDelayed(() -> {
+                            if (!activity.isFinishing()) {
+                                dialogBuilderOptin.show();
+                            }
+                        }, 1000);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }).start();
 
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putInt(activity.getString(R.string.SET_POPUP_RELEASE_NOTES), versionCode);
