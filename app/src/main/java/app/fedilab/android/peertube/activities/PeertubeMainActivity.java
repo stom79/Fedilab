@@ -356,8 +356,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
                 };
                 mainHandler.post(myRunnable);
             }).start();
-            View navInstanceInfo = binding.drawerNavView.findViewById(R.id.nav_instance_info);
-            binding.drawerNavView.removeView(navInstanceInfo);
             binding.drawerNavView.addHeaderView(headerMainBinding.getRoot());
             binding.drawerNavView.setNavigationItemSelectedListener(item -> {
                 if (item.getItemId() == R.id.action_settings) {

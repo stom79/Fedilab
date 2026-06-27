@@ -175,6 +175,76 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/about" />
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/health_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/privacy"
+                tools:visibility="visible">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/up"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                    tools:text="Is up!" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/uptime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    tools:text="Uptime: 100.00 %" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/checked_at"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    tools:text="Checked at: 2023-01-01 00:00:00" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/values"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    tools:text="version: 4.0\n100 users - 10 k statuses" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ref_instance"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/via_instances_social" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/no_instance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:autoLink="web"
+                android:text="@string/no_instance_reccord"
+                android:textAlignment="center"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/privacy" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

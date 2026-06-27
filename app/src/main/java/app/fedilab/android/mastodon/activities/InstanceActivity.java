@@ -44,8 +44,10 @@ import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityInstanceBinding;
 import app.fedilab.android.mastodon.client.entities.api.Instance;
+import app.fedilab.android.mastodon.client.entities.app.InstanceSocial;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
+import app.fedilab.android.mastodon.viewmodel.mastodon.InstanceSocialVM;
 import app.fedilab.android.mastodon.viewmodel.mastodon.InstancesVM;
 
 
@@ -148,6 +150,37 @@ public class InstanceActivity extends DialogFragment {
                 });
 
                 binding.instanceData.setVisibility(View.VISIBLE);
+            }
+        });
+
+        InstanceSocialVM instanceSocialVM = new ViewModelProvider(InstanceActivity.this).get(InstanceSocialVM.class);
+        instanceSocialVM.getInstances(BaseMainActivity.currentInstance.trim()).observe(InstanceActivity.this, instanceSocialList -> {
+            InstanceSocial.Instance healthInstance = null;
+            if (instanceSocialList != null && instanceSocialList.instances != null) {
+                for (InstanceSocial.Instance socialInstance : instanceSocialList.instances) {
+                    if (socialInstance.name != null && socialInstance.name.equalsIgnoreCase(BaseMainActivity.currentInstance.trim())) {
+                        healthInstance = socialInstance;
+                        break;
+                    }
+                }
+            }
+            if (healthInstance != null) {
+                binding.healthContainer.setVisibility(View.VISIBLE);
+                if (healthInstance.up) {
+                    binding.up.setText(R.string.is_up);
+                    binding.up.setTextColor(ThemeHelper.getAttColor(requireContext(), R.attr.colorPrimary));
+                } else {
+                    binding.up.setText(R.string.is_down);
+                    binding.up.setTextColor(ThemeHelper.getAttColor(requireContext(), R.attr.colorError));
+                }
+                binding.uptime.setText(getString(R.string.instance_health_uptime, healthInstance.uptime * 100));
+                if (healthInstance.checked_at != null) {
+                    binding.checkedAt.setText(getString(R.string.instance_health_checkedat, Helper.dateToString(healthInstance.checked_at)));
+                }
+                binding.values.setText(getString(R.string.instance_health_indication, healthInstance.version, Helper.withSuffix(healthInstance.active_users), Helper.withSuffix(healthInstance.statuses)));
+                binding.refInstance.setOnClickListener(v -> Helper.openBrowser(requireActivity(), "https://instances.social"));
+            } else {
+                binding.noInstance.setVisibility(View.VISIBLE);
             }
         });
 

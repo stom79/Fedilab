@@ -704,6 +704,7 @@
     <string name="instance_count">Instance count</string>
     <string name="poll_finish_in">End in %s</string>
     <string name="no_instance_reccord">This instance is not available on https://instances.social</string>
+    <string name="via_instances_social" translatable="false">via instances.social</string>
     <string name="display_full_link">Display full link</string>
     <string name="share_link">Share link</string>
     <string name="open_other_app">Open with another app</string>

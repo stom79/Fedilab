@@ -25,7 +25,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +44,11 @@ import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Status;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
+import app.fedilab.android.mastodon.client.entities.app.ReleaseNote;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
+import app.fedilab.android.mastodon.ui.drawer.ReleaseNoteAdapter;
 import app.fedilab.android.mastodon.viewmodel.mastodon.AccountsVM;
 import es.dmoral.toasty.Toasty;
 
@@ -124,6 +132,30 @@ public class AboutActivity extends BaseBarActivity {
                 }
             }
         });
+        loadReleaseNotes();
+    }
+
+    private void loadReleaseNotes() {
+        new Thread(() -> {
+            try {
+                InputStream is = getAssets().open("release_notes/notes.json");
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                String json = new String(buffer, StandardCharsets.UTF_8);
+                List<ReleaseNote.Note> releaseNotes = new Gson().fromJson(json, new TypeToken<List<ReleaseNote.Note>>() {
+                }.getType());
+                runOnUiThread(() -> {
+                    if (binding != null && releaseNotes != null && !releaseNotes.isEmpty()) {
+                        binding.releasenotes.setLayoutManager(new LinearLayoutManager(AboutActivity.this));
+                        binding.releasenotes.setNestedScrollingEnabled(false);
+                        binding.releasenotes.setAdapter(new ReleaseNoteAdapter(releaseNotes));
+                    }
+                });
+            } catch (Exception ignored) {
+            }
+        }).start();
     }
 
     @Override
