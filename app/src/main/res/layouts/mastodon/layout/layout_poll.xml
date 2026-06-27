@@ -80,6 +80,18 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/show_results"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minWidth="0dp"
+            android:paddingHorizontal="12dp"
+            android:text="@string/show_results"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/submit_vote"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"

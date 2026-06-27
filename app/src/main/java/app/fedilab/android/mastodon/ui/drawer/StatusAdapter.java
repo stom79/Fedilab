@@ -253,6 +253,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static String[] quoteButtonEntryValues;
     private static boolean displayReactions;
     private static boolean compactButtons;
+    private static boolean showPollResultsButton;
     private static boolean originalDateForBoost;
     private static boolean relativeDate;
     private static boolean hideSingleMediaWithCard;
@@ -2464,11 +2465,21 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 normalize = statusToDeal.poll.votes_count;
             }
-            if (statusToDeal.poll.voted || statusToDeal.poll.expired) {
+            if (statusToDeal.poll.voted || statusToDeal.poll.expired || statusToDeal.poll.resultsShown) {
                 holder.binding.poll.submitVote.setVisibility(View.GONE);
                 holder.binding.poll.rated.setVisibility(View.VISIBLE);
                 holder.binding.poll.multipleChoice.setVisibility(View.GONE);
                 holder.binding.poll.singleChoiceRadioGroup.setVisibility(View.GONE);
+                if (statusToDeal.poll.resultsShown && !statusToDeal.poll.voted && !statusToDeal.poll.expired) {
+                    holder.binding.poll.showResults.setVisibility(View.VISIBLE);
+                    holder.binding.poll.showResults.setText(R.string.vote);
+                    holder.binding.poll.showResults.setOnClickListener(v -> {
+                        statusToDeal.poll.resultsShown = false;
+                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    });
+                } else {
+                    holder.binding.poll.showResults.setVisibility(View.GONE);
+                }
                 int greaterValue = 0;
                 for (Poll.PollItem pollItem : statusToDeal.poll.options) {
                     if (pollItem.votes_count > greaterValue)
@@ -2508,6 +2519,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
                 holder.binding.poll.rated.setVisibility(View.GONE);
                 holder.binding.poll.submitVote.setVisibility(View.VISIBLE);
+                if (showPollResultsButton) {
+                    holder.binding.poll.showResults.setVisibility(View.VISIBLE);
+                    holder.binding.poll.showResults.setText(R.string.show_results);
+                    holder.binding.poll.showResults.setOnClickListener(v -> {
+                        statusToDeal.poll.resultsShown = true;
+                        adapter.notifyItemChanged(holder.getBindingAdapterPosition());
+                    });
+                } else {
+                    holder.binding.poll.showResults.setVisibility(View.GONE);
+                }
                 if (statusToDeal.poll.multiple) {
                     if ((holder.binding.poll.multipleChoice).getChildCount() > 0)
                         (holder.binding.poll.multipleChoice).removeAllViews();
@@ -4108,6 +4129,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         extraFeatures = sharedpreferences.getBoolean(context.getString(R.string.SET_EXTAND_EXTRA_FEATURES) + MainActivity.currentUserID + MainActivity.currentInstance, false);
         displayReactions = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_REACTIONS) + MainActivity.currentUserID + MainActivity.currentInstance, true);
         compactButtons = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_COMPACT_ACTION_BUTTON), false);
+        showPollResultsButton = sharedpreferences.getBoolean(context.getString(R.string.SET_SHOW_POLL_RESULTS_BUTTON), true);
         originalDateForBoost = sharedpreferences.getBoolean(context.getString(R.string.SET_BOOST_ORIGINAL_DATE), true);
         relativeDate = sharedpreferences.getBoolean(context.getString(R.string.SET_DISPLAY_RELATIVE_DATE), true);
         hideSingleMediaWithCard = sharedpreferences.getBoolean(context.getString(R.string.SET_HIDE_SINGLE_MEDIA_WITH_CARD), false);

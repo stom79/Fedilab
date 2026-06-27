@@ -2569,6 +2569,11 @@
     <string name="set_highlight_dm_color_title">Direct message color</string>
     <string name="set_highlight_dm_color_summary">Background color for direct messages</string>
     <string name="kw_highlight_dm">direct message, dm, background, color, highlight</string>
+    <string name="SET_SHOW_POLL_RESULTS_BUTTON" translatable="false">SET_SHOW_POLL_RESULTS_BUTTON</string>
+    <string name="show_results">Show results</string>
+    <string name="set_show_poll_results_button_title">Show poll results button</string>
+    <string name="set_show_poll_results_button_summary">Display a button to view poll results without voting</string>
+    <string name="kw_poll_results">poll, results, vote, show, preview</string>
     <string name="notif_added_to_collection">added you to a collection</string>
     <string name="notif_collection_update">updated a collection featuring you</string>
     <string name="set_notif_collection">Notify for collection changes</string>
