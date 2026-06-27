@@ -995,34 +995,28 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         boolean isMisskeyReaction = reactionApi == app.fedilab.android.mastodon.client.entities.app.Account.API.MISSKEY;
         boolean showReactions = (extraFeatures && displayReactions) || isMisskeyReaction;
         if (showReactions) {
-            if (isMisskeyReaction) {
-                holder.binding.statusAddCustomEmoji.setVisibility(View.VISIBLE);
-            } else {
-                holder.binding.statusAddCustomEmoji.setVisibility(status.isFocused ? View.VISIBLE : View.GONE);
-            }
+            holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
+            holder.binding.layoutReactions.addReaction.setVisibility(View.VISIBLE);
             if (status.pleroma != null && status.pleroma.emoji_reactions != null && !status.pleroma.emoji_reactions.isEmpty()) {
-                holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.pleroma.emoji_reactions, true);
                 holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
                 LinearLayoutManager layoutManager
                         = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                 holder.binding.layoutReactions.reactionsView.setLayoutManager(layoutManager);
             } else if (status.reactions != null && !status.reactions.isEmpty()) {
-                holder.binding.layoutReactions.getRoot().setVisibility(View.VISIBLE);
                 ReactionAdapter reactionAdapter = new ReactionAdapter(status.id, status.reactions, true, false);
                 holder.binding.layoutReactions.reactionsView.setAdapter(reactionAdapter);
                 LinearLayoutManager layoutManager
                         = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                 holder.binding.layoutReactions.reactionsView.setLayoutManager(layoutManager);
             } else {
-                holder.binding.layoutReactions.getRoot().setVisibility(View.GONE);
                 holder.binding.layoutReactions.reactionsView.setAdapter(null);
             }
-            holder.binding.statusAddCustomEmoji.setOnClickListener(v -> {
+            holder.binding.layoutReactions.addReaction.setOnClickListener(v -> {
                 List<app.fedilab.android.mastodon.client.entities.api.Emoji> customEmojis =
                         emojis != null ? emojis.get(BaseMainActivity.currentInstance) : null;
                 UnifiedEmojiPicker.show(context,
-                        holder.binding.statusAddCustomEmoji,
+                        holder.binding.layoutReactions.addReaction,
                         holder.binding.layoutReactions.fakeEdittext,
                         customEmojis,
                         unicode -> {
@@ -1033,7 +1027,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         });
             });
         } else {
-            holder.binding.statusAddCustomEmoji.setVisibility(View.GONE);
+            holder.binding.layoutReactions.getRoot().setVisibility(View.GONE);
         }
 
         if (status.isMaths == null) {
@@ -1642,9 +1636,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.binding.actionButtonBoost.setImageSize(iconSize);
         holder.binding.actionButtonFavorite.setImageSize(iconSize);
         holder.binding.actionButtonBookmark.setImageSize(iconSize);
-
-        holder.binding.statusAddCustomEmoji.setIconSize(iconSize);
-        holder.binding.statusAddCustomEmoji.requestLayout();
 
         holder.binding.actionButtonMore.setIconSize(iconSize);
         holder.binding.actionButtonMore.requestLayout();
@@ -3970,7 +3961,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (theme_icons_color != -1) {
             Helper.changeDrawableColor(context, holder.binding.actionButtonReply, theme_icons_color);
-            Helper.changeDrawableColor(context, holder.binding.statusAddCustomEmoji, theme_icons_color);
             Helper.changeDrawableColor(context, holder.binding.actionButtonMore, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_round_star_24, theme_icons_color);
             Helper.changeDrawableColor(context, R.drawable.ic_heart_24, theme_icons_color);
