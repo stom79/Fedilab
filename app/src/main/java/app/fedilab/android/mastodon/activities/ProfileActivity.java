@@ -122,6 +122,7 @@ import app.fedilab.android.mastodon.helper.FixedAppBarLayoutBehavior;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
+import app.fedilab.android.mastodon.helper.TranslateHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.mastodon.ui.drawer.FieldAdapter;
 import app.fedilab.android.mastodon.ui.drawer.IdentityProofsAdapter;
@@ -171,6 +172,7 @@ public class ProfileActivity extends BaseActivity {
                 }
             });
     private boolean checkRemotely;
+    private boolean noteTranslated = false;
     private final BroadcastReceiver broadcast_data = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -676,6 +678,13 @@ public class ProfileActivity extends BaseActivity {
                 TextView.BufferType.SPANNABLE);
 
         binding.accountNote.setMovementMethod(LinkMovementMethod.getInstance());
+        noteTranslated = false;
+        if (account.note != null && !account.note.trim().isEmpty()) {
+            binding.accountNoteTranslate.setVisibility(View.VISIBLE);
+            binding.accountNoteTranslate.setOnClickListener(v -> translateNote());
+        } else {
+            binding.accountNoteTranslate.setVisibility(View.GONE);
+        }
 
 
         binding.bannerPp.setOnClickListener(v -> {
@@ -1086,6 +1095,25 @@ public class ProfileActivity extends BaseActivity {
             }
         }
         return true;
+    }
+
+    private void translateNote() {
+        if (account == null || account.note == null || account.note.trim().isEmpty()) {
+            return;
+        }
+        if (!noteTranslated) {
+            TranslateHelper.translate(ProfileActivity.this, account.note, null, translated -> {
+                if (translated != null && !translated.trim().isEmpty()) {
+                    noteTranslated = true;
+                    binding.accountNote.setText(account.getSpanTranslatedNote(ProfileActivity.this, translated, new WeakReference<>(binding.accountNote)), TextView.BufferType.SPANNABLE);
+                } else {
+                    Toasty.error(ProfileActivity.this, getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                }
+            });
+        } else {
+            noteTranslated = false;
+            binding.accountNote.setText(account.getSpanNote(ProfileActivity.this, new WeakReference<>(binding.accountNote)), TextView.BufferType.SPANNABLE);
+        }
     }
 
     @Override

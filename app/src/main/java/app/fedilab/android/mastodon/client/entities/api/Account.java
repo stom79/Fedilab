@@ -124,6 +124,10 @@ public class Account implements Serializable {
         return SpannableHelper.convert(context, note, null, this, null, viewWeakReference, callback, true, false, keepOriginalBottomHashTags);
     }
 
+    public synchronized Spannable getSpanTranslatedNote(Context context, String translatedNote, WeakReference<View> viewWeakReference) {
+        return SpannableHelper.convert(context, translatedNote, null, this, null, viewWeakReference, null, true, false);
+    }
+
     @Override
     public boolean equals(@Nullable Object obj) {
         boolean same = false;
