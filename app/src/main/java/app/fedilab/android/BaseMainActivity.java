@@ -325,6 +325,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                 }
                                 return true;
                             });
+                            redrawPinned(null);
                         }
                     } else if (bundle.getBoolean(Helper.RECEIVE_RECREATE_ACTIVITY, false)) {
                         recreate();
