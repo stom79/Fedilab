@@ -1718,6 +1718,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             }
                         }
                     });
+                    return;
                 } else {
                     accountId[0] = accountIDInRemoteInstance;
                 }
