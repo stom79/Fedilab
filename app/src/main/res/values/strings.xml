@@ -2337,6 +2337,9 @@
     <string name="language_detection_uncertain">Language detection is uncertain (%1$s%% confidence). Detected: %2$s</string>
     <string name="language_detection_failed">Could not verify the post language</string>
     <string name="keep_posting">Keep posting</string>
+    <string name="selected_language_info">Selected language: %1$s</string>
+    <string name="keep_in_language">Keep in %1$s</string>
+    <string name="post_in_language">Post in %1$s</string>
     <string name="set_remove_battery">Ignore battery optimizations</string>
     <string name="set_autoplay_gif">Autoplay animated media</string>
     <string name="no_cached_messages">No Home cached messages!</string>
