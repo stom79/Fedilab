@@ -622,7 +622,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holderStatus.bindingNotification.status.username.setText(String.format("@%s", notification.account.acct));
                 holderStatus.bindingNotification.status.actionButtons.setVisibility(View.GONE);
             }
-            StatusAdapter.applyColor(context, holderStatus);
+            StatusAdapter.applyColor(context, holderStatus, notification.status != null ? notification.status.visibility : null);
         }
     }
 

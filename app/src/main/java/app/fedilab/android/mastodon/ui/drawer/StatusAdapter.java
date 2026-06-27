@@ -1115,7 +1115,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         holder.binding.actionButtonBoost.setActiveImageTint(R.color.boost_icon);
         holder.binding.actionButtonBookmark.setActiveImageTint(R.color.marked_icon);
-        applyColor(context, holder);
+        applyColor(context, holder, status.visibility);
 
         if (status.pinned) {
             holder.binding.statusPinned.setVisibility(View.VISIBLE);
@@ -3935,7 +3935,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public static void applyColor(Context context, StatusViewHolder holder) {
+    public static void applyColor(Context context, StatusViewHolder holder, String visibility) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean customLight = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_LIGHT_COLORS), false);
         boolean customDark = sharedpreferences.getBoolean(context.getString(R.string.SET_CUSTOMIZE_DARK_COLORS), false);
@@ -3991,9 +3991,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.boostCount.setTextColor(theme_icons_color);
             holder.binding.favoriteCount.setTextColor(theme_icons_color);
         }
-        if (theme_statuses_color != -1) {
+        boolean highlightDM = sharedpreferences.getBoolean(context.getString(R.string.SET_HIGHLIGHT_DM), false);
+        if (highlightDM && "direct".equals(visibility)) {
+            int dmColor = sharedpreferences.getInt(context.getString(R.string.SET_HIGHLIGHT_DM_COLOR), 0x44E64A19);
+            holder.binding.cardviewContainer.setBackgroundColor(dmColor);
+            holder.binding.translationLabel.setBackgroundColor(dmColor);
+        } else if (theme_statuses_color != -1) {
             holder.binding.cardviewContainer.setBackgroundColor(theme_statuses_color);
             holder.binding.translationLabel.setBackgroundColor(theme_statuses_color);
+        } else if (highlightDM) {
+            int defaultColor = holder.binding.cardviewContainer.getCardBackgroundColor().getDefaultColor();
+            holder.binding.cardviewContainer.setBackgroundColor(defaultColor);
+            holder.binding.translationLabel.setBackgroundColor(defaultColor);
         }
         if (theme_boost_header_color != -1) {
             holder.binding.statusBoosterInfo.setBackgroundColor(theme_boost_header_color);
@@ -4253,7 +4262,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusesVM statusesVM = new ViewModelProvider((ViewModelStoreOwner) context).get(StatusesVM.class);
             SearchVM searchVM = new ViewModelProvider((ViewModelStoreOwner) context).get(SearchVM.class);
             statusManagement(context, statusesVM, searchVM, holder, mRecyclerView, this, statusList, status, timelineType, minified, canBeFederated, checkRemotely, fetchMoreCallBack);
-            applyColor(context, holder);
+            applyColor(context, holder, status.visibility);
             if (status.isNewComment) {
                 holder.binding.cardviewContainer.setStrokeColor(ThemeHelper.fetchAccentColor(context));
                 holder.binding.cardviewContainer.setStrokeWidth((int) (2 * context.getResources().getDisplayMetrics().density));

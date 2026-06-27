@@ -2558,6 +2558,13 @@
     <string name="set_show_featured_tab">Show featured tab on profiles</string>
     <string name="set_show_featured_tab_description">Display the featured tab on profile pages</string>
     <string name="kw_featured_tab" translatable="false">featured_tab_collections_profile</string>
+    <string name="SET_HIGHLIGHT_DM" translatable="false">SET_HIGHLIGHT_DM</string>
+    <string name="SET_HIGHLIGHT_DM_COLOR" translatable="false">SET_HIGHLIGHT_DM_COLOR</string>
+    <string name="set_highlight_dm_title">Highlight direct messages</string>
+    <string name="set_highlight_dm_summary">Show direct messages with a distinct background color</string>
+    <string name="set_highlight_dm_color_title">Direct message color</string>
+    <string name="set_highlight_dm_color_summary">Background color for direct messages</string>
+    <string name="kw_highlight_dm">direct message, dm, background, color, highlight</string>
     <string name="notif_added_to_collection">added you to a collection</string>
     <string name="notif_collection_update">updated a collection featuring you</string>
     <string name="set_notif_collection">Notify for collection changes</string>
