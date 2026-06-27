@@ -3020,7 +3020,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static void quote(Context context, Status status) {
         Intent intent = new Intent(context, ComposeActivity.class);
         Bundle args = new Bundle();
-        args.putSerializable(Helper.ARG_QUOTED_MESSAGE, status);
+        args.putSerializable(Helper.ARG_QUOTED_MESSAGE, status.reblog != null ? status.reblog : status);
         new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
             Bundle bundle = new Bundle();
             bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
