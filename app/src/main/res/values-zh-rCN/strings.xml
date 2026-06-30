@@ -1412,4 +1412,16 @@
     <string name="kw_language_check">语言、检查、检测、验证、发布、不匹配</string>
     <string name="avatar_description">头像描述</string>
     <string name="header_description">横幅描述</string>
+    <string name="selected_language_info">所选语言：%1$s</string>
+    <string name="keep_in_language">继续使用 %1$s</string>
+    <string name="post_in_language">用 %1$s 发嘟文</string>
+    <string name="set_highlight_dm_title">高亮私信</string>
+    <string name="set_highlight_dm_summary">用不同的背景色显示私信</string>
+    <string name="set_highlight_dm_color_title">私信颜色</string>
+    <string name="set_highlight_dm_color_summary">私信的背景色</string>
+    <string name="kw_highlight_dm">私信、dm、背景、颜色、高亮</string>
+    <string name="show_results">显示结果</string>
+    <string name="set_show_poll_results_button_title">显示投票结果按钮</string>
+    <string name="set_show_poll_results_button_summary">显示不投票查看投票结果的按钮</string>
+    <string name="kw_poll_results">民调、结果、投票、显示、预览</string>
 </resources>
