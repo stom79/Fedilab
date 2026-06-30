@@ -96,7 +96,7 @@ public class GifDecoder extends FrameSeqDecoder<GifReader, GifWriter> {
             } else if (block instanceof ApplicationExtension && "NETSCAPE2.0".equals(((ApplicationExtension) block).identifier)) {
                 int loopCount = ((ApplicationExtension) block).loopCount;
                 if (loopCount == 0) {
-                    // According to the `NETSCAPE2.0` block specyfication,
+                    // According to the `NETSCAPE2.0` block specification,
                     // the loop count is 0, which means that the GIF will play indefinitely.
                     mLoopCount = 0;
                 } else if (loopCount > 0) {
