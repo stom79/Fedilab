@@ -571,7 +571,7 @@
 \n
 \nまた、そのメッセージを無視するように設定からプッシュ通知を無効にすることもできます。</string>
     <string name="select_distributors">ディストリビューターを選択</string>
-    <string name="hide_content">内容を非表示 &lt;</string>
+    <string name="hide_content">内容を非表示</string>
     <string name="stop_recording">レコーディングを停止</string>
     <string name="report_title">%1$sを通報しています</string>
     <string name="report_indication_title_status">この投稿で何が起こっているのか教えてください</string>
@@ -629,7 +629,7 @@
     <string name="post_message_text">投稿を送信中 %d/%d</string>
     <string name="instance_health_checkedat">%sでチェック</string>
     <string name="instance_health_uptime">稼働時間: %,.2f</string>
-    <string name="show_content">内容を表示 &gt;</string>
+    <string name="show_content">内容を表示</string>
     <string name="is_up">稼働しています！</string>
     <string name="report_val1">この投稿が嫌いです</string>
     <string name="report_1_block_title">%1$sをブロックする</string>
@@ -1039,7 +1039,7 @@
     <string name="follows_you">あなたのフォロワー</string>
     <string name="track_selection_title">トラックを選択</string>
     <string name="auto">自動</string>
-    <string name="set_remote_conversation_title">リモートの会話</string>
+    <string name="set_remote_conversation_title">会話</string>
     <string name="set_remote_conversation">アプリは公開の会話を表示するために全ての投稿を取得します。交流は投稿を連合させるための追加の操作が必要です。</string>
     <string name="set_custom_accent_indication">アカウントごとにテーマカラーを設定する</string>
     <string name="set_custom_accent_light_value">ライトテーマのアクセントカラー</string>
@@ -1246,4 +1246,20 @@
     <string name="kw_bookmark">ブックマーク、保存</string>
     <string name="kw_pixelfed_presentation">pixelfed、プレゼン、ギャラリー</string>
     <string name="kw_translate_button">翻訳、ボタン</string>
+    <string name="avatar_description">アバターの説明</string>
+    <string name="header_description">バナーの説明</string>
+    <string name="set_announcement_popup_title">お知らせのポップアップ</string>
+    <string name="set_announcement_popup_summary">新規のサーバー告知が検出されたときポップアップを表示</string>
+    <string name="new_announcement">新規のお知らせ</string>
+    <string name="open">開く</string>
+    <string name="error_feature_not_supported">ご利用のインスタンスではまだ当機能はサポートされていません</string>
+    <string name="error_file_too_large">このファイルはご利用のインスタンスでは大きすぎます</string>
+    <string name="error_file_rejected">ご利用のインスタンスにより該当ファイルが拒否されました</string>
+    <string name="error_too_many_requests">リクエスト過多、後ほど再試行願います</string>
+    <string name="error_instance_unavailable">ご利用のインスタンスは一時的に利用できません</string>
+    <string name="error_generic">エラー発生(%1$d)、後ほど再試行願います</string>
+    <string name="conversation_mode_local">ローカル</string>
+    <string name="conversation_mode_mixed">雑談</string>
+    <string name="conversation_mode_remote">リモート</string>
+    <string name="conversation_mode_local_summary">該当インスタンスが認識済の返信のみを表示</string>
 </resources>
