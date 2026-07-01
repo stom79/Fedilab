@@ -863,7 +863,7 @@
     <string name="message_has_been_sent">Il messaggio è stato inviato!</string>
     <string name="poll_type">Tipo di sondaggio:</string>
     <string name="report_sent">Il report é stato inviato!</string>
-    <string name="about_mastodon">\"Mastodon non é un singolo sito come Twitter o Facebook, é una rete di migliaia di communità gestite da organizzazioni e individui differenti che forniscono un\'esperienza social integrata.\"</string>
+    <string name="about_mastodon">\"Mastodon non è un singolo sito web come Twitter o Facebook, ma una rete composta di migliaia di comunità gestite da diverse organizzazioni e persone che offre un\'esperienza social integrata.\"</string>
     <string name="mark_all_as_read">Segna tutte le notifiche come lette</string>
     <string name="delete_notification_all_warning">Sei sicuro di voler eliminare tutte le notifiche\? L\'azione non puó essere annullata.</string>
     <string name="notif_display_poll_results">Risultati sondaggio</string>
@@ -926,11 +926,11 @@
     <string name="replace_reddit_host">Dominio frontend Reddit</string>
     <string name="boosted_by">Ricondiviso da</string>
     <string name="admin_domainblock_reject_obfuscate">Offusca parzialmente il nome di dominio nella lista se mostra le limitazioni di dominio é abilitato</string>
-    <string name="fetch_remote_media">Scarica automaticamente media remoti se non disponibili</string>
+    <string name="fetch_remote_media">Recupera automaticamente i contenuti multimediali remoti quando non sono disponibili</string>
     <string name="lemmy_instance">Instanza Lemmy</string>
     <string name="also_followed_by">Seguaci:</string>
     <string name="_new">Nuovi</string>
-    <string name="toast_error_media">Il media non può essere caricato!</string>
+    <string name="toast_error_media">Impossibile caricare il file multimediale!</string>
     <string name="chat_timeline_for_direct">Linea temporale per messaggi diretti</string>
     <string name="show_self_replies">Mostra auto-risposte</string>
     <string name="following">Segue</string>
@@ -1017,7 +1017,7 @@
     <string name="status">Stato</string>
     <string name="set_custom_accent_light_value">Colore accento chiaro</string>
     <string name="set_remove_battery">Ignora ottimizzazione batteria</string>
-    <string name="fetching_messages">Scaricamento messaggi</string>
+    <string name="fetching_messages">Recupero dei messaggi</string>
     <string name="set_autoplay_gif">Riproduci automaticamente media animati</string>
     <string name="frequency_minutes">Frequenza (in minuti)</string>
     <string name="set_mention_at_top_indication">Quando rispondi le menzioni appropriate saranno aggiunte all\'inizio del messaggio</string>
@@ -1064,7 +1064,7 @@
     <string name="chart_home_cache_logs">Registri cache per schermata iniziale</string>
     <string name="otp_message">Codice autenticazione a due fattori</string>
     <string name="reply_visibility">Visibilità delle risposte</string>
-    <string name="Directory">Direttorio</string>
+    <string name="Directory">Cartella dei profili</string>
     <string name="icons_visibility">Visibilità icone</string>
     <string name="fail_count">%d fallimenti</string>
     <string name="group_reblogs">Raggruppa i riblog nella linea temporale iniziale</string>
@@ -1224,7 +1224,7 @@
     <string name="set_mention_booster">Menziona la persona che ha ricondiviso</string>
     <string name="underline_bottom_hashtags">Evidenzia gli hashtag in fondo alla pagina</string>
     <string name="remaining_tags">…e %d altri</string>
-    <string name="search_settings">Impostazioni di ricerca</string>
+    <string name="search_settings">Cerca nelle impostazioni</string>
     <string name="no_results">Nessun risultato</string>
     <string name="kw_remember_position">scorrere, posizionare, riprendere, memorizzare</string>
     <string name="kw_auto_fetch_missing">recupera, mancante, lacuna, carica</string>
