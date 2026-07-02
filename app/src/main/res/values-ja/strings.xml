@@ -1262,4 +1262,16 @@
     <string name="conversation_mode_mixed">雑談</string>
     <string name="conversation_mode_remote">リモート</string>
     <string name="conversation_mode_local_summary">該当インスタンスが認識済の返信のみを表示</string>
+    <string name="conversation_mode_mixed_summary">まずローカル返信を表示、のちにリモートインスタンスからの公開返信を追加</string>
+    <string name="conversation_mode_remote_summary">リモートインスタンスからの公開リプライのみを表示します。やり取りをフェデレーションするのには追加手順が必要です。</string>
+    <string name="set_remote_conversation_warning">リモート会話でではリモートサーバーに対し認証なしのAPIリクエストが行われます。Mastodon APIの制限で、最初の60件の投稿と最大で20階層迄の返信のみを取得できます。長い会話は不完全な状態で表示される場合があります。</string>
+    <string name="set_language_check">投稿時に言語を確認</string>
+    <string name="set_language_check_description">テキスト言語を検出して選択言語と一致しない場合は警告を表示</string>
+    <string name="language_mismatch">言語が不一致: %1$s が検出されましたが %2$s を選択中です</string>
+    <string name="language_detection_uncertain">不確定な言語の検出結果(%1$s%% の信頼度)。検出結果: %2$s</string>
+    <string name="language_detection_failed">投稿言語が確認できませんでした</string>
+    <string name="keep_posting">投稿を保持</string>
+    <string name="selected_language_info">選択された言語: %1$s</string>
+    <string name="keep_in_language">%1$s へ保持</string>
+    <string name="post_in_language">%1$s へ投稿</string>
 </resources>
