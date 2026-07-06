@@ -1,0 +1,20 @@
+Tillagt:
+- Det går att följa ”upptäck”-tidslinjer på Pixelfed-instanser
+- Mediers proportioner behålls i Pixelfeds tidlinjer
+- ”Gilla”-knapp i Pixelfeds tidlinjer
+- Logga in med en markör (token)
+
+Ändrat:
+- Pixelfeds layout kan användas när du följer Pixelfed-instanser
+- Knappar för att skrolla på större skärmar i konversationer
+- Flyttat QR-koden till rubriken
+
+Fixat:
+- Att URL:er inte kunde klickas när markdown tilläts
+- Att använda Nitter för att följa Twitter-konton
+- Att Pixelfeds tidslinje inte visades som standard
+- Att admin-rapporter inte gick att få tag på
+- Färgen på översta menyn vid skrollning
+- Att utkast inte sparades när man lade till eller redigerade mediebeskrivningar
+- Dubbla uppsättningar förslag vid sökning efter användare
+- Några mindre kraschar.

@@ -1,0 +1,12 @@
+Tillagt:
+- Följa Twitter-taggar
+
+Ändrat::
+- Möjlighet att ta bort automatisk backup (enbart Google)
+
+Fixat:
+- Att push-notiser inte funkade för vissa enheter
+- Att filter inte lades till mediebeskrivningar
+- En krasch för animerade bilder i tidslinjer
+- En krasch för långa trådar
+- En krasch på grund av vissa meddelanden (vilket hände i olika tidslinjer)

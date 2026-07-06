@@ -1,0 +1,17 @@
+Tillagt:
+- Pinnad trendande tidslinje (kan döljas i inställningen Hantera tidslinjer)
+- En återgång till standard-översättningsmotorn
+- Ny Pixelfed-post i Inställningar för att stänga av fullskärmsvisning för medier
+- Tips för tabbar i profiler
+
+Ändrat:
+- Större yta på svarsknappar
+- En dialog visas efter inställnignsexport
+
+Fixat:
+- Mediabeskrivningar som inte uppdaterades i klump
+- Att bara en del av DeepL-översättningar visades
+- Trunkerade Lingva-översättningar
+- En krasch när fjärrprofiler hämtades
+- En krasch med animerade emojier
+- En krasch när Hem-cache-listor visades
