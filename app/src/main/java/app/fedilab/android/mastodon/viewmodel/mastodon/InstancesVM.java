@@ -181,6 +181,22 @@ public class InstancesVM extends AndroidViewModel {
                     e.printStackTrace();
                 }
             }
+            if (vapid == null) {
+                Call<Instance> instanceCall = init(instance).instance();
+                if (instanceCall != null) {
+                    try {
+                        Response<Instance> instanceResponse = instanceCall.execute();
+                        if (instanceResponse.isSuccessful()) {
+                            Instance instanceV1 = instanceResponse.body();
+                            if (instanceV1 != null && instanceV1.pleroma != null) {
+                                vapid = instanceV1.pleroma.vapidPublicKey;
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             String finalVapid = vapid;
             Runnable myRunnable = () -> vapidMutableLiveData.setValue(finalVapid);

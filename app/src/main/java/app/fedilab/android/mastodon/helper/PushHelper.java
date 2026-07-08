@@ -41,6 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.endpoints.MastodonInstanceService;
+import app.fedilab.android.mastodon.client.entities.api.Instance;
 import app.fedilab.android.mastodon.client.entities.api.InstanceV2;
 import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
@@ -162,6 +163,27 @@ public class PushHelper {
 
                         } catch (Exception e) {
                             e.printStackTrace();
+                        }
+                    }
+                    if (vapid == null) {
+                        Retrofit retrofitV1 = new Retrofit.Builder()
+                                .baseUrl("https://" + (account.instance != null ? IDN.toASCII(account.instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
+                                .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
+                                .client(okHttpClient)
+                                .build();
+                        Call<Instance> instanceCall = retrofitV1.create(MastodonInstanceService.class).instance();
+                        if (instanceCall != null) {
+                            try {
+                                Response<Instance> instanceResponse = instanceCall.execute();
+                                if (instanceResponse.isSuccessful()) {
+                                    Instance instance = instanceResponse.body();
+                                    if (instance != null && instance.pleroma != null) {
+                                        vapid = instance.pleroma.vapidPublicKey;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     Handler mainHandler = new Handler(Looper.getMainLooper());
