@@ -211,7 +211,7 @@
     <string name="settings_time_from">Tussen</string>
     <string name="settings_time_to">en</string>
     <string name="embedded_browser">Gebruik de ingebouwde webbrowser</string>
-    <string name="custom_tabs">Aangepaste tabbladen</string>
+    <string name="custom_tabs">In-app browser</string>
     <string name="expand_cw">Automatisch tekstwaarschuwingen (CW) uitklappen</string>
     <string name="set_led_colour">LED-kleur instellen:</string>
     <string-array name="led_colours">
@@ -527,7 +527,7 @@
     <string name="background_status_title">Berichten</string>
     <string name="background_status">Achtergrondkleur van berichten in tijdlijnen</string>
     <string name="reset_color">Reset kleuren</string>
-    <string name="clik_reset">Hier klikken om al je aangepaste kleuren opnieuw in te stellen</string>
+    <string name="clik_reset">Klik hier om al je aangepaste kleuren terug te zetten</string>
     <string name="reset">Reset</string>
     <string name="icons_color_title">Iconen</string>
     <string name="icons_color">Kleur van de onderste iconen in tijdlijnen</string>
