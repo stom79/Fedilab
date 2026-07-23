@@ -317,18 +317,18 @@ public class StatusCache {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
-        String query = "select count(*) from " + Sqlite.TABLE_STATUS_CACHE
+        String query = "select " + Sqlite.COL_STATUS_ID + " from " + Sqlite.TABLE_STATUS_CACHE
                 + " where " + Sqlite.COL_STATUS_ID + " = '" + statusCache.status_id + "'"
                 + " AND " + Sqlite.COL_INSTANCE + " = '" + statusCache.instance + "'"
                 + " AND " + Sqlite.COL_USER_ID + "= '" + statusCache.user_id + "'";
         if (statusCache.type != null) {
             query += " AND " + Sqlite.COL_TYPE + " = '" + statusCache.type.getValue() + "'";
         }
+        query += " limit 1";
         Cursor mCount = db.rawQuery(query, null);
-        mCount.moveToFirst();
-        int count = mCount.getInt(0);
+        boolean exists = mCount.moveToFirst();
         mCount.close();
-        return (count > 0);
+        return exists;
     }
 
 
