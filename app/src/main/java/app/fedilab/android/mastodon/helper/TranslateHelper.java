@@ -123,8 +123,11 @@ public class TranslateHelper {
             String translatorVersion = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_VERSION), "PRO");
             params.setPro(translatorVersion.equals("PRO"));
             String apikey = sharedpreferences.getString(context.getString(R.string.SET_TRANSLATOR_API_KEY), null);
-            if (apikey != null && !apikey.trim().isEmpty()) {
-                myTransL.setDeeplAPIKey(apikey.trim());
+            if (apikey != null) {
+                apikey = apikey.replaceAll("\\s", "");
+            }
+            if (apikey != null && !apikey.isEmpty()) {
+                myTransL.setDeeplAPIKey(apikey);
             } else { //Issue with API key (empty or null)
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString(context.getString(R.string.SET_TRANSLATOR), "FEDILAB");
