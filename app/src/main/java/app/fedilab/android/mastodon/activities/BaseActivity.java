@@ -176,6 +176,18 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onContentChanged() {
+        super.onContentChanged();
+        if (applyWindowInsets()) {
+            Helper.applyWindowInsets(findViewById(android.R.id.content));
+        }
+    }
+
+    protected boolean applyWindowInsets() {
+        return true;
+    }
+
+    @Override
     protected void attachBaseContext(Context newBase) {
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
             final Configuration override = new Configuration();

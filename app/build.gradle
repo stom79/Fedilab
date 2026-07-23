@@ -8,11 +8,11 @@ plugins {
 }
 def flavor
 android {
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         minSdk 21
-        targetSdk 35
+        targetSdk 36
         versionCode 563
         versionName "3.42.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
