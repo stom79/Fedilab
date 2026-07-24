@@ -1297,7 +1297,7 @@ public class Helper {
                     targetedUrl = "https://" + account.instance + account.peertube_account.getAvatar().getPath();
                 }
             } else {
-                BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(activity)
+                BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(activity.getApplicationContext())
                         .setLabel(account.peertube_account.getAcct())
                         .setAvatarSize(120)
                         .setTextSize(30)

@@ -532,7 +532,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                     item.setIcon(R.drawable.ic_person);
                                     if (!activity.isDestroyed() && !activity.isFinishing() && url != null) {
                                         if (url.trim().isEmpty()) {
-                                            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(activity)
+                                            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(activity.getApplicationContext())
                                                     .setLabel(acct)
                                                     .setAvatarSize(120)
                                                     .setTextSize(30)

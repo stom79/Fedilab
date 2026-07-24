@@ -90,6 +90,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private boolean scrollingUp;
     private boolean isUserDragging;
     private FragmentPaginationBinding binding;
+    private Runnable scrollTopRunnable;
     private TimelinesVM timelinesVM;
     private MisskeyTimelinesVM misskeyTimelinesVM;
     private StatusesVM statusesVM;
@@ -847,7 +848,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
         }
         if (direction == DIRECTION.SCROLL_TOP) {
-            new Handler().postDelayed(() -> binding.recyclerView.scrollToPosition(0), 200);
+            if (scrollTopRunnable == null) {
+                scrollTopRunnable = () -> {
+                    if (binding != null) {
+                        binding.recyclerView.scrollToPosition(0);
+                    }
+                };
+            }
+            binding.recyclerView.postDelayed(scrollTopRunnable, 200);
         }
     }
 
@@ -1335,6 +1343,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         try {
             requireActivity().unregisterReceiver(receive_refresh_all);
         } catch (Exception ignored) {
+        }
+        if (scrollTopRunnable != null && binding != null) {
+            binding.recyclerView.removeCallbacks(scrollTopRunnable);
         }
         super.onDestroyView();
     }

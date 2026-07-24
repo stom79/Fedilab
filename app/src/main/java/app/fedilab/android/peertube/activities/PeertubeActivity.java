@@ -1554,10 +1554,14 @@ public class PeertubeActivity extends BasePeertubeActivity implements CommentLis
     @Override
     public void onDestroy() {
         super.onDestroy();
-        binding = null;
+        if (binding != null) {
+            binding.doubleTapPlayerView.setPlayer(null);
+        }
         if (player != null) {
             player.release();
+            player = null;
         }
+        binding = null;
         unregisterReceiver();
     }
 

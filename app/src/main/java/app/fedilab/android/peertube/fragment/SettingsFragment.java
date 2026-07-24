@@ -311,7 +311,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 if (userMe.getAccount().getAvatar() != null) {
                     avatarUrl = "https://" + HelperInstance.getLiveInstance(context) + userMe.getAccount().getAvatar().getPath();
                 } else {
-                    avatar = new AvatarGenerator.AvatarBuilder(context)
+                    avatar = new AvatarGenerator.AvatarBuilder(context.getApplicationContext())
                             .setLabel(userMe.getAccount().getAcct())
                             .setAvatarSize(120)
                             .setTextSize(30)

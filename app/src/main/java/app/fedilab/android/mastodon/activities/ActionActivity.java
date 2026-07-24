@@ -131,14 +131,18 @@ public class ActionActivity extends BaseBarActivity {
         if (canGoBack) {
             canGoBack = false;
             ThemeHelper.slideViewsToRight(binding.fragmentContainer, binding.buttonContainer, () -> {
+                FragmentManager fragmentManager = getSupportFragmentManager();
                 if (fragmentMastodonTimeline != null) {
-                    fragmentMastodonTimeline.onDestroyView();
+                    fragmentManager.beginTransaction().remove(fragmentMastodonTimeline).commit();
+                    fragmentMastodonTimeline = null;
                 }
                 if (fragmentMastodonAccount != null) {
-                    fragmentMastodonAccount.onDestroyView();
+                    fragmentManager.beginTransaction().remove(fragmentMastodonAccount).commit();
+                    fragmentMastodonAccount = null;
                 }
                 if (fragmentMastodonDomainBlock != null) {
-                    fragmentMastodonDomainBlock.onDestroyView();
+                    fragmentManager.beginTransaction().remove(fragmentMastodonDomainBlock).commit();
+                    fragmentMastodonDomainBlock = null;
                 }
             });
             setTitle(R.string.interactions);
