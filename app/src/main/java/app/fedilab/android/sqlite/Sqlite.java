@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 13;
+    public static final int DB_VERSION = 14;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -146,6 +146,10 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_STATUS + " TEXT NOT NULL, "
             + COL_CREATED_AT + " TEXT NOT NULL,"
             + COL_UPDATED_AT + " TEXT)";
+    private static final String CREATE_INDEX_STATUS_CACHE_READ = "CREATE INDEX IF NOT EXISTS index_status_cache_read ON " + TABLE_STATUS_CACHE
+            + " (" + COL_USER_ID + ", " + COL_INSTANCE + ", " + COL_SLUG + ", " + COL_STATUS_ID + ")";
+    private static final String CREATE_INDEX_STATUS_CACHE_LOOKUP = "CREATE INDEX IF NOT EXISTS index_status_cache_lookup ON " + TABLE_STATUS_CACHE
+            + " (" + COL_USER_ID + ", " + COL_INSTANCE + ", " + COL_STATUS_ID + ")";
     private static final String CREATE_TABLE_EMOJI_INSTANCE = "CREATE TABLE IF NOT EXISTS " + TABLE_EMOJI_INSTANCE + " ("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COL_INSTANCE + " TEXT NOT NULL, "
@@ -277,6 +281,8 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USER_ACCOUNT);
         db.execSQL(CREATE_TABLE_TIMELINES);
         db.execSQL(CREATE_TABLE_STATUS_CACHE);
+        db.execSQL(CREATE_INDEX_STATUS_CACHE_READ);
+        db.execSQL(CREATE_INDEX_STATUS_CACHE_LOOKUP);
         db.execSQL(CREATE_TABLE_EMOJI_INSTANCE);
         db.execSQL(CREATE_TABLE_INSTANCE_INFO);
         db.execSQL(CREATE_TABLE_STATUS_DRAFT);
@@ -326,6 +332,9 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL(CREATE_TABLE_INTENT);
             case 12:
                 db.execSQL(CREATE_TABLE_SEEN_COMMENTS);
+            case 13:
+                db.execSQL(CREATE_INDEX_STATUS_CACHE_READ);
+                db.execSQL(CREATE_INDEX_STATUS_CACHE_LOOKUP);
             default:
                 break;
         }

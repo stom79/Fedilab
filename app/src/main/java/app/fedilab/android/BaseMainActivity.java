@@ -492,6 +492,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     List<BaseAccount> accounts = new Account(activity).getOtherAccounts();
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     Runnable myRunnable = () -> {
+                        navigationView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
                         navigationView.getMenu().clear();
                         navigationView.inflateMenu(R.menu.menu_accounts);
                         headerMenuOpen = true;
@@ -532,7 +533,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                     item.setIcon(R.drawable.ic_person);
                                     if (!activity.isDestroyed() && !activity.isFinishing() && url != null) {
                                         if (url.trim().isEmpty()) {
-                                            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(activity)
+                                            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(activity.getApplicationContext())
                                                     .setLabel(acct)
                                                     .setAvatarSize(120)
                                                     .setTextSize(30)
@@ -635,7 +636,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                             activity.startActivity(intent);
                             return true;
                         });
-
+                        navigationView.post(() -> navigationView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_AUTO));
                     };
                     mainHandler.post(myRunnable);
                 } catch (DBException e) {
@@ -643,6 +644,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 }
             }).start();
         } else {
+            navigationView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
             navigationView.getMenu().clear();
             if (Helper.getCurrentAccount(activity).mastodon_account != null) {
                 navigationView.inflateMenu(R.menu.activity_main_drawer);
@@ -651,6 +653,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             }
             headerMainBinding.ownerAccounts.setIconResource(R.drawable.ic_accounts);
             headerMenuOpen = false;
+            navigationView.post(() -> navigationView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_AUTO));
         }
     }
 

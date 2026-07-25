@@ -60,6 +60,8 @@ public class Instance implements Serializable {
     public PollsConf poll_limits;
     @SerializedName("max_toot_chars")
     public String max_toot_chars;
+    @SerializedName("pleroma")
+    public Pleroma pleroma;
 
     public static String serialize(Instance instance) {
         Gson gson = new Gson();
@@ -129,6 +131,11 @@ public class Instance implements Serializable {
             }
         }
         return mimeTypes;
+    }
+
+    public static class Pleroma implements Serializable {
+        @SerializedName("vapid_public_key")
+        public String vapidPublicKey;
     }
 
     public static class Configuration implements Serializable {

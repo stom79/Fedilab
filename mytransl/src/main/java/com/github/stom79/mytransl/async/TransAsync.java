@@ -202,6 +202,9 @@ public class TransAsync {
             err.printStackTrace();
         } catch (HttpsConnectionException e) {
             this.e = e;
+        } catch (Exception err) {
+            this.e = new HttpsConnectionException(-1, err.getMessage());
+            err.printStackTrace();
         }
         return str_response;
     }

@@ -80,6 +80,19 @@ import es.dmoral.toasty.Toasty;
 
 public class MediaHelper {
 
+    //Animated media (gif/webp) detected from the path extension
+    public static boolean isAnimatedUrl(String url) {
+        if (url == null) {
+            return false;
+        }
+        String path = Uri.parse(url).getPath();
+        if (path == null) {
+            path = url;
+        }
+        path = path.toLowerCase();
+        return path.endsWith(".gif") || path.endsWith(".webp");
+    }
+
 
     /**
      * Manage downloads with URLs, does not concern images, they are moved with Glide cache.

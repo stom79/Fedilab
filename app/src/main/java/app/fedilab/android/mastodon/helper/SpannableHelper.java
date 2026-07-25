@@ -333,6 +333,7 @@ public class SpannableHelper {
                 content.setSpan(new LongClickableSpan() {
                     @Override
                     public void onLongClick(View textView) {
+                        Context context = textView.getContext();
                         textView.setTag(CLICKABLE_SPAN);
                         if (word.startsWith("#") && BaseMainActivity.filterFetched && MainActivity.mainFilters != null) {
                             String tag = word.trim();
@@ -345,6 +346,7 @@ public class SpannableHelper {
 
                     @Override
                     public void onClick(@NonNull View textView) {
+                        Context context = textView.getContext();
                         textView.setTag(CLICKABLE_SPAN);
                         Intent intent;
                         Bundle args;
@@ -553,14 +555,14 @@ public class SpannableHelper {
         content.setSpan(new LongClickableSpan() {
             @Override
             public void onLongClick(View view) {
-                Context mContext = view.getContext();
-                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(mContext);
+                Context context = view.getContext();
+                AlertDialog.Builder dialogBuilder = new MaterialAlertDialogBuilder(context);
                 PopupLinksBinding popupLinksBinding = PopupLinksBinding.inflate(LayoutInflater.from(context));
                 dialogBuilder.setView(popupLinksBinding.getRoot());
                 AlertDialog alertDialog = dialogBuilder.create();
                 alertDialog.show();
                 popupLinksBinding.displayFullLink.setOnClickListener(v -> {
-                    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(mContext);
+                    AlertDialog.Builder builder = new MaterialAlertDialogBuilder(context);
                     builder.setMessage(finalUrl);
                     builder.setTitle(context.getString(R.string.display_full_link));
                     builder.setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
@@ -744,7 +746,7 @@ public class SpannableHelper {
 
             @Override
             public void onClick(@NonNull View textView) {
-
+                Context context = textView.getContext();
                 textView.setTag(CLICKABLE_SPAN);
                 linkClickAction(context, finalUrl);
             }
@@ -815,8 +817,52 @@ public class SpannableHelper {
                 }
             });
         } else {
-            Helper.openBrowser(context, finalUrl);
+            String domain = Uri.parse(finalUrl).getHost();
+            Helper.checkFediverse(context, domain, isFediverse -> {
+                if (isFediverse) {
+                    fetchRemoteStatusOrAccount(context, finalUrl);
+                } else {
+                    Helper.openBrowser(context, finalUrl);
+                }
+            });
         }
+    }
+
+    private static void fetchRemoteStatusOrAccount(Context context, String url) {
+        CrossActionHelper.fetchRemoteStatusOrAccount(context, Helper.getCurrentAccount(context), url, new CrossActionHelper.Callback() {
+            @Override
+            public void federatedStatus(Status status) {
+                Intent intent = new Intent(context, ContextActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, status);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                });
+            }
+
+            @Override
+            public void federatedAccount(Account account) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, account);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                });
+            }
+
+            @Override
+            public void onFailed() {
+                Helper.openBrowser(context, url);
+            }
+        });
     }
 
     private static void fetchRemoteStatus(Context context, String url) {
@@ -837,6 +883,11 @@ public class SpannableHelper {
 
             @Override
             public void federatedAccount(Account account) {
+            }
+
+            @Override
+            public void onFailed() {
+                Helper.openBrowser(context, url);
             }
         });
     }
@@ -883,6 +934,7 @@ public class SpannableHelper {
                 content.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(@NonNull View textView) {
+                        Context context = textView.getContext();
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setType("plain/text");
                         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
@@ -1042,6 +1094,7 @@ public class SpannableHelper {
                 spannableString.setSpan(new ClickableSpan() {
                                             @Override
                                             public void onClick(@NonNull View textView) {
+                                                Context context = textView.getContext();
                                                 Intent intent = new Intent(context, ProfileActivity.class);
                                                 Bundle args = new Bundle();
                                                 args.putSerializable(Helper.ARG_ACCOUNT, account.moved);

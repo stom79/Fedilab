@@ -1289,4 +1289,15 @@
     <string name="action_sort">Třídit</string>
     <string name="action_collections">Sbírky</string>
     <string name="no_collections">Zatím žádné sbírky!</string>
+    <string name="selected_language_info">Vybraný jazyk: %1$s</string>
+    <string name="keep_in_language">Ponechat v %1$s</string>
+    <string name="post_in_language">Odeslat v %1$s</string>
+    <string name="action_remove_me">Odebrat mě</string>
+    <string name="action_remove_myself_from_collection">Odebrat mě z této sbírky</string>
+    <string name="notif_added_to_collection">vás přidal(a) do sbírky</string>
+    <string name="notif_collection_update">aktualizoval(a) sbírku, která vás zmiňuje</string>
+    <string name="set_notif_collection">Upozornit mě na změny sbírky</string>
+    <string name="set_show_poll_results_button_summary">Zobrazovat tlačítko k ukázání ankety bez hlasování</string>
+    <string name="show_results">Ukázat výsledky</string>
+    <string name="set_show_poll_results_button_title">Tlačítko pro zobrazení výsledků ankety</string>
 </resources>

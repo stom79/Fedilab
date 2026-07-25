@@ -538,10 +538,44 @@ public class CrossActionHelper {
             Runnable myRunnable = () -> {
                 if (finalResults != null && finalResults.statuses != null && finalResults.statuses.size() > 0) {
                     callback.federatedStatus(finalResults.statuses.get(0));
+                } else {
+                    callback.onFailed();
                 }
             };
             mainHandler.post(myRunnable);
 
+        }).start();
+    }
+
+    /**
+     * Resolve a remote url to a status or an account
+     */
+    public static void fetchRemoteStatusOrAccount(@NonNull Context context, @NonNull BaseAccount ownerAccount, String url, Callback callback) {
+        MastodonSearchService mastodonSearchService = init(context, BaseMainActivity.currentInstance);
+        new Thread(() -> {
+            Call<Results> resultsCall = mastodonSearchService.search(ownerAccount.token, url, null, null, false, true, false, 0, null, null, 1);
+            Results results = null;
+            if (resultsCall != null) {
+                try {
+                    Response<Results> resultsResponse = resultsCall.execute();
+                    if (resultsResponse.isSuccessful()) {
+                        results = resultsResponse.body();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            Results finalResults = results;
+            mainHandler.post(() -> {
+                if (finalResults != null && finalResults.statuses != null && finalResults.statuses.size() > 0) {
+                    callback.federatedStatus(finalResults.statuses.get(0));
+                } else if (finalResults != null && finalResults.accounts != null && finalResults.accounts.size() > 0) {
+                    callback.federatedAccount(finalResults.accounts.get(0));
+                } else {
+                    callback.onFailed();
+                }
+            });
         }).start();
     }
 
@@ -786,5 +820,8 @@ public class CrossActionHelper {
         void federatedStatus(Status status);
 
         void federatedAccount(app.fedilab.android.mastodon.client.entities.api.Account account);
+
+        default void onFailed() {
+        }
     }
 }

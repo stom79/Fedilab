@@ -119,6 +119,11 @@ public class MediaActivity extends BaseBarActivity implements OnDownloadInterfac
     private boolean mediaFromProfile;
 
     @Override
+    protected boolean applyWindowInsets() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 

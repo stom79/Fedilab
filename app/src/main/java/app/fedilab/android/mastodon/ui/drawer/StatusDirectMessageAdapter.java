@@ -186,7 +186,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
         }
 
 
-        boolean allowAnimation = autoplaygif && attachment.url != null && attachment.url.toLowerCase().endsWith(".webp") && (!status.sensitive || expand_media);
+        boolean allowAnimation = autoplaygif && MediaHelper.isAnimatedUrl(attachment.url) && (!status.sensitive || expand_media);
         RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, status.sensitive, false, allowAnimation);
         if (!status.sensitive || expand_media) {
             layoutMediaBinding.viewHide.setIconResource(R.drawable.ic_baseline_visibility_24);
@@ -680,7 +680,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                         videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
                                 .createMediaSource(mediaItem);
                     }
-                    ExoPlayer player = new ExoPlayer.Builder(context).build();
+                    ExoPlayer player = new ExoPlayer.Builder(context.getApplicationContext()).build();
                     player.setRepeatMode(Player.REPEAT_MODE_ONE);
                     layoutMediaBinding.mediaVideo.setPlayer(player);
                     player.setMediaSource(videoSource);

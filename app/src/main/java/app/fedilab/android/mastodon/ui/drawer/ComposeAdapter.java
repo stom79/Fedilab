@@ -480,7 +480,8 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int currentCount = statusList.get(position).media_attachments != null ? statusList.get(position).media_attachments.size() : 0;
         int remaining = maxMediaCount - currentCount;
         Intent intent;
-        if (remaining > 1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (remaining > 1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && (type == ComposeActivity.mediaType.PHOTO || type == ComposeActivity.mediaType.VIDEO)) {
             intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
             intent.setType("*/*");
             intent.putExtra(MediaStore.EXTRA_PICK_IMAGES_MAX, remaining);

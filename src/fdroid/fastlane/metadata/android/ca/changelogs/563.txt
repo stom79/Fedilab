@@ -1,0 +1,15 @@
+Novetats:
+- Botó de traduir a la bio del perfil
+- Color de rerefons a mida amb els missatges directes
+- Opció de veure els resultats d'enquestes sense votar
+
+Millores:
+- Limitar l'espai dels pronoms llargs
+- Es trasllada afegir reacció a un bollonet disponible en tots els missatges
+- Millor detecció d'idiomes: mencions de segments, URLs i emojis
+- Menú lateral simplificat i càrrega asíncrona de notes de compilació
+
+Correccions:
+- Pissarres que no lligaven amb els botons després de reordenar el menú inferior
+- "Sense missatges per mostrar" es quedava fix sobre perfils remots que tenien missatges
+- Cita de missatge difós que mostrava el difusor en lloc del missatge d'origen

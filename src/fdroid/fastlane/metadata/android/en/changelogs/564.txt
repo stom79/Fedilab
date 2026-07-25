@@ -1,0 +1,17 @@
+Added:
+- Respect the profile "Include replies on the Media tab" setting
+
+Improved:
+- Open more Fediverse links in the app instead of the browser
+- Faster timelines with a large cache
+- Lower memory usage and better stability during long sessions
+- Support for Android 16
+
+Fixed:
+- Fix voice message recording not working
+- Fix the audio attachment picker not opening
+- Fix animated GIFs displayed as a black or static image
+- Fix a crash when switching accounts
+- Fix a crash when translating a post
+- Fix push notifications on non-Mastodon software
+

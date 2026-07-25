@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.43.0-beta-1",
+    "code": "564",
+    "note": "Added:\n- Respect the profile \"Include replies on the Media tab\" setting\n\nImproved:\n- Open more Fediverse links in the app instead of the browser\n- Faster timelines with a large cache\n- Lower memory usage and better stability during long sessions\n- Support for Android 16\n\nFixed:\n- Fix voice message recording not working\n- Fix the audio attachment picker not opening\n- Fix animated GIFs displayed as a black or static image\n- Fix a crash when switching accounts\n- Fix a crash when translating a post\n- Fix push notifications on non-Mastodon software\n"
+  },
+  {
     "version": "3.42.1",
     "code": "563",
     "note": "Added:\n- Add translate button for the profile bio\n- Add customizable background color for direct messages\n- Add option to show poll results without voting\n\nImproved:\n- Limit space taken by long pronouns\n- Move add reaction to a chip, available on all posts\n- Improve language detection: strip mentions, URLs and emojis\n- Simplify the side menu and load release notes async\n\nFixed:\n- Fix timelines not matching the buttons after reordering the bottom menu\n- Fix \"No message to display\" staying on a remote profile that has posts\n- Fix quoting a boosted post showing the booster instead of the original post\n"

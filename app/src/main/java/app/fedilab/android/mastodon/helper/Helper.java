@@ -86,7 +86,10 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -121,6 +124,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
@@ -173,6 +177,7 @@ import app.fedilab.android.mastodon.watermark.androidwm.WatermarkBuilder;
 import app.fedilab.android.mastodon.watermark.androidwm.bean.WatermarkText;
 import app.fedilab.android.peertube.client.data.AccountData;
 import es.dmoral.toasty.Toasty;
+import okhttp3.Dns;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -1292,7 +1297,7 @@ public class Helper {
                     targetedUrl = "https://" + account.instance + account.peertube_account.getAvatar().getPath();
                 }
             } else {
-                BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(activity)
+                BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(activity.getApplicationContext())
                         .setLabel(account.peertube_account.getAcct())
                         .setAvatarSize(120)
                         .setTextSize(30)
@@ -1709,6 +1714,31 @@ public class Helper {
         view.requestFocus();
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        if (activity == null || activity.getWindow() == null) {
+            return;
+        }
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        }
+    }
+
+    /**
+     * Adds padding for the system bars and the keyboard to keep the non edge-to-edge layout
+     */
+    public static void applyWindowInsets(View view) {
+        if (view == null) {
+            return;
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(view, (target, windowInsets) -> {
+            Insets bars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets ime = windowInsets.getInsets(WindowInsetsCompat.Type.ime());
+            target.setPadding(bars.left, bars.top, bars.right, Math.max(bars.bottom, ime.bottom));
+            return WindowInsetsCompat.CONSUMED;
+        });
     }
 
     /**
@@ -2319,6 +2349,22 @@ public class Helper {
         }
     }
 
+    //Returns IPv4 addresses first to avoid connection stalls on networks with a broken IPv6
+    public static final Dns IPV4_FIRST_DNS = hostname -> {
+        List<InetAddress> addresses = Dns.SYSTEM.lookup(hostname);
+        List<InetAddress> ipv4 = new ArrayList<>();
+        List<InetAddress> ipv6 = new ArrayList<>();
+        for (InetAddress address : addresses) {
+            if (address instanceof Inet4Address) {
+                ipv4.add(address);
+            } else {
+                ipv6.add(address);
+            }
+        }
+        ipv4.addAll(ipv6);
+        return ipv4;
+    };
+
     public static OkHttpClient myOkHttpClient(Context context) {
         return new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
@@ -2328,6 +2374,7 @@ public class Helper {
                             .build();
                     return chain.proceed(requestWithUserAgent);
                 })
+                .dns(IPV4_FIRST_DNS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .callTimeout(60, TimeUnit.SECONDS)
@@ -2344,6 +2391,7 @@ public class Helper {
                             .build();
                     return chain.proceed(requestWithUserAgent);
                 })
+                .dns(IPV4_FIRST_DNS)
                 .readTimeout(120, TimeUnit.SECONDS)
                 .connectTimeout(120, TimeUnit.SECONDS)
                 .callTimeout(120, TimeUnit.SECONDS)

@@ -1413,4 +1413,16 @@
     <string name="kw_language_check">idioma, comprovar, detectar, verificar, enviar, desquadrar</string>
     <string name="avatar_description">Descripció d\'avatar</string>
     <string name="header_description">Descripció de banderola</string>
+    <string name="selected_language_info">Idioma escollit: %1$s</string>
+    <string name="keep_in_language">Mantenir a %1$s</string>
+    <string name="post_in_language">Missatge a %1$s</string>
+    <string name="set_highlight_dm_title">Ressaltar missatges directes</string>
+    <string name="set_highlight_dm_summary">Mostra els missatges directes amb un color de fons específic</string>
+    <string name="set_highlight_dm_color_title">Color de missatge directe</string>
+    <string name="set_highlight_dm_color_summary">El color del rerefons dels missatges directes</string>
+    <string name="kw_highlight_dm">missatge directe, md, rerefons, color, ressaltat</string>
+    <string name="show_results">Mostrar resultats</string>
+    <string name="set_show_poll_results_button_title">Botó de mostrar els resultats d\'una enquesta</string>
+    <string name="set_show_poll_results_button_summary">Ensenya un botó per poder veure els resultats d\'una enquesta sense votar-hi</string>
+    <string name="kw_poll_results">enquesta, resultats, vot, mostrar, previsionat</string>
 </resources>

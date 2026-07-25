@@ -317,7 +317,7 @@ public class Helper {
         }
         String instance = account.getHost();
         if (url == null || url.trim().toLowerCase().compareTo("null") == 0 || url.endsWith("null")) {
-            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context)
+            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context.getApplicationContext())
                     .setLabel(account.getAcct())
                     .setAvatarSize(120)
                     .setTextSize(30)
@@ -345,7 +345,7 @@ public class Helper {
                     .into(imageView);
         } catch (Exception e) {
             try {
-                BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context)
+                BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context.getApplicationContext())
                         .setLabel(account.getAcct())
                         .setAvatarSize(120)
                         .setTextSize(30)
@@ -370,7 +370,7 @@ public class Helper {
         }
         String instance = channel.getHost();
         if (url == null || url.trim().toLowerCase().compareTo("null") == 0 || url.endsWith("null")) {
-            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context)
+            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context.getApplicationContext())
                     .setLabel(channel.getAcct())
                     .setAvatarSize(120)
                     .setTextSize(30)
@@ -403,7 +403,7 @@ public class Helper {
                         @Override
                         public void onLoadFailed(@Nullable Drawable errorDrawable) {
                             super.onLoadFailed(errorDrawable);
-                            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context)
+                            BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context.getApplicationContext())
                                     .setLabel(channel.getAcct())
                                     .setAvatarSize(120)
                                     .setTextSize(30)
@@ -424,7 +424,7 @@ public class Helper {
                     });
         } catch (Exception e) {
             try {
-                BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context)
+                BitmapDrawable avatar = new AvatarGenerator.AvatarBuilder(context.getApplicationContext())
                         .setLabel(channel.getAcct())
                         .setAvatarSize(120)
                         .setTextSize(30)
