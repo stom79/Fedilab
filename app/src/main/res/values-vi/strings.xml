@@ -134,8 +134,6 @@
     <string name="upload_form_description">Mô tả cho người khiếm thị</string>
     <!-- Instance -->
     <string name="instance_no_description">Không có mô tả nào!</string>
-    <!-- About -->
-    <string name="about_vesrion">Phiên bản %1$s</string>
     <string name="about_developer">Nhà phát triển:</string>
     <string name="about_license">Giấy phép: </string>
     <string name="about_license_action">GNU GPL V3</string>

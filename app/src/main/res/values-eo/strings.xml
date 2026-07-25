@@ -132,8 +132,6 @@
     <string name="upload_form_description">Priskribu por vidhandikapitoj</string>
     <!-- Instance -->
     <string name="instance_no_description">Neniu priskribo estas havebla!</string>
-    <!-- About -->
-    <string name="about_vesrion">Eldono %1$s</string>
     <string name="about_developer">Programistoj:</string>
     <string name="about_license">Permesilo: </string>
     <string name="about_license_action">GNU GPL V3</string>

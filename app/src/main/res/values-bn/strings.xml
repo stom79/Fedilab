@@ -132,8 +132,6 @@
     <string name="upload_form_description">দৃষ্টি প্রতিবন্ধীদের জন্য বর্ণনা করুন</string>
     <!-- Instance -->
     <string name="instance_no_description">কোন বর্ণনা নাই!</string>
-    <!-- About -->
-    <string name="about_vesrion">রিলিজ %1$s</string>
     <string name="about_developer">বিকাশকারী:</string>
     <string name="about_license">লাইসেন্স: </string>
     <string name="about_license_action">জিএনইউ জিপিএল ভার্সন ৩</string>

@@ -26,7 +26,6 @@
     <string name="tags">Žymės</string>
     <string name="save">Išsaugoti</string>
     <string name="tag_already_followed">Jau sekate šią žymę!</string>
-    <string name="about_vesrion">%1$s laida</string>
     <string name="about_thekinrar">Ieškokite serverių:</string>
     <string name="toast_error_search">Įvyko klaida ieškant.</string>
     <string name="search">Paieška</string>

@@ -132,8 +132,6 @@
     <string name="upload_form_description">Περιγραφή για όσους είναι με προβλήματα όρασης</string>
     <!-- Instance -->
     <string name="instance_no_description">Δεν υπάρχει διαθέσιμη περιγραφή.</string>
-    <!-- About -->
-    <string name="about_vesrion">Έκδοση %1$s</string>
     <string name="about_developer">Προγραμματιστής:</string>
     <string name="about_license">Άδεια: </string>
     <string name="about_license_action">GNU Γενική Δημόσια Άδεια, Έκδοση 3η</string>

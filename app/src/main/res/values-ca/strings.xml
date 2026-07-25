@@ -136,8 +136,6 @@
     <string name="upload_form_description">Descriu-ho per a disminuïts visuals</string>
     <!-- Instance -->
     <string name="instance_no_description">No hi ha descripció disponible!</string>
-    <!-- About -->
-    <string name="about_vesrion">Versió %1$s</string>
     <string name="about_developer">Desenvolupadora:</string>
     <string name="about_license">Llicència:</string>
     <string name="about_license_action">GNU GPL V3</string>

@@ -132,8 +132,6 @@
     <string name="upload_form_description">توصیف برای افراد با مشکل بینایی</string>
     <!-- Instance -->
     <string name="instance_no_description">توصیفی در دسترس نیست!</string>
-    <!-- About -->
-    <string name="about_vesrion">نسخه %1$s</string>
     <string name="about_developer">توسعه‌دهنده:</string>
     <string name="about_license">پروانه:</string>
     <string name="about_license_action">GNU GPL V3</string>

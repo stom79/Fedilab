@@ -126,7 +126,6 @@
     <string name="date_minutes">%d min</string>
     <string name="date_hours">%d t</string>
     <string name="date_day">%d pv</string>
-    <string name="about_vesrion">Versioon %1$s</string>
     <string name="about_developer">Arendaja:</string>
     <string name="about_license">Litsents:</string>
     <string name="about_license_action">GNU GPL versioon 3</string>

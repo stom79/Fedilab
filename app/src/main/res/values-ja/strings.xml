@@ -128,8 +128,6 @@
     <string name="upload_form_description">視覚障害者のための説明</string>
     <!-- Instance -->
     <string name="instance_no_description">説明はありません！</string>
-    <!-- About -->
-    <string name="about_vesrion">リリース %1$s</string>
     <string name="about_developer">開発者:</string>
     <string name="about_license">ライセンス:</string>
     <string name="about_license_action">GNU GPL V3</string>

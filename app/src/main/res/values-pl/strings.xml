@@ -140,8 +140,6 @@
     <string name="upload_form_description">Opis dla niedowidzących</string>
     <!-- Instance -->
     <string name="instance_no_description">Brak dostępnego opisu!</string>
-    <!-- About -->
-    <string name="about_vesrion">Wersja %1$s</string>
     <string name="about_developer">Twórca:</string>
     <string name="about_license">Licencja: </string>
     <string name="about_license_action">GNU GPL V3</string>

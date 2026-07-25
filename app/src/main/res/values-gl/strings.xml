@@ -132,8 +132,6 @@
     <string name="upload_form_description">Descrición para usuarias con dificultades visuais</string>
     <!-- Instance -->
     <string name="instance_no_description">Sen descrición dispoñible!</string>
-    <!-- About -->
-    <string name="about_vesrion">Versión %1$s</string>
     <string name="about_developer">Desenvolvedora:</string>
     <string name="about_license">Licenza: </string>
     <string name="about_license_action">GNU GPL V3</string>

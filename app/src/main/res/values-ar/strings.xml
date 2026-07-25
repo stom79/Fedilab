@@ -148,8 +148,6 @@
     <string name="upload_form_description">وصف للمعاقين بصريا</string>
     <!-- Instance -->
     <string name="instance_no_description">لا يوجد وصف!</string>
-    <!-- About -->
-    <string name="about_vesrion">الإصدار %1$s</string>
     <string name="about_developer">المُطوّر:</string>
     <string name="about_license">الرخصة: </string>
     <string name="about_license_action">GNU GPL V3</string>

@@ -127,7 +127,6 @@
     <string name="remove_draft">A bheil thu airson an dreachd a sguabadh às\?</string>
     <string name="upload_form_description">Mìnich e dhan fheadhainn le cion-lèirsinne</string>
     <string name="instance_no_description">Chan eil tuairisgeul ri làimh!</string>
-    <string name="about_vesrion">Sgaoileadh %1$s</string>
     <string name="about_developer">Neach-leasachaidh:</string>
     <string name="about_license">Ceadachas:</string>
     <string name="about_license_action">GNU GPL V3</string>

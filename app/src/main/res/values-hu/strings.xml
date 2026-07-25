@@ -132,8 +132,6 @@
     <string name="upload_form_description">Írd le a látássérültek számára</string>
     <!-- Instance -->
     <string name="instance_no_description">Nincs elérhető leírás!</string>
-    <!-- About -->
-    <string name="about_vesrion">Verzió: %1$s</string>
     <string name="about_developer">Fejlesztő:</string>
     <string name="about_license">Licensz: </string>
     <string name="about_license_action">GNU GPL V3</string>

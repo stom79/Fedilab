@@ -132,8 +132,6 @@
     <string name="upload_form_description">Beskriv for folk med nedsat syn</string>
     <!-- Instance -->
     <string name="instance_no_description">Ingen beskrivelse tilgængelig!</string>
-    <!-- About -->
-    <string name="about_vesrion">Udgave %1$s</string>
     <string name="about_developer">Udvikler:</string>
     <string name="about_license">Licens:</string>
     <string name="about_license_action">GNU GPL V3</string>

@@ -140,8 +140,6 @@
     <string name="upload_form_description">Прочитати для людей з вадами зору</string>
     <!-- Instance -->
     <string name="instance_no_description">Опис відсутній!</string>
-    <!-- About -->
-    <string name="about_vesrion">Реліз %1$s</string>
     <string name="about_developer">Розробник:</string>
     <string name="about_license">Ліцензія: </string>
     <string name="about_license_action">GNU GPLv3</string>
