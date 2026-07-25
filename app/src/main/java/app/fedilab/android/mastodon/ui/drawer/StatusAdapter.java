@@ -2202,7 +2202,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                 MIN_PLAYBACK_RESUME_BUFFER)
                                         .setTargetBufferBytes(-1)
                                         .setPrioritizeTimeOverSizeThresholds(true).build();
-                                ExoPlayer player = new ExoPlayer.Builder(context).setLoadControl(defaultLoadControl).build();
+                                ExoPlayer player = new ExoPlayer.Builder(context.getApplicationContext()).setLoadControl(defaultLoadControl).build();
                                 player.setRepeatMode(Player.REPEAT_MODE_ONE);
                                 layoutMediaBinding.mediaVideo.setPlayer(player);
                                 player.setMediaSource(videoSource);
@@ -2326,7 +2326,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                                 MIN_PLAYBACK_RESUME_BUFFER)
                                         .setTargetBufferBytes(-1)
                                         .setPrioritizeTimeOverSizeThresholds(true).build();
-                                ExoPlayer player = new ExoPlayer.Builder(context).setLoadControl(defaultLoadControl).build();
+                                ExoPlayer player = new ExoPlayer.Builder(context.getApplicationContext()).setLoadControl(defaultLoadControl).build();
                                 player.setRepeatMode(Player.REPEAT_MODE_ONE);
                                 layoutMediaBinding.mediaVideo.setPlayer(player);
                                 player.setMediaSource(videoSource);
@@ -4436,7 +4436,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory).createMediaSource(mediaItem);
                         }
                         try {
-                            ExoPlayer player = new ExoPlayer.Builder(context).build();
+                            ExoPlayer player = new ExoPlayer.Builder(context.getApplicationContext()).build();
                             player.setRepeatMode(Player.REPEAT_MODE_ONE);
                             holder.bindingArt.artVideo.setPlayer(player);
                             player.setMediaSource(videoSource);

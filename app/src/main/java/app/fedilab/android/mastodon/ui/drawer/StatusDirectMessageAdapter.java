@@ -680,7 +680,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                         videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
                                 .createMediaSource(mediaItem);
                     }
-                    ExoPlayer player = new ExoPlayer.Builder(context).build();
+                    ExoPlayer player = new ExoPlayer.Builder(context.getApplicationContext()).build();
                     player.setRepeatMode(Player.REPEAT_MODE_ONE);
                     layoutMediaBinding.mediaVideo.setPlayer(player);
                     player.setMediaSource(videoSource);
