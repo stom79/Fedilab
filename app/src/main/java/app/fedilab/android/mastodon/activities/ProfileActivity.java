@@ -857,14 +857,14 @@ public class ProfileActivity extends BaseActivity {
 
 
     /***
-     * This methode is called to update the view once an action has been performed
+     * This method is called to update the view once an action has been performed
      */
     private void updateAccount() {
         if (Helper.getCurrentAccount(ProfileActivity.this) == null || account == null) {
             return;
         }
 
-        //Manage indentity proofs if not yet displayed
+        //Manage identity proofs if not yet displayed
 
         if (identityProofList != null && !identityProofList.isEmpty()) {
             ImageView identity_proofs_indicator = findViewById(R.id.identity_proofs_indicator);

@@ -370,7 +370,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * Methode that will deal with results of actions (bookmark, favourite, boost)
      * @param context Context
      * @param adapter RecyclerView.Adapter<RecyclerView.ViewHolder>
-     * @param holder StatusViewHolder used by the reycler
+     * @param holder StatusViewHolder used by the recycler
      * @param typeOfAction CrossActionHelper.TypeOfCrossAction
      * @param statusToDeal Status that received the action
      * @param statusReturned Status returned by the API
@@ -392,7 +392,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * Methode that will deal with results of actions (bookmark, favourite, boost)
      * @param context Context
      * @param adapter RecyclerView.Adapter<RecyclerView.ViewHolder>
-     * @param holder StatusViewHolder used by the reycler
+     * @param holder StatusViewHolder used by the recycler
      * @param typeOfAction CrossActionHelper.TypeOfCrossAction
      * @param statusToDeal Status that received the action
      * @param statusReturned Status returned by the API
@@ -412,7 +412,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     /***
      * Methode that will deal with results of actions (bookmark, favourite, boost)
      * @param context Context
-     * @param holder StatusViewHolder used by the reycler
+     * @param holder StatusViewHolder used by the recycler
      * @param typeOfAction CrossActionHelper.TypeOfCrossAction
      * @param statusToDeal Status that received the action
      * @param statusReturned Status returned by the API

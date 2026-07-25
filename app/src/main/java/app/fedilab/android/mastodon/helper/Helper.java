@@ -1745,7 +1745,7 @@ public class Helper {
      * Sends notification with intent
      *
      * @param context Context
-     * @param intent  Intent associated to the notifcation
+     * @param intent  Intent associated to the notification
      * @param icon    Bitmap profile picture
      * @param title   String title of the notification
      * @param message String message for the notification

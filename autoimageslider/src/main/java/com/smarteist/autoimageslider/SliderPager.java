@@ -2916,7 +2916,7 @@ public class SliderPager extends ViewGroup {
 
     /**
      * This is the persistent state that is saved by SliderPager.  Only needed
-     * if you are creating a sublass of SliderPager that must save its own
+     * if you are creating a subclass of SliderPager that must save its own
      * state, in which case it should implement a subclass of this which
      * contains that state.
      */

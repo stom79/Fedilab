@@ -651,7 +651,7 @@ public class ColorPickerView extends View {
             } else {
                 //If we get here the dev has set the width and height to exact sizes. For example match_parent or 300dp.
                 //This will mean that the sat/val panel will not be square but it doesn't matter. It will work anyway.
-                //In all other senarios our goal is to make that panel square.
+                //In all other scenarios our goal is to make that panel square.
 
                 //We set the sizes to exactly what we were told.
                 finalWidth = widthAllowed;
