@@ -206,6 +206,22 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         return defaultVisibility;
     }
 
+    private void recordVoiceMessage() {
+        MediaHelper.recordAudio(ComposeActivity.this, file -> {
+            List<Uri> uris = new ArrayList<>();
+            uris.add(Uri.fromFile(new File(file)));
+            composeAdapter.addAttachment(-1, uris);
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_AUDIO_PERMISSION_RESULT && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            recordVoiceMessage();
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -388,11 +404,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) ==
                         PackageManager.PERMISSION_GRANTED) {
-                    MediaHelper.recordAudio(ComposeActivity.this, file -> {
-                        List<Uri> uris = new ArrayList<>();
-                        uris.add(Uri.fromFile(new File(file)));
-                        composeAdapter.addAttachment(-1, uris);
-                    });
+                    recordVoiceMessage();
                 } else {
                     if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO)) {
                         Toast.makeText(this,
@@ -403,11 +415,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 }
 
             } else {
-                MediaHelper.recordAudio(ComposeActivity.this, file -> {
-                    List<Uri> uris = new ArrayList<>();
-                    uris.add(Uri.fromFile(new File(file)));
-                    composeAdapter.addAttachment(-1, uris);
-                });
+                recordVoiceMessage();
             }
         } else if (item.getItemId() == R.id.action_schedule) {
             if (statusDraft == null) {
