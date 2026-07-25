@@ -216,7 +216,7 @@ public class FragmentMedia extends Fragment {
                                     Drawable scaledRessource = MediaHelper.rescaleImageIfNeeded(requireActivity(), resource);
                                     binding.mediaPicture.setImageDrawable(scaledRessource);
 
-                                    boolean isAnimatedFormat = attachment.url.toLowerCase().endsWith(".gif") || attachment.url.toLowerCase().endsWith(".webp");
+                                    boolean isAnimatedFormat = MediaHelper.isAnimatedUrl(url);
                                     if (attachment.type.equalsIgnoreCase("image") && !isAnimatedFormat) {
                                         binding.mediaPicture.setVisibility(View.VISIBLE);
                                         final Handler handler = new Handler();

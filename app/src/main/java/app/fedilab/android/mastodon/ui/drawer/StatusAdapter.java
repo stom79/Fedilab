@@ -3787,7 +3787,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             layoutMediaBinding.viewDescription.setVisibility(View.GONE);
         }
 
-        boolean allowAnimation = autoplaygif && attachment.url != null && attachment.url.toLowerCase().endsWith(".webp") && (!statusToDeal.sensitive || expand_media);
+        boolean maybeAnimated = MediaHelper.isAnimatedUrl(attachment.url) || "unknown".equalsIgnoreCase(attachment.type);
+        boolean allowAnimation = autoplaygif && maybeAnimated && (!statusToDeal.sensitive || expand_media);
         RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, statusToDeal.sensitive, false, allowAnimation);
         if (sensitiveIndicator) {
             if (!statusToDeal.sensitive || expand_media) {
@@ -3810,7 +3811,15 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             layoutMediaBinding.viewHide.setVisibility(View.GONE);
         }
         String mediaUrl = allowAnimation ? attachment.url : attachment.preview_url;
-        requestBuilder.load(mediaUrl).into(layoutMediaBinding.media);
+        boolean fetchRemoteMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_FETCH_REMOTE_MEDIA), false);
+        RequestBuilder<Drawable> mediaRequest = requestBuilder.load(mediaUrl);
+        //Fall back to the remote file when the local media fails
+        if (fetchRemoteMedia && attachment.remote_url != null && !attachment.remote_url.equals(mediaUrl)) {
+            boolean animateRemote = autoplaygif && MediaHelper.isAnimatedUrl(attachment.remote_url) && (!statusToDeal.sensitive || expand_media);
+            RequestBuilder<Drawable> remoteBuilder = prepareRequestBuilder(context, attachment, mediaW * ratio, mediaH * ratio, focusX, focusY, statusToDeal.sensitive, false, animateRemote);
+            mediaRequest = mediaRequest.error(remoteBuilder.load(attachment.remote_url));
+        }
+        mediaRequest.into(layoutMediaBinding.media);
 
         layoutMediaBinding.media.setOnClickListener(v -> {
             if (statusToDeal.sensitive && !expand_media) {
@@ -4446,8 +4455,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         ConstraintLayout.LayoutParams bannerLp = (ConstraintLayout.LayoutParams) holder.bindingArt.bottomBanner.getLayoutParams();
                         bannerLp.bottomToBottom = holder.bindingArt.artMedia.getId();
                         holder.bindingArt.bottomBanner.setLayoutParams(bannerLp);
-                        String artUrl = status.art_attachment.url != null ? status.art_attachment.url.toLowerCase() : "";
-                        boolean allowAnimationArt = autoplaygif && status.art_attachment.url != null && (artUrl.endsWith(".webp") || artUrl.endsWith(".gif")) && !status.sensitive;
+                        boolean allowAnimationArt = autoplaygif && MediaHelper.isAnimatedUrl(status.art_attachment.url) && !status.sensitive;
                         RequestBuilder<Drawable> requestBuilder = prepareRequestBuilder(context, status.art_attachment, mediaW * ratio, mediaH * ratio, 1.0f, 1.0f, status.sensitive, true, allowAnimationArt);
                         String artMediaUrl = allowAnimationArt ? status.art_attachment.url : status.art_attachment.preview_url;
                         requestBuilder.load(artMediaUrl).into(holder.bindingArt.artMedia);
