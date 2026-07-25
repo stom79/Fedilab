@@ -358,7 +358,22 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         super.onViewRecycled(holder);
         if (holder instanceof ConversationHolder && ((ConversationHolder) holder).timer != null) {
             ((ConversationHolder) holder).timer.cancel();
+            ((ConversationHolder) holder).timer = null;
         }
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        //Cancel timers not released
+        for (int i = 0; i < recyclerView.getChildCount(); i++) {
+            RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(recyclerView.getChildAt(i));
+            if (holder instanceof ConversationHolder conversationHolder && conversationHolder.timer != null) {
+                conversationHolder.timer.cancel();
+                conversationHolder.timer = null;
+            }
+        }
+        mRecyclerView = null;
     }
 
     private void markConversationRead(Conversation conversation) {
