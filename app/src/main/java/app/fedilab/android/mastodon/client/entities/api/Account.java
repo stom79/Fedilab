@@ -45,6 +45,8 @@ public class Account implements Serializable {
     public boolean locked;
     @SerializedName("bot")
     public boolean bot;
+    @SerializedName("show_media_replies")
+    public Boolean show_media_replies;
     @SerializedName("created_at")
     public Date created_at;
     @SerializedName("note")

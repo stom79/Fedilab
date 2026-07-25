@@ -63,7 +63,15 @@ public class FragmentMediaProfile extends Fragment {
     private ImageAdapter imageAdapter;
     private boolean checkRemotely;
     private String accountId;
+    private boolean excludeReplies;
     private Bundle arguments;
+
+    /**
+     * Exclude replies from the media tab only when the account explicitly opted out
+     */
+    private static boolean excludeMediaReplies(Account account) {
+        return account != null && account.show_media_replies != null && !account.show_media_replies;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -128,7 +136,8 @@ public class FragmentMediaProfile extends Fragment {
                 public void federatedAccount(Account account) {
                     if (account != null && isAdded() && !requireActivity().isFinishing()) {
                         accountId = account.id;
-                        accountsVM.getAccountStatuses(tempInstance, null, accountId, null, null, null, null, null, true, false, null, MastodonHelper.statusesPerCall(requireActivity()))
+                        excludeReplies = excludeMediaReplies(account);
+                        accountsVM.getAccountStatuses(tempInstance, null, accountId, null, null, null, excludeReplies, null, true, false, null, MastodonHelper.statusesPerCall(requireActivity()))
                                 .observe(getViewLifecycleOwner(), statuses -> initializeStatusesCommonView(statuses));
                     } else {
                         if (isAdded() && !requireActivity().isFinishing()) {
@@ -141,7 +150,8 @@ public class FragmentMediaProfile extends Fragment {
             tempToken = BaseMainActivity.currentToken;
             tempInstance = BaseMainActivity.currentInstance;
             accountId = accountTimeline.id;
-            accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, null, null, true, false, null, MastodonHelper.statusesPerCall(requireActivity()))
+            excludeReplies = excludeMediaReplies(accountTimeline);
+            accountsVM.getAccountStatuses(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, accountTimeline.id, null, null, null, excludeReplies, null, true, false, null, MastodonHelper.statusesPerCall(requireActivity()))
                     .observe(getViewLifecycleOwner(), this::initializeStatusesCommonView);
         }
     }
@@ -209,7 +219,7 @@ public class FragmentMediaProfile extends Fragment {
                         if (!flagLoading) {
                             flagLoading = true;
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
-                            accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, max_id, null, null, null, null, true, false, null, MastodonHelper.statusesPerCall(requireActivity()))
+                            accountsVM.getAccountStatuses(tempInstance, tempToken, accountId, max_id, null, null, excludeReplies, null, true, false, null, MastodonHelper.statusesPerCall(requireActivity()))
                                     .observe(getViewLifecycleOwner(), newStatuses -> dealWithPagination(newStatuses));
                         }
                     } else {
