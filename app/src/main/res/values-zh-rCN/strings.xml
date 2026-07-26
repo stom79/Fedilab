@@ -1422,4 +1422,5 @@
     <string name="set_show_poll_results_button_title">显示投票结果按钮</string>
     <string name="set_show_poll_results_button_summary">显示不投票查看投票结果的按钮</string>
     <string name="kw_poll_results">投票、结果、票数、显示、预览</string>
+    <string name="about_version">%1$s 版</string>
 </resources>
