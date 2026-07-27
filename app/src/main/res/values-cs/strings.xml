@@ -1298,4 +1298,8 @@
     <string name="set_show_poll_results_button_summary">Zobrazovat tlačítko k ukázání ankety bez hlasování</string>
     <string name="show_results">Ukázat výsledky</string>
     <string name="set_show_poll_results_button_title">Tlačítko pro zobrazení výsledků ankety</string>
+    <string name="set_highlight_dm_color_summary">Barva pozadí pro přímé zprávy</string>
+    <string name="set_highlight_dm_color_title">Barva přímých zpráv</string>
+    <string name="set_highlight_dm_summary">Zobrazovat přímé zprávy s odlišnou barvou pozadí</string>
+    <string name="set_highlight_dm_title">Zvýrazňovat přímé zprávy</string>
 </resources>
