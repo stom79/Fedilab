@@ -68,6 +68,7 @@ public class SearchResultTabActivity extends BaseBarActivity {
 
 
     public Boolean tagEmpty, accountEmpty;
+    private static final String OPERATOR_SEARCH_REGEX = ".*\\b(from|in|has|before|after|during|language):.*";
     private String search;
     private ActivitySearchResultTabsBinding binding;
     private TabLayout.Tab initial;
@@ -153,7 +154,7 @@ public class SearchResultTabActivity extends BaseBarActivity {
                 searchView.setIconified(true);
                 searchView.setQuery(search, false);
                 searchView.clearFocus();
-                if (search.matches(".*\\b(from|in|has|before|after|during|language):.*")) {
+                if (isOperatorSearch()) {
                     TabLayout.Tab messagesTab = binding.searchTabLayout.getTabAt(2);
                     if (messagesTab != null) {
                         binding.searchTabLayout.selectTab(messagesTab);
@@ -250,7 +251,7 @@ public class SearchResultTabActivity extends BaseBarActivity {
 
         PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         binding.searchViewpager.setAdapter(mPagerAdapter);
-        if (search != null && search.matches(".*\\b(from|in|has|before|after|during|language):.*")) {
+        if (isOperatorSearch()) {
             binding.searchViewpager.setCurrentItem(2);
             TabLayout.Tab messagesTab = binding.searchTabLayout.getTabAt(2);
             if (messagesTab != null) {
@@ -290,7 +291,14 @@ public class SearchResultTabActivity extends BaseBarActivity {
     }
 
 
+    private boolean isOperatorSearch() {
+        return search != null && search.matches(OPERATOR_SEARCH_REGEX);
+    }
+
     public void moveToAccount() {
+        if (isOperatorSearch()) {
+            return;
+        }
         tagEmpty = null;
         accountEmpty = null;
         binding.searchViewpager.post(() -> binding.searchViewpager.setCurrentItem(1));
