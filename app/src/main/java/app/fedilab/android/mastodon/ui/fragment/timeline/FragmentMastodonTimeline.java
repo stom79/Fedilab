@@ -1353,13 +1353,26 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     private void storeMarker(BaseAccount connectedAccount) {
         if (mLayoutManager != null) {
-            int position = reverseTimeline ? mLayoutManager.findLastVisibleItemPosition() : mLayoutManager.findFirstVisibleItemPosition();
-            if (timelineStatuses != null && timelineStatuses.size() > position) {
+            int position;
+            if (reverseTimeline) {
+                position = mLayoutManager.findLastVisibleItemPosition();
+            } else {
+                position = mLayoutManager.findFirstCompletelyVisibleItemPosition();
+                if (position == RecyclerView.NO_POSITION) {
+                    position = mLayoutManager.findFirstVisibleItemPosition();
+                }
+            }
+            if (timelineStatuses != null && position >= 0 && timelineStatuses.size() > position) {
                 try {
                     Status status = timelineStatuses.get(position);
+                    String markerId = status.id;
+                    if (!reverseTimeline) {
+                        int anchor = position - 1;
+                        markerId = anchor >= 0 ? timelineStatuses.get(anchor).id : null;
+                    }
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                     SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString(getString(R.string.SET_INNER_MARKER) + connectedAccount.user_id + connectedAccount.instance + slug, status.id);
+                    editor.putString(getString(R.string.SET_INNER_MARKER) + connectedAccount.user_id + connectedAccount.instance + slug, markerId);
                     editor.apply();
                     if (timelineType == Timeline.TimeLineEnum.HOME) {
                         timelinesVM.addMarker(connectedAccount.instance, connectedAccount.token, status.id, null);
