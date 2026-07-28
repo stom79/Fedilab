@@ -544,9 +544,11 @@ public class PinnedTimelineHelper {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            int i = 0;
-            int j = 0;
+            int displayedIndex = 0;
             for (PinnedTimeline pinnedTimeline : finalPinned.pinnedTimelines) {
+                if (!pinnedTimeline.displayed) {
+                    continue;
+                }
                 MenuItem item = null;
                 switch (pinnedTimeline.type) {
                     case LIST:
@@ -598,12 +600,7 @@ public class PinnedTimelineHelper {
                         break;
                 }
                 if (item != null) {
-                    int finalI;
-                    if (singleBar) {
-                        finalI = i;
-                    } else {
-                        finalI = FedilabPageAdapter.BOTTOM_TIMELINE_COUNT - finalToRemove1 + j;
-                    }
+                    int finalI = FedilabPageAdapter.BOTTOM_TIMELINE_COUNT - finalToRemove1 + displayedIndex;
                     item.setOnMenuItemClickListener(item1 -> {
                         if (finalI < activityMainBinding.tabLayout.getTabCount() && activityMainBinding.tabLayout.getTabAt(finalI) != null) {
                             TabLayout.Tab tab = activityMainBinding.tabLayout.getTabAt(finalI);
@@ -613,9 +610,8 @@ public class PinnedTimelineHelper {
                         }
                         return false;
                     });
-                    j++;
                 }
-                i++;
+                displayedIndex++;
             }
             popup.show();
         });

@@ -25,6 +25,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.preference.PreferenceManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.mastodon.client.entities.app.BottomMenu;
@@ -44,6 +47,7 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
 
     public static final int BOTTOM_TIMELINE_COUNT = 5; //home, local, public, notification, DM
     private final Pinned pinned;
+    private final List<PinnedTimeline> displayedPinned;
     private final BottomMenu bottomMenu;
     private final int toRemove;
     private final boolean singleBar;
@@ -55,6 +59,14 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
         this.pinned = pinned;
         this.activity = activity;
         this.bottomMenu = bottomMenu;
+        displayedPinned = new ArrayList<>();
+        if (pinned != null && pinned.pinnedTimelines != null) {
+            for (PinnedTimeline pinnedTimeline : pinned.pinnedTimelines) {
+                if (pinnedTimeline.displayed) {
+                    displayedPinned.add(pinnedTimeline);
+                }
+            }
+        }
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         singleBar = sharedpreferences.getBoolean(activity.getString(R.string.SET_USE_SINGLE_TOPBAR), false);
         if (!singleBar) {
@@ -79,11 +91,7 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        if (pinned != null && pinned.pinnedTimelines != null) {
-            return pinned.pinnedTimelines.size() + BOTTOM_TIMELINE_COUNT - toRemove;
-        } else {
-            return BOTTOM_TIMELINE_COUNT - toRemove;
-        }
+        return displayedPinned.size() + BOTTOM_TIMELINE_COUNT - toRemove;
     }
 
     @NonNull
@@ -121,7 +129,7 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
 
         } else {
             int pinnedPosition = position - (BOTTOM_TIMELINE_COUNT - toRemove); //Real position has an offset.
-            PinnedTimeline pinnedTimeline = pinned.pinnedTimelines.get(pinnedPosition);
+            PinnedTimeline pinnedTimeline = displayedPinned.get(pinnedPosition);
             bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, pinnedTimeline.type);
             if (pinnedTimeline.type == Timeline.TimeLineEnum.NOTIFICATION) {
                 FragmentNotificationContainer fragmentNotificationContainer = new FragmentNotificationContainer();
