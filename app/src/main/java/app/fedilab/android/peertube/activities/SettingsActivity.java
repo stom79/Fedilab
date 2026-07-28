@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import app.fedilab.android.mastodon.activities.BaseBarActivity;
+import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.peertube.fragment.SettingsFragment;
 
 public class SettingsActivity extends BaseBarActivity {
@@ -30,6 +31,7 @@ public class SettingsActivity extends BaseBarActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+        Helper.applyWindowInsets(findViewById(android.R.id.content));
     }
 
     @Override

@@ -71,6 +71,14 @@
         app:title="@string/set_long_press_media" />
 
     <SwitchPreferenceCompat
+        android:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_MEDIA_DOCUMENT_PICKER"
+        app:singleLineTitle="false"
+        app:summary="@string/set_media_document_picker_summary"
+        app:title="@string/set_media_document_picker" />
+
+    <SwitchPreferenceCompat
         app:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="@string/SET_DISPLAY_MEDIA_NOTIFICATION"

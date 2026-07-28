@@ -140,8 +140,6 @@
     <string name="upload_form_description">Opis za slepe in slabovidne</string>
     <!-- Instance -->
     <string name="instance_no_description">Opis ni na voljo.</string>
-    <!-- About -->
-    <string name="about_vesrion">Različica %1$s</string>
     <string name="about_developer">Razvijalec:</string>
     <string name="about_license">Licenca: </string>
     <string name="about_license_action">GNU GPL V3</string>

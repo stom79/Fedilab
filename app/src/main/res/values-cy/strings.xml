@@ -148,8 +148,6 @@
     <string name="upload_form_description">Disgrifio i\'r rheini â nam ar eu golwg</string>
     <!-- Instance -->
     <string name="instance_no_description">Dim disgrifiad ar gael!</string>
-    <!-- About -->
-    <string name="about_vesrion">Fersiwn %1$s</string>
     <string name="about_developer">Datblygwr:</string>
     <string name="about_license">Trwydded: </string>
     <string name="about_license_action">GNU GPL V3</string>

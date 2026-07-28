@@ -109,7 +109,6 @@
     <string name="date_minutes">%d mín</string>
     <string name="date_hours">%d klst</string>
     <string name="date_day">%d degi</string>
-    <string name="about_vesrion">Útgáfa %1$s</string>
     <string name="choose_accounts">Veldu reikning</string>
     <string name="select_accounts">Veldu nokkra reikninga</string>
     <string name="about_code">Frumkóði:</string>

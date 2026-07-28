@@ -132,8 +132,6 @@
     <string name="upload_form_description">Für Menschen mit Sehbehinderung beschreiben</string>
     <!-- Instance -->
     <string name="instance_no_description">Keine Beschreibung verfügbar!</string>
-    <!-- About -->
-    <string name="about_vesrion">Version %1$s</string>
     <string name="about_developer">Entwickler:</string>
     <string name="about_license">Lizenz:</string>
     <string name="about_license_action">GNU GPL V3</string>

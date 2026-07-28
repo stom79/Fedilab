@@ -132,8 +132,6 @@
     <string name="upload_form_description">नेत्रहीन लोगों के लिये वर्णन दे</string>
     <!-- Instance -->
     <string name="instance_no_description">कोई वर्णन उपलब्ध नहीं है!</string>
-    <!-- About -->
-    <string name="about_vesrion">रिलीज़ %1$s</string>
     <string name="about_developer">डैवलपर:</string>
     <string name="about_license">लाइसेंस: </string>
     <string name="about_license_action">जीएनयू जीपीएल वी३</string>

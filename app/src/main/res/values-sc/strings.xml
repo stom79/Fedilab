@@ -132,8 +132,6 @@
     <string name="upload_form_description">Decrie·lu pro chie tenet problemas de visione</string>
     <!-- Instance -->
     <string name="instance_no_description">Peruna descritzione a disponimentu!</string>
-    <!-- About -->
-    <string name="about_vesrion">Versione %1$s</string>
     <string name="about_developer">Isvilupadore:</string>
     <string name="about_license">Litzèntzia:</string>
     <string name="about_license_action">GNU GPL V3</string>

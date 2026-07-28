@@ -132,8 +132,6 @@
     <string name="upload_form_description">දෘශ්‍යාබාධිත අය සඳහා විස්තර කරන්න</string>
     <!-- Instance -->
     <string name="instance_no_description">විස්තරයක් නොමැත!</string>
-    <!-- About -->
-    <string name="about_vesrion">%1$s නිකුත්කිරීම</string>
     <string name="about_developer">නිර්මාතෘ:</string>
     <string name="about_license">බලපත්‍රය: </string>
     <string name="about_license_action">GNU GPL V3</string>

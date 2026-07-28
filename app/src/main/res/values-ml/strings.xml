@@ -132,8 +132,6 @@
     <string name="upload_form_description">കാഴ്ചശക്തി ഇല്ലാത്തവർക്ക് വേണ്ടി വിവരണം നൽകൂ</string>
     <!-- Instance -->
     <string name="instance_no_description">വിവരണം ലഭ്യമല്ല!</string>
-    <!-- About -->
-    <string name="about_vesrion">റിലീസ് %1$s</string>
     <string name="about_developer">ഡെവലപ്പർ:</string>
     <string name="about_license">ലൈസന്‍സ്: </string>
     <string name="about_license_action">ഗ്നു ജി പി എൽ V3</string>

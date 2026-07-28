@@ -132,8 +132,6 @@
     <string name="upload_form_description">Նկարագրիր՝ տեսողության խնդիրներ ունեցողների համար</string>
     <!-- Instance -->
     <string name="instance_no_description">Նկարագրություն չկա</string>
-    <!-- About -->
-    <string name="about_vesrion">Թողարկում %1$s</string>
     <string name="about_developer">Մշակող․</string>
     <string name="about_license">Արտոնագիր․</string>
     <string name="about_license_action">GNU GPL V3</string>

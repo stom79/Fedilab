@@ -394,7 +394,7 @@ public class Helper {
     public static final Pattern geminiPattern = Pattern.compile("(gemini://.*)\\b");
     public static final Pattern xmppPattern = Pattern.compile("xmpp:[-a-zA-Z0-9+$&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
     public static final Pattern peertubePattern = Pattern.compile("(https?://([\\da-z.-]+\\.[a-z.]{2,10}))/videos/watch/(\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})$");
-    public static final Pattern blueskyPattern = Pattern.compile("(www\\.)?bsky\\.app(/profile/[\\w.:%-]+(/post/[\\w]+)?)");
+    public static final Pattern blueskyPattern = Pattern.compile("(www\\.)?bsky\\.app(/profile/[\\w.:%-]+(/post/[\\w]+))");
     public static final Pattern mediumPattern = Pattern.compile("([\\w@-]*)?\\.?medium.com/@?([./\\w-]+)");
     public static final Pattern wikipediaPattern = Pattern.compile("([\\w_-]+)\\.wikipedia.org/(((?!([\"'<])).)*)");
     public static final Pattern codePattern = Pattern.compile("code=([\\w-]+)");
@@ -1745,7 +1745,7 @@ public class Helper {
      * Sends notification with intent
      *
      * @param context Context
-     * @param intent  Intent associated to the notifcation
+     * @param intent  Intent associated to the notification
      * @param icon    Bitmap profile picture
      * @param title   String title of the notification
      * @param message String message for the notification

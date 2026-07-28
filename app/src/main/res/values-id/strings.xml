@@ -128,8 +128,6 @@
     <string name="upload_form_description">Menjelaskan untuk tuna netra</string>
     <!-- Instance -->
     <string name="instance_no_description">Deskripsi tidak tersedia!</string>
-    <!-- About -->
-    <string name="about_vesrion">Rilis %1$s</string>
     <string name="about_developer">Pengembang:</string>
     <string name="about_license">Lisensi: </string>
     <string name="about_license_action">GNU GPL V3</string>

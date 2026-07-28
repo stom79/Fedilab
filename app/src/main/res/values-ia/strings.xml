@@ -61,7 +61,6 @@
     <string name="toots_visibility_title">Visibilitate per predefinition del messages:</string>
     <string name="toot_sent">Le message esseva inviate!</string>
     <string name="choose_accounts">Selige un conto</string>
-    <string name="about_vesrion">Version %1$s</string>
     <string name="about_developer">Disveloppator:</string>
     <string name="about_license">Licentia:</string>
     <string name="about_license_action">GNU GPL V3</string>

@@ -479,8 +479,15 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         int currentCount = statusList.get(position).media_attachments != null ? statusList.get(position).media_attachments.size() : 0;
         int remaining = maxMediaCount - currentCount;
+        SharedPreferences pickerPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean useDocumentPicker = pickerPreferences.getBoolean(context.getString(R.string.SET_MEDIA_DOCUMENT_PICKER), false);
         Intent intent;
-        if (remaining > 1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+        if (useDocumentPicker) {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, remaining > 1);
+        } else if (remaining > 1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
                 && (type == ComposeActivity.mediaType.PHOTO || type == ComposeActivity.mediaType.VIDEO)) {
             intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
             intent.setType("*/*");

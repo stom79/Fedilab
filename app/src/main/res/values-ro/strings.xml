@@ -136,8 +136,6 @@
     <string name="upload_form_description">Descrie pentru nevăzători</string>
     <!-- Instance -->
     <string name="instance_no_description">Nici o descriere disponibilă!</string>
-    <!-- About -->
-    <string name="about_vesrion">Lansare %1$s</string>
     <string name="about_developer">Programator:</string>
     <string name="about_license">Licență: </string>
     <string name="about_license_action">GNU GPL V3</string>

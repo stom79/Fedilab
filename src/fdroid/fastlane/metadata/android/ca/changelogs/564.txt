@@ -1,0 +1,16 @@
+Novetats:
+- Respecte al paràmetre del perfil "Incloure respostes a la pestanya de Mèdia" 
+
+Millores:
+- Obre més enllaços de Fedivers a l'App en lloc del navegador
+- Pissarres més ràpides amb una memòria cau més gran
+- menys ús de memòria i més estabilitat en sessions llargues
+- Compatibilitat amb Android 16
+
+Correccions:
+- Gravació de missatge de veu que no funcionava 
+- Selector d'adjunció d'àudio que no s'obria
+- GIFs animats que sortien negres o estàtics
+- Fallida en canviar de compte 
+- Fallida en traduir un missatge
+- Notifications prènsils en programari no-Mastodon

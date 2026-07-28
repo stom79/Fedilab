@@ -128,8 +128,6 @@
     <string name="upload_form_description">視覚障害者のための説明</string>
     <!-- Instance -->
     <string name="instance_no_description">説明はありません！</string>
-    <!-- About -->
-    <string name="about_vesrion">リリース %1$s</string>
     <string name="about_developer">開発者:</string>
     <string name="about_license">ライセンス:</string>
     <string name="about_license_action">GNU GPL V3</string>
@@ -578,7 +576,7 @@
     <string name="report_indication_title_status_more">最適なものを選択してください</string>
     <string name="report_val_more1">目に入ると不快なものです</string>
     <string name="report_val2">スパムです</string>
-    <string name="report_val_more2">悪意のあるリンクや偽のエンゲージメント、繰り返しの返信</string>
+    <string name="report_val_more2">悪意あるリンク、偽エンゲージメント、繰り返し返信</string>
     <string name="report_val3">サーバーのルールに違反しています</string>
     <string name="report_val4">その他</string>
     <string name="report_val_more4">これらのカテゴリーに分類できない問題です</string>
@@ -1274,4 +1272,8 @@
     <string name="selected_language_info">選択された言語: %1$s</string>
     <string name="keep_in_language">%1$s へ保持</string>
     <string name="post_in_language">%1$s へ投稿</string>
+    <string name="about_version">%1$s を公開</string>
+    <string name="kw_quote_button">引用、ボタン</string>
+    <string name="kw_sensitive_indicator">センシティブ、インジケーター、nsfw、メディア</string>
+    <string name="kw_media_description_indicator">代替テキスト、メディアの詳細、表示、可用性</string>
 </resources>

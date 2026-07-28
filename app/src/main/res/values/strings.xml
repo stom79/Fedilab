@@ -200,7 +200,7 @@
     <!-- Instance -->
     <string name="instance_no_description">No description available!</string>
     <!-- About -->
-    <string name="about_vesrion">Release %1$s</string>
+    <string name="about_version">Release %1$s</string>
     <string name="about_developer">Developer:</string>
     <string name="about_license">License: </string>
     <string name="about_license_action">GNU GPL V3</string>
@@ -768,7 +768,7 @@
     <string name="report_val1">I don\'t like it</string>
     <string name="report_val_more1">It is not something you want to see</string>
     <string name="report_val2">It\'s spam</string>
-    <string name="report_val_more2">Malicious links, fake engagement, or repetetive replies</string>
+    <string name="report_val_more2">Malicious links, fake engagement, or repetitive replies</string>
     <string name="report_val3">It violates server rules</string>
     <string name="report_val_more3">You are aware that it breaks specific rules</string>
     <string name="report_val4">It\'s something else</string>
@@ -1426,6 +1426,7 @@
     <string name="SET_DISPLAY_ALL_NOTIFICATIONS_TYPE" translatable="false">SET_DISPLAY_ALL_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXCLUDED_NOTIFICATIONS_TYPE" translatable="false">SET_EXCLUDED_NOTIFICATIONS_TYPE</string>
     <string name="SET_EXPAND_MEDIA" translatable="false">SET_EXPAND_MEDIA</string>
+    <string name="SET_MEDIA_DOCUMENT_PICKER" translatable="false">SET_MEDIA_DOCUMENT_PICKER</string>
     <string name="SET_FETCH_REMOTE_MEDIA" translatable="false">SET_FETCH_REMOTE_MEDIA</string>
 
     <string name="SET_GROUP_REBLOGS" translatable="false">SET_GROUP_REBLOGS</string>
@@ -2342,6 +2343,8 @@
     <string name="post_in_language">Post in %1$s</string>
     <string name="set_remove_battery">Ignore battery optimizations</string>
     <string name="set_autoplay_gif">Autoplay animated media</string>
+    <string name="set_media_document_picker">Use file browser to attach media</string>
+    <string name="set_media_document_picker_summary">Browse files by folder instead of the system photo picker</string>
     <string name="no_cached_messages">No Home cached messages!</string>
     <string name="check_home_cache">Check Home cache</string>
     <string name="messages">%1$d cached messages</string>
@@ -2392,6 +2395,7 @@
     <string name="kw_auto_fetch_missing">fetch, missing, gap, load</string>
     <string name="kw_expand_cw">content warning, spoiler, cw, expand</string>
     <string name="kw_expand_media">media, image, sensitive, expand, nsfw</string>
+    <string name="kw_media_document_picker">picker, file, folder, browse, photo, document, attach, media</string>
     <string name="kw_fetch_remote_media">remote, media, federated, fetch</string>
     <string name="kw_group_reblogs">group, reblogs, boosts, combine, merge</string>
     <string name="kw_chat_direct">chat, direct message, dm, conversation</string>

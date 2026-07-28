@@ -136,8 +136,6 @@
     <string name="upload_form_description">Опишите за слабовиде</string>
     <!-- Instance -->
     <string name="instance_no_description">Нема описа!</string>
-    <!-- About -->
-    <string name="about_vesrion">Издање %1$s</string>
     <string name="about_developer">Програмер:</string>
     <string name="about_license">Лиценца: </string>
     <string name="about_license_action">GNU GPL V3</string>

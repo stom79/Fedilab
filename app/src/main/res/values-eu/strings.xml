@@ -132,8 +132,6 @@
     <string name="upload_form_description">Deskribatu ikusmen arazoak dituztenentzat</string>
     <!-- Instance -->
     <string name="instance_no_description">Ez dago deskripziorik eskuragarri!</string>
-    <!-- About -->
-    <string name="about_vesrion">Bertsioa: %1$s</string>
     <string name="about_developer">Garatzailea:</string>
     <string name="about_license">Lizentzia: </string>
     <string name="about_license_action">GNU GPL V3</string>

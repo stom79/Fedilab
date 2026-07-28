@@ -132,8 +132,6 @@
     <string name="upload_form_description">Görme engelliler için tarif</string>
     <!-- Instance -->
     <string name="instance_no_description">Açıklama bulunmuyor!</string>
-    <!-- About -->
-    <string name="about_vesrion">Sürüm %1$s</string>
     <string name="about_developer">Geliştirici:</string>
     <string name="about_license">Lisans: </string>
     <string name="about_license_action">GNU GPL V3</string>
