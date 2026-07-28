@@ -51,7 +51,7 @@ import es.dmoral.toasty.Toasty;
 
 public class FragmentNotificationContainer extends Fragment {
 
-    public static UpdateCounters update;
+    public UpdateCounters update;
     private FragmentNotificationContainerBinding binding;
 
 

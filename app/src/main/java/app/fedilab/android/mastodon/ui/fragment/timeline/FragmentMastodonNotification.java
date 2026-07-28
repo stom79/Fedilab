@@ -781,8 +781,9 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             if (direction == FragmentMastodonTimeline.DIRECTION.REFRESH && notificationAdapter != null && existingCount > 0) {
                 notificationAdapter.notifyItemRangeChanged(0, existingCount);
             }
-            if (insertedStatus >= 0 && FragmentNotificationContainer.update != null && notificationType == NotificationTypeEnum.ALL && (direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.REFRESH)) {
-                FragmentNotificationContainer.update.onUpdateNotification(insertedStatus);
+            Fragment parentFragment = getParentFragment();
+            if (insertedStatus >= 0 && parentFragment instanceof FragmentNotificationContainer && ((FragmentNotificationContainer) parentFragment).update != null && notificationType == NotificationTypeEnum.ALL && (direction == FragmentMastodonTimeline.DIRECTION.FETCH_NEW || direction == FragmentMastodonTimeline.DIRECTION.SCROLL_TOP || direction == FragmentMastodonTimeline.DIRECTION.REFRESH)) {
+                ((FragmentNotificationContainer) parentFragment).update.onUpdateNotification(insertedStatus);
             }
             if (direction == FragmentMastodonTimeline.DIRECTION.TOP && fetchingMissing) {
                 binding.recyclerView.scrollToPosition(getPosition(fetched_notifications.notifications.get(fetched_notifications.notifications.size() - 1)) + 1);

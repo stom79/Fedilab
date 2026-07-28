@@ -109,6 +109,7 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
                 }
                 if (type == BottomMenu.ItemMenuType.NOTIFICATION) {
                     FragmentNotificationContainer fragmentNotificationContainer = new FragmentNotificationContainer();
+                    fragmentNotificationContainer.update = activity;
                     fragmentNotificationContainer.setArguments(bundle);
                     return fragmentNotificationContainer;
                 } else if (type == BottomMenu.ItemMenuType.DIRECT) {
@@ -133,7 +134,7 @@ public class FedilabPageAdapter extends FragmentStatePagerAdapter {
             bundle.putSerializable(Helper.ARG_TIMELINE_TYPE, pinnedTimeline.type);
             if (pinnedTimeline.type == Timeline.TimeLineEnum.NOTIFICATION) {
                 FragmentNotificationContainer fragmentNotificationContainer = new FragmentNotificationContainer();
-                FragmentNotificationContainer.update = activity;
+                fragmentNotificationContainer.update = activity;
                 fragmentNotificationContainer.setArguments(bundle);
                 return fragmentNotificationContainer;
             } else if (pinnedTimeline.type == Timeline.TimeLineEnum.DIRECT) {
