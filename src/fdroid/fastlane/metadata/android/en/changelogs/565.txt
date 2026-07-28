@@ -1,6 +1,7 @@
 Added:
 - Respect the profile "Include replies on the Media tab" setting
 - Setting to attach media with the file browser instead of the photo picker
+- Setting to choose how long cached posts are kept
 
 Improved:
 - Open more Fediverse links in the app instead of the browser

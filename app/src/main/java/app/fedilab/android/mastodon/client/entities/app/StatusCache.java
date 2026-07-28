@@ -427,18 +427,18 @@ public class StatusCache {
     }
 
     /**
-     * delete all cache for all account after 7 days
+     * delete all cache for all account older than the given number of days
      *
      * @return long - db id
      * @throws DBException exception with database
      */
-    public long deleteForAllAccountAfter7Days() throws DBException {
+    public long deleteForAllAccountAfter(int days) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
-        cal.add(Calendar.DATE, -7);
+        cal.add(Calendar.DATE, -days);
         Date date = cal.getTime();
         String dateStr = Helper.dateToString(date);
         try {

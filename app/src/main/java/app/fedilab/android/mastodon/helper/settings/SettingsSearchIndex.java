@@ -233,6 +233,7 @@ public class SettingsSearchIndex {
 
         list.add(new SettingsSearchEntry(R.string.set_fetch_home, R.string.kw_fetch_home, catHomeCache, navHomeCache, "SET_FETCH_HOME"));
         list.add(new SettingsSearchEntry(R.string.type_of_home_delay_title, R.string.kw_fetch_home_delay, catHomeCache, navHomeCache, "SET_FETCH_HOME_DELAY_VALUE"));
+        list.add(new SettingsSearchEntry(R.string.set_cache_retention, R.string.kw_cache_retention, catHomeCache, navHomeCache, "SET_CACHE_RETENTION_DAYS"));
 
         // Language
         int catLanguage = R.string.languages;

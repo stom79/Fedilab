@@ -394,9 +394,14 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         filteredAccounts = mutedAccounts.accounts;
                     }
                 }
-                //Delete cache older than 7 days
-                new StatusCache(activity).deleteForAllAccountAfter7Days();
-                new TimelineCacheLogs(activity).deleteForAllAccountAfter7Days();
+                //Delete cache older than the configured retention
+                int retentionDays = 3;
+                try {
+                    retentionDays = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(activity).getString(activity.getString(R.string.SET_CACHE_RETENTION_DAYS), "3"));
+                } catch (NumberFormatException ignored) {
+                }
+                new StatusCache(activity).deleteForAllAccountAfter(retentionDays);
+                new TimelineCacheLogs(activity).deleteForAllAccountAfter(retentionDays);
                 new CachedBundle(activity).deleteOldIntent();
             } catch (DBException e) {
                 e.printStackTrace();

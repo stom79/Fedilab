@@ -23,6 +23,15 @@
         app:title="@string/type_of_home_delay_title"
         app:useSimpleSummaryProvider="true" />
 
+    <ListPreference
+        app:defaultValue="3"
+        app:entries="@array/set_cache_retention_entries"
+        app:entryValues="@array/SET_CACHE_RETENTION_VALUES"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_CACHE_RETENTION_DAYS"
+        app:title="@string/set_cache_retention"
+        app:useSimpleSummaryProvider="true" />
+
     <Preference
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

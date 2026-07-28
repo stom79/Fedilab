@@ -1113,6 +1113,21 @@
         <item>360</item>
         <item>720</item>
     </string-array>
+    <string-array name="set_cache_retention_entries">
+        <item>1 day</item>
+        <item>2 days</item>
+        <item>3 days</item>
+        <item>7 days</item>
+        <item>14 days</item>
+    </string-array>
+    <string-array name="SET_CACHE_RETENTION_VALUES" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>7</item>
+        <item>14</item>
+    </string-array>
+    <string name="SET_CACHE_RETENTION_DAYS" translatable="false">SET_CACHE_RETENTION_DAYS</string>
     <string name="SET_PICTURE_COMPRESSED" translatable="false">SET_PICTURE_COMPRESSED</string>
     <string name="SET_VIDEO_COMPRESSED" translatable="false">SET_VIDEO_COMPRESSED</string>
     <string name="SET_FORWARD_TAGS_IN_REPLY" translatable="false">SET_FORWARD_TAGS_IN_REPLY</string>
@@ -2347,6 +2362,8 @@
     <string name="set_media_document_picker_summary">Browse files by folder instead of the system photo picker</string>
     <string name="no_cached_messages">No Home cached messages!</string>
     <string name="check_home_cache">Check Home cache</string>
+    <string name="set_cache_retention">Keep cached posts for</string>
+    <string name="kw_cache_retention">cache, retention, keep, days, clear, delete, old posts</string>
     <string name="messages">%1$d cached messages</string>
 
     <string name="chart_home_cache_logs">Home cache logs</string>
