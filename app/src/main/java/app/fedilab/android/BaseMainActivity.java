@@ -1147,6 +1147,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Restore identity if undefined
+        if (currentInstance == null || currentUserID == null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
+            currentInstance = prefs.getString(PREF_USER_INSTANCE, currentInstance);
+            currentUserID = prefs.getString(PREF_USER_ID, currentUserID);
+            currentToken = prefs.getString(PREF_USER_TOKEN, currentToken);
+        }
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             savedViewPagerPosition = savedInstanceState.getInt(Helper.ARG_SAVED_SCROLL_POSITION, -1);
