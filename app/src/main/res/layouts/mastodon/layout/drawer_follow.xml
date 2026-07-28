@@ -142,11 +142,16 @@
                 android:layout_marginBottom="4dp"
                 tools:text="also followed by" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/related_accounts"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" />
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/related_accounts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
