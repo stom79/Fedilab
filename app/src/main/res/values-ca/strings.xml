@@ -1424,4 +1424,9 @@
     <string name="set_show_poll_results_button_summary">Ensenya un botó per poder veure els resultats d\'una enquesta sense votar-hi</string>
     <string name="kw_poll_results">enquesta, resultats, vot, mostrar, previsionat</string>
     <string name="about_version">Compilació %1$s</string>
+    <string name="set_media_document_picker">Recorre al navegador de documents per adjuntar documents multimèdia</string>
+    <string name="set_media_document_picker_summary">Explora els documents amb les carpetes en lloc de l\'entorn de selecció de fotos del sistema</string>
+    <string name="set_cache_retention">Manté els missatges guardats en memòria cau per a</string>
+    <string name="kw_cache_retention">memòria cau, retenció, mantenir, dies, retirar, eliminar, missatges vells</string>
+    <string name="kw_media_document_picker">selector, document, carpeta, explorar, foto, document, adjuntar, documents multimèdia</string>
 </resources>

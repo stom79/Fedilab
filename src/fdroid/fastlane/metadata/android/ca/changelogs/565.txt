@@ -1,0 +1,24 @@
+Novetats:
+- Respecta el paràmetre del perfil "Incloure respostes a la pestanya de mèdia" 
+- Paràmetre per adjuntar els mèdia amb l'explorador de documents i no el selector de fotos
+- Paràmetre per decidir quant de temps guardar missatges en memòria cau
+
+Millores :
+- Es poden obrir amb l'app més enllaços del Fedivers em lloc del navegador
+- Pissarres més r ràpides gràcies a m més espai de memòria cau
+- Ús de memòria més baix i millor estabilitat en sessions llargues
+- Compatibilitat amb Android 16
+
+Correccions:
+- Missatge gravat amb veu que no rutllava
+- Selector d'àudios que no s'obria. Fix
+- GIFs animats que es veien negres o estàtics
+- Fallida en els canvis de compte
+- Fallida en traduir un missatge 
+- Notificacions prènsils en programari no-Mastodon
+- Es perdia la pestanya seleccionada en tornar del rerefons
+- Pissarres que mostraven contingut de les pissarres ocultes
+- Posició desviada d'un missatge de pissarra després de reiniciart
+- Paràmetres de PeerTube que sortien a la barra d'estat.
+- Pestanya de missatges que perdia la selecció ammb cerques avançades.
+- Ròdol que no funcionava en les notificacions de seguiments
