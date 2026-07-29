@@ -1423,4 +1423,7 @@
     <string name="set_show_poll_results_button_summary">显示不投票查看投票结果的按钮</string>
     <string name="kw_poll_results">投票、结果、票数、显示、预览</string>
     <string name="about_version">%1$s 版</string>
+    <string name="set_media_document_picker">用文件浏览器附加媒体文件</string>
+    <string name="set_media_document_picker_summary">按文件夹浏览文件，而不是使用系统照片选择器</string>
+    <string name="set_cache_retention">缓存嘟文保留时长</string>
 </resources>
