@@ -1302,4 +1302,8 @@
     <string name="set_highlight_dm_color_title">Barva přímých zpráv</string>
     <string name="set_highlight_dm_summary">Zobrazovat přímé zprávy s odlišnou barvou pozadí</string>
     <string name="set_highlight_dm_title">Zvýrazňovat přímé zprávy</string>
+    <string name="about_version">Verze %1$s</string>
+    <string name="set_media_document_picker">Použít procházení souborů k připojení médií</string>
+    <string name="set_media_document_picker_summary">Procházet soubory podle složek místo systémového výběru fotek</string>
+    <string name="set_cache_retention">Uchovávat nacachované příspěvky pro</string>
 </resources>
