@@ -1,0 +1,1 @@
+Fedilab — daudzfunkcionāls Android klients, kas nodrošina piekļuvi decentralizētajam Fediverse tīklam, kur var publicēt īsus emuāra ierakstus, dalīties ar bildēm un video.

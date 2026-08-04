@@ -1,0 +1,2 @@
+Pievienots:
+ - Misskey atbalsts
