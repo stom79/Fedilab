@@ -822,10 +822,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
             holder.binding.quotedMessage.cardviewContainer.setStrokeColor(ThemeHelper.getAttColor(context, R.attr.colorPrimary));
-            holder.binding.quotedMessage.statusContent.setText(
-                    statusToDeal.getQuote().getSpanContent(context, remote,
-                            new WeakReference<>(holder.binding.quotedMessage.statusContent), null),
-                    TextView.BufferType.SPANNABLE);
+            if (statusToDeal.getQuote().spoiler_text == null || statusToDeal.getQuote().spoiler_text.trim().isEmpty() || statusToDeal.getQuote().isExpended) {
+                holder.binding.quotedMessage.statusContent.setText(
+                        statusToDeal.getQuote().getSpanContent(context, remote,
+                                new WeakReference<>(holder.binding.quotedMessage.statusContent), null),
+                        TextView.BufferType.SPANNABLE);
+            } else {
+                holder.binding.quotedMessage.statusContent.setText(null);
+            }
             if (truncate_toots_size > 0) {
                 holder.binding.quotedMessage.statusContent.setMaxLines(truncate_toots_size);
                 holder.binding.quotedMessage.statusContent.setEllipsize(TextUtils.TruncateAt.END);
@@ -879,18 +883,26 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         statusToDeal.getQuote().getSpanSpoiler(context,
                                 new WeakReference<>(holder.binding.quotedMessage.spoiler), null),
                         TextView.BufferType.SPANNABLE);
+                holder.binding.quotedMessage.spoilerExpand.setVisibility(View.VISIBLE);
                 if (statusToDeal.getQuote().isExpended) {
                     holder.binding.quotedMessage.statusContent.setVisibility(View.VISIBLE);
+                    holder.binding.quotedMessage.spoilerExpand.setText(stripChevron(context.getString(R.string.hide_content)));
+                    holder.binding.quotedMessage.spoilerExpand.setIconResource(R.drawable.ic_baseline_visibility_off_24);
                 } else {
                     holder.binding.quotedMessage.statusContent.setVisibility(View.GONE);
+                    holder.binding.quotedMessage.spoilerExpand.setText(stripChevron(context.getString(R.string.show_content)));
+                    holder.binding.quotedMessage.spoilerExpand.setIconResource(R.drawable.ic_baseline_visibility_24);
                 }
-                holder.binding.quotedMessage.spoiler.setOnClickListener(v -> {
+                View.OnClickListener quoteSpoilerClickListener = v -> {
                     statusToDeal.getQuote().isExpended = !statusToDeal.getQuote().isExpended;
                     adapter.notifyItemChanged(holder.getBindingAdapterPosition());
-                });
+                };
+                holder.binding.quotedMessage.spoiler.setOnClickListener(quoteSpoilerClickListener);
+                holder.binding.quotedMessage.spoilerExpand.setOnClickListener(quoteSpoilerClickListener);
             } else {
                 holder.binding.quotedMessage.spoiler.setVisibility(View.GONE);
                 holder.binding.quotedMessage.spoiler.setText(null);
+                holder.binding.quotedMessage.spoilerExpand.setVisibility(View.GONE);
                 holder.binding.quotedMessage.statusContent.setVisibility(View.VISIBLE);
             }
             // Display media attachments in quoted message
@@ -1860,12 +1872,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         //--- MAIN CONTENT ---
         holder.binding.statusContent.scrollTo(0, 0);
-        holder.binding.statusContent.setText(
-                statusToDeal.getSpanContent(context, remote,
-                        new WeakReference<>(holder.binding.statusContent), () -> {
-                            recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
-                        }),
-                TextView.BufferType.SPANNABLE);
+        if (statusToDeal.spoiler_text == null || statusToDeal.spoiler_text.trim().isEmpty() || statusToDeal.isExpended) {
+            holder.binding.statusContent.setText(
+                    statusToDeal.getSpanContent(context, remote,
+                            new WeakReference<>(holder.binding.statusContent), () -> {
+                                recyclerView.post(() -> adapter.notifyItemChanged(holder.getBindingAdapterPosition()));
+                            }),
+                    TextView.BufferType.SPANNABLE);
+        } else {
+            holder.binding.statusContent.setText(null);
+        }
         ViewCompat.addAccessibilityAction(holder.binding.statusContent, context.getString(R.string.translate), (view, arguments) -> {
             translate(context, statusToDeal, holder, adapter);
             return true;

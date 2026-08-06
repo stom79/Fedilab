@@ -95,6 +95,7 @@ public class Status implements Serializable, Cloneable {
     public Status reblog;
     @SerializedName("quote")
     private Object quote;
+    private transient Status quoteCache;
     @SerializedName("application")
     public App application;
     @SerializedName("account")
@@ -134,6 +135,9 @@ public class Status implements Serializable, Cloneable {
     }
 
     public Status getQuote() {
+        if (quoteCache != null) {
+            return quoteCache;
+        }
         Status quote = null;
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = String.valueOf(this.quote);
@@ -154,13 +158,15 @@ public class Status implements Serializable, Cloneable {
             e.printStackTrace();
         }
         if(quote !=null && quote.account != null) {
-            return quote;
+            quoteCache = quote;
+            return quoteCache;
         }
         return null;
     }
 
     public void setQuote(Status quote) {
         this.quote =quote;
+        this.quoteCache = quote;
     }
     public String attachedNotification = null;
     public int gifPosition = 0;

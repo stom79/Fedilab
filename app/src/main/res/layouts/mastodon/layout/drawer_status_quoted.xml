@@ -91,6 +91,17 @@
             android:layout_marginTop="6dp"
             tools:text="Warning: Lorem Ipsum below" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/spoiler_expand"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/show_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:visibility="gone" />
+
         <app.fedilab.android.mastodon.helper.CustomTextView
             android:id="@+id/status_content"
             android:layout_width="match_parent"
