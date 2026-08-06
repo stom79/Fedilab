@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.43.1",
+    "code": "566",
+    "note": "Improved:\n- Load content behind a content warning only when it is opened\n\nFixed:\n- Fix a freeze on posts with a large number of custom emojis\n- Fix quoted posts with a content warning not opening in notifications"
+  },
+  {
     "version": "3.43.0",
     "code": "565",
     "note": "Added:\n- Respect the profile \"Include replies on the Media tab\" setting\n- Setting to attach media with the file browser instead of the photo picker\n- Setting to choose how long cached posts are kept\n\nImproved:\n- Open more Fediverse links in the app instead of the browser\n- Faster timelines with a large cache\n- Lower memory usage and better stability during long sessions\n- Support for Android 16\n\nFixed:\n- Fix voice message recording not working\n- Fix the audio attachment picker not opening\n- Fix animated GIFs displayed as a black or static image\n- Fix a crash when switching accounts\n- Fix a crash when translating a post\n- Fix push notifications on non-Mastodon software\n- Fix losing the selected tab when returning from the background\n- Fix timelines showing the content of hidden timelines\n- Fix timeline position off by one post after a restart\n- Fix PeerTube settings drawn under the status bar\n- Fix the Messages tab not staying selected for advanced searches\n- Fix not being able to scroll through accounts in follow notifications\n"

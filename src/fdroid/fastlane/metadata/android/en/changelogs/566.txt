@@ -1,0 +1,6 @@
+Improved:
+- Load content behind a content warning only when it is opened
+
+Fixed:
+- Fix a freeze on posts with a large number of custom emojis
+- Fix quoted posts with a content warning not opening in notifications
