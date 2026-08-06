@@ -459,15 +459,13 @@ public class SpannableHelper {
                 String target = ":" + emoji.shortcode + ":";
                 int searchStart = 0;
                 String contentStr = content.toString();
+                List<CustomEmoji> emojiSpans = new ArrayList<>();
+                final String previewUrl = emoji.url;
                 while ((searchStart = contentStr.indexOf(target, searchStart)) >= 0) {
                     int searchEnd = searchStart + target.length();
                     CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
                     content.setSpan(customEmoji, searchStart, searchEnd, 0);
-                    String emojiUrl = animate ? emoji.url : emoji.static_url;
-                    if (Helper.isValidContextForGlide(context)) {
-                        customEmoji.loadEmoji(view, emojiUrl, animate, null);
-                    }
-                    final String previewUrl = emoji.url;
+                    emojiSpans.add(customEmoji);
                     content.setSpan(new LongClickableSpan() {
                         @Override
                         public void onClick(@NonNull View textView) {
@@ -486,6 +484,10 @@ public class SpannableHelper {
                         }
                     }, searchStart, searchEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     searchStart = searchEnd;
+                }
+                if (!emojiSpans.isEmpty()) {
+                    String emojiUrl = animate ? emoji.url : emoji.static_url;
+                    CustomEmoji.loadShared(view, emojiUrl, animate, emojiSpans);
                 }
             }
         }
@@ -1144,15 +1146,13 @@ public class SpannableHelper {
                 String target = ":" + emoji.shortcode + ":";
                 int searchStart = 0;
                 String contentStr = content.toString();
+                List<CustomEmoji> emojiSpans = new ArrayList<>();
+                final String previewUrl = emoji.url;
                 while ((searchStart = contentStr.indexOf(target, searchStart)) >= 0) {
                     int searchEnd = searchStart + target.length();
                     CustomEmoji customEmoji = new CustomEmoji(new WeakReference<>(view));
                     content.setSpan(customEmoji, searchStart, searchEnd, 0);
-                    String emojiUrl = animate ? emoji.url : emoji.static_url;
-                    if (Helper.isValidContextForGlide(activity)) {
-                        customEmoji.loadEmoji(view, emojiUrl, animate, null);
-                    }
-                    final String previewUrl = emoji.url;
+                    emojiSpans.add(customEmoji);
                     content.setSpan(new LongClickableSpan() {
                         @Override
                         public void onClick(@NonNull View textView) {
@@ -1171,6 +1171,10 @@ public class SpannableHelper {
                         }
                     }, searchStart, searchEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     searchStart = searchEnd;
+                }
+                if (!emojiSpans.isEmpty()) {
+                    String emojiUrl = animate ? emoji.url : emoji.static_url;
+                    CustomEmoji.loadShared(view, emojiUrl, animate, emojiSpans);
                 }
             }
         }

@@ -78,35 +78,39 @@ public class CustomEmoji extends ReplacementSpan {
         return content;
     }
 
+    private Drawable.Callback newAnimationCallback() {
+        return new Drawable.Callback() {
+            @Override
+            public void invalidateDrawable(@NonNull Drawable drawable) {
+                View host = viewWeakReference.get();
+                if (host != null) {
+                    host.postInvalidate();
+                }
+            }
+
+            @Override
+            public void scheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable, long l) {
+                View host = viewWeakReference.get();
+                if (host != null) {
+                    host.postDelayed(runnable, l);
+                }
+            }
+
+            @Override
+            public void unscheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable) {
+                View host = viewWeakReference.get();
+                if (host != null) {
+                    host.removeCallbacks(runnable);
+                }
+            }
+        };
+    }
+
     private void onEmojiLoaded(Drawable resource, boolean animate, Status.Callback callback) {
         View view = viewWeakReference.get();
 
         if (animate && resource instanceof Animatable) {
-            drawableCallback = new Drawable.Callback() {
-                @Override
-                public void invalidateDrawable(@NonNull Drawable drawable) {
-                    View host = viewWeakReference.get();
-                    if (host != null) {
-                        host.postInvalidate();
-                    }
-                }
-
-                @Override
-                public void scheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable, long l) {
-                    View host = viewWeakReference.get();
-                    if (host != null) {
-                        host.postDelayed(runnable, l);
-                    }
-                }
-
-                @Override
-                public void unscheduleDrawable(@NonNull Drawable drawable, @NonNull Runnable runnable) {
-                    View host = viewWeakReference.get();
-                    if (host != null) {
-                        host.removeCallbacks(runnable);
-                    }
-                }
-            };
+            drawableCallback = newAnimationCallback();
             resource.setCallback(drawableCallback);
             ((Animatable) resource).start();
         }
@@ -151,6 +155,72 @@ public class CustomEmoji extends ReplacementSpan {
             @Override
             public void onFailed() {
                 onEmojiLoadFailed();
+            }
+        });
+    }
+
+    //Load an emoji once and share the single drawable across all its occurrences
+    static void loadShared(View view, String url, boolean animate, List<CustomEmoji> spans) {
+        if (spans == null || spans.isEmpty() || !Helper.isValidContextForGlide(view.getContext())) {
+            return;
+        }
+        EmojiLoader.loadEmojiSpan(view, url, animate, new EmojiLoader.DrawableCallback() {
+            @Override
+            public void onLoaded(Drawable drawable, boolean shouldAnimate) {
+                CustomEmoji first = spans.get(0);
+                Drawable.Callback sharedCallback = null;
+                if (shouldAnimate && drawable instanceof Animatable) {
+                    sharedCallback = first.newAnimationCallback();
+                    drawable.setCallback(sharedCallback);
+                    ((Animatable) drawable).start();
+                }
+                for (CustomEmoji span : spans) {
+                    span.imageDrawable = drawable;
+                    span.drawableCallback = sharedCallback;
+                }
+                first.resolveSharedRatio(spans);
+                if (view instanceof TextView) {
+                    TextView tv = (TextView) view;
+                    tv.post(() -> tv.setText(tv.getText(), TextView.BufferType.SPANNABLE));
+                } else {
+                    view.post(() -> {
+                        view.invalidate();
+                        view.requestLayout();
+                    });
+                }
+            }
+
+            @Override
+            public void onFailed() {
+                for (CustomEmoji span : spans) {
+                    span.onEmojiLoadFailed();
+                }
+            }
+        });
+    }
+
+    private void resolveSharedRatio(List<CustomEmoji> spans) {
+        if (ratioResolved || !(imageDrawable instanceof FrameAnimationDrawable)) {
+            return;
+        }
+        ratioResolved = true;
+        Drawable drawable = imageDrawable;
+        View view = viewWeakReference.get();
+        if (view == null) {
+            return;
+        }
+        ratioExecutor.execute(() -> {
+            int intrinsicWidth = drawable.getIntrinsicWidth();
+            int intrinsicHeight = drawable.getIntrinsicHeight();
+            if (intrinsicWidth > 0 && intrinsicHeight > 0) {
+                float ratio = (float) intrinsicWidth / intrinsicHeight;
+                view.post(() -> {
+                    for (CustomEmoji span : spans) {
+                        span.cachedRatio = ratio;
+                        span.ratioResolved = true;
+                    }
+                    view.requestLayout();
+                });
             }
         });
     }
