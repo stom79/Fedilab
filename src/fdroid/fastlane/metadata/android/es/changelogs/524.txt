@@ -1,0 +1,17 @@
+Añadido:
+- Fijadas las timelines en tendencia (se pueden ocultar en Gestionar Timelines)
+- Añadido traductor por defecto
+- Nueva configuración para Pixelfed que permite deshabilitar la pantalla completa para media
+- Añadido un mensaje emergente para las pestañas en los perfiles
+
+Cambios:
+- Aumentada el área del botón de respuestas
+- Muestra un dialogo después de exportar la configuración
+
+Arreglado:
+- No se actualizaba la descripción de los medios cuando había varios
+- Se mostraba solo una parte de la traducción de DeepL
+- Arreglado el truncado de traducciones de Lingva
+- Arreglado un crash cuando se actualizaban los perfiles remotos
+- Arreglado un crash con los emojis animados
+- Arreglado un crash cuando se muestran tablas de caché de "Home"
