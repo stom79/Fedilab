@@ -1,0 +1,6 @@
+Millores:
+- Carrega contingut sensible darrera d'un avís només si s'obre
+
+Correccions:
+- Congelacions amb missatges de molts emojis personalitzats
+- Missatges citats amb avís de contingut sensible que no s'obria en notificacions
