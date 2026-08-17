@@ -690,8 +690,8 @@
     <string name="instance_health_indication">versi: %s \\\n %s pengguna - %s status</string>
     <string name="instance_health_checkedat">Diperiksa pada: %s</string>
     <string name="instance_health_uptime">Waktu aktif: %,.2f %%</string>
-    <string name="show_content">Tampilkan konten &gt;</string>
-    <string name="hide_content">Sembunyikan konten &lt;</string>
+    <string name="show_content">Tampilkan konten</string>
+    <string name="hide_content">Sembunyikan konten</string>
     <string name="stop_recording">Hentikan perekaman</string>
     <string name="report_title">Melaporkan %1$s</string>
     <string name="report_indication_title_status">Beri tahu kami apa yang terjadi dengan postingan ini</string>
@@ -699,7 +699,7 @@
     <string name="report_val1">Saya tidak menyukainya</string>
     <string name="report_val_more1">Ini bukan sesuatu yang ingin Anda lihat</string>
     <string name="report_val2">Ini spam</string>
-    <string name="report_val_more2">Tautan berbahaya, keterlibatan palsu, atau balasan berulang</string>
+    <string name="report_val_more2">Tautan berbahaya, interaksi palsu, atau balasan berulang</string>
     <string name="report_val3">Ini melanggar aturan server</string>
     <string name="report_val_more3">Anda mengetahui bahwa ini melanggar aturan tertentu</string>
     <string name="report_val4">Ini hal lain</string>
@@ -1402,4 +1402,24 @@
     <string name="set_notif_collection">Beri tahu untuk perubahan koleksi</string>
     <string name="action_remove_myself_from_collection">Hapus saya dari koleksi ini</string>
     <string name="action_remove_me">Hapus saya</string>
+    <string name="about_version">Rilis %1$s</string>
+    <string name="avatar_description">Deskripsi avatar</string>
+    <string name="header_description">Deskripsi banner</string>
+    <string name="selected_language_info">Bahasa yang dipilih: %1$s</string>
+    <string name="keep_in_language">Pertahankan dalam %1$s</string>
+    <string name="post_in_language">Publikasikan dalam %1$s</string>
+    <string name="set_media_document_picker">Gunakan penjelajah berkas untuk melampirkan media</string>
+    <string name="set_media_document_picker_summary">Jelajahi berkas berdasarkan folder, bukan menggunakan pemilih foto sistem</string>
+    <string name="set_cache_retention">Simpan kiriman dalam cache selama</string>
+    <string name="kw_cache_retention">cache, retensi, simpan, hari, bersihkan, hapus, kiriman lama</string>
+    <string name="kw_media_document_picker">pemilih, berkas, folder, jelajahi, foto, dokumen, lampirkan, media</string>
+    <string name="set_highlight_dm_title">Sorot pesan langsung</string>
+    <string name="set_highlight_dm_summary">Tampilkan pesan langsung dengan warna latar yang berbeda</string>
+    <string name="set_highlight_dm_color_title">Warna pesan langsung</string>
+    <string name="set_highlight_dm_color_summary">Warna latar untuk pesan langsung</string>
+    <string name="kw_highlight_dm">pesan langsung, dm, latar, warna, sorot</string>
+    <string name="show_results">Tampilkan hasil</string>
+    <string name="set_show_poll_results_button_title">Tombol tampilkan hasil jajak pendapat</string>
+    <string name="set_show_poll_results_button_summary">Tampilkan tombol untuk melihat hasil jajak pendapat tanpa memberikan suara</string>
+    <string name="kw_poll_results">jajak pendapat, hasil, suara, tampilkan, pratinjau</string>
 </resources>

@@ -1,0 +1,12 @@
+Ditambahkan:
+- Tambahkan peringatan untuk boost terjadwal yang kedaluwarsa saat memulai
+
+Diperbaiki:
+- Perbaiki arah tombol compose dan status toolbar dalam mode terbalik
+- Perbaiki pagination bookmark dalam mode urutan terbalik
+- Perbaiki penggunaan URL jarak jauh untuk pengunduhan saat media diambil dari jarak jauh
+- Perbaiki lencana deskripsi media yang hilang pada GIF yang diputar otomatis
+- Perbaiki pagination linimasa hashtag
+- Perbaiki bagian duplikat saat memisahkan pesan panjang secara otomatis
+- Perbaiki media sementara yang tidak digunakan agar terhapus saat cache dibersihkan
+- Perbaiki distributor push yang tidak tersimpan dalam pengaturan

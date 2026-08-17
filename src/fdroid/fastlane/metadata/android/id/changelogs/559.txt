@@ -1,0 +1,17 @@
+Ditambahkan:
+- Tambahkan dukungan Collections (Mastodon 4.6+)
+    - Buat, edit, hapus, dan jelajahi collections
+    - Kelola anggota collection
+    - Terima notifikasi saat ditambahkan ke collection, dengan opsi untuk menghapus diri sendiri
+    - Tambahkan entri khusus di menu utama dengan tab “Dibuat oleh Anda” dan “Menampilkan Anda”
+   - Collections ditampilkan di profil pengguna
+- Tambahkan lencana ALT yang dapat ditekan untuk membaca deskripsi media tanpa membukanya
+
+Diperbaiki:
+- Perbaiki penggunaan baterai berlebihan dan crash akibat emoji animasi
+- Perbaiki aplikasi yang selalu menyegarkan setiap kali dibuka setelah GC
+- Perbaiki gulir melekat setelah pemilihan teks atau emoji shower
+- Perbaiki emoji khusus yang melampaui batas pada nama tampilan
+- Perbaiki celah linimasa dan pengambilan pesan yang hilang secara otomatis
+- Perbaiki tautan @user yang hanya membuka akun Fediverse
+- Perbaiki pemulihan posisi notifikasi dari marker

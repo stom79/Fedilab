@@ -1,0 +1,15 @@
+Ditambahkan:
+- Tambahkan tombol terjemahan untuk bio profil
+- Tambahkan warna latar yang dapat disesuaikan untuk pesan langsung
+- Tambahkan opsi untuk menampilkan hasil jajak pendapat tanpa memberikan suara
+
+Ditingkatkan:
+- Batasi ruang yang digunakan oleh kata ganti panjang
+- Pindahkan opsi tambah reaksi ke chip agar tersedia pada semua kiriman
+- Tingkatkan deteksi bahasa: hapus mention, URL, dan emoji sebelum mendeteksi
+- Sederhanakan menu samping dan muat catatan rilis secara asinkron
+
+Diperbaiki:
+- Perbaiki linimasa yang tidak sesuai dengan tombol setelah menu bawah diurutkan ulang
+- Perbaiki pesan “Tidak ada pesan untuk ditampilkan” yang tetap muncul pada profil jarak jauh yang memiliki kiriman
+- Perbaiki kutipan kiriman yang di-boost agar menampilkan kiriman asli, bukan akun yang melakukan boost

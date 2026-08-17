@@ -1,0 +1,8 @@
+Diperbaiki
+- Perbaiki pengambilan beranda di latar belakang yang meninggalkan celah dalam linimasa yang disimpan di cache
+- Perbaiki posisi gulir yang hilang saat kembali ke daftar terjadwal/draf
+- Perbaiki crash pada kiriman dengan tag HTML bertingkat dalam dari konten Misskey MFM
+- Perbaiki boost terjadwal yang gagal secara diam-diam akibat kesalahan jaringan/server
+- Perbaiki crash akibat batas waktu foreground service pada Android 14+
+- Perbaiki crash saat dialog terjemahan berisi kode bahasa yang tidak dikenal
+- Perbaiki pembagian media yang beralih ke Glide sebagai fallback saat DownloadManager gagal

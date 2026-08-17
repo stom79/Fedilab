@@ -1,0 +1,7 @@
+Diperbaiki
+- Perbaiki header profil yang macet setelah menggulir dalam linimasa terbalik
+- Perbaiki notifikasi yang tidak memuat item baru dalam linimasa terbalik
+- Hormati preferensi notifikasi agregat dengan API notifikasi terkelompok
+- Perbaiki label “Notifikasi diaktifkan”
+- Pertahankan perilaku FAB dan toolbar bawaan dalam linimasa terbalik
+- Cegah penggeseran kategori notifikasi saat berpindah antarlinimasa

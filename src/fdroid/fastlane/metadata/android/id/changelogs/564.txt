@@ -1,0 +1,16 @@
+Ditambahkan:
+- Hormati pengaturan profil “Sertakan balasan di tab Media”
+
+Ditingkatkan:
+- Buka lebih banyak tautan Fediverse di dalam aplikasi, bukan di browser
+- Percepat linimasa dengan cache berukuran besar
+- Kurangi penggunaan memori dan tingkatkan stabilitas selama sesi panjang
+- Dukung Android 16
+
+Diperbaiki:
+- Perbaiki perekaman pesan suara yang tidak berfungsi
+- Perbaiki pemilih lampiran audio yang tidak terbuka
+- Perbaiki GIF animasi yang ditampilkan sebagai gambar hitam atau statis
+- Perbaiki crash saat berganti akun
+- Perbaiki crash saat menerjemahkan kiriman
+- Perbaiki notifikasi push pada perangkat lunak non-Mastodon

@@ -1,0 +1,24 @@
+Ditambahkan:
+- Hormati pengaturan profil “Sertakan balasan di tab Media”
+- Tambahkan pengaturan untuk melampirkan media menggunakan penjelajah berkas, bukan pemilih foto
+- Tambahkan pengaturan untuk memilih berapa lama kiriman yang disimpan dalam cache dipertahankan
+
+Ditingkatkan:
+- Buka lebih banyak tautan Fediverse di dalam aplikasi, bukan di browser
+- Percepat linimasa dengan cache berukuran besar
+- Kurangi penggunaan memori dan tingkatkan stabilitas selama sesi panjang
+- Dukung Android 16
+
+Diperbaiki:
+- Perbaiki perekaman pesan suara yang tidak berfungsi
+- Perbaiki pemilih lampiran audio yang tidak terbuka
+- Perbaiki GIF animasi yang ditampilkan sebagai gambar hitam atau statis
+- Perbaiki crash saat berganti akun
+- Perbaiki crash saat menerjemahkan kiriman
+- Perbaiki notifikasi push pada perangkat lunak non-Mastodon
+- Perbaiki tab yang dipilih agar tidak hilang saat kembali dari latar belakang
+- Perbaiki linimasa yang menampilkan konten dari linimasa tersembunyi
+- Perbaiki posisi linimasa yang bergeser satu kiriman setelah dimulai ulang
+- Perbaiki pengaturan PeerTube yang tergambar di bawah bilah status
+- Perbaiki tab Pesan yang tidak tetap dipilih untuk pencarian lanjutan
+- Perbaiki ketidakmampuan menggulir akun dalam notifikasi pengikutan

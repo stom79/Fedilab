@@ -1,0 +1,50 @@
+Ditambahkan:
+- Tambahkan opsi visibilitas per boost
+- Tambahkan tombol hapus terpisah dalam penulisan utas
+- Tambahkan dialog konfirmasi untuk percakapan jarak jauh
+- Tambahkan lencana DM yang belum dibaca pada menu bawah
+- Tambahkan mode percakapan campuran: balasan lokal terlebih dahulu, kemudian balasan khusus jarak jauh
+- Tambahkan lencana pengumuman di laci dan pop-up opsional untuk pengumuman baru
+- Tambahkan pemeriksaan bahasa saat memublikasikan (deteksi ketidaksesuaian bahasa, nonaktif secara bawaan)
+- Tambahkan pengeditan deskripsi foto profil dan banner
+
+Ditingkatkan:
+- Buka otomatis tab Pesan untuk pencarian operator
+- Tingkatkan pesan kesalahan API
+- Pertahankan rasio aspek emoji khusus yang lebar
+- Lencana ALT: perbaiki label yang terpotong, tambahkan tombol terjemahan, dan selaraskan pada kutipan serta GIF
+- Pengaturan percakapan kini menawarkan mode Lokal / Campuran / Jarak Jauh
+
+Diperbaiki:
+- Perbaiki pesan kesalahan collection pada profil
+- Perbaiki penambahan akun ke collection
+- Perbaiki tombol tambah/hapus collection untuk anggota yang sudah ada
+- Perbaiki linimasa notifikasi yang kosong setelah aplikasi dimulai ulang
+- Perbaiki tombol “Hapus saya” pada notifikasi collection
+- Perbaiki beberapa jendela aplikasi saat berbagi
+- Perbaiki kode bahasa yang ditampilkan, bukan nama lokal
+- Perbaiki balasan yang mewarisi statistik induk setelah interaksi
+- Perbaiki media animasi yang tidak diputar otomatis dalam linimasa gambar
+- Perbaiki gambar yang tidak dapat diklik dengan pratinjau penyesuaian ukuran pada layar besar
+- Perbaiki ikon bookmark yang tidak diperbarui dari menu lainnya
+- Perbaiki lampiran media yang menjadi abu-abu setelah dihapus
+- Perbaiki bentuk jamak yang hilang untuk jumlah pengguna
+- Perbaiki shortcode emoji yang ikut diterjemahkan
+- Perbaiki posisi watermark yang terpotong
+- Perbaiki jeda pada kolom CW untuk teks panjang
+- Perbaiki regex dalam pelengkapan otomatis emoji
+- Perbaiki toast konfirmasi setelah penjadwalan
+- Perbaiki tanda kutip dalam teks alternatif pada kiriman terjadwal
+- Perbaiki kutipan yang tetap ditampilkan di menu saat ditolak
+- Perbaiki dialog penilaian yang muncul tanpa akun
+- Perbaiki emoji khusus yang tidak ditampilkan di halaman cache
+- Perbaiki crash saat menjelajahi daftar emoji khusus
+- Perbaiki linimasa tersembunyi yang hilang dalam mode bilah tunggal
+- Perbaiki ikon tautan yang tidak terlihat dalam mode terang
+- Perbaiki crash Conscrypt pada perangkat dengan ukuran halaman 16 KB
+- Perbaiki emoji animasi yang menyebabkan freeze dan ANR
+- Perbaiki emoji animasi yang tidak bergerak setelah membuka kiriman
+- Perbaiki entitas HTML mentah yang ditampilkan pada tombol peringatan konten
+- Perbaiki crash saat memublikasikan dengan pemeriksaan bahasa diaktifkan
+- Perbaiki laporan crash
+- Gunakan instans Nitter Fedilab dan tambahkan header User-Agent

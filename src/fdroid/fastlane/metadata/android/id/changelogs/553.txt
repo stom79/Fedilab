@@ -1,0 +1,19 @@
+Ditambahkan
+- Ekspor daftar akun yang diikuti sebagai CSV
+- Dukungan kebijakan pemfilteran notifikasi
+- UI notifikasi yang difilter (permintaan notifikasi)
+- Peringatan “Pertahankan Android Tetap Terbuka” satu kali saat memulai
+- Tangani media sensitif dan ikon teks alternatif dalam kiriman yang dikutip
+
+Diperbaiki
+- Perbaiki lompatan posisi linimasa saat mengambil kiriman yang hilang secara otomatis
+- Perbaiki kursor yang melompat ke kiriman pertama saat menulis utas
+- Perbaiki tombol +/- utas yang tidak diperbarui setelah menempelkan teks
+- Perbaiki orientasi gambar yang tidak diterapkan saat kompresi dinonaktifkan
+- Perbaiki pengunduhan/pembagian GIF dan video
+- Perbaiki penanganan marker saat kedaluwarsa
+- Perbaiki deteksi celah fallback saat `fetchMore` tidak tersedia
+- Perbaiki pengambilan tambahan dan posisi gulir dalam linimasa terbalik
+- Perbaiki notifikasi yang tidak dikelompokkan dan menghilang setelah dimuat ulang
+- Perbaiki penyesuaian ukuran halaman 16 KB untuk Google Play
+- Perbaiki beberapa crash

@@ -1,0 +1,11 @@
+Ditambahkan:
+- Tambahkan mesin terjemahan Apertium
+- Tambahkan integrasi aplikasi eksternal Offline Translator
+- Tambahkan opsi untuk menempatkan tombol compose di bagian atas dalam mode terbalik
+
+Diperbaiki:
+- Perbaiki crash validasi jajak pendapat
+- Perbaiki crash saat memperbarui linimasa yang disematkan
+- Perbaiki tarik untuk menyegarkan linimasa terbalik pada halaman profil
+- Perbaiki posisi linimasa gambar yang hilang saat menyegarkan dalam mode terbalik
+- Perbaiki gulir linimasa melekat setelah kembali dari kiriman

@@ -1,0 +1,22 @@
+Ditambahkan:
+- Izinkan bookmark disematkan sebagai tab linimasa
+- Tambahkan pengaturan ukuran emoji khusus secara terpisah dengan ketuk untuk melihat pratinjau
+- Tambahkan pelengkapan otomatis emoji pada kolom CW dan jajak pendapat
+- Tambahkan urutan pengurutan terbalik untuk bookmark dan favorit
+- Sembunyikan otomatis tombol compose saat menggulir linimasa hashtag
+- Sembunyikan otomatis linimasa bubble saat instans tidak mendukungnya
+
+Ditingkatkan:
+- Tingkatkan gaya kartu laci kiriman terjadwal dan draf
+- Urutkan kiriman terjadwal berdasarkan tanggal penjadwalan
+
+Diperbaiki:
+- Perbaiki posisi kursor setelah mention pertama dalam balasan
+- Perbaiki crash saat tombol pemilihan instans ditekan berulang kali
+- Perbaiki akun yang dibisukan di beranda tetapi masih menampilkan peringatan filter
+- Perbaiki hashtag di bagian bawah yang menghilang saat terdapat banyak hashtag
+- Perbaiki freeze pada kiriman dengan HTML MFM bertingkat dalam
+- Perbaiki ketidaksesuaian tombol compose dan toolbar dalam mode gulir terbalik
+- Perbaiki penghapusan kiriman asli saat membuat ulang draf
+- Perbaiki tarik untuk menyegarkan dalam mode linimasa terbalik
+- Perbaiki beberapa crash

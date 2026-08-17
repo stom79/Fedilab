@@ -1,0 +1,11 @@
+Ditambahkan:
+- Tambahkan pemeriksaan bahasa saat memublikasikan (deteksi ketidaksesuaian bahasa, nonaktif secara bawaan)
+
+Diperbaiki:
+- Perbaiki pesan kesalahan collection pada profil
+- Perbaiki penambahan akun ke collection
+- Perbaiki tombol tambah/hapus collection untuk anggota yang sudah ada
+- Perbaiki linimasa notifikasi yang kosong setelah aplikasi dimulai ulang
+- Perbaiki tombol “Hapus saya” pada notifikasi collection
+- Perbaiki emoji animasi yang menyebabkan freeze
+- Perbaiki beberapa jendela aplikasi saat berbagi

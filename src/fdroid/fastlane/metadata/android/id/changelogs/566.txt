@@ -1,0 +1,6 @@
+Ditingkatkan:
+- Muat konten di balik peringatan konten hanya saat peringatan tersebut dibuka
+
+Diperbaiki:
+- Perbaiki freeze pada kiriman dengan emoji khusus dalam jumlah besar
+- Perbaiki kiriman yang dikutip dengan peringatan konten agar dapat dibuka dari notifikasi

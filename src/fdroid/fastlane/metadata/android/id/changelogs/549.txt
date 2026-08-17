@@ -1,0 +1,31 @@
+Ditambahkan
+- Tambahkan opsi urutan pembacaan linimasa terbalik
+- Tambahkan API notifikasi terkelompok (v2) dengan pengelompokan lokal sebagai fallback
+- Tambahkan penggeser volume dan kontrol kecepatan pemutaran ke pemutar video
+- Tambahkan opsi kebijakan balasan saat membuat/mengedit daftar
+- Tambahkan zoom cubit pada media yang dimuat dari jarak jauh
+- Tambahkan dukungan kreator fediverse pada kartu pratinjau tautan
+- Tambahkan deteksi celah yang tidak dapat dijangkau di linimasa beranda
+- Tambahkan carousel status yang disematkan di profil
+
+Diubah
+- Tampilkan nama tampilan, bukan teks umum, dalam notifikasi jajak pendapat
+- Tampilkan shortcode emoji sebagai fallback jika emoji khusus gagal dimuat
+- Pertahankan linimasa agar tetap stabil saat berinteraksi dengan kiriman
+- Tingkatkan penanganan kata ganti dan nama tampilan
+- Tingkatkan pratinjau penyesuaian ukuran dengan membatasi tinggi
+
+Diperbaiki
+- Perbaiki linimasa gambar yang tidak memuat karya baru dan kehilangan kiriman setelah dimulai ulang
+- Perbaiki perubahan teks alternatif yang hilang saat mengedit kiriman terjadwal
+- Perbaiki kutipan yang hilang pada kiriman terjadwal
+- Perbaiki format `quote_approval` yang tidak terduga dari instans GlitchSocial
+- Perbaiki kiriman terjadwal: item yang salah dihapus dari daftar dan penundaan minimum diberlakukan
+- Perbaiki pagination untuk status dan akun dalam pencarian
+- Perbaiki kiriman duplikat saat salah satu kiriman dalam suatu rangkaian gagal
+- Perbaiki crash saat menyembunyikan/menghapus linimasa setelah penghapusan lain
+- Perbaiki pesan kesalahan compose yang tidak langsung ditampilkan dalam tampilan utas
+- Perbaiki tombol kutipan yang tidak dinonaktifkan saat kutipan ditolak
+- Perbaiki pagination untuk instans dengan ID nonalfanumerik
+- Perbaiki resolusi mention jarak jauh
+- Perbaiki visibilitas kutipan yang dipaksa menjadi tidak terdaftar, alih-alih menggunakan nilai bawaan

@@ -1,0 +1,23 @@
+Ditambahkan:
+- Susun ulang pengaturan berdasarkan kategori dan pencarian
+- Tambahkan opsi untuk menyegarkan semua linimasa sekaligus saat menarik untuk menyegarkan
+- Dukung durasi jajak pendapat kustom berdasarkan `max_expiration` instans
+- Dukung protokol `web+ap://` dan `web+activitypub://` dengan pemilih akun
+- Izinkan melihat kutipan pada kiriman apa pun
+- Izinkan instalasi pada perangkat ChromeOS tanpa layar sentuh
+- Tambahkan Bluesky ke penulisan ulang tautan SkyView
+
+Diperbaiki
+- Perbaiki kegagalan login Pixelfed
+- Perbaiki kursor yang melompat saat menyembunyikan keyboard dengan mention di bagian atas
+- Perbaiki stempel waktu notifikasi yang tidak diperbarui saat dimuat ulang
+- Perbaiki awalan CW dengan “re: ” saat membalas pesan dengan CW
+- Perbaiki kiriman yang dikutip agar dapat di-resolve dengan benar pada linimasa jarak jauh
+- Perbaiki penghapusan daftar secara tidak sengaja dari layar pengeditan linimasa
+- Perbaiki pembukaan beberapa dialog pengeditan filter saat mengetuk dua kali
+- Perbaiki area sentuh tombol pengaburan gambar sensitif yang diperbesar
+- Perbaiki crash saat mengeklik hasil pencarian di pengaturan setelah berpindah halaman
+- Perbaiki crash saat menulis balasan dengan mention null (instans Sharkey)
+- Perbaiki crash dalam notifikasi dengan ID null
+- Perbaiki freeze pada kiriman dengan tag HTML bertingkat dalam dari Misskey MFM
+- Tambahkan batasan jaringan ke worker cache beranda di latar belakang
