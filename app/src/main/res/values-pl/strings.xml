@@ -951,7 +951,7 @@
     <string name="set_display_quote_indication">Przycisk cytowania</string>
     <string name="set_display_reaction_indication">Wyświetlanie przycisków \"Reakcje\"</string>
     <string name="hide_single_media_with_card">Ukryj pojedyncze media, gdy jest podgląd linku</string>
-    <string name="compose_shortcut_short_label1">Skomponuj</string>
+    <string name="compose_shortcut_short_label1">Napisz</string>
     <string name="otp_message">Token do uwierzytelniania dwuskładnikowego</string>
     <string name="fetch_home_every">Czasowe odświeżanie Home</string>
     <string name="toast_error_peertube_not_supported">Twój Peertube jest zbyt stary i nie może być obsługiwany przez aplikację.</string>
