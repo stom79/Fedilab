@@ -1,0 +1,9 @@
+Añadido:
+- Añadido soporte para el sistema de traducción automática MinT
+- Añadido soporte "sólo en instancia" para GoToSocial
+
+Arreglado:
+- Ahora se muestran GIF en las cronologías
+- Arreglado un error al desfijar las cronologías
+- Coloración de la barra superior en el desplazamiento de las conversaciones
+- Pantalla negra al regresar de la sección Peertube

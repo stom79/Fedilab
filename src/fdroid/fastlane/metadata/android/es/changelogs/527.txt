@@ -1,0 +1,10 @@
+Añadido:
+- Soporte del esquema de URL "web+ap" para abrir perfiles con la aplicación
+
+Cambiado:
+- Diseño para las descripciones de medios
+
+Corregido:
+- Corregido un error al traducir descripciones de medios
+- Se maneja incluido dos veces al responder a un impulso propio
+- Corregidos problemas de color al usar un tema personalizado
