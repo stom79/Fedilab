@@ -94,6 +94,9 @@ public class FragmentMastodonAccount extends Fragment {
     }
 
     private void initializeAfterBundle(Bundle bundle) {
+        if (!isAdded()) {
+            return;
+        }
         if (bundle != null) {
             search = bundle.getString(Helper.ARG_SEARCH_KEYWORD, null);
             if (bundle.containsKey(Helper.ARG_ACCOUNT)) {

@@ -200,6 +200,9 @@ public class FragmentMastodonContext extends Fragment {
     }
 
     private void initializeAfterBundle(Bundle bundle) {
+        if (!isAdded()) {
+            return;
+        }
         if (bundle != null) {
             focusedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);
             remote_instance = bundle.getString(Helper.ARG_REMOTE_INSTANCE, null);

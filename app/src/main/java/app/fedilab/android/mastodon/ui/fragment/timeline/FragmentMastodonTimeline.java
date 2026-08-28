@@ -485,6 +485,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     private void initializeAfterBundle(Bundle bundle) {
+        if (!isAdded()) {
+            return;
+        }
         if (bundle != null) {
             timelineType = (Timeline.TimeLineEnum) bundle.get(Helper.ARG_TIMELINE_TYPE);
             lemmy_post_id = bundle.getString(Helper.ARG_LEMMY_POST_ID, null);

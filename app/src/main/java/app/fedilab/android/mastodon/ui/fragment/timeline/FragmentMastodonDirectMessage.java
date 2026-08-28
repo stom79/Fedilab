@@ -147,6 +147,9 @@ public class FragmentMastodonDirectMessage extends Fragment {
 
 
     private void initializeAfterBundle(Bundle bundle) {
+        if (!isAdded()) {
+            return;
+        }
 
         if (bundle != null) {
             focusedStatus = (Status) bundle.getSerializable(Helper.ARG_STATUS);

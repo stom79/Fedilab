@@ -107,6 +107,9 @@ public class FragmentMediaProfile extends Fragment {
 
 
     private void initializeAfterBundle(Bundle bundle) {
+        if (!isAdded()) {
+            return;
+        }
 
         if (bundle != null) {
             if (bundle.containsKey(Helper.ARG_ACCOUNT)) {
