@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.github.penfeizhou.animation.FrameAnimationDrawable;
 import com.github.penfeizhou.animation.apng.APNGDrawable;
 import com.github.penfeizhou.animation.gif.GifDrawable;
 import com.github.penfeizhou.animation.webp.WebPDrawable;
@@ -43,6 +44,9 @@ import java.util.List;
 import app.fedilab.android.R;
 
 public class EmojiLoader {
+
+    private static final int MAX_EMOJI_WIDTH = 512;
+    private static final int MAX_EMOJI_HEIGHT = 256;
 
     public static void loadEmoji(ImageView view, String url) {
         Glide.with(view)
@@ -109,33 +113,66 @@ public class EmojiLoader {
     private static Drawable decodeFile(Resources resources, File file) {
         int fileType = getFileType(file);
         if (fileType == TYPE_APNG) {
-            return APNGDrawable.fromFile(file.getAbsolutePath());
+            Drawable drawable = APNGDrawable.fromFile(file.getAbsolutePath());
+            applyDecodeSample(drawable, file);
+            return drawable;
         } else if (fileType == TYPE_PNG) {
-            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Bitmap bitmap = decodeSampledBitmap(file);
             if (bitmap != null) {
                 return new BitmapDrawable(resources, bitmap);
             }
         } else if (fileType == TYPE_GIF_ANIMATED) {
-            return GifDrawable.fromFile(file.getAbsolutePath());
+            Drawable drawable = GifDrawable.fromFile(file.getAbsolutePath());
+            applyDecodeSample(drawable, file);
+            return drawable;
         } else if (fileType == TYPE_GIF) {
-            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Bitmap bitmap = decodeSampledBitmap(file);
             if (bitmap != null) {
                 return new BitmapDrawable(resources, bitmap);
             }
         } else if (fileType == TYPE_WEBP_ANIMATED) {
-            return WebPDrawable.fromFile(file.getAbsolutePath());
+            Drawable drawable = WebPDrawable.fromFile(file.getAbsolutePath());
+            applyDecodeSample(drawable, file);
+            return drawable;
         } else if (fileType == TYPE_WEBP) {
-            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Bitmap bitmap = decodeSampledBitmap(file);
             if (bitmap != null) {
                 return new BitmapDrawable(resources, bitmap);
             }
         }
         // Fallback to BitmapDrawable for other formats (JPEG, etc.)
-        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        Bitmap bitmap = decodeSampledBitmap(file);
         if (bitmap != null) {
             return new BitmapDrawable(resources, bitmap);
         }
         return null;
+    }
+
+    private static void applyDecodeSample(Drawable drawable, File file) {
+        BitmapFactory.Options boundsOptions = new BitmapFactory.Options();
+        boundsOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file.getAbsolutePath(), boundsOptions);
+        int sampleSize = computeSampleSize(boundsOptions.outWidth, boundsOptions.outHeight);
+        if (sampleSize > 1 && drawable instanceof FrameAnimationDrawable) {
+            drawable.setBounds(0, 0, boundsOptions.outWidth / sampleSize, boundsOptions.outHeight / sampleSize);
+        }
+    }
+
+    private static Bitmap decodeSampledBitmap(File file) {
+        BitmapFactory.Options boundsOptions = new BitmapFactory.Options();
+        boundsOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(file.getAbsolutePath(), boundsOptions);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = computeSampleSize(boundsOptions.outWidth, boundsOptions.outHeight);
+        return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+    }
+
+    private static int computeSampleSize(int width, int height) {
+        int sampleSize = 1;
+        while (width > MAX_EMOJI_WIDTH * sampleSize || height > MAX_EMOJI_HEIGHT * sampleSize) {
+            sampleSize *= 2;
+        }
+        return sampleSize;
     }
 
     private static final int TYPE_UNKNOWN = 0;
