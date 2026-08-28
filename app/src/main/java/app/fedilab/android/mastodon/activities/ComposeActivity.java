@@ -160,6 +160,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     };
     private boolean promptSaveDraft;
     private boolean restoredDraft;
+    private StatusDraft savedInstanceStateDraft;
     private List<Attachment> sharedAttachments;
     private ActivityPaginationBinding binding;
     private BaseAccount account;
@@ -219,6 +220,28 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_AUDIO_PERMISSION_RESULT && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             recordVoiceMessage();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (promptSaveDraft && account != null && composeAdapter != null) {
+            StatusDraft currentDraft = ComposeAdapter.prepareDraft(statusList, composeAdapter, account.instance, account.user_id);
+            if (statusDraft != null) {
+                currentDraft.id = statusDraft.id;
+                currentDraft.scheduled_at = statusDraft.scheduled_at;
+                currentDraft.workerUuid = statusDraft.workerUuid;
+            }
+            outState.putSerializable(Helper.ARG_STATUS_DRAFT, currentDraft);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!isFinishing() && promptSaveDraft && composeAdapter != null) {
+            storeDraft(false);
         }
     }
 
@@ -499,6 +522,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         setSupportActionBar(binding.toolbar);
         promptSaveDraft = false;
         restoredDraft = false;
+        if (savedInstanceState != null) {
+            savedInstanceStateDraft = (StatusDraft) savedInstanceState.getSerializable(Helper.ARG_STATUS_DRAFT);
+        }
         actionBar = getSupportActionBar();
         //Remove title
         if (actionBar != null) {
@@ -624,6 +650,9 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 if (token == null) {
                     token = account.token;
                 }
+                if (savedInstanceStateDraft != null) {
+                    statusDraft = savedInstanceStateDraft;
+                }
                 if (emojis == null || !emojis.containsKey(instance)) {
                     new Thread(() -> {
                         try {
@@ -650,7 +679,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                 }
                 statusDraftList.add(status);
 
-                if (statusReplyId != null && statusDraft != null) {//Delete and redraft
+                if (statusReplyId != null && statusDraft != null && savedInstanceStateDraft == null) {//Delete and redraft
                     statusesVM.getStatus(currentInstance, BaseMainActivity.currentToken, statusReplyId)
                             .observe(ComposeActivity.this, status1 -> {
                                 if (status1 != null) {
@@ -668,6 +697,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
                             });
                 } else if (statusDraft != null) {//Restore a draft with all messages
                     restoredDraft = true;
+                    promptSaveDraft = true;
                     if (statusDraft.statusReplyList != null) {
                         statusList.addAll(statusDraft.statusReplyList);
                         binding.recyclerView.addItemDecoration(new DividerDecorationSimple(ComposeActivity.this, statusList));
