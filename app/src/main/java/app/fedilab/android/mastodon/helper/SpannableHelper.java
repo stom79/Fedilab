@@ -819,6 +819,18 @@ public class SpannableHelper {
                 }
             });
         } else {
+            String path = Uri.parse(finalUrl).getPath();
+            boolean fediversePath = path != null && (path.startsWith("/@")
+                    || path.contains("/users/")
+                    || path.contains("/notes/")
+                    || path.contains("/notice/")
+                    || path.contains("/statuses/")
+                    || path.contains("/profile/")
+                    || path.contains("/objects/"));
+            if (!fediversePath) {
+                Helper.openBrowser(context, finalUrl);
+                return;
+            }
             String domain = Uri.parse(finalUrl).getHost();
             Helper.checkFediverse(context, domain, isFediverse -> {
                 if (isFediverse) {
