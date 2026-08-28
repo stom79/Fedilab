@@ -129,6 +129,29 @@ public class FragmentMastodonDirectMessage extends Fragment {
             }
         }
     };
+    private boolean receiversRegistered = false;
+
+    private void registerReceivers() {
+        if (receiversRegistered) {
+            return;
+        }
+        receiversRegistered = true;
+        try {
+            ContextCompat.registerReceiver(requireActivity(), broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void unregisterReceivers() {
+        if (!receiversRegistered) {
+            return;
+        }
+        receiversRegistered = false;
+        try {
+            requireActivity().unregisterReceiver(broadcast_data);
+        } catch (Exception ignored) {
+        }
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -226,7 +249,7 @@ public class FragmentMastodonDirectMessage extends Fragment {
             statusCompose.text = binding.text.getText().toString();
             onSubmit(prepareDraft(statusCompose, MainActivity.currentInstance, MainActivity.currentUserID));
         });
-        ContextCompat.registerReceiver(requireActivity(), broadcast_data, new IntentFilter(Helper.BROADCAST_DATA), ContextCompat.RECEIVER_NOT_EXPORTED);
+        registerReceivers();
         binding.text.setKeyBoardInputCallbackListener((inputContentInfo, flags, opts) -> {
             if (inputContentInfo != null) {
                 Uri uri = inputContentInfo.getContentUri();
@@ -289,12 +312,14 @@ public class FragmentMastodonDirectMessage extends Fragment {
 
     @Override
     public void onDestroyView() {
-        try {
-            requireActivity().unregisterReceiver(broadcast_data);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+        unregisterReceivers();
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceivers();
+        super.onDestroy();
     }
 
 

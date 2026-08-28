@@ -106,6 +106,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private String tagged;
     private List<Status> timelineStatuses;
     private boolean isRefreshing;
+    private boolean receiversRegistered = false;
     private final BroadcastReceiver receive_refresh_all = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -612,10 +613,34 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             initializeView();
             needToCallResume = false;
         }
+        registerReceivers();
+    }
+
+    private void registerReceivers() {
+        if (receiversRegistered) {
+            return;
+        }
+        receiversRegistered = true;
         try {
             ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
             ContextCompat.registerReceiver(requireActivity(), receive_refresh_all, new IntentFilter(Helper.RECEIVE_REFRESH_ALL_TIMELINES), ContextCompat.RECEIVER_NOT_EXPORTED);
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void unregisterReceivers() {
+        if (!receiversRegistered) {
+            return;
+        }
+        receiversRegistered = false;
+        try {
+            requireActivity().unregisterReceiver(receive_action);
+        } catch (Exception ignored) {
+        }
+        try {
+            requireActivity().unregisterReceiver(receive_refresh_all);
+        } catch (Exception ignored) {
+        }
     }
 
     /**
@@ -1339,14 +1364,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (isAdded()) {
             storeMarker(Helper.getCurrentAccount(requireActivity()));
         }
-        try {
-            requireActivity().unregisterReceiver(receive_action);
-        } catch (Exception ignored) {
-        }
-        try {
-            requireActivity().unregisterReceiver(receive_refresh_all);
-        } catch (Exception ignored) {
-        }
+        unregisterReceivers();
         if (scrollTopRunnable != null && binding != null) {
             binding.recyclerView.removeCallbacks(scrollTopRunnable);
         }
@@ -1354,6 +1372,12 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             statusAdapter.releaseViewHolders(binding.recyclerView);
         }
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceivers();
+        super.onDestroy();
     }
 
 

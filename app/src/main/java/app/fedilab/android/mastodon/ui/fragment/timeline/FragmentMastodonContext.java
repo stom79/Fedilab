@@ -146,6 +146,7 @@ public class FragmentMastodonContext extends Fragment {
             }
         }
     };
+    private boolean receiversRegistered = false;
     private boolean refresh;
     private Status focusedStatus;
     private String remote_instance, focusedStatusURI;
@@ -254,7 +255,29 @@ public class FragmentMastodonContext extends Fragment {
                     .observe(getViewLifecycleOwner(), this::initializeContextView);
         }
 
-        ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
+        registerReceivers();
+    }
+
+    private void registerReceivers() {
+        if (receiversRegistered) {
+            return;
+        }
+        receiversRegistered = true;
+        try {
+            ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void unregisterReceivers() {
+        if (!receiversRegistered) {
+            return;
+        }
+        receiversRegistered = false;
+        try {
+            requireActivity().unregisterReceiver(receive_action);
+        } catch (Exception ignored) {
+        }
     }
 
 
@@ -480,15 +503,17 @@ public class FragmentMastodonContext extends Fragment {
 
     @Override
     public void onDestroyView() {
-        try {
-            requireActivity().unregisterReceiver(receive_action);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+        unregisterReceivers();
         if (statusAdapter != null && binding != null) {
             statusAdapter.releaseViewHolders(binding.recyclerView);
         }
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceivers();
+        super.onDestroy();
     }
 
 

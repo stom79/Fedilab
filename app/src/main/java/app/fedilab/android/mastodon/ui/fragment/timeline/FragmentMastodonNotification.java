@@ -142,6 +142,34 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             }
         }
     };
+    private boolean receiversRegistered = false;
+
+    private void registerReceivers() {
+        if (receiversRegistered) {
+            return;
+        }
+        receiversRegistered = true;
+        try {
+            ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
+            ContextCompat.registerReceiver(requireActivity(), receive_refresh, new IntentFilter(Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void unregisterReceivers() {
+        if (!receiversRegistered) {
+            return;
+        }
+        receiversRegistered = false;
+        try {
+            requireActivity().unregisterReceiver(receive_action);
+        } catch (Exception ignored) {
+        }
+        try {
+            requireActivity().unregisterReceiver(receive_refresh);
+        } catch (Exception ignored) {
+        }
+    }
 
     //Allow to recreate data when detaching/attaching fragment
     public void recreate() {
@@ -242,8 +270,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
         }
         aggregateNotification = false;
 
-        ContextCompat.registerReceiver(requireActivity(), receive_action, new IntentFilter(Helper.RECEIVE_STATUS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
-        ContextCompat.registerReceiver(requireActivity(), receive_refresh, new IntentFilter(Helper.RECEIVE_REFRESH_NOTIFICATIONS_ACTION), ContextCompat.RECEIVER_NOT_EXPORTED);
+        registerReceivers();
         return root;
     }
 
@@ -872,16 +899,17 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     @Override
     public void onDestroyView() {
 
-        try {
-            requireActivity().unregisterReceiver(receive_action);
-            requireActivity().unregisterReceiver(receive_refresh);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+        unregisterReceivers();
         if (isAdded()) {
             storeMarker(Helper.getCurrentAccount(requireActivity()));
         }
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceivers();
+        super.onDestroy();
     }
 
     @Override
