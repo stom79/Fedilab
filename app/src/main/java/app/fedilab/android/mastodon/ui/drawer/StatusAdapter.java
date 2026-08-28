@@ -98,6 +98,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.media3.common.C;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.Player;
 import androidx.media3.datasource.DataSource;
@@ -2211,7 +2212,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 int MIN_PLAYBACK_RESUME_BUFFER = 1024;
                                 int MIN_PLAYBACK_START_BUFFER = 1024;
                                 DefaultLoadControl defaultLoadControl = new DefaultLoadControl.Builder()
-                                        .setAllocator(new DefaultAllocator(true, 16))
+                                        .setAllocator(new DefaultAllocator(true, C.DEFAULT_BUFFER_SEGMENT_SIZE))
                                         .setBufferDurationsMs(MIN_BUFFER_DURATION,
                                                 MIN_BUFFER_DURATION*5,
                                                 MIN_PLAYBACK_START_BUFFER,
@@ -2335,7 +2336,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 int MIN_PLAYBACK_RESUME_BUFFER = 1024;
                                 int MIN_PLAYBACK_START_BUFFER = 1024;
                                 DefaultLoadControl defaultLoadControl = new DefaultLoadControl.Builder()
-                                        .setAllocator(new DefaultAllocator(true, 16))
+                                        .setAllocator(new DefaultAllocator(true, C.DEFAULT_BUFFER_SEGMENT_SIZE))
                                         .setBufferDurationsMs(MIN_BUFFER_DURATION,
                                                 MIN_BUFFER_DURATION*5,
                                                 MIN_PLAYBACK_START_BUFFER,
