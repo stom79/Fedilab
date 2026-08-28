@@ -1,0 +1,13 @@
+Improved:
+- Keep the composer content when the app restarts or the theme changes
+
+Fixed:
+- Fix the timeline position not being saved or restored at the wrong place
+- Fix the timeline order with accounts using non numeric ids (GoToSocial)
+- Fix links to non fediverse pages opening the wrong content in the app
+- Fix a memory crash after long navigation
+- Fix memory issues with large custom emojis
+- Fix a memory leak when closing a screen with videos
+- Fix memory issues with auto-play videos
+- Fix a crash when leaving a screen quickly
+- Fix slow timelines when scrolling posts with quotes

@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.43.2",
+    "code": "567",
+    "note": "Improved:\n- Keep the composer content when the app restarts or the theme changes\n\nFixed:\n- Fix the timeline position not being saved or restored at the wrong place\n- Fix the timeline order with accounts using non numeric ids (GoToSocial)\n- Fix links to non fediverse pages opening the wrong content in the app\n- Fix a memory crash after long navigation\n- Fix memory issues with large custom emojis\n- Fix a memory leak when closing a screen with videos\n- Fix memory issues with auto-play videos\n- Fix a crash when leaving a screen quickly\n- Fix slow timelines when scrolling posts with quotes\n"
+  },
+  {
     "version": "3.43.1",
     "code": "566",
     "note": "Improved:\n- Load content behind a content warning only when it is opened\n\nFixed:\n- Fix a freeze on posts with a large number of custom emojis\n- Fix quoted posts with a content warning not opening in notifications"
