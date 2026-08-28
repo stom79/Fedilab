@@ -1350,6 +1350,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         if (scrollTopRunnable != null && binding != null) {
             binding.recyclerView.removeCallbacks(scrollTopRunnable);
         }
+        if (statusAdapter != null && binding != null) {
+            statusAdapter.releaseViewHolders(binding.recyclerView);
+        }
         super.onDestroyView();
     }
 

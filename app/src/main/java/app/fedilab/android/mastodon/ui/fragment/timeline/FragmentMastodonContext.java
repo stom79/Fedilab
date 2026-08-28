@@ -485,6 +485,9 @@ public class FragmentMastodonContext extends Fragment {
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
+        if (statusAdapter != null && binding != null) {
+            statusAdapter.releaseViewHolders(binding.recyclerView);
+        }
         super.onDestroyView();
     }
 

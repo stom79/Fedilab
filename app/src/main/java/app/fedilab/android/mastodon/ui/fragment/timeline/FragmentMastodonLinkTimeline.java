@@ -63,6 +63,14 @@ public class FragmentMastodonLinkTimeline extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        if (statusAdapter != null && binding != null) {
+            statusAdapter.releaseViewHolders(binding.recyclerView);
+        }
+        super.onDestroyView();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.loader.setVisibility(View.VISIBLE);

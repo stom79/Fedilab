@@ -4685,36 +4685,49 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder viewHolder) {
         super.onViewRecycled(viewHolder);
         if (viewHolder instanceof StatusViewHolder holder) {
-            //Cancel active timer
-            if (holder.activeTimer != null) {
-                holder.activeTimer.cancel();
-                holder.activeTimer = null;
-            }
+            releaseViewHolder(holder);
+        }
+    }
 
-            //Release all tracked players
-            for (ExoPlayer player : holder.activePlayers) {
-                if (player != null) {
-                    player.release();
-                }
+    public void releaseViewHolders(@NonNull RecyclerView recyclerView) {
+        for (int position = 0; position < recyclerView.getChildCount(); position++) {
+            RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(recyclerView.getChildAt(position));
+            if (viewHolder instanceof StatusViewHolder holder) {
+                releaseViewHolder(holder);
             }
-            holder.activePlayers.clear();
+        }
+    }
 
-            //Release players in views (legacy cleanup)
-            if (holder.binding != null) { //Cropped views
-                if(holder.binding.media.getRoot().getChildCount() > 0) {
-                    for(int i = 0 ; i < holder.binding.media.getRoot().getChildCount() ; i++ ) {
-                        PlayerView doubleTapPlayerView =  holder.binding.media.getRoot().getChildAt(i).findViewById(R.id.media_video);
-                        if (doubleTapPlayerView != null && doubleTapPlayerView.getPlayer() != null) {
-                            doubleTapPlayerView.getPlayer().release();
-                        }
+    private void releaseViewHolder(StatusViewHolder holder) {
+        //Cancel active timer
+        if (holder.activeTimer != null) {
+            holder.activeTimer.cancel();
+            holder.activeTimer = null;
+        }
+
+        //Release all tracked players
+        for (ExoPlayer player : holder.activePlayers) {
+            if (player != null) {
+                player.release();
+            }
+        }
+        holder.activePlayers.clear();
+
+        //Release players in views (legacy cleanup)
+        if (holder.binding != null) { //Cropped views
+            if(holder.binding.media.getRoot().getChildCount() > 0) {
+                for(int i = 0 ; i < holder.binding.media.getRoot().getChildCount() ; i++ ) {
+                    PlayerView doubleTapPlayerView =  holder.binding.media.getRoot().getChildAt(i).findViewById(R.id.media_video);
+                    if (doubleTapPlayerView != null && doubleTapPlayerView.getPlayer() != null) {
+                        doubleTapPlayerView.getPlayer().release();
                     }
                 }
-                if (holder.binding.mediaContainer.getChildCount() > 0) { //Not cropped views
-                    for(int i = 0 ; i < holder.binding.mediaContainer.getChildCount() ; i++ ) {
-                        PlayerView doubleTapPlayerView =  holder.binding.mediaContainer.getChildAt(i).findViewById(R.id.media_video);
-                        if (doubleTapPlayerView != null && doubleTapPlayerView.getPlayer() != null) {
-                            doubleTapPlayerView.getPlayer().release();
-                        }
+            }
+            if (holder.binding.mediaContainer.getChildCount() > 0) { //Not cropped views
+                for(int i = 0 ; i < holder.binding.mediaContainer.getChildCount() ; i++ ) {
+                    PlayerView doubleTapPlayerView =  holder.binding.mediaContainer.getChildAt(i).findViewById(R.id.media_video);
+                    if (doubleTapPlayerView != null && doubleTapPlayerView.getPlayer() != null) {
+                        doubleTapPlayerView.getPlayer().release();
                     }
                 }
             }
