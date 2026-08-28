@@ -239,6 +239,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private boolean reverseOrder;
     private String reverseOrderMinId;
     private boolean rememberPosition;
+    private boolean restoredWithMarker;
+    private String markerRestoreTopId;
     private String publicTrendsDomain;
     private boolean restoredFromSavedState;
     private int savedScrollPosition = -1;
@@ -278,6 +280,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
         if (max_id == null && !isViewInitialized && rememberPosition) {
             max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
+            restoredWithMarker = max_id != null;
         }
         //Only fragment in main view pager should not have the view initialized
         //AND Only the first fragment will initialize its view
@@ -588,6 +591,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //Inner marker are only for pinned timelines and main timelines, they have isViewInitialized set to false
         if (max_id == null && !isViewInitialized && rememberPosition) {
             max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + slug, null);
+            restoredWithMarker = max_id != null;
         }
         //Only fragment in main view pager should not have the view initialized
         //AND Only the first fragment will initialize its view
@@ -903,6 +907,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }
             return;
         }
+        if (restoredWithMarker && markerRestoreTopId == null && statuses != null && statuses.statuses != null && !statuses.statuses.isEmpty()) {
+            markerRestoreTopId = statuses.statuses.get(0).id;
+        }
 
         binding.loader.setVisibility(View.GONE);
         binding.noAction.setVisibility(View.GONE);
@@ -1138,9 +1145,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     statusAdapter.notifyItemRangeChanged(0, timelineStatuses.size());
                     //We loop through messages already in the timeline
                     for (Status statusAlreadyPresent : timelineStatuses) {
-                        //We compare the id of each status and we only add status having an id greater than the another, it is inserted at this position
+                        //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
                         //Pinned messages are ignored because their date can be older
-                        if (Helper.compareTo(statusReceived.id, statusAlreadyPresent.id) > 0 && !statusAlreadyPresent.pinned) {
+                        if (statusReceived.created_at != null && statusAlreadyPresent.created_at != null && statusReceived.created_at.compareTo(statusAlreadyPresent.created_at) > 0 && !statusAlreadyPresent.pinned) {
                             //We add the status to a list of id - thus we know it is already in the timeline
                             if (!timelineStatuses.contains(statusReceived)) {
                                 timelineStatuses.add(position, statusReceived);
@@ -1383,26 +1390,30 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
     private void storeMarker(BaseAccount connectedAccount) {
         if (mLayoutManager != null) {
-            int position;
-            if (reverseTimeline) {
-                position = mLayoutManager.findLastVisibleItemPosition();
-            } else {
-                position = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-                if (position == RecyclerView.NO_POSITION) {
-                    position = mLayoutManager.findFirstVisibleItemPosition();
-                }
+            int position = mLayoutManager.findFirstCompletelyVisibleItemPosition();
+            if (position == RecyclerView.NO_POSITION) {
+                position = mLayoutManager.findFirstVisibleItemPosition();
             }
             if (timelineStatuses != null && position >= 0 && timelineStatuses.size() > position) {
                 try {
                     Status status = timelineStatuses.get(position);
-                    String markerId = status.id;
-                    if (!reverseTimeline) {
-                        int anchor = position - 1;
-                        markerId = anchor >= 0 ? timelineStatuses.get(anchor).id : null;
+                    int anchor = position - 1;
+                    String markerId;
+                    if (anchor >= 0) {
+                        markerId = timelineStatuses.get(anchor).id;
+                    } else if (timelineStatuses.get(0).id != null && timelineStatuses.get(0).id.equals(markerRestoreTopId)) {
+                        return;
+                    } else {
+                        markerId = null;
                     }
                     SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                     SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString(getString(R.string.SET_INNER_MARKER) + connectedAccount.user_id + connectedAccount.instance + slug, markerId);
+                    String markerKey = getString(R.string.SET_INNER_MARKER) + connectedAccount.user_id + connectedAccount.instance + slug;
+                    if (markerId != null) {
+                        editor.putString(markerKey, markerId);
+                    } else {
+                        editor.remove(markerKey);
+                    }
                     editor.apply();
                     if (timelineType == Timeline.TimeLineEnum.HOME) {
                         timelinesVM.addMarker(connectedAccount.instance, connectedAccount.token, status.id, null);

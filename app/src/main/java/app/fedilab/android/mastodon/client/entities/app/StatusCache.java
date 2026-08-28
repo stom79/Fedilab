@@ -576,6 +576,22 @@ public class StatusCache {
     }
 
     /**
+     * Order expression matching the id format
+     *
+     * @param min_id   String - status having min id
+     * @param max_id   String - status having max id
+     * @param since_id String - status having since id
+     * @return String - order by expression
+     */
+    private String orderByExpression(String min_id, String max_id, String since_id) {
+        String referenceId = min_id != null ? min_id : (max_id != null ? max_id : since_id);
+        if (referenceId != null && !Helper.isNumeric(referenceId)) {
+            return Sqlite.COL_STATUS_ID + " ";
+        }
+        return Sqlite.COL_STATUS_ID + " + 0 ";
+    }
+
+    /**
      * Get paginated notifications from db
      *
      * @param instance String - instance
@@ -624,7 +640,7 @@ public class StatusCache {
             selection += "AND " + Sqlite.COL_SLUG + " NOT IN (" + exclude + ") ";
         }
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + " + 0 " + order, limit);
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, orderByExpression(min_id, max_id, since_id) + order, limit);
             return cursorToListOfNotifications(c);
         } catch (Exception e) {
             e.printStackTrace();
@@ -682,7 +698,7 @@ public class StatusCache {
             limit = null;
         }
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + " + 0 " + order, limit);
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, orderByExpression(min_id, max_id, since_id) + order, limit);
             return cursorToListOfConversations(c);
         } catch (Exception e) {
             e.printStackTrace();
@@ -731,7 +747,7 @@ public class StatusCache {
             limit = null;
         }
         try {
-            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, Sqlite.COL_STATUS_ID + " + 0 " + order, limit);
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, null, Sqlite.COL_STATUS_ID, null, orderByExpression(min_id, max_id, since_id) + order, limit);
             return cursorToListOfStatuses(c);
         } catch (Exception e) {
             e.printStackTrace();

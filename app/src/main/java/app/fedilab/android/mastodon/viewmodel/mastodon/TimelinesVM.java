@@ -826,6 +826,10 @@ public class TimelinesVM extends AndroidViewModel {
                     }
                     statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusesDb, timelineParams.type);
                     if (statuses.statuses.size() > 0) {
+                        //Sort by date, min_id windows keep asc order
+                        if (timelineParams.minId == null) {
+                            Collections.sort(statuses.statuses, (status1, status2) -> status2.created_at.compareTo(status1.created_at));
+                        }
                         addFetchMore(statuses.statuses, timelineStatuses, timelineParams);
                         statuses.pagination = new Pagination();
                         statuses.pagination.min_id = statuses.statuses.get(0).id;
