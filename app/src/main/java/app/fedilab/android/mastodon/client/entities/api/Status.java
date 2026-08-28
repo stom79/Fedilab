@@ -96,6 +96,9 @@ public class Status implements Serializable, Cloneable {
     @SerializedName("quote")
     private Object quote;
     private transient Status quoteCache;
+    private transient boolean quoteResolved = false;
+    private static final ObjectWriter quoteWriter = new ObjectMapper().writer();
+    private static final Gson quoteGson = new Gson();
     @SerializedName("application")
     public App application;
     @SerializedName("account")
@@ -138,15 +141,19 @@ public class Status implements Serializable, Cloneable {
         if (quoteCache != null) {
             return quoteCache;
         }
-        Status quote = null;
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = String.valueOf(this.quote);
-        try {
-            json = ow.writeValueAsString(this.quote);
-        } catch (JsonProcessingException ignored) {
+        if (quoteResolved) {
+            return null;
         }
-        Gson gson = new Gson();
-        try{
+        quoteResolved = true;
+        String json;
+        try {
+            json = quoteWriter.writeValueAsString(this.quote);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+        Gson gson = quoteGson;
+        Status quote = null;
+        try {
             quote = gson.fromJson(json, Status.class);
             if(quote != null && quote.account == null) {
                 MastodonQuote mastodonQuote = gson.fromJson(json, MastodonQuote.class);
@@ -167,6 +174,7 @@ public class Status implements Serializable, Cloneable {
     public void setQuote(Status quote) {
         this.quote =quote;
         this.quoteCache = quote;
+        this.quoteResolved = quote != null;
     }
     public String attachedNotification = null;
     public int gifPosition = 0;
