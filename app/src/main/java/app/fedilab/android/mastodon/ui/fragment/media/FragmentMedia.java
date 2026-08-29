@@ -46,6 +46,8 @@ import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DataSource;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.hls.HlsMediaSource;
+import androidx.media3.exoplayer.source.MediaSource;
 import androidx.media3.exoplayer.source.ProgressiveMediaSource;
 import androidx.preference.PreferenceManager;
 
@@ -335,10 +337,10 @@ public class FragmentMedia extends Fragment {
                     TimelinesVM timelinesVM = new ViewModelProvider(requireActivity()).get(TimelinesVM.class);
                     String finalType = type;
                     timelinesVM.getPeertubeVideo(attachment.peertubeHost, attachment.peertubeId).observe(requireActivity(), video -> {
-                        if (video != null && video.files != null && video.files.size() > 0) {
+                        if (video != null && video.streamingPlaylists != null && video.streamingPlaylists.size() > 0 && video.streamingPlaylists.get(0).playlistUrl != null) {
+                            loadVideo(video.streamingPlaylists.get(0).playlistUrl, finalType);
+                        } else if (video != null && video.files != null && video.files.size() > 0) {
                             loadVideo(video.files.get(0).fileUrl, finalType);
-                        } else if (video != null && video.streamingPlaylists != null && video.streamingPlaylists.size() > 0 && video.streamingPlaylists.get(0).files.size() > 0) {
-                            loadVideo(video.streamingPlaylists.get(0).files.get(0).fileUrl, finalType);
                         }
                     });
                 } else {
@@ -376,15 +378,19 @@ public class FragmentMedia extends Fragment {
         Uri uri = Uri.parse(url);
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
         int video_cache = sharedpreferences.getInt(getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
-        ProgressiveMediaSource videoSource;
-        MediaItem mediaItem = new MediaItem.Builder().setUri(uri).build();
+        DataSource.Factory dataSourceFactory;
         if (video_cache == 0) {
-            DataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(requireActivity());
-            videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
+            dataSourceFactory = new DefaultDataSource.Factory(requireActivity());
+        } else {
+            dataSourceFactory = new CacheDataSourceFactory(requireActivity());
+        }
+        MediaItem mediaItem = new MediaItem.Builder().setUri(uri).build();
+        MediaSource videoSource;
+        if (url.endsWith(".m3u8")) {
+            videoSource = new HlsMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(mediaItem);
         } else {
-            CacheDataSourceFactory cacheDataSourceFactory = new CacheDataSourceFactory(requireActivity());
-            videoSource = new ProgressiveMediaSource.Factory(cacheDataSourceFactory)
+            videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(mediaItem);
         }
         player = new ExoPlayer.Builder(requireActivity()).build();

@@ -1190,9 +1190,18 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
 
-        boolean display_card = linkPreviews.equals(linkPreviewsEntryValues[0]) || (linkPreviews.equals(linkPreviewsEntryValues[1]) && (statusToDeal.media_attachments == null || statusToDeal.media_attachments.isEmpty() || (hideSingleMediaWithCard && statusToDeal.media_attachments.size() == 1)));
+        boolean hasPeertubeAttachment = false;
+        if (statusToDeal.media_attachments != null) {
+            for (Attachment peertubeAttachment : statusToDeal.media_attachments) {
+                if (peertubeAttachment.peertubeId != null) {
+                    hasPeertubeAttachment = true;
+                    break;
+                }
+            }
+        }
+        boolean display_card = !hasPeertubeAttachment && (linkPreviews.equals(linkPreviewsEntryValues[0]) || (linkPreviews.equals(linkPreviewsEntryValues[1]) && (statusToDeal.media_attachments == null || statusToDeal.media_attachments.isEmpty() || (hideSingleMediaWithCard && statusToDeal.media_attachments.size() == 1))));
 
-        if (statusToDeal.card != null && (display_card || statusToDeal.isFocused) && statusToDeal.quote_id == null) {
+        if (statusToDeal.card != null && (display_card || statusToDeal.isFocused) && !hasPeertubeAttachment && statusToDeal.quote_id == null) {
             if (statusToDeal.card.width > statusToDeal.card.height) {
                 holder.binding.cardImageHorizontal.setVisibility(View.VISIBLE);
                 holder.binding.cardImageVertical.setVisibility(View.GONE);
@@ -1206,7 +1215,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.cardDescription.setText(statusToDeal.card.description);
             holder.binding.cardUrl.setText(Helper.transformURL(context, statusToDeal.card.url));
             holder.binding.card.setOnClickListener(v -> {
-                SpannableHelper.linkClickAction(context, statusToDeal.card.url);
+                if (!SpannableHelper.playPeertubeAttachment(context, statusToDeal, statusToDeal.card.url)) {
+                    SpannableHelper.linkClickAction(context, statusToDeal.card.url);
+                }
             });
             Card.PreviewCardAuthor author = null;
             if (statusToDeal.card.authors != null && !statusToDeal.card.authors.isEmpty()) {
@@ -1984,7 +1995,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (!status.mathsShown) {
                     holder.binding.statusContent.setVisibility(View.VISIBLE);
                 }
-                if (statusToDeal.card != null && statusToDeal.quote_id == null && (display_card || statusToDeal.isFocused)) {
+                if (statusToDeal.card != null && statusToDeal.quote_id == null && !hasPeertubeAttachment && (display_card || statusToDeal.isFocused)) {
                     holder.binding.card.setVisibility(View.VISIBLE);
                 } else {
                     holder.binding.card.setVisibility(View.GONE);

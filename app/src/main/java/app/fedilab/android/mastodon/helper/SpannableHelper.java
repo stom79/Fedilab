@@ -79,6 +79,7 @@ import app.fedilab.android.databinding.PopupHashtagsBinding;
 import app.fedilab.android.databinding.PopupLinksBinding;
 import app.fedilab.android.mastodon.activities.ContextActivity;
 import app.fedilab.android.mastodon.activities.HashTagActivity;
+import app.fedilab.android.mastodon.activities.MediaActivity;
 import app.fedilab.android.mastodon.activities.ProfileActivity;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Announcement;
@@ -393,7 +394,9 @@ public class SpannableHelper {
                             } else if (acct != null) {
                                 args.putString(Helper.ARG_MENTION, acct);
                             } else {
-                                linkClickAction(context, url);
+                                if (!playPeertubeAttachment(context, status, url)) {
+                                    linkClickAction(context, url);
+                                }
                                 return;
                             }
                             new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
@@ -750,7 +753,9 @@ public class SpannableHelper {
             public void onClick(@NonNull View textView) {
                 Context context = textView.getContext();
                 textView.setTag(CLICKABLE_SPAN);
-                linkClickAction(context, finalUrl);
+                if (!playPeertubeAttachment(context, status, finalUrl)) {
+                    linkClickAction(context, finalUrl);
+                }
             }
 
             @Override
@@ -819,6 +824,15 @@ public class SpannableHelper {
                 }
             });
         } else {
+            Matcher matcherPeertubeWatch = Helper.peertubePattern.matcher(finalUrl);
+            Matcher matcherPeertubeW = Helper.peertubeShortWatchPattern.matcher(finalUrl);
+            if (matcherPeertubeWatch.find()) {
+                openPeertubeVideo(context, matcherPeertubeWatch.group(2), matcherPeertubeWatch.group(3), finalUrl);
+                return;
+            } else if (matcherPeertubeW.find()) {
+                openPeertubeVideo(context, matcherPeertubeW.group(2), matcherPeertubeW.group(3), finalUrl);
+                return;
+            }
             String path = Uri.parse(finalUrl).getPath();
             boolean fediversePath = path != null && (path.startsWith("/@")
                     || path.contains("/users/")
@@ -826,7 +840,13 @@ public class SpannableHelper {
                     || path.contains("/notice/")
                     || path.contains("/statuses/")
                     || path.contains("/profile/")
-                    || path.contains("/objects/"));
+                    || path.contains("/objects/")
+                    || path.contains("/videos/watch/")
+                    || path.contains("/w/")
+                    || path.contains("/p/")
+                    || path.contains("/display/")
+                    || path.contains("/post/")
+                    || path.contains("/video-channels/"));
             if (!fediversePath) {
                 Helper.openBrowser(context, finalUrl);
                 return;
@@ -842,10 +862,117 @@ public class SpannableHelper {
         }
     }
 
+    private static void openPeertubeVideo(Context context, String host, String videoId, String url) {
+        CrossActionHelper.fetchRemoteStatusOrAccount(context, Helper.getCurrentAccount(context), url, new CrossActionHelper.Callback() {
+            @Override
+            public void federatedStatus(Status status) {
+                injectPeertubeAttachment(status, url);
+                Intent intent = new Intent(context, ContextActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_STATUS, status);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                });
+            }
+
+            @Override
+            public void federatedAccount(Account account) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable(Helper.ARG_ACCOUNT, account);
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    intent.putExtras(bundle);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                });
+            }
+
+            @Override
+            public void onFailed() {
+                Helper.openBrowser(context, url);
+            }
+        });
+    }
+
+    /**
+     * Play a peertube video already attached to the displayed status
+     *
+     * @param context Context
+     * @param status  Status being displayed
+     * @param url     Clicked url
+     * @return boolean - true if the video was played
+     */
+    public static boolean playPeertubeAttachment(Context context, Status status, String url) {
+        if (status == null || status.media_attachments == null || url == null) {
+            return false;
+        }
+        for (Attachment attachment : status.media_attachments) {
+            if (attachment.peertubeId != null && url.contains(attachment.peertubeId)) {
+                int position = status.media_attachments.indexOf(attachment);
+                Intent mediaIntent = new Intent(context, MediaActivity.class);
+                Bundle args = new Bundle();
+                args.putInt(Helper.ARG_MEDIA_POSITION, position);
+                args.putSerializable(Helper.ARG_MEDIA_ARRAY, new ArrayList<>(status.media_attachments));
+                new CachedBundle(context).insertBundle(args, Helper.getCurrentAccount(context), bundleId -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                    mediaIntent.putExtras(bundle);
+                    context.startActivity(mediaIntent);
+                });
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Inject a peertube video attachment when the url points to one
+     *
+     * @param status Status to complete
+     * @param url    Resolved url
+     */
+    private static void injectPeertubeAttachment(Status status, String url) {
+        if (status.media_attachments != null && !status.media_attachments.isEmpty()) {
+            return;
+        }
+        Matcher matcherPeertubeWatch = Helper.peertubePattern.matcher(url);
+        Matcher matcherPeertubeW = Helper.peertubeShortWatchPattern.matcher(url);
+        String host = null;
+        String videoId = null;
+        if (matcherPeertubeWatch.find()) {
+            host = matcherPeertubeWatch.group(2);
+            videoId = matcherPeertubeWatch.group(3);
+        } else if (matcherPeertubeW.find()) {
+            host = matcherPeertubeW.group(2);
+            videoId = matcherPeertubeW.group(3);
+        }
+        if (host == null || videoId == null) {
+            return;
+        }
+        Attachment attachment = new Attachment();
+        attachment.type = "video";
+        attachment.url = url;
+        attachment.peertubeHost = host;
+        attachment.peertubeId = videoId;
+        if (status.card != null && status.card.image != null) {
+            attachment.preview_url = status.card.image;
+        }
+        List<Attachment> attachments = new ArrayList<>();
+        attachments.add(attachment);
+        status.media_attachments = attachments;
+    }
+
     private static void fetchRemoteStatusOrAccount(Context context, String url) {
         CrossActionHelper.fetchRemoteStatusOrAccount(context, Helper.getCurrentAccount(context), url, new CrossActionHelper.Callback() {
             @Override
             public void federatedStatus(Status status) {
+                injectPeertubeAttachment(status, url);
                 Intent intent = new Intent(context, ContextActivity.class);
                 Bundle args = new Bundle();
                 args.putSerializable(Helper.ARG_STATUS, status);
