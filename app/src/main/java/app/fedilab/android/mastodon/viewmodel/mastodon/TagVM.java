@@ -41,6 +41,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TagVM extends AndroidViewModel {
 
+    public static final int FOLLOWED_TAGS_PER_CALL = 200;
+
     final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
 
     private MutableLiveData<Tags> tagsMutableLiveData;
@@ -69,22 +71,22 @@ public class TagVM extends AndroidViewModel {
     /**
      * Return followed tags with pagination
      *
+     * @param maxId String - return results older than this id
      * @return {@link LiveData} containing a {@link Tags}. Note: Not to be confused with {@link Tag}
      */
-    public LiveData<Tags> followedTags(@NonNull String instance, String token) {
+    public LiveData<Tags> followedTags(@NonNull String instance, String token, String maxId) {
         tagsMutableLiveData = new MutableLiveData<>();
         MastodonTagService mastodonTagService = init(instance);
         new Thread(() -> {
             List<Tag> tagList = null;
             Pagination pagination = null;
-            Call<List<Tag>> followedTagsListCall = mastodonTagService.getFollowedTags(token);
+            Call<List<Tag>> followedTagsListCall = mastodonTagService.getFollowedTags(token, maxId, FOLLOWED_TAGS_PER_CALL);
             if (followedTagsListCall != null) {
                 try {
                     Response<List<Tag>> tagsResponse = followedTagsListCall.execute();
                     if (tagsResponse.isSuccessful()) {
                         tagList = tagsResponse.body();
                         pagination = MastodonHelper.getPagination(tagsResponse.headers());
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

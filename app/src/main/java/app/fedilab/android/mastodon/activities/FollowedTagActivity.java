@@ -28,6 +28,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -60,6 +61,10 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
     private ArrayList<Tag> tagList;
     private FollowedTagAdapter followedTagAdapter;
     private FragmentMastodonTimeline fragmentMastodonTimeline;
+    private LinearLayoutManager mLayoutManager;
+    private String maxId;
+    private boolean flagLoading;
+    private boolean sorted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,20 +78,22 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         tagVM = new ViewModelProvider(FollowedTagActivity.this).get(TagVM.class);
-        tagVM.followedTags(BaseMainActivity.currentInstance, BaseMainActivity.currentToken)
-                .observe(FollowedTagActivity.this, tags -> {
-                    if (tags != null && tags.tags != null && tags.tags.size() > 0) {
-                        tagList = new ArrayList<>(tags.tags);
-                        sortAsc(tagList);
-                        followedTagAdapter = new FollowedTagAdapter(tagList);
-                        followedTagAdapter.actionOnTag = this;
-                        binding.notContent.setVisibility(View.GONE);
-                        binding.recyclerView.setAdapter(followedTagAdapter);
-                        binding.recyclerView.setLayoutManager(new LinearLayoutManager(FollowedTagActivity.this));
-                    } else {
-                        binding.notContent.setVisibility(View.VISIBLE);
+        mLayoutManager = new LinearLayoutManager(FollowedTagActivity.this);
+        binding.recyclerView.setLayoutManager(mLayoutManager);
+        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0 && !flagLoading && maxId != null) {
+                    int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
+                    int visibleItemCount = mLayoutManager.getChildCount();
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                        loadFollowedTags(maxId);
                     }
-                });
+                }
+            }
+        });
+        loadFollowedTags(null);
         getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -165,13 +172,14 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
                                     followedTagAdapter.actionOnTag = this;
                                     binding.notContent.setVisibility(View.GONE);
                                     binding.recyclerView.setAdapter(followedTagAdapter);
-                                    binding.recyclerView.setLayoutManager(new LinearLayoutManager(FollowedTagActivity.this));
                                 }
                                 if (newTag != null) {
                                     tagList.add(0, newTag);
                                     followedTagAdapter.notifyItemInserted(0);
-                                    sortAsc(tagList);
-                                    followedTagAdapter.notifyItemRangeChanged(0, tagList.size());
+                                    if (sorted) {
+                                        sortAsc(tagList);
+                                        followedTagAdapter.notifyItemRangeChanged(0, tagList.size());
+                                    }
                                 } else {
                                     Toasty.error(FollowedTagActivity.this, getString(R.string.not_valid_tag_name), Toasty.LENGTH_LONG).show();
                                 }
@@ -190,6 +198,41 @@ public class FollowedTagActivity extends BaseBarActivity implements FollowedTagA
 
     private void sortAsc(List<Tag> tagList) {
         Collections.sort(tagList, (obj1, obj2) -> obj1.name.compareToIgnoreCase(obj2.name));
+    }
+
+    private void loadFollowedTags(String fromMaxId) {
+        flagLoading = true;
+        tagVM.followedTags(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, fromMaxId)
+                .observe(FollowedTagActivity.this, tags -> {
+                    flagLoading = false;
+                    maxId = tags != null && tags.pagination != null ? tags.pagination.max_id : null;
+                    if (tags == null || tags.tags == null || tags.tags.isEmpty()) {
+                        if (tagList == null || tagList.isEmpty()) {
+                            binding.notContent.setVisibility(View.VISIBLE);
+                        }
+                        return;
+                    }
+                    if (tagList == null) {
+                        tagList = new ArrayList<>();
+                    }
+                    int insertedFrom = tagList.size();
+                    tagList.addAll(tags.tags);
+                    binding.notContent.setVisibility(View.GONE);
+                    //One page result, can be ordered
+                    if (insertedFrom == 0) {
+                        sorted = tags.tags.size() < TagVM.FOLLOWED_TAGS_PER_CALL;
+                        if (sorted) {
+                            sortAsc(tagList);
+                        }
+                    }
+                    if (followedTagAdapter == null) {
+                        followedTagAdapter = new FollowedTagAdapter(tagList);
+                        followedTagAdapter.actionOnTag = this;
+                        binding.recyclerView.setAdapter(followedTagAdapter);
+                    } else {
+                        followedTagAdapter.notifyItemRangeInserted(insertedFrom, tags.tags.size());
+                    }
+                });
     }
 
     @Override
