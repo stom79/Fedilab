@@ -128,6 +128,8 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
     private boolean groupedByServer;
     private boolean reverseTimeline;
     private boolean restoredFromSavedState;
+    private boolean restoredWithMarker;
+    private String markerRestoreTopId;
     private int savedScrollPosition = -1;
     private int savedScrollOffset;
 
@@ -241,6 +243,7 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             boolean rememberPosition = sharedpreferences.getBoolean(getString(R.string.SET_REMEMBER_POSITION), true);
             if (rememberPosition) {
                 max_id = sharedpreferences.getString(getString(R.string.SET_INNER_MARKER) + BaseMainActivity.currentUserID + BaseMainActivity.currentInstance + Timeline.TimeLineEnum.NOTIFICATION, null);
+                restoredWithMarker = max_id != null;
             }
         }
         initialNotifications = null;
@@ -378,6 +381,10 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
             notificationList = new ArrayList<>();
         }
         notificationList.addAll(notifications.notifications);
+
+        if (restoredWithMarker && markerRestoreTopId == null && !notificationList.isEmpty()) {
+            markerRestoreTopId = notificationList.get(0).id;
+        }
 
         if (max_id == null || (notifications.pagination.max_id != null && Helper.compareTo(notifications.pagination.max_id, max_id) < 0)) {
             max_id = notifications.pagination.max_id;
@@ -744,14 +751,31 @@ public class FragmentMastodonNotification extends Fragment implements Notificati
 
     private void storeMarker(BaseAccount connectedAccount) {
         if (mLayoutManager != null) {
-            int position = reverseTimeline ? mLayoutManager.findLastVisibleItemPosition() : mLayoutManager.findFirstVisibleItemPosition();
-            if (notificationList != null && notificationList.size() > position) {
+            int position = mLayoutManager.findFirstCompletelyVisibleItemPosition();
+            if (position == RecyclerView.NO_POSITION) {
+                position = mLayoutManager.findFirstVisibleItemPosition();
+            }
+            if (notificationList != null && position >= 0 && notificationList.size() > position) {
                 try {
                     if (notificationType == NotificationTypeEnum.ALL) {
                         Notification notification = notificationList.get(position);
+                        int anchor = position - 1;
+                        String markerId;
+                        if (anchor >= 0) {
+                            markerId = notificationList.get(anchor).id;
+                        } else if (notificationList.get(0).id != null && notificationList.get(0).id.equals(markerRestoreTopId)) {
+                            return;
+                        } else {
+                            markerId = null;
+                        }
                         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
                         SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString(getString(R.string.SET_INNER_MARKER) + connectedAccount.user_id + connectedAccount.instance + Timeline.TimeLineEnum.NOTIFICATION, notification.id);
+                        String markerKey = getString(R.string.SET_INNER_MARKER) + connectedAccount.user_id + connectedAccount.instance + Timeline.TimeLineEnum.NOTIFICATION;
+                        if (markerId != null) {
+                            editor.putString(markerKey, markerId);
+                        } else {
+                            editor.remove(markerKey);
+                        }
                         editor.apply();
                         TimelinesVM timelinesVM = new ViewModelProvider(FragmentMastodonNotification.this).get(TimelinesVM.class);
                         timelinesVM.addMarker(connectedAccount.instance, connectedAccount.token, null, notification.id);
