@@ -34,6 +34,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.style.BulletSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.QuoteSpan;
 import android.text.style.URLSpan;
@@ -61,6 +62,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -68,6 +70,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -150,6 +155,55 @@ public class SpannableHelper {
             }
         }
         return false;
+    }
+
+    private static List<String> listItemMarkers(String html) {
+        List<String> markers = new ArrayList<>();
+        try {
+            for (Element listItem : Jsoup.parseBodyFragment(html).select("li")) {
+                Element list = listItem.parent();
+                if (list != null && "ol".equals(list.nodeName())) {
+                    int firstNumber = 1;
+                    if (list.hasAttr("start") && Helper.isNumeric(list.attr("start"))) {
+                        firstNumber = Integer.parseInt(list.attr("start").trim());
+                    }
+                    markers.add((firstNumber + listItem.elementSiblingIndex()) + ".");
+                } else {
+                    markers.add(null);
+                }
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return markers;
+    }
+
+    // The Android HTML parser turns every list item into a bullet
+    private static void replaceOrderedListMarkers(Context context, Spannable spannable, String html) {
+        List<String> markers = listItemMarkers(html);
+        if (markers == null || markers.isEmpty()) {
+            return;
+        }
+        BulletSpan[] bulletSpans = spannable.getSpans(0, spannable.length(), BulletSpan.class);
+        if (bulletSpans.length != markers.size()) {
+            return;
+        }
+        Arrays.sort(bulletSpans, (span1, span2) -> {
+            int startComparison = Integer.compare(spannable.getSpanStart(span1), spannable.getSpanStart(span2));
+            return startComparison != 0 ? startComparison : Integer.compare(spannable.getSpanEnd(span2), spannable.getSpanEnd(span1));
+        });
+        for (int index = 0; index < bulletSpans.length; index++) {
+            String marker = markers.get(index);
+            if (marker == null) {
+                continue;
+            }
+            BulletSpan bulletSpan = bulletSpans[index];
+            int start = spannable.getSpanStart(bulletSpan);
+            int end = spannable.getSpanEnd(bulletSpan);
+            int flags = spannable.getSpanFlags(bulletSpan);
+            spannable.removeSpan(bulletSpan);
+            spannable.setSpan(new ListItemMarkerSpan(context, marker), start, end, flags);
+        }
     }
 
     // Returns the maximum HTML tag nesting depth
@@ -282,6 +336,7 @@ public class SpannableHelper {
             } catch (Throwable e) {
                 initialContent = new SpannableString(text.replaceAll("<[^>]*>", ""));
             }
+            replaceOrderedListMarkers(context, initialContent, text);
         } else {
             initialContent = new SpannableString(text);
         }
