@@ -395,7 +395,7 @@ public class SpannableHelper {
                                 args.putString(Helper.ARG_MENTION, acct);
                             } else {
                                 if (!playPeertubeAttachment(context, status, url)) {
-                                    linkClickAction(context, url);
+                                    linkClickAction(context, url, true);
                                 }
                                 return;
                             }
@@ -772,6 +772,10 @@ public class SpannableHelper {
     }
 
     public static void linkClickAction(Context context, String finalUrl) {
+        linkClickAction(context, finalUrl, false);
+    }
+
+    public static void linkClickAction(Context context, String finalUrl, boolean isMention) {
         Pattern link = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w._-]*[0-9]*)(/[0-9]+)?$");
         Matcher matcherLink = link.matcher(finalUrl);
         Pattern linkLong = Pattern.compile("https?://([\\da-z.-]+\\.[a-z.]{2,10})/(@[\\w_.-]+@[a-zA-Z0-9][a-zA-Z0-9.-]{1,61}[a-zA-Z0-9](?:\\.[a-zA-Z]{2,})+)(/[0-9]+)?$");
@@ -790,7 +794,7 @@ public class SpannableHelper {
                 if (statusPath != null && !statusPath.isEmpty()) {
                     fetchRemoteStatus(context, finalUrl);
                 } else {
-                    fetchRemoteAccount(context, account + "@" + domain);
+                    fetchRemoteAccount(context, account + "@" + domain, finalUrl);
                 }
             });
         } else if (matcherLinkLong.find()) {
@@ -805,7 +809,7 @@ public class SpannableHelper {
                 if (statusPath != null && !statusPath.isEmpty()) {
                     fetchRemoteStatus(context, finalUrl);
                 } else if (account != null) {
-                    fetchRemoteAccount(context, account);
+                    fetchRemoteAccount(context, account, finalUrl);
                 }
             });
         } else if (matcherUserWithoutAt.find()) {
@@ -820,7 +824,7 @@ public class SpannableHelper {
                 if (statusId != null && !statusId.isEmpty()) {
                     fetchRemoteStatus(context, finalUrl);
                 } else {
-                    fetchRemoteAccount(context, user + "@" + domain);
+                    fetchRemoteAccount(context, user + "@" + domain, finalUrl);
                 }
             });
         } else {
@@ -835,19 +839,22 @@ public class SpannableHelper {
             }
             String path = Uri.parse(finalUrl).getPath();
             boolean fediversePath = path != null && (path.startsWith("/@")
-                    || path.contains("/users/")
-                    || path.contains("/notes/")
-                    || path.contains("/notice/")
-                    || path.contains("/statuses/")
-                    || path.contains("/profile/")
-                    || path.contains("/objects/")
-                    || path.contains("/videos/watch/")
-                    || path.contains("/w/")
-                    || path.contains("/p/")
-                    || path.contains("/display/")
-                    || path.contains("/post/")
-                    || path.contains("/video-channels/"));
-            if (!fediversePath) {
+                    || path.startsWith("/users/")
+                    || path.startsWith("/notes/")
+                    || path.startsWith("/notice/")
+                    || path.startsWith("/profile/")
+                    || path.startsWith("/objects/")
+                    || path.startsWith("/videos/watch/")
+                    || path.startsWith("/w/")
+                    || path.startsWith("/p/")
+                    || path.startsWith("/display/")
+                    || path.startsWith("/post/")
+                    || path.startsWith("/video-channels/")
+                    || path.startsWith("/u/")
+                    || path.startsWith("/c/")
+                    || path.startsWith("/a/")
+                    || path.startsWith("/comment/"));
+            if (!isMention && !fediversePath) {
                 Helper.openBrowser(context, finalUrl);
                 return;
             }
@@ -1033,10 +1040,15 @@ public class SpannableHelper {
         });
     }
 
-    private static void fetchRemoteAccount(Context context, String acct) {
+    private static void fetchRemoteAccount(Context context, String acct, String fallbackUrl) {
         CrossActionHelper.fetchRemoteAccount(context, Helper.getCurrentAccount(context), acct, new CrossActionHelper.Callback() {
             @Override
             public void federatedStatus(Status status) {
+            }
+
+            @Override
+            public void onFailed() {
+                Helper.openBrowser(context, fallbackUrl);
             }
 
             @Override
