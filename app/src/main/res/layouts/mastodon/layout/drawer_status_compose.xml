@@ -102,6 +102,7 @@
             app:icon="@drawable/ic_compose_thread_remove_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_remove_status"
+            app:layout_goneMarginTop="48dp"
             tools:visibility="visible" />
 
         <LinearLayout
@@ -130,7 +131,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_emoji"
             style="@style/Fedilab.SmallIconButton"
-            app:layout_goneMarginTop="48dp"
+            app:layout_goneMarginTop="0dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
             android:contentDescription="@string/emoji_picker"
