@@ -99,6 +99,7 @@ import es.dmoral.toasty.Toasty;
 import io.noties.markwon.AbstractMarkwonPlugin;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.SoftBreakAddsNewLinePlugin;
+import io.noties.markwon.core.spans.BlockQuoteSpan;
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin;
 import io.noties.markwon.ext.tables.TablePlugin;
 import io.noties.markwon.inlineparser.HtmlInlineProcessor;
@@ -116,6 +117,40 @@ public class SpannableHelper {
     private static final String patternBottomTags = "\\n{2,}((#[\\w_À-ú-]+)(\\s*| *))+$";
 
     private static final int MAX_HTML_NESTING_DEPTH = 6;
+
+    private static final Pattern markdownHeading = Pattern.compile("^ {0,3}#{1,6}\\s", Pattern.MULTILINE);
+    private static final Pattern markdownQuote = Pattern.compile("^ {0,3}>\\s?", Pattern.MULTILINE);
+    private static final Pattern markdownBulletList = Pattern.compile("^ {0,3}[-*+]\\s", Pattern.MULTILINE);
+    private static final Pattern markdownOrderedList = Pattern.compile("^ {0,3}\\d+\\.\\s", Pattern.MULTILINE);
+    private static final Pattern markdownTable = Pattern.compile("^ {0,3}\\|.*\\|", Pattern.MULTILINE);
+    private static final Pattern markdownRule = Pattern.compile("^ {0,3}(-{3,}|_{3,}|\\*{3,})\\s*$", Pattern.MULTILINE);
+    private static final Pattern markdownCodeBlock = Pattern.compile("```");
+    private static final Pattern markdownCode = Pattern.compile("`[^`\\n]+`");
+    private static final Pattern markdownStrongStar = Pattern.compile("\\*\\*(?!\\s)[^*]+\\*\\*");
+    private static final Pattern markdownStrongUnderscore = Pattern.compile("__(?!\\s)[^_]+__");
+    private static final Pattern markdownEmphasisStar = Pattern.compile("\\*(?!\\s)[^*\\n]+(?<!\\s)\\*");
+    private static final Pattern markdownEmphasisUnderscore = Pattern.compile("_(?!\\s)[^_\\n]+(?<!\\s)_");
+    private static final Pattern markdownStrikethrough = Pattern.compile("~~(?!\\s)[^~]+~~");
+    private static final Pattern markdownLink = Pattern.compile("!?\\[[^\\]\\n]*]\\([^)\\s]+\\)");
+
+    private static final Pattern[] markdownPatterns = {
+            markdownHeading, markdownQuote, markdownBulletList, markdownOrderedList,
+            markdownTable, markdownRule, markdownCodeBlock, markdownCode,
+            markdownStrongStar, markdownStrongUnderscore, markdownEmphasisStar,
+            markdownEmphasisUnderscore, markdownStrikethrough, markdownLink
+    };
+
+    private static boolean containsMarkdown(String text) {
+        if (text == null) {
+            return false;
+        }
+        for (Pattern markdownPattern : markdownPatterns) {
+            if (markdownPattern.matcher(text).find()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // Returns the maximum HTML tag nesting depth
     private static int getMaxNestingDepth(String html) {
@@ -227,7 +262,7 @@ public class SpannableHelper {
             mentions.addAll(status.mentions);
         }
         boolean markdownSupport = sharedpreferences.getBoolean(context.getString(R.string.SET_MARKDOWN_SUPPORT), false);
-        if(!markdownSupport && text.length() < 10000) {
+        if(text.length() < 10000) {
             text = text.replaceAll("((<\\s?p\\s?>|<\\s?br\\s?/?>)&gt;(((?!(<\\s?br\\s?/?>|<\\s?/s?p\\s?>)).)*))", "$2<blockquote>$3</blockquote>");
         }
         if(convertHtml) {
@@ -253,7 +288,7 @@ public class SpannableHelper {
 
         //Get all links
         SpannableStringBuilder content;
-        if (markdownSupport && convertMarkdown) {
+        if (markdownSupport && convertMarkdown && containsMarkdown(initialContent.toString())) {
             MarkdownConverter markdownConverter = new MarkdownConverter();
             markdownConverter.markdownItems = new ArrayList<>();
             int next;
@@ -1190,20 +1225,28 @@ public class SpannableHelper {
     private static void replaceQuoteSpans(Context context, Spannable spannable) {
         QuoteSpan[] quoteSpans = spannable.getSpans(0, spannable.length(), QuoteSpan.class);
         for (QuoteSpan quoteSpan : quoteSpans) {
-            int start = spannable.getSpanStart(quoteSpan);
-            int end = spannable.getSpanEnd(quoteSpan);
-            int flags = spannable.getSpanFlags(quoteSpan);
-            spannable.removeSpan(quoteSpan);
-            int colord = ThemeHelper.getAttColor(context, R.attr.colorPrimary);
-            spannable.setSpan(new CustomQuoteSpan(
-                            ContextCompat.getColor(context, R.color.transparent),
-                            colord,
-                            10,
-                            20),
-                    start,
-                    end,
-                    flags);
+            replaceQuoteSpan(context, spannable, quoteSpan);
         }
+        BlockQuoteSpan[] blockQuoteSpans = spannable.getSpans(0, spannable.length(), BlockQuoteSpan.class);
+        for (BlockQuoteSpan blockQuoteSpan : blockQuoteSpans) {
+            replaceQuoteSpan(context, spannable, blockQuoteSpan);
+        }
+    }
+
+    private static void replaceQuoteSpan(Context context, Spannable spannable, Object quoteSpan) {
+        int start = spannable.getSpanStart(quoteSpan);
+        int end = spannable.getSpanEnd(quoteSpan);
+        int flags = spannable.getSpanFlags(quoteSpan);
+        spannable.removeSpan(quoteSpan);
+        int colord = ThemeHelper.getAttColor(context, R.attr.colorPrimary);
+        spannable.setSpan(new CustomQuoteSpan(
+                        ContextCompat.getColor(context, R.color.transparent),
+                        colord,
+                        10,
+                        20),
+                start,
+                end,
+                flags);
     }
 
 
