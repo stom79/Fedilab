@@ -1,0 +1,12 @@
+Improved:
+- Display the numbering of ordered lists in posts
+
+Fixed:
+- Fix mentions opening in the browser instead of the app
+- Fix PeerTube videos not opening or playing
+- Fix formatting lost in posts when Markdown support is enabled
+- Fix quotes displayed without their decoration
+- Fix the "Local only" button moving over the send button when typing
+- Fix the notifications position not restored after a restart
+- Fix the timeline jumping back in time with GoToSocial
+- Fix only the first hundred followed tags being loaded

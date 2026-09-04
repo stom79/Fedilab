@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.43.3",
+    "code": "568",
+    "note": "Improved:\n- Display the numbering of ordered lists in posts\n\nFixed:\n- Fix mentions opening in the browser instead of the app\n- Fix PeerTube videos not opening or playing\n- Fix formatting lost in posts when Markdown support is enabled\n- Fix quotes displayed without their decoration\n- Fix the \"Local only\" button moving over the send button when typing\n- Fix the notifications position not restored after a restart\n- Fix the timeline jumping back in time with GoToSocial\n- Fix only the first hundred followed tags being loaded\n"
+  },
+  {
     "version": "3.43.2",
     "code": "567",
     "note": "Improved:\n- Keep the composer content when the app restarts or the theme changes\n\nFixed:\n- Fix the timeline position not being saved or restored at the wrong place\n- Fix the timeline order with accounts using non numeric ids (GoToSocial)\n- Fix links to non fediverse pages opening the wrong content in the app\n- Fix a memory crash after long navigation\n- Fix memory issues with large custom emojis\n- Fix a memory leak when closing a screen with videos\n- Fix memory issues with auto-play videos\n- Fix a crash when leaving a screen quickly\n- Fix slow timelines when scrolling posts with quotes\n"
