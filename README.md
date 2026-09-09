@@ -22,7 +22,9 @@ A multi-accounts client for Mastodon, Pleroma, Friendica and Pixelfed
 
 ## Download
 
-[<img alt='Get it on F-Droid' src='./images/get-it-on-fdroid.png' height="80"/>](https://f-droid.org/app/fr.gouv.etalab.mastodon)&nbsp;&nbsp;[<img alt='Get it on Google Play' src='./images/get-it-on-play.png' height="80"/>](https://play.google.com/store/apps/details?id=app.fedilab.android)
+[<img alt='Get it on F-Droid' src='./images/get-it-on-fdroid.png' height="80"/>](https://f-droid.org/app/fr.gouv.etalab.mastodon)
+
+- **Optional:** You can use Fedilab's [custom repository](https://fdroid.fedilab.app/) for faster updates and beta releases.
 
 ## Translate
 
