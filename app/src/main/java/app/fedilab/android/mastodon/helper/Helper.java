@@ -1226,6 +1226,16 @@ public class Helper {
         return sharedpreferences.getBoolean(type, false);
     }
 
+    public static boolean getNotificationValue(Context context, String userId, String instance, int keyRes) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String key = context.getString(keyRes);
+        boolean globalValue = sharedpreferences.getBoolean(key, true);
+        if (userId == null || instance == null) {
+            return globalValue;
+        }
+        return sharedpreferences.getBoolean(key + userId + instance, globalValue);
+    }
+
     /**
      * Get size from uri
      *

@@ -64,22 +64,10 @@ public class PushNotifications {
 
     public static void registerPushNotifications(Context context, PushEndpoint pushEndpoint, String slug) {
 
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(context);
-
         String pubKey = pushEndpoint.getPubKeySet().getPubKey();
         String auth =pushEndpoint.getPubKeySet().getAuth();
 
 
-        boolean notif_follow = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FOLLOW), true);
-        boolean notif_mention = prefs.getBoolean(context.getString(R.string.SET_NOTIF_MENTION), true);
-        boolean notif_share = prefs.getBoolean(context.getString(R.string.SET_NOTIF_SHARE), true);
-        boolean notif_poll = prefs.getBoolean(context.getString(R.string.SET_NOTIF_POLL), true);
-        boolean notif_fav = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FAVOURITE), true);
-        boolean notif_status = prefs.getBoolean(context.getString(R.string.SET_NOTIF_STATUS), true);
-        boolean notif_updates = prefs.getBoolean(context.getString(R.string.SET_NOTIF_UPDATE), true);
-        boolean notif_signup = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_SIGNUP), true);
-        boolean notif_report = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_REPORT), true);
         new Thread(() -> {
             String[] slugArray = slug.split("@");
             BaseAccount accountDb = null;
@@ -92,6 +80,15 @@ public class PushNotifications {
             if (accountDb == null) {
                 return;
             }
+            boolean notif_follow = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_FOLLOW);
+            boolean notif_mention = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_MENTION);
+            boolean notif_share = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_SHARE);
+            boolean notif_poll = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_POLL);
+            boolean notif_fav = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_FAVOURITE);
+            boolean notif_status = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_STATUS);
+            boolean notif_updates = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_UPDATE);
+            boolean notif_signup = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_ADMIN_SIGNUP);
+            boolean notif_report = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_ADMIN_REPORT);
             MastodonNotificationsService mastodonNotificationsService = init(context, accountDb.instance);
             PushSubscription pushSubscription;
             Call<PushSubscription> pushSubscriptionCall = mastodonNotificationsService.pushSubscription(

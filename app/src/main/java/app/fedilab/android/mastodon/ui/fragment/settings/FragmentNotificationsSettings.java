@@ -33,11 +33,13 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
+import androidx.preference.SwitchPreferenceCompat;
 
 import org.unifiedpush.android.connector.UnifiedPush;
 import java.util.List;
 
 import app.fedilab.android.R;
+import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.PushHelper;
 import app.fedilab.android.mastodon.helper.settings.TimePreference;
@@ -70,11 +72,32 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
         }
     }
 
+    private static final int[] NOTIFICATION_TYPE_KEYS = {
+            R.string.SET_NOTIF_FOLLOW, R.string.SET_NOTIF_MENTION, R.string.SET_NOTIF_FAVOURITE,
+            R.string.SET_NOTIF_SHARE, R.string.SET_NOTIF_POLL, R.string.SET_NOTIF_STATUS,
+            R.string.SET_NOTIF_UPDATE, R.string.SET_NOTIF_ADMIN_SIGNUP, R.string.SET_NOTIF_ADMIN_REPORT,
+            R.string.SET_NOTIF_COLLECTION};
+
     private void createPref() {
 
         getPreferenceScreen().removeAll();
         addPreferencesFromResource(R.xml.pref_notifications);
         PreferenceScreen preferenceScreen = getPreferenceScreen();
+
+        for (int notificationTypeKey : NOTIFICATION_TYPE_KEYS) {
+            SwitchPreferenceCompat notificationType = findPreference(getString(notificationTypeKey));
+            if (notificationType != null) {
+                boolean checked = Helper.getNotificationValue(requireActivity(), MainActivity.currentUserID, MainActivity.currentInstance, notificationTypeKey);
+                notificationType.setKey(getString(notificationTypeKey) + MainActivity.currentUserID + MainActivity.currentInstance);
+                notificationType.setChecked(checked);
+            }
+        }
+        PreferenceCategory notificationTypeCategory = findPreference("notifications_enabled");
+        if (notificationTypeCategory != null && Helper.getCurrentAccount(requireActivity()) != null
+                && Helper.getCurrentAccount(requireActivity()).mastodon_account != null) {
+            notificationTypeCategory.setTitle(getString(R.string.settings_category_notif_categories_account,
+                    "@" + Helper.getCurrentAccount(requireActivity()).mastodon_account.acct));
+        }
 
         //Theme for dialogs
         ListPreference SET_NOTIFICATION_TYPE = findPreference(getString(R.string.SET_NOTIFICATION_TYPE));
@@ -244,6 +267,12 @@ public class FragmentNotificationsSettings extends PreferenceFragmentCompat impl
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (getActivity() != null) {
+            for (int notificationTypeKey : NOTIFICATION_TYPE_KEYS) {
+                if (key.compareToIgnoreCase(getString(notificationTypeKey) + MainActivity.currentUserID + MainActivity.currentInstance) == 0) {
+                    PushHelper.startStreaming(requireActivity());
+                    return;
+                }
+            }
             if (key.compareToIgnoreCase(getString(R.string.SET_NOTIFICATION_TYPE)) == 0) {
                 createPref();
                 String type = sharedPreferences.getString(key, "");

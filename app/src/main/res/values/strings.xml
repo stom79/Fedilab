@@ -511,6 +511,7 @@
     <string name="notif_sign_up">A user signed-up</string>
     <string name="notif_report">A user sent a report</string>
     <string name="settings_category_notif_categories">Categories</string>
+    <string name="settings_category_notif_categories_account">Notification types for %1$s</string>
     <string name="move_timeline">Move timeline</string>
     <string name="hide_timeline">Hide timeline</string>
     <string name="reorder_timelines">Manage timelines</string>

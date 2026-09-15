@@ -91,16 +91,16 @@ public class NotificationsHelper {
         }
 
         //Check which notifications the user wants to see
-        boolean notif_follow = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FOLLOW), true);
-        boolean notif_mention = prefs.getBoolean(context.getString(R.string.SET_NOTIF_MENTION), true);
-        boolean notif_share = prefs.getBoolean(context.getString(R.string.SET_NOTIF_SHARE), true);
-        boolean notif_poll = prefs.getBoolean(context.getString(R.string.SET_NOTIF_POLL), true);
-        boolean notif_fav = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FAVOURITE), true);
-        boolean notif_status = prefs.getBoolean(context.getString(R.string.SET_NOTIF_STATUS), true);
-        boolean notif_updates = prefs.getBoolean(context.getString(R.string.SET_NOTIF_UPDATE), true);
-        boolean notif_signup = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_SIGNUP), true);
-        boolean notif_report = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_REPORT), true);
-        boolean notif_collection = prefs.getBoolean(context.getString(R.string.SET_NOTIF_COLLECTION), true);
+        boolean notif_follow = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_FOLLOW);
+        boolean notif_mention = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_MENTION);
+        boolean notif_share = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_SHARE);
+        boolean notif_poll = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_POLL);
+        boolean notif_fav = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_FAVOURITE);
+        boolean notif_status = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_STATUS);
+        boolean notif_updates = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_UPDATE);
+        boolean notif_signup = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_ADMIN_SIGNUP);
+        boolean notif_report = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_ADMIN_REPORT);
+        boolean notif_collection = Helper.getNotificationValue(context, accountDb.user_id, accountDb.instance, R.string.SET_NOTIF_COLLECTION);
 
         //User disagree with all notifications
         if (!notif_follow && !notif_fav && !notif_mention && !notif_share && !notif_poll && !notif_status && !notif_updates && !notif_signup && !notif_report && !notif_collection) {
@@ -171,19 +171,17 @@ public class NotificationsHelper {
         }
         List<Notification> notificationsReceived = newNotifications.notifications;
         String key = account.user_id + "@" + account.instance;
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(context);
 
-        boolean notif_follow = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FOLLOW), true);
-        boolean notif_mention = prefs.getBoolean(context.getString(R.string.SET_NOTIF_MENTION), true);
-        boolean notif_share = prefs.getBoolean(context.getString(R.string.SET_NOTIF_SHARE), true);
-        boolean notif_poll = prefs.getBoolean(context.getString(R.string.SET_NOTIF_POLL), true);
-        boolean notif_fav = prefs.getBoolean(context.getString(R.string.SET_NOTIF_FAVOURITE), true);
-        boolean notif_status = prefs.getBoolean(context.getString(R.string.SET_NOTIF_STATUS), true);
-        boolean notif_update = prefs.getBoolean(context.getString(R.string.SET_NOTIF_UPDATE), true);
-        boolean notif_signup = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_SIGNUP), true);
-        boolean notif_report = prefs.getBoolean(context.getString(R.string.SET_NOTIF_ADMIN_REPORT), true);
-        boolean notif_collection = prefs.getBoolean(context.getString(R.string.SET_NOTIF_COLLECTION), true);
+        boolean notif_follow = Helper.getNotificationValue(context, account.user_id, account.instance, R.string.SET_NOTIF_FOLLOW);
+        boolean notif_mention = Helper.getNotificationValue(context, account.user_id, account.instance, R.string.SET_NOTIF_MENTION);
+        boolean notif_share = Helper.getNotificationValue(context, account.user_id, account.instance, R.string.SET_NOTIF_SHARE);
+        boolean notif_poll = Helper.getNotificationValue(context, account.user_id, account.instance, R.string.SET_NOTIF_POLL);
+        boolean notif_fav = Helper.getNotificationValue(context, account.user_id, account.instance, R.string.SET_NOTIF_FAVOURITE);
+        boolean notif_status = Helper.getNotificationValue(context, account.user_id, account.instance, R.string.SET_NOTIF_STATUS);
+        boolean notif_update = Helper.getNotificationValue(context, account.user_id, account.instance, R.string.SET_NOTIF_UPDATE);
+        boolean notif_signup = Helper.getNotificationValue(context, account.user_id, account.instance, R.string.SET_NOTIF_ADMIN_SIGNUP);
+        boolean notif_report = Helper.getNotificationValue(context, account.user_id, account.instance, R.string.SET_NOTIF_ADMIN_REPORT);
+        boolean notif_collection = Helper.getNotificationValue(context, account.user_id, account.instance, R.string.SET_NOTIF_COLLECTION);
 
         final List<Notification> notifications = new ArrayList<>();
         int pos = 0;
