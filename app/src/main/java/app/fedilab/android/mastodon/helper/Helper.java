@@ -387,7 +387,6 @@ public class Helper {
     public static final Pattern twitterPattern = Pattern.compile("((@[\\w]+)@twitter\\.com)");
     public static final Pattern youtubePattern = Pattern.compile("(www\\.|m\\.)?(youtube\\.com|youtu\\.be|youtube-nocookie\\.com)/(((?!([\"'<])).)*)");
     public static final Pattern nitterPattern = Pattern.compile("(?<!\\w)(mobile\\.|www\\.)?(twitter|x)\\.com(/[\\w/-]+)?");
-    public static final Pattern bibliogramPattern = Pattern.compile("(m\\.|www\\.)?instagram.com(/p/[\\w-/]+)");
     public static final Pattern libredditPattern = Pattern.compile("(www\\.|m\\.)?(reddit\\.com|preview\\.redd\\.it|i\\.redd\\.it|redd\\.it)/(((?!([\"'<])).)*)");
     public static final Pattern ouichesPattern = Pattern.compile("https?://ouich\\.es/tag/(\\w+)");
 
@@ -867,20 +866,6 @@ public class Helper {
             }
         }
 
-        boolean bibliogram = Helper.getSharedValue(context, context.getString(R.string.SET_BIBLIOGRAM));
-
-        if (bibliogram) {
-            matcher = Helper.bibliogramPattern.matcher(url);
-            if (matcher.find()) {
-                final String bibliogram_directory = matcher.group(2);
-                String bibliogramHost = sharedpreferences.getString(context.getString(R.string.SET_BIBLIOGRAM_HOST), context.getString(R.string.DEFAULT_BIBLIOGRAM_HOST)).toLowerCase();
-                if (bibliogramHost.trim().isEmpty()) {
-                    bibliogramHost = context.getString(R.string.DEFAULT_BIBLIOGRAM_HOST);
-                }
-                return "https://" + bibliogramHost + bibliogram_directory;
-            }
-        }
-
         boolean libreddit = Helper.getSharedValue(context, context.getString(R.string.SET_LIBREDDIT));
         if (libreddit) {
             matcher = Helper.libredditPattern.matcher(url);
@@ -1230,8 +1215,6 @@ public class Helper {
     public static boolean getSharedValue(Context context, String type) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         if (type.compareTo(context.getString(R.string.SET_INVIDIOUS)) == 0) {
-            return sharedpreferences.getBoolean(type, false);
-        } else if (type.compareTo(context.getString(R.string.SET_BIBLIOGRAM)) == 0) {
             return sharedpreferences.getBoolean(type, false);
         } else if (type.compareTo(context.getString(R.string.SET_NITTER)) == 0) {
             return sharedpreferences.getBoolean(type, false);

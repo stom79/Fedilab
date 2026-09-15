@@ -648,9 +648,6 @@
     <string name="replace_twitter">Twitter</string>
     <string name="replace_twitter_description">Use an alternative frontend for Twitter</string>
     <string name="replace_twitter_host">Twitter  frontend domain</string>
-    <string name="replace_instagram">Instagram</string>
-    <string name="replace_instagram_description">Use an alternative frontend for Instagram</string>
-    <string name="replace_instagram_host">Instagram frontend domain</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_reddit_description">Use an alternative frontend for Reddit</string>
     <string name="replace_reddit_host">Reddit frontend domain</string>
@@ -1486,9 +1483,6 @@
     <string name="DEFAULT_NITTER_HOST" translatable="false">nitter.net</string>
     <string name="SET_USE_CACHE" translatable="false">SET_USE_CACHE</string>
     <string name="SET_CUSTOM_TABS" translatable="false">SET_CUSTOM_TABS</string>
-    <string name="SET_BIBLIOGRAM" translatable="false">SET_BIBLIOGRAM</string>
-    <string name="SET_BIBLIOGRAM_HOST" translatable="false">SET_BIBLIOGRAM_HOST</string>
-    <string name="DEFAULT_BIBLIOGRAM_HOST" translatable="false">bibliogram.art</string>
     <string name="SET_LIBREDDIT" translatable="false">SET_LIBREDDIT</string>
     <string name="SET_LIBREDDIT_HOST" translatable="false">SET_LIBREDDIT_HOST</string>
     <string name="DEFAULT_LIBREDDIT_HOST" translatable="false">libredd.it</string>
@@ -2531,7 +2525,6 @@
     <!-- Privacy -->
     <string name="kw_youtube">youtube, invidious, video, privacy, frontend</string>
     <string name="kw_twitter">twitter, nitter, privacy, frontend</string>
-    <string name="kw_instagram">instagram, bibliogram, privacy, frontend</string>
     <string name="kw_reddit">reddit, libreddit, privacy, frontend</string>
     <string name="kw_medium">medium, scribe, privacy, frontend, blog</string>
     <string name="kw_bluesky">bluesky, bsky, skyview, privacy, frontend</string>

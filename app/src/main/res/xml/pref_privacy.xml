@@ -39,22 +39,6 @@
 
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
-            app:key="@string/SET_BIBLIOGRAM"
-            app:singleLineTitle="false"
-            app:summary="@string/replace_instagram_description"
-            app:title="@string/replace_instagram" />
-
-        <EditTextPreference
-            app:defaultValue="@string/DEFAULT_BIBLIOGRAM_HOST"
-            app:dependency="@string/SET_BIBLIOGRAM"
-            app:iconSpaceReserved="false"
-            app:key="@string/SET_BIBLIOGRAM_HOST"
-            app:summary="@string/DEFAULT_BIBLIOGRAM_HOST"
-            app:title="@string/replace_instagram_host"
-            app:useSimpleSummaryProvider="true" />
-
-        <SwitchPreferenceCompat
-            app:iconSpaceReserved="false"
             app:key="@string/SET_LIBREDDIT"
             app:singleLineTitle="false"
             app:summary="@string/replace_reddit_description"

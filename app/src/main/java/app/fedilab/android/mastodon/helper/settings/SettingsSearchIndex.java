@@ -220,7 +220,6 @@ public class SettingsSearchIndex {
 
         list.add(new SettingsSearchEntry(R.string.replace_youtube, R.string.kw_youtube, catPrivacy, navPrivacy, "SET_INVIDIOUS"));
         list.add(new SettingsSearchEntry(R.string.replace_twitter, R.string.kw_twitter, catPrivacy, navPrivacy, "SET_NITTER"));
-        list.add(new SettingsSearchEntry(R.string.replace_instagram, R.string.kw_instagram, catPrivacy, navPrivacy, "SET_BIBLIOGRAM"));
         list.add(new SettingsSearchEntry(R.string.replace_reddit, R.string.kw_reddit, catPrivacy, navPrivacy, "SET_LIBREDDIT"));
         list.add(new SettingsSearchEntry(R.string.replace_medium, R.string.kw_medium, catPrivacy, navPrivacy, "REPLACE_MEDIUM"));
         list.add(new SettingsSearchEntry(R.string.replace_bluesky, R.string.kw_bluesky, catPrivacy, navPrivacy, "SET_SKYVIEW"));
