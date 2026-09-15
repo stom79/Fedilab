@@ -85,6 +85,8 @@ public class Account implements Serializable {
     public boolean limited;
     @SerializedName("discoverable")
     public boolean discoverable;
+    @SerializedName("indexable")
+    public boolean indexable;
     @SerializedName("show_featured")
     public boolean show_featured;
     @SerializedName("feature_approval")
@@ -161,6 +163,8 @@ public class Account implements Serializable {
     public static class AccountParams implements Serializable {
         @SerializedName("discoverable")
         public boolean discoverable;
+        @SerializedName("indexable")
+        public boolean indexable;
         @SerializedName("bot")
         public boolean bot;
         @SerializedName("display_name")

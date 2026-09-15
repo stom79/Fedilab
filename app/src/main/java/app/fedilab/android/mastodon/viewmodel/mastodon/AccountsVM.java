@@ -277,6 +277,7 @@ public class AccountsVM extends AndroidViewModel {
      * Update account credentials
      *
      * @param discoverable Whether the account should be shown in the profile directory.
+     * @param indexable    Whether public posts should be searchable to anyone.
      * @param bot          Whether the account has a bot flag.
      * @param displayName  The display name to use for the profile.
      * @param note         The account bio.
@@ -291,6 +292,7 @@ public class AccountsVM extends AndroidViewModel {
      */
     public LiveData<Account> updateCredentials(@NonNull String instance, String token,
                                                Boolean discoverable,
+                                               Boolean indexable,
                                                Boolean bot,
                                                String displayName,
                                                String note,
@@ -313,6 +315,7 @@ public class AccountsVM extends AndroidViewModel {
             Account.AccountParams accountParams = new Account.AccountParams();
             accountParams.bot = bot;
             accountParams.discoverable = discoverable;
+            accountParams.indexable = indexable;
             accountParams.display_name = displayName;
             accountParams.note = note;
             accountParams.locked = locked;

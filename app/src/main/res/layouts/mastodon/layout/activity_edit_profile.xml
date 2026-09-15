@@ -471,6 +471,15 @@
                 android:text="@string/set_discoverable_content"
                 app:layout_constraintTop_toBottomOf="@id/bot" />
 
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/indexable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/set_indexable_content"
+                app:layout_constraintTop_toBottomOf="@id/discoverable" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lock_label"
                 android:layout_width="match_parent"
@@ -479,7 +488,7 @@
                 android:layout_marginTop="12dp"
                 android:text="@string/set_lock_account"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                app:layout_constraintTop_toBottomOf="@id/discoverable" />
+                app:layout_constraintTop_toBottomOf="@id/indexable" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 android:id="@+id/lock_group"

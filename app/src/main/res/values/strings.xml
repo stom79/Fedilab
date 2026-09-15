@@ -814,6 +814,7 @@
     <string name="fields_title">Add or remove fields</string>
     <string name="featured_hashtags_title">Add or remove featured hashtags</string>
     <string name="set_discoverable_content">Account discoverable</string>
+    <string name="set_indexable_content">Include public posts in search results</string>
     <string name="delete_field">Delete field</string>
     <string name="delete_featured_hashtag">Delete featured hashtag</string>
     <string name="delete_field_confirm">Are you sure you want to delete that field?</string>

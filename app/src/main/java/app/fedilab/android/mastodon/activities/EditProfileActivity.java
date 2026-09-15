@@ -163,6 +163,7 @@ public class EditProfileActivity extends BaseBarActivity {
             binding.quoteApprovalPolicyGroup.setVisibility(View.GONE);
             binding.sensitive.setVisibility(View.GONE);
             binding.discoverable.setVisibility(View.GONE);
+            binding.indexable.setVisibility(View.GONE);
             binding.avatarDescription.setVisibility(View.GONE);
             binding.headerDescription.setVisibility(View.GONE);
         }
@@ -258,6 +259,7 @@ public class EditProfileActivity extends BaseBarActivity {
         binding.bot.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.bot);
         if (!isMisskey) {
             binding.discoverable.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.discoverable);
+            binding.indexable.setChecked(Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.indexable);
         }
 
         if (Helper.getCurrentAccount(EditProfileActivity.this).mastodon_account.locked) {
@@ -571,6 +573,7 @@ public class EditProfileActivity extends BaseBarActivity {
                 String headerDescToSend = headerDesc.equals(originalHeaderDescription) ? null : headerDesc;
                 accountsVM.updateCredentials(BaseMainActivity.currentInstance, BaseMainActivity.currentToken,
                                 binding.discoverable.isChecked(),
+                                binding.indexable.isChecked(),
                                 binding.bot.isChecked(),
                                 Objects.requireNonNull(binding.displayName.getText()).toString().trim(),
                                 Objects.requireNonNull(binding.bio.getText()).toString(),
