@@ -145,12 +145,29 @@ public class SpannableHelper {
             markdownEmphasisUnderscore, markdownStrikethrough, markdownLink
     };
 
+    private static final Pattern emojiShortcode = Pattern.compile(":[a-zA-Z0-9_]+:");
+
+    private static boolean containsMarkdown(Spannable content) {
+        int next;
+        for (int i = 0; i < content.length(); i = next) {
+            next = content.nextSpanTransition(i, content.length(), URLSpan.class);
+            if (content.getSpans(i, next, URLSpan.class).length > 0) {
+                continue;
+            }
+            if (containsMarkdown(content.subSequence(i, next).toString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static boolean containsMarkdown(String text) {
         if (text == null) {
             return false;
         }
+        String textWithoutShortcodes = emojiShortcode.matcher(text).replaceAll(" ");
         for (Pattern markdownPattern : markdownPatterns) {
-            if (markdownPattern.matcher(text).find()) {
+            if (markdownPattern.matcher(textWithoutShortcodes).find()) {
                 return true;
             }
         }
@@ -343,7 +360,7 @@ public class SpannableHelper {
 
         //Get all links
         SpannableStringBuilder content;
-        if (markdownSupport && convertMarkdown && containsMarkdown(initialContent.toString())) {
+        if (markdownSupport && convertMarkdown && containsMarkdown(initialContent)) {
             MarkdownConverter markdownConverter = new MarkdownConverter();
             markdownConverter.markdownItems = new ArrayList<>();
             int next;
