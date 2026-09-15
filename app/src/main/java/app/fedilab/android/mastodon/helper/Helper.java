@@ -543,7 +543,6 @@ public class Helper {
             "ysclid"
     };
     public static int counter = 1;
-    private static int notificationId = 1;
     //Allow to store in shared preference first visible fragment when the app starts
     private static String slugOfFirstFragment;
     private static BaseAccount baseAccount;
@@ -1826,8 +1825,10 @@ public class Helper {
                 message = message.substring(0, 499) + "…";
             }
         }*/
-        notificationBuilder.setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "@" + account.instance)
+        String groupKey = account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "@" + account.instance;
+        notificationBuilder.setGroup(groupKey)
                 .setContentIntent(pIntent)
+                .setAutoCancel(true)
                 .setContentText(message);
         int ledColour = Color.BLUE;
         int prefColor;
@@ -1888,13 +1889,14 @@ public class Helper {
                 .setLargeIcon(icon)
                 .setSmallIcon(getNotificationIcon(context))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setGroup(account.mastodon_account != null ? account.mastodon_account.username + "@" + account.instance : "@" + account.instance)
+                .setGroup(groupKey)
                 .setGroupSummary(true)
+                .setAutoCancel(true)
                 .build();
 
-        notificationManager.notify(notificationId++, notificationBuilder.build());
+        notificationManager.notify(requestCode, notificationBuilder.build());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            notificationManager.notify(0, summaryNotification);
+            notificationManager.notify(groupKey.hashCode(), summaryNotification);
         }
     }
 

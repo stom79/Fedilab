@@ -31,7 +31,6 @@ import static app.fedilab.android.peertube.activities.PeertubeMainActivity.typeO
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -44,7 +43,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.service.notification.StatusBarNotification;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -719,9 +717,30 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                         intentContext.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         activity.startActivity(intentContext);
                     });
+                } else {
+                    goToNotificationTab(activity);
                 }
             });
+        } else {
+            goToNotificationTab(activity);
         }
+        final Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            Bundle args = new Bundle();
+            args.putBoolean(ARG_REFRESH_NOTFICATION, true);
+            Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
+            intentBC.setPackage(BuildConfig.APPLICATION_ID);
+            new CachedBundle(activity).insertBundle(args, Helper.getCurrentAccount(activity), bundleId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
+                intentBC.putExtras(bundle);
+                activity.sendBroadcast(intentBC);
+            });
+        }, 1000);
+        intent.removeExtra(Helper.INTENT_ACTION);
+    }
+
+    private static void goToNotificationTab(Activity activity) {
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -744,30 +763,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     }
                     viewPager.setCurrentItem(position);
                 }
-                Bundle args = new Bundle();
-                args.putBoolean(ARG_REFRESH_NOTFICATION, true);
-                Intent intentBC = new Intent(Helper.RECEIVE_STATUS_ACTION);
-                intentBC.setPackage(BuildConfig.APPLICATION_ID);
-                new CachedBundle(activity).insertBundle(args, Helper.getCurrentAccount(activity), bundleId -> {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong(Helper.ARG_INTENT_ID, bundleId);
-                    intentBC.putExtras(bundle);
-                    activity.sendBroadcast(intentBC);
-                });
-
             }
         }, 1000);
-        NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Helper.getCurrentAccount(activity) != null && Helper.getCurrentAccount(activity).mastodon_account != null) {
-            for (StatusBarNotification statusBarNotification : notificationManager.getActiveNotifications()) {
-                if (statusBarNotification.getGroupKey().contains(Helper.getCurrentAccount(activity).mastodon_account.acct + "@" + Helper.getCurrentAccount(activity).instance)) {
-                    notificationManager.cancel(statusBarNotification.getId());
-                }
-            }
-        } else {
-            notificationManager.cancelAll();
-        }
-        intent.removeExtra(Helper.INTENT_ACTION);
     }
 
 
