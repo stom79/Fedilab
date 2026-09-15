@@ -65,12 +65,6 @@ public class NotificationsVM extends AndroidViewModel {
     private static final List<String> GROUPED_TYPES = Arrays.asList("favourite", "reblog", "follow");
     final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
 
-
-    private MutableLiveData<Notifications> notificationsMutableLiveData;
-    private MutableLiveData<Notification> notificationMutableLiveData;
-    private MutableLiveData<Void> voidMutableLiveData;
-    private MutableLiveData<PushSubscription> pushSubscriptionMutableLiveData;
-
     public NotificationsVM(@NonNull Application application) {
         super(application);
     }
@@ -126,7 +120,7 @@ public class NotificationsVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link Notifications}
      */
     public LiveData<Notifications> getNotifications(List<Notification> notificationList, TimelinesVM.TimelineParams timelineParams) {
-        notificationsMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Notifications> notificationsMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Notifications notifications = new Notifications();
             boolean v2Success = false;
@@ -213,7 +207,7 @@ public class NotificationsVM extends AndroidViewModel {
     }
 
     public LiveData<Notifications> getNotificationCache(List<Notification> timelineNotification, TimelinesVM.TimelineParams timelineParams) {
-        notificationsMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Notifications> notificationsMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
             Notifications notifications = new Notifications();
@@ -289,7 +283,7 @@ public class NotificationsVM extends AndroidViewModel {
      */
     public LiveData<Notification> getSingleNotification(@NonNull String instance, String token,
                                                         String notification_id) {
-        notificationMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Notification> notificationMutableLiveData = new MutableLiveData<>();
         MastodonNotificationsService mastodonNotificationsService = init(instance);
         new Thread(() -> {
             Notification notification = null;
@@ -321,7 +315,7 @@ public class NotificationsVM extends AndroidViewModel {
      * @param token    String - Token of the authenticated account
      */
     public LiveData<Void> clearNotification(@NonNull String user_id, @NonNull String instance, String token) {
-        voidMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Void> voidMutableLiveData = new MutableLiveData<>();
         MastodonNotificationsService mastodonNotificationsService = init(instance);
         new Thread(() -> {
             Call<Void> voidCall = mastodonNotificationsService.clearAllNotifications(token);
@@ -350,7 +344,7 @@ public class NotificationsVM extends AndroidViewModel {
      * @param notification_id String - id of the notification
      */
     public LiveData<Void> dismissNotification(@NonNull String instance, String token, String notification_id) {
-        voidMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Void> voidMutableLiveData = new MutableLiveData<>();
         MastodonNotificationsService mastodonNotificationsService = init(instance);
         new Thread(() -> {
             Call<Void> voidCall = mastodonNotificationsService.dismissNotification(token, notification_id);
@@ -404,7 +398,7 @@ public class NotificationsVM extends AndroidViewModel {
                                                        boolean signup,
                                                        boolean report
     ) {
-        pushSubscriptionMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<PushSubscription> pushSubscriptionMutableLiveData = new MutableLiveData<>();
         MastodonNotificationsService mastodonNotificationsService = init(instance);
         new Thread(() -> {
             PushSubscription pushSubscription = null;
@@ -437,7 +431,7 @@ public class NotificationsVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link PushSubscription}
      */
     public LiveData<PushSubscription> getPushSubscription(@NonNull String instance, String token) {
-        pushSubscriptionMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<PushSubscription> pushSubscriptionMutableLiveData = new MutableLiveData<>();
         MastodonNotificationsService mastodonNotificationsService = init(instance);
         new Thread(() -> {
             PushSubscription pushSubscription = null;
@@ -480,7 +474,7 @@ public class NotificationsVM extends AndroidViewModel {
                                                              boolean reblog,
                                                              boolean mention,
                                                              boolean poll) {
-        pushSubscriptionMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<PushSubscription> pushSubscriptionMutableLiveData = new MutableLiveData<>();
         MastodonNotificationsService mastodonNotificationsService = init(instance);
         new Thread(() -> {
             PushSubscription pushSubscription = null;
@@ -511,7 +505,7 @@ public class NotificationsVM extends AndroidViewModel {
      * @param token    String - Token of the authenticated account
      */
     public LiveData<Void> deletePushsubscription(@NonNull String instance, String token) {
-        voidMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Void> voidMutableLiveData = new MutableLiveData<>();
         MastodonNotificationsService mastodonNotificationsService = init(instance);
         new Thread(() -> {
             Call<Void> voidCall = mastodonNotificationsService.deletePushsubscription(token);

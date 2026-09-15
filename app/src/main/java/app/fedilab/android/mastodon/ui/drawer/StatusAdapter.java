@@ -4327,11 +4327,14 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             if ((status.isFetchMore || status.isUnreachableGap) && fetchMoreCallBack != null) {
                 if (status.isUnreachableGap) {
+                    holder.bindingFilteredHide.layoutFetchMore.getRoot().setVisibility(View.VISIBLE);
                     holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
                     holder.bindingFilteredHide.layoutFetchMore.unreachableGapMessage.setVisibility(View.VISIBLE);
                 } else {
                     boolean autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
                     if (!autofetch) {
+                        holder.bindingFilteredHide.layoutFetchMore.getRoot().setVisibility(View.VISIBLE);
+                        holder.bindingFilteredHide.layoutFetchMore.unreachableGapMessage.setVisibility(View.GONE);
                         holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
                         holder.bindingFilteredHide.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
                             status.isFetchMore = false;
@@ -4360,6 +4363,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             fetchMoreCallBack.onClickMaxId(fromId, status);
                         });
                     } else {
+                        holder.bindingFilteredHide.layoutFetchMore.getRoot().setVisibility(View.GONE);
                         status.isFetchMore = false;
                         status.isFetching = true;
                         String minId = null, maxId;
@@ -4375,54 +4379,85 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             maxId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
                         }
-                        fetchMoreCallBack.autoFetch(minId, maxId, status);
+                        String autoFetchMinId = minId;
+                        String autoFetchMaxId = maxId;
+                        mRecyclerView.post(() -> fetchMoreCallBack.autoFetch(autoFetchMinId, autoFetchMaxId, status));
                     }
                 }
             } else {
+                holder.bindingFilteredHide.layoutFetchMore.getRoot().setVisibility(View.GONE);
                 holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }
         } else if (viewHolder.getItemViewType() == STATUS_FILTERED) {
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
             holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, status.filteredByApp.title));
             holder.bindingFiltered.displayButton.setOnClickListener(v -> {
                 status.filteredByApp = null;
-                notifyItemChanged(position);
+                notifyItemChanged(holder.getBindingAdapterPosition());
             });
 
             if ((status.isFetchMore || status.isUnreachableGap) && fetchMoreCallBack != null) {
                 if (status.isUnreachableGap) {
+                    holder.bindingFiltered.layoutFetchMore.getRoot().setVisibility(View.VISIBLE);
                     holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
                     holder.bindingFiltered.layoutFetchMore.unreachableGapMessage.setVisibility(View.VISIBLE);
                 } else {
-                    holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
-                    holder.bindingFiltered.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
-                        status.isFetchMore = false;
-                        status.isFetching = true;
-                        notifyItemChanged(holder.getBindingAdapterPosition());
-                        if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
-                            String fromId;
-                            if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
-                                fromId = statusList.get(holder.getBindingAdapterPosition() + 1).id;
-                            } else {
-                                fromId = status.id;
+                    boolean autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
+                    if (!autofetch) {
+                        holder.bindingFiltered.layoutFetchMore.getRoot().setVisibility(View.VISIBLE);
+                        holder.bindingFiltered.layoutFetchMore.unreachableGapMessage.setVisibility(View.GONE);
+                        holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
+                        holder.bindingFiltered.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
+                            status.isFetchMore = false;
+                            status.isFetching = true;
+                            notifyItemChanged(holder.getBindingAdapterPosition());
+                            if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
+                                String fromId;
+                                if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                                    fromId = statusList.get(holder.getBindingAdapterPosition() + 1).id;
+                                } else {
+                                    fromId = status.id;
+                                }
+                                fetchMoreCallBack.onClickMinId(fromId, status);
                             }
-                            fetchMoreCallBack.onClickMinId(fromId, status);
-                        }
-                    });
-                    holder.bindingFiltered.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
+                        });
+                        holder.bindingFiltered.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
+                            status.isFetchMore = false;
+                            status.isFetching = true;
+                            String fromId;
+                            if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
+                                fromId = statusList.get(holder.getBindingAdapterPosition()).id;
+                            } else {
+                                fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
+                            }
+                            fetchMoreCallBack.onClickMaxId(fromId, status);
+                            notifyItemChanged(holder.getBindingAdapterPosition());
+                        });
+                    } else {
+                        holder.bindingFiltered.layoutFetchMore.getRoot().setVisibility(View.GONE);
                         status.isFetchMore = false;
                         status.isFetching = true;
-                        String fromId;
-                        if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
-                            fromId = statusList.get(holder.getBindingAdapterPosition()).id;
-                        } else {
-                            fromId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
+                        String minId = null, maxId;
+                        if (holder.getBindingAdapterPosition() < statusList.size() - 1) {
+                            if (status.positionFetchMore == Status.PositionFetchMore.TOP) {
+                                minId = statusList.get(holder.getBindingAdapterPosition() + 1).id;
+                            } else {
+                                minId = status.id;
+                            }
                         }
-                        fetchMoreCallBack.onClickMaxId(fromId, status);
-                        notifyItemChanged(holder.getBindingAdapterPosition());
-                    });
+                        if (status.positionFetchMore == Status.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
+                            maxId = statusList.get(holder.getBindingAdapterPosition()).id;
+                        } else {
+                            maxId = statusList.get(holder.getBindingAdapterPosition() - 1).id;
+                        }
+                        String autoFetchMinId = minId;
+                        String autoFetchMaxId = maxId;
+                        mRecyclerView.post(() -> fetchMoreCallBack.autoFetch(autoFetchMinId, autoFetchMaxId, status));
+                    }
                 }
             } else {
+                holder.bindingFiltered.layoutFetchMore.getRoot().setVisibility(View.GONE);
                 holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }
         } else if (viewHolder.getItemViewType() == STATUS_ART) {

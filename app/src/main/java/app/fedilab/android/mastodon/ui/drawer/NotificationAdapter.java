@@ -435,18 +435,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 });
             });
             if (notification.isFetchMore && fetchMoreCallBack != null) {
+                holderFollow.binding.layoutFetchMore.getRoot().setVisibility(View.VISIBLE);
                 holderFollow.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
                 holderFollow.binding.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
                     notification.isFetchMore = false;
                     if (holderFollow.getBindingAdapterPosition() < notificationList.size() - 1) {
                         String fromId;
                         if (notification.positionFetchMore == Notification.PositionFetchMore.TOP) {
-                            fromId = notificationList.get(position + 1).id;
+                            fromId = notificationList.get(holderFollow.getBindingAdapterPosition() + 1).id;
                         } else {
                             fromId = notification.id;
                         }
                         fetchMoreCallBack.onClickMinId(fromId, notification);
-                        notifyItemChanged(position);
+                        notifyItemChanged(holderFollow.getBindingAdapterPosition());
                     }
 
                 });
@@ -454,15 +455,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     //We hide the button
                     notification.isFetchMore = false;
                     String fromId;
-                    if (notification.positionFetchMore == Notification.PositionFetchMore.TOP) {
-                        fromId = notificationList.get(position).id;
+                    if (notification.positionFetchMore == Notification.PositionFetchMore.TOP || holderFollow.getBindingAdapterPosition() == 0) {
+                        fromId = notificationList.get(holderFollow.getBindingAdapterPosition()).id;
                     } else {
-                        fromId = notificationList.get(position - 1).id;
+                        fromId = notificationList.get(holderFollow.getBindingAdapterPosition() - 1).id;
                     }
-                    notifyItemChanged(position);
+                    notifyItemChanged(holderFollow.getBindingAdapterPosition());
                     fetchMoreCallBack.onClickMaxId(fromId, notification);
                 });
             } else {
+                holderFollow.binding.layoutFetchMore.getRoot().setVisibility(View.GONE);
                 holderFollow.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
             }
             applyColorAccount(context, holderFollow);
@@ -472,8 +474,39 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.bindingFiltered.filteredText.setText(context.getString(R.string.filtered_by, notification.filteredByApp.title));
             holder.bindingFiltered.displayButton.setOnClickListener(v -> {
                 notification.filteredByApp = null;
-                notifyItemChanged(position);
+                notifyItemChanged(holder.getBindingAdapterPosition());
             });
+            if (notification.isFetchMore && fetchMoreCallBack != null) {
+                holder.bindingFiltered.layoutFetchMore.getRoot().setVisibility(View.VISIBLE);
+                holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
+                holder.bindingFiltered.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
+                    notification.isFetchMore = false;
+                    if (holder.getBindingAdapterPosition() < notificationList.size() - 1) {
+                        String fromId;
+                        if (notification.positionFetchMore == Notification.PositionFetchMore.TOP) {
+                            fromId = notificationList.get(holder.getBindingAdapterPosition() + 1).id;
+                        } else {
+                            fromId = notification.id;
+                        }
+                        fetchMoreCallBack.onClickMinId(fromId, notification);
+                        notifyItemChanged(holder.getBindingAdapterPosition());
+                    }
+                });
+                holder.bindingFiltered.layoutFetchMore.fetchMoreMax.setOnClickListener(v -> {
+                    notification.isFetchMore = false;
+                    String fromId;
+                    if (notification.positionFetchMore == Notification.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
+                        fromId = notificationList.get(holder.getBindingAdapterPosition()).id;
+                    } else {
+                        fromId = notificationList.get(holder.getBindingAdapterPosition() - 1).id;
+                    }
+                    notifyItemChanged(holder.getBindingAdapterPosition());
+                    fetchMoreCallBack.onClickMaxId(fromId, notification);
+                });
+            } else {
+                holder.bindingFiltered.layoutFetchMore.getRoot().setVisibility(View.GONE);
+                holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
+            }
         } else if (notification.status != null && itemViewType != TYPE_HIDDEN) {
             StatusAdapter.StatusViewHolder holderStatus = (StatusAdapter.StatusViewHolder) viewHolder;
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);

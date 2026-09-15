@@ -162,18 +162,19 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return;
         }
         if (conversation.isFetchMore && fetchMoreCallBack != null) {
+            holder.binding.layoutFetchMore.getRoot().setVisibility(View.VISIBLE);
             holder.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.VISIBLE);
             holder.binding.layoutFetchMore.fetchMoreMin.setOnClickListener(v -> {
                 conversation.isFetchMore = false;
                 if (holder.getBindingAdapterPosition() < conversationList.size() - 1) {
                     String fromId;
                     if (conversation.positionFetchMore == Conversation.PositionFetchMore.TOP) {
-                        fromId = conversationList.get(position + 1).id;
+                        fromId = conversationList.get(holder.getBindingAdapterPosition() + 1).id;
                     } else {
                         fromId = conversation.id;
                     }
                     fetchMoreCallBack.onClickMinId(fromId, conversation);
-                    notifyItemChanged(position);
+                    notifyItemChanged(holder.getBindingAdapterPosition());
                 }
 
             });
@@ -181,15 +182,16 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 //We hide the button
                 conversation.isFetchMore = false;
                 String fromId;
-                if (conversation.positionFetchMore == Conversation.PositionFetchMore.TOP) {
-                    fromId = conversationList.get(position).id;
+                if (conversation.positionFetchMore == Conversation.PositionFetchMore.TOP || holder.getBindingAdapterPosition() == 0) {
+                    fromId = conversationList.get(holder.getBindingAdapterPosition()).id;
                 } else {
-                    fromId = conversationList.get(position - 1).id;
+                    fromId = conversationList.get(holder.getBindingAdapterPosition() - 1).id;
                 }
-                notifyItemChanged(position);
+                notifyItemChanged(holder.getBindingAdapterPosition());
                 fetchMoreCallBack.onClickMaxId(fromId, conversation);
             });
         } else {
+            holder.binding.layoutFetchMore.getRoot().setVisibility(View.GONE);
             holder.binding.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
         }
         //---- SPOILER TEXT -----

@@ -83,21 +83,6 @@ public class TimelinesVM extends AndroidViewModel {
 
     final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
 
-
-    private MutableLiveData<List<Account>> accountListMutableLiveData;
-    private MutableLiveData<Boolean> booleanMutableLiveData;
-    private MutableLiveData<List<StatusDraft>> statusDraftListMutableLiveData;
-    private MutableLiveData<Status> statusMutableLiveData;
-    private MutableLiveData<Statuses> statusesMutableLiveData;
-    private MutableLiveData<PeertubeVideo.Video> peertubeVideoMutableLiveData;
-    private MutableLiveData<Conversations> conversationListMutableLiveData;
-    private MutableLiveData<MastodonList> mastodonListMutableLiveData;
-    private MutableLiveData<List<MastodonList>> mastodonListListMutableLiveData;
-    private MutableLiveData<Marker> markerMutableLiveData;
-    private MutableLiveData<List<Status>> statusListMutableLiveData;
-    private MutableLiveData<List<Tag>> tagListMutableLiveData;
-    private MutableLiveData<List<Link>> linkListMutableLiveData;
-
     public TimelinesVM(@NonNull Application application) {
         super(application);
     }
@@ -207,7 +192,7 @@ public class TimelinesVM extends AndroidViewModel {
 
     public LiveData<Statuses> getStatusTrends(String token, @NonNull String instance, String max_id, Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
-        statusesMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<List<Status>> publicTlCall = mastodonTimelinesService.getStatusTrends(token, max_id, limit);
             Statuses statuses = new Statuses();
@@ -232,7 +217,7 @@ public class TimelinesVM extends AndroidViewModel {
 
     public LiveData<List<Tag>> getTagsTrends(String token, @NonNull String instance, Integer offset, Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
-        tagListMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<List<Tag>> tagListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<List<Tag>> publicTlCall = mastodonTimelinesService.getTagTrends(token, offset, limit);
             List<Tag> tagList = null;
@@ -256,7 +241,7 @@ public class TimelinesVM extends AndroidViewModel {
 
     public LiveData<List<Link>> getLinksTrends(String token, @NonNull String instance, Integer offset, Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
-        linkListMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<List<Link>> linkListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<List<Link>> publicTlCall = mastodonTimelinesService.getLinkTrends(token, offset, limit);
             List<Link> linkList = null;
@@ -288,7 +273,7 @@ public class TimelinesVM extends AndroidViewModel {
      */
     public LiveData<Statuses> getLinkTimeline(String token, @NonNull String instance, String url, String max_id, String since_id, String min_id, Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
-        statusesMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Statuses statuses = new Statuses();
             Call<List<Status>> linkTimelineCall = mastodonTimelinesService.getLinkTimeline(token, url, max_id, since_id, min_id, limit);
@@ -322,7 +307,7 @@ public class TimelinesVM extends AndroidViewModel {
         MastodonTimelinesService mastodonTimelinesService = initInstanceXMLOnly("nitter.fedilab.app");
         accountsStr = accountsStr.replaceAll("\\s", ",");
 
-        statusesMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         String finalAccountsStr = accountsStr;
 
         new Thread(() -> {
@@ -370,7 +355,7 @@ public class TimelinesVM extends AndroidViewModel {
             RemoteInstance.InstanceType instanceType,
             String accountsStr,
             String max_position) {
-        statusesMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         Context context = getApplication().getApplicationContext();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final String nitterInstance = sharedpreferences.getString(context.getString(R.string.SET_NITTER_HOST), context.getString(R.string.DEFAULT_NITTER_HOST)).toLowerCase();
@@ -476,7 +461,7 @@ public class TimelinesVM extends AndroidViewModel {
                                          String untilId,
                                          Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance);
-        statusesMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             MisskeyNote.MisskeyParams misskeyParams = new MisskeyNote.MisskeyParams();
             misskeyParams.untilId = untilId;
@@ -521,7 +506,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link Statuses}
      */
     public LiveData<Statuses> getPixelfedDiscoverTrending(String instance) {
-        statusesMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance+"/api/pixelfed/v2/");
         new Thread(() -> {
             Statuses statuses = new Statuses();
@@ -556,7 +541,7 @@ public class TimelinesVM extends AndroidViewModel {
                                        String page,
                                        Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance);
-        statusesMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         if (page == null) {
             page = "1";
         }
@@ -639,7 +624,7 @@ public class TimelinesVM extends AndroidViewModel {
                                           String maxId,
                                           Integer limit) {
         MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance);
-        statusesMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<PeertubeVideo> publicTlCall = mastodonTimelinesService.getPeertube(maxId, "local", "-publishedAt", limit);
             Statuses statuses = new Statuses();
@@ -681,7 +666,7 @@ public class TimelinesVM extends AndroidViewModel {
      */
     public LiveData<PeertubeVideo.Video> getPeertubeVideo(@NonNull String instance, String id) {
         MastodonTimelinesService mastodonTimelinesService = initInstanceOnly(instance);
-        peertubeVideoMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<PeertubeVideo.Video> peertubeVideoMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<PeertubeVideo.Video> publicTlCall = mastodonTimelinesService.getPeertubeVideo(id);
             PeertubeVideo.Video peertubeVideo = null;
@@ -705,7 +690,7 @@ public class TimelinesVM extends AndroidViewModel {
      * Get the oldest status available in the home timeline (using min_id=0&limit=1)
      */
     public LiveData<Status> getOldestHomeStatus(@NonNull String instance, String token) {
-        statusMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Status> statusMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         new Thread(() -> {
             Status oldest = null;
@@ -726,7 +711,7 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
     public LiveData<Statuses> getTimeline(List<Status> timelineStatuses, TimelineParams timelineParams) {
-        statusesMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(timelineParams.instance);
         new Thread(() -> {
             Statuses statuses = new Statuses();
@@ -806,7 +791,7 @@ public class TimelinesVM extends AndroidViewModel {
     }
 
     public LiveData<Statuses> getTimelineCache(List<Status> timelineStatuses, TimelineParams timelineParams) {
-        statusesMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
             Statuses statuses = new Statuses();
@@ -854,7 +839,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return LiveData<ist < StatusDraft>>
      */
     public LiveData<List<StatusDraft>> getDrafts(BaseAccount account) {
-        statusDraftListMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<List<StatusDraft>> statusDraftListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             List<StatusDraft> statusCacheDAO = null;
             try {
@@ -877,7 +862,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link Conversations}
      */
     public LiveData<Conversations> getConversations(List<Conversation> conversationsTimeline, TimelineParams timelineParams) {
-        conversationListMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Conversations> conversationListMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(timelineParams.instance);
         new Thread(() -> {
             Conversations conversations = new Conversations();
@@ -920,7 +905,7 @@ public class TimelinesVM extends AndroidViewModel {
 
 
     public LiveData<Conversations> getConversationsCache(List<Conversation> timelineConversations, TimelineParams timelineParams) {
-        conversationListMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Conversations> conversationListMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
             Conversations conversations = new Conversations();
@@ -982,7 +967,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link Status}
      */
     public LiveData<Status> markReadConversation(@NonNull String instance, String token, @NonNull String id) {
-        statusMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Status> statusMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         new Thread(() -> {
             Status status = null;
@@ -1076,7 +1061,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link List} of {@link MastodonList}s
      */
     public LiveData<List<MastodonList>> getLists(@NonNull String instance, String token) {
-        mastodonListListMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<List<MastodonList>> mastodonListListMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         new Thread(() -> {
             List<MastodonList> mastodonListList = null;
@@ -1111,7 +1096,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link MastodonList}
      */
     public LiveData<MastodonList> getList(@NonNull String instance, String token, @NonNull String id) {
-        mastodonListMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<MastodonList> mastodonListMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         new Thread(() -> {
             MastodonList mastodonList = null;
@@ -1142,7 +1127,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link MastodonList}
      */
     public LiveData<MastodonList> createList(@NonNull String instance, String token, @NonNull String title, String repliesPolicy) {
-        mastodonListMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<MastodonList> mastodonListMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         new Thread(() -> {
             MastodonList mastodonList = null;
@@ -1174,7 +1159,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link MastodonList}
      */
     public LiveData<MastodonList> updateList(@NonNull String instance, String token, @NonNull String id, String title, String repliesPolicy) {
-        mastodonListMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<MastodonList> mastodonListMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         new Thread(() -> {
             MastodonList mastodonList = null;
@@ -1223,7 +1208,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link List} of {@link Account}s
      */
     public LiveData<List<Account>> getAccountsInList(@NonNull String instance, String token, @NonNull String id, String maxId, String sinceId, int limit) {
-        accountListMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<List<Account>> accountListMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         new Thread(() -> {
             List<Account> accountList = null;
@@ -1254,7 +1239,7 @@ public class TimelinesVM extends AndroidViewModel {
      */
     public LiveData<Boolean> addAccountsList(@NonNull String instance, String token, @NonNull String listId, @NonNull List<String> accountIds) {
         MastodonTimelinesService mastodonTimelinesService = init(instance);
-        booleanMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Boolean> booleanMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             Call<Void> addAccountsListCall = mastodonTimelinesService.addAccountsList(token, listId, accountIds);
             Boolean reply = null;
@@ -1303,7 +1288,7 @@ public class TimelinesVM extends AndroidViewModel {
      * @return {@link LiveData} containing a {@link Marker}
      */
     public LiveData<Marker> getMarker(@NonNull String instance, String token, @NonNull List<String> timeline) {
-        markerMutableLiveData = new MutableLiveData<>();
+        MutableLiveData<Marker> markerMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(instance);
         new Thread(() -> {
             Marker marker = null;

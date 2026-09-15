@@ -299,6 +299,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     }
 
     private void initializeView() {
+        restorePendingFetchMore();
         if (!isViewInitialized) {
             isViewInitialized = true;
             if (restoredFromSavedState) {
@@ -318,6 +319,20 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }
         if (timelineStatuses != null && !timelineStatuses.isEmpty()) {
             route(DIRECTION.FETCH_NEW, true);
+        }
+    }
+
+    private void restorePendingFetchMore() {
+        if (timelineStatuses == null || statusAdapter == null) {
+            return;
+        }
+        for (int position = 0; position < timelineStatuses.size(); position++) {
+            Status timelineStatus = timelineStatuses.get(position);
+            if (timelineStatus != null && timelineStatus.isFetching) {
+                timelineStatus.isFetching = false;
+                timelineStatus.isFetchMore = true;
+                statusAdapter.notifyItemChanged(position);
+            }
         }
     }
 
