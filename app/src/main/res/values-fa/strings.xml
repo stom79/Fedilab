@@ -596,7 +596,6 @@
     <string name="fetch_notifications">دریافت آگاه‌سازی‌ها</string>
     <string name="notif_submitted_report">گزارشی فرستاد</string>
     <string name="translator">مترجم</string>
-    <string name="replace_instagram_description">به‌کاربردن نما جایگزین برای اینستاگرام</string>
     <string name="change_visibility">تغییر دیدپذیری</string>
     <string name="set_language">تنظیم زبان</string>
     <string name="attach_images">پیوست تصاویر</string>
@@ -640,8 +639,6 @@
     <string name="set_custom_accent">رنگ برجسته سفارشی</string>
     <string name="requested_by">درخواست دنبال کردن شما را داده است</string>
     <string name="replace_twitter">توییتر</string>
-    <string name="replace_instagram">اینستاگرام</string>
-    <string name="replace_instagram_host">دامنه نمای اینستاگرام</string>
     <string name="followers_only">فقط دنبال‌کنندگان</string>
     <string name="post_message_text">ارسال بوق %d/%d</string>
     <string name="is_up">فعال است!</string>

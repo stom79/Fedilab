@@ -630,11 +630,8 @@
     <string name="replace_youtube_description">Použít alternativní frontend pro YouTube</string>
     <string name="replace_twitter_description">Použít alternativní frontend pro Twitter</string>
     <string name="replace_youtube">YouTube</string>
-    <string name="replace_instagram_description">Použít alternativní frontend pro Instagram</string>
-    <string name="replace_instagram_host">Doména frontendu Instagramu</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_twitter_host">Doména frontendu Twitteru</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="replace_reddit_description">Použít alternativní frontend pro Reddit</string>
     <string name="other">Jiné</string>
     <string name="eg_sensitive_content">Např.: citlivý obsah</string>

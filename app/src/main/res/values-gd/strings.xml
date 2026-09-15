@@ -535,8 +535,6 @@
     <string name="replace_youtube">YouTube</string>
     <string name="replace_youtube_description">Cleachd frontend eile airson YouTube</string>
     <string name="replace_youtube_host">Àrainn frontend YouTube</string>
-    <string name="replace_instagram_description">Cleachd frontend eile airson Instagram</string>
-    <string name="replace_instagram_host">Àrainn frontend Instagram</string>
     <string name="replace_reddit_host">Àrainn frontend Reddit</string>
     <string name="set_resize_video_indication">Ceadaich gun dèid videothan a dhùmhlachadh fhad ’s a thèid an càileachd a chumail.</string>
     <string name="boost_header_color_title">Bann-cinn nam brosnachaidhean</string>
@@ -593,7 +591,6 @@
     <string name="unresolved">Gun fhuasgladh</string>
     <string name="replace_twitter_description">Cleachd frontend eile airson Twitter</string>
     <string name="replace_twitter_host">Àrainn frontend Twitter</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_medium_description">Cleachd frontend eile airson Medium</string>
     <string name="replace_medium_host">Àrainn frontend Medium</string>

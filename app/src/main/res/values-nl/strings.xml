@@ -588,7 +588,6 @@
     <string name="category_music">Muziek</string>
     <string name="sign_ups">Aanmeldingen</string>
     <string name="replace_youtube">YouTube</string>
-    <string name="replace_instagram_description">Gebruik een alternatief frontend voor Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_reddit_description">Gebruik een alternatief frontend voor Reddit</string>
     <string name="add_status">Bericht toevoegen</string>
@@ -666,7 +665,6 @@
     <string name="toast_token">De app kreeg geen token</string>
     <string name="display_media_notification">Toon media in meldingen</string>
     <string name="remember_position">Onthoud positie in tijdlijnen</string>
-    <string name="replace_instagram_host">Instagram frontend domein</string>
     <string name="report_val2">Het is spam</string>
     <string name="report_indication_title_status">Vertel ons wat er aan de hand is met dit bericht</string>
     <string name="channel_notif_update">Nieuwe update</string>
@@ -714,7 +712,6 @@
     <string name="admin_domainblock_private_comment">Opmerking over deze domeinblokkade voor intern gebruik door de moderators.</string>
     <string name="mute_tag">Weet je zeker dat je deze tag wilt negeren:%1$s\?</string>
     <string name="open_draft">Open concept</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="replace_youtube_description">Gebruik een alternatief frontend voor YouTube</string>
     <string name="replace_youtube_host">YouTube frontend domein</string>
     <string name="replace_reddit_host">Reddit frontend domein</string>

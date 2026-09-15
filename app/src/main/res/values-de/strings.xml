@@ -603,7 +603,6 @@
     <string name="replace_twitter">Twitter</string>
     <string name="replace_twitter_description">Nutze eine alternative Benutzeroberfläche für Twitter</string>
     <string name="replace_twitter_host">Twitter Frontend Domain</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="other">Andere</string>
     <string name="display">Anzeige</string>
@@ -679,8 +678,6 @@
     <string name="types_of_notifications_to_display">Arten der anzuzeigenden Benachrichtigungen</string>
     <string name="toots_visibility_title">Standardmäßige Sichtbarkeit der Beiträge:</string>
     <string name="set_notifications_page">Anzahl an Benachrichtigungen pro Ladevorgang</string>
-    <string name="replace_instagram_description">Nutze eine alternative Benutzeroberfläche für Instagram</string>
-    <string name="replace_instagram_host">Instagram Frontend Domain</string>
     <string name="replace_reddit_description">Nutze eine alternative Benutzeroberfläche für Reddit</string>
     <string name="replace_reddit_host">Reddit Frontend Domain</string>
     <string name="pref_theme_base">Grundlage des Themas</string>

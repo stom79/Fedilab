@@ -576,7 +576,6 @@
     <string name="channel_notif_update">Eguneraketa berria</string>
     <string name="channel_notif_report">Salaketa berria</string>
     <string name="notif_update_push">Zuk partekatu duzun mezu bat editatu egin da</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="report_indication_title_status_more">Aukeratu hobekien bat datorrena</string>
     <string name="report_val1">Ez zait gustatzen</string>
     <string name="toast_unbookmark">Mezua zure markatutakoetatik kendu da!</string>
@@ -845,7 +844,6 @@
     <string name="notif_report">Erabiltzaile batek salaketa bidali du</string>
     <string name="sign_ups">Izen-emateak</string>
     <string name="cannot_be_empty">Eremu honek ezin du hutsik egon!</string>
-    <string name="replace_instagram_host">Instagrameko aurrekaldearen domeinua</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_reddit_description">Erabili aurrekalde alternatiboa Redditentzat</string>
     <string name="keepon">Jarraitu</string>
@@ -964,7 +962,6 @@
     <string name="replace_youtube_host">YouTuberen aurrekaldearen domeinua</string>
     <string name="replace_twitter_description">Erabili aurrekalde alternatiboa Twitterrentzat</string>
     <string name="replace_twitter_host">Twitterreko aurrekaldearen domeinua</string>
-    <string name="replace_instagram_description">Erabili aurrekalde alternatiboa Instagramentzat</string>
     <string name="replace_reddit_host">Redditeko aurrekaldearen domeinua</string>
     <string name="report_1_block_title">Blokeatu %1$s</string>
     <string name="set_display_translate_indication">Beti erakutsi itzultzeko botoia</string>

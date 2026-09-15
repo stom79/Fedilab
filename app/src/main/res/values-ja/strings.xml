@@ -613,7 +613,6 @@
     <string name="replace_twitter">Twitter</string>
     <string name="replace_twitter_description">Twitterの代替フロントエンドを使用します</string>
     <string name="replace_twitter_host">Twitterフロントエンドのドメイン</string>
-    <string name="replace_instagram_host">Instagramフロントエンドのドメイン</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_reddit_description">Redditの代替フロントエンドを使用します</string>
     <string name="keepon">続行</string>
@@ -661,8 +660,6 @@
     <string name="replace_youtube_description">YouTubeの代替フロントエンドを使用します</string>
     <string name="replace_youtube_host">YouTubeフロントエンドのドメイン</string>
     <string name="replace_reddit_host">Redditフロントエンドのドメイン</string>
-    <string name="replace_instagram">Instagram</string>
-    <string name="replace_instagram_description">Instagramの代替フロントエンドを使用します</string>
     <string name="followers_only">フォロワーのみ</string>
     <string name="add_status">ステータスを追加</string>
     <string name="instance_not_valid">このサーバーは無効なようです！</string>
@@ -1370,7 +1367,6 @@
     <string name="kw_customize_dark">カスタマイズ, ダーク, テーマ, 色, カラー</string>
     <string name="kw_youtube">youtube, invidious, 動画, プライバシー, フロントエンド</string>
     <string name="kw_twitter">twitter, ツイッター, nitter, プライバシー, フロントエンド</string>
-    <string name="kw_instagram">instagram, インスタグラム, bibliogram, プライバシー, フロントエンド</string>
     <string name="kw_reddit">reddit, libreddit, プライバシー, フロントエンド</string>
     <string name="kw_medium">medium, scribe, プライバシー, フロントエンド, ブログ</string>
     <string name="kw_bluesky">bluesky, bsky, ブルースカイ, skyview, プライバシー, フロントエンド</string>

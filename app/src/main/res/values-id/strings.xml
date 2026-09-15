@@ -653,9 +653,6 @@
     <string name="replace_twitter">Twitter</string>
     <string name="replace_twitter_description">Gunakan frontend alternatif untuk Twitter</string>
     <string name="replace_twitter_host">Domain frontend Twitter</string>
-    <string name="replace_instagram">Instagram</string>
-    <string name="replace_instagram_description">Gunakan frontend alternatif untuk Instagram</string>
-    <string name="replace_instagram_host">Domain frontend Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_reddit_description">Gunakan frontend alternatif untuk Reddit</string>
     <string name="replace_reddit_host">Domain frontend Reddit</string>
@@ -1326,7 +1323,6 @@
     <string name="kw_customize_dark">kustomisasi, gelap, tema, warna</string>
     <string name="kw_youtube">youtube, invidious, video, privasi, frontend</string>
     <string name="kw_twitter">twitter, nitter, privasi, frontend</string>
-    <string name="kw_instagram">instagram, bibliogram, privasi, frontend</string>
     <string name="kw_reddit">reddit, libreddit, privasi, frontend</string>
     <string name="kw_medium">medium, scribe, privasi, frontend, blog</string>
     <string name="kw_bluesky">bluesky, bsky, skyview, privasi, frontend</string>

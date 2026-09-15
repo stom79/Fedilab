@@ -598,7 +598,6 @@
     <string name="replace_youtube_description">Defnyddiwch flaenwedd arall ar gyfer YouTube</string>
     <string name="replace_youtube_host">Parth blaen YouTube</string>
     <string name="replace_twitter_description">Defnyddiwch flaenwedd arall ar gyfer Twitter</string>
-    <string name="replace_instagram_description">Defnyddio flaen arall ar gyfer Instagram</string>
     <string name="muted_menu_home">Defnyddwyr cartref wedi eu anwybyddu</string>
     <string name="set_notifications_page">Nifer yr hysbysiadau fesul llwyth</string>
     <string name="replace_youtube">YouTube</string>
@@ -610,13 +609,11 @@
     <string name="category_music">Cerddoriaeth</string>
     <string name="sign_ups">Cofrestriadau</string>
     <string name="replace_twitter_host">Parth blaen Twitter</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_reddit_description">Defnyddio flaen arall ar gyfer Reddit</string>
     <string name="replace_reddit_host">Parth blaen Reddit</string>
     <string name="_new">Newydd</string>
     <string name="replace_twitter">Twitter</string>
-    <string name="replace_instagram_host">Parth blaen Instagram</string>
     <string name="data_export_settings">Allforiwyd y gosodiadau</string>
     <string name="show_privates">Dangos negeseuon uniongyrchol</string>
     <string name="proxy_protocol">Protocol</string>

@@ -570,7 +570,6 @@
     <string name="select_distributors">Select a distributor</string>
     <string name="replace_reddit_description">Alternatív felület használata Reddithez</string>
     <string name="replace_reddit_host">Reddit felület tartományneve</string>
-    <string name="replace_instagram_host">Instagram felület tartományneve</string>
     <string name="tag_already_followed">Már követed azt a címkét!</string>
     <string name="toots_visibility_title">Üzenetek alapértelmezett láthatósága:</string>
     <string name="replace_youtube">YouTube</string>
@@ -594,8 +593,6 @@
     <string name="icon_size">Ikonméret</string>
     <string name="proxy_protocol_http">HTTP</string>
     <string name="cannot_be_empty">Ez a mező nem lehet üres!</string>
-    <string name="replace_instagram">Instagram</string>
-    <string name="replace_instagram_description">Alternatív felület használata Instagramhoz</string>
     <string name="lemmy_instance">Lemmy példány</string>
     <string name="show_content">Tartalom megjelenítése &gt;</string>
     <string name="hide_content">Tartalom elrejtése &lt;</string>

@@ -637,11 +637,9 @@
     <string name="toast_bookmark">Повідомлення додане до ваших закладок!</string>
     <string name="notif_update_push">Повідомлення котре ви поширили було відредаговано</string>
     <string name="copy_version">Скопіювати інформацію</string>
-    <string name="replace_instagram_host">Домен клієнтської частини Instagram</string>
     <string name="replace_reddit_description">Використовувати альтернативну клієнську частину для Reddit</string>
     <string name="replace_reddit_host">Домен клієнтської частини Reddit</string>
     <string name="lemmy_instance">екземпляр Lemmy</string>
-    <string name="replace_instagram_description">Використовувати альтернативну клієнську частину для Instagram</string>
     <string name="report_indication_title_status_more">Виберіть найкращий варіант</string>
     <string name="hide_content">Hide content &lt;</string>
     <string name="report_val1">Мені це не подобається</string>
@@ -733,7 +731,6 @@
     <string name="pref_customize">Налаштувати кольори</string>
     <string name="chat_timeline_for_direct">Хронологія чату для прямих повідомлень</string>
     <string name="replace_youtube">YouTube</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="notif_display_updates_from_people">Оновлення від людей</string>
     <string name="show_privates">Показати прямі повідомлення</string>
     <string name="label_shape">Форма</string>

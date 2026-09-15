@@ -579,10 +579,8 @@
     <string name="select_distributors">Velg en distributør</string>
     <string name="set_notifications_page">Antall merknader per innlasting</string>
     <string name="replace_twitter_description">Bruk en alternativ grenseflate for Twitter</string>
-    <string name="replace_instagram">Intagram</string>
     <string name="replace_reddit_description">Bruk en alternativ grenseflate for Reddit</string>
     <string name="replace_reddit">Reddit</string>
-    <string name="replace_instagram_host">Domene for Instagram-grenseflate</string>
     <string name="replace_reddit_host">Domene for Reddit-grenseflate</string>
     <string name="remove_status">Fjern status</string>
     <string name="post_message">Legger inn melding …</string>
@@ -594,7 +592,6 @@
     <string name="replace_twitter">Twitter</string>
     <string name="replace_youtube">YouTube</string>
     <string name="replace_twitter_host">Domene for Twitter-grenseflate</string>
-    <string name="replace_instagram_description">Bruk en alternativ grenseflate for Instagram</string>
     <string name="other">Annet</string>
     <string name="add_status">Legg til status</string>
     <string name="is_up">Er oppe!</string>

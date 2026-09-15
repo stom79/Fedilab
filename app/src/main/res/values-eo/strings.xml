@@ -589,7 +589,6 @@
     <string name="replace_youtube">YouTube</string>
     <string name="replace_twitter">Twitter</string>
     <string name="replace_reddit">Reddit</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="keepon">Daŭrigi</string>
     <string name="other">Alia</string>
     <string name="instance_health_indication">versio: %s
@@ -783,7 +782,6 @@
     <string name="reject_reports">Malakcepti raportojn</string>
     <string name="import_data">Enporti datenojn</string>
     <string name="unmute_tag_action">Malsilentigi etikedon</string>
-    <string name="replace_instagram_description">Uzi alternativan fasadon por Instagram</string>
     <string name="replace_twitter_description">Uzi alternativan fasadon por Twitter</string>
     <string name="post_message_text">Sendante mesaĝon n-ro %d el %d</string>
     <string name="message_language">Lingvo de mesaĝoj</string>
@@ -831,7 +829,6 @@
     <string name="followers_only">Nur abonantoj</string>
     <string name="proxy_protocol_http">HTTP</string>
     <string name="proxy_protocol_socks">SOCKS</string>
-    <string name="replace_instagram_host">Fasada retejo por Instagram</string>
     <string name="replace_reddit_description">Uzi alternativan fasadon por Reddit</string>
     <string name="replace_reddit_host">Fasada retejo por Reddit</string>
     <string name="replace_youtube_description">Uzi alternativan fasadon por YouTube</string>

@@ -624,8 +624,6 @@
     <string name="replace_youtube">YouTube</string>
     <string name="replace_youtube_host">YouTube ön uç etki alanı</string>
     <string name="replace_twitter">Twitter</string>
-    <string name="replace_instagram">Instagram</string>
-    <string name="replace_instagram_host">Instagram ön uç etki alanı</string>
     <string name="boosted_by">Tarafından arttırıldı</string>
     <string name="favourited_by">Tarafından favorilere eklendi</string>
     <string name="followers_only">Yalnızca takipçiler</string>
@@ -666,7 +664,6 @@
     <string name="replace_twitter_host">Twitter ön uç etki alanı</string>
     <string name="remove_status">Durumu kaldır</string>
     <string name="toast_bookmark">Mesaj, yer imlerinize eklendi!</string>
-    <string name="replace_instagram_description">Instagram için alternatif bir ön uç kullanın</string>
     <string name="category_custom">Özel</string>
     <string name="instance_health_indication">sürüm: %s
 \n %s kullanıcı - %s durum</string>

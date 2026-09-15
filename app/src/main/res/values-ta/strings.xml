@@ -409,9 +409,6 @@
     <string name="replace_twitter">ட்விட்டர்</string>
     <string name="replace_twitter_description">ட்விட்டருக்கு மாற்று முன்பக்கத்தைப் பயன்படுத்தவும்</string>
     <string name="replace_twitter_host">ட்விட்டர் ஃபிரான்ட் டொமைன்</string>
-    <string name="replace_instagram">இன்ச்டாகிராம்</string>
-    <string name="replace_instagram_description">இன்ச்டாகிராமிற்கு மாற்று முன்பக்கத்தைப் பயன்படுத்தவும்</string>
-    <string name="replace_instagram_host">Instagram Frontend டொமைன்</string>
     <string name="replace_reddit">ரெடிட்</string>
     <string name="replace_reddit_description">ரெடிட்டுக்கு மாற்று முன்பக்கத்தைப் பயன்படுத்தவும்</string>
     <string name="replace_reddit_host">ரெடிட் ஃபிரான்டென்ட் டொமைன்</string>
@@ -1284,7 +1281,6 @@
     <string name="kw_customize_dark">தனிப்பயனாக்கு, இருண்ட, கருப்பொருள், வண்ணங்கள்</string>
     <string name="kw_youtube">youtube, invidious, video, Privacy, frontend</string>
     <string name="kw_twitter">twitter, nitter, privacy, frontend</string>
-    <string name="kw_instagram">instagram, bibliogram, Privacy, frontend</string>
     <string name="kw_reddit">reddit, libreddit, privacy, frontend</string>
     <string name="kw_medium">நடுத்தர, எழுத்தாளர், தனியுரிமை, முன்பக்கம், வலைப்பதிவு</string>
     <string name="kw_bluesky">ப்ளூச்கி, பிச்கி, ச்கைவியூ, தனியுரிமை, முன்பக்கம்</string>

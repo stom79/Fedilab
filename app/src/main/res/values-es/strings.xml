@@ -945,7 +945,6 @@
     <string name="set_customize_dark_indication">Permite personalizar algunos elementos de los mensajes en el tema oscuro.</string>
     <string name="also_favourite_by">"También favorito de: "</string>
     <string name="replace_twitter_host">Dominio de interfaz para Twitter</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="report_1_block">No verás sus publicaciones. No podrá ver tus publicaciones ni seguirte. Podrá comprobar que le has bloqueado.</string>
     <string name="set_discoverable_content">La cuenta es detectable</string>
     <string name="pref_custom_theme_new_summary">Permite crear tu tema personalizado</string>
@@ -979,8 +978,6 @@
     <string name="group_reblogs">Agrupar impulsos en la cronología se inicio</string>
     <string name="category_music">Música</string>
     <string name="_new">Nuevo</string>
-    <string name="replace_instagram_host">Dominio de interfaz para Instagram</string>
-    <string name="replace_instagram_description">Usar interfaz alternativa para Instagram</string>
     <string name="replace_twitter_description">Usar interfaz alternativa para Twitter</string>
     <string name="report_2_title">¿Hay alguna publicación que apoye esta denuncia?</string>
     <string name="report_1_mute">No verás sus publicaciones. Podrá seguirte y ver tus publicaciones, y no sabrá que le has silenciado.</string>

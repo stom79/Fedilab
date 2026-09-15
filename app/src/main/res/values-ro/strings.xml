@@ -586,9 +586,6 @@
     <string name="replace_twitter_description">Folosește o interfață alternativă pentru Twitter</string>
     <string name="qr_code_generator">Generator QR</string>
     <string name="replace_twitter_host">Domeniu de interfață pentru Twitter</string>
-    <string name="replace_instagram_host">Domeniu de interfață pentru Instagram</string>
-    <string name="replace_instagram">Instagram</string>
-    <string name="replace_instagram_description">Folosește o interfață alternativă pentru Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_youtube_host">Domeniu de interfață pentru YouTube</string>
     <string name="replace_reddit_description">Folosește o interfață alternativă pentru Reddit</string>

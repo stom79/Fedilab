@@ -613,7 +613,6 @@
     <string name="replace_youtube_description">Użyj alternatywnej nakładki na YouTube</string>
     <string name="replace_twitter">Twitter</string>
     <string name="replace_twitter_description">Użyj alternatywnej nakładki na Twittera</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_reddit_description">Użyj alternatywnej nakładki na stronę Reddit</string>
     <string name="keepon">Kontynuuj</string>
@@ -636,7 +635,6 @@
     <string name="report_1_block_title">Zablokuj %1$s</string>
     <string name="toast_unbookmark">Wpis został usunięty z Twoich zakładek!</string>
     <string name="toots_visibility_title">Domyślna widoczność wpisów:</string>
-    <string name="replace_instagram_description">Użyj alternatywnej nakładki na Instagram</string>
     <string name="followers_only">Tylko obserwujący</string>
     <string name="remove_status">Usuń status</string>
     <string name="report_1_title_more">Oto opcje kontrolowania tego, co widzisz na Mastodonie:</string>
@@ -686,7 +684,6 @@
     <string name="no_account_in_list">Nie znaleziono kont dla tej listy!</string>
     <string name="replace_youtube_host">Domena frontendowa YouTube</string>
     <string name="replace_twitter_host">Domena frontendu Twitter</string>
-    <string name="replace_instagram_host">Domena frontendu Instagram</string>
     <string name="replace_reddit_host">Domena frontendu Reddit</string>
     <string name="boosted_by">Wzmocnione przez</string>
     <string name="is_up">Jest online!</string>

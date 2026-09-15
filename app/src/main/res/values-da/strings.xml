@@ -678,7 +678,6 @@
     <string name="set_alt_text_mandatory_description">Beskeden vil ikke blive sendt, hvis der mangler mediebeskrivelser</string>
     <string name="warn_boost_no_media_description">Advar, hvis beskeden ikke har en mediebeskrivelse før fremhævelse</string>
     <string name="truncate_links">Afkort links</string>
-    <string name="replace_instagram_host">Instagram brugerflade domæne</string>
     <string name="set_disable_release_notes_indication">Når en ny version udgives, vil du ikke blive varslet i app\'en.</string>
     <string name="data_import_settings_success">Indstillingerne er importeret succesfuldt</string>
     <string name="instance_not_valid">Instansen virker ikke til at være gyldig!</string>
@@ -1040,8 +1039,6 @@
     <string name="category_music">Musik</string>
     <string name="replace_twitter">Twitter</string>
     <string name="replace_twitter_host">Twitter brugerflade domæne</string>
-    <string name="replace_instagram">Instagram</string>
-    <string name="replace_instagram_description">Brug en alternativ brugerflade til Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="data_export_settings">Indstillingerne er eksporteret</string>
     <string name="report_indication_title_status">Fortæl os, hvad der sker med dette indlæg</string>

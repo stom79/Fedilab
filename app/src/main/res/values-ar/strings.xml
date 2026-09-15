@@ -600,9 +600,7 @@
     <string name="toast_unbookmark">تمت إزالة الرسالة من إشاراتك المرجعية!</string>
     <string name="cannot_be_empty">هذا الحقل لا يمكن أن يكون فارغا!</string>
     <string name="replace_youtube_description">استخدام واجهة بديلة لليوتيوب</string>
-    <string name="replace_instagram">انستغرام</string>
     <string name="replace_twitter_description">استخدام واجهة أمامية بديلة لتويتر</string>
-    <string name="replace_instagram_description">استخدام واجهة أمامية بديلة لـ Instagram</string>
     <string name="hide_content">إخفاء المحتوى &lt;</string>
     <string name="set_accounts_page">عدد الحسابات لكل تحميل</string>
     <string name="replace_youtube_host">نطاق الواجهة الأمامية لـ YouTube</string>
@@ -619,7 +617,6 @@
     <string name="followers_only">المتابِعون فقط</string>
     <string name="show_content">إظهار المحتوى &gt;</string>
     <string name="stop_recording">إيقاف التسجيل</string>
-    <string name="replace_instagram_host">نطاق الواجهة الأمامية لـ Instagram</string>
     <string name="toots_visibility_title">مدى رؤية الرسائل بشكل افتراضي:</string>
     <string name="icon_size">أحجام الأيقونات</string>
     <string name="other">أخرى</string>

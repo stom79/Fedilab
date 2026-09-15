@@ -612,9 +612,6 @@
     <string name="replace_youtube_host">YouTube 前端域名</string>
     <string name="replace_twitter">Twitter</string>
     <string name="replace_twitter_host">Twitter 前端域名</string>
-    <string name="replace_instagram">Instagram</string>
-    <string name="replace_instagram_description">为 Instagram 使用替代前端</string>
-    <string name="replace_instagram_host">Instagram 前端域名</string>
     <string name="category_custom">风俗</string>
     <string name="favourited_by">收藏自</string>
     <string name="followers_only">仅限关注者</string>
@@ -1328,7 +1325,6 @@
     <string name="kw_customize_dark">自定义、深、主题、颜色</string>
     <string name="kw_youtube">youtube、invidious、视频、隐私、前端</string>
     <string name="kw_twitter">twitter、nitter、隐私、前端</string>
-    <string name="kw_instagram">instagram、bibliogram、隐私、前端</string>
     <string name="kw_reddit">reddit、libreddit、隐私、前端</string>
     <string name="kw_medium">medium、scribe、隐私、前端、博客</string>
     <string name="kw_bluesky">bluesky、bsky、skyview、隐私、前端</string>

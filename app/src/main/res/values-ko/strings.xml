@@ -682,7 +682,6 @@
     <string name="replace_twitter">트위터</string>
     <string name="replace_twitter_description">트위터 대체 프론트엔드 쓰기</string>
     <string name="replace_twitter_host">트위터 프론트엔드 도메인</string>
-    <string name="replace_instagram">인스타그램</string>
     <string name="qr_code_generator">QR 생성</string>
     <string name="data_export_settings">설정을 내보냈습니다</string>
     <string name="data_export_settings_success">설정을 성공적으로 내보냈습니다</string>
@@ -754,8 +753,6 @@
     <string name="number_of_replies">답변 수</string>
     <string name="number_of_media">미디어 수</string>
     <string name="home_cache">홈 캐시</string>
-    <string name="replace_instagram_description">인스타그램 대체 프론트엔드 쓰기</string>
-    <string name="replace_instagram_host">인스타그램 프론트엔드 도메인</string>
     <string name="replace_reddit">레딧</string>
     <string name="replace_reddit_description">레딧 대체 프론트엔드 쓰기</string>
     <string name="replace_reddit_host">레딧 프론트엔드 도메인</string>

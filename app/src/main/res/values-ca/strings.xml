@@ -571,7 +571,6 @@
     <string name="no_distributors_found">No s\'han trobat distribuïdors!</string>
     <string name="no_distributors_explanation">Per rebre missatges fugaços et cal un distribuïdor.\nPer més detalls, vegeu %1$s.\n\nTambé pots desactivar els missatges fugaços a la configuració si els vols ignorar.</string>
     <string name="select_distributors">Tria un distribuïdor</string>
-    <string name="replace_instagram_host">Domini del frontal d\'Instagram</string>
     <string name="icon_size">Mides d\'icones</string>
     <string name="toast_bookmark">El bram s\'ha afegit als teus preferits!</string>
     <string name="toast_unbookmark">El bram s\'ha exclòs dels teus preferits!</string>
@@ -641,11 +640,9 @@
     <string name="set_accounts_page">Nombre de comptes per càrrega</string>
     <string name="replace_twitter">Twitter</string>
     <string name="cannot_be_empty">Aquest camp no pot quedar buit!</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="replace_youtube">YouTube</string>
     <string name="replace_youtube_host">Domini del frontal de YouTube</string>
     <string name="replace_twitter_description">Adopta un frontal alternatiu per a Twitter</string>
-    <string name="replace_instagram_description">Adopta un frontal alternatiu per a Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="instance_health_checkedat">Comprovat: %s</string>
     <string name="report_val_more3">Ets conscient de què incompleix normes concretes</string>
@@ -1331,7 +1328,6 @@
     <string name="kw_customize_dark">personalitzar, fosc, tema, colors</string>
     <string name="kw_youtube">youtube, invidious, vídeo, privacitat, frontal</string>
     <string name="kw_twitter">twitter, nitter, privacitat, frontal</string>
-    <string name="kw_instagram">instagram, bibliogram, privacitat, frontal</string>
     <string name="kw_reddit">reddit, libreddit, privacitat, frontal</string>
     <string name="kw_medium">medium, scribe, privacitat, frontal, blog</string>
     <string name="kw_bluesky">bluesky, bsky, skyview, privacitat, frontal</string>

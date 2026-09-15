@@ -839,7 +839,6 @@
     <string name="set_dynamic_color">Colore dinamico</string>
     <string name="set_dynamic_color_indication">Allinea la tonalità con il colore dello sfondo del dispositivo.</string>
     <string name="put_all_accounts_in_home_muted">Tutti gli account saranno silenziati per la timeline della Home.</string>
-    <string name="replace_instagram_description">Usa un frontend alternativo per Instagram</string>
     <string name="replace_reddit_description">Usa un fronten alternativo per Reddit</string>
     <string name="most_recent">Piú recente</string>
     <string name="clear_cache">Pulisci la cache</string>
@@ -920,7 +919,6 @@
     <string name="report_2_title">Ci sono dei post a supporto di questa segnalazione\?</string>
     <string name="replace_youtube_host">Dominio frontend YouTube</string>
     <string name="replace_twitter_host">Dominio frontend Twitter</string>
-    <string name="replace_instagram_host">Dominio frontend Instagram</string>
     <string name="replace_reddit_host">Dominio frontend Reddit</string>
     <string name="boosted_by">Ricondiviso da</string>
     <string name="admin_domainblock_reject_obfuscate">Offusca parzialmente il nome di dominio nella lista se mostra le limitazioni di dominio é abilitato</string>
@@ -991,7 +989,6 @@
     <string name="number_of_media">Numero di media</string>
     <string name="icons_extra_features_visibility_summary">Se la tua istanza non accetta alcune funzionalità extra, puoi nasconderne le icone</string>
     <string name="new_messages">Nuovi messaggi</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="exit">Esci</string>
     <string name="set_alt_text_mandatory_description">Il messaggio non sarà mandato se una descrizione manca per qualche media</string>
     <string name="thread_long_message_no">Non dividerlo</string>

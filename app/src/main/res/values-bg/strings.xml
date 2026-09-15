@@ -313,7 +313,6 @@
     <string name="set_clear_cache_exit_indication">Кешът (мултимедия, кеширани съобщения, данни от вградения браузър) ще се изчисти автоматично при напускане на приложението.</string>
     <string name="replace_youtube">YouTube</string>
     <string name="replace_twitter">Twitter</string>
-    <string name="replace_instagram">Instagram</string>
     <string name="replace_reddit">Reddit</string>
     <string name="replace_medium">Medium</string>
     <string name="action_add_notes">Добавяне на бележки</string>
