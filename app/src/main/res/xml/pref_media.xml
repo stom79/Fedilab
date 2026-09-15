@@ -109,14 +109,6 @@
         app:singleLineTitle="false"
         app:title="@string/set_pixelfed_presentation" />
 
-    <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:iconSpaceReserved="false"
-        app:key="@string/SET_PIXELFED_FULL_MEDIA"
-        app:singleLineTitle="false"
-        app:summary="@string/set_pixelfed_full_media_indication"
-        app:title="@string/set_pixelfed_full_media" />
-
     <androidx.preference.SeekBarPreference
         android:defaultValue="100"
         android:max="1000"

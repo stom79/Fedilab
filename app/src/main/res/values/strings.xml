@@ -2016,7 +2016,6 @@
     <string name="pref_category_key_interface" translatable="false">pref_category_interface</string>
     <string name="pref_category_key_compose" translatable="false">pref_category_compose</string>
     <string name="pref_category_key_privacy" translatable="false">pref_category_privacy</string>
-    <string name="pref_category_key_pixelfed" translatable="false">pref_category_key_pixelfed</string>
     <string name="pref_category_key_home_cache" translatable="false">pref_category_key_home_cache</string>
     <string name="pref_category_key_theming" translatable="false">pref_category_theming</string>
     <string name="pref_category_key_network" translatable="false">pref_category_network</string>

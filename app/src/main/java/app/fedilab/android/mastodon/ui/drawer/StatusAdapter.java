@@ -231,7 +231,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public FetchMoreCallBack fetchMoreCallBack;
     private Context context;
     private boolean visiblePixelfed;
-    private boolean pixelfedFullScreenMedia;
     private RecyclerView mRecyclerView;
 
     // Preferences
@@ -4218,11 +4217,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else if(timelineType == Timeline.TimeLineEnum.REMOTE && pinnedTimeline != null && pinnedTimeline.remoteInstance != null && pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.PIXELFED){
                         return STATUS_PIXELFED;
                     }else {
-                        if(pixelfedFullScreenMedia && timelineType != Timeline.TimeLineEnum.UNKNOWN && getCurrentAccount(context).software != null && getCurrentAccount(context).software.trim().toLowerCase().equals("pixelfed")) {
-                            return STATUS_PIXELFED;
-                        } else {
-                            return STATUS_VISIBLE;
-                        }
+                        return STATUS_VISIBLE;
                     }
                 } else {
                     return STATUS_HIDDEN;
@@ -4237,8 +4232,9 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        visiblePixelfed = sharedpreferences.getBoolean(context.getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, false);
-        pixelfedFullScreenMedia = sharedpreferences.getBoolean(context.getString(R.string.SET_PIXELFED_FULL_MEDIA) + MainActivity.currentUserID + MainActivity.currentInstance, true);
+        boolean pixelfedAccount = getCurrentAccount(context) != null && getCurrentAccount(context).software != null
+                && getCurrentAccount(context).software.trim().equalsIgnoreCase("pixelfed");
+        visiblePixelfed = sharedpreferences.getBoolean(context.getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, pixelfedAccount);
         if (viewType == STATUS_HIDDEN) { //Hidden statuses - ie: filtered
             DrawerStatusHiddenBinding itemBinding = DrawerStatusHiddenBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StatusViewHolder(itemBinding);

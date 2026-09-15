@@ -24,9 +24,12 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.helper.Helper;
 
 public class FragmentMediaSettings extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private boolean recreate;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -36,9 +39,12 @@ public class FragmentMediaSettings extends PreferenceFragmentCompat implements S
         if (SET_LOAD_MEDIA_TYPE != null) {
             SET_LOAD_MEDIA_TYPE.getContext().setTheme(Helper.dialogStyle());
         }
+        BaseAccount currentAccount = Helper.getCurrentAccount(requireActivity());
+        boolean pixelfedAccount = currentAccount != null && currentAccount.software != null
+                && currentAccount.software.trim().equalsIgnoreCase("pixelfed");
         SwitchPreferenceCompat SET_PIXELFED_PRESENTATION = findPreference(getString(R.string.SET_PIXELFED_PRESENTATION));
         if (SET_PIXELFED_PRESENTATION != null) {
-            boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, false);
+            boolean checked = sharedpreferences.getBoolean(getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, pixelfedAccount);
             SET_PIXELFED_PRESENTATION.setChecked(checked);
         }
     }
@@ -52,6 +58,7 @@ public class FragmentMediaSettings extends PreferenceFragmentCompat implements S
                 SwitchPreferenceCompat SET_PIXELFED_PRESENTATION = findPreference(getString(R.string.SET_PIXELFED_PRESENTATION));
                 if (SET_PIXELFED_PRESENTATION != null) {
                     editor.putBoolean(getString(R.string.SET_PIXELFED_PRESENTATION) + MainActivity.currentUserID + MainActivity.currentInstance, SET_PIXELFED_PRESENTATION.isChecked());
+                    recreate = true;
                 }
             }
             editor.apply();
@@ -70,5 +77,9 @@ public class FragmentMediaSettings extends PreferenceFragmentCompat implements S
         super.onPause();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
+        if (recreate) {
+            recreate = false;
+            Helper.recreateMainActivity(requireActivity());
+        }
     }
 }

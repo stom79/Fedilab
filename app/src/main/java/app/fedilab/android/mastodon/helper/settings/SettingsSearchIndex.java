@@ -110,7 +110,6 @@ public class SettingsSearchIndex {
         list.add(new SettingsSearchEntry(R.string.set_sensitive_indicator, R.string.kw_sensitive_indicator, catMedia, navMedia, "SET_SENSITIVE_INDICATOR"));
         list.add(new SettingsSearchEntry(R.string.set_media_description_indicator, R.string.kw_media_description_indicator, catMedia, navMedia, "SET_MEDIA_DESCRIPTION_INDICATOR"));
         list.add(new SettingsSearchEntry(R.string.set_pixelfed_presentation, R.string.kw_pixelfed_presentation, catMedia, navMedia, "SET_PIXELFED_PRESENTATION"));
-        list.add(new SettingsSearchEntry(R.string.set_pixelfed_full_media, R.string.kw_pixelfed_full_media, catMedia, navMedia, "SET_PIXELFED_FULL_MEDIA"));
         list.add(new SettingsSearchEntry(R.string.set_video_cache, R.string.kw_video_cache, catMedia, navMedia, "SET_VIDEO_CACHE"));
         list.add(new SettingsSearchEntry(R.string.set_nsfw_timeout, R.string.kw_nsfw_timeout, catMedia, navMedia, "SET_NSFW_TIMEOUT"));
         list.add(new SettingsSearchEntry(R.string.set_med_desc_timeout, R.string.kw_media_desc_timeout, catMedia, navMedia, "SET_MED_DESC_TIMEOUT"));
