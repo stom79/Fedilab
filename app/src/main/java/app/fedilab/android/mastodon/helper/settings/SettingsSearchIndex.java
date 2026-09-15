@@ -151,6 +151,7 @@ public class SettingsSearchIndex {
         list.add(new SettingsSearchEntry(R.string.text_size, R.string.kw_text_size, catInterface, navInterface, "SET_FONT_SCALE_INT"));
         list.add(new SettingsSearchEntry(R.string.icon_size, R.string.kw_icon_size, catInterface, navInterface, "SET_FONT_SCALE_ICON_INT"));
         list.add(new SettingsSearchEntry(R.string.emoji_size, R.string.kw_emoji_size, catInterface, navInterface, "SET_EMOJI_SCALE_INT"));
+        list.add(new SettingsSearchEntry(R.string.set_emoji_font, R.string.kw_emoji_font, catInterface, navInterface, "SET_EMOJI_FONT"));
         list.add(new SettingsSearchEntry(R.string.change_logo, R.string.kw_logo, catInterface, navInterface, "SET_LOGO_LAUNCHER"));
 
         // Compose

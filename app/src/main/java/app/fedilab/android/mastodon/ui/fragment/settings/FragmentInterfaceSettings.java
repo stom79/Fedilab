@@ -23,6 +23,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.preference.ListPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
@@ -33,6 +34,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
+import app.fedilab.android.mastodon.helper.EmojiFontHelper;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.ImageListPreference;
@@ -60,6 +62,15 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
                     .remove(getString(R.string.SET_CONVERSATION_REMOTELY))
                     .putString(getString(R.string.SET_CONVERSATION_REMOTELY), legacy ? Helper.CONVERSATION_MODE_REMOTE : Helper.CONVERSATION_MODE_LOCAL)
                     .apply();
+        }
+    }
+
+    private void updateEmojiFontSummary(Preference preference) {
+        if (EmojiFontHelper.isInstalled(requireActivity())) {
+            preference.setSummary(getString(R.string.set_emoji_font_installed));
+        } else {
+            preference.setSummary(getString(R.string.set_emoji_font_download,
+                    android.text.format.Formatter.formatShortFileSize(requireActivity(), EmojiFontHelper.FONT_SIZE)));
         }
     }
 
@@ -96,6 +107,31 @@ public class FragmentInterfaceSettings extends PreferenceFragmentCompat implemen
         if (SET_EMOJI_SCALE != null) {
             SET_EMOJI_SCALE.setMax(250);
             SET_EMOJI_SCALE.setMin(80);
+        }
+        Preference SET_EMOJI_FONT = findPreference(getString(R.string.SET_EMOJI_FONT));
+        if (SET_EMOJI_FONT != null) {
+            updateEmojiFontSummary(SET_EMOJI_FONT);
+            SET_EMOJI_FONT.setOnPreferenceClickListener(preference -> {
+                if (EmojiFontHelper.isInstalled(requireActivity())) {
+                    EmojiFontHelper.remove(requireActivity());
+                    updateEmojiFontSummary(preference);
+                } else {
+                    Toasty.info(requireActivity(), getString(R.string.set_emoji_font_downloading), Toasty.LENGTH_SHORT).show();
+                    EmojiFontHelper.download(requireActivity(), success -> {
+                        if (!isAdded()) {
+                            return;
+                        }
+                        if (success) {
+                            EmojiFontHelper.init(requireActivity());
+                            Toasty.success(requireActivity(), getString(R.string.set_emoji_font_success), Toasty.LENGTH_LONG).show();
+                        } else {
+                            Toasty.error(requireActivity(), getString(R.string.set_emoji_font_failure), Toasty.LENGTH_LONG).show();
+                        }
+                        updateEmojiFontSummary(preference);
+                    });
+                }
+                return true;
+            });
         }
         if (SET_LOGO_LAUNCHER != null) {
             SET_LOGO_LAUNCHER.setIcon(LogoHelper.getDrawable(SET_LOGO_LAUNCHER.getValue()));

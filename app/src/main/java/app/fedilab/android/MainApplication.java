@@ -39,6 +39,7 @@ import org.acra.data.StringFormat;
 
 import java.util.Objects;
 
+import app.fedilab.android.mastodon.helper.EmojiFontHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import app.fedilab.android.peertube.services.GlobalUploadObserver;
 import es.dmoral.toasty.Toasty;
@@ -54,6 +55,7 @@ public class MainApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        EmojiFontHelper.init(this);
         try {
             webView = new WebView(this);
         } catch (Exception ignored) {

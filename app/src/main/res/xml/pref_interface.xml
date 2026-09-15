@@ -216,6 +216,12 @@
             app:singleLineTitle="false"
             app:title="@string/emoji_size" />
 
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="@string/SET_EMOJI_FONT"
+            app:singleLineTitle="false"
+            app:title="@string/set_emoji_font" />
+
         <app.fedilab.android.mastodon.helper.ImageListPreference
             app:defaultValue="Bubbles"
             app:dialogTitle="@string/pickup_logo"

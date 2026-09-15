@@ -816,6 +816,13 @@
     <string name="featured_hashtags_title">Add or remove featured hashtags</string>
     <string name="set_discoverable_content">Account discoverable</string>
     <string name="set_indexable_content">Include public posts in search results</string>
+    <string name="SET_EMOJI_FONT" translatable="false">SET_EMOJI_FONT</string>
+    <string name="set_emoji_font">Emoji font</string>
+    <string name="set_emoji_font_download">Download a recent emoji font (%1$s) so that new emoji are displayed correctly</string>
+    <string name="set_emoji_font_installed">Emoji font installed. Tap to remove it.</string>
+    <string name="set_emoji_font_downloading">Downloading the emoji font</string>
+    <string name="set_emoji_font_success">Emoji font installed, restart the app to apply it everywhere</string>
+    <string name="set_emoji_font_failure">The emoji font could not be downloaded</string>
     <string name="delete_field">Delete field</string>
     <string name="delete_featured_hashtag">Delete featured hashtag</string>
     <string name="delete_field_confirm">Are you sure you want to delete that field?</string>
@@ -2492,6 +2499,7 @@
     <string name="kw_alt_text_warn">alt text, warn, accessibility</string>
     <string name="kw_maths">maths, formula, latex, equation, mathjax</string>
     <string name="kw_emoji_one">emoji, emojione, picker, keyboard</string>
+    <string name="kw_emoji_font">emoji, font, unicode, download, glyph</string>
     <string name="kw_share_details">share, details, link</string>
     <string name="kw_share_metadata">share, metadata, url, attach</string>
     <string name="kw_custom_sharing">custom, sharing, url</string>
