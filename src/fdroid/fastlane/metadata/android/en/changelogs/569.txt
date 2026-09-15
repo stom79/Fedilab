@@ -1,0 +1,16 @@
+Improved:
+- Add a setting to include public posts in search results
+- Notification types can now be enabled per account
+- Add an optional emoji font download, so that recent emoji display correctly
+- Remove Google Play restrictions
+
+Fixed:
+- Fix the "Fetch more messages" button missing on filtered posts
+- Fix timeline gaps that could no longer be filled after a failed fetch
+- Fix opening a notification dismissing all the other notifications
+- Fix device notifications replacing each other
+- Fix a crash while typing with the autocomplete list open
+- Fix the Pixelfed media presentation that could not be turned off
+- Pixelfed presentation moved to Media settings and has to be set again
+- Remove the Instagram redirection, the Bibliogram project is discontinued
+- Fix the formatting lost with Markdown support when a post contains underscores in emoji, hashtags or mentions

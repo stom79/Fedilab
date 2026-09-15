@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.43.4",
+    "code": "569",
+    "note": "Improved:\n- Add a setting to include public posts in search results\n- Notification types can now be enabled per account\n- Add an optional emoji font download, so that recent emoji display correctly\n- Remove Google Play restrictions\n\nFixed:\n- Fix the \"Fetch more messages\" button missing on filtered posts\n- Fix timeline gaps that could no longer be filled after a failed fetch\n- Fix opening a notification dismissing all the other notifications\n- Fix device notifications replacing each other\n- Fix a crash while typing with the autocomplete list open\n- Fix the Pixelfed media presentation that could not be turned off\n- Pixelfed presentation moved to Media settings and has to be set again\n- Remove the Instagram redirection, the Bibliogram project is discontinued\n- Fix the formatting lost with Markdown support when a post contains underscores in emoji, hashtags or mentions\n"
+  },
+  {
     "version": "3.43.3",
     "code": "568",
     "note": "Improved:\n- Display the numbering of ordered lists in posts\n\nFixed:\n- Fix mentions opening in the browser instead of the app\n- Fix PeerTube videos not opening or playing\n- Fix formatting lost in posts when Markdown support is enabled\n- Fix quotes displayed without their decoration\n- Fix the \"Local only\" button moving over the send button when typing\n- Fix the notifications position not restored after a restart\n- Fix the timeline jumping back in time with GoToSocial\n- Fix only the first hundred followed tags being loaded\n"
