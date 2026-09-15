@@ -40,7 +40,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.FragmentVideoPeertubeBinding;
 import app.fedilab.android.peertube.client.data.ChannelData;
@@ -210,15 +209,7 @@ public class DisplaySepiaSearchFragment extends Fragment implements AccountsHori
         int videoPerPage = sharedpreferences.getInt(Helper.SET_VIDEOS_PER_PAGE, Helper.VIDEOS_PER_PAGE);
         sepiaSearchVideo.setStart(String.valueOf(Integer.parseInt(sepiaSearchVideo.getStart()) + videoPerPage));
 
-        if (BuildConfig.FLAVOR.equalsIgnoreCase("fdroid")) {
-            this.peertubes.addAll(videoData.data);
-        } else {
-            for (VideoData.Video video : videoData.data) {
-                if (video.getName() == null || !video.getName().toLowerCase().contains("youtube") || !video.getName().toLowerCase().contains("download")) {
-                    this.peertubes.add(video);
-                }
-            }
-        }
+        this.peertubes.addAll(videoData.data);
 
         //If no item were inserted previously the adapter is created
         if (previousPosition == 0) {

@@ -42,7 +42,7 @@ android {
         }
         playstore {
             applicationId "app.fedilab.android"
-            buildConfigField "boolean", "DONATIONS", "false"
+            buildConfigField "boolean", "DONATIONS", "true"
             buildConfigField "boolean", "push", "true"
             flavor = "playstore"
         }

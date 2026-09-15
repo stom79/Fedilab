@@ -32,7 +32,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.multidex.BuildConfig;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -352,15 +351,7 @@ public class DisplayVideosFragment extends Fragment implements AccountsHorizonta
                 apiResponse.getPeertubes().add(v.getVideo());
             }
         }
-        if (BuildConfig.FLAVOR.equalsIgnoreCase("fdroid")) {
-            this.peertubes.addAll(apiResponse.getPeertubes());
-        } else {
-            for (VideoData.Video video : apiResponse.getPeertubes()) {
-                if (video.getName() == null || !video.getName().toLowerCase().contains("youtube") || !video.getName().toLowerCase().contains("download")) {
-                    this.peertubes.add(video);
-                }
-            }
-        }
+        this.peertubes.addAll(apiResponse.getPeertubes());
 
 
         //If no item were inserted previously the adapter is created

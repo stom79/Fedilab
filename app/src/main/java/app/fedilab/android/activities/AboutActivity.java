@@ -69,7 +69,7 @@ public class AboutActivity extends BaseBarActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        String version = "v" + BuildConfig.VERSION_NAME + " (" + (BuildConfig.DONATIONS ? "F-Droid" : "Google") + ")";
+        String version = "v" + BuildConfig.VERSION_NAME + " (" + (BuildConfig.FLAVOR.compareTo("playstore") == 0 ? "Google" : "F-Droid") + ")";
         binding.aboutVersion.setText(version);
 
         binding.aboutCode.setOnClickListener(v -> Helper.openBrowser(AboutActivity.this, "https://codeberg.org/tom79/Fedilab"));
