@@ -38,7 +38,6 @@ public class TagsSearchAdapter extends ArrayAdapter<Tag> implements Filterable {
 
     private final List<Tag> tags;
     private final List<Tag> tempTags;
-    private final List<Tag> suggestions;
     private final Context context;
 
     private final Filter searchFilter = new Filter() {
@@ -51,11 +50,10 @@ public class TagsSearchAdapter extends ArrayAdapter<Tag> implements Filterable {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             if (constraint != null) {
-                suggestions.clear();
-                suggestions.addAll(tempTags);
+                List<Tag> filteredTags = new ArrayList<>(tempTags);
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = suggestions;
-                filterResults.count = suggestions.size();
+                filterResults.values = filteredTags;
+                filterResults.count = filteredTags.size();
                 return filterResults;
             } else {
                 return new FilterResults();
@@ -64,7 +62,8 @@ public class TagsSearchAdapter extends ArrayAdapter<Tag> implements Filterable {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<Tag> c = (ArrayList<Tag>) results.values;
+            @SuppressWarnings("unchecked")
+            List<Tag> c = (List<Tag>) results.values;
             if (results.count > 0) {
                 clear();
                 addAll(c);
@@ -81,7 +80,6 @@ public class TagsSearchAdapter extends ArrayAdapter<Tag> implements Filterable {
         this.context = context;
         this.tags = tags;
         this.tempTags = new ArrayList<>(tags);
-        this.suggestions = new ArrayList<>(tags);
     }
 
     @Override
@@ -120,7 +118,10 @@ public class TagsSearchAdapter extends ArrayAdapter<Tag> implements Filterable {
 
         if (historyList != null) {
             for (History history : historyList) {
-                stat += Integer.parseInt(history.accounts);
+                try {
+                    stat += Integer.parseInt(history.accounts);
+                } catch (NumberFormatException ignored) {
+                }
             }
         }
         if (stat > 0) {

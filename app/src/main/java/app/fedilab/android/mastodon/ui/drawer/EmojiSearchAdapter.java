@@ -41,7 +41,6 @@ public class EmojiSearchAdapter extends ArrayAdapter<Emoji> implements Filterabl
 
     private final List<Emoji> emojis;
     private final List<Emoji> tempEmojis;
-    private final List<Emoji> suggestions;
     private final Filter searchFilter = new Filter() {
         @Override
         public CharSequence convertResultToString(Object resultValue) {
@@ -52,11 +51,10 @@ public class EmojiSearchAdapter extends ArrayAdapter<Emoji> implements Filterabl
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             if (constraint != null) {
-                suggestions.clear();
-                suggestions.addAll(tempEmojis);
+                List<Emoji> filteredEmojis = new ArrayList<>(tempEmojis);
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = suggestions;
-                filterResults.count = suggestions.size();
+                filterResults.values = filteredEmojis;
+                filterResults.count = filteredEmojis.size();
                 return filterResults;
             } else {
                 return new FilterResults();
@@ -67,7 +65,8 @@ public class EmojiSearchAdapter extends ArrayAdapter<Emoji> implements Filterabl
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             try {
-                ArrayList<Emoji> c = (ArrayList<Emoji>) results.values;
+                @SuppressWarnings("unchecked")
+                List<Emoji> c = (List<Emoji>) results.values;
                 if (results.count > 0) {
                     clear();
                     addAll(c);
@@ -88,7 +87,6 @@ public class EmojiSearchAdapter extends ArrayAdapter<Emoji> implements Filterabl
         super(context, android.R.layout.simple_list_item_1, emojis);
         this.emojis = emojis;
         this.tempEmojis = new ArrayList<>(emojis);
-        this.suggestions = new ArrayList<>(emojis);
         this.context = context;
     }
 

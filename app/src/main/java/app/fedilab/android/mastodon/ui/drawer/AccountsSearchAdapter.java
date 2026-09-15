@@ -43,7 +43,6 @@ public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filt
 
     private final List<Account> accounts;
     private final List<Account> tempAccounts;
-    private final List<Account> suggestions;
 
     private final Filter accountFilter = new Filter() {
         @Override
@@ -55,11 +54,10 @@ public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filt
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             if (constraint != null) {
-                suggestions.clear();
-                suggestions.addAll(tempAccounts);
+                List<Account> filteredAccounts = new ArrayList<>(tempAccounts);
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = suggestions;
-                filterResults.count = suggestions.size();
+                filterResults.values = filteredAccounts;
+                filterResults.count = filteredAccounts.size();
                 return filterResults;
             } else {
                 return new FilterResults();
@@ -68,7 +66,8 @@ public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filt
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<Account> c = (ArrayList<Account>) results.values;
+            @SuppressWarnings("unchecked")
+            List<Account> c = (List<Account>) results.values;
             if (results.count > 0) {
                 clear();
                 addAll(c);
@@ -84,7 +83,6 @@ public class AccountsSearchAdapter extends ArrayAdapter<Account> implements Filt
         super(context, android.R.layout.simple_list_item_1, accounts);
         this.accounts = accounts;
         this.tempAccounts = new ArrayList<>(accounts);
-        this.suggestions = new ArrayList<>(accounts);
     }
 
 
