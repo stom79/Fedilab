@@ -1422,4 +1422,12 @@
     <string name="set_media_document_picker">用文件浏览器附加媒体文件</string>
     <string name="set_media_document_picker_summary">按文件夹浏览文件，而不是使用系统照片选择器</string>
     <string name="set_cache_retention">缓存嘟文保留时长</string>
+    <string name="settings_category_notif_categories_account">%1$s 的通知类型</string>
+    <string name="set_indexable_content">包含搜索结果中的公开嘟文</string>
+    <string name="set_emoji_font">表情符号字体</string>
+    <string name="set_emoji_font_download">下载近期的表情符号字体 (%1$s) 以正常显示新的表情符号</string>
+    <string name="set_emoji_font_installed">已安装表情符号字体。轻按删除它。</string>
+    <string name="set_emoji_font_downloading">正下载表情符号字体</string>
+    <string name="set_emoji_font_success">已安装表情符号字体，重启应用在所有地方应用</string>
+    <string name="set_emoji_font_failure">无法下载表情符号字体</string>
 </resources>
