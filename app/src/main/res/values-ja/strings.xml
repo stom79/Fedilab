@@ -1424,4 +1424,13 @@
     <string name="set_notif_collection">コレクションの変更を通知する</string>
     <string name="action_remove_myself_from_collection">このコレクションから自分を削除する</string>
     <string name="action_remove_me">自分を削除</string>
+    <string name="settings_category_notif_categories_account">%1$s の通知形式</string>
+    <string name="set_indexable_content">公開投稿を検索結果に含める</string>
+    <string name="set_emoji_font">絵文字フォント</string>
+    <string name="set_emoji_font_download">新規の絵文字が正しく表示されるよう最新の絵文字フォント (%1$s) をダウンロードする</string>
+    <string name="set_emoji_font_installed">絵文字フォントがインストールされました。タップすると削除します。</string>
+    <string name="set_emoji_font_downloading">絵文字フォントをダウンロードしています</string>
+    <string name="set_emoji_font_success">絵文字フォントがインストールされました、アプリの再起動で全てに適用されます</string>
+    <string name="set_emoji_font_failure">絵文字フォントをダウンロードできませんでした</string>
+    <string name="kw_emoji_font">絵文字、フォント、ユニコード、ダウンロード、グリフ</string>
 </resources>
