@@ -1,0 +1,16 @@
+Peningkatan:
+- Menambahkan pengaturan untuk menyertakan postingan publik dalam hasil pencarian
+- Jenis notifikasi kini dapat diaktifkan untuk setiap akun
+- Menambahkan unduhan font emoji opsional agar emoji terbaru dapat ditampilkan dengan benar
+- Menghapus pembatasan Google Play
+
+Perbaikan:
+- Memperbaiki tombol "Ambil lebih banyak pesan" yang hilang pada postingan terfilter
+- Memperbaiki celah linimasa yang tidak dapat lagi diisi setelah pengambilan data gagal
+- Memperbaiki tindakan membuka notifikasi yang menyebabkan semua notifikasi lain ditutup
+- Memperbaiki notifikasi perangkat yang saling menggantikan
+- Memperbaiki crash saat mengetik ketika daftar pelengkapan otomatis terbuka
+- Memperbaiki tampilan media Pixelfed yang tidak dapat dinonaktifkan
+- Tampilan Pixelfed dipindahkan ke pengaturan Media dan harus diatur kembali
+- Menghapus pengalihan Instagram karena proyek Bibliogram telah dihentikan
+- Memperbaiki format yang hilang pada dukungan Markdown ketika postingan berisi garis bawah pada emoji, hashtag, atau mention

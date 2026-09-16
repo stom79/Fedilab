@@ -1,0 +1,12 @@
+Peningkatan:
+- Menampilkan penomoran daftar berurutan dalam postingan
+
+Perbaikan:
+- Memperbaiki mention yang terbuka di browser, bukan di aplikasi
+- Memperbaiki video PeerTube yang tidak dapat dibuka atau diputar
+- Memperbaiki format yang hilang dalam postingan saat dukungan Markdown diaktifkan
+- Memperbaiki kutipan yang ditampilkan tanpa dekorasinya
+- Memperbaiki tombol "Hanya lokal" yang bergeser menutupi tombol kirim saat mengetik
+- Memperbaiki posisi notifikasi yang tidak dipulihkan setelah aplikasi dimulai ulang
+- Memperbaiki linimasa yang melompat mundur pada GoToSocial
+- Memperbaiki agar tidak hanya seratus tag yang diikuti pertama saja yang dimuat

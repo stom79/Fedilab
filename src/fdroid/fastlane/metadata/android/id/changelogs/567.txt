@@ -1,0 +1,13 @@
+Peningkatan:
+- Mempertahankan konten komposer saat aplikasi dimulai ulang atau tema berubah
+
+Perbaikan:
+- Memperbaiki posisi linimasa yang tidak tersimpan atau dipulihkan pada lokasi yang salah
+- Memperbaiki urutan linimasa pada akun yang menggunakan ID nonnumerik (GoToSocial)
+- Memperbaiki tautan ke halaman non-Fediverse yang membuka konten yang salah di aplikasi
+- Memperbaiki crash memori setelah navigasi yang lama
+- Memperbaiki masalah memori pada emoji kustom berukuran besar
+- Memperbaiki kebocoran memori saat menutup layar yang berisi video
+- Memperbaiki masalah memori pada video putar otomatis
+- Memperbaiki crash saat keluar dari layar dengan cepat
+- Memperbaiki linimasa yang lambat saat menggulir postingan dengan kutipan
