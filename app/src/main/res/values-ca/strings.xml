@@ -1425,4 +1425,13 @@
     <string name="set_cache_retention">Manté els missatges guardats en memòria cau per a</string>
     <string name="kw_cache_retention">memòria cau, retenció, mantenir, dies, retirar, eliminar, missatges vells</string>
     <string name="kw_media_document_picker">selector, document, carpeta, explorar, foto, document, adjuntar, documents multimèdia</string>
+    <string name="settings_category_notif_categories_account">Tipus de notificació de %1$s</string>
+    <string name="set_indexable_content">Incloure missatges públics en resultats de cerques</string>
+    <string name="set_emoji_font">Font emoji</string>
+    <string name="set_emoji_font_download">Descarrega una font emoji recent (%1$s) per tal que els nous emojis es visualitzin correctament</string>
+    <string name="set_emoji_font_installed">Font emoji instal·lada. Tocar per suprimir-la.</string>
+    <string name="set_emoji_font_downloading">Descarregant la font emoji</string>
+    <string name="set_emoji_font_success">Font emoji instal·lada, reiniciar l\'app per aplicar-la de manera general</string>
+    <string name="set_emoji_font_failure">No s\'ha pogut descarregar la font emoji</string>
+    <string name="kw_emoji_font">emoji, font, unicode, descarregar, glif</string>
 </resources>

@@ -1,0 +1,16 @@
+Millores:
+- Paràmetre afegit d'inclusió de missatges públics a les cerques
+- Ja es poden habilitar tipus de notificació per compte
+- Descàrrega opcional afegida de font emoji que assegura de visualitzar bé els emojis recents
+- Supressió de restriccions de Google Play
+
+Correccions:
+- Botó "Extreure més missatges" que desapareixia en missatges filtrats
+- Espais buits de possarres que no es podien omplir després d'una extracció fallida
+- Es descartaven totes les notificacions en obrir-ne una
+- Notificacions del dispositiu que s'excloïen entre elles
+- Fallides quan es teclejava amb la llista d'autocompletar oberta
+- Presentacions de mèdia de Pixelfed que no es podien desactivar
+- Presentacions de mèdia de Pixelfed traslladades als paràmetres de Mèdia i s'ha de reconfigurar
+- Supressió de la redirecció d'Instagram, s'abandona el projecte Bibliogram
+- Format que es perdia amb Markdown quan un missatge contenia guions baixos en emojis, hashtags o mencions
