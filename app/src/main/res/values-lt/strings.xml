@@ -169,4 +169,5 @@
     <string name="languages">Kalbos</string>
     <string name="administration">Administravimas</string>
     <string name="reports">Ataskaitos</string>
+    <string name="action_remove_me">Šalinti mane</string>
 </resources>
