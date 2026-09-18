@@ -1303,4 +1303,12 @@
     <string name="set_media_document_picker">Použít procházení souborů k připojení médií</string>
     <string name="set_media_document_picker_summary">Procházet soubory podle složek místo systémového výběru fotek</string>
     <string name="set_cache_retention">Uchovávat nacachované příspěvky pro</string>
+    <string name="settings_category_notif_categories_account">Typy upozornění pro %1$s</string>
+    <string name="set_indexable_content">Včetně veřejných příspěvků ve výsledcích vyhledávání</string>
+    <string name="set_emoji_font">Písmo emoji</string>
+    <string name="set_emoji_font_download">Stáhnout nejnovější písmo pro emoji (%1$s), aby se nové emoji zobrazovaly správně</string>
+    <string name="set_emoji_font_installed">Písmo pro emoji instalováno. Klepnutím ho odstraníte.</string>
+    <string name="set_emoji_font_downloading">Stahuje se písmo pro emoji</string>
+    <string name="set_emoji_font_success">Písmo pro emoji instalováno, restartujte aplikaci, aby se projevilo všude</string>
+    <string name="set_emoji_font_failure">Písmo pro emoji nelze stáhnout</string>
 </resources>
