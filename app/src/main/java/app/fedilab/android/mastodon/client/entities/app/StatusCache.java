@@ -27,6 +27,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import app.fedilab.android.activities.MainActivity;
@@ -250,6 +251,34 @@ public class StatusCache {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Get the date each home message was put in cache
+     *
+     * @param baseAccount Status {@link BaseAccount}
+     * @return HashMap<String, Long> - status id and date of insertion
+     * @throws DBException Exception
+     */
+    public HashMap<String, Long> getHomeInsertionDates(Context context, BaseAccount baseAccount) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        HashMap<String, Long> insertionDates = new HashMap<>();
+        String selection = Sqlite.COL_INSTANCE + "='" + baseAccount.instance + "' AND " + Sqlite.COL_USER_ID + "= '" + baseAccount.user_id + "' AND " + Sqlite.COL_SLUG + "= '" + Timeline.TimeLineEnum.HOME.getValue() + "' ";
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, new String[]{Sqlite.COL_STATUS_ID, Sqlite.COL_CREATED_AT}, selection, null, Sqlite.COL_STATUS_ID, null, null, null);
+            while (c.moveToNext()) {
+                Date insertedAt = Helper.stringToDate(context, c.getString(c.getColumnIndexOrThrow(Sqlite.COL_CREATED_AT)));
+                if (insertedAt != null) {
+                    insertionDates.put(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUS_ID)), insertedAt.getTime());
+                }
+            }
+            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return insertionDates;
     }
 
     /**

@@ -1334,6 +1334,7 @@ public class TimelinesVM extends AndroidViewModel {
     public static class TimelineParams {
 
         public FragmentMastodonTimeline.DIRECTION direction;
+        public String trigger;
         public String instance;
         public String token;
         public Timeline.TimeLineEnum type;
