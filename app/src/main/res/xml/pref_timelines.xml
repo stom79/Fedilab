@@ -114,7 +114,7 @@
     <androidx.preference.SeekBarPreference
         android:defaultValue="40"
         app:min="10"
-        android:max="80"
+        android:max="40"
         app:iconSpaceReserved="false"
         app:key="@string/SET_STATUSES_PER_CALL"
         app:showSeekBarValue="true"
