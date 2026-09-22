@@ -44,7 +44,12 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.tabs.TabLayout;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,10 +61,12 @@ import java.util.Locale;
 import app.fedilab.android.R;
 import app.fedilab.android.databinding.ActivityCheckHomeCachetBinding;
 import app.fedilab.android.mastodon.client.entities.api.Status;
+import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.TimelineCacheLogs;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.helper.HomeCacheDiffHelper;
 import app.fedilab.android.mastodon.helper.ThemeHelper;
 import es.dmoral.toasty.Toasty;
 
@@ -77,6 +84,8 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
     private ArrayList<String> xVals2;
 
     private List<TimelineCacheLogs> timelineCacheLogsListToAnalyse;
+
+    private HomeCacheDiffHelper.Report report;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +107,152 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
             drawCacheGraph(checked ? range.DAY : range.ALL);
             drawCacheLogsGraph(checked ? range.DAY : range.ALL);
         });
+        initializeTabs();
+        binding.diffRun.setOnClickListener(view -> runDiff());
+        binding.diffExport.setOnClickListener(view -> exportDiff());
+        binding.diffServer.setOnClickListener(view -> compareWithServer());
+    }
+
+    private void initializeTabs() {
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.cache_charts_tab));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.cache_diff_tab));
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                boolean charts = tab.getPosition() == 0;
+                binding.tabCharts.setVisibility(charts ? View.VISIBLE : View.GONE);
+                binding.tabDiff.setVisibility(charts ? View.GONE : View.VISIBLE);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+    }
+
+    /**
+     * Compares the home cache with what the timeline can really reach
+     */
+    private void runDiff() {
+        binding.diffRun.setEnabled(false);
+        binding.diffProgress.setVisibility(View.VISIBLE);
+        binding.diffSummary.setVisibility(View.GONE);
+        binding.diffExport.setVisibility(View.GONE);
+        new Thread(() -> {
+            HomeCacheDiffHelper.Report cacheReport = null;
+            try {
+                cacheReport = HomeCacheDiffHelper.analyse(CheckHomeCacheActivity.this, Helper.getCurrentAccount(CheckHomeCacheActivity.this));
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            HomeCacheDiffHelper.Report analysedReport = cacheReport;
+            runOnUiThread(() -> {
+                binding.diffProgress.setVisibility(View.GONE);
+                binding.diffRun.setEnabled(true);
+                report = analysedReport;
+                if (report == null) {
+                    Toasty.info(CheckHomeCacheActivity.this, getString(R.string.cache_diff_empty), Toasty.LENGTH_SHORT).show();
+                    return;
+                }
+                binding.diffSummary.setText(summary(report));
+                binding.diffSummary.setVisibility(View.VISIBLE);
+                binding.diffServer.setVisibility(View.VISIBLE);
+                binding.diffExport.setVisibility(View.VISIBLE);
+            });
+        }).start();
+    }
+
+    private String summary(HomeCacheDiffHelper.Report cacheReport) {
+        StringBuilder summary = new StringBuilder();
+        summary.append(getString(R.string.cache_diff_cached, cacheReport.cached)).append("\n");
+        summary.append(getString(R.string.cache_diff_reached, cacheReport.reached)).append("\n");
+        summary.append(getString(R.string.cache_diff_unreached, cacheReport.unreached)).append("\n");
+        summary.append(getString(R.string.cache_diff_pages, cacheReport.pagesRead)).append("\n");
+        summary.append(getString(R.string.cache_diff_stopped, cacheReport.stopReason)).append("\n");
+        summary.append(getString(R.string.cache_diff_median, cacheReport.medianPerHour)).append("\n");
+        summary.append(getString(R.string.cache_diff_drops, cacheReport.drops)).append("\n");
+        summary.append(getString(R.string.cache_diff_loads, cacheReport.loadsRecorded)).append("\n");
+        summary.append(getString(R.string.cache_diff_empty_loads, cacheReport.emptyLoads)).append("\n");
+        summary.append(getString(R.string.cache_diff_open_gaps, cacheReport.openGaps.size())).append("\n");
+        summary.append(getString(R.string.cache_diff_runs, cacheReport.runs.size(), cacheReport.runsFailed)).append("\n");
+        long sinceInsertion = cacheReport.lastInsertion > 0 ? (cacheReport.generatedAt - cacheReport.lastInsertion) / 60000 : -1;
+        summary.append(getString(R.string.cache_diff_last_insertion, (int) sinceInsertion)).append("\n");
+        if (cacheReport.serverPages > 0) {
+            summary.append(getString(R.string.cache_diff_server_pages, cacheReport.serverPages)).append("\n");
+            summary.append(getString(R.string.cache_diff_server_missing, cacheReport.serverMissing)).append("\n");
+        }
+        summary.append("\n");
+        summary.append(getString(R.string.cache_diff_constraints)).append("\n");
+        summary.append(getString(R.string.cache_diff_constraint_none, count(cacheReport, HomeCacheDiffHelper.CONSTRAINT_NONE))).append("\n");
+        summary.append(getString(R.string.cache_diff_constraint_filter_hide, count(cacheReport, HomeCacheDiffHelper.CONSTRAINT_FILTER_HIDE))).append("\n");
+        summary.append(getString(R.string.cache_diff_constraint_filter_warn, count(cacheReport, HomeCacheDiffHelper.CONSTRAINT_FILTER_WARN))).append("\n");
+        summary.append(getString(R.string.cache_diff_constraint_app_mute, count(cacheReport, HomeCacheDiffHelper.CONSTRAINT_APP_MUTE))).append("\n");
+        summary.append(getString(R.string.cache_diff_constraint_app_reblog_group, count(cacheReport, HomeCacheDiffHelper.CONSTRAINT_APP_REBLOG_GROUP)));
+        return summary.toString();
+    }
+
+    private int count(HomeCacheDiffHelper.Report cacheReport, String constraint) {
+        Integer value = cacheReport.constraints.get(constraint);
+        return value == null ? 0 : value;
+    }
+
+    /**
+     * Save the anonymized report in the download folder
+     */
+    private void exportDiff() {
+        if (report == null) {
+            return;
+        }
+        binding.diffExport.setEnabled(false);
+        new Thread(() -> {
+            String path = null;
+            try {
+                path = HomeCacheDiffHelper.export(CheckHomeCacheActivity.this, report);
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            String savedPath = path;
+            runOnUiThread(() -> {
+                binding.diffExport.setEnabled(true);
+                if (savedPath == null) {
+                    Toasty.error(CheckHomeCacheActivity.this, getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
+                    return;
+                }
+                Toasty.success(CheckHomeCacheActivity.this, getString(R.string.cache_diff_saved, savedPath), Toasty.LENGTH_LONG).show();
+            });
+        }).start();
+    }
+
+    /**
+     * Ask the server for the same range, it downloads so it is confirmed first
+     */
+    private void compareWithServer() {
+        if (report == null) {
+            return;
+        }
+        new MaterialAlertDialogBuilder(CheckHomeCacheActivity.this)
+                .setTitle(R.string.cache_diff_server)
+                .setMessage(R.string.cache_diff_server_message)
+                .setPositiveButton(R.string.validate, (dialog, which) -> {
+                    dialog.dismiss();
+                    binding.diffServer.setEnabled(false);
+                    binding.diffProgress.setVisibility(View.VISIBLE);
+                    BaseAccount account = Helper.getCurrentAccount(CheckHomeCacheActivity.this);
+                    new Thread(() -> {
+                        HomeCacheDiffHelper.compareWithServer(CheckHomeCacheActivity.this, account, report);
+                        runOnUiThread(() -> {
+                            binding.diffProgress.setVisibility(View.GONE);
+                            binding.diffServer.setEnabled(true);
+                            binding.diffSummary.setText(summary(report));
+                        });
+                    }).start();
+                })
+                .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     private void drawCacheGraph(range myRange) {

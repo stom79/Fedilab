@@ -2930,7 +2930,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.binding.fetchMoreContainerBottom.removeAllViews();
                     holder.binding.fetchMoreContainerBottom.addView(drawerFetchMoreBinding.getRoot());
                 }
-            } else if (!autofetch) {
+            } else if (!autofetch || status.fetchMoreExhausted) {
                 DrawerFetchMoreBinding drawerFetchMoreBinding = DrawerFetchMoreBinding.inflate(LayoutInflater.from(context));
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 drawerFetchMoreBinding.getRoot().setLayoutParams(lp);
@@ -4335,7 +4335,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.bindingFilteredHide.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
                     holder.bindingFilteredHide.layoutFetchMore.unreachableGapMessage.setVisibility(View.VISIBLE);
                 } else {
-                    boolean autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
+                    boolean autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false)
+                            && !status.fetchMoreExhausted;
                     if (!autofetch) {
                         holder.bindingFilteredHide.layoutFetchMore.getRoot().setVisibility(View.VISIBLE);
                         holder.bindingFilteredHide.layoutFetchMore.unreachableGapMessage.setVisibility(View.GONE);
@@ -4407,7 +4408,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     holder.bindingFiltered.layoutFetchMore.fetchMoreContainer.setVisibility(View.GONE);
                     holder.bindingFiltered.layoutFetchMore.unreachableGapMessage.setVisibility(View.VISIBLE);
                 } else {
-                    boolean autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false);
+                    boolean autofetch = sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false)
+                            && !status.fetchMoreExhausted;
                     if (!autofetch) {
                         holder.bindingFiltered.layoutFetchMore.getRoot().setVisibility(View.VISIBLE);
                         holder.bindingFiltered.layoutFetchMore.unreachableGapMessage.setVisibility(View.GONE);

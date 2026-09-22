@@ -16,6 +16,7 @@ package app.fedilab.android.sqlite;
 
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -23,7 +24,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 14;
+    public static final int DB_VERSION = 18;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -105,6 +106,17 @@ public class Sqlite extends SQLiteOpenHelper {
     public static final String COL_TAG = "TAG";
 
     public static final String TABLE_TIMELINE_CACHE_LOGS = "TIMELINE_CACHE_LOGS";
+
+    public static final String TABLE_TIMELINE_LOAD_LOGS = "TIMELINE_LOAD_LOGS";
+    public static final String COL_DIRECTION = "DIRECTION";
+    public static final String COL_SOURCE = "SOURCE";
+    public static final String COL_MAX_ID = "MAX_ID";
+    public static final String COL_MIN_ID = "MIN_ID";
+    public static final String COL_RETURNED = "RETURNED";
+    public static final String COL_FETCHING_MISSING = "FETCHING_MISSING";
+    public static final String COL_ADDED = "ADDED";
+    public static final String COL_TRIGGER = "TRIGGER_NAME";
+    public static final String COL_GAP_BEFORE = "GAP_BEFORE";
     public static final String TABLE_INTENT = "INTENT";
 
     public static final String COL_BUNDLE = "BUNDLE";
@@ -145,6 +157,7 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_STATUS_ID + " TEXT NOT NULL, "
             + COL_STATUS + " TEXT NOT NULL, "
             + COL_CREATED_AT + " TEXT NOT NULL,"
+            + COL_GAP_BEFORE + " INTEGER NOT NULL DEFAULT 0, "
             + COL_UPDATED_AT + " TEXT)";
     private static final String CREATE_INDEX_STATUS_CACHE_READ = "CREATE INDEX IF NOT EXISTS index_status_cache_read ON " + TABLE_STATUS_CACHE
             + " (" + COL_USER_ID + ", " + COL_INSTANCE + ", " + COL_SLUG + ", " + COL_STATUS_ID + ")";
@@ -245,6 +258,23 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_TYPE + " TEXT NOT NULL, "
             + COL_CREATED_AT + " TEXT NOT NULL)";
 
+    private final String CREATE_TABLE_TIMELINE_LOAD_LOGS = "CREATE TABLE IF NOT EXISTS "
+            + TABLE_TIMELINE_LOAD_LOGS + "("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_INSTANCE + " TEXT NOT NULL, "
+            + COL_USER_ID + " TEXT NOT NULL, "
+            + COL_SLUG + " TEXT NOT NULL, "
+            + COL_DIRECTION + " TEXT NOT NULL, "
+            + COL_SOURCE + " TEXT NOT NULL, "
+            + COL_MAX_ID + " TEXT, "
+            + COL_MIN_ID + " TEXT, "
+            + COL_RETURNED + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_DISPLAYED + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_ADDED + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_FETCHING_MISSING + " INTEGER NOT NULL DEFAULT 0, "
+            + COL_TRIGGER + " TEXT, "
+            + COL_CREATED_AT + " TEXT NOT NULL)";
+
     private final String CREATE_TABLE_INTENT = "CREATE TABLE "
             + TABLE_INTENT + "("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -294,6 +324,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_STORED_INSTANCES);
         db.execSQL(CREATE_TABLE_CACHE_TAGS);
         db.execSQL(CREATE_TABLE_TIMELINE_CACHE_LOGS);
+        db.execSQL(CREATE_TABLE_TIMELINE_LOAD_LOGS);
         db.execSQL(CREATE_TABLE_INTENT);
         db.execSQL(CREATE_TABLE_SEEN_COMMENTS);
     }
@@ -335,9 +366,29 @@ public class Sqlite extends SQLiteOpenHelper {
             case 13:
                 db.execSQL(CREATE_INDEX_STATUS_CACHE_READ);
                 db.execSQL(CREATE_INDEX_STATUS_CACHE_LOOKUP);
+            case 14:
+            case 15:
+            case 16:
+                db.execSQL("DROP TABLE IF EXISTS " + TABLE_TIMELINE_LOAD_LOGS);
+                db.execSQL(CREATE_TABLE_TIMELINE_LOAD_LOGS);
+            case 17:
+                if (!columnExists(db, TABLE_STATUS_CACHE, COL_GAP_BEFORE)) {
+                    db.execSQL("ALTER TABLE " + TABLE_STATUS_CACHE + " ADD COLUMN " + COL_GAP_BEFORE + " INTEGER NOT NULL DEFAULT 0");
+                }
             default:
                 break;
         }
+    }
+
+    private boolean columnExists(SQLiteDatabase db, String table, String column) {
+        try (Cursor cursor = db.rawQuery("PRAGMA table_info(" + table + ")", null)) {
+            while (cursor.moveToNext()) {
+                if (column.equals(cursor.getString(1))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public SQLiteDatabase open() {

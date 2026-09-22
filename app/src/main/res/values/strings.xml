@@ -1088,6 +1088,8 @@
     <string name="SET_PROXY_PORT" translatable="false">SET_PROXY_PORT</string>
     <string name="SET_DEFAULT_LOCALE_NEW" translatable="false">SET_DEFAULT_LOCALE_NEW</string>
     <string name="SET_FETCH_HOME_DELAY_VALUE" translatable="false">SET_FETCH_HOME_DELAY_VALUE</string>
+    <string name="SET_HOME_FETCH_CURSOR" translatable="false">SET_HOME_FETCH_CURSOR</string>
+    <string name="SET_HOME_BACKFILL_DATE" translatable="false">SET_HOME_BACKFILL_DATE</string>
 
     <string name="SET_SEND_CRASH_REPORTS" translatable="false">SET_SEND_CRASH_REPORTS</string>
     <string name="SET_DISABLE_RELEASE_NOTES_ALERT" translatable="false">SET_DISABLE_RELEASE_NOTES_ALERT</string>
@@ -2376,6 +2378,35 @@
     <string name="updated_messages">Updated messages</string>
     <string name="frequency_minutes">Frequency (minutes)</string>
     <string name="total_fetched">Total of fetched messages</string>
+    <string name="cache_charts_tab">Charts</string>
+    <string name="cache_diff_tab">Diff</string>
+    <string name="cache_diff_intro">Compares what the cache holds with what the timeline reaches. The report keeps only ids, dates and the constraint of each message. No content, no author, no media.</string>
+    <string name="cache_diff_run">Analyze the home timeline</string>
+    <string name="cache_diff_export">Save the anonymized report</string>
+    <string name="cache_diff_saved">Report saved in %1$s</string>
+    <string name="cache_diff_server">Compare with the server</string>
+    <string name="cache_diff_server_message">Your home timeline is loaded again from the server. It shows the messages that never reached the cache. It downloads data.</string>
+    <string name="cache_diff_server_pages">Server pages read: %1$d</string>
+    <string name="cache_diff_server_missing">On the server, never cached: %1$d</string>
+    <string name="cache_diff_empty">The home cache is empty</string>
+    <string name="cache_diff_cached">Cached messages: %1$d</string>
+    <string name="cache_diff_reached">Reached while paginating: %1$d</string>
+    <string name="cache_diff_unreached">Never reached: %1$d</string>
+    <string name="cache_diff_pages">Pages read: %1$d</string>
+    <string name="cache_diff_stopped">Pagination stopped: %1$s</string>
+    <string name="cache_diff_median">Median per hour: %1$d</string>
+    <string name="cache_diff_drops">Hours below the usual frequency: %1$d</string>
+    <string name="cache_diff_loads">Timeline loads recorded: %1$d</string>
+    <string name="cache_diff_empty_loads">Loads that returned nothing: %1$d</string>
+    <string name="cache_diff_open_gaps">Recorded gaps waiting to be filled: %1$d</string>
+    <string name="cache_diff_last_insertion">Minutes since the last message was stored: %1$d</string>
+    <string name="cache_diff_runs">Background fetches: %1$d, failed: %2$d</string>
+    <string name="cache_diff_constraints">Constraints</string>
+    <string name="cache_diff_constraint_none">No constraint: %1$d</string>
+    <string name="cache_diff_constraint_filter_hide">Hidden by a filter: %1$d</string>
+    <string name="cache_diff_constraint_filter_warn">Filter with a warning: %1$d</string>
+    <string name="cache_diff_constraint_app_mute">Muted account: %1$d</string>
+    <string name="cache_diff_constraint_app_reblog_group">Grouped boost: %1$d</string>
     <string name="fail_count">%d fails</string>
     <string name="fetched_count">%d fetched messages</string>
     <string name="inserted_count">%d new messages</string>
