@@ -148,6 +148,10 @@ public class SpannableHelper {
     private static final Pattern emojiShortcode = Pattern.compile(":[a-zA-Z0-9_]+:");
 
     private static boolean containsMarkdown(Spannable content) {
+        //Markdown links wrap an URL already linkified by the instance
+        if (markdownLink.matcher(content.toString()).find()) {
+            return true;
+        }
         int next;
         for (int i = 0; i < content.length(); i = next) {
             next = content.nextSpanTransition(i, content.length(), URLSpan.class);
