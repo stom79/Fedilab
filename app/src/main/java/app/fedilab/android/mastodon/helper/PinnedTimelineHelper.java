@@ -17,12 +17,6 @@ package app.fedilab.android.mastodon.helper;
 
 import static app.fedilab.android.BaseMainActivity.currentInstance;
 import static app.fedilab.android.BaseMainActivity.currentUserID;
-import static app.fedilab.android.BaseMainActivity.show_boosts;
-import static app.fedilab.android.BaseMainActivity.show_dms;
-import static app.fedilab.android.BaseMainActivity.show_my_messages;
-import static app.fedilab.android.BaseMainActivity.show_replies;
-import static app.fedilab.android.BaseMainActivity.show_self_boosts;
-import static app.fedilab.android.BaseMainActivity.show_self_replies;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -626,9 +620,6 @@ public class PinnedTimelineHelper {
 
                 int position = finalI - (FedilabPageAdapter.BOTTOM_TIMELINE_COUNT - finalToRemove);
                 switch (pinnedTimelineVisibleList.get(position).type) {
-                    case LIST:
-
-                        break;
                     case TAG:
                         tagClick(activity, finalPinned, v, activityMainBinding, finalI, activityMainBinding.tabLayout.getTabAt(finalI).getTag().toString());
                         break;
@@ -643,6 +634,7 @@ public class PinnedTimelineHelper {
                         }
                         break;
                     case HOME:
+                    case LIST:
                     case LOCAL:
                     case TREND_MESSAGE:
                     case TREND_LINK:
@@ -764,7 +756,12 @@ public class PinnedTimelineHelper {
      * @param position - int position of the tab
      */
     public static void defaultClick(BaseMainActivity activity, Timeline.TimeLineEnum timeLineEnum, View view, ActivityMainBinding activityMainBinding, int position) {
-        boolean showExtendedFilter = timeLineEnum == Timeline.TimeLineEnum.HOME;
+        boolean showExtendedFilter = timeLineEnum == Timeline.TimeLineEnum.HOME
+                || timeLineEnum == Timeline.TimeLineEnum.LOCAL
+                || timeLineEnum == Timeline.TimeLineEnum.PUBLIC
+                || timeLineEnum == Timeline.TimeLineEnum.LIST;
+        String group = BaseMainActivity.filterGroup(timeLineEnum);
+        BaseMainActivity.TimelineFilter timelineFilter = BaseMainActivity.timelineFilter(group);
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         String show_filtered = null;
@@ -781,14 +778,14 @@ public class PinnedTimelineHelper {
         dialogBuilder.setView(dialogView.getRoot());
 
         // Set initial checkbox states
-        dialogView.showBoosts.setChecked(show_boosts);
-        dialogView.showReplies.setChecked(show_replies);
-        dialogView.showSelfBoosts.setChecked(show_self_boosts);
-        dialogView.showSelfReplies.setChecked(show_self_replies);
-        dialogView.showMyMessages.setChecked(show_my_messages);
-        dialogView.showDms.setChecked(show_dms);
+        dialogView.showBoosts.setChecked(timelineFilter.show_boosts);
+        dialogView.showReplies.setChecked(timelineFilter.show_replies);
+        dialogView.showSelfBoosts.setChecked(timelineFilter.show_self_boosts);
+        dialogView.showSelfReplies.setChecked(timelineFilter.show_self_replies);
+        dialogView.showMyMessages.setChecked(timelineFilter.show_my_messages);
+        dialogView.showDms.setChecked(timelineFilter.show_dms);
 
-        // Hide extended filters for local/public timelines
+        // Hide extended filters for timelines that do not support them
         if (!showExtendedFilter) {
             dialogView.showBoosts.setVisibility(View.GONE);
             dialogView.showReplies.setVisibility(View.GONE);
@@ -796,6 +793,8 @@ public class PinnedTimelineHelper {
             dialogView.showSelfReplies.setVisibility(View.GONE);
             dialogView.showMyMessages.setVisibility(View.GONE);
             dialogView.showDms.setVisibility(View.GONE);
+        } else if (timeLineEnum == Timeline.TimeLineEnum.LOCAL || timeLineEnum == Timeline.TimeLineEnum.PUBLIC) {
+            dialogView.showBoosts.setVisibility(View.GONE);
         }
 
         // Update filter button text if there's an active filter
@@ -807,38 +806,38 @@ public class PinnedTimelineHelper {
 
         // Checkbox listeners
         dialogView.showBoosts.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_boosts = isChecked;
-            editor.putBoolean(activity.getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, show_boosts);
+            timelineFilter.show_boosts = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 
         dialogView.showReplies.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_replies = isChecked;
-            editor.putBoolean(activity.getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
+            timelineFilter.show_replies = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 
         dialogView.showSelfBoosts.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_self_boosts = isChecked;
-            editor.putBoolean(activity.getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance, show_self_boosts);
+            timelineFilter.show_self_boosts = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 
         dialogView.showSelfReplies.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_self_replies = isChecked;
-            editor.putBoolean(activity.getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance, show_self_replies);
+            timelineFilter.show_self_replies = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 
         dialogView.showMyMessages.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_my_messages = isChecked;
-            editor.putBoolean(activity.getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance, show_my_messages);
+            timelineFilter.show_my_messages = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 
         dialogView.showDms.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_dms = isChecked;
-            editor.putBoolean(activity.getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, show_dms);
+            timelineFilter.show_dms = isChecked;
+            editor.putBoolean(activity.getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 

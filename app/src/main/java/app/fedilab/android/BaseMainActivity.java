@@ -124,6 +124,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -224,7 +225,11 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static List<app.fedilab.android.mastodon.client.entities.api.Account> filteredAccounts;
     public static boolean filterFetched;
     public static int filterFetchedRetry = 0;
-    public static boolean show_boosts, show_replies, show_dms, show_art_nsfw, show_self_boosts, show_self_replies, show_my_messages;
+    public static boolean show_art_nsfw;
+    public static final String FILTER_GROUP_HOME = "";
+    public static final String FILTER_GROUP_PUBLIC = "PUBLIC";
+    public static final String FILTER_GROUP_LIST = "LIST";
+    public static final Map<String, TimelineFilter> timelineFilters = new HashMap<>();
     public static String regex_home, regex_local, regex_public;
     public static iconLauncher mLauncher = iconLauncher.BUBBLES;
     public static boolean headerMenuOpen;
@@ -1366,12 +1371,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 currentInstance = Helper.getCurrentAccount(BaseMainActivity.this).instance;
                 currentUserID = Helper.getCurrentAccount(BaseMainActivity.this).user_id;
 
-                show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, true);
-                show_my_messages = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance, true);
-                show_self_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance, true);
-                show_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, true);
-                show_self_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance, true);
-                show_dms = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, true);
+                loadTimelineFilters(sharedpreferences);
                 regex_home = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_HOME) + currentUserID + currentInstance, null);
                 regex_local = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_LOCAL) + currentUserID + currentInstance, null);
                 regex_public = sharedpreferences.getString(getString(R.string.SET_FILTER_REGEX_PUBLIC) + currentUserID + currentInstance, null);
@@ -1824,13 +1824,49 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         toolbarLayoutParams.setScrollFlags(scrollFlags);
     }
 
-    private void manageFilters(int position) {
-        boolean showExtendedFilter = true;
-        if (position == BottomMenu.getPosition(bottomMenu, R.id.nav_local)) {
-            showExtendedFilter = false;
-        } else if (position == BottomMenu.getPosition(bottomMenu, R.id.nav_public)) {
-            showExtendedFilter = false;
+    public static String filterGroup(Timeline.TimeLineEnum timelineType) {
+        if (timelineType == Timeline.TimeLineEnum.LOCAL || timelineType == Timeline.TimeLineEnum.PUBLIC) {
+            return FILTER_GROUP_PUBLIC;
         }
+        if (timelineType == Timeline.TimeLineEnum.LIST) {
+            return FILTER_GROUP_LIST;
+        }
+        return FILTER_GROUP_HOME;
+    }
+
+    public static TimelineFilter timelineFilter(String group) {
+        TimelineFilter timelineFilter = timelineFilters.get(group);
+        return timelineFilter != null ? timelineFilter : new TimelineFilter();
+    }
+
+    private void loadTimelineFilters(SharedPreferences sharedpreferences) {
+        timelineFilters.clear();
+        for (String group : new String[]{FILTER_GROUP_HOME, FILTER_GROUP_PUBLIC, FILTER_GROUP_LIST}) {
+            TimelineFilter timelineFilter = new TimelineFilter();
+            timelineFilter.show_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance + group, true);
+            timelineFilter.show_my_messages = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance + group, true);
+            timelineFilter.show_self_boosts = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance + group, true);
+            timelineFilter.show_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance + group, true);
+            timelineFilter.show_self_replies = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance + group, true);
+            timelineFilter.show_dms = sharedpreferences.getBoolean(getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance + group, true);
+            timelineFilters.put(group, timelineFilter);
+        }
+    }
+
+    public static class TimelineFilter {
+        public boolean show_boosts = true;
+        public boolean show_replies = true;
+        public boolean show_dms = true;
+        public boolean show_self_boosts = true;
+        public boolean show_self_replies = true;
+        public boolean show_my_messages = true;
+    }
+
+    private void manageFilters(int position) {
+        boolean hideBoosts = position == BottomMenu.getPosition(bottomMenu, R.id.nav_local)
+                || position == BottomMenu.getPosition(bottomMenu, R.id.nav_public);
+        String group = hideBoosts ? FILTER_GROUP_PUBLIC : FILTER_GROUP_HOME;
+        TimelineFilter timelineFilter = timelineFilter(group);
 
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
         String show_filtered = null;
@@ -1847,21 +1883,16 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         dialogBuilder.setView(dialogView.getRoot());
 
         // Set initial checkbox states
-        dialogView.showBoosts.setChecked(show_boosts);
-        dialogView.showReplies.setChecked(show_replies);
-        dialogView.showSelfBoosts.setChecked(show_self_boosts);
-        dialogView.showSelfReplies.setChecked(show_self_replies);
-        dialogView.showMyMessages.setChecked(show_my_messages);
-        dialogView.showDms.setChecked(show_dms);
+        dialogView.showBoosts.setChecked(timelineFilter.show_boosts);
+        dialogView.showReplies.setChecked(timelineFilter.show_replies);
+        dialogView.showSelfBoosts.setChecked(timelineFilter.show_self_boosts);
+        dialogView.showSelfReplies.setChecked(timelineFilter.show_self_replies);
+        dialogView.showMyMessages.setChecked(timelineFilter.show_my_messages);
+        dialogView.showDms.setChecked(timelineFilter.show_dms);
 
-        // Hide extended filters for local/public timelines
-        if (!showExtendedFilter) {
+        //Boosts are never returned on local and public timelines
+        if (hideBoosts) {
             dialogView.showBoosts.setVisibility(View.GONE);
-            dialogView.showReplies.setVisibility(View.GONE);
-            dialogView.showSelfBoosts.setVisibility(View.GONE);
-            dialogView.showSelfReplies.setVisibility(View.GONE);
-            dialogView.showMyMessages.setVisibility(View.GONE);
-            dialogView.showDms.setVisibility(View.GONE);
         }
 
         // Update filter button text if there's an active filter
@@ -1873,38 +1904,38 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
         // Checkbox listeners
         dialogView.showBoosts.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_boosts = isChecked;
-            editor.putBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance, show_boosts);
+            timelineFilter.show_boosts = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_BOOSTS) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 
         dialogView.showReplies.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_replies = isChecked;
-            editor.putBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance, show_replies);
+            timelineFilter.show_replies = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_REPLIES) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 
         dialogView.showSelfBoosts.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_self_boosts = isChecked;
-            editor.putBoolean(getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance, show_self_boosts);
+            timelineFilter.show_self_boosts = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_SELF_BOOSTS) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 
         dialogView.showSelfReplies.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_self_replies = isChecked;
-            editor.putBoolean(getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance, show_self_replies);
+            timelineFilter.show_self_replies = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_SELF_REPLIES) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 
         dialogView.showMyMessages.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_my_messages = isChecked;
-            editor.putBoolean(getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance, show_my_messages);
+            timelineFilter.show_my_messages = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_MY_MESSAGES) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 
         dialogView.showDms.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            show_dms = isChecked;
-            editor.putBoolean(getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance, show_dms);
+            timelineFilter.show_dms = isChecked;
+            editor.putBoolean(getString(R.string.SET_SHOW_DMS) + currentUserID + currentInstance + group, isChecked);
             editor.apply();
         });
 

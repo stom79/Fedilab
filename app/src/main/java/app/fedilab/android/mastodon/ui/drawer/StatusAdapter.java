@@ -23,12 +23,6 @@ import static app.fedilab.android.BaseMainActivity.emojis;
 import static app.fedilab.android.BaseMainActivity.regex_home;
 import static app.fedilab.android.BaseMainActivity.regex_local;
 import static app.fedilab.android.BaseMainActivity.regex_public;
-import static app.fedilab.android.BaseMainActivity.show_boosts;
-import static app.fedilab.android.BaseMainActivity.show_dms;
-import static app.fedilab.android.BaseMainActivity.show_my_messages;
-import static app.fedilab.android.BaseMainActivity.show_replies;
-import static app.fedilab.android.BaseMainActivity.show_self_boosts;
-import static app.fedilab.android.BaseMainActivity.show_self_replies;
 import static app.fedilab.android.mastodon.activities.ContextActivity.expand;
 import static app.fedilab.android.mastodon.helper.Helper.ARG_TIMELINE_REFRESH_ALL;
 import static app.fedilab.android.mastodon.helper.Helper.PREF_USER_ID;
@@ -295,6 +289,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return status.media_attachments != null && status.media_attachments.size() > 0;
     }
 
+    private static boolean supportsFilters(Timeline.TimeLineEnum timelineType) {
+        return timelineType == Timeline.TimeLineEnum.HOME
+                || timelineType == Timeline.TimeLineEnum.LOCAL
+                || timelineType == Timeline.TimeLineEnum.PUBLIC
+                || timelineType == Timeline.TimeLineEnum.LIST;
+    }
+
     private static boolean isVisible(Timeline.TimeLineEnum timelineType, Status status, List<Status> statusList) {
         if (timelineType == Timeline.TimeLineEnum.HOME && filteredAccounts != null && !filteredAccounts.isEmpty()) {
             for (app.fedilab.android.mastodon.client.entities.api.Account account : filteredAccounts) {
@@ -304,26 +305,29 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             }
         }
-        if (timelineType == Timeline.TimeLineEnum.HOME && !show_boosts && status.reblog != null) {
-            return false;
-        }
-        if (timelineType == Timeline.TimeLineEnum.HOME && !show_my_messages && status.account.id.equals(currentUserID)) {
-            return false;
-        }
-        if (timelineType == Timeline.TimeLineEnum.HOME && !show_self_boosts && status.reblog != null && status.reblog.account.id.equals(status.account.id)) {
-            return false;
-        }
-        if (timelineType == Timeline.TimeLineEnum.HOME && !show_dms && status.visibility.equalsIgnoreCase("direct")) {
-            return false;
-        }
-        if (timelineType == Timeline.TimeLineEnum.HOME && !show_replies && status.in_reply_to_id != null) {
-            return false;
-        }
-        if (timelineType == Timeline.TimeLineEnum.HOME && !show_self_replies && status.in_reply_to_id != null) {
-            Status statusToFind = new Status();
-            statusToFind.id = status.in_reply_to_id;
-            if (statusList.contains(statusToFind)) {
+        if (supportsFilters(timelineType)) {
+            BaseMainActivity.TimelineFilter timelineFilter = BaseMainActivity.timelineFilter(BaseMainActivity.filterGroup(timelineType));
+            if (!timelineFilter.show_boosts && status.reblog != null) {
                 return false;
+            }
+            if (!timelineFilter.show_my_messages && status.account.id.equals(currentUserID)) {
+                return false;
+            }
+            if (!timelineFilter.show_self_boosts && status.reblog != null && status.reblog.account.id.equals(status.account.id)) {
+                return false;
+            }
+            if (!timelineFilter.show_dms && status.visibility.equalsIgnoreCase("direct")) {
+                return false;
+            }
+            if (!timelineFilter.show_replies && status.in_reply_to_id != null) {
+                return false;
+            }
+            if (!timelineFilter.show_self_replies && status.in_reply_to_id != null) {
+                Status statusToFind = new Status();
+                statusToFind.id = status.in_reply_to_id;
+                if (statusList.contains(statusToFind)) {
+                    return false;
+                }
             }
         }
         if (timelineType == Timeline.TimeLineEnum.HOME && regex_home != null && !regex_home.trim().equals("")) {
