@@ -67,7 +67,6 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.kobakei.ratethisapp.RateThisApp;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -79,7 +78,6 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import app.fedilab.android.BuildConfig;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.AboutActivity;
 import app.fedilab.android.activities.MainActivity;
@@ -491,12 +489,6 @@ public class PeertubeMainActivity extends PeertubeBaseMainActivity {
         peertubeInformation.setPlaylistPrivacies(new LinkedHashMap<>());
         peertubeInformation.setTranslations(new LinkedHashMap<>());
 
-
-        //noinspection ConstantConditions
-        if (BuildConfig.FLAVOR.compareTo("playstore") == 0) {
-            RateThisApp.onCreate(this);
-            RateThisApp.showRateDialogIfNeeded(this);
-        }
 
         boolean search_cast = sharedpreferences.getBoolean(getString(R.string.set_cast_choice), false);
         if (search_cast) {

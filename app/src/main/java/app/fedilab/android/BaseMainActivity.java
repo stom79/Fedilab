@@ -1138,8 +1138,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         intent.setFlags(0);
     }
 
-    protected abstract void rateThisApp();
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -1482,7 +1480,6 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             actionBar.setDisplayShowTitleEnabled(false);
         }
         manageTopBarScrolling(binding.toolbar);
-        rateThisApp();
 
         if (sharedpreferences.getBoolean(getString(R.string.SET_COMPOSE_TOP_REVERSE), false)
                 && sharedpreferences.getBoolean(getString(R.string.SET_REVERSE_TIMELINE), false)) {

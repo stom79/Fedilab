@@ -17,11 +17,4 @@ package app.fedilab.android.activities;
 import app.fedilab.android.BaseMainActivity;
 
 public class MainActivity extends BaseMainActivity {
-
-
-    @Override
-    protected void rateThisApp() {
-        // do nothing
-    }
-
 }

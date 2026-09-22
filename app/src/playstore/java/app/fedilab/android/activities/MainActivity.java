@@ -15,23 +15,8 @@
 package app.fedilab.android.activities;
 
 
-import com.kobakei.ratethisapp.RateThisApp;
-
 import app.fedilab.android.BaseMainActivity;
 
 
 public class MainActivity extends BaseMainActivity {
-
-    @Override
-    protected void rateThisApp() {
-        if (currentUserID == null) {
-            return;
-        }
-        RateThisApp.onCreate(this);
-        RateThisApp.Config config = new RateThisApp.Config(3, 10);
-        RateThisApp.init(config);
-        RateThisApp.showRateDialogIfNeeded(this);
-    }
-
-
 }

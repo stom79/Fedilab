@@ -134,7 +134,6 @@ dependencies {
 
     implementation project(':autoimageslider')
     implementation project(path: ':mytransl')
-    implementation project(path: ':ratethisapp')
     implementation project(path: ':sparkbutton')
     implementation project(path: ':colorPicker')
     implementation project(path: ':mathjaxandroid')
