@@ -152,6 +152,11 @@ public class HomeCacheDiffHelper {
         public String serverStopReason;
         public String serverLowestId;
         public int aboveMarker;
+        public List<String> openGaps = new ArrayList<>();
+        public String workerCursor;
+        public int cachedAboveCursor;
+        public int runsFailed;
+        public long lastInsertion;
         public int cached;
         public int reached;
         public int unreached;
@@ -214,6 +219,7 @@ public class HomeCacheDiffHelper {
         buildBuckets(report);
         collectLoads(context, account, report);
         collectRuns(context, account, report);
+        collectHealth(context, account, report);
         countAboveMarker(context, account, report);
         report.environment = environment(context, account, report, salt);
         return report;
@@ -290,9 +296,6 @@ public class HomeCacheDiffHelper {
         report.unreached = report.cached - report.reached;
     }
 
-    /**
-     * Read what the timeline really loaded
-     */
     private static void collectLoads(Context context, BaseAccount account, Report report) throws DBException {
         List<TimelineLoadLogs> loads = new TimelineLoadLogs(context).getHome(account);
         if (loads == null) {
@@ -307,9 +310,25 @@ public class HomeCacheDiffHelper {
         }
     }
 
-    /**
-     * Read what each background fetch reported, fetched against inserted
-     */
+    private static void collectHealth(Context context, BaseAccount account, Report report) throws DBException {
+        report.openGaps.addAll(new StatusCache(context).getRecordedGaps(account.user_id, account.instance));
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        report.workerCursor = sharedpreferences.getString(context.getString(R.string.SET_HOME_FETCH_CURSOR) + account.user_id + account.instance, null);
+        for (Message message : report.messages) {
+            if (report.workerCursor != null && Helper.compareTo(message.id, report.workerCursor) > 0) {
+                report.cachedAboveCursor++;
+            }
+            if (message.insertedAt > report.lastInsertion) {
+                report.lastInsertion = message.insertedAt;
+            }
+        }
+        for (TimelineCacheLogs run : report.runs) {
+            if (run.failed > 0) {
+                report.runsFailed++;
+            }
+        }
+    }
+
     private static void collectRuns(Context context, BaseAccount account, Report report) throws DBException {
         List<TimelineCacheLogs> runs = new TimelineCacheLogs(context).getHome(account);
         if (runs != null) {
@@ -317,9 +336,6 @@ public class HomeCacheDiffHelper {
         }
     }
 
-    /**
-     * Count cached messages per hour
-     */
     private static void buildBuckets(Report report) {
         Map<Long, Integer> counts = new HashMap<>();
         long oldest = Long.MAX_VALUE;
@@ -351,9 +367,6 @@ public class HomeCacheDiffHelper {
         flagDrops(report);
     }
 
-    /**
-     * Flag the hours far below the hours around them
-     */
     private static void flagDrops(Report report) {
         for (int index = 0; index < report.buckets.size(); index++) {
             List<Integer> neighbours = new ArrayList<>();
@@ -375,9 +388,6 @@ public class HomeCacheDiffHelper {
         }
     }
 
-    /**
-     * Count the cached messages above the marker, the timeline climbs back one page at a time
-     */
     private static void countAboveMarker(Context context, BaseAccount account, Report report) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String markerKey = context.getString(R.string.SET_INNER_MARKER) + account.user_id + account.instance + Timeline.TimeLineEnum.HOME.getValue();
@@ -406,7 +416,7 @@ public class HomeCacheDiffHelper {
             environment.put("use_cache", sharedpreferences.getBoolean(context.getString(R.string.SET_USE_CACHE), true));
             environment.put("group_reblogs", sharedpreferences.getBoolean(context.getString(R.string.SET_GROUP_REBLOGS), true));
             environment.put("reverse_timeline", sharedpreferences.getBoolean(context.getString(R.string.SET_REVERSE_TIMELINE), false));
-            environment.put("auto_fetch_missing", sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), true));
+            environment.put("auto_fetch_missing", sharedpreferences.getBoolean(context.getString(R.string.SET_AUTO_FETCH_MISSING_MESSAGES), false));
             environment.put("home_muted_accounts", BaseMainActivity.filteredAccounts != null ? BaseMainActivity.filteredAccounts.size() : 0);
             String markerKey = context.getString(R.string.SET_INNER_MARKER) + account.user_id + account.instance + Timeline.TimeLineEnum.HOME.getValue();
             String marker = sharedpreferences.getString(markerKey, null);
@@ -496,7 +506,7 @@ public class HomeCacheDiffHelper {
                 } else if (oldestCachedId != null && newestCachedId != null
                         && Helper.compareTo(status.id, oldestCachedId) > 0
                         && Helper.compareTo(status.id, newestCachedId) < 0) {
-                    //Inside the cached range, so the cache should have it
+                    //Inside the cached range
                     report.serverMissing++;
                     report.missingIds.add(status.id);
                 }
@@ -594,6 +604,17 @@ public class HomeCacheDiffHelper {
         }
         root.put("frequency", buckets);
 
+        JSONObject health = new JSONObject();
+        health.put("open_gaps", report.openGaps.size());
+        health.put("open_gap_ids", new JSONArray(report.openGaps));
+        health.put("worker_cursor", report.workerCursor != null ? report.workerCursor : JSONObject.NULL);
+        health.put("cached_above_cursor", report.cachedAboveCursor);
+        health.put("background_runs", report.runs.size());
+        health.put("background_runs_failed", report.runsFailed);
+        health.put("last_insertion", report.lastInsertion / 1000);
+        health.put("minutes_since_last_insertion", report.lastInsertion > 0 ? (report.generatedAt - report.lastInsertion) / 60000 : -1);
+        root.put("health", health);
+
         JSONObject server = new JSONObject();
         server.put("pages", report.serverPages);
         server.put("seen", report.serverSeen);
@@ -660,14 +681,6 @@ public class HomeCacheDiffHelper {
         return writeInDownloads(context, fileName, root.toString());
     }
 
-    /**
-     * Write a file in the download folder
-     *
-     * @param context  Context
-     * @param fileName String - name of the file
-     * @param content  String - what to write
-     * @return String - where the file was written
-     */
     private static String writeInDownloads(Context context, String fileName, String content) throws IOException {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ContentValues values = new ContentValues();
@@ -723,7 +736,7 @@ public class HomeCacheDiffHelper {
     }
 
     /**
-     * Random salt, never exported, so hashes cannot be reversed
+     * Random salt, never exported
      *
      * @return String - salt of the current report
      */

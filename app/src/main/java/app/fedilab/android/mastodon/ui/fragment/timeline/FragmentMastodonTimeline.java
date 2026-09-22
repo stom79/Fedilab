@@ -67,6 +67,7 @@ import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
 import app.fedilab.android.mastodon.client.entities.app.PinnedTimeline;
 import app.fedilab.android.mastodon.client.entities.app.RemoteInstance;
+import app.fedilab.android.mastodon.client.entities.app.StatusCache;
 import app.fedilab.android.mastodon.client.entities.app.TagTimeline;
 import app.fedilab.android.mastodon.client.entities.app.Timeline;
 import app.fedilab.android.mastodon.client.entities.app.TimelineLoadLogs;
@@ -97,6 +98,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
     private StatusesVM statusesVM;
     private AccountsVM accountsVM;
     private boolean flagLoading;
+    private boolean topExhausted;
     private String search, searchCache;
     private Status statusReport, initialStatus /*Used to put a message at the top*/;
     private String max_id, min_id, min_id_fetch_more, max_id_fetch_more;
@@ -749,6 +751,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             }
             //Update the timeline with new statuses
+            int sizeBeforeInsert = timelineStatuses.size();
             int insertedStatus;
             if(pinnedTimeline!= null && pinnedTimeline.remoteInstance != null && (pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER || pinnedTimeline.remoteInstance.type == RemoteInstance.InstanceType.NITTER_TAG)) {
                 insertedStatus = fetched_statuses.statuses.size();
@@ -815,6 +818,13 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     }
                 }
             }
+            boolean broughtSomething = timelineStatuses.size() > sizeBeforeInsert;
+            //Do not replay an empty TOP load on every scroll event
+            if (!fetchingMissing && direction == DIRECTION.TOP) {
+                topExhausted = !broughtSomething;
+            } else if (broughtSomething) {
+                topExhausted = false;
+            }
             //Ensure fetchMore exists at the boundary between new and cached statuses
             if (direction == DIRECTION.FETCH_NEW || direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                 boolean hasFetchMore = false;
@@ -840,16 +850,25 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                     }
                 }
             }
-            if (fetchingMissing && !gapBridged && fetchBatchMaxId != null
+            boolean gapFilled = gapBridged && broughtSomething;
+            //No next page means nothing more in that range
+            boolean rangeEmptyOnServer = !broughtSomething
+                    && fetched_statuses.pagination != null && fetched_statuses.pagination.max_id == null;
+            if (fetchingMissing && !gapFilled && !rangeEmptyOnServer && fetchBatchMaxId != null
                     && direction != DIRECTION.FETCH_NEW && direction != DIRECTION.REFRESH && direction != DIRECTION.SCROLL_TOP) {
                 for (int i = 0; i < timelineStatuses.size(); i++) {
                     if (timelineStatuses.get(i).id.equals(fetchBatchMaxId)) {
                         Status status = timelineStatuses.get(i);
                         status.isFetchMore = true;
                         status.positionFetchMore = Status.PositionFetchMore.BOTTOM;
+                        //Stop the automatic retry when nothing came back
+                        status.fetchMoreExhausted = !broughtSomething;
+                        statusAdapter.notifyItemChanged(i);
                         break;
                     }
                 }
+            } else if (fetchingMissing && (gapFilled || rangeEmptyOnServer)) {
+                clearRecordedGap(fetchStatus);
             }
             //For these directions, the app will display counters for new messages
             if (insertedStatus >= 0 && update != null && direction != DIRECTION.FETCH_NEW && !fetchingMissing) {
@@ -890,10 +909,14 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             if (direction == DIRECTION.BOTTOM) {
                 flagLoading = true;
             }
+            if (!fetchingMissing && direction == DIRECTION.TOP) {
+                topExhausted = true;
+            }
             if (fetchingMissing && fetchStatus != null) {
                 int position = getDirectPosition(fetchStatus);
                 if (position >= 0 && position < timelineStatuses.size()) {
                     timelineStatuses.get(position).isFetchMore = true;
+                    timelineStatuses.get(position).fetchMoreExhausted = true;
                     statusAdapter.notifyItemChanged(position);
                 }
             }
@@ -917,6 +940,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
      */
     private void initializeStatusesCommonView(final Statuses statuses) {
         flagLoading = false;
+        topExhausted = false;
         if (!isViewInitialized) {
             return;
         }
@@ -1114,6 +1138,9 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         }
                     }
                     int firstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
+                    if (firstVisibleItem > 0) {
+                        topExhausted = false;
+                    }
                     if (dy > 0) {
                         int visibleItemCount = mLayoutManager.getChildCount();
                         int totalItemCount = mLayoutManager.getItemCount();
@@ -1136,7 +1163,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             router(DIRECTION.BOTTOM);
                         }
                     } else if (!reverseTimeline && firstVisibleItem == 0) {
-                        if (!flagLoading) {
+                        if (!flagLoading && !topExhausted) {
                             flagLoading = true;
                             loadTrigger = "scroll_newer";
                             binding.loadingNextElements.setVisibility(View.VISIBLE);
@@ -1217,6 +1244,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         //Initialize with default params
         TimelinesVM.TimelineParams timelineParams = new TimelinesVM.TimelineParams(requireActivity(), timelineType, direction, ident);
         timelineParams.trigger = loadTrigger;
+        loadTrigger = null;
         timelineParams.limit = MastodonHelper.statusesPerCall(requireActivity());
         if (direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP || direction == DIRECTION.FETCH_NEW) {
             timelineParams.maxId = null;
@@ -1557,8 +1585,8 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             getLiveStatus(DIRECTION.BOTTOM, fetchingMissing, timelineParams, true, fetchStatus);
                         } else {
                             dealWithPagination(statusesCachedBottom, DIRECTION.BOTTOM, fetchingMissing, true, fetchStatus);
-                            //Also check remotely to detect potential holes
-                            if (fetchingMissing) {
+                            //Check remotely for holes, unless the cache served a full page
+                            if (fetchingMissing && !statusesCachedBottom.cachePageFull) {
                                 getLiveStatus(direction, true, timelineParams, false, fetchStatus);
                             }
                         }
@@ -1572,8 +1600,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                             getLiveStatus(DIRECTION.TOP, fetchingMissing, timelineParams, true, fetchStatus);
                         } else {
                             dealWithPagination(statusesCachedTop, DIRECTION.TOP, fetchingMissing, true, fetchStatus);
-                            //Also check remotely to detect potential holes
-                            getLiveStatus(direction, true, timelineParams, false, fetchStatus);
+                            //Check remotely for holes, unless the cache served a full page
+                            if (!statusesCachedTop.cachePageFull) {
+                                getLiveStatus(direction, true, timelineParams, false, fetchStatus);
+                            }
                         }
                         logTimelineLoad(DIRECTION.TOP, TimelineLoadLogs.SOURCE_CACHE, timelineParams, statusesCachedTop, fetchingMissing, displayedBefore);
                     });
@@ -2187,6 +2217,26 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             max_id_fetch_more = max_id;
             route(DIRECTION.BOTTOM, true, fetchStatus);
         }
+    }
+
+    private void clearRecordedGap(Status fetchStatus) {
+        if (fetchStatus == null || !fetchStatus.gapBefore || getActivity() == null) {
+            return;
+        }
+        fetchStatus.gapBefore = false;
+        BaseAccount account = Helper.getCurrentAccount(requireActivity());
+        if (account == null) {
+            return;
+        }
+        Context context = requireActivity().getApplicationContext();
+        String statusId = fetchStatus.id;
+        new Thread(() -> {
+            try {
+                new StatusCache(context).clearGapBefore(account.user_id, account.instance, statusId);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private String markerSide(Status fetchStatus) {

@@ -254,6 +254,100 @@ public class StatusCache {
     }
 
     /**
+     * Flag a message as having a skipped range below it
+     *
+     * @param userId   String - account owning the cache
+     * @param instance String - instance of the account
+     * @param statusId String - message sitting above the skipped range
+     * @throws DBException Exception
+     */
+    public void markGapBefore(String userId, String instance, String statusId) throws DBException {
+        setGapBefore(userId, instance, statusId, true);
+    }
+
+    /**
+     * Remove the skipped range flag
+     *
+     * @param userId   String - account owning the cache
+     * @param instance String - instance of the account
+     * @param statusId String - message sitting above the skipped range
+     * @throws DBException Exception
+     */
+    public void clearGapBefore(String userId, String instance, String statusId) throws DBException {
+        setGapBefore(userId, instance, statusId, false);
+    }
+
+    private void setGapBefore(String userId, String instance, String statusId, boolean gap) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        if (statusId == null) {
+            return;
+        }
+        ContentValues values = new ContentValues();
+        values.put(Sqlite.COL_GAP_BEFORE, gap ? 1 : 0);
+        try {
+            db.update(Sqlite.TABLE_STATUS_CACHE, values,
+                    Sqlite.COL_STATUS_ID + " = ? AND " + Sqlite.COL_USER_ID + " = ? AND " + Sqlite.COL_INSTANCE + " = ? AND " + Sqlite.COL_SLUG + " = ?",
+                    new String[]{statusId, userId, instance, Timeline.TimeLineEnum.HOME.getValue()});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Get the messages flagged with a skipped range
+     *
+     * @param userId   String - account owning the cache
+     * @param instance String - instance of the account
+     * @return List<String> - status ids
+     * @throws DBException Exception
+     */
+    public List<String> getRecordedGaps(String userId, String instance) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        List<String> gaps = new ArrayList<>();
+        String selection = Sqlite.COL_INSTANCE + "='" + instance + "' AND " + Sqlite.COL_USER_ID + "= '" + userId
+                + "' AND " + Sqlite.COL_SLUG + "= '" + Timeline.TimeLineEnum.HOME.getValue() + "' AND " + Sqlite.COL_GAP_BEFORE + " = 1 ";
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, new String[]{Sqlite.COL_STATUS_ID}, selection, null, Sqlite.COL_STATUS_ID, null, null, null);
+            while (c.moveToNext()) {
+                gaps.add(c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUS_ID)));
+            }
+            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return gaps;
+    }
+
+    /**
+     * Record a skipped range when a batch lands above the newest cached message
+     *
+     * @param userId          String - account owning the cache
+     * @param instance        String - instance of the account
+     * @param statusList      List<Status> - what was just fetched and cached
+     * @param moreBelow       boolean - the server announced more messages below the batch
+     * @param newestCachedId  String - newest cached id before the batch was stored
+     * @throws DBException Exception
+     */
+    public void recordSkippedRange(String userId, String instance, List<Status> statusList, boolean moreBelow, String newestCachedId) throws DBException {
+        if (statusList == null || statusList.isEmpty() || !moreBelow || newestCachedId == null) {
+            return;
+        }
+        String batchMinId = null;
+        for (Status status : statusList) {
+            if (batchMinId == null || Helper.compareTo(status.id, batchMinId) < 0) {
+                batchMinId = status.id;
+            }
+        }
+        if (batchMinId != null && Helper.compareTo(batchMinId, newestCachedId) > 0) {
+            markGapBefore(userId, instance, batchMinId);
+        }
+    }
+
+    /**
      * Get the date each home message was put in cache
      *
      * @param baseAccount Status {@link BaseAccount}
@@ -289,11 +383,23 @@ public class StatusCache {
      * @throws DBException Exception
      */
     public String getNewestHomeStatusId(BaseAccount baseAccount) throws DBException {
+        return getNewestHomeStatusId(baseAccount.user_id, baseAccount.instance);
+    }
+
+    /**
+     * Get the newest status ID in the home cache
+     *
+     * @param userId   String - account owning the cache
+     * @param instance String - instance of the account
+     * @return String - newest status_id or null if cache is empty
+     * @throws DBException Exception
+     */
+    public String getNewestHomeStatusId(String userId, String instance) throws DBException {
         if (db == null) {
             throw new DBException("db is null. Wrong initialization.");
         }
-        String selection = Sqlite.COL_INSTANCE + "='" + baseAccount.instance
-                + "' AND " + Sqlite.COL_USER_ID + "= '" + baseAccount.user_id
+        String selection = Sqlite.COL_INSTANCE + "='" + instance
+                + "' AND " + Sqlite.COL_USER_ID + "= '" + userId
                 + "' AND " + Sqlite.COL_SLUG + "= '" + Timeline.TimeLineEnum.HOME.getValue() + "' ";
         try {
             Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE,
@@ -924,7 +1030,12 @@ public class StatusCache {
      */
     private Status convertCursorToStatus(Cursor c) {
         String serializedStatus = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUS));
-        return restoreStatusFromString(serializedStatus);
+        Status status = restoreStatusFromString(serializedStatus);
+        int gapIndex = c.getColumnIndex(Sqlite.COL_GAP_BEFORE);
+        if (status != null && gapIndex >= 0) {
+            status.gapBefore = c.getInt(gapIndex) == 1;
+        }
+        return status;
     }
 
     /**

@@ -26,6 +26,7 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.preference.PreferenceManager;
+import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.ExistingPeriodicWorkPolicy;
@@ -41,6 +42,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.IOException;
 import java.net.IDN;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -65,6 +67,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FetchHomeWorker extends Worker {
 
+    private static final long BACKFILL_EVERY = 24 * 60 * 60 * 1000L;
+    private static final long BACKFILL_DEPTH = 48 * 60 * 60 * 1000L;
+    private static final int MAX_BACKFILL_CALLS = 40;
+    private static final int BACKFILL_PER_PAGE = 40;
+
     private static final int FETCH_HOME_CHANNEL_ID = 5;
     private static final String CHANNEL_ID = "fedilab_home";
     final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplicationContext());
@@ -86,6 +93,7 @@ public class FetchHomeWorker extends Worker {
         PeriodicWorkRequest notificationPeriodic = new PeriodicWorkRequest.Builder(FetchHomeWorker.class, Long.parseLong(value), TimeUnit.MINUTES)
                 .setInputData(inputData)
                 .setConstraints(constraints)
+                .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 5, TimeUnit.MINUTES)
                 .addTag(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance)
                 .build();
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance, ExistingPeriodicWorkPolicy.REPLACE, notificationPeriodic);
@@ -157,22 +165,27 @@ public class FetchHomeWorker extends Worker {
         String instance = getInputData().getString(Helper.ARG_INSTANCE);
         String userId = getInputData().getString(Helper.ARG_USER_ID);
 
+        boolean failed = false;
         try {
             BaseAccount account = new Account(getApplicationContext()).getUniqAccount(userId, instance);
             if (account != null) {
                 try {
-                    fetchHome(getApplicationContext(), account);
+                    failed = !fetchHome(getApplicationContext(), account);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    failed = true;
                 }
             }
         } catch (DBException e) {
             e.printStackTrace();
         }
+        if (failed) {
+            return Result.retry();
+        }
         return Result.success(new Data.Builder().putString("WORK_RESULT", getApplicationContext().getString(R.string.notifications)).build());
     }
 
-    private void fetchHome(Context context, BaseAccount account) throws IOException {
+    private boolean fetchHome(Context context, BaseAccount account) throws IOException {
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
         boolean fetch_home = prefs.getBoolean(context.getString(R.string.SET_FETCH_HOME) + account.user_id + account.instance, false);
@@ -187,21 +200,21 @@ public class FetchHomeWorker extends Worker {
         if (fetch_home) {
             int max_calls = 10;
             int status_per_page = 40;
-            int insertValue;
             boolean canContinue = true;
             int call = 0;
             MastodonTimelinesService mastodonTimelinesService = init(account.instance);
 
-            // Paginate upward from last cached post (min_id) so interrupted fetches
-            // only leave a gap at the top. Fall back to max_id if cache is empty.
+            //Cursor of the worker, or newest cached message
             String newestCachedId = null;
             try {
                 newestCachedId = new StatusCache(getApplicationContext()).getNewestHomeStatusId(account);
             } catch (DBException e) {
                 e.printStackTrace();
             }
+            String cursorKey = context.getString(R.string.SET_HOME_FETCH_CURSOR) + account.user_id + account.instance;
+            String workerCursor = prefs.getString(cursorKey, null);
             String max_id = null;
-            String min_id = newestCachedId;
+            String min_id = workerCursor != null ? workerCursor : newestCachedId;
 
             while (canContinue && call < max_calls) {
                 Call<List<Status>> homeCall;
@@ -216,29 +229,31 @@ public class FetchHomeWorker extends Worker {
                         List<Status> statusList = homeResponse.body();
                         if (statusList != null && statusList.size() > 0) {
                             fetched += statusList.size();
+                            String batchMaxId = null;
                             for (Status status : statusList) {
-                                StatusCache statusCacheDAO = new StatusCache(getApplicationContext());
-                                StatusCache statusCache = new StatusCache();
-                                statusCache.instance = account.instance;
-                                statusCache.user_id = account.user_id;
-                                statusCache.status = status;
-                                statusCache.type = Timeline.TimeLineEnum.HOME;
-                                statusCache.status_id = status.id;
-                                try {
-                                    insertValue = statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue());
-                                    if (insertValue == 1) {
-                                        inserted++;
-                                    } else {
-                                        updated++;
-                                    }
-                                } catch (DBException e) {
-                                    e.printStackTrace();
+                                if (batchMaxId == null || Helper.compareTo(status.id, batchMaxId) > 0) {
+                                    batchMaxId = status.id;
                                 }
                             }
+                            int[] counts = storeInCache(account, statusList);
+                            int batchInserted = counts[0];
+                            inserted += counts[0];
+                            updated += counts[1];
 
                             if (min_id != null) {
-                                // Forward pagination: newest status in batch becomes next min_id
-                                min_id = statusList.get(0).id;
+                                //Nothing new means the timeline already fetched above
+                                if (batchInserted == 0) {
+                                    try {
+                                        String newestNow = new StatusCache(getApplicationContext()).getNewestHomeStatusId(account);
+                                        min_id = newestNow != null ? newestNow : batchMaxId;
+                                    } catch (DBException e) {
+                                        min_id = batchMaxId;
+                                    }
+                                    canContinue = false;
+                                } else {
+                                    //The response order is not guaranteed
+                                    min_id = batchMaxId;
+                                }
                             } else {
                                 Pagination pagination = MastodonHelper.getPagination(homeResponse.headers());
                                 if (pagination.max_id != null) {
@@ -266,6 +281,18 @@ public class FetchHomeWorker extends Worker {
                 }
                 call++;
             }
+            if (min_id != null) {
+                prefs.edit().putString(cursorKey, min_id).apply();
+            }
+            String backfillKey = context.getString(R.string.SET_HOME_BACKFILL_DATE) + account.user_id + account.instance;
+            long lastBackfill = prefs.getLong(backfillKey, 0);
+            if (!failed && new Date().getTime() - lastBackfill > BACKFILL_EVERY) {
+                int[] counts = backfillHome(account, mastodonTimelinesService);
+                fetched += counts[0];
+                inserted += counts[1];
+                updated += counts[2];
+                prefs.edit().putLong(backfillKey, new Date().getTime()).apply();
+            }
             TimelineCacheLogs timelineCacheLogs = new TimelineCacheLogs();
             timelineCacheLogs.frequency = frequency;
             timelineCacheLogs.fetched = fetched;
@@ -281,7 +308,88 @@ public class FetchHomeWorker extends Worker {
             } catch (DBException e) {
                 throw new RuntimeException(e);
             }
+            return !failed;
         }
+        return true;
+    }
+
+    /**
+     * Store a batch in the home cache
+     *
+     * @param account    BaseAccount - owner of the cache
+     * @param statusList List<Status> - what was fetched
+     * @return int[] - inserted and updated counts
+     */
+    private int[] storeInCache(BaseAccount account, List<Status> statusList) {
+        int inserted = 0;
+        int updated = 0;
+        for (Status status : statusList) {
+            StatusCache statusCacheDAO = new StatusCache(getApplicationContext());
+            StatusCache statusCache = new StatusCache();
+            statusCache.instance = account.instance;
+            statusCache.user_id = account.user_id;
+            statusCache.status = status;
+            statusCache.type = Timeline.TimeLineEnum.HOME;
+            statusCache.status_id = status.id;
+            try {
+                if (statusCacheDAO.insertOrUpdate(statusCache, Timeline.TimeLineEnum.HOME.getValue()) == 1) {
+                    inserted++;
+                } else {
+                    updated++;
+                }
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }
+        return new int[]{inserted, updated};
+    }
+
+    /**
+     * Fetch again the range already collected
+     *
+     * @param account BaseAccount - owner of the cache
+     * @param service MastodonTimelinesService - service of the instance
+     * @return int[] - fetched, inserted and updated counts
+     */
+    private int[] backfillHome(BaseAccount account, MastodonTimelinesService service) throws IOException {
+        int fetched = 0, inserted = 0, updated = 0;
+        String max_id = null;
+        long floor = new Date().getTime() - BACKFILL_DEPTH;
+        for (int call = 0; call < MAX_BACKFILL_CALLS; call++) {
+            Call<List<Status>> homeCall = service.getHome(account.token, max_id, null, null, BACKFILL_PER_PAGE, null);
+            if (homeCall == null) {
+                break;
+            }
+            Response<List<Status>> homeResponse = homeCall.execute();
+            if (!homeResponse.isSuccessful()) {
+                break;
+            }
+            List<Status> statusList = homeResponse.body();
+            if (statusList == null || statusList.isEmpty()) {
+                break;
+            }
+            fetched += statusList.size();
+            int[] counts = storeInCache(account, statusList);
+            inserted += counts[0];
+            updated += counts[1];
+            boolean floorReached = false;
+            for (Status status : statusList) {
+                if (status.created_at != null && status.created_at.getTime() < floor) {
+                    floorReached = true;
+                }
+            }
+            Pagination pagination = MastodonHelper.getPagination(homeResponse.headers());
+            if (floorReached || pagination.max_id == null) {
+                break;
+            }
+            max_id = pagination.max_id;
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return new int[]{fetched, inserted, updated};
     }
 
     private MastodonTimelinesService init(String instance) {

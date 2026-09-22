@@ -177,6 +177,10 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
         summary.append(getString(R.string.cache_diff_drops, cacheReport.drops)).append("\n");
         summary.append(getString(R.string.cache_diff_loads, cacheReport.loadsRecorded)).append("\n");
         summary.append(getString(R.string.cache_diff_empty_loads, cacheReport.emptyLoads)).append("\n");
+        summary.append(getString(R.string.cache_diff_open_gaps, cacheReport.openGaps.size())).append("\n");
+        summary.append(getString(R.string.cache_diff_runs, cacheReport.runs.size(), cacheReport.runsFailed)).append("\n");
+        long sinceInsertion = cacheReport.lastInsertion > 0 ? (cacheReport.generatedAt - cacheReport.lastInsertion) / 60000 : -1;
+        summary.append(getString(R.string.cache_diff_last_insertion, (int) sinceInsertion)).append("\n");
         if (cacheReport.serverPages > 0) {
             summary.append(getString(R.string.cache_diff_server_pages, cacheReport.serverPages)).append("\n");
             summary.append(getString(R.string.cache_diff_server_missing, cacheReport.serverMissing)).append("\n");

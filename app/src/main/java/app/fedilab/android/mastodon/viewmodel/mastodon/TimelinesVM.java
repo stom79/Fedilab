@@ -756,6 +756,18 @@ public class TimelinesVM extends AndroidViewModel {
                             addFetchMore(statuses.statuses, timelineStatuses, timelineParams);
                             //All statuses (even filtered will be added to cache)
                             if (statusList != null && !statusList.isEmpty()) {
+                                //A batch anchored with a cursor is contiguous
+                                boolean canSkipRange = timelineParams.type == Timeline.TimeLineEnum.HOME
+                                        && timelineParams.minId == null && timelineParams.maxId == null;
+                                String newestCachedId = null;
+                                if (canSkipRange) {
+                                    try {
+                                        newestCachedId = new StatusCache(getApplication().getApplicationContext())
+                                                .getNewestHomeStatusId(timelineParams.userId, timelineParams.instance);
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                                 for (Status status : statusList) {
                                     StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
                                     StatusCache statusCache = new StatusCache();
@@ -769,6 +781,15 @@ public class TimelinesVM extends AndroidViewModel {
                                         if (inserted == 0) {
                                             status.cached = true;
                                         }
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                if (canSkipRange) {
+                                    try {
+                                        new StatusCache(getApplication().getApplicationContext())
+                                                .recordSkippedRange(timelineParams.userId, timelineParams.instance, statusList,
+                                                        statuses.pagination != null && statuses.pagination.max_id != null, newestCachedId);
                                     } catch (DBException e) {
                                         e.printStackTrace();
                                     }
@@ -798,6 +819,7 @@ public class TimelinesVM extends AndroidViewModel {
             try {
                 List<Status> statusesDb = statusCacheDAO.geStatuses(timelineParams.slug, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
                 if (statusesDb != null && statusesDb.size() > 0) {
+                    statuses.cachePageFull = statusesDb.size() >= timelineParams.limit;
                     if (timelineStatuses != null) {
                         List<Status> notPresentStatuses = new ArrayList<>();
                         for (Status status : statusesDb) {
@@ -810,6 +832,12 @@ public class TimelinesVM extends AndroidViewModel {
                         statusesDb = notPresentStatuses;
                     }
                     statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusesDb, timelineParams.type);
+                    for (Status status : statuses.statuses) {
+                        if (status.gapBefore) {
+                            status.isFetchMore = true;
+                            status.positionFetchMore = Status.PositionFetchMore.TOP;
+                        }
+                    }
                     if (statuses.statuses.size() > 0) {
                         //Sort by date, min_id windows keep asc order
                         if (timelineParams.minId == null) {
