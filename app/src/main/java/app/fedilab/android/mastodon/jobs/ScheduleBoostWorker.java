@@ -113,11 +113,7 @@ public class ScheduleBoostWorker extends Worker {
 
 
     private OkHttpClient getOkHttpClient() {
-        return new OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .proxy(Helper.getProxy(getApplicationContext()))
-                .build();
+        return Helper.myOkHttpClient(getApplicationContext());
     }
 
     private MastodonStatusesService init(String instance) {

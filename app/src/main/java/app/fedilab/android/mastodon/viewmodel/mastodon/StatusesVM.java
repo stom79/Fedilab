@@ -87,12 +87,7 @@ public class StatusesVM extends AndroidViewModel {
 
 
     private OkHttpClient getOkHttpClient() {
-        return new OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .callTimeout(60, TimeUnit.SECONDS)
-                .proxy(Helper.getProxy(getApplication().getApplicationContext()))
-                .build();
+        return Helper.myOkHttpClient(getApplication().getApplicationContext());
     }
 
     private MastodonStatusesService init(String instance) {
@@ -329,15 +324,22 @@ public class StatusesVM extends AndroidViewModel {
         new Thread(() -> {
             Call<StatusSource> statusSourceCall = mastodonStatusesService.getStatusSource(token, id);
             StatusSource statusSource = null;
+            int errorCode = 0;
             if (statusSourceCall != null) {
                 try {
                     Response<StatusSource> statusResponse = statusSourceCall.execute();
                     if (statusResponse.isSuccessful()) {
                         statusSource = statusResponse.body();
+                    } else {
+                        errorCode = statusResponse.code();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+            if (statusSource == null) {
+                statusSource = new StatusSource();
+                statusSource.errorCode = errorCode;
             }
             Handler mainHandler = new Handler(Looper.getMainLooper());
             StatusSource finalStatusSource = statusSource;

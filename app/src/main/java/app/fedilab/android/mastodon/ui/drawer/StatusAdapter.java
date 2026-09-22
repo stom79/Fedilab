@@ -3189,11 +3189,13 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         } else {
                             statusesVM.getStatusSource(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
                                     .observe((LifecycleOwner) context, statusSource -> {
-                                        if (statusSource != null) {
+                                        if (statusSource.text != null) {
                                             statusToDeal.text = statusSource.text;
                                             statusToDeal.spoiler_text = statusSource.spoiler_text;
                                             openRedraftCompose(context, statusToDeal, originalStatusId);
                                             sendAction(context, Helper.ARG_STATUS_DELETED, statusToDeal, null);
+                                        } else if (statusSource.errorCode == 404) {
+                                            Toasty.info(context, context.getString(R.string.toast_feature_not_supported), Toasty.LENGTH_SHORT).show();
                                         } else {
                                             Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                                         }
@@ -3206,7 +3208,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else if (itemId == R.id.action_edit) {
                 statusesVM.getStatusSource(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id)
                         .observe((LifecycleOwner) context, statusSource -> {
-                            if (statusSource != null) {
+                            if (statusSource.text != null) {
                                 Intent intent = new Intent(context, ComposeActivity.class);
                                 StatusDraft statusDraft = new StatusDraft();
                                 statusDraft.statusDraftList = new ArrayList<>();
@@ -3227,6 +3229,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                     intent.putExtras(bundle);
                                     context.startActivity(intent);
                                 });
+                            } else if (statusSource.errorCode == 404) {
+                                Toasty.info(context, context.getString(R.string.toast_feature_not_supported), Toasty.LENGTH_SHORT).show();
                             } else {
                                 Toasty.error(context, context.getString(R.string.toast_error), Toasty.LENGTH_SHORT).show();
                             }

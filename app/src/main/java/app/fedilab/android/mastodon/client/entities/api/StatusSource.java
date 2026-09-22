@@ -25,4 +25,5 @@ public class StatusSource implements Serializable {
     public String text;
     @SerializedName("spoiler_text")
     public String spoiler_text;
+    public int errorCode = 0;
 }

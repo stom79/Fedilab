@@ -152,11 +152,7 @@ public class NotificationsHelper {
 
     private static MastodonNotificationsService init(Context context, String instance) {
 
-        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .proxy(Helper.getProxy(context))
-                .build();
+        final OkHttpClient okHttpClient = Helper.myOkHttpClient(context);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://" + (instance != null ? IDN.toASCII(instance, IDN.ALLOW_UNASSIGNED) : null) + "/api/v1/")
                 .addConverterFactory(GsonConverterFactory.create(Helper.getDateBuilder()))
