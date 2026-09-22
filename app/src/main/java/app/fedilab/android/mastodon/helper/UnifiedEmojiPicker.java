@@ -57,6 +57,8 @@ public class UnifiedEmojiPicker {
                             @Nullable OnCustomEmojiSelected customCallback) {
 
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        //The field loses focus once the picker is shown
+        int selectionStart = Math.max(editText.getSelectionStart(), 0);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 
         boolean hasCustomEmojis = customEmojis != null && !customEmojis.isEmpty();
@@ -69,7 +71,7 @@ public class UnifiedEmojiPicker {
             if (unicodeCallback != null) {
                 unicodeCallback.onEmojiSelected(emojiViewItem.getEmoji());
             } else {
-                editText.getText().insert(editText.getSelectionStart(), emojiViewItem.getEmoji());
+                editText.getText().insert(Math.min(selectionStart, editText.length()), emojiViewItem.getEmoji());
             }
             bottomSheet.dismiss();
         });

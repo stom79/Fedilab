@@ -56,6 +56,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -960,6 +961,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     updateCharacterCount(holder);
                                     holder.binding.content.setSelection(newPosition);
                                     statusList.get(holder.getBindingAdapterPosition()).text = newContent;
+                                    statusList.get(holder.getBindingAdapterPosition()).cursorPosition = newPosition;
                                     AccountsSearchAdapter accountsListAdapter1 = new AccountsSearchAdapter(context, new ArrayList<>());
                                     holder.binding.content.setThreshold(1);
                                     holder.binding.content.setAdapter(accountsListAdapter1);
@@ -1033,6 +1035,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         statusList.get(holder.getBindingAdapterPosition()).text = newContent;
                                         updateCharacterCount(holder);
                                         holder.binding.content.setSelection(newPosition);
+                                        statusList.get(holder.getBindingAdapterPosition()).cursorPosition = newPosition;
                                         TagsSearchAdapter tagsSearchAdapter1 = new TagsSearchAdapter(context, new ArrayList<>());
                                         holder.binding.content.setThreshold(1);
                                         holder.binding.content.setAdapter(tagsSearchAdapter1);
@@ -1099,6 +1102,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         statusList.get(holder.getBindingAdapterPosition()).text = newContent;
                                         updateCharacterCount(holder);
                                         holder.binding.content.setSelection(newPosition);
+                                        statusList.get(holder.getBindingAdapterPosition()).cursorPosition = newPosition;
                                         EmojiSearchAdapter emojisSearchAdapter1 = new EmojiSearchAdapter(context, new ArrayList<>());
                                         holder.binding.content.setThreshold(1);
                                         holder.binding.content.setAdapter(emojisSearchAdapter1);
@@ -1855,7 +1859,7 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             buttonVisibility(holder);
             applyColor(context, holder, statusDraft.visibility);
             holder.binding.buttonEmoji.setVisibility(View.VISIBLE);
-            final android.widget.EditText[] activeEmojiField = {holder.binding.content};
+            final EditText[] activeEmojiField = {holder.binding.content};
             holder.binding.content.setOnFocusChangeListener((view, focused) -> {
                 if (focused) {
                     currentCursorPosition = holder.getLayoutPosition();
@@ -1870,16 +1874,17 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.binding.buttonEmoji.setOnClickListener(v -> {
                 List<app.fedilab.android.mastodon.client.entities.api.Emoji> emojiCustomList =
                         emojis != null ? emojis.get(account.instance) : null;
+                //The field loses focus once the picker is shown
+                EditText emojiField = activeEmojiField[0];
+                int selectionStart = Math.max(emojiField.getSelectionStart(), 0);
                 UnifiedEmojiPicker.show(context,
                         holder.binding.buttonEmoji,
                         holder.binding.content,
                         emojiCustomList,
                         null,
-                        (shortcode, url, staticUrl) -> {
-                            activeEmojiField[0].getText().insert(
-                                    activeEmojiField[0].getSelectionStart(),
-                                    " :" + shortcode + ": ");
-                        });
+                        (shortcode, url, staticUrl) -> emojiField.getText().insert(
+                                Math.min(selectionStart, emojiField.length()),
+                                " :" + shortcode + ": "));
             });
             displayAttachments(holder, position, -1);
             manageMentions(context, statusDraft, holder);
