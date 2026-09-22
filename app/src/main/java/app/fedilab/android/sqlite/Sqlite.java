@@ -16,6 +16,7 @@ package app.fedilab.android.sqlite;
 
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -371,10 +372,23 @@ public class Sqlite extends SQLiteOpenHelper {
                 db.execSQL("DROP TABLE IF EXISTS " + TABLE_TIMELINE_LOAD_LOGS);
                 db.execSQL(CREATE_TABLE_TIMELINE_LOAD_LOGS);
             case 17:
-                db.execSQL("ALTER TABLE " + TABLE_STATUS_CACHE + " ADD COLUMN " + COL_GAP_BEFORE + " INTEGER NOT NULL DEFAULT 0");
+                if (!columnExists(db, TABLE_STATUS_CACHE, COL_GAP_BEFORE)) {
+                    db.execSQL("ALTER TABLE " + TABLE_STATUS_CACHE + " ADD COLUMN " + COL_GAP_BEFORE + " INTEGER NOT NULL DEFAULT 0");
+                }
             default:
                 break;
         }
+    }
+
+    private boolean columnExists(SQLiteDatabase db, String table, String column) {
+        try (Cursor cursor = db.rawQuery("PRAGMA table_info(" + table + ")", null)) {
+            while (cursor.moveToNext()) {
+                if (column.equals(cursor.getString(1))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public SQLiteDatabase open() {
