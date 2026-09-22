@@ -33,6 +33,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.Spannable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -63,6 +65,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,15 +77,19 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.R;
 import app.fedilab.android.activities.MainActivity;
 import app.fedilab.android.databinding.ActivityPaginationBinding;
 import app.fedilab.android.databinding.PopupContactBinding;
+import app.fedilab.android.databinding.PopupPreviewBinding;
 import app.fedilab.android.mastodon.client.entities.api.Account;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
 import app.fedilab.android.mastodon.client.entities.api.Context;
+import app.fedilab.android.mastodon.client.entities.api.Emoji;
 import app.fedilab.android.mastodon.client.entities.api.EmojiInstance;
 import app.fedilab.android.mastodon.client.entities.api.Instance;
 import app.fedilab.android.mastodon.client.entities.api.Mention;
@@ -98,6 +105,7 @@ import app.fedilab.android.mastodon.helper.DividerDecorationSimple;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.MediaHelper;
+import app.fedilab.android.mastodon.helper.SpannableHelper;
 import app.fedilab.android.mastodon.interfaces.OnDownloadInterface;
 import app.fedilab.android.mastodon.jobs.ComposeWorker;
 import app.fedilab.android.mastodon.jobs.ScheduleThreadWorker;
@@ -164,6 +172,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
     private List<Attachment> sharedAttachments;
     private ActivityPaginationBinding binding;
     private BaseAccount account;
+    private static final Pattern previewLinkPattern = Pattern.compile("https?://[^\\s<]+|"
+            + Helper.mentionPatternALL.pattern() + "|" + Helper.hashtagPattern.pattern());
     private String instance, token;
     private Uri photoFileUri;
     private ScheduledStatus scheduledStatus;
@@ -352,6 +362,81 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         binding.recyclerView.scrollToPosition(composeAdapter.getItemCount() - 1);
     }
 
+    private void displayPreview() {
+        if (statusList == null || statusList.isEmpty()) {
+            return;
+        }
+        int position = ComposeAdapter.currentCursorPosition;
+        if (position < 0 || position >= statusList.size()) {
+            position = 0;
+        }
+        Status draft = statusList.get(position);
+        if (draft.text == null || draft.text.trim().isEmpty()) {
+            Toasty.info(ComposeActivity.this, getString(R.string.toot_error_no_content), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String spoiler = draft.spoiler_text;
+        String text = draft.text;
+        new Thread(() -> {
+            List<Emoji> emojiList = null;
+            try {
+                emojiList = new EmojiInstance(ComposeActivity.this).getEmojiList(account.instance);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (emojiList == null && emojis != null) {
+                emojiList = emojis.get(account.instance);
+            }
+            List<Emoji> finalEmojiList = emojiList;
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(() -> showPreviewDialog(text, spoiler, finalEmojiList));
+        }).start();
+    }
+
+    private void showPreviewDialog(String text, String spoiler, List<Emoji> emojiList) {
+        if (isFinishing()) {
+            return;
+        }
+        PopupPreviewBinding popupPreviewBinding = PopupPreviewBinding.inflate(getLayoutInflater(), new LinearLayout(ComposeActivity.this), false);
+        Status preview = new Status();
+        preview.emojis = emojiList;
+        preview.mentions = new ArrayList<>();
+        Spannable content = SpannableHelper.convert(ComposeActivity.this, toHtml(text), preview, null, null,
+                new WeakReference<>(popupPreviewBinding.content), null, true, true);
+        popupPreviewBinding.content.setText(content);
+        if (spoiler != null && !spoiler.trim().isEmpty()) {
+            Spannable contentSpoiler = SpannableHelper.convert(ComposeActivity.this, toHtml(spoiler), preview, null, null,
+                    new WeakReference<>(popupPreviewBinding.spoiler), null, true, false);
+            popupPreviewBinding.spoiler.setText(contentSpoiler);
+            popupPreviewBinding.spoiler.setVisibility(View.VISIBLE);
+        }
+        new MaterialAlertDialogBuilder(ComposeActivity.this)
+                .setTitle(R.string.preview)
+                .setView(popupPreviewBinding.getRoot())
+                .setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    //Rebuild the HTML the server would return
+    private String toHtml(String text) {
+        Matcher matcher = previewLinkPattern.matcher(text);
+        StringBuilder builder = new StringBuilder();
+        int last = 0;
+        while (matcher.find()) {
+            builder.append(TextUtils.htmlEncode(text.substring(last, matcher.start())));
+            String word = matcher.group();
+            String label = word;
+            if (word.startsWith("@") && word.indexOf('@', 1) > 0) {
+                label = word.substring(0, word.indexOf('@', 1));
+            }
+            builder.append("<a href=\"").append(TextUtils.htmlEncode(word)).append("\">")
+                    .append(TextUtils.htmlEncode(label)).append("</a>");
+            last = matcher.end();
+        }
+        builder.append(TextUtils.htmlEncode(text.substring(last)));
+        return builder.toString().replaceAll("\n", "<br>");
+    }
+
     @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -371,6 +456,8 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (item.getItemId() == android.R.id.home) {
             storeDraftWarning();
             return true;
+        } else if (item.getItemId() == R.id.action_preview) {
+            displayPreview();
         } else if (item.getItemId() == R.id.action_photo_camera) {
             photoFileUri = MediaHelper.dispatchTakePictureIntent(ComposeActivity.this);
         } else if (item.getItemId() == R.id.action_contacts) {

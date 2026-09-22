@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_preview"
+        android:icon="@drawable/ic_baseline_visibility_24"
+        android:title="@string/preview"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_photo_camera"
         android:icon="@drawable/ic_baseline_camera_alt_24"
         android:title="@string/camera"
