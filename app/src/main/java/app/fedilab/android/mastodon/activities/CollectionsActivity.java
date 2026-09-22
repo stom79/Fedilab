@@ -490,7 +490,7 @@ public class CollectionsActivity extends BaseBarActivity implements CollectionAd
             @Override
             public void afterTextChanged(Editable s) {
                 if (s != null && s.length() > 0) {
-                    accountsVM.searchAccounts(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, s.toString(), 20, true, true)
+                    accountsVM.searchAccounts(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, s.toString(), 20, true, false)
                             .observe(CollectionsActivity.this, accounts -> {
                                 if (accounts != null) {
                                     accounts.removeIf(a -> a.id != null && a.id.equals(BaseMainActivity.currentUserID));
