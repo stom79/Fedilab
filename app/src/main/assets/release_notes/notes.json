@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.44.0",
+    "code": "570",
+    "note": "Improved:\n- Add a preview button in the compose editor\n- Filter boosts and replies in local, public and list timelines too\n- Tell when editing a post is not supported by the instance\n\nFixed:\n- Fix large gaps in the home timeline\n- Fix profile pictures cropped when the text size is below 100\n- Send the app user agent on every API call\n- Fix accounts not found when adding them to a collection\n- Fix a crash when opening the About page with a Pixelfed account\n- Limit the number of messages per load to 40, the API maximum\n- Fix Markdown links no longer displayed as links\n- Fix emojis inserted at the wrong cursor position\n"
+  },
+  {
     "version": "3.43.4",
     "code": "569",
     "note": "Improved:\n- Add a setting to include public posts in search results\n- Notification types can now be enabled per account\n- Add an optional emoji font download, so that recent emoji display correctly\n- Remove Google Play restrictions\n\nFixed:\n- Fix the \"Fetch more messages\" button missing on filtered posts\n- Fix timeline gaps that could no longer be filled after a failed fetch\n- Fix opening a notification dismissing all the other notifications\n- Fix device notifications replacing each other\n- Fix a crash while typing with the autocomplete list open\n- Fix the Pixelfed media presentation that could not be turned off\n- Pixelfed presentation moved to Media settings and has to be set again\n- Remove the Instagram redirection, the Bibliogram project is discontinued\n- Fix the formatting lost with Markdown support when a post contains underscores in emoji, hashtags or mentions\n"

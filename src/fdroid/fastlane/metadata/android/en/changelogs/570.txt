@@ -1,0 +1,14 @@
+Improved:
+- Add a preview button in the compose editor
+- Filter boosts and replies in local, public and list timelines too
+- Tell when editing a post is not supported by the instance
+
+Fixed:
+- Fix large gaps in the home timeline
+- Fix profile pictures cropped when the text size is below 100
+- Send the app user agent on every API call
+- Fix accounts not found when adding them to a collection
+- Fix a crash when opening the About page with a Pixelfed account
+- Limit the number of messages per load to 40, the API maximum
+- Fix Markdown links no longer displayed as links
+- Fix emojis inserted at the wrong cursor position
