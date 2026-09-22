@@ -101,7 +101,7 @@ public class AboutActivity extends BaseBarActivity {
 
             @Override
             public void federatedAccount(Account account) {
-                if (account != null && account.username.equalsIgnoreCase("apps")) {
+                if (account != null && "apps".equalsIgnoreCase(account.username)) {
                     MastodonHelper.loadPPMastodon(binding.accountPp, account);
                     binding.accountDn.setText(account.display_name);
                     binding.accountUn.setText(account.acct);
