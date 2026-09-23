@@ -1,0 +1,14 @@
+Millores:
+- Botó de previsionat a l'editor de redactat
+- Filtra difusions i respon en local, en públic i també en pissarres llista
+- Informa quan la instància no permet l'edició d'un missatge
+
+Correccions:
+- Buits llarg a la pissarra d'inici
+- fotos de perfils quan la mida del text és menys de 100
+- Envia l'agent de la usuària de l'app en cada invocació de l'API
+- Comptes que no apareixin després d'afegir-los a una col·lecció
+- Fallida en obrir la pàgina Sobre... amb un compte de Pixelfed
+- Limitació del nombre de missatges per càrrega a 40, el màxim de l'API
+- Enllaços de Markdown que ja no es mostraven com a enllaços
+- Emojis que s'inserien en una posició equivocada amb el cursor
