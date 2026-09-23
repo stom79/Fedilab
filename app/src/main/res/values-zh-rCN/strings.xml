@@ -1008,16 +1008,16 @@
     <string name="new_messages">新嘟文</string>
     <string name="frequency_minutes">频率（分钟）</string>
     <string name="total_fetched">已获取嘟文总数</string>
-    <string name="fail_count">%d 失败</string>
+    <string name="fail_count">%d 次失败</string>
     <string name="frequency_count_minutes">%d 频率（分钟）</string>
     <string name="updated_messages">已更新嘟文</string>
-    <string name="updated_count">%d 已更新嘟文</string>
+    <string name="updated_count">%d 条已更新嘟文</string>
     <string name="follows_you">关注了您</string>
     <string name="check_home_cache">检查主页缓存</string>
     <string name="no_cached_messages">无主页缓存嘟文！</string>
     <string name="chart_home_cache_logs">主页缓存日志</string>
-    <string name="fetched_count">%d 已获取嘟文</string>
-    <string name="inserted_count">%d 新嘟文</string>
+    <string name="fetched_count">%d 条已获取嘟文</string>
+    <string name="inserted_count">%d 条新嘟文</string>
     <string name="load_media_remotely">远程加载媒体</string>
     <string name="toast_error_media">无法加载媒体！</string>
     <string name="requested_by">请求关注您</string>
@@ -1443,4 +1443,16 @@
     <string name="cache_diff_intro">比较已缓存内容和时间线内容。该报告只保留每条嘟文的 id、日期和 constraint。没有内容、作者、媒体文件。</string>
     <string name="cache_diff_run">分析主页时间线</string>
     <string name="cache_diff_export">保存匿名化的报告</string>
+    <string name="cache_diff_drops">低于常规频率的小时数：%1$d</string>
+    <string name="cache_diff_loads">记录的时间线加载：%1$d</string>
+    <string name="cache_diff_empty_loads">没返回内容的加载：%1$d</string>
+    <string name="cache_diff_open_gaps">待填补的已记录缺口：%1$d</string>
+    <string name="cache_diff_last_insertion">距存储上条嘟文已过去的分钟数：%1$d</string>
+    <string name="cache_diff_runs">后台获取：%1$d，失败：%2$d</string>
+    <string name="cache_diff_constraint_filter_hide">被过滤器隐藏：%1$d</string>
+    <string name="cache_diff_constraint_filter_warn">含警告的过滤器：%1$d</string>
+    <string name="cache_diff_constraint_app_mute">静音的账户：%1$d</string>
+    <string name="cache_diff_constraint_app_reblog_group">分组的转嘟：%1$d</string>
+    <string name="cache_diff_constraints">限制</string>
+    <string name="cache_diff_constraint_none">无限制：%1$d</string>
 </resources>
