@@ -1,0 +1,11 @@
+Añadido:
+- Añadidos nuevos iconos de lanzador (Configuración -> Interfaz)
+
+Cambiado:
+- Ahora el botón de logout/proxy es más visible en el menú principal
+- Eliminado el permiso FOREGROUND_SERVICE
+- Ligera mejora del diseño de media con traducciones
+
+Arreglado:
+- Arreglados los iconos de la barra de estatus invisibles con temas claros con color de acento personalizado
+- Botones de reacción no interactuables para algunas instancias
