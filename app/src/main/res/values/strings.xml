@@ -1090,6 +1090,8 @@
     <string name="SET_FETCH_HOME_DELAY_VALUE" translatable="false">SET_FETCH_HOME_DELAY_VALUE</string>
     <string name="SET_HOME_FETCH_CURSOR" translatable="false">SET_HOME_FETCH_CURSOR</string>
     <string name="SET_HOME_BACKFILL_DATE" translatable="false">SET_HOME_BACKFILL_DATE</string>
+    <string name="SET_HOME_FETCH_LAST_ATTEMPT" translatable="false">SET_HOME_FETCH_LAST_ATTEMPT</string>
+    <string name="SET_HOME_FETCH_LAST_SUCCESS" translatable="false">SET_HOME_FETCH_LAST_SUCCESS</string>
 
     <string name="SET_SEND_CRASH_REPORTS" translatable="false">SET_SEND_CRASH_REPORTS</string>
     <string name="SET_DISABLE_RELEASE_NOTES_ALERT" translatable="false">SET_DISABLE_RELEASE_NOTES_ALERT</string>
@@ -2401,6 +2403,7 @@
     <string name="cache_diff_open_gaps">Recorded gaps waiting to be filled: %1$d</string>
     <string name="cache_diff_last_insertion">Minutes since the last message was stored: %1$d</string>
     <string name="cache_diff_runs">Background fetches: %1$d, failed: %2$d</string>
+    <string name="cache_diff_worker">Worker: %1$s, minutes since last attempt: %2$d, since last success: %3$d</string>
     <string name="cache_diff_constraints">Constraints</string>
     <string name="cache_diff_constraint_none">No constraint: %1$d</string>
     <string name="cache_diff_constraint_filter_hide">Hidden by a filter: %1$d</string>

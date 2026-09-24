@@ -181,6 +181,9 @@ public class CheckHomeCacheActivity extends BaseBarActivity {
         summary.append(getString(R.string.cache_diff_runs, cacheReport.runs.size(), cacheReport.runsFailed)).append("\n");
         long sinceInsertion = cacheReport.lastInsertion > 0 ? (cacheReport.generatedAt - cacheReport.lastInsertion) / 60000 : -1;
         summary.append(getString(R.string.cache_diff_last_insertion, (int) sinceInsertion)).append("\n");
+        long sinceAttempt = cacheReport.lastAttempt > 0 ? (cacheReport.generatedAt - cacheReport.lastAttempt) / 60000 : -1;
+        long sinceSuccess = cacheReport.lastSuccess > 0 ? (cacheReport.generatedAt - cacheReport.lastSuccess) / 60000 : -1;
+        summary.append(getString(R.string.cache_diff_worker, cacheReport.workerState != null ? cacheReport.workerState : "-", (int) sinceAttempt, (int) sinceSuccess)).append("\n");
         if (cacheReport.serverPages > 0) {
             summary.append(getString(R.string.cache_diff_server_pages, cacheReport.serverPages)).append("\n");
             summary.append(getString(R.string.cache_diff_server_missing, cacheReport.serverMissing)).append("\n");

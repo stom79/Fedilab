@@ -23,6 +23,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 
 import androidx.preference.PreferenceManager;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +48,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import app.fedilab.android.BaseMainActivity;
 import app.fedilab.android.BuildConfig;
@@ -101,7 +104,7 @@ public class HomeCacheDiffHelper {
     private static final int BUCKET_WINDOW = 2;
     private static final int BUCKET_FLOOR = 4;
     private static final int BUCKET_FACTOR = 4;
-    private static final int REPORT_VERSION = 1;
+    private static final int REPORT_VERSION = 2;
 
     /**
      * Cached message reduced to what the analysis needs
@@ -156,6 +159,12 @@ public class HomeCacheDiffHelper {
         public String workerCursor;
         public int cachedAboveCursor;
         public int runsFailed;
+        public boolean fetchHomeEnabled;
+        public int fetchHomeFrequency;
+        public long lastAttempt;
+        public long lastSuccess;
+        public String workerState;
+        public int workerAttempts;
         public long lastInsertion;
         public int cached;
         public int reached;
@@ -326,6 +335,27 @@ public class HomeCacheDiffHelper {
             if (run.failed > 0) {
                 report.runsFailed++;
             }
+        }
+        report.fetchHomeEnabled = sharedpreferences.getBoolean(context.getString(R.string.SET_FETCH_HOME) + account.user_id + account.instance, false);
+        try {
+            report.fetchHomeFrequency = Integer.parseInt(sharedpreferences.getString(context.getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + account.user_id + account.instance, "60"));
+        } catch (NumberFormatException ignored) {
+        }
+        report.lastAttempt = sharedpreferences.getLong(context.getString(R.string.SET_HOME_FETCH_LAST_ATTEMPT) + account.user_id + account.instance, 0);
+        report.lastSuccess = sharedpreferences.getLong(context.getString(R.string.SET_HOME_FETCH_LAST_SUCCESS) + account.user_id + account.instance, 0);
+        collectWorkerState(context, account, report);
+    }
+
+    private static void collectWorkerState(Context context, BaseAccount account, Report report) {
+        try {
+            List<WorkInfo> workInfos = WorkManager.getInstance(context).getWorkInfosForUniqueWork(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance).get();
+            if (workInfos != null && !workInfos.isEmpty()) {
+                WorkInfo workInfo = workInfos.get(0);
+                report.workerState = workInfo.getState().name();
+                report.workerAttempts = workInfo.getRunAttemptCount();
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -611,6 +641,14 @@ public class HomeCacheDiffHelper {
         health.put("cached_above_cursor", report.cachedAboveCursor);
         health.put("background_runs", report.runs.size());
         health.put("background_runs_failed", report.runsFailed);
+        health.put("fetch_home", report.fetchHomeEnabled);
+        health.put("fetch_home_frequency", report.fetchHomeFrequency);
+        health.put("worker_state", report.workerState != null ? report.workerState : JSONObject.NULL);
+        health.put("worker_attempts", report.workerAttempts);
+        health.put("last_attempt", report.lastAttempt / 1000);
+        health.put("minutes_since_last_attempt", report.lastAttempt > 0 ? (report.generatedAt - report.lastAttempt) / 60000 : -1);
+        health.put("last_success", report.lastSuccess / 1000);
+        health.put("minutes_since_last_success", report.lastSuccess > 0 ? (report.generatedAt - report.lastSuccess) / 60000 : -1);
         health.put("last_insertion", report.lastInsertion / 1000);
         health.put("minutes_since_last_insertion", report.lastInsertion > 0 ? (report.generatedAt - report.lastInsertion) / 60000 : -1);
         root.put("health", health);
