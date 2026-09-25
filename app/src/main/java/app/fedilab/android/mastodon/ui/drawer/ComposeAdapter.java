@@ -432,6 +432,10 @@ public class ComposeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         statusCount = count;
     }
 
+    public int getStatusCount() {
+        return statusCount;
+    }
+
     public int getCount() {
         return (statusList.size());
     }

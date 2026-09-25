@@ -321,6 +321,7 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         }
         //Build the array of statuses
         statusList.addAll(0, context.ancestors);
+        ComposeAdapter.currentCursorPosition += context.ancestors.size();
         composeAdapter.setStatusCount(context.ancestors.size() + 1);
         composeAdapter.notifyItemRangeInserted(0, context.ancestors.size());
 
@@ -366,10 +367,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         if (statusList == null || statusList.isEmpty()) {
             return;
         }
-        int position = ComposeAdapter.currentCursorPosition;
-        if (position < 0 || position >= statusList.size()) {
-            position = 0;
+        int cursorPosition = ComposeAdapter.currentCursorPosition;
+        if (cursorPosition < composeAdapter.getStatusCount() || cursorPosition >= statusList.size()) {
+            cursorPosition = statusList.size() - 1;
         }
+        final int position = cursorPosition;
         Status draft = statusList.get(position);
         if (draft.text == null || draft.text.trim().isEmpty()) {
             Toasty.info(ComposeActivity.this, getString(R.string.toot_error_no_content), Toast.LENGTH_SHORT).show();
@@ -389,11 +391,11 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
             }
             List<Emoji> finalEmojiList = emojiList;
             Handler mainHandler = new Handler(Looper.getMainLooper());
-            mainHandler.post(() -> showPreviewDialog(text, spoiler, finalEmojiList));
+            mainHandler.post(() -> showPreviewDialog(text, spoiler, finalEmojiList, position));
         }).start();
     }
 
-    private void showPreviewDialog(String text, String spoiler, List<Emoji> emojiList) {
+    private void showPreviewDialog(String text, String spoiler, List<Emoji> emojiList, int position) {
         if (isFinishing()) {
             return;
         }
@@ -413,8 +415,25 @@ public class ComposeActivity extends BaseActivity implements ComposeAdapter.Mana
         new MaterialAlertDialogBuilder(ComposeActivity.this)
                 .setTitle(R.string.preview)
                 .setView(popupPreviewBinding.getRoot())
-                .setPositiveButton(R.string.close, (dialog, which) -> dialog.dismiss())
+                .setPositiveButton(R.string.action_publish, (dialog, which) -> {
+                    dialog.dismiss();
+                    submitDraft(position);
+                })
+                .setNegativeButton(R.string.close, (dialog, which) -> dialog.dismiss())
                 .show();
+    }
+
+    private void submitDraft(int position) {
+        if (position < 0 || position >= statusList.size()) {
+            return;
+        }
+        Status draft = statusList.get(position);
+        if (draft.submitted) {
+            return;
+        }
+        draft.submitted = true;
+        composeAdapter.notifyItemChanged(position);
+        onSubmit(ComposeAdapter.prepareDraft(statusList, composeAdapter, account.instance, account.user_id));
     }
 
     //Rebuild the HTML the server would return
