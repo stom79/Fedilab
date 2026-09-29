@@ -21,5 +21,6 @@ public class Statuses implements Serializable {
     public Pagination pagination = new Pagination();
     public List<Status> statuses;
     public boolean cachePageFull = false;
+    public String idBelowGap = null;
     public int errorCode = 0;
 }

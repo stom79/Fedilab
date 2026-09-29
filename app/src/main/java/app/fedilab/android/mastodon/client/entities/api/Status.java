@@ -184,6 +184,7 @@ public class Status implements Serializable, Cloneable {
     public transient boolean isUnreachableGap = false;
     public transient boolean fetchMoreExhausted = false;
     public transient boolean gapBefore = false;
+    public transient long insertedAt = 0;
 
     public transient PositionFetchMore positionFetchMore = PositionFetchMore.BOTTOM;
 

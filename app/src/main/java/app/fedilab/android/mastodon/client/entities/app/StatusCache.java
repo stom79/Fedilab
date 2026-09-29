@@ -233,6 +233,33 @@ public class StatusCache {
     }
 
     /**
+     * count home messages newer than a message
+     *
+     * @param baseAccount Status {@link BaseAccount}
+     * @param statusId    String - message to count from
+     * @return int - number of occurrences
+     * @throws DBException Exception
+     */
+    public int countHomeAbove(BaseAccount baseAccount, String statusId) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        String comparison = Helper.isNumeric(statusId)
+                ? Sqlite.COL_STATUS_ID + " + 0 > cast(" + statusId + " as int)"
+                : Sqlite.COL_STATUS_ID + " > '" + statusId + "'";
+        Cursor mCount = db.rawQuery("select count(distinct " + Sqlite.COL_STATUS_ID + ") from " + Sqlite.TABLE_STATUS_CACHE
+                        + " where " + Sqlite.COL_SLUG + " = ?"
+                        + " AND " + Sqlite.COL_INSTANCE + " = ?"
+                        + " AND " + Sqlite.COL_USER_ID + "= ?"
+                        + " AND " + comparison,
+                new String[]{Timeline.TimeLineEnum.HOME.getValue(), baseAccount.instance, baseAccount.user_id});
+        mCount.moveToFirst();
+        int count = mCount.getInt(0);
+        mCount.close();
+        return count;
+    }
+
+    /**
      * get all cache messages for home
      *
      * @param baseAccount Status {@link BaseAccount}
@@ -323,27 +350,70 @@ public class StatusCache {
     }
 
     /**
-     * Record a skipped range when a batch lands above the newest cached message
+     * Remove the gap flags a batch covers
      *
      * @param userId          String - account owning the cache
      * @param instance        String - instance of the account
-     * @param statusList      List<Status> - what was just fetched and cached
-     * @param moreBelow       boolean - the server announced more messages below the batch
-     * @param newestCachedId  String - newest cached id before the batch was stored
+     * @param statusList      List<Status> - what is about to be cached
+     * @param minIdCursor     String - min_id of the request
+     * @param maxIdCursor     String - max_id of the request
      * @throws DBException Exception
      */
-    public void recordSkippedRange(String userId, String instance, List<Status> statusList, boolean moreBelow, String newestCachedId) throws DBException {
-        if (statusList == null || statusList.isEmpty() || !moreBelow || newestCachedId == null) {
+    public void clearGapsCoveredBy(String userId, String instance, List<Status> statusList, String minIdCursor, String maxIdCursor) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        if (statusList == null || statusList.isEmpty()) {
             return;
         }
         String batchMinId = null;
+        String batchMaxId = null;
         for (Status status : statusList) {
             if (batchMinId == null || Helper.compareTo(status.id, batchMinId) < 0) {
                 batchMinId = status.id;
             }
+            if (batchMaxId == null || Helper.compareTo(status.id, batchMaxId) > 0) {
+                batchMaxId = status.id;
+            }
         }
-        if (batchMinId != null && Helper.compareTo(batchMinId, newestCachedId) > 0) {
-            markGapBefore(userId, instance, batchMinId);
+        String lowestId = minIdCursor != null ? minIdCursor : batchMinId;
+        String highestId = maxIdCursor != null ? maxIdCursor : batchMaxId;
+        for (String gapId : getRecordedGaps(userId, instance)) {
+            if (Helper.compareTo(gapId, lowestId) <= 0 || Helper.compareTo(gapId, highestId) > 0) {
+                continue;
+            }
+            String belowId = getHomeStatusIdBelow(userId, instance, gapId);
+            if (belowId != null && Helper.compareTo(belowId, lowestId) >= 0) {
+                clearGapBefore(userId, instance, gapId);
+            }
+        }
+    }
+
+    private String getHomeStatusIdBelow(String userId, String instance, String statusId) {
+        boolean numericId = Helper.isNumeric(statusId);
+        String selection = Sqlite.COL_INSTANCE + "='" + instance
+                + "' AND " + Sqlite.COL_USER_ID + "= '" + userId
+                + "' AND " + Sqlite.COL_SLUG + "= '" + Timeline.TimeLineEnum.HOME.getValue() + "' ";
+        selection += numericId
+                ? "AND " + Sqlite.COL_STATUS_ID + " < cast(" + statusId + " as int) "
+                : "AND " + Sqlite.COL_STATUS_ID + " < '" + statusId + "' ";
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE,
+                    new String[]{Sqlite.COL_STATUS_ID},
+                    selection, null, null, null,
+                    (numericId ? Sqlite.COL_STATUS_ID + " + 0" : Sqlite.COL_STATUS_ID) + " DESC", "1");
+            if (c != null && c.moveToFirst()) {
+                String belowId = c.getString(c.getColumnIndexOrThrow(Sqlite.COL_STATUS_ID));
+                c.close();
+                return belowId;
+            }
+            if (c != null) {
+                c.close();
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -373,6 +443,42 @@ public class StatusCache {
             e.printStackTrace();
         }
         return insertionDates;
+    }
+
+    /**
+     * Get a cached home message
+     *
+     * @param userId   String - account owning the cache
+     * @param instance String - instance of the account
+     * @param statusId String - message to read
+     * @return Status - cached message or null
+     * @throws DBException Exception
+     */
+    public Status getHomeStatus(String userId, String instance, String statusId) throws DBException {
+        if (db == null) {
+            throw new DBException("db is null. Wrong initialization.");
+        }
+        if (statusId == null) {
+            return null;
+        }
+        String selection = Sqlite.COL_INSTANCE + "='" + instance
+                + "' AND " + Sqlite.COL_USER_ID + "= '" + userId
+                + "' AND " + Sqlite.COL_SLUG + "= '" + Timeline.TimeLineEnum.HOME.getValue()
+                + "' AND " + Sqlite.COL_STATUS_ID + " = ? ";
+        try {
+            Cursor c = db.query(Sqlite.TABLE_STATUS_CACHE, null, selection, new String[]{statusId}, null, null, null, "1");
+            Status status = null;
+            if (c != null && c.moveToFirst()) {
+                status = convertCursorToStatus(c);
+            }
+            if (c != null) {
+                c.close();
+            }
+            return status;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -1034,6 +1140,13 @@ public class StatusCache {
         int gapIndex = c.getColumnIndex(Sqlite.COL_GAP_BEFORE);
         if (status != null && gapIndex >= 0) {
             status.gapBefore = c.getInt(gapIndex) == 1;
+        }
+        int insertedIndex = c.getColumnIndex(Sqlite.COL_CREATED_AT);
+        if (status != null && insertedIndex >= 0) {
+            Date insertedAt = Helper.stringToDate(context, c.getString(insertedIndex));
+            if (insertedAt != null) {
+                status.insertedAt = insertedAt.getTime();
+            }
         }
         return status;
     }

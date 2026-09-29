@@ -187,6 +187,7 @@ import app.fedilab.android.mastodon.client.entities.app.TimelineCacheLogs;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.Helper;
+import app.fedilab.android.mastodon.jobs.FetchHomeWorker;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.PinnedTimelineHelper;
 import app.fedilab.android.mastodon.helper.PushHelper;
@@ -403,6 +404,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     retentionDays = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(activity).getString(activity.getString(R.string.SET_CACHE_RETENTION_DAYS), "3"));
                 } catch (NumberFormatException ignored) {
                 }
+                FetchHomeWorker.scheduleIfEnabled(activity, Helper.getCurrentAccount(activity));
                 new StatusCache(activity).deleteForAllAccountAfter(retentionDays);
                 new TimelineCacheLogs(activity).deleteForAllAccountAfter(retentionDays);
                 new CachedBundle(activity).deleteOldIntent();

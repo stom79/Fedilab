@@ -322,8 +322,35 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             }*/
         }
         if (timelineStatuses != null && !timelineStatuses.isEmpty()) {
-            route(DIRECTION.FETCH_NEW, true);
+            fetchNewIfContiguous();
         }
+    }
+
+    private void fetchNewIfContiguous() {
+        BaseAccount account = getActivity() != null ? Helper.getCurrentAccount(requireActivity()) : null;
+        if (timelineType != Timeline.TimeLineEnum.HOME || !restoredWithMarker || account == null
+                || timelineStatuses == null || timelineStatuses.isEmpty()) {
+            route(DIRECTION.FETCH_NEW, true);
+            return;
+        }
+        Context context = requireActivity().getApplicationContext();
+        String topId = timelineStatuses.get(0).id;
+        int limit = MastodonHelper.statusesPerCall(requireActivity());
+        new Thread(() -> {
+            int above = 0;
+            try {
+                above = new StatusCache(context).countHomeAbove(account, topId);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            boolean contiguous = above < limit;
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(() -> {
+                if (binding != null && isAdded() && contiguous) {
+                    route(DIRECTION.FETCH_NEW, true);
+                }
+            });
+        }).start();
     }
 
     private void restorePendingFetchMore() {
@@ -700,6 +727,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
 
             boolean gapBridged = false;
             String fetchBatchMaxId = null;
+            String batchMinId = null;
             if (fetchingMissing) {
                 boolean alreadyProcessed = fetchStatus != null && !fetchStatus.isFetchMore;
                 for (Status status : fetched_statuses.statuses) {
@@ -708,7 +736,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         break;
                     }
                 }
-                String batchMinId = null;
                 for (Status status : fetched_statuses.statuses) {
                     if (fetchBatchMaxId == null || Helper.compareTo(status.id, fetchBatchMaxId) > 0)
                         fetchBatchMaxId = status.id;
@@ -819,6 +846,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 }
             }
             boolean broughtSomething = timelineStatuses.size() > sizeBeforeInsert;
+            markGaps(fetched_statuses.statuses);
             //Do not replay an empty TOP load on every scroll event
             if (!fetchingMissing && direction == DIRECTION.TOP) {
                 topExhausted = !broughtSomething;
@@ -828,46 +856,51 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             //Ensure fetchMore exists at the boundary between new and cached statuses
             if (direction == DIRECTION.FETCH_NEW || direction == DIRECTION.REFRESH || direction == DIRECTION.SCROLL_TOP) {
                 boolean hasFetchMore = false;
-                boolean hasOverlap = false;
-                for (Status s : fetched_statuses.statuses) {
-                    if (s.isFetchMore || s.isFetching) {
+                for (Status status : fetched_statuses.statuses) {
+                    if (status.isFetchMore || status.isFetching) {
                         hasFetchMore = true;
-                    }
-                    if (s.cached) {
-                        hasOverlap = true;
+                        break;
                     }
                 }
+                boolean hasOverlap = timelineStatuses.size() - sizeBeforeInsert < fetched_statuses.statuses.size();
                 if (!hasFetchMore && !hasOverlap && timelineStatuses.size() > fetched_statuses.statuses.size()) {
-                    for (int i = 0; i < timelineStatuses.size() - 1; i++) {
-                        Status current = timelineStatuses.get(i);
-                        Status next = timelineStatuses.get(i + 1);
-                        if (!current.cached && next.cached) {
-                            current.isFetchMore = true;
-                            current.positionFetchMore = Status.PositionFetchMore.TOP;
-                            statusAdapter.notifyItemChanged(i);
+                    int boundary = -1;
+                    for (int position = 0; position < timelineStatuses.size(); position++) {
+                        if (!fetched_statuses.statuses.contains(timelineStatuses.get(position))) {
                             break;
                         }
+                        boundary = position;
+                    }
+                    if (boundary >= 0 && boundary < timelineStatuses.size() - 1) {
+                        Status boundaryStatus = timelineStatuses.get(boundary);
+                        boundaryStatus.isFetchMore = true;
+                        boundaryStatus.positionFetchMore = Status.PositionFetchMore.TOP;
+                        statusAdapter.notifyItemChanged(boundary);
                     }
                 }
             }
-            boolean gapFilled = gapBridged && broughtSomething;
             //No next page means nothing more in that range
             boolean rangeEmptyOnServer = !broughtSomething
                     && fetched_statuses.pagination != null && fetched_statuses.pagination.max_id == null;
-            if (fetchingMissing && !gapFilled && !rangeEmptyOnServer && fetchBatchMaxId != null
+            boolean gapUnderBatch = direction == DIRECTION.BOTTOM && !reverseTimeline;
+            String boundaryId = gapUnderBatch ? batchMinId : fetchBatchMaxId;
+            if (fetchingMissing && !gapBridged && !rangeEmptyOnServer && boundaryId != null
                     && direction != DIRECTION.FETCH_NEW && direction != DIRECTION.REFRESH && direction != DIRECTION.SCROLL_TOP) {
                 for (int i = 0; i < timelineStatuses.size(); i++) {
-                    if (timelineStatuses.get(i).id.equals(fetchBatchMaxId)) {
+                    if (timelineStatuses.get(i).id.equals(boundaryId)) {
+                        if (gapAlreadyMarked(gapUnderBatch ? i : i - 1)) {
+                            break;
+                        }
                         Status status = timelineStatuses.get(i);
                         status.isFetchMore = true;
-                        status.positionFetchMore = Status.PositionFetchMore.BOTTOM;
+                        status.positionFetchMore = gapUnderBatch ? Status.PositionFetchMore.TOP : Status.PositionFetchMore.BOTTOM;
                         //Stop the automatic retry when nothing came back
                         status.fetchMoreExhausted = !broughtSomething;
                         statusAdapter.notifyItemChanged(i);
                         break;
                     }
                 }
-            } else if (fetchingMissing && (gapFilled || rangeEmptyOnServer)) {
+            } else if (fetchingMissing && (gapBridged || rangeEmptyOnServer)) {
                 clearRecordedGap(fetchStatus);
             }
             //For these directions, the app will display counters for new messages
@@ -877,7 +910,13 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                 update.onUpdate(0, timelineType, slug);
             }
             if (fetchingMissing && canScroll && direction == DIRECTION.TOP) {
-                int position = getAbsolutePosition(fetched_statuses.statuses.get(fetched_statuses.statuses.size() - 1));
+                Status oldestFetched = null;
+                for (Status status : fetched_statuses.statuses) {
+                    if (oldestFetched == null || Helper.compareTo(status.id, oldestFetched.id) < 0) {
+                        oldestFetched = status;
+                    }
+                }
+                int position = oldestFetched != null ? getAbsolutePosition(oldestFetched) : -1;
                 if (position != -1) {
                     binding.recyclerView.scrollToPosition(position + 1);
                 }
@@ -1174,7 +1213,7 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             });
             //For first tab we fetch new messages, if we keep position
             if (slug != null /*&& slug.compareTo(Helper.getSlugOfFirstFragment(requireActivity(), currentUserID, currentInstance)) == 0*/ && rememberPosition) {
-                route(DIRECTION.FETCH_NEW, true);
+                fetchNewIfContiguous();
             }
 
 
@@ -1191,8 +1230,6 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             for (Status statusReceived : statusListReceived) {
                 int position = 0;
                 if (timelineStatuses != null) {
-                    //First we refresh statuses
-                    statusAdapter.notifyItemRangeChanged(0, timelineStatuses.size());
                     //We loop through messages already in the timeline
                     for (Status statusAlreadyPresent : timelineStatuses) {
                         //We compare the date of each status and we only add status having a date greater than the another, it is inserted at this position
@@ -1217,6 +1254,10 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
                         statusAdapter.notifyItemInserted(position);
                     }
                 }
+            }
+            if (timelineStatuses != null) {
+                //Refresh statuses already in the list
+                statusAdapter.notifyItemRangeChanged(0, timelineStatuses.size());
             }
         }
         return insertedStatus;
@@ -1564,6 +1605,69 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
         }).start();
     }
 
+    private void markGaps(List<Status> fetchedStatuses) {
+        if (timelineType != Timeline.TimeLineEnum.HOME || timelineStatuses == null || fetchedStatuses == null || statusAdapter == null) {
+            return;
+        }
+        int top = -1, bottom = -1;
+        for (int position = 0; position < timelineStatuses.size(); position++) {
+            if (fetchedStatuses.contains(timelineStatuses.get(position))) {
+                if (top == -1) {
+                    top = position;
+                }
+                bottom = position;
+            }
+        }
+        if (top == -1) {
+            return;
+        }
+        if (top > 0) {
+            markGapBetween(top - 1, top);
+        }
+        if (bottom < timelineStatuses.size() - 1) {
+            markGapBetween(bottom, bottom + 1);
+        }
+    }
+
+    private boolean gapAlreadyMarked(int upperPosition) {
+        if (upperPosition < 0 || upperPosition + 1 >= timelineStatuses.size()) {
+            return true;
+        }
+        Status upper = timelineStatuses.get(upperPosition);
+        Status lower = timelineStatuses.get(upperPosition + 1);
+        return ((upper.isFetchMore || upper.isFetching) && upper.positionFetchMore == Status.PositionFetchMore.TOP)
+                || ((lower.isFetchMore || lower.isFetching) && lower.positionFetchMore == Status.PositionFetchMore.BOTTOM);
+    }
+
+    private void markGapBetween(int firstPosition, int secondPosition) {
+        Status first = timelineStatuses.get(firstPosition);
+        Status second = timelineStatuses.get(secondPosition);
+        boolean firstIsUpper = Helper.compareTo(first.id, second.id) > 0;
+        Status upper = firstIsUpper ? first : second;
+        Status lower = firstIsUpper ? second : first;
+        int upperPosition = firstIsUpper ? firstPosition : secondPosition;
+        if (gapAlreadyMarked(upperPosition) || !TimelinesVM.hasGapBetween(upper, lower)) {
+            return;
+        }
+        upper.isFetchMore = true;
+        upper.positionFetchMore = Status.PositionFetchMore.TOP;
+        statusAdapter.notifyItemChanged(upperPosition);
+    }
+
+    private String batchBoundary(List<Status> statusList, boolean newest) {
+        String boundary = null;
+        for (Status status : statusList) {
+            if (boundary == null) {
+                boundary = status.id;
+            } else if (newest && Helper.compareTo(status.id, boundary) > 0) {
+                boundary = status.id;
+            } else if (!newest && Helper.compareTo(status.id, boundary) < 0) {
+                boundary = status.id;
+            }
+        }
+        return boundary;
+    }
+
     private void getCachedStatus(DIRECTION direction, boolean fetchingMissing, TimelinesVM.TimelineParams timelineParams, Status fetchStatus) {
         if (direction == null) {
             timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
@@ -1581,31 +1685,41 @@ public class FragmentMastodonTimeline extends Fragment implements StatusAdapter.
             timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesCachedBottom -> {
                         int displayedBefore = timelineStatuses != null ? timelineStatuses.size() : 0;
+                        boolean checkServer = false;
                         if (statusesCachedBottom == null || statusesCachedBottom.statuses == null || statusesCachedBottom.statuses.isEmpty()) {
                             getLiveStatus(DIRECTION.BOTTOM, fetchingMissing, timelineParams, true, fetchStatus);
                         } else {
                             dealWithPagination(statusesCachedBottom, DIRECTION.BOTTOM, fetchingMissing, true, fetchStatus);
                             //Check remotely for holes, unless the cache served a full page
-                            if (fetchingMissing && !statusesCachedBottom.cachePageFull) {
-                                getLiveStatus(direction, true, timelineParams, false, fetchStatus);
-                            }
+                            checkServer = fetchingMissing && !statusesCachedBottom.cachePageFull;
                         }
                         logTimelineLoad(DIRECTION.BOTTOM, TimelineLoadLogs.SOURCE_CACHE, timelineParams, statusesCachedBottom, fetchingMissing, displayedBefore);
+                        if (checkServer) {
+                            timelineParams.maxId = batchBoundary(statusesCachedBottom.statuses, false);
+                            getLiveStatus(direction, true, timelineParams, false, fetchStatus);
+                        }
                     });
         } else if (direction == DIRECTION.TOP) {
             timelinesVM.getTimelineCache(timelineStatuses, timelineParams)
                     .observe(getViewLifecycleOwner(), statusesCachedTop -> {
                         int displayedBefore = timelineStatuses != null ? timelineStatuses.size() : 0;
+                        boolean checkServer = false;
                         if (statusesCachedTop == null || statusesCachedTop.statuses == null || statusesCachedTop.statuses.isEmpty()) {
                             getLiveStatus(DIRECTION.TOP, fetchingMissing, timelineParams, true, fetchStatus);
                         } else {
                             dealWithPagination(statusesCachedTop, DIRECTION.TOP, fetchingMissing, true, fetchStatus);
                             //Check remotely for holes, unless the cache served a full page
-                            if (!statusesCachedTop.cachePageFull) {
-                                getLiveStatus(direction, true, timelineParams, false, fetchStatus);
-                            }
+                            checkServer = !statusesCachedTop.cachePageFull;
                         }
                         logTimelineLoad(DIRECTION.TOP, TimelineLoadLogs.SOURCE_CACHE, timelineParams, statusesCachedTop, fetchingMissing, displayedBefore);
+                        if (checkServer) {
+                            if (statusesCachedTop.idBelowGap != null) {
+                                timelineParams.minId = statusesCachedTop.idBelowGap;
+                            } else if (fetchingMissing) {
+                                timelineParams.minId = batchBoundary(statusesCachedTop.statuses, true);
+                            }
+                            getLiveStatus(direction, true, timelineParams, false, fetchStatus);
+                        }
                     });
         } else if (direction == DIRECTION.REFRESH) {
             timelinesVM.getTimelineCache(timelineStatuses, timelineParams)

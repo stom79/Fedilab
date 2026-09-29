@@ -85,6 +85,31 @@ public class FetchHomeWorker extends Worker {
 
     public static void setRepeatHome(Context context, BaseAccount account, Data inputData) {
         WorkManager.getInstance(context).cancelAllWorkByTag(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance);
+        enqueueHome(context, account, inputData, ExistingPeriodicWorkPolicy.REPLACE);
+    }
+
+    /**
+     * Restore the periodic work of an account that enabled the home cache
+     *
+     * @param context Context
+     * @param account BaseAccount - owner of the cache
+     */
+    public static void scheduleIfEnabled(Context context, BaseAccount account) {
+        if (account == null || account.user_id == null || account.instance == null) {
+            return;
+        }
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (!prefs.getBoolean(context.getString(R.string.SET_FETCH_HOME) + account.user_id + account.instance, false)) {
+            return;
+        }
+        Data inputData = new Data.Builder()
+                .putString(Helper.ARG_INSTANCE, account.instance)
+                .putString(Helper.ARG_USER_ID, account.user_id)
+                .build();
+        enqueueHome(context, account, inputData, ExistingPeriodicWorkPolicy.KEEP);
+    }
+
+    private static void enqueueHome(Context context, BaseAccount account, Data inputData, ExistingPeriodicWorkPolicy policy) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String value = prefs.getString(context.getString(R.string.SET_FETCH_HOME_DELAY_VALUE) + account.user_id + account.instance, "60");
         Constraints constraints = new Constraints.Builder()
@@ -96,7 +121,7 @@ public class FetchHomeWorker extends Worker {
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 5, TimeUnit.MINUTES)
                 .addTag(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance)
                 .build();
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance, ExistingPeriodicWorkPolicy.REPLACE, notificationPeriodic);
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(Helper.WORKER_REFRESH_HOME + account.user_id + account.instance, policy, notificationPeriodic);
     }
 
     @NonNull
@@ -235,7 +260,7 @@ public class FetchHomeWorker extends Worker {
                                         batchMaxId = status.id;
                                     }
                                 }
-                                int[] counts = storeInCache(account, statusList);
+                                int[] counts = storeInCache(account, statusList, min_id, max_id);
                                 int batchInserted = counts[0];
                                 inserted += counts[0];
                                 updated += counts[1];
@@ -325,11 +350,18 @@ public class FetchHomeWorker extends Worker {
      *
      * @param account    BaseAccount - owner of the cache
      * @param statusList List<Status> - what was fetched
+     * @param minIdCursor String - min_id of the request
+     * @param maxIdCursor String - max_id of the request
      * @return int[] - inserted and updated counts
      */
-    private int[] storeInCache(BaseAccount account, List<Status> statusList) {
+    private int[] storeInCache(BaseAccount account, List<Status> statusList, String minIdCursor, String maxIdCursor) {
         int inserted = 0;
         int updated = 0;
+        try {
+            new StatusCache(getApplicationContext()).clearGapsCoveredBy(account.user_id, account.instance, statusList, minIdCursor, maxIdCursor);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
         for (Status status : statusList) {
             StatusCache statusCacheDAO = new StatusCache(getApplicationContext());
             StatusCache statusCache = new StatusCache();
@@ -376,7 +408,7 @@ public class FetchHomeWorker extends Worker {
                 break;
             }
             fetched += statusList.size();
-            int[] counts = storeInCache(account, statusList);
+            int[] counts = storeInCache(account, statusList, null, max_id);
             inserted += counts[0];
             updated += counts[1];
             boolean floorReached = false;

@@ -81,6 +81,9 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class TimelinesVM extends AndroidViewModel {
 
+    private static final int MAX_GAP_CACHE_PAGES = 5;
+    private static final long GAP_MIN_DURATION = 60 * 60 * 1000L;
+
     final OkHttpClient okHttpClient = Helper.myOkHttpClient(getApplication().getApplicationContext());
 
     public TimelinesVM(@NonNull Application application) {
@@ -710,6 +713,21 @@ public class TimelinesVM extends AndroidViewModel {
         return statusMutableLiveData;
     }
 
+    private boolean hasMessagesBetween(MastodonTimelinesService service, TimelineParams timelineParams, String lowestId, String highestId) {
+        try {
+            Response<List<Status>> response = service.getHome(timelineParams.token, highestId, null, null, 1, null).execute();
+            if (response.isSuccessful()) {
+                if (response.body() == null || response.body().isEmpty()) {
+                    return false;
+                }
+                return Helper.compareTo(response.body().get(0).id, lowestId) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     public LiveData<Statuses> getTimeline(List<Status> timelineStatuses, TimelineParams timelineParams) {
         MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         MastodonTimelinesService mastodonTimelinesService = init(timelineParams.instance);
@@ -768,7 +786,17 @@ public class TimelinesVM extends AndroidViewModel {
                                         e.printStackTrace();
                                     }
                                 }
+                                if (timelineParams.type == Timeline.TimeLineEnum.HOME) {
+                                    try {
+                                        new StatusCache(getApplication().getApplicationContext())
+                                                .clearGapsCoveredBy(timelineParams.userId, timelineParams.instance, statusList, timelineParams.minId, timelineParams.maxId);
+                                    } catch (DBException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                long batchInsertedAt = System.currentTimeMillis();
                                 for (Status status : statusList) {
+                                    status.insertedAt = batchInsertedAt;
                                     StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
                                     StatusCache statusCache = new StatusCache();
                                     statusCache.instance = timelineParams.instance;
@@ -785,13 +813,22 @@ public class TimelinesVM extends AndroidViewModel {
                                         e.printStackTrace();
                                     }
                                 }
-                                if (canSkipRange) {
-                                    try {
-                                        new StatusCache(getApplication().getApplicationContext())
-                                                .recordSkippedRange(timelineParams.userId, timelineParams.instance, statusList,
-                                                        statuses.pagination != null && statuses.pagination.max_id != null, newestCachedId);
-                                    } catch (DBException e) {
-                                        e.printStackTrace();
+                                if (canSkipRange && newestCachedId != null
+                                        && statuses.pagination != null && statuses.pagination.max_id != null) {
+                                    String batchOldestId = null;
+                                    for (Status status : statusList) {
+                                        if (batchOldestId == null || Helper.compareTo(status.id, batchOldestId) < 0) {
+                                            batchOldestId = status.id;
+                                        }
+                                    }
+                                    if (batchOldestId != null && Helper.compareTo(batchOldestId, newestCachedId) > 0
+                                            && hasMessagesBetween(mastodonTimelinesService, timelineParams, newestCachedId, batchOldestId)) {
+                                        try {
+                                            new StatusCache(getApplication().getApplicationContext())
+                                                    .markGapBefore(timelineParams.userId, timelineParams.instance, batchOldestId);
+                                        } catch (DBException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }
                             }
@@ -811,25 +848,104 @@ public class TimelinesVM extends AndroidViewModel {
         return statusesMutableLiveData;
     }
 
+    public static boolean hasGapBetween(Status upper, Status lower) {
+        if (upper == null || lower == null || upper.insertedAt == 0 || lower.insertedAt == 0
+                || upper.insertedAt == lower.insertedAt
+                || upper.created_at == null || lower.created_at == null) {
+            return false;
+        }
+        return upper.created_at.getTime() - lower.created_at.getTime() > GAP_MIN_DURATION;
+    }
+
+    private String findIdBelowGap(StatusCache statusCacheDAO, TimelineParams timelineParams, List<Status> statusesDb) {
+        Status lowest = null, highest = null;
+        for (Status status : statusesDb) {
+            if (lowest == null || Helper.compareTo(status.id, lowest.id) < 0) {
+                lowest = status;
+            }
+            if (highest == null || Helper.compareTo(status.id, highest.id) > 0) {
+                highest = status;
+            }
+        }
+        for (int index = 0; index < statusesDb.size() - 1; index++) {
+            Status first = statusesDb.get(index);
+            Status second = statusesDb.get(index + 1);
+            boolean firstIsUpper = Helper.compareTo(first.id, second.id) > 0;
+            Status upper = firstIsUpper ? first : second;
+            Status lower = firstIsUpper ? second : first;
+            if (hasGapBetween(upper, lower)) {
+                return lower.id;
+            }
+        }
+        String cursorId = timelineParams.minId != null ? timelineParams.minId : timelineParams.maxId;
+        if (cursorId == null) {
+            return null;
+        }
+        try {
+            Status cursorStatus = statusCacheDAO.getHomeStatus(timelineParams.userId, timelineParams.instance, cursorId);
+            if (timelineParams.minId != null && hasGapBetween(lowest, cursorStatus)) {
+                return cursorStatus.id;
+            }
+            if (timelineParams.maxId != null && hasGapBetween(cursorStatus, highest)) {
+                return highest.id;
+            }
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public LiveData<Statuses> getTimelineCache(List<Status> timelineStatuses, TimelineParams timelineParams) {
         MutableLiveData<Statuses> statusesMutableLiveData = new MutableLiveData<>();
         new Thread(() -> {
             StatusCache statusCacheDAO = new StatusCache(getApplication().getApplicationContext());
             Statuses statuses = new Statuses();
             try {
-                List<Status> statusesDb = statusCacheDAO.geStatuses(timelineParams.slug, timelineParams.instance, timelineParams.userId, timelineParams.maxId, timelineParams.minId, timelineParams.sinceId);
-                if (statusesDb != null && statusesDb.size() > 0) {
-                    statuses.cachePageFull = statusesDb.size() >= timelineParams.limit;
+                List<Status> statusesDb = new ArrayList<>();
+                String cacheMaxId = timelineParams.maxId;
+                String cacheMinId = timelineParams.minId;
+                //Read more pages when filling a gap
+                boolean gapFill = timelineParams.fetchingMissing && (cacheMaxId != null || cacheMinId != null);
+                int maxPages = gapFill ? MAX_GAP_CACHE_PAGES : 1;
+                for (int page = 0; page < maxPages; page++) {
+                    List<Status> cachePage = statusCacheDAO.geStatuses(timelineParams.slug, timelineParams.instance, timelineParams.userId, cacheMaxId, cacheMinId, timelineParams.sinceId);
+                    if (cachePage == null || cachePage.isEmpty()) {
+                        break;
+                    }
+                    statuses.cachePageFull = cachePage.size() >= timelineParams.limit;
+                    boolean reachedTimeline = false;
                     if (timelineStatuses != null) {
-                        List<Status> notPresentStatuses = new ArrayList<>();
-                        for (Status status : statusesDb) {
-                            if (!timelineStatuses.contains(status)) {
+                        //Only not already present statuses are added
+                        for (Status status : cachePage) {
+                            if (timelineStatuses.contains(status)) {
+                                reachedTimeline = true;
+                            } else {
                                 status.cached = true;
-                                notPresentStatuses.add(status);
+                                statusesDb.add(status);
                             }
                         }
-                        //Only not already present statuses are added
-                        statusesDb = notPresentStatuses;
+                    } else {
+                        statusesDb.addAll(cachePage);
+                    }
+                    if (reachedTimeline) {
+                        if (gapFill) {
+                            statuses.cachePageFull = false;
+                        }
+                        break;
+                    }
+                    if (!statuses.cachePageFull) {
+                        break;
+                    }
+                    if (cacheMinId != null) {
+                        cacheMinId = cachePage.get(cachePage.size() - 1).id;
+                    } else {
+                        cacheMaxId = cachePage.get(cachePage.size() - 1).id;
+                    }
+                }
+                if (statusesDb.size() > 0) {
+                    statuses.idBelowGap = findIdBelowGap(statusCacheDAO, timelineParams, statusesDb);
+                    if (statuses.idBelowGap != null) {
+                        statuses.cachePageFull = false;
                     }
                     statuses.statuses = TimelineHelper.filterStatus(getApplication().getApplicationContext(), statusesDb, timelineParams.type);
                     for (Status status : statuses.statuses) {
