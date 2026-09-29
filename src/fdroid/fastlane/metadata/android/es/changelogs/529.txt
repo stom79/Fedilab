@@ -1,0 +1,16 @@
+Añadido:
+- Opción para desactivar el auto-ocultado de los botones de composición
+
+Cambiado:
+- Más descripciones para botones
+- Actualizados algunos botones
+- Actualizado el encabezado del cajón de navegación
+- Apretados los botones de acción cuando es necesario para prevenir el solapamiento
+
+Arreglado:
+- Crasheo cuando los medios son muy pesados
+- Renderizado de algunos emojis personalizados
+- Publicación de mensajes en algunas instancias de Friendica
+- Crasheo con mensajes auto-divididos
+- Crasheo al abrir conversaciones
+- Problema con el color de fondo al mostrar medios
