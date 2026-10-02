@@ -39,6 +39,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -113,6 +114,7 @@ import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.stom79.mytransl.MyTransL;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -268,6 +270,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static int timeout;
     private static boolean sensitiveIndicator;
     private static boolean mediaDescriptionIndicator;
+    private static boolean mediaDescriptionOnHidden;
+    private static boolean mediaNoDescriptionIndicator;
 
     private static int iconSize;
     private static int dp6;
@@ -948,29 +952,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     holder.binding.quotedMessage.quotedMediaHide.setVisibility(View.GONE);
                 }
-                if (mediaDescriptionIndicator && firstAttachment.description != null && !firstAttachment.description.isEmpty()) {
-                    holder.binding.quotedMessage.quotedMediaAlt.setVisibility(View.VISIBLE);
-                    holder.binding.quotedMessage.quotedMediaAlt.setOnClickListener(v -> {
-                        AlertDialog dialog = new MaterialAlertDialogBuilder(context)
-                                .setTitle(context.getString(R.string.description))
-                                .setMessage(firstAttachment.description)
-                                .setPositiveButton(R.string.close, null)
-                                .setNeutralButton(R.string.translate, null)
-                                .show();
-                        dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(b ->
-                                TranslateHelper.translate(context, firstAttachment.description, quoteStatus.language, translated -> {
-                                    if (translated != null) {
-                                        dialog.setMessage(translated);
-                                        b.setEnabled(false);
-                                    } else {
-                                        Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-                                    }
-                                })
-                        );
-                    });
-                } else {
-                    holder.binding.quotedMessage.quotedMediaAlt.setVisibility(View.GONE);
-                }
+                attachMediaDescription(context, holder.binding.quotedMessage.quotedMediaAlt, null, firstAttachment, quoteStatus.language, isSensitive && !expand_media);
                 holder.binding.quotedMessage.quotedMedia.setOnClickListener(v -> {
                     boolean currentSensitive = statusToDeal.quoteSensitiveOverride != null ? statusToDeal.quoteSensitiveOverride : quoteStatus.sensitive;
                     if (currentSensitive && !expand_media) {
@@ -2063,6 +2045,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.binding.mediaContainer.setVisibility(View.GONE);
                 holder.binding.media.mediaContainer.setVisibility(View.GONE);
                 holder.binding.displayMedia.setVisibility(View.VISIBLE);
+                attachHiddenMediaDescription(context, holder.binding.displayMediaDescription, statusToDeal);
                 holder.binding.displayMedia.setOnClickListener(v -> {
                     statusToDeal.canLoadMedia = true;
                     if (adapter != null) {
@@ -2071,6 +2054,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
             } else {
                 holder.binding.displayMedia.setVisibility(View.GONE);
+                holder.binding.displayMediaDescription.setVisibility(View.GONE);
                 holder.binding.media.mediaContainer.setVisibility(View.VISIBLE);
                 int mediaPosition = 1;
                 boolean forceGridView = false;
@@ -2173,32 +2157,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
                         if (autoplaygif && attachment.type.equalsIgnoreCase("gifv") && mediaPosition == 1) {
-                            if (mediaDescriptionIndicator && attachment.description != null && !attachment.description.isEmpty()) {
-                                layoutMediaBinding.viewDescription.setVisibility(View.VISIBLE);
-                                ConstraintLayout.LayoutParams descParams = (ConstraintLayout.LayoutParams) layoutMediaBinding.viewDescription.getLayoutParams();
-                                descParams.bottomToBottom = layoutMediaBinding.mediaVideo.getId();
-                                layoutMediaBinding.viewDescription.setLayoutParams(descParams);
-                                layoutMediaBinding.viewDescription.setOnClickListener(v -> {
-                                    AlertDialog dialog = new MaterialAlertDialogBuilder(context)
-                                            .setTitle(context.getString(R.string.description))
-                                            .setMessage(attachment.description)
-                                            .setPositiveButton(R.string.close, null)
-                                            .setNeutralButton(R.string.translate, null)
-                                            .show();
-                                    dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(b ->
-                                            TranslateHelper.translate(context, attachment.description, statusToDeal.language, translated -> {
-                                                if (translated != null) {
-                                                    dialog.setMessage(translated);
-                                                    b.setEnabled(false);
-                                                } else {
-                                                    Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-                                                }
-                                            })
-                                    );
-                                });
-                            } else {
-                                layoutMediaBinding.viewDescription.setVisibility(View.GONE);
-                            }
+                            ConstraintLayout.LayoutParams descParams = (ConstraintLayout.LayoutParams) layoutMediaBinding.viewDescription.getLayoutParams();
+                            descParams.bottomToBottom = layoutMediaBinding.mediaVideo.getId();
+                            layoutMediaBinding.viewDescription.setLayoutParams(descParams);
+                            attachMediaDescription(context, layoutMediaBinding.viewDescription, layoutMediaBinding.mediaDescription, attachment, statusToDeal.language, statusToDeal.sensitive && !expand_media);
                             layoutMediaBinding.media.setVisibility(View.GONE);
                             layoutMediaBinding.mediaVideo.setVisibility(View.VISIBLE);
                             LinearLayout.LayoutParams lp;
@@ -2304,32 +2266,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     } else {
                         layoutMediaBinding.mediaRoot.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
                         if (autoplaygif && attachment.type.equalsIgnoreCase("gifv") && !statusToDeal.sensitive && mediaPosition == 1) {
-                            if (mediaDescriptionIndicator && attachment.description != null && !attachment.description.isEmpty()) {
-                                layoutMediaBinding.viewDescription.setVisibility(View.VISIBLE);
-                                ConstraintLayout.LayoutParams descParams = (ConstraintLayout.LayoutParams) layoutMediaBinding.viewDescription.getLayoutParams();
-                                descParams.bottomToBottom = layoutMediaBinding.mediaVideo.getId();
-                                layoutMediaBinding.viewDescription.setLayoutParams(descParams);
-                                layoutMediaBinding.viewDescription.setOnClickListener(v -> {
-                                    AlertDialog dialog = new MaterialAlertDialogBuilder(context)
-                                            .setTitle(context.getString(R.string.description))
-                                            .setMessage(attachment.description)
-                                            .setPositiveButton(R.string.close, null)
-                                            .setNeutralButton(R.string.translate, null)
-                                            .show();
-                                    dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(b ->
-                                            TranslateHelper.translate(context, attachment.description, statusToDeal.language, translated -> {
-                                                if (translated != null) {
-                                                    dialog.setMessage(translated);
-                                                    b.setEnabled(false);
-                                                } else {
-                                                    Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-                                                }
-                                            })
-                                    );
-                                });
-                            } else {
-                                layoutMediaBinding.viewDescription.setVisibility(View.GONE);
-                            }
+                            ConstraintLayout.LayoutParams descParams = (ConstraintLayout.LayoutParams) layoutMediaBinding.viewDescription.getLayoutParams();
+                            descParams.bottomToBottom = layoutMediaBinding.mediaVideo.getId();
+                            layoutMediaBinding.viewDescription.setLayoutParams(descParams);
+                            attachMediaDescription(context, layoutMediaBinding.viewDescription, layoutMediaBinding.mediaDescription, attachment, statusToDeal.language, statusToDeal.sensitive && !expand_media);
                             layoutMediaBinding.media.setVisibility(View.GONE);
                             layoutMediaBinding.mediaVideo.setVisibility(View.VISIBLE);
                             layoutMediaBinding.mediaVideo.onResume();
@@ -3730,6 +3670,82 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return requestBuilder;
     }
 
+    private static void attachHiddenMediaDescription(Context context, TextView descriptions, Status statusToDeal) {
+        if (!mediaDescriptionOnHidden || statusToDeal.media_attachments == null) {
+            descriptions.setVisibility(View.GONE);
+            return;
+        }
+        StringBuilder builder = new StringBuilder();
+        for (Attachment attachment : statusToDeal.media_attachments) {
+            if (attachment.description != null && !attachment.description.trim().isEmpty()) {
+                if (builder.length() > 0) {
+                    builder.append("\n");
+                }
+                builder.append(attachment.description.trim());
+            }
+        }
+        if (builder.length() == 0) {
+            descriptions.setVisibility(View.GONE);
+            return;
+        }
+        descriptions.setVisibility(View.VISIBLE);
+        descriptions.setText(builder.toString());
+        descriptions.setOnClickListener(v -> showMediaDescription(context, builder.toString(), statusToDeal.language));
+    }
+
+    private static void showMediaDescription(Context context, String description, String language) {
+        AlertDialog dialog = new MaterialAlertDialogBuilder(context)
+                .setTitle(context.getString(R.string.description))
+                .setMessage(description)
+                .setPositiveButton(R.string.close, null)
+                .setNeutralButton(R.string.translate, null)
+                .show();
+        dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(b ->
+                TranslateHelper.translate(context, description, language, translated -> {
+                    if (translated != null) {
+                        dialog.setMessage(translated);
+                        b.setEnabled(false);
+                    } else {
+                        Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
+                    }
+                })
+        );
+    }
+
+    private static void attachMediaDescription(Context context, MaterialButton indicator, TextView hiddenDescription, Attachment attachment, String language, boolean hidden) {
+        String description = attachment.description != null ? attachment.description.trim() : null;
+        boolean hasDescription = description != null && !description.isEmpty();
+        if (hiddenDescription != null) {
+            if (mediaDescriptionOnHidden && hidden && hasDescription) {
+                hiddenDescription.setVisibility(View.VISIBLE);
+                hiddenDescription.setText(description);
+                hiddenDescription.setOnClickListener(v -> showMediaDescription(context, description, language));
+            } else {
+                hiddenDescription.setVisibility(View.GONE);
+            }
+        }
+        if (!(hasDescription ? mediaDescriptionIndicator : mediaNoDescriptionIndicator)) {
+            indicator.setVisibility(View.GONE);
+            return;
+        }
+        indicator.setVisibility(View.VISIBLE);
+        indicator.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, hasDescription ? R.color.semi_black_transparent : R.color.no_description)));
+        indicator.setTextColor(ContextCompat.getColor(context, hasDescription ? R.color.white : R.color.black));
+        if (hasDescription) {
+            indicator.setIcon(null);
+        } else {
+            indicator.setIconResource(R.drawable.ic_baseline_block_24);
+            indicator.setIconSize((int) Helper.convertDpToPixel(14, context));
+            indicator.setIconTint(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.black)));
+        }
+        indicator.setContentDescription(context.getString(hasDescription ? R.string.description : R.string.no_media_description));
+        if (hasDescription) {
+            indicator.setOnClickListener(v -> showMediaDescription(context, description, language));
+        } else {
+            indicator.setOnClickListener(v -> Toasty.info(context, context.getString(R.string.no_media_description), Toast.LENGTH_SHORT).show());
+        }
+    }
+
     private static void loadAndAddAttachment(Context context, LayoutMediaBinding layoutMediaBinding,
                                              StatusViewHolder holder,
                                              RecyclerView.Adapter<RecyclerView.ViewHolder> adapter,
@@ -3798,29 +3814,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             layoutMediaBinding.playMusic.setVisibility(View.GONE);
         }
-        if (mediaDescriptionIndicator && (attachment.description != null && !attachment.description.isEmpty())) {
-            layoutMediaBinding.viewDescription.setVisibility(View.VISIBLE);
-            layoutMediaBinding.viewDescription.setOnClickListener(v -> {
-                AlertDialog dialog = new MaterialAlertDialogBuilder(context)
-                        .setTitle(context.getString(R.string.description))
-                        .setMessage(attachment.description)
-                        .setPositiveButton(R.string.close, null)
-                        .setNeutralButton(R.string.translate, null)
-                        .show();
-                dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(b ->
-                        TranslateHelper.translate(context, attachment.description, statusToDeal.language, translated -> {
-                            if (translated != null) {
-                                dialog.setMessage(translated);
-                                b.setEnabled(false);
-                            } else {
-                                Toasty.error(context, context.getString(R.string.toast_error_translate), Toast.LENGTH_LONG).show();
-                            }
-                        })
-                );
-            });
-        } else {
-            layoutMediaBinding.viewDescription.setVisibility(View.GONE);
-        }
+        attachMediaDescription(context, layoutMediaBinding.viewDescription, layoutMediaBinding.mediaDescription, attachment, statusToDeal.language, statusToDeal.sensitive && !expand_media);
 
         boolean maybeAnimated = MediaHelper.isAnimatedUrl(attachment.url) || "unknown".equalsIgnoreCase(attachment.type);
         boolean allowAnimation = autoplaygif && maybeAnimated && (!statusToDeal.sensitive || expand_media);
@@ -4195,6 +4189,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         video_cache = sharedpreferences.getInt(context.getString(R.string.SET_VIDEO_CACHE), Helper.DEFAULT_VIDEO_CACHE_MB);
         sensitiveIndicator = sharedpreferences.getBoolean(context.getString(R.string.SET_SENSITIVE_INDICATOR), true);
         mediaDescriptionIndicator = sharedpreferences.getBoolean(context.getString(R.string.SET_MEDIA_DESCRIPTION_INDICATOR), true);
+        mediaDescriptionOnHidden = sharedpreferences.getBoolean(context.getString(R.string.SET_MEDIA_DESCRIPTION_HIDDEN), false);
+        mediaNoDescriptionIndicator = sharedpreferences.getBoolean(context.getString(R.string.SET_MEDIA_NO_DESCRIPTION_INDICATOR), false);
 
         iconSize = (int) (Helper.convertDpToPixel(28, context) * scaleIcon);
         dp6 = (int) Helper.convertDpToPixel(6, context);

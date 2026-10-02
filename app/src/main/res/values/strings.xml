@@ -1417,6 +1417,8 @@
     <string name="SET_QUOTE_BUTTON" translatable="false">SET_QUOTE_BUTTON</string>
     <string name="SET_SENSITIVE_INDICATOR" translatable="false">SET_SENSITIVE_INDICATOR</string>
     <string name="SET_MEDIA_DESCRIPTION_INDICATOR" translatable="false">SET_MEDIA_DESCRIPTION_INDICATOR</string>
+    <string name="SET_MEDIA_DESCRIPTION_HIDDEN" translatable="false">SET_MEDIA_DESCRIPTION_HIDDEN</string>
+    <string name="SET_MEDIA_NO_DESCRIPTION_INDICATOR" translatable="false">SET_MEDIA_NO_DESCRIPTION_INDICATOR</string>
     <string name="SET_POST_FORMAT" translatable="false">SET_POST_FORMAT</string>
     <string name="SET_COMPOSE_LOCAL_ONLY" translatable="false">SET_COMPOSE_LOCAL_ONLY</string>
 
@@ -2265,6 +2267,11 @@
     <string name="set_sensitive_indicator_summary">Display an indicator for sensitive media</string>
     <string name="set_media_description_indicator">Media description indicator</string>
     <string name="set_media_description_indicator_summary">Display an indicator for media with a description</string>
+    <string name="set_media_description_hidden">Description on hidden media</string>
+    <string name="set_media_description_hidden_summary">Display the description over a media that is hidden</string>
+    <string name="no_media_description">No description</string>
+    <string name="set_media_no_description_indicator">Missing description indicator</string>
+    <string name="set_media_no_description_indicator_summary">Display a warning on media without a description</string>
     <string name="set_display_reaction_indication">Display \"Reactions\" buttons</string>
     <string name="bubble">Bubble</string>
     <string name="exclude_visibility">Exclude visibility</string>
@@ -2474,6 +2481,8 @@
     <string name="kw_quote_button">quote, button</string>
     <string name="kw_sensitive_indicator">sensitive, indicator, nsfw, media</string>
     <string name="kw_media_description_indicator">alt text, media description, indicator, accessibility</string>
+    <string name="kw_media_description_hidden">alt text, media description, hidden, sensitive, accessibility</string>
+    <string name="kw_media_no_description_indicator">alt text, missing, warning, accessibility</string>
     <string name="kw_translator">translator, engine, deepl, lingva, libretranslate</string>
     <string name="kw_translator_api_key">translator, api key, deepl</string>
     <string name="kw_translator_domain">translator, domain, host, lingva, libretranslate</string>

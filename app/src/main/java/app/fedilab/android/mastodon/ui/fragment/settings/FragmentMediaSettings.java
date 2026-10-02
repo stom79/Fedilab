@@ -54,6 +54,11 @@ public class FragmentMediaSettings extends PreferenceFragmentCompat implements S
         if (getActivity() != null) {
             SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
             SharedPreferences.Editor editor = sharedpreferences.edit();
+            if (key.compareToIgnoreCase(getString(R.string.SET_MEDIA_DESCRIPTION_INDICATOR)) == 0
+                    || key.compareToIgnoreCase(getString(R.string.SET_MEDIA_DESCRIPTION_HIDDEN)) == 0
+                    || key.compareToIgnoreCase(getString(R.string.SET_MEDIA_NO_DESCRIPTION_INDICATOR)) == 0) {
+                recreate = true;
+            }
             if (key.compareToIgnoreCase(getString(R.string.SET_PIXELFED_PRESENTATION)) == 0) {
                 SwitchPreferenceCompat SET_PIXELFED_PRESENTATION = findPreference(getString(R.string.SET_PIXELFED_PRESENTATION));
                 if (SET_PIXELFED_PRESENTATION != null) {

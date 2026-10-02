@@ -103,6 +103,22 @@
         app:title="@string/set_media_description_indicator" />
 
     <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:icon="@drawable/ic_baseline_visibility_off_24"
+        app:key="@string/SET_MEDIA_DESCRIPTION_HIDDEN"
+        app:singleLineTitle="false"
+        app:summary="@string/set_media_description_hidden_summary"
+        app:title="@string/set_media_description_hidden" />
+
+    <SwitchPreferenceCompat
+        app:defaultValue="false"
+        app:icon="@drawable/ic_baseline_block_24"
+        app:key="@string/SET_MEDIA_NO_DESCRIPTION_INDICATOR"
+        app:singleLineTitle="false"
+        app:summary="@string/set_media_no_description_indicator_summary"
+        app:title="@string/set_media_no_description_indicator" />
+
+    <SwitchPreferenceCompat
         android:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="@string/SET_PIXELFED_PRESENTATION"

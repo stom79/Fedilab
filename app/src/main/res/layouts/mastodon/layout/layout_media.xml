@@ -82,6 +82,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/media" />
 
+    <TextView
+        android:id="@+id/media_description"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/semi_black_transparent"
+        android:ellipsize="end"
+        android:maxLines="8"
+        android:padding="8dp"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/media"
+        app:layout_constraintEnd_toEndOf="@+id/media"
+        app:layout_constraintStart_toStartOf="@+id/media"
+        app:layout_constraintTop_toTopOf="@+id/media"
+        tools:text="A cat sleeping on a keyboard"
+        tools:visibility="visible" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/view_description"
         style="@style/Widget.Material3.Button.TextButton"
@@ -102,7 +120,7 @@
         android:text="ALT"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:backgroundTint="#80000000"
+        app:backgroundTint="@color/semi_black_transparent"
         app:cornerRadius="15dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/media"

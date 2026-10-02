@@ -109,6 +109,8 @@ public class SettingsSearchIndex {
         list.add(new SettingsSearchEntry(R.string.display_media_notification, R.string.kw_media_notification, catMedia, navMedia, "SET_DISPLAY_MEDIA_NOTIFICATION"));
         list.add(new SettingsSearchEntry(R.string.set_sensitive_indicator, R.string.kw_sensitive_indicator, catMedia, navMedia, "SET_SENSITIVE_INDICATOR"));
         list.add(new SettingsSearchEntry(R.string.set_media_description_indicator, R.string.kw_media_description_indicator, catMedia, navMedia, "SET_MEDIA_DESCRIPTION_INDICATOR"));
+        list.add(new SettingsSearchEntry(R.string.set_media_description_hidden, R.string.kw_media_description_hidden, catMedia, navMedia, "SET_MEDIA_DESCRIPTION_HIDDEN"));
+        list.add(new SettingsSearchEntry(R.string.set_media_no_description_indicator, R.string.kw_media_no_description_indicator, catMedia, navMedia, "SET_MEDIA_NO_DESCRIPTION_INDICATOR"));
         list.add(new SettingsSearchEntry(R.string.set_pixelfed_presentation, R.string.kw_pixelfed_presentation, catMedia, navMedia, "SET_PIXELFED_PRESENTATION"));
         list.add(new SettingsSearchEntry(R.string.set_video_cache, R.string.kw_video_cache, catMedia, navMedia, "SET_VIDEO_CACHE"));
         list.add(new SettingsSearchEntry(R.string.set_nsfw_timeout, R.string.kw_nsfw_timeout, catMedia, navMedia, "SET_NSFW_TIMEOUT"));

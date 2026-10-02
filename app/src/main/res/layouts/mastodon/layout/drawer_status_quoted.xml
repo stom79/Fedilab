@@ -170,7 +170,7 @@
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 android:visibility="gone"
-                app:backgroundTint="#80000000"
+                app:backgroundTint="@color/semi_black_transparent"
                 app:cornerRadius="15dp" />
 
         </FrameLayout>
