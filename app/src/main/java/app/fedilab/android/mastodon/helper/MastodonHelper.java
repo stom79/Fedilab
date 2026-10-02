@@ -359,15 +359,15 @@ public class MastodonHelper {
         long days = hours / 24;
 
         if (days > 0)
-            return context.getResources().getQuantityString(R.plurals.date_day_polls, (int) days, (int) days);
+            return Helper.getQuantityString(context, R.plurals.date_day_polls, (int) days, (int) days);
         else if (hours > 0)
-            return context.getResources().getQuantityString(R.plurals.date_hours_polls, (int) hours, (int) hours);
+            return Helper.getQuantityString(context, R.plurals.date_hours_polls, (int) hours, (int) hours);
         else if (minutes > 0)
-            return context.getResources().getQuantityString(R.plurals.date_minutes_polls, (int) minutes, (int) minutes);
+            return Helper.getQuantityString(context, R.plurals.date_minutes_polls, (int) minutes, (int) minutes);
         else {
             if (seconds < 0)
                 seconds = 0;
-            return context.getResources().getQuantityString(R.plurals.date_seconds_polls, (int) seconds, (int) seconds);
+            return Helper.getQuantityString(context, R.plurals.date_seconds_polls, (int) seconds, (int) seconds);
         }
     }
 

@@ -549,7 +549,7 @@ public class StatusDirectMessageAdapter extends RecyclerView.Adapter<RecyclerVie
                         }
                     }));
             holder.binding.poll.pollContainer.setVisibility(View.VISIBLE);
-            String pollInfo = context.getResources().getQuantityString(R.plurals.number_of_voters, status.poll.voters_count, status.poll.voters_count);
+            String pollInfo = Helper.getQuantityString(context, R.plurals.number_of_voters, status.poll.voters_count, status.poll.voters_count);
             if (status.poll.expired) {
                 pollInfo += " - " + context.getString(R.string.poll_finish_at, MastodonHelper.dateToStringPoll(status.poll.expires_at));
             } else {

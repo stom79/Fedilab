@@ -2693,7 +2693,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 holder.binding.poll.pollContainer.setVisibility(View.GONE);
             }
-            String pollInfo = context.getResources().getQuantityString(R.plurals.number_of_voters, normalize, normalize);
+            String pollInfo = Helper.getQuantityString(context, R.plurals.number_of_voters, normalize, normalize);
             if (statusToDeal.poll.expired) {
                 pollInfo += " - " + context.getString(R.string.poll_finish_at, MastodonHelper.dateToStringPoll(statusToDeal.poll.expires_at));
             } else {

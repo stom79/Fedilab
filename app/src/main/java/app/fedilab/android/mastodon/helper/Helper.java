@@ -79,6 +79,7 @@ import android.widget.Toast;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.PluralsRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.browser.customtabs.CustomTabColorSchemeParams;
@@ -1701,6 +1702,25 @@ public class Helper {
             intentBD.setPackage(BuildConfig.APPLICATION_ID);
             activity.sendBroadcast(intentBD);
         });
+    }
+
+    /**
+     * Avoid a crash when quantity is missing
+     *
+     * @param context    - Context
+     * @param id         - int plural resource
+     * @param quantity   - int quantity to pick the form
+     * @param formatArgs - Object arguments of the string
+     * @return String - the plural string
+     */
+    public static String getQuantityString(Context context, @PluralsRes int id, int quantity, Object... formatArgs) {
+        try {
+            return context.getResources().getQuantityString(id, quantity, formatArgs);
+        } catch (Resources.NotFoundException e) {
+            Configuration configuration = new Configuration(context.getResources().getConfiguration());
+            configuration.setLocale(Locale.ENGLISH);
+            return context.createConfigurationContext(configuration).getResources().getQuantityString(id, quantity, formatArgs);
+        }
     }
 
     public static void showKeyboard(Context context, View view) {
