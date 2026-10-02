@@ -284,6 +284,51 @@ public class ThemeHelper {
         }
     }
 
+    /**
+     * Move to the next theme: system, light then dark
+     *
+     * @param activity - Activity
+     */
+    public static void switchToNextTheme(Activity activity) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        String currentTheme = sharedpreferences.getString(activity.getString(R.string.SET_THEME_BASE), activity.getString(R.string.SET_DEFAULT_THEME));
+        String nextTheme;
+        if (currentTheme.equals(activity.getString(R.string.SET_DEFAULT_THEME))) {
+            nextTheme = sharedpreferences.getString(activity.getString(R.string.SET_THEME_DEFAULT_LIGHT), themes.LIGHT.name());
+        } else if (isLightTheme(currentTheme)) {
+            nextTheme = sharedpreferences.getString(activity.getString(R.string.SET_THEME_DEFAULT_DARK), themes.DARK.name());
+        } else {
+            nextTheme = activity.getString(R.string.SET_DEFAULT_THEME);
+        }
+        sharedpreferences.edit().putString(activity.getString(R.string.SET_THEME_BASE), nextTheme).apply();
+        int displayedNightMode = activity.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switchTo(nextTheme);
+        //Moving to another night mode already recreates the activity
+        if (getNightMode(activity, nextTheme) == displayedNightMode) {
+            activity.recreate();
+        }
+    }
+
+    private static int getNightMode(Activity activity, String themePref) {
+        if (themePref.equals(activity.getString(R.string.SET_DEFAULT_THEME))) {
+            return Resources.getSystem().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        }
+        return isLightTheme(themePref) ? Configuration.UI_MODE_NIGHT_NO : Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static int getThemeIcon(Context context) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String currentTheme = sharedpreferences.getString(context.getString(R.string.SET_THEME_BASE), context.getString(R.string.SET_DEFAULT_THEME));
+        if (currentTheme.equals(context.getString(R.string.SET_DEFAULT_THEME))) {
+            return R.drawable.outline_brightness_auto_24;
+        }
+        return isLightTheme(currentTheme) ? R.drawable.outline_clear_day_24 : R.drawable.baseline_dark_mode_24;
+    }
+
+    private static boolean isLightTheme(String themePref) {
+        return themes.LIGHT.name().equals(themePref) || themes.SOLARIZED_LIGHT.name().equals(themePref);
+    }
+
     public static void applyThemeColor(Activity activity) {
         final SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         boolean dynamicColor = sharedpreferences.getBoolean(activity.getString(R.string.SET_DYNAMICCOLOR), false);

@@ -921,6 +921,16 @@
         <item>DRACULA</item>
     </string-array>
 
+    <string-array name="set_theme_shortcut">
+        <item>Menu header</item>
+        <item>Menu entry</item>
+        <item>Hidden</item>
+    </string-array>
+    <string-array name="SET_THEME_SHORTCUT_VALUE" translatable="false">
+        <item>HEADER</item>
+        <item>MENU</item>
+        <item>NONE</item>
+    </string-array>
 
     <string-array name="set_notification_type_value">
         <item>Push notifications</item>
@@ -1327,6 +1337,7 @@
     <string name="SET_MENTION_BOOSTER" translatable="false">SET_MENTION_BOOSTER</string>
     <string name="SET_THREAD_MESSAGE" translatable="false">SET_THREAD_MESSAGE</string>
     <string name="SET_THEME_BASE" translatable="false">SET_THEME_BASE</string>
+    <string name="SET_THEME_SHORTCUT" translatable="false">SET_THEME_SHORTCUT</string>
     <string name="SET_DYNAMICCOLOR" translatable="false">SET_DYNAMICCOLOR</string>
     <string name="SET_CUSTOM_ACCENT" translatable="false">SET_CUSTOM_ACCENT</string>
     <string name="SET_CUSTOM_ACCENT_LIGHT_VALUE" translatable="false">SET_CUSTOM_ACCENT_LIGHT_VALUE</string>
@@ -2219,6 +2230,8 @@
     <string name="set_dynamic_color_indication">Align tonally with the color scheme of your personal wallpaper.</string>
     <string name="type_default_theme_light">Default light theme</string>
     <string name="type_default_theme_dark">Default dark theme</string>
+    <string name="theme_shortcut">Theme shortcut</string>
+    <string name="switch_theme">Switch theme</string>
     <string name="set_cardview">Elevated cards</string>
     <string name="set_cardview_indication">When enabled, items in timelines will have a shadow and an elevation.</string>
     <string name="set_customize_light">Customize Light Theme</string>
@@ -2572,6 +2585,7 @@
     <string name="kw_accent_color">accent, color, custom</string>
     <string name="kw_theme_light">theme, light, solarized</string>
     <string name="kw_theme_dark">theme, dark, solarized, dracula, black</string>
+    <string name="kw_theme_shortcut">theme, shortcut, switch, menu, header</string>
     <string name="kw_cardview">card, shadow, border</string>
     <string name="kw_customize_light">customize, light, theme, colors</string>
     <string name="kw_customize_dark">customize, dark, theme, colors</string>

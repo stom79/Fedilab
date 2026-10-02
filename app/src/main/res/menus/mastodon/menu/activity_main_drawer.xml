@@ -5,6 +5,14 @@
 
     <group>
         <item
+            android:id="@+id/nav_theme"
+            android:icon="@drawable/outline_brightness_auto_24"
+            android:title="@string/switch_theme"
+            android:visible="false" />
+    </group>
+
+    <group>
+        <item
             android:id="@+id/nav_main_com"
             android:title="@string/my_account">
             <menu>

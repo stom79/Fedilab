@@ -15,6 +15,16 @@
         app:title="@string/type_of_theme"
         app:useSimpleSummaryProvider="true" />
 
+    <ListPreference
+        app:defaultValue="HEADER"
+        app:dialogTitle="@string/theme_shortcut"
+        app:entries="@array/set_theme_shortcut"
+        app:entryValues="@array/SET_THEME_SHORTCUT_VALUE"
+        app:iconSpaceReserved="false"
+        app:key="@string/SET_THEME_SHORTCUT"
+        app:title="@string/theme_shortcut"
+        app:useSimpleSummaryProvider="true" />
+
 
     <SwitchPreferenceCompat
         app:defaultValue="false"

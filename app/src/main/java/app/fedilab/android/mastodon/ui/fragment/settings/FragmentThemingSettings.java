@@ -120,6 +120,10 @@ public class FragmentThemingSettings extends PreferenceFragmentCompat implements
         if (SET_THEME_BASE != null) {
             SET_THEME_BASE.getContext().setTheme(Helper.dialogStyle());
         }
+        ListPreference SET_THEME_SHORTCUT = findPreference(getString(R.string.SET_THEME_SHORTCUT));
+        if (SET_THEME_SHORTCUT != null) {
+            SET_THEME_SHORTCUT.getContext().setTheme(Helper.dialogStyle());
+        }
         ListPreference SET_THEME_DEFAULT_LIGHT = findPreference(getString(R.string.SET_THEME_DEFAULT_LIGHT));
         if (SET_THEME_DEFAULT_LIGHT != null) {
             SET_THEME_DEFAULT_LIGHT.getContext().setTheme(Helper.dialogStyle());

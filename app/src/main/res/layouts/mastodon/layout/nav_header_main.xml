@@ -71,7 +71,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-        app:layout_constraintEnd_toStartOf="@id/owner_accounts"
+        app:layout_constraintEnd_toStartOf="@id/theme_shortcut"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/account_profile_picture"
         tools:text="@tools:sample/full_names" />
@@ -84,10 +84,23 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-        app:layout_constraintEnd_toStartOf="@id/owner_accounts"
+        app:layout_constraintEnd_toStartOf="@id/theme_shortcut"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/account_name"
         tools:text="@tools:sample/full_names" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/theme_shortcut"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/switch_theme"
+        android:visibility="gone"
+        app:icon="@drawable/outline_brightness_auto_24"
+        app:layout_constraintBottom_toBottomOf="@id/account_acc"
+        app:layout_constraintEnd_toStartOf="@id/owner_accounts"
+        app:layout_constraintTop_toTopOf="@id/account_name"
+        tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Material3.Button.IconButton"

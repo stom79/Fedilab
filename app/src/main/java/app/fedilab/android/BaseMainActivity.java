@@ -493,6 +493,19 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
         }).start();
     }
 
+    public static void displayThemeShortcut(Activity activity, NavigationView navigationView, NavHeaderMainBinding headerMainBinding) {
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        String themeShortcut = sharedpreferences.getString(activity.getString(R.string.SET_THEME_SHORTCUT), "HEADER");
+        int themeIcon = ThemeHelper.getThemeIcon(activity);
+        headerMainBinding.themeShortcut.setVisibility(themeShortcut.equals("HEADER") ? View.VISIBLE : View.GONE);
+        headerMainBinding.themeShortcut.setIconResource(themeIcon);
+        MenuItem themeItem = navigationView.getMenu().findItem(R.id.nav_theme);
+        if (themeItem != null) {
+            themeItem.setVisible(themeShortcut.equals("MENU"));
+            themeItem.setIcon(themeIcon);
+        }
+    }
+
     public static void manageDrawerMenu(Activity activity, NavigationView navigationView, NavHeaderMainBinding headerMainBinding) {
         SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         if (headerMenuOpen) {
@@ -661,6 +674,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             } else if (Helper.getCurrentAccount(activity).peertube_account != null) {
                 navigationView.inflateMenu(R.menu.activity_main_drawer_peertube);
             }
+            displayThemeShortcut(activity, navigationView, headerMainBinding);
             headerMainBinding.ownerAccounts.setIconResource(R.drawable.ic_accounts);
             headerMenuOpen = false;
             navigationView.post(() -> navigationView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_AUTO));
@@ -1580,6 +1594,8 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                 bundle.putBoolean(Helper.ARG_PEERTUBE_NAV_REMOTE, true);
                 intent.putExtras(bundle);
                 startActivity(intent);
+            } else if (id == R.id.nav_theme) {
+                ThemeHelper.switchToNextTheme(BaseMainActivity.this);
             } else if (id == R.id.nav_about_instance) {
                 (new InstanceActivity()).show(getSupportFragmentManager(), null);
             }
@@ -1599,6 +1615,10 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
             });
 
         });
+
+        displayThemeShortcut(BaseMainActivity.this, binding.navView, headerMainBinding);
+        TooltipCompat.setTooltipText(headerMainBinding.themeShortcut, getString(R.string.switch_theme));
+        headerMainBinding.themeShortcut.setOnClickListener(v -> ThemeHelper.switchToNextTheme(BaseMainActivity.this));
 
         TooltipCompat.setTooltipText(headerMainBinding.ownerAccounts, getString(R.string.manage_accounts));
         headerMainBinding.accountName.setOnClickListener(v -> headerMainBinding.ownerAccounts.performClick());

@@ -209,6 +209,7 @@ public class SettingsSearchIndex {
         int navTheming = R.id.categories_to_theming;
 
         list.add(new SettingsSearchEntry(R.string.type_of_theme, R.string.kw_theme_mode, catTheming, navTheming, "SET_THEME_BASE"));
+        list.add(new SettingsSearchEntry(R.string.theme_shortcut, R.string.kw_theme_shortcut, catTheming, navTheming, "SET_THEME_SHORTCUT"));
         list.add(new SettingsSearchEntry(R.string.set_dynamic_color, R.string.kw_dynamic_color, catTheming, navTheming, "SET_DYNAMICCOLOR"));
         list.add(new SettingsSearchEntry(R.string.set_custom_accent, R.string.kw_accent_color, catTheming, navTheming, "SET_CUSTOM_ACCENT"));
         list.add(new SettingsSearchEntry(R.string.type_default_theme_light, R.string.kw_theme_light, catTheming, navTheming, "SET_THEME_DEFAULT_LIGHT"));
