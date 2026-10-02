@@ -66,7 +66,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.GridView;
@@ -1953,11 +1952,11 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.binding.statusContent.setMaxLines(truncate_toots_size);
             holder.binding.statusContent.setEllipsize(TextUtils.TruncateAt.END);
             if (holder.binding.statusContent.getLineCount() == 0) {
-                holder.binding.statusContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                holder.binding.statusContent.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                     @Override
-                    public void onGlobalLayout() {
+                    public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                        view.removeOnLayoutChangeListener(this);
                         if (holder.binding.statusContent.getLineCount() > 1) {
-                            holder.binding.statusContent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                             resizeContent(context, holder, statusToDeal, adapter);
                         }
                     }
@@ -2000,10 +1999,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         if (measuredWidth <= 0 && statusToDeal.media_attachments != null && statusToDeal.media_attachments.size() > 0) {
             boolean finalFullAttachement = fullAttachement;
-            holder.binding.mediaContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            holder.binding.mediaContainer.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                 @Override
-                public void onGlobalLayout() {
-                    holder.binding.mediaContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    view.removeOnLayoutChangeListener(this);
                     if (finalFullAttachement) {
                         measuredWidth = holder.binding.mediaContainer.getWidth();
                     } else {
@@ -4544,10 +4543,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             MastodonHelper.loadPPMastodon(holder.bindingArt.artPp, status.account);
             if (measuredWidthArt <= 0) {
-                holder.bindingArt.artContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                holder.bindingArt.artContainer.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                     @Override
-                    public void onGlobalLayout() {
-                        holder.bindingArt.artContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                        view.removeOnLayoutChangeListener(this);
                         measuredWidthArt = holder.bindingArt.artContainer.getWidth();
                         notifyItemChanged(0, statusList.size());
                     }
@@ -4658,10 +4657,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Status statusToDeal = status.reblog != null ? status.reblog : status;
             StatusViewHolder holder = (StatusViewHolder) viewHolder;
             if (measuredWidthArt <= 0) {
-                holder.bindingPixelfed.artMedia.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                holder.bindingPixelfed.artMedia.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                     @Override
-                    public void onGlobalLayout() {
-                        holder.bindingPixelfed.artMedia.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                        view.removeOnLayoutChangeListener(this);
                         measuredWidthArt = holder.bindingPixelfed.artMedia.getWidth();
                         notifyItemChanged(0, statusList.size());
                     }
