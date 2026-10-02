@@ -29,6 +29,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
@@ -36,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.fedilab.android.R;
+import app.fedilab.android.databinding.DrawerDraftMediaBinding;
 import app.fedilab.android.databinding.DrawerStatusDraftBinding;
 import app.fedilab.android.mastodon.activities.ComposeActivity;
 import app.fedilab.android.mastodon.client.entities.api.Attachment;
@@ -57,6 +60,31 @@ public class StatusDraftAdapter extends RecyclerView.Adapter<StatusDraftAdapter.
 
     public int getCount() {
         return statusDrafts.size();
+    }
+
+    private void displayMedia(StatusDraftHolder holder, StatusDraft statusDraft) {
+        holder.binding.media.removeAllViews();
+        for (Status status : statusDraft.statusDraftList) {
+            if (status.media_attachments == null) {
+                continue;
+            }
+            for (Attachment attachment : status.media_attachments) {
+                DrawerDraftMediaBinding mediaBinding = DrawerDraftMediaBinding.inflate(LayoutInflater.from(context), holder.binding.media, false);
+                String attachmentPath = attachment.local_path != null && !attachment.local_path.trim().isEmpty() ? attachment.local_path : attachment.preview_url;
+                String type = attachment.type != null ? attachment.type.toLowerCase() : (attachment.mimeType != null ? attachment.mimeType.toLowerCase() : "");
+                if (type.startsWith("image")) {
+                    Glide.with(context).load(attachmentPath).into(mediaBinding.preview);
+                } else if (type.startsWith("video")) {
+                    mediaBinding.buttonPlay.setVisibility(View.VISIBLE);
+                    Glide.with(context).asBitmap().load(attachmentPath).apply(new RequestOptions().frame(2000)).into(mediaBinding.preview);
+                } else if (type.startsWith("audio")) {
+                    Glide.with(context).load(R.drawable.ic_baseline_audio_file_24).into(mediaBinding.preview);
+                } else {
+                    Glide.with(context).load(R.drawable.ic_baseline_insert_drive_file_24).into(mediaBinding.preview);
+                }
+                holder.binding.media.addView(mediaBinding.getRoot());
+            }
+        }
     }
 
     public StatusDraft getItem(int position) {
@@ -91,11 +119,13 @@ public class StatusDraftAdapter extends RecyclerView.Adapter<StatusDraftAdapter.
             }
             holder.binding.numberOfMessages.setText(String.valueOf(statusDraft.statusDraftList.size()));
             holder.binding.numberOfMedia.setText(String.valueOf(numberOfMedia));
+            displayMedia(holder, statusDraft);
         } else {
             holder.binding.statusContent.setText("");
             holder.binding.numberOfMessages.setText("0");
             holder.binding.numberOfMessages.setText("0");
             holder.binding.numberOfMedia.setText("0");
+            holder.binding.media.removeAllViews();
         }
         //--- DATE ---
         holder.binding.date.setText(Helper.dateDiff(context, statusDraft.created_ad));
