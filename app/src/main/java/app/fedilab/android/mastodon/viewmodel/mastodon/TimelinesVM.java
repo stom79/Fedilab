@@ -713,19 +713,16 @@ public class TimelinesVM extends AndroidViewModel {
         return statusMutableLiveData;
     }
 
-    private boolean hasMessagesBetween(MastodonTimelinesService service, TimelineParams timelineParams, String lowestId, String highestId) {
+    private List<Status> fetchBelow(MastodonTimelinesService service, TimelineParams timelineParams, String highestId) {
         try {
-            Response<List<Status>> response = service.getHome(timelineParams.token, highestId, null, null, 1, null).execute();
+            Response<List<Status>> response = service.getHome(timelineParams.token, highestId, null, null, timelineParams.limit, null).execute();
             if (response.isSuccessful()) {
-                if (response.body() == null || response.body().isEmpty()) {
-                    return false;
-                }
-                return Helper.compareTo(response.body().get(0).id, lowestId) > 0;
+                return response.body() != null ? response.body() : new ArrayList<>();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return true;
+        return null;
     }
 
     public LiveData<Statuses> getTimeline(List<Status> timelineStatuses, TimelineParams timelineParams) {
@@ -821,13 +818,54 @@ public class TimelinesVM extends AndroidViewModel {
                                             batchOldestId = status.id;
                                         }
                                     }
-                                    if (batchOldestId != null && Helper.compareTo(batchOldestId, newestCachedId) > 0
-                                            && hasMessagesBetween(mastodonTimelinesService, timelineParams, newestCachedId, batchOldestId)) {
-                                        try {
-                                            new StatusCache(getApplication().getApplicationContext())
-                                                    .markGapBefore(timelineParams.userId, timelineParams.instance, batchOldestId);
-                                        } catch (DBException e) {
-                                            e.printStackTrace();
+                                    if (batchOldestId != null && Helper.compareTo(batchOldestId, newestCachedId) > 0) {
+                                        List<Status> below = fetchBelow(mastodonTimelinesService, timelineParams, batchOldestId);
+                                        List<Status> missing = new ArrayList<>();
+                                        if (below != null) {
+                                            for (Status status : below) {
+                                                if (Helper.compareTo(status.id, newestCachedId) > 0) {
+                                                    missing.add(status);
+                                                }
+                                            }
+                                        }
+                                        String gapId = null;
+                                        if (below == null) {
+                                            gapId = batchOldestId;
+                                        } else if (!missing.isEmpty()) {
+                                            for (Status status : missing) {
+                                                status.insertedAt = batchInsertedAt;
+                                                StatusCache missingCacheDAO = new StatusCache(getApplication().getApplicationContext());
+                                                StatusCache missingCache = new StatusCache();
+                                                missingCache.instance = timelineParams.instance;
+                                                missingCache.user_id = timelineParams.userId;
+                                                missingCache.status = status;
+                                                missingCache.type = timelineParams.type;
+                                                missingCache.status_id = status.id;
+                                                try {
+                                                    missingCacheDAO.insertOrUpdate(missingCache, timelineParams.slug);
+                                                } catch (DBException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                if (gapId == null || Helper.compareTo(status.id, gapId) < 0) {
+                                                    gapId = status.id;
+                                                }
+                                            }
+                                            List<Status> filteredMissing = TimelineHelper.filterStatus(getApplication().getApplicationContext(), missing, timelineParams.type);
+                                            if (filteredMissing != null && statuses.statuses != null) {
+                                                statuses.statuses.addAll(filteredMissing);
+                                            }
+                                            //The page reached the cache
+                                            if (below.size() > missing.size()) {
+                                                gapId = null;
+                                            }
+                                        }
+                                        if (gapId != null) {
+                                            try {
+                                                new StatusCache(getApplication().getApplicationContext())
+                                                        .markGapBefore(timelineParams.userId, timelineParams.instance, gapId);
+                                            } catch (DBException e) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                     }
                                 }
