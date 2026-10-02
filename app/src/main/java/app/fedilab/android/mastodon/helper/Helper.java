@@ -1509,7 +1509,7 @@ public class Helper {
                                 String filePath = certCacheDir.getAbsolutePath() + "/" + attachment.filename;
                                 attachment.local_path = filePath;
                                 if (imageType.contains(attachment.mimeType)) {
-                                    MediaHelper.reorientImage(context, uri, new File(filePath));
+                                    MediaHelper.resizeImageIfNeeded(context, uri, new File(filePath));
                                 } else {
                                     OutputStream selectedFileOutPutStream = new FileOutputStream(filePath);
                                     byte[] buffer = new byte[1024];

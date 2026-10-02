@@ -80,6 +80,10 @@ import es.dmoral.toasty.Toasty;
 
 public class MediaHelper {
 
+    private static final int IMAGE_QUALITY = 90;
+    private static final float MAX_SIZE_RATIO = 0.95f;
+    private static final float REDUCE_RATIO = 0.75f;
+
     //Animated media (gif/webp) detected from the path extension
     public static boolean isAnimatedUrl(String url) {
         if (url == null) {
@@ -490,7 +494,7 @@ public class MediaHelper {
                 if (reoriented != null) {
                     FileOutputStream fos = new FileOutputStream(targetedFile);
                     Bitmap.CompressFormat format = reoriented.hasAlpha() ? Bitmap.CompressFormat.PNG : Bitmap.CompressFormat.JPEG;
-                    reoriented.compress(format, 100, fos);
+                    reoriented.compress(format, IMAGE_QUALITY, fos);
                     fos.flush();
                     fos.close();
                     reoriented.recycle();
@@ -498,6 +502,76 @@ public class MediaHelper {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Resize an image the instance would refuse
+     *
+     * @param context      Context
+     * @param uri          Uri of the image to read
+     * @param targetedFile File to write
+     */
+    public static void resizeImageIfNeeded(Context context, Uri uri, File targetedFile) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        try (InputStream inputStream = context.getContentResolver().openInputStream(uri)) {
+            BitmapFactory.decodeStream(inputStream, null, options);
+        } catch (Exception e) {
+            e.printStackTrace();
+            reorientImage(context, uri, targetedFile);
+            return;
+        }
+        long sizeLimit = getSizeLimit();
+        long matrixLimit = getMatrixLimit();
+        long pixels = (long) options.outWidth * (long) options.outHeight;
+        boolean overMatrix = matrixLimit > 0 && pixels > matrixLimit;
+        boolean overSize = sizeLimit > 0 && Helper.getRealSizeFromUri(context, uri) > sizeLimit * MAX_SIZE_RATIO;
+        if (options.outWidth <= 0 || options.outHeight <= 0 || (!overMatrix && !overSize)) {
+            reorientImage(context, uri, targetedFile);
+            return;
+        }
+        double ratio = overMatrix ? Math.sqrt(matrixLimit * MAX_SIZE_RATIO / (double) pixels) : 1.0;
+        int targetWidth = Math.max(1, (int) Math.floor(options.outWidth * ratio));
+        int targetHeight = Math.max(1, (int) Math.floor(options.outHeight * ratio));
+        int orientation = getImageOrientation(uri, context.getContentResolver());
+        final int maxRetry = 3;
+        int retry = 0;
+        do {
+            if (!resizeImage(context, uri, targetedFile, options, targetWidth, targetHeight, orientation)) {
+                return;
+            }
+            targetWidth = Math.max(1, (int) Math.floor(targetWidth * REDUCE_RATIO));
+            targetHeight = Math.max(1, (int) Math.floor(targetHeight * REDUCE_RATIO));
+            retry++;
+        } while (sizeLimit > 0 && targetedFile.length() > sizeLimit * MAX_SIZE_RATIO && retry < maxRetry);
+    }
+
+    private static boolean resizeImage(Context context, Uri uri, File targetedFile, BitmapFactory.Options boundsOptions, int targetWidth, int targetHeight, int orientation) {
+        try (InputStream inputStream = context.getContentResolver().openInputStream(uri);
+             FileOutputStream outputStream = new FileOutputStream(targetedFile)) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = calculateInSampleSize(boundsOptions, targetWidth, targetHeight);
+            Bitmap decodedBitmap = BitmapFactory.decodeStream(inputStream, null, options);
+            if (decodedBitmap == null) {
+                return false;
+            }
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(decodedBitmap, targetWidth, targetHeight, true);
+            if (scaledBitmap != decodedBitmap) {
+                decodedBitmap.recycle();
+            }
+            Bitmap reorientedBitmap = reorientBitmap(scaledBitmap, orientation);
+            if (reorientedBitmap == null) {
+                scaledBitmap.recycle();
+                return false;
+            }
+            Bitmap.CompressFormat format = reorientedBitmap.hasAlpha() ? Bitmap.CompressFormat.PNG : Bitmap.CompressFormat.JPEG;
+            reorientedBitmap.compress(format, IMAGE_QUALITY, outputStream);
+            reorientedBitmap.recycle();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -534,7 +608,7 @@ public class MediaHelper {
                 } else {
                     format = Bitmap.CompressFormat.PNG;
                 }
-                reorientedBitmap.compress(format, 100, outputStream);
+                reorientedBitmap.compress(format, IMAGE_QUALITY, outputStream);
                 reorientedBitmap.recycle();
                 scaledImageSize /= 2;
                 retry++;
@@ -613,10 +687,22 @@ public class MediaHelper {
     }
 
     private static long getMaxSize(long maxSize) {
+        long sizeLimit = getSizeLimit();
+        return sizeLimit > 0 ? sizeLimit : maxSize;
+    }
+
+    private static long getSizeLimit() {
         if (MainActivity.instanceInfo != null && MainActivity.instanceInfo.configuration != null && MainActivity.instanceInfo.configuration.media_attachments != null) {
-            maxSize = MainActivity.instanceInfo.configuration.media_attachments.image_size_limit;
+            return MainActivity.instanceInfo.configuration.media_attachments.image_size_limit;
         }
-        return maxSize;
+        return -1;
+    }
+
+    private static long getMatrixLimit() {
+        if (MainActivity.instanceInfo != null && MainActivity.instanceInfo.configuration != null && MainActivity.instanceInfo.configuration.media_attachments != null) {
+            return MainActivity.instanceInfo.configuration.media_attachments.image_matrix_limit;
+        }
+        return -1;
     }
 
     public static Bitmap reorientBitmap(Bitmap bitmap, int orientation) {
