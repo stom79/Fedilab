@@ -111,7 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/avatar"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
@@ -149,12 +149,24 @@
                         android:visibility="gone"
                         android:contentDescription="@string/bot"
                         app:layout_constraintStart_toEndOf="@+id/reply_icon"
+                        app:layout_constraintEnd_toStartOf="@+id/label_color"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="visible" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/label_color"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="6dp"
+                        android:contentDescription="@string/label_color"
+                        android:src="@drawable/ic_baseline_label_24"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toEndOf="@+id/bot_icon"
                         app:layout_constraintEnd_toStartOf="@+id/display_name"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:visibility="visible" />
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/display_name"
-                        app:layout_constraintStart_toEndOf="@+id/bot_icon"
+                        app:layout_constraintStart_toEndOf="@+id/label_color"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/pronouns"
                         app:layout_constrainedWidth="true"

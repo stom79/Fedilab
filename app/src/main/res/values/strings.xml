@@ -336,6 +336,8 @@
     <string name="filter_regex">Filter out by regular expressions</string>
     <string name="search">Search</string>
     <string name="delete">Delete</string>
+    <string name="label_color">Label color</string>
+    <string name="remove_label_color">Remove the color</string>
     <!-- About lists -->
     <string name="action_lists">Lists</string>
     <string name="action_lists_confirm_delete">Are you sure you want to permanently delete this list?</string>

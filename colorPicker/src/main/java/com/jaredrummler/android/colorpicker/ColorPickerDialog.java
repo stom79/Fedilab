@@ -112,6 +112,7 @@ public class ColorPickerDialog extends DialogFragment implements ColorPickerView
     private static final String ARG_PRESETS_BUTTON_TEXT = "presetsButtonText";
     private static final String ARG_CUSTOM_BUTTON_TEXT = "customButtonText";
     private static final String ARG_SELECTED_BUTTON_TEXT = "selectedButtonText";
+    private static final String ARG_REMOVED_BUTTON_TEXT = "removedButtonText";
 
     ColorPickerDialogListener colorPickerDialogListener;
     FrameLayout rootView;
@@ -213,6 +214,11 @@ public class ColorPickerDialog extends DialogFragment implements ColorPickerView
 
         if (neutralButtonStringRes != 0) {
             builder.setNeutralButton(neutralButtonStringRes, null);
+        }
+
+        int removedButtonStringRes = getArguments().getInt(ARG_REMOVED_BUTTON_TEXT);
+        if (removedButtonStringRes != 0) {
+            builder.setNegativeButton(removedButtonStringRes, (dialog, which) -> onColorRemoved());
         }
 
         return builder.create();
@@ -601,6 +607,17 @@ public class ColorPickerDialog extends DialogFragment implements ColorPickerView
         }
     }
 
+    private void onColorRemoved() {
+        if (colorPickerDialogListener != null) {
+            colorPickerDialogListener.onColorRemoved(dialogId);
+            return;
+        }
+        Activity activity = getActivity();
+        if (activity instanceof ColorPickerDialogListener) {
+            ((ColorPickerDialogListener) activity).onColorRemoved(dialogId);
+        }
+    }
+
     private void onDialogDismissed() {
         if (colorPickerDialogListener != null) {
             Log.w(TAG, "Using deprecated listener which may be remove in future releases");
@@ -769,6 +786,7 @@ public class ColorPickerDialog extends DialogFragment implements ColorPickerView
         int customButtonText = R.string.cpv_custom;
         @StringRes
         int selectedButtonText = R.string.cpv_select;
+        int removedButtonText = 0;
         @DialogType
         int dialogType = TYPE_PRESETS;
         int[] presets = MATERIAL_COLORS;
@@ -805,6 +823,14 @@ public class ColorPickerDialog extends DialogFragment implements ColorPickerView
          */
         public Builder setSelectedButtonText(@StringRes int selectedButtonText) {
             this.selectedButtonText = selectedButtonText;
+            return this;
+        }
+
+        /**
+         * Set the removed button text string resource id
+         */
+        public Builder setRemovedButtonText(@StringRes int removedButtonText) {
+            this.removedButtonText = removedButtonText;
             return this;
         }
 
@@ -952,6 +978,7 @@ public class ColorPickerDialog extends DialogFragment implements ColorPickerView
             args.putInt(ARG_PRESETS_BUTTON_TEXT, presetsButtonText);
             args.putInt(ARG_CUSTOM_BUTTON_TEXT, customButtonText);
             args.putInt(ARG_SELECTED_BUTTON_TEXT, selectedButtonText);
+            args.putInt(ARG_REMOVED_BUTTON_TEXT, removedButtonText);
             dialog.setArguments(args);
             return dialog;
         }

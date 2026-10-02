@@ -1625,6 +1625,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         //--- ACCOUNT INFO ---
         MastodonHelper.loadPPMastodon(holder.binding.avatar, statusToDeal.account);
+        Integer labelColor = BaseMainActivity.labeledAccounts.get(statusToDeal.account.id);
+        if (labelColor != null) {
+            holder.binding.avatar.setStrokeColor(ColorStateList.valueOf(labelColor));
+            holder.binding.avatar.setStrokeWidth(Helper.convertDpToPixel(2, context));
+            holder.binding.labelColor.setColorFilter(labelColor);
+            holder.binding.labelColor.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.avatar.setStrokeWidth(0);
+            holder.binding.labelColor.setVisibility(View.GONE);
+        }
 
         holder.binding.displayName.setText(
                 statusToDeal.account.getSpanDisplayName(context,

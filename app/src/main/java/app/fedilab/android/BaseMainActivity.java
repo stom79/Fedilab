@@ -176,6 +176,7 @@ import app.fedilab.android.mastodon.client.entities.app.Account;
 import app.fedilab.android.mastodon.client.entities.app.BaseAccount;
 import app.fedilab.android.mastodon.client.entities.app.BottomMenu;
 import app.fedilab.android.mastodon.client.entities.app.CachedBundle;
+import app.fedilab.android.mastodon.client.entities.app.LabeledAccounts;
 import app.fedilab.android.mastodon.client.entities.app.MutedAccounts;
 import app.fedilab.android.mastodon.client.entities.app.Pinned;
 import app.fedilab.android.mastodon.client.entities.app.ScheduledBoost;
@@ -224,6 +225,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
     public static Instance instanceInfo;
     public static List<Filter> mainFilters;
     public static List<app.fedilab.android.mastodon.client.entities.api.Account> filteredAccounts;
+    public static Map<String, Integer> labeledAccounts = new HashMap<>();
     public static boolean filterFetched;
     public static int filterFetchedRetry = 0;
     public static boolean show_art_nsfw;
@@ -397,6 +399,9 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                     if (mutedAccounts != null && mutedAccounts.accounts != null) {
                         filteredAccounts = mutedAccounts.accounts;
                     }
+                }
+                if (Helper.getCurrentAccount(activity) != null) {
+                    labeledAccounts = new LabeledAccounts(activity).getLabels(Helper.getCurrentAccount(activity));
                 }
                 //Delete cache older than the configured retention
                 int retentionDays = 3;

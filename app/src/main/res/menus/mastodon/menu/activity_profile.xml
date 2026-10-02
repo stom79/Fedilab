@@ -22,6 +22,11 @@
         android:title="@string/action_change_subscribed_language"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_label_color"
+        android:icon="@drawable/ic_baseline_label_24"
+        android:title="@string/label_color"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_mute_home"
         android:icon="@drawable/ic_baseline_volume_mute_24"
         android:title="@string/mute_home"

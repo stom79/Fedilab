@@ -24,7 +24,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Sqlite extends SQLiteOpenHelper {
 
 
-    public static final int DB_VERSION = 18;
+    public static final int DB_VERSION = 19;
     public static final String DB_NAME = "fedilab_db";
 
     //Table of owned accounts
@@ -88,6 +88,12 @@ public class Sqlite extends SQLiteOpenHelper {
     //Muted accounts for home
     public static final String TABLE_MUTED = "TABLE_MUTED";
     public static final String COL_MUTED_ACCOUNTS = "MUTED_ACCOUNTS";
+
+    //Accounts with a label color
+    public static final String TABLE_LABELED_ACCOUNTS = "LABELED_ACCOUNTS";
+    public static final String COL_ACCOUNT_ID = "ACCOUNT_ID";
+    public static final String COL_ACCT = "ACCT";
+    public static final String COL_COLOR = "COLOR";
 
     //Peertube bookmarked instances
     public static final String TABLE_BOOKMARKED_INSTANCES = "BOOKMARKED_INSTANCES";
@@ -285,6 +291,14 @@ public class Sqlite extends SQLiteOpenHelper {
             + COL_BUNDLE + " TEXT, "
             + COL_CREATED_AT + " TEXT NOT NULL)";
 
+    private static final String CREATE_TABLE_LABELED_ACCOUNTS = "CREATE TABLE IF NOT EXISTS " + TABLE_LABELED_ACCOUNTS + " ("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_INSTANCE + " TEXT NOT NULL, "
+            + COL_USER_ID + " TEXT NOT NULL, "
+            + COL_ACCOUNT_ID + " TEXT NOT NULL, "
+            + COL_ACCT + " TEXT NOT NULL, "
+            + COL_COLOR + " INTEGER NOT NULL)";
+
     private static final String CREATE_TABLE_SEEN_COMMENTS = "CREATE TABLE IF NOT EXISTS " + TABLE_SEEN_COMMENTS + " ("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COL_INSTANCE + " TEXT NOT NULL, "
@@ -327,6 +341,7 @@ public class Sqlite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_TIMELINE_LOAD_LOGS);
         db.execSQL(CREATE_TABLE_INTENT);
         db.execSQL(CREATE_TABLE_SEEN_COMMENTS);
+        db.execSQL(CREATE_TABLE_LABELED_ACCOUNTS);
     }
 
     @Override
@@ -375,6 +390,8 @@ public class Sqlite extends SQLiteOpenHelper {
                 if (!columnExists(db, TABLE_STATUS_CACHE, COL_GAP_BEFORE)) {
                     db.execSQL("ALTER TABLE " + TABLE_STATUS_CACHE + " ADD COLUMN " + COL_GAP_BEFORE + " INTEGER NOT NULL DEFAULT 0");
                 }
+            case 18:
+                db.execSQL(CREATE_TABLE_LABELED_ACCOUNTS);
             default:
                 break;
         }

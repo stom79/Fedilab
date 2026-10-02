@@ -76,6 +76,8 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.shape.ShapeAppearanceModel;
+import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
@@ -119,6 +121,7 @@ import app.fedilab.android.mastodon.client.entities.app.WellKnownNodeinfo;
 import app.fedilab.android.mastodon.exception.DBException;
 import app.fedilab.android.mastodon.helper.CrossActionHelper;
 import app.fedilab.android.mastodon.helper.FixedAppBarLayoutBehavior;
+import app.fedilab.android.mastodon.client.entities.app.LabeledAccounts;
 import app.fedilab.android.mastodon.helper.Helper;
 import app.fedilab.android.mastodon.helper.MastodonHelper;
 import app.fedilab.android.mastodon.helper.SpannableHelper;
@@ -137,7 +140,7 @@ import es.dmoral.toasty.Toasty;
 import retrofit2.Retrofit;
 
 
-public class ProfileActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity implements ColorPickerDialogListener {
 
 
     private RelationShip relationship;
@@ -1117,6 +1120,43 @@ public class ProfileActivity extends BaseActivity {
     }
 
     @Override
+    public void onColorSelected(int dialogId, int color) {
+        if (account == null) {
+            return;
+        }
+        BaseMainActivity.labeledAccounts.put(account.id, color);
+        StatusAdapter.sendAction(ProfileActivity.this, Helper.ARG_TIMELINE_REFRESH_ALL, null, null);
+        new Thread(() -> {
+            try {
+                new LabeledAccounts(ProfileActivity.this).label(Helper.getCurrentAccount(ProfileActivity.this), account, color);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    @Override
+    public void onDialogDismissed(int dialogId) {
+
+    }
+
+    @Override
+    public void onColorRemoved(int dialogId) {
+        if (account == null) {
+            return;
+        }
+        BaseMainActivity.labeledAccounts.remove(account.id);
+        StatusAdapter.sendAction(ProfileActivity.this, Helper.ARG_TIMELINE_REFRESH_ALL, null, null);
+        new Thread(() -> {
+            try {
+                new LabeledAccounts(ProfileActivity.this).removeLabel(Helper.getCurrentAccount(ProfileActivity.this), account);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         String[] splitAcct = null;
@@ -1488,6 +1528,13 @@ public class ProfileActivity extends BaseActivity {
                     builderInner.show();
                 }
             }
+        } else if (itemId == R.id.action_label_color) {
+            Integer labelColor = BaseMainActivity.labeledAccounts.get(account.id);
+            ColorPickerDialog.newBuilder()
+                    .setDialogTitle(R.string.label_color)
+                    .setColor(labelColor != null ? labelColor : ThemeHelper.fetchAccentColor(ProfileActivity.this))
+                    .setRemovedButtonText(labelColor != null ? R.string.remove_label_color : 0)
+                    .show(ProfileActivity.this);
         } else if (itemId == R.id.action_mute_home) {
             AlertDialog.Builder builderInner = new MaterialAlertDialogBuilder(ProfileActivity.this);
             builderInner.setMessage(account.acct);

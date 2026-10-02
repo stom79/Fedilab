@@ -37,4 +37,12 @@ public interface ColorPickerDialogListener {
      * @param dialogId The dialog id used to create the dialog instance.
      */
     void onDialogDismissed(int dialogId);
+
+    /**
+     * Callback that is invoked when the color of the color picker dialog was removed.
+     *
+     * @param dialogId The dialog id used to create the dialog instance.
+     */
+    default void onColorRemoved(int dialogId) {
+    }
 }
