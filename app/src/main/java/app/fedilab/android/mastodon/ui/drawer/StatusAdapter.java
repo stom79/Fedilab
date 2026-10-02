@@ -123,9 +123,11 @@ import com.varunest.sparkbutton.SparkButton;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -301,6 +303,10 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private static boolean isVisible(Timeline.TimeLineEnum timelineType, Status status, List<Status> statusList) {
+        if (timelineType != Timeline.TimeLineEnum.CONTEXT && timelineType != Timeline.TimeLineEnum.ACCOUNT_TIMELINE
+                && (status.muted || (status.reblog != null && status.reblog.muted))) {
+            return false;
+        }
         if (timelineType == Timeline.TimeLineEnum.HOME && filteredAccounts != null && !filteredAccounts.isEmpty()) {
             for (app.fedilab.android.mastodon.client.entities.api.Account account : filteredAccounts) {
                 if (account.acct.equals(status.account.acct) ||
@@ -3306,9 +3312,16 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return true;
             } else if (itemId == R.id.action_mute_conversation) {
                 if (statusToDeal.muted) {
-                    statusesVM.unMute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show());
+                    statusesVM.unMute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> {
+                        statusToDeal.muted = false;
+                        Toasty.info(context, context.getString(R.string.toast_unmute_conversation)).show();
+                    });
                 } else {
-                    statusesVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> Toasty.info(context, context.getString(R.string.toast_mute_conversation)).show());
+                    statusesVM.mute(BaseMainActivity.currentInstance, BaseMainActivity.currentToken, statusToDeal.id).observe((LifecycleOwner) context, status1 -> {
+                        statusToDeal.muted = true;
+                        removeMutedConversation(context, adapter, statusList, statusToDeal);
+                        Toasty.info(context, context.getString(R.string.toast_mute_conversation)).show();
+                    });
                 }
                 return true;
             } else if (itemId == R.id.action_pin) {
@@ -3691,6 +3704,71 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         descriptions.setVisibility(View.VISIBLE);
         descriptions.setText(builder.toString());
         descriptions.setOnClickListener(v -> showMediaDescription(context, builder.toString(), statusToDeal.language));
+    }
+
+    private static void removeMutedConversation(Context context, RecyclerView.Adapter<RecyclerView.ViewHolder> adapter, List<Status> statusList, Status muted) {
+        if (statusList == null) {
+            return;
+        }
+        //The conversation stays readable when it is the one being displayed
+        if (adapter instanceof StatusAdapter && ((StatusAdapter) adapter).timelineType == Timeline.TimeLineEnum.CONTEXT) {
+            return;
+        }
+        Set<String> conversation = new HashSet<>();
+        Set<String> parents = new HashSet<>();
+        conversation.add(muted.id);
+        if (muted.in_reply_to_id != null) {
+            parents.add(muted.in_reply_to_id);
+        }
+        boolean linkedOne = true;
+        while (linkedOne) {
+            linkedOne = false;
+            for (Status status : statusList) {
+                if (conversation.contains(status.id)) {
+                    continue;
+                }
+                if ((status.in_reply_to_id != null && conversation.contains(status.in_reply_to_id)) || parents.contains(status.id)) {
+                    conversation.add(status.id);
+                    if (status.in_reply_to_id != null) {
+                        parents.add(status.in_reply_to_id);
+                    }
+                    linkedOne = true;
+                }
+            }
+        }
+        List<Status> removed = new ArrayList<>();
+        for (int position = statusList.size() - 1; position >= 0; position--) {
+            Status status = statusList.get(position);
+            if (conversation.contains(status.id)) {
+                status.muted = true;
+                removed.add(status);
+                statusList.remove(position);
+                if (adapter != null) {
+                    adapter.notifyItemRemoved(position);
+                }
+            }
+        }
+        BaseAccount account = Helper.getCurrentAccount(context);
+        if (account == null || removed.isEmpty()) {
+            return;
+        }
+        Timeline.TimeLineEnum cachedType = adapter instanceof StatusAdapter ? ((StatusAdapter) adapter).timelineType : Timeline.TimeLineEnum.HOME;
+        Context applicationContext = context.getApplicationContext();
+        new Thread(() -> {
+            for (Status status : removed) {
+                StatusCache statusCache = new StatusCache();
+                statusCache.instance = account.instance;
+                statusCache.user_id = account.user_id;
+                statusCache.status = status;
+                statusCache.status_id = status.id;
+                statusCache.type = cachedType;
+                try {
+                    new StatusCache(applicationContext).updateIfExists(statusCache);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private static void showMediaDescription(Context context, String description, String language) {
