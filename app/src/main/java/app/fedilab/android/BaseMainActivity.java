@@ -790,6 +790,16 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
 
 
     @SuppressLint("ApplySharedPref")
+    private static void shareWithoutDetails(Activity activity, String sharedUrl, String sharedSubject, String sharedText) {
+        activity.runOnUiThread(() -> {
+            Bundle b = new Bundle();
+            b.putString(Helper.ARG_SHARE_URL, sharedUrl);
+            b.putString(Helper.ARG_SHARE_SUBJECT, sharedSubject);
+            b.putString(Helper.ARG_SHARE_CONTENT, sharedText);
+            CrossActionHelper.doCrossShare(activity, b);
+        });
+    }
+
     public static void mamageNewIntent(Activity activity, Intent intent) {
         if (intent == null)
             return;
@@ -932,7 +942,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                         @Override
                                         public void onFailure(@NonNull Call call, @NonNull IOException e) {
                                             e.printStackTrace();
-                                            activity.runOnUiThread(() -> Toasty.warning(activity, activity.getString(R.string.toast_error), Toast.LENGTH_LONG).show());
+                                            shareWithoutDetails(activity, url[0], sharedSubject, sharedText);
                                         }
 
                                         @Override
@@ -1003,6 +1013,7 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                     });
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
+                                                    shareWithoutDetails(activity, url[0], sharedSubject, sharedText);
                                                 }
                                             } else if (response.code() == 103) {
                                                 activity.runOnUiThread(() -> {
@@ -1011,12 +1022,13 @@ public abstract class BaseMainActivity extends BaseActivity implements NetworkSt
                                                     CrossActionHelper.doCrossShare(activity, b);
                                                 });
                                             } else {
-                                                activity.runOnUiThread(() -> Toasty.warning(activity, activity.getString(R.string.toast_error), Toast.LENGTH_LONG).show());
+                                                shareWithoutDetails(activity, url[0], sharedSubject, sharedText);
                                             }
                                         }
                                     });
                                 } catch (IndexOutOfBoundsException e) {
-                                    Toasty.warning(activity, activity.getString(R.string.toast_error), Toast.LENGTH_LONG).show();
+                                    e.printStackTrace();
+                                    shareWithoutDetails(activity, url[0], sharedSubject, sharedText);
                                 }
 
                             }
