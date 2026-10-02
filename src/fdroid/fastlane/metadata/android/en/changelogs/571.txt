@@ -1,0 +1,25 @@
+Added:
+- Show media thumbnails in the draft list
+- Allow to add a colored label to an account in timelines
+- Switch between system, light and dark themes from the menu header
+- Move the theme shortcut to a menu entry or hide it
+- Show the description of a hidden media, default off
+- Warn on media without a description, default off
+
+Improved:
+- Automatically resize pictures that are too large for the instance
+- Preview a reply before sending it, and publish from there
+- Fill a timeline gap in one tap
+
+Fixed:
+- Fix a crash on the registration page in some device languages
+- Fix sharing a link when its preview cannot be loaded
+- Fix a memory leak in timelines
+- Muted conversations are now hidden from timelines
+- Fill the holes left in the home timeline
+- Fix the background collection that could silently stop
+- Fix "Fetch more messages" bringing nothing back
+- Fix duplicate "Fetch more messages" buttons
+- Fix buttons shown where nothing was missing
+- Fix the reading position lost when coming back
+- Fix a freeze when filling a large gap
