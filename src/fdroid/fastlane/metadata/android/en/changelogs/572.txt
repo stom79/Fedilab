@@ -1,0 +1,4 @@
+Fixed:
+- Fix a crash on launch with media only or Pixelfed timelines
+- Fix hidden media that could not be shown with descriptions enabled
+- Fix media descriptions shown on unrelated messages

@@ -1,5 +1,10 @@
 [
   {
+    "version": "3.45.1",
+    "code": "572",
+    "note": "Fixed:\n- Fix a crash on launch with media only or Pixelfed timelines\n- Fix hidden media that could not be shown with descriptions enabled\n- Fix media descriptions shown on unrelated messages\n"
+  },
+  {
     "version": "3.45.0",
     "code": "571",
     "note": "Added:\n- Show media thumbnails in the draft list\n- Allow to add a colored label to an account in timelines\n- Switch between system, light and dark themes from the menu header\n- Move the theme shortcut to a menu entry or hide it\n- Show the description of a hidden media, default off\n- Warn on media without a description, default off\n\nImproved:\n- Automatically resize pictures that are too large for the instance\n- Preview a reply before sending it, and publish from there\n- Fill a timeline gap in one tap\n\nFixed:\n- Fix a crash on the registration page in some device languages\n- Fix sharing a link when its preview cannot be loaded\n- Fix a memory leak in timelines\n- Muted conversations are now hidden from timelines\n- Fill the holes left in the home timeline\n- Fix the background collection that could silently stop\n- Fix \"Fetch more messages\" bringing nothing back\n- Fix duplicate \"Fetch more messages\" buttons\n- Fix buttons shown where nothing was missing\n- Fix the reading position lost when coming back\n- Fix a freeze when filling a large gap\n"
