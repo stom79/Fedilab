@@ -2392,6 +2392,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         } else {
             holder.binding.displayMedia.setVisibility(View.GONE);
+            holder.binding.displayMediaDescription.setVisibility(View.GONE);
             holder.binding.mediaContainer.setVisibility(View.GONE);
             holder.binding.media.mediaContainer.setVisibility(View.GONE);
         }
@@ -3806,7 +3807,6 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (mediaDescriptionOnHidden && hidden && hasDescription) {
                 hiddenDescription.setVisibility(View.VISIBLE);
                 hiddenDescription.setText(description);
-                hiddenDescription.setOnClickListener(v -> showMediaDescription(context, description, language));
             } else {
                 hiddenDescription.setVisibility(View.GONE);
             }
