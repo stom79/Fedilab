@@ -4558,7 +4558,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                         view.removeOnLayoutChangeListener(this);
                         measuredWidthArt = holder.bindingArt.artContainer.getWidth();
-                        notifyItemChanged(0, statusList.size());
+                        view.post(() -> notifyItemRangeChanged(0, statusList.size()));
                     }
                 });
             }
@@ -4672,7 +4672,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                         view.removeOnLayoutChangeListener(this);
                         measuredWidthArt = holder.bindingPixelfed.artMedia.getWidth();
-                        notifyItemChanged(0, statusList.size());
+                        view.post(() -> notifyItemRangeChanged(0, statusList.size()));
                     }
                 });
             }
