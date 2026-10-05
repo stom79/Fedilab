@@ -1462,4 +1462,17 @@
     <string name="cache_diff_constraint_filter_warn">警告があるフィルタ: %1$d</string>
     <string name="cache_diff_constraint_app_mute">ミュートされたアカウント: %1$d</string>
     <string name="cache_diff_constraint_app_reblog_group">グループ化ブースト: %1$d</string>
+    <string name="label_color">ラベルの色</string>
+    <string name="remove_label_color">色を削除</string>
+    <string name="theme_shortcut">テーマのショートカット</string>
+    <string name="switch_theme">テーマを切替</string>
+    <string name="set_media_description_hidden">非表示メディアの説明</string>
+    <string name="set_media_description_hidden_summary">非表示のメディア上に説明を表示します</string>
+    <string name="no_media_description">説明なし</string>
+    <string name="set_media_no_description_indicator">説明文のないインジケーター</string>
+    <string name="set_media_no_description_indicator_summary">説明文のないメディアに警告を表示します</string>
+    <string name="cache_diff_worker">作業者: %1$s、前回試行からの経過時間: %2$d、前回成功からの経過時間: %3$d</string>
+    <string name="kw_media_description_hidden">代替テキスト、メディアの説明、非表示の情報、機密情報、アクセシビリティ</string>
+    <string name="kw_media_no_description_indicator">代替テキスト、欠落した情報、警告、アクセシビリティ</string>
+    <string name="kw_theme_shortcut">テーマ、ショートカット、情報の切替、メニュー、ヘッダー</string>
 </resources>
