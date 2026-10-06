@@ -1455,4 +1455,14 @@
     <string name="cache_diff_constraint_app_reblog_group">分组的转嘟：%1$d</string>
     <string name="cache_diff_constraints">限制</string>
     <string name="cache_diff_constraint_none">无限制：%1$d</string>
+    <string name="label_color">标签颜色</string>
+    <string name="remove_label_color">删除颜色</string>
+    <string name="theme_shortcut">主题快捷键</string>
+    <string name="switch_theme">切换主题</string>
+    <string name="set_media_description_hidden">描述隐藏媒体文件的文本</string>
+    <string name="set_media_description_hidden_summary">显示被隐藏媒体文件的描述信息</string>
+    <string name="no_media_description">无描述</string>
+    <string name="set_media_no_description_indicator">描述标示缺失</string>
+    <string name="set_media_no_description_indicator_summary">对没有描述信息的媒体文件显示警告</string>
+    <string name="cache_diff_worker">Worker: %1$s, 上次尝试后已过分钟数: %2$d, 距上次成功已过时间: %3$d</string>
 </resources>
