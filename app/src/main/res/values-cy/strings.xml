@@ -620,4 +620,7 @@
     <string name="set_accounts_page">Nifer y cyfrifon fesul llwyth</string>
     <string name="proxy_protocol_http">HTTP</string>
     <string name="proxy_protocol_socks">SOCKS</string>
+    <string name="account_added_to_collection">Roedd y cyfrif yn ymuno i\'r casgliad!</string>
+    <string name="kw_accounts_per_page">cyfrifon, tudalen, tudaleniad</string>
+    <string name="toast_on_your_instance">Mi wnaeth y sgwrs yn dechrau ar eich instance!</string>
 </resources>
