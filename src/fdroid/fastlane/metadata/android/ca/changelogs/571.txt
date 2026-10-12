@@ -1,0 +1,24 @@
+Novetats:
+- Mostra micrones de mèdia a la llista d'esborranys 
+- Es pot afegir etiqueta de color a un compte a les pissarres 
+- Canvi entre temes de sistema, clar i fosc des de la capçalera del menú
+- Trasllat de drecera de tema a una entrada de menú o ocultar-la
+- Mostra la descripció d'un mèdia ocult, desactivat per defecte
+- Avís per mèdia sense descripció, desactivat per defecte
+
+Millores:
+- Redimensionat automàtic d'imatges massa grans per la instància
+- Previsionar rèplica abans d'enviar i publicació directa
+- Omplir buits en pissarres d'un toc 
+
+Correccions:
+- Fallida a la pàgina d'inscripció amb les llengües d'algun dispositiu 
+- Compartir enllaços que no poden carregar el previsiona
+- Pèrdua de memòria en algunes pissarres 
+- Lea converses silenciades ara s'oculten de les pissarres 
+- Tapa els forats que han quedat 
+- Col·lecció de rerefons que no podia parar en silenci
+-"Extraure més missatges" retornava en blanc
+-Botons duplicats d' "Extraure més missatges"
+- Botons que apareixien sense necessitat 
+- Posició de lectura, que es perdia en retornar quan s'omplia un buit gran

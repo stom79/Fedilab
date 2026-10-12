@@ -1,0 +1,4 @@
+Correccions:
+- Fallides en iniciar amb pissarres de només mèdia o de Pixelfed
+- Mèdia amagats que no es mostraven amb les descripcions habilitades
+- Descripcions de mèdia que apareixien en missatges no relacionats

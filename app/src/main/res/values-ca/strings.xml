@@ -1463,4 +1463,17 @@
     <string name="cache_diff_constraint_filter_warn">Filtre amb un avís: %1$d</string>
     <string name="cache_diff_constraint_app_mute">Compte silenciat: %1$d</string>
     <string name="cache_diff_constraint_app_reblog_group">Difusió agrupada: %1$d</string>
+    <string name="label_color">Color d\'etiqueta</string>
+    <string name="remove_label_color">Suprimir el color</string>
+    <string name="theme_shortcut">Drecera al tema</string>
+    <string name="switch_theme">Canviar tema</string>
+    <string name="set_media_description_hidden">Descripció de mèdia ocult</string>
+    <string name="set_media_description_hidden_summary">Mostra la descripció per damunt del. mèdia ocult</string>
+    <string name="no_media_description">Sense descripció</string>
+    <string name="set_media_no_description_indicator">Indicador de falta de descripció</string>
+    <string name="set_media_no_description_indicator_summary">Mostra un avís amb els mèdia sense descripció</string>
+    <string name="cache_diff_worker">Obrer: %1$s, minuts des del darrer intent: %2$d, des del darrer èxit: %3$d</string>
+    <string name="kw_media_description_hidden">alt text, descripció de mèdia, ocult, sensible, accessibilitat</string>
+    <string name="kw_media_no_description_indicator">alt text, extraviat, avís, accessibilitat</string>
+    <string name="kw_theme_shortcut">tema, drecera, canviar, menú, capçalera</string>
 </resources>
