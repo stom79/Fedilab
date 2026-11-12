@@ -303,7 +303,7 @@
     <string name="channel_notif_status">新帖子</string>
     <string name="channel_notif_media">媒体下载</string>
     <string name="select_sound">选择音色</string>
-    <string name="set_enable_time_slot">启用时隙</string>
+    <string name="set_enable_time_slot">启用时间段</string>
     <string name="block_domain_confirm_message">您确定要屏蔽 %s 吗？
 \n
 \n您将不会在任何公共时间线或通知中看到来自该域名的任何内容。您来自该域名的关注者将被移除。</string>
@@ -578,7 +578,7 @@
     <string name="api_key">翻译器 API 密钥</string>
     <string name="set_extand_extra_features">通过启用该选项，该应用将显示额外的功能。此功能适用于 Pleroma、Akkoma 或 Glitch Social 等社交软件</string>
     <string name="notification_sounds">通知声音</string>
-    <string name="disable_notifications">启用了通知</string>
+    <string name="disable_notifications">启用的通知</string>
     <string name="pref_theme_base_summary">选择主题的底色是深色还是浅色</string>
     <string name="message_has_been_sent">嘟文已发送！</string>
     <string name="set_display_translate_indication">始终显示翻译按钮</string>
